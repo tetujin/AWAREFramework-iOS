@@ -1,0 +1,6 @@
+framework module MQTTKit {
+  umbrella header "MQTTKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

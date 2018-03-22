@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Automatic">
+    <entity name="Accelerometer" representedClassName="Accelerometer" syncable="YES">
+        <attribute name="accuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="double_values_0" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_values_1" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_values_2" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <entity name="ActivityRecognition" syncable="YES">
+        <attribute name="activities" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="activity_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="activity_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="confidence" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <entity name="AmbientNoise" syncable="YES">
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="double_decibels" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_frequency" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_RMS" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="is_silent" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="raw" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="silent_threshold" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <entity name="Locations" syncable="YES">
+        <attribute name="accuracy" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="double_altitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_bearing" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="double_speed" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provider" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Accelerometer" positionX="189" positionY="126" width="128" height="150"/>
+        <element name="ActivityRecognition" positionX="180" positionY="117" width="128" height="135"/>
+        <element name="AmbientNoise" positionX="234" positionY="0" width="128" height="165"/>
+        <element name="Locations" positionX="117" positionY="81" width="128" height="195"/>
+    </elements>
+</model>

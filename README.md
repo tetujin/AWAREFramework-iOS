@@ -26,4 +26,4 @@ tetujin, tetujin@ht.sfc.keio.ac.jp
 
 ## License
 
-AWAREFramework is available under the MIT license. See the LICENSE file for more info.
+AWAREFramework is available under the Apache2 license. See the LICENSE file for more info.

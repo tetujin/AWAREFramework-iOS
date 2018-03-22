@@ -7,8 +7,9 @@
 //
 
 @import UIKit;
+@import AWAREFramework;
 
-@interface AWAREFrameworkAppDelegate : UIResponder <UIApplicationDelegate>
+@interface AWAREFrameworkAppDelegate: AWAREDelegate <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

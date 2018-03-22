@@ -21,22 +21,37 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/tetujin/AWAREFramework'
+  s.homepage         = 'https://github.com/tetujin/AWAREFramework-iOS'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'Apache2', :file => 'LICENSE' }
   s.author           = { 'tetujin' => 'tetujin@ht.sfc.keio.ac.jp' }
-  s.source           = { :git => 'https://github.com/tetujin/AWAREFramework.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/tetujin/AWAREFramework-iOS.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.3'
+  
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.2' }
 
   s.source_files = 'AWAREFramework/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'AWAREFramework' => ['AWAREFramework/Assets/*.png']
-  # }
+   s.resource_bundles = {
+     'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld']
+   }
+   
+   s.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI'
   # s.dependency 'AFNetworking', '~> 2.3'
+  s.static_framework = true
+  
+  s.dependency 'MQTTKit'
+  s.dependency 'SCNetworkReachability'
+  s.dependency 'GoogleSignIn'
+  s.dependency 'ios-ntp'
+  s.dependency 'EZAudio'
+  s.dependency 'SVProgressHUD'
+  s.dependency 'EAIntroView', '~> 2.9.0'
+  # s.dependency 'EstimoteSDK'
+  
 end

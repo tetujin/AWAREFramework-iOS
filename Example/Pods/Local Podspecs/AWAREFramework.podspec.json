@@ -1,0 +1,69 @@
+{
+  "name": "AWAREFramework",
+  "version": "0.1.0",
+  "summary": "A short description of AWAREFramework.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/tetujin/AWAREFramework",
+  "license": {
+    "type": "Apache2",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "tetujin": "tetujin@ht.sfc.keio.ac.jp"
+  },
+  "source": {
+    "git": "https://github.com/tetujin/AWAREFramework.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.3"
+  },
+  "pod_target_xcconfig": {
+    "SWIFT_VERSION": "3.2"
+  },
+  "source_files": "AWAREFramework/Classes/**/*",
+  "resource_bundles": {
+    "AWAREFramework": [
+      "AWAREFramework/Assets/**/*.png",
+      "AWAREFramework/Assets/*.xib",
+      "AWAREFramework/Assets/**/*.jpg",
+      "AWAREFramework/Assets/**/*.xcdatamodeld"
+    ]
+  },
+  "resources": "AWAREFramework/Assets/**/*.xcdatamodeld",
+  "frameworks": [
+    "UIKit",
+    "MapKit",
+    "CoreData",
+    "CoreTelephony",
+    "CoreLocation",
+    "CoreMotion",
+    "CoreBluetooth",
+    "EventKit",
+    "EventKitUI"
+  ],
+  "static_framework": true,
+  "dependencies": {
+    "MQTTKit": [
+
+    ],
+    "SCNetworkReachability": [
+
+    ],
+    "GoogleSignIn": [
+
+    ],
+    "ios-ntp": [
+
+    ],
+    "EZAudio": [
+
+    ],
+    "SVProgressHUD": [
+
+    ],
+    "EAIntroView": [
+      "~> 2.9.0"
+    ]
+  }
+}
