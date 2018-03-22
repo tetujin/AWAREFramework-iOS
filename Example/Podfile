@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'AWAREFramework_Example' do
+  pod 'AWAREFramework', :path => '../'
+
+  target 'AWAREFramework_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
