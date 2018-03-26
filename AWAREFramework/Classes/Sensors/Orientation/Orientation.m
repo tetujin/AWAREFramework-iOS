@@ -49,14 +49,12 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [super createTable:query];
 }
 
-
-- (BOOL) startSensor{
-    return [self startSensorWithSettings:nil];
+- (void)setParameters:(NSArray *)parameters{
+    
 }
 
-// Start sensor
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
-//    [self setBufferSize:5];
+- (BOOL) startSensor{
+    //    [self setBufferSize:5];
     
     // Start and set an orientation monitoring
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -67,6 +65,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
                                                object:nil];
     return YES;
 }
+
 
 // Stop sensor
 - (BOOL)stopSensor{
@@ -135,8 +134,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [self setLatestValue:label];
     [self saveData:dict];
     [self setLatestData:dict];
-    
-    NSLog(@"%@", label);
 }
 
 @end

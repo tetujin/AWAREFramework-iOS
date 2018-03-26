@@ -48,7 +48,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
 
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
     [tcqMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"double_values_1" type:TCQTypeReal default:@"0"];
@@ -59,25 +61,21 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     [super createTable:query];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (void)setParameters:(NSArray *)parameters{
     /// Get sensing frequency from settings
-    double interval = sensingInterval;
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_gravity"];
+    // double interval = sensingInterval;
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_gravity"];
     if(frequency != -1){
         NSLog(@"Gravity's frequency is %f !!", frequency);
-        double iOSfrequency = [self convertMotionSensorFrequecyFromAndroid:frequency];
-        interval = iOSfrequency;
+        sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
     }
     
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY];
+    double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY];
     if(tempHz > 0){
-       interval = 1.0f/tempHz;
+        sensingInterval = 1.0f/tempHz;
     }
-
     
-    int buffer = dbWriteInterval/interval;
-    
-    return [self startSensorWithInterval:interval bufferSize:buffer];
+    [self setBufferSize:dbWriteInterval/sensingInterval];
 }
 
 - (BOOL) startSensor{
@@ -98,8 +96,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     
     [self setFetchLimit:fetchLimit];
     
-    // Set and start motion sensor
-    NSLog(@"[%@] Start Gravity Sensor", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Gravity Sensor", [self getSensorName]);
+    }
+    
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = interval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
@@ -127,9 +127,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                                                                                        object:nil
                                                                                                      userInfo:userInfo];
                                                    
-                                                   if([self getDBType] == AwareDBTypeCoreData){
+                                                   if([self getDBType] == AwareDBTypeSQLite){
                                                        [self saveData:dict];
-                                                   }else if([self getDBType] == AwareDBTypeTextFile){
+                                                   }else if([self getDBType] == AwareDBTypeJSON){
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            [self saveData:dict];
                                                        });

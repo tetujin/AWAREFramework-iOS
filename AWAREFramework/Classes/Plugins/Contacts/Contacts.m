@@ -19,7 +19,6 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
 @implementation Contacts{
     NSTimer * timer;
     int aDaySec;
-    int checkIntervalSec;
 }
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study
@@ -27,10 +26,10 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_CONTACTS
                         dbEntityName:NSStringFromClass([EntityContact class])
-                              dbType:AwareDBTypeCoreData];
+                              dbType:AwareDBTypeSQLite];
     if (self) {
         aDaySec = 60*60*24;       // 24 hours
-        checkIntervalSec = 60*15; // check a next update every 15 min
+        _checkIntervalSec = 60*15; // check a next update every 15 min
         
         NSDate * lastUpdate = [self getLastUpdateDate];
         if(lastUpdate != nil){
@@ -56,19 +55,21 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
 }
 
-/** start sensor */
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-
-    double frequencyDays = [self getSensorSetting:settings withKey:@"frequency_plugin_contacts"]; // days
-    NSLog(@"Update Frequency Date: %f", frequencyDays);
+- (void)setParameters:(NSArray *)parameters{
+    double frequencyDays = [self getSensorSetting:parameters withKey:@"frequency_plugin_contacts"]; // days
+    // NSLog(@"Update Frequency Date: %f", frequencyDays);
     if( frequencyDays > 0 ){
         [self setUpdateFreqnecyDay:@((int)frequencyDays)];
     } else {
         [self setUpdateFreqnecyDay:@30];
     }
-    
+}
+
+/** start sensor */
+- (BOOL)startSensorWithSettings:(NSArray *)settings{
+
     // This timer check the necessity of updating contact list by each 1 hour
-    timer = [NSTimer scheduledTimerWithTimeInterval:checkIntervalSec
+    timer = [NSTimer scheduledTimerWithTimeInterval:_checkIntervalSec
                                              target:self
                                            selector:@selector(updateContacts)
                                            userInfo:nil
@@ -81,11 +82,11 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     // This is an initialization. This process should be called just one time when the plugin is activated.
     NSDate * nextUpdate = [self getNextUpdateDate];
     if (nextUpdate == nil) {
-        // [self setNextUpdateDateWithDate:[[NSDate alloc] initWithTimeIntervalSinceNow:frequencyDays*aDaySec]];
-        NSDate * targetDate = [AWAREUtils getTargetNSDate:[[NSDate alloc] initWithTimeIntervalSinceNow:frequencyDays*aDaySec]
+        NSNumber * days = [self getUpdateFrequencyDay];
+        NSDate * targetDate = [AWAREUtils getTargetNSDate:[[NSDate alloc] initWithTimeIntervalSinceNow:days.doubleValue*aDaySec]
                                                      hour:12
                                                   nextDay:NO];
-        NSLog(@"%@",targetDate.debugDescription);
+        // NSLog(@"%@",targetDate.debugDescription);
         [self setNextUpdateDateWithDate:targetDate];
     }
     return YES;
@@ -154,7 +155,7 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
                 NSDate * targetDate = [AWAREUtils getTargetNSDate:[[NSDate alloc] initWithTimeIntervalSinceNow:frequency * aDaySec]
                                                              hour:12
                                                           nextDay:NO];
-                NSLog(@"%@",targetDate.debugDescription);
+                // NSLog(@"%@",targetDate.debugDescription);
                 [self setNextUpdateDateWithDate:targetDate];
                 ////////////////// TEST ////////////////
                 // [self setNextUpdateDateWithDate:[[NSDate alloc] initWithTimeIntervalSinceNow:frequencyDays.intValue*60]];
@@ -237,14 +238,14 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            if([AWAREUtils isForeground]){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success!"
-                                                                message:[NSString stringWithFormat:@"Saved %ld contacts", people.count]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Close"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
+//            if([AWAREUtils isForeground]){
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success!"
+//                                                                message:[NSString stringWithFormat:@"Saved %ld contacts", people.count]
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"Close"
+//                                                      otherButtonTitles:nil];
+//                [alert show];
+//            }
             NSDate * now = [NSDate new];
             [self setLastUpdateDateWithDate:now];
             
@@ -287,7 +288,7 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
 }
 
 - (void) setNextUpdateDateWithDate:(NSDate *)date{
-    NSLog(@"Next Update: %@", date);
+    // NSLog(@"Next Update: %@", date);
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:date forKey:KEY_PLUGIN_SETTING_CONTACTS_NEXT_UPDATE_DATE];
     [userDefaults synchronize];
@@ -301,19 +302,16 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     if(day != nil){
         return day;
     }else{
-        return nil;
+        return @1;
     }
 }
 
 - (void) setUpdateFreqnecyDay:(NSNumber *)day{
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    
     if(day!=nil){
+        NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:day forKey:KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY];
-    }else{
-        [userDefaults removeObjectForKey:KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY];
+        [userDefaults synchronize];
     }
-    [userDefaults synchronize];
 }
 
 

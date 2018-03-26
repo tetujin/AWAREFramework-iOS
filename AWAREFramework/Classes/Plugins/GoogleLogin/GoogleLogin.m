@@ -29,7 +29,7 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_GOOGLE_LOGIN
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if (self) {
         KEY_GOOGLE_USER_ID = @"user_id";
         KEY_GOOGLE_NAME = @"name";

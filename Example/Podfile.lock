@@ -56,7 +56,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: bcff79f0a6ed833bdfbc66a0eebe750effa2801a
+  AWAREFramework: 2d6e09df45dcbf7a39036c62a01f98184322f282
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   EZAudio: 3b1cb4b6d7ebca68f0c2478576d75940aad4aa99

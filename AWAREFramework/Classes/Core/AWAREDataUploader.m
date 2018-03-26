@@ -132,7 +132,7 @@
             if ( batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
             }else{
                 NSString * message = [NSString stringWithFormat:@"[%@] This device is not charginig battery now.", name];
-                NSLog(@"%@", message);
+                if ([self isDebug]) NSLog(@"%@", message);
                 [self saveDebugEventWithText:message type:DebugTypeInfo  label:name];
                 return;
             }
@@ -416,9 +416,10 @@ didCompleteWithError:(NSError *)error {
     isUploading = NO;
     cancel = NO;
     currentRepetitionCounts = 0;
-    NSLog(@"[%@] Session task finished correctly.", sensorName);
-//    errorPosts = 0;
     errorCount = 0;
+    if ([self isDebug]) {
+        NSLog(@"[%@] Session task finished correctly.", sensorName);
+    }
 }
 
 - (bool)foregroundSyncRequestWithSensorName:(NSString * )name{
@@ -442,7 +443,9 @@ didCompleteWithError:(NSError *)error {
             return YES;
         }
         NSString * message = [NSString stringWithFormat:@"[%@] Start sensor data upload in the foreground => %ld", name, sensorData.length ];
-        NSLog(@"%@", message);
+        if ([self isDebug]){
+            NSLog(@"%@", message);
+        }
         [self saveDebugEventWithText:message type:DebugTypeInfo label:@""];
         
         NSString *post = [NSString stringWithFormat:@"device_id=%@&data=%@", deviceId, sensorData];

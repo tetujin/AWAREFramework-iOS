@@ -12,4 +12,6 @@ extern NSString * const AWARE_PREFERENCES_STATUS_NTPTIME;
 
 @interface NTPTime : AWARESensor <AWARESensorDelegate>
 
+@property double intervalSec;
+
 @end

@@ -28,7 +28,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -42,7 +44,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
 
 
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
-    NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    }
     // Set and start proximity sensor
     // NOTE: This sensor is not working in the background
     [UIDevice currentDevice].proximityMonitoringEnabled = YES;

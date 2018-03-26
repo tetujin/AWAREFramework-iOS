@@ -31,7 +31,7 @@ NSString* const PLUGIN_GOOGLE_CAL_PUSH_CAL_NAME = @"BalancedCampusJournal";
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_GOOGLE_CAL_PUSH
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if (self) {
         // Set a celendar update trigger time at 8pm
         fireDate  = [AWAREUtils getTargetNSDate:[NSDate date] hour:19 minute:0 second:0 nextDay:NO];
@@ -63,16 +63,18 @@ NSString* const PLUGIN_GOOGLE_CAL_PUSH_CAL_NAME = @"BalancedCampusJournal";
     return self;
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    
+}
 
 // Start Sensor
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
+- (BOOL)startSensor{
     // Set a scheduled local notification for a calendar update
     [self setDailyNotification];
     // Set a scheduled calendar update timer
     [self setDailyCalUpdate];
     // Sheck events
 //    [self checkCalendarEvents:nil];
-    
     return YES;
 }
 

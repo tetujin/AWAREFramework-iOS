@@ -7,12 +7,10 @@
 //
 
 #import "IOSESM.h"
-#import "WebESM.h"
 #import "TCQMaker.h"
 #import "AWAREDelegate.h"
 #import "EntityESM+CoreDataClass.h"
 #import "EntityESMSchedule.h"
-#import "SingleESMObject.h"
 #import "EntityESMHistory.h"
 #import "EntityESMAnswer.h"
 #import "AWAREUtils.h"
@@ -38,14 +36,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     return [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_IOS_ESM
                         dbEntityName:NSStringFromClass([EntityESMAnswer class])
-                              dbType:AwareDBTypeCoreData];
+                              dbType:AwareDBTypeSQLite];
 }
 
 -(instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_IOS_ESM
                         dbEntityName:NSStringFromClass([EntityESMAnswer class])
-                              dbType:AwareDBTypeCoreData];
+                              dbType:AwareDBTypeSQLite];
     if(self != nil){
         awareStudy = study;
         baseHttpSessionId = [NSString stringWithFormat:@"plugin_ios_esm_http_session_id"];
@@ -62,6 +60,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
                              @"esm_user_answer",
                              @"esm_trigger"]];
         tableName = @"esms";
+        _table = @"esms";
         
         pluginSettings = [study getPluginSettingsWithKey:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_IOS_ESM]];
         NSString * tempTableName = [self getStringFromSettings:pluginSettings key:@"plugin_ios_esm_table_name"];
@@ -96,21 +95,26 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 }
 
 
+- (void)setParameters:(NSArray *)parameters{
+    _url = [self getStringFromSettings:parameters key:@"plugin_ios_esm_config_url"];
+    _table = [self getStringFromSettings:parameters key:@"plugin_ios_esm_table_name"];
+
+}
+
 ///////////////////////////////////////////////////////////////////
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    
-    [IOSESM setTableVersion:2];
-    
-    NSString * urlStr = [self getStringFromSettings:settings key:@"plugin_ios_esm_config_url"];
-    
-    NSString * table = [self getStringFromSettings:settings key:@"plugin_ios_esm_table_name"];
-    
-    [self startSensorWithURL:urlStr tableName:table];
-    
-    return YES;
+- (BOOL)startSensor{
+    return [self startSensorWithURL:_url tableName:_table];
 }
 
 - (BOOL) startSensorWithURL:(NSString *)urlStr tableName:(NSString *)table{
+    
+    if (_table == nil) {
+        return NO;
+    }
+    
+    if(_url == nil){
+        return NO;
+    }
     
     [self setBufferSize:0];
     
@@ -376,47 +380,6 @@ didReceiveResponse:(NSURLResponse *)response
 
 //////////////////////////////////////////////////////////////
 
-
-
-
-//////////////////////////////////////////////////////////////
-
-
-- (BOOL) setScheduledESM:(ESMSchedule *)esmSchedule{
-    if(esmSchedule != nil){
-        NSMutableDictionary * dictSchedule = [[NSMutableDictionary alloc] init];
-        [dictSchedule setObject:esmSchedule.fireHours forKey:@"hours"];
-        [dictSchedule setObject:esmSchedule.scheduledESMs forKey:@"esms"];
-        [dictSchedule setObject:esmSchedule.randomizeSchedule  forKey:@"randomize"];
-        [dictSchedule setObject:@(esmSchedule.timeoutSecond) forKey:@"expiration"];
-        
-        
-        [dictSchedule setObject:esmSchedule.title forKey:@"notification_title"];
-        [dictSchedule setObject:esmSchedule.body forKey:@"notification_body"];
-        [dictSchedule setObject:esmSchedule.identifier forKey:@"schedule_id"];
-        [dictSchedule setObject:esmSchedule.context forKey:@"context"];
-        
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MM-dd-yyyy"];
-        if(esmSchedule.startDate != nil){
-            [dictSchedule setObject:[formatter stringFromDate:esmSchedule.startDate] forKey:@"start_date"];
-        }else{
-            [dictSchedule setObject:[formatter stringFromDate:[NSDate new]] forKey:@"start_date"];
-        }
-        [formatter setDateFormat:@"MM-dd-yyyy"];
-        if(esmSchedule.endDate != nil){
-            [dictSchedule setObject:[formatter stringFromDate:esmSchedule.endDate] forKey:@"end_date"];
-        }else{
-            [dictSchedule setObject:[formatter stringFromDate:[NSDate distantFuture]] forKey:@"end_date"];
-        }
-        
-        [self setScheduledESMs:@[dictSchedule]];
-        
-        return YES;
-    }else{
-        return NO;
-    }
-}
 
 
 - (void) setScheduledESMs:(NSArray *) ESMArray {
@@ -770,10 +733,12 @@ didReceiveResponse:(NSURLResponse *)response
     }
     
     NSArray *results = [fetchedResultsController fetchedObjects];
-    if(results != nil){
-        NSLog(@"Stored ESM Schedules are %ld", results.count);
-    }else{
-        NSLog(@"Stored ESM Schedule is Null.");
+    if ([self isDebug]){
+        if(results != nil){
+            NSLog(@"Stored ESM Schedules are %ld", results.count);
+        }else{
+            NSLog(@"Stored ESM Schedule is Null.");
+        }
     }
     
     for (EntityESMSchedule * schedule in results) {
@@ -877,7 +842,9 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
-    NSLog(@"esm schedule: %ld", esmSchedules.count);
+    if([self isDebug]){
+        NSLog(@"esm schedule: %ld", esmSchedules.count);
+    }
     
     return esmSchedules;
 
@@ -1170,20 +1137,20 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     [userDefaults synchronize];
 }
 
-+ (void)setTableVersion:(int)version{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:version forKey:@"key_esm_table_version"];
-    [userDefaults synchronize];
-}
-
-+ (int)getTableVersion{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger version = [userDefaults integerForKey:@"key_esm_table_version"];
-    
-    if(version == 0){ // "0" means that the table version is not setted yet.
-        version = 2; // verion 2 is the latest version (2016/12/16)
-    }
-    return (int)version;
-}
+//+ (void)setTableVersion:(int)version{
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    [userDefaults setInteger:version forKey:@"key_esm_table_version"];
+//    [userDefaults synchronize];
+//}
+//
+//+ (int)getTableVersion{
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSInteger version = [userDefaults integerForKey:@"key_esm_table_version"];
+//    
+//    if(version == 0){ // "0" means that the table version is not setted yet.
+//        version = 2; // verion 2 is the latest version (2016/12/16)
+//    }
+//    return (int)version;
+//}
 
 @end

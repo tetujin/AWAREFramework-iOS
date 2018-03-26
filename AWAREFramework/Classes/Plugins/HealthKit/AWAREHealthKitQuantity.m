@@ -28,7 +28,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:[NSString stringWithFormat:@"%@_quantity",SENSOR_HEALTH_KIT]
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if(self){
         KEY_DEVICE_ID = @"device_id";
         KEY_TIMESTAMP =@"timestamp";

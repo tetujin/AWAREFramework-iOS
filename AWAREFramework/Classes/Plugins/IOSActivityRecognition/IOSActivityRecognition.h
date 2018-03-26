@@ -22,8 +22,12 @@ extern NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION;
 
 @interface IOSActivityRecognition : AWARESensor <AWARESensorDelegate>
 
-- (BOOL) startSensorWithLiveMode:(CMMotionActivityConfidence) filterLevel;
-- (BOOL) startSensorWithHistoryMode:(CMMotionActivityConfidence)filterLevel interval:(double) interval;
+@property double sensingInterval;
+@property IOSActivityRecognitionMode sensingMode;
+@property CMMotionActivityConfidence confidenceFilter;
+
+- (BOOL) startSensorAsLiveModeWithFilterLevel:(CMMotionActivityConfidence) filterLevel;
+- (BOOL) startSensorAsHistoryModeWithFilterLevel:(CMMotionActivityConfidence)filterLevel interval:(double) interval;
 - (BOOL) startSensorWithConfidenceFilter:(CMMotionActivityConfidence) filterLevel
                                     mode:(IOSActivityRecognitionMode)mode
                                 interval:(double) interval

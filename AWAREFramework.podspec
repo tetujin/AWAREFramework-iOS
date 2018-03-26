@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of AWAREFramework.'
+  s.version          = '0.1.2'
+  s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  AWARE is an Android and iOS framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data. They transform data into information you can understand.
                        DESC
 
   s.homepage         = 'https://github.com/tetujin/AWAREFramework-iOS'
@@ -28,7 +28,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/tetujin/AWAREFramework-iOS.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.3'
+  s.ios.deployment_target = '10'
   
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.2' }
 
@@ -42,9 +42,7 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI'
-  # s.dependency 'AFNetworking', '~> 2.3'
   s.static_framework = true
-  
   s.dependency 'MQTTKit'
   s.dependency 'SCNetworkReachability'
   s.dependency 'GoogleSignIn'

@@ -23,6 +23,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
 
 @implementation Processor{
     NSTimer * sensingTimer;
+    double sensingInterval;
+    int dbWriteInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -32,6 +34,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
                               dbType:dbType
                           bufferSize:0];
     if (self) {
+        sensingInterval = 10.0f;
+        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"]];
         
         [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PROCESSOR desc:@"true or false to activate or deactivate sensor."];
@@ -42,7 +46,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
 
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -57,18 +63,22 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [super createTable:query];
 }
 
-
+- (void)setParameters:(NSArray *)parameters{
+    if (parameters != nil) {
+        // Get a sensing frequency
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_processor"];
+        if (frequency != 0) {
+            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        }
+    }
+}
 
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
-    // Get a sensing frequency
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_processor"];
-    if(frequency < 1.0f ){
-        frequency = 10.0f;
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Processor Sensor", [self getSensorName]);
     }
-    NSLog(@"[%@] Sensing requency is %f ",[self getSensorName], frequency);
     
-    NSLog(@"[%@] Start Processor Sensor", [self getSensorName]);
-    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:frequency
+    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:sensingInterval
                                                     target:self
                                                   selector:@selector(saveCPUUsage:)
                                                   userInfo:nil

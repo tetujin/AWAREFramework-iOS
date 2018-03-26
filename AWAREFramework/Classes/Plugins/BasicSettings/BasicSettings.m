@@ -23,7 +23,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:@"BasicSettings"
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if (self) {
         AWAREDelegate * delegate = (AWAREDelegate *)[[UIApplication sharedApplication] delegate];
         coreStudy = delegate.sharedAWARECore.sharedAwareStudy;
@@ -32,16 +32,15 @@
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    dispatch_async(dispatch_get_main_queue(), ^{
+- (void)setParameters:(NSArray *)parameters {
+    if (parameters != nil) {
         syncInterval  = [coreStudy getUploadIntervalAsSecond]/60;
         isWifiOnly    = [coreStudy getDataUploadStateInWifi];
         isBatteryOnly = [coreStudy getDataUploadStateWithOnlyBatterChargning];
         dbCleanType   = [coreStudy getCleanOldDataType];
         uiMode        = [coreStudy getUIMode];
         
-        
-        for (NSDictionary * dict in settings) {
+        for (NSDictionary * dict in parameters) {
             NSString *setting = [dict objectForKey:@"setting"];
             NSString * value  = [dict objectForKey:@"value"];
             if([setting isEqualToString:@"frequency_webservice"]){
@@ -95,8 +94,7 @@
         [coreStudy setUIMode:uiMode];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SETTING_UI_UPDATE_REQUEST object:nil];
-    });
-    return YES;
+    }
 }
 
 @end

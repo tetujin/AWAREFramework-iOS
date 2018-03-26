@@ -155,7 +155,7 @@
                 NSInteger batteryState = [UIDevice currentDevice].batteryState;
                 if ( batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
                 }else{
-                    NSLog(@"[%@] This device is not charginig battery now.", sensorName);
+                    if (isDebug) NSLog(@"[%@] This device is not charginig battery now.", sensorName);
                     [self dataSyncIsFinishedCorrectly];
                     return;
                 }
@@ -592,7 +592,6 @@ didCompleteWithError:(nullable NSError *)error;
  * @discussion This method is called when finish to data upload session
  */
 - (void) dataSyncIsFinishedCorrectly {
-    NSLog(@"[%@] Session task finished", sensorName);
     // set uploading state is NO
     isUploading = NO;
     isManualUpload = NO;
@@ -600,6 +599,8 @@ didCompleteWithError:(nullable NSError *)error;
     // init repetation time and current count
     repetitionTime = 0;
     currentRepetitionCounts = 0;
+    
+    // NSLog(@"[%@] Session task finished", sensorName);
 }
 
 - (void) clearOldData{

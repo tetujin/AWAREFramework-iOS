@@ -48,6 +48,9 @@
         KEY_LAST_BATTERY_EVENT = @"key_last_battery_event";
         KEY_LAST_BATTERY_EVENT_TIMESTAMP = @"key_last_battery_event_timestamp";
         KEY_LAST_BATTERY_LEVEL = @"key_last_battery_level";
+        
+        _intervalSecond = 60.0;
+        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if (![userDefaults integerForKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP]) {
             [userDefaults setInteger:UIDeviceBatteryStateUnknown forKey:KEY_LAST_BATTERY_EVENT];
@@ -105,9 +108,20 @@
     [super createTable:query];
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    
+}
+
+- (BOOL)startSensor{
+    return [self startSensorWithIntervalSecond:_intervalSecond];
+}
 
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
+    return [self startSensorWithIntervalSecond:_intervalSecond];
+}
 
+- (BOOL) startSensorWithIntervalSecond:(double)intervalSecond{
+    
     // Set a battery level change event to a notification center
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -119,7 +133,7 @@
                                              selector:@selector(batteryStateChanged:)
                                                  name:UIDeviceBatteryStateDidChangeNotification object:nil];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:60.0f
+    timer = [NSTimer scheduledTimerWithTimeInterval:intervalSecond
                                              target:self
                                            selector:@selector(batteryLevelChanged:)
                                            userInfo:nil
@@ -127,6 +141,7 @@
     
     return YES;
 }
+
 
 
 - (BOOL)stopSensor{

@@ -7,7 +7,7 @@
 //
 
 #import "AWARESensor.h"
-#import "ESMSchedule.h"
+#import "EntityESMSchedule.h"
 
 @interface IOSESM : AWARESensor <AWARESensorDelegate>
 
@@ -15,9 +15,10 @@ extern NSString * const AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM;
 extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME;
 extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 
-// - (BOOL) setWebESMsWithSchedule:(ESMSchedule *) esmSchedule;
-- (BOOL) setScheduledESM:(ESMSchedule *)esmSchedule;
-// - (void) setWebESMsWithArray:(NSArray *) webESMArray;
+@property NSString * url;
+@property NSString * table;
+
+// - (BOOL) setScheduledESM:(EntityESMSchedule *)esmSchedule;
 
 - (BOOL) startSensorWithURL:(NSString *)urlStr tableName:(NSString *)table;
 
@@ -42,7 +43,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 /////////////////////////////////
 + (BOOL) isAppearedThisSection;
 + (void) setAppearedState:(BOOL)state;
-+ (void) setTableVersion:(int)version;
-+ (int)  getTableVersion;
+// + (void) setTableVersion:(int)version;
+//  + (int)  getTabl eVersion;
 
 @end

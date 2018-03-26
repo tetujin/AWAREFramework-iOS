@@ -16,7 +16,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 
 @implementation Gyroscope{
     CMMotionManager* gyroManager;
-    double defaultInterval;
+    double sensingInterval;
     int dbWriteInterval;
 }
 
@@ -25,10 +25,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                           sensorName:SENSOR_GYROSCOPE
                         dbEntityName:NSStringFromClass([EntityGyroscope class])
                               dbType:dbType];
-                        //dbType:dbType];
     if (self) {
         gyroManager = [[CMMotionManager alloc] init];
-        defaultInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
         
@@ -41,7 +40,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 
 - (void) createTable{
     // Send a table create query
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -51,39 +52,28 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     "double_values_2 real default 0,"
     "accuracy integer default 0,"
     "label text default ''";
-    // "UNIQUE (timestamp,device_id)";
     [super createTable:query];
 }
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    // Set and start a data uploader
-    NSLog(@"[%@] Start Gyro Sensor", [self getSensorName]);
-    
+- (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency from settings
-    double interval = defaultInterval;
-    if(settings != nil){
-        double frequency = [self getSensorSetting:settings withKey:@"frequency_gyroscope"];
+    if(parameters != nil){
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_gyroscope"];
         if(frequency != -1){
-            interval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
         }
+
+        double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE];
+        if(tempHz > 0){
+            sensingInterval = 1.0f/tempHz;
+        }
+        [self setBufferSize:dbWriteInterval/sensingInterval];
     }
-    
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE];
-    if(tempHz > 0){
-        interval = 1.0f/tempHz;
-    }
-    
-    int buffer = dbWriteInterval/interval;
-    
-    [self startSensorWithInterval:interval bufferSize:buffer];
-    
-    return YES;
 }
 
 
 - (BOOL) startSensor{
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:sensingInterval];
 }
 
 - (BOOL) startSensorWithInterval:(double)interval{
@@ -96,6 +86,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 
 
 - (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+    
+    // Set and start a data uploader
+    if([self isDebug]){
+        NSLog(@"[%@] Start Gyro Sensor", [self getSensorName]);
+    }
     
     [self setBufferSize:buffer];
     
@@ -126,9 +121,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          
                                          [self setLatestData:dict];
                                          
-                                         if([self getDBType] == AwareDBTypeCoreData){
+                                         if([self getDBType] == AwareDBTypeSQLite){
                                              [self saveData:dict];
-                                         }else if([self getDBType] == AwareDBTypeTextFile){
+                                         }else if([self getDBType] == AwareDBTypeJSON){
                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                  [self saveData:dict];
                                              });

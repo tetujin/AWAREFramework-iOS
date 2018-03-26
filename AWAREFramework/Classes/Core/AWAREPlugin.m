@@ -69,7 +69,8 @@
  */
 - (BOOL)startAllSensorsWithSettings:(NSArray *)settings{
     for (AWARESensor* sensor in awareSensors) {
-        [sensor startSensorWithSettings:settings];
+        [sensor setParameters:settings];
+        [sensor startSensor];
     }
     return YES;
 }

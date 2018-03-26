@@ -277,7 +277,7 @@
             if (![childContext save:&error]) {
                 // An error is occued
                 NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
-                [bufferArray addObjectsFromArray:array];
+                [self->bufferArray addObjectsFromArray:array];
                 [self unlockDB];
             }else{
                 // sucess to marge diff to the main context manager
@@ -285,17 +285,16 @@
                     if(![parentContext save:nil]){
                         // An error is occued
                         NSLog(@"Error saving context");
-                        [bufferArray addObjectsFromArray:array];
+                        [self->bufferArray addObjectsFromArray:array];
                     }
-                    //if([self isDebug])
-                    NSLog(@"[%@] Data is saved", sensorName);
+                    if([self isDebug]) NSLog(@"[%@] Data is saved", self->sensorName);
                     [self unlockDB];
                 }];
             }
             
         }else{
-            NSLog(@"[%@] DB is locked by another thread", [self getEntityName]);
-            [bufferArray addObjectsFromArray:array];
+            if ([self isDebug]) NSLog(@"[%@] DB is locked by another thread", [self getEntityName]);
+            [self->bufferArray addObjectsFromArray:array];
         }
     }];
 }
@@ -339,7 +338,7 @@
         if ( error != nil ){
             NSLog(@"[%@] %@", sensorName, error.debugDescription );
         }
-        NSLog(@"[%@] Data is saved", sensorName);
+        if ([self isDebug]) NSLog(@"[%@] Data is saved", sensorName);
         [self unlockDB];
     }@catch(NSException *exception) {
         NSLog(@"%@", exception.reason);

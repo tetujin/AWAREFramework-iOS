@@ -22,7 +22,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:@"push_notification_device_tokens"
                         dbEntityName:NSStringFromClass([EntityPushNotification class])
-                              dbType:AwareDBTypeCoreData];
+                              dbType:AwareDBTypeSQLite];
     if(self != nil){
         KEY_PUSH_DEVICE_ID = @"device_id";
         KEY_PUSH_TIMESTAMP = @"timestamp";
@@ -48,14 +48,14 @@
     [super createTable:query];
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    
+}
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    // [self saveStoredPushNotificationDeviceToken];
-    // [self setUploadingState:NO];
+- (BOOL)startSensor{
     [self performSelector:@selector(syncAwareDBInBackground) withObject:nil afterDelay:1];
     return YES;
 }
-
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////

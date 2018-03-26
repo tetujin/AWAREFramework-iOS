@@ -29,7 +29,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:@"fitbit_data"
                         dbEntityName:NSStringFromClass([EntityFitbitData class])
-                              dbType:AwareDBTypeCoreData
+                              dbType:AwareDBTypeSQLite
                           bufferSize:0];
     if(self != nil){
         identificationForFitbitData = @"";

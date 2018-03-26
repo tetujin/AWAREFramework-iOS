@@ -21,7 +21,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:@"aware_observer"
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if(self != nil){
         awareStudy = study;
         KEY_TIMESTAMP = @"timestamp";

@@ -112,6 +112,10 @@
 //////////////////////////////////////////////////
 - (bool) isDebug { return isDebug; }
 
+- (void) setDebugState:(bool)state{
+    isDebug = state;
+}
+
 - (bool) isSyncWithOnlyWifi {return isSyncWithWifiOnly;}
 
 - (bool) isSyncWithOnlyBatteryCharging { return isSyncWithOnlyBatteryCharging;}

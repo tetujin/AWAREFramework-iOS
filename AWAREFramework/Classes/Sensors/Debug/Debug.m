@@ -23,7 +23,7 @@
     return self = [self initWithAwareStudy:study
                   sensorName:@"aware_debug"
                 dbEntityName:NSStringFromClass([EntityDebug class])
-                      dbType:AwareDBTypeTextFile];
+                      dbType:dbType];
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study
@@ -80,7 +80,9 @@
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
     
     // Start a data upload timer
-    NSLog(@"[%@] Start Sensor!", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Sensor!", [self getSensorName]);
+    }
     
     // Software Update Event
     NSString* currentVersion = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];

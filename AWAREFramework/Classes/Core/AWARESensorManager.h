@@ -24,13 +24,18 @@
 - (BOOL) isLocked;
 
 // add a new sensor
-- (void) addNewSensor:(AWARESensor *) sensor;
+- (void) addSensor:(AWARESensor *) sensor;
+- (void) addSensors:(NSArray<AWARESensor *> *)sensors;
 - (BOOL) isExist :(NSString *) key;
 
 // sensor manager (start and stop)
 - (BOOL) startAllSensors;
-- (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study;
-- (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+
+- (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
+- (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+
+// - (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study;
+// - (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
 - (BOOL) createAllTables;
 
 // - (BOOL) clearDataFromLocalDB;

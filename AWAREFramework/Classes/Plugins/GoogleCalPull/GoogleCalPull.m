@@ -29,7 +29,7 @@
     self  = [super initWithAwareStudy:study
                            sensorName:@"balancedcampuscalendar"
                          dbEntityName:nil
-                               dbType:AwareDBTypeTextFile];
+                               dbType:AwareDBTypeJSON];
     awareStudy = study;
     if (self) {
         allEvents = [[NSMutableArray alloc] init];
@@ -67,16 +67,17 @@
     [self createTable:[calEvent getCreateTableQuery]];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
+- (void)setParameters:(NSArray *)parameters{
+    
+}
 
+- (BOOL)startSensor{
     // Update existing events after 5 sec
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self updateExistingEvents];
     });
-
     return YES;
 }
-
 
 - (BOOL) stopSensor {
     [[NSNotificationCenter defaultCenter] removeObserver:self

@@ -17,8 +17,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 @implementation Locations{
     NSTimer *locationTimer;
     IBOutlet CLLocationManager *locationManager;
-    double defaultInterval;
-    double defaultAccuracy;
+    double interval;
+    double accuracy;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -28,8 +28,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
                         dbEntityName:NSStringFromClass([EntityLocation class])
                               dbType:dbType];
     if (self) {
-        defaultInterval = 180; // 180sec(=3min)
-        defaultAccuracy = 250; // 250m
+        interval = 180; // 180sec(=3min)
+        accuracy = 250; // 250m
         [self setCSVHeader:@[@"timestamp",
                              @"device_id",
                              @"double_latitude",
@@ -50,7 +50,9 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 
 - (void) createTable{
     // Send a query for creating table
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query =
         @"_id integer primary key autoincrement,"
@@ -68,47 +70,44 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [super createTable:query];
 }
 
-
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
-    
-    // Get a sensing frequency from settings
-    double interval = defaultInterval;
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_gps"];
+- (void)setParameters:(NSArray *)parameters{
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_gps"];
     if(frequency != -1){
-        NSLog(@"Sensing requency is %f ", frequency);
         interval = frequency;
     }
     
     // Get a min gps accuracy from settings
-    double minAccuracy = [self getSensorSetting:settings withKey:@"min_gps_accuracy"];
+    double minAccuracy = [self getSensorSetting:parameters withKey:@"min_gps_accuracy"];
     if ( minAccuracy > 0 ) {
-        NSLog(@"Mini GSP accuracy is %f", minAccuracy);
-    } else {
-        minAccuracy = defaultAccuracy;
+        accuracy = minAccuracy;
     }
+}
+
+- (BOOL)startSensorWithSettings:(NSArray *)settings {
     
-    [self startSensorWithInterval:interval accuracy:minAccuracy];
+   
     
     return YES;
 }
 
 
 - (BOOL)startSensor{
-    return [self startSensorWithInterval:defaultInterval accuracy:defaultAccuracy];
+    return [self startSensorWithInterval:interval accuracy:accuracy];
 }
 
 - (BOOL)startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval accuracy:defaultAccuracy];
+    return [self startSensorWithInterval:interval accuracy:accuracy];
 }
 
 - (BOOL)startSensorWithAccuracy:(double)accuracyMeter{
-    return [self startSensorWithInterval:defaultInterval accuracy:accuracyMeter];
+    return [self startSensorWithInterval:interval accuracy:accuracyMeter];
 }
 
 - (BOOL)startSensorWithInterval:(double)interval accuracy:(double)accuracyMeter{
     // Set and start a location sensor with the senseing frequency and min GPS accuracy
-    NSLog(@"[%@] Start Location Sensor!", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Location Sensor!", [self getSensorName]);
+    }
     
     if (nil == locationManager){
         locationManager = [[CLLocationManager alloc] init];
@@ -157,7 +156,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         
         locationManager.pausesLocationUpdatesAutomatically = NO;
         CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-        NSLog(@"OS:%f", currentVersion);
+        // NSLog(@"OS:%f", currentVersion);
         if (currentVersion >= 9.0) {
             //This variable is an important method for background sensing after iOS9
             locationManager.allowsBackgroundLocationUpdates = YES;
@@ -268,10 +267,11 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f", location.coordinate.latitude, location.coordinate.longitude, location.speed]];
     [self setLatestData:dict];
     
-    if([self getDBType] == AwareDBTypeCoreData){
+    if([self getDBType] == AwareDBTypeSQLite){
         [self saveData:dict];
-    }else if ([self getDBType] == AwareDBTypeTextFile){
-        [self saveData:dict toLocalFile:@"locations"];
+    }else if ([self getDBType] == AwareDBTypeJSON){
+        // [self saveData:dict toLocalFile:@"locations"];
+        [self saveData:dict];
     }
     
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",

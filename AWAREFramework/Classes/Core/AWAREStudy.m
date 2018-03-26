@@ -78,19 +78,19 @@
         if(reachabilityState){
             reachability = [[SCNetworkReachability alloc] initWithHost:@"www.google.com"];
             [reachability observeReachability:^(SCNetworkStatus status){
-                networkState = status;
+                self->networkState = status;
                 switch (status){
                     case SCNetworkStatusReachableViaWiFi:
-                        wifiReachable = YES;
-                        networkReachable = YES;
+                        self->wifiReachable = YES;
+                        self->networkReachable = YES;
                         break;
                     case SCNetworkStatusReachableViaCellular:
-                        wifiReachable = NO;
-                        networkReachable = YES;
+                        self->wifiReachable = NO;
+                        self->networkReachable = YES;
                         break;
                     case SCNetworkStatusNotReachable:
-                        wifiReachable = NO;
-                        networkReachable = NO;
+                        self->wifiReachable = NO;
+                        self->networkReachable = NO;
                         break;
                 }
             }];
@@ -115,10 +115,6 @@
  * @return The result of download and set a study configuration
  */
 - (BOOL) setStudyInformationWithURL:(NSString*)url {
-    //    if (url != nil) {
-    //        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    //        [userDefaults setObject:url forKey:KEY_STUDY_QR_CODE];
-    //    }
     if(url != nil){
         [self setStudyURL:url];
         NSString * deviceId = [AWAREUtils getSystemUUID];
@@ -132,7 +128,7 @@
  * This method downloads and sets a study configuration by using study URL. (NOTE: This URL can get from a study QRCode.)
  *
  * @param url An study URL (e.g., https://r2d2.hcii.cs.cmu.edu/aware/dashboard/index.php/webservice/index/study_number/PASSWORD)
- * @param a device_id of this device
+ * @param uuid device_id of this device
  * @return The result of download and set a study configuration
  */
 - (bool) setStudyInformation:(NSString *)url withDeviceId:(NSString *) uuid {
@@ -199,9 +195,7 @@
         sessionConfig.HTTPMaximumConnectionsPerHost = 60;
         sessionConfig.timeoutIntervalForResource = 60; //60*60*24; // 1 day
         sessionConfig.allowsCellularAccess = YES;
-        // sessionConfig.discretionary = YES;
-        
-        NSLog(@"--- This is background task ----");
+        // NSLog(@"--- This is background task ----");
         session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
         NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
         [dataTask resume];
@@ -224,7 +218,7 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
     int responseCode = (int)[httpResponse statusCode];
-    NSLog(@"%d",responseCode);
+    // NSLog(@"%d",responseCode);
     [session finishTasksAndInvalidate];
     [session invalidateAndCancel];
     completionHandler(NSURLSessionResponseAllow);
@@ -294,14 +288,14 @@ didCompleteWithError:(NSError *)error {
     NSString * previousConfig = [self removeStudyStartTimeFromConfig:[self getStudyConfigurationAsText]];
     NSString * currentConfig = [self removeStudyStartTimeFromConfig:studyConfiguration];
     if([previousConfig isEqualToString:currentConfig]){
-        NSLog(@"The study configuration is same as previous configuration!");
+        NSLog(@"[AWAREStudy] The study configuration is same as previous configuration!");
         return ;
     }else{
-        NSLog(@"The study configuration is updated!");
+        NSLog(@"[AWAREStudy] The study configuration is updated!");
     }
     
     [self setStudyConfiguration:studyConfiguration];
-    NSLog( @"%@", studyConfiguration );
+    // NSLog( @"%@", studyConfiguration );
     
     //    if(responseCode == 200){
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -309,7 +303,6 @@ didCompleteWithError:(NSError *)error {
     frequencySyncDB = [userDefaults doubleForKey:SETTING_SYNC_INT]/60;
     frequencyCleanOldData = [userDefaults integerForKey:SETTING_FREQUENCY_CLEAN_OLD_DATA];
     
-    NSLog(@"GET Study Information");
     NSArray * sensors = [[mqttArray objectAtIndex:0] objectForKey:@"sensors"];
     NSArray * plugins = [[mqttArray objectAtIndex:0] objectForKey:KEY_PLUGINS];
     for (int i=0; i<[sensors count]; i++) {
@@ -345,7 +338,7 @@ didCompleteWithError:(NSError *)error {
         }
     }
     
-    NSLog(@"Add new device ID to the AWARE server.");
+    NSLog(@"[AWAREStudy] Add new device ID to the AWARE server.");
     NSString* url =  [userDefaults objectForKey:KEY_STUDY_QR_CODE];
     NSString * uuid = [AWAREUtils getSystemUUID];
     [self addNewDeviceToAwareServer:url withDeviceId:uuid];
@@ -370,17 +363,19 @@ didCompleteWithError:(NSError *)error {
     [userDefaults setObject:plugins          forKey:KEY_PLUGINS];
     
     // change csv export mode
-    [userDefaults setBool:NO forKey:SETTING_CSV_EXPORT_STATE];
+    //[userDefaults setBool:NO forKey:SETTING_CSV_EXPORT_STATE];
     [userDefaults synchronize];
     
     // run in the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
+        [NSNotificationCenter.defaultCenter postNotificationName:ACTION_AWARE_UPDATE_STUDY_CONFIG object:nil];
         
-        AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-        AWARECore * core = delegate.sharedAWARECore;
-        [core.sharedSensorManager stopAndRemoveAllSensors];
-        [core.sharedSensorManager startAllSensorsWithStudy:self];
-        [core.sharedSensorManager createAllTables];
+//        AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+//        AWARECore * core = delegate.sharedAWARECore;
+//        [core.sharedSensorManager stopAndRemoveAllSensors];
+//        [core.sharedSensorManager addSensorsWithStudy:self];
+//        [core.sharedSensorManager startAllSensors];
+//        [core.sharedSensorManager createAllTables];
     });
     
     readingState = YES;
@@ -391,7 +386,8 @@ didCompleteWithError:(NSError *)error {
 /**
  * This method sets downloaded study configurations.
  *
- * @param resData A response (study configurations) from the aware server
+ * @param url of the target aware server
+ * @param deviceId of this client
  */
 - (bool) addNewDeviceToAwareServer:(NSString *)url withDeviceId:(NSString *) deviceId {
     
@@ -608,13 +604,7 @@ didCompleteWithError:(NSError *)error {
     //[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
-    // NSURLConnection * connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    // [connection start];
-    
-    // NSURLSessionConfiguration *sessionConfig = nil;
-    // _getSettingIdentifier = [NSString stringWithFormat:@"%@%@", _getSettingIdentifier, unixtime];
     url = [NSString stringWithFormat:@"%@/aware_device/insert?%@", url,unixtime];
-    // url = [NSString stringWithFormat:@"%@?%@", url, unixtime];
     
     
     NSURL * urlObj = [NSURL URLWithString:url];
@@ -667,22 +657,12 @@ didCompleteWithError:(NSError *)error {
  * and return a NO (false) as a BOOL value.
  *
  * NOTE: The response of this method is not synchronized in the background!!
- *
- * @return a refresh query is sent(YES) or not sent(NO) as a BOOL value
  */
-- (BOOL) refreshStudy {
+- (void) refreshStudy {
     NSString * url = [self getStudyURL];
     if (![url isEqualToString:@""]) {
         [self setStudyInformationWithURL:url];
-        return YES;
-    }else{
-        AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-        AWARECore * core = delegate.sharedAWARECore;
-        // [core.sharedSensorManager stopAndRemoveAllSensors];
-        [core.sharedSensorManager startAllSensorsWithStudy:self];
-        // [core.sharedSensorManager createAllTables];
     }
-    return NO;
 }
 
 //- (BOOL)refreshStudyWithSensorManager:(AWARESensorManager *)manager{
@@ -702,17 +682,6 @@ didCompleteWithError:(NSError *)error {
 ////////////////////////////////////////////////////////////////////////
 
 - (void) setDeviceName:(NSString *) deviceName {
-    
-//    NSString * previousDeviceName = [self getDeviceName];
-//    if(![previousDeviceName isEqualToString:deviceName]){
-//        // try to sync the device name with the aware server
-//        NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-//        NSString * url =  [userDefaults objectForKey:KEY_STUDY_QR_CODE];
-//        NSString * uuid = [AWAREUtils getSystemUUID];
-//        
-//        [self insertDeviceIdToAwareServerWithURL:url deviceId:uuid deviceName:deviceName];
-//    }
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:deviceName forKey:KEY_AWARE_DEVICE_NAME];
     [userDefaults synchronize];
@@ -824,50 +793,7 @@ didCompleteWithError:(NSError *)error {
  */
 - (NSArray *) getSensors {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    // NSArray * studySettings = [userDefaults objectForKey:KEY_SENSORS];
-    // NSArray * userSettings = [userDefaults objectForKey:KEY_USER_SENSORS];
-    
-    // NSMutableArray * tempSettings  = [[NSMutableArray alloc] init];
-    // NSMutableArray * currentSettings = [[NSMutableArray alloc] initWithArray:tempSettings];
-    /*
-     Marge the study and user setting
-     If the keys are duplicate, the study settings are overwrited by user settings.
-     */
-    //    if(studySettings!=nil && userSettings!=nil){
-    //        // overwrite duplicate settings
-    //        for (NSDictionary * studySetting in studySettings) {
-    //            NSDictionary * tempSetting = [[NSDictionary alloc] initWithDictionary:studySetting];
-    //            NSString * studyKey   = [studySetting objectForKey:@"setting"];
-    //            for (NSDictionary * userSetting in userSettings) {
-    //                NSString * userKey = [userSetting objectForKey:@"setting"];
-    //                if( [studyKey isEqualToString:userKey] ) {
-    //                    tempSetting = [[NSDictionary alloc] initWithDictionary:userSetting];
-    //                }
-    //            }
-    //            [tempSettings addObject:tempSetting];
-    //        }
-    
-    //        tempSettings = [[NSMutableArray alloc] initWithArray:studySettings];
-    //
-    //        // add deficient settings
-    //        for (NSDictionary * userSetting in userSettings) {
-    //            NSString * userKey   = [userSetting objectForKey:@"setting"];
-    //            for (NSDictionary * tempSetting in tempSettings) {
-    //                NSString * tempKey   = [tempSetting objectForKey:@"setting"];
-    //                if (![tempKey isEqualToString:userKey]) {
-    //                    [currentSettings addObject:userSetting];
-    //                    break;
-    //                }
-    //            }
-    //        }
-    //
-    //        return currentSettings;
-    //    }else if(studySettings != nil){
-    //        return studySettings;
-    //    }else if(userSettings != nil){
-    //        return userSettings;
-    //    }
-    
+
     NSArray * studySensors = [userDefaults objectForKey:KEY_SENSORS];
     NSArray * userSensors  = [userDefaults objectForKey:KEY_USER_SENSORS];
     
@@ -973,66 +899,6 @@ didCompleteWithError:(NSError *)error {
 }
 
 /**
- * Get plugin settings using a key of a setting element
- * @return Plugin settings as a NSArray
- */
-- (void) removeUserPluginWithKey:(NSString *) key {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray * plugins = [userDefaults objectForKey:KEY_USER_PLUGINS];
-    
-    NSMutableArray * newPlugins = [[NSMutableArray alloc] init];
-    
-    if(plugins != nil){
-        for (NSDictionary * plugin in plugins) {
-            bool isKeyExist = false;
-            NSArray *pluginSettings = [plugin objectForKey:@"settings"];
-            for (NSDictionary* pluginSetting in pluginSettings) {
-                NSString * setting = [pluginSetting objectForKey:@"setting"];
-                if ([setting isEqualToString:key]){
-                    isKeyExist = true;
-                }
-            }
-            if(!isKeyExist){
-                [newPlugins addObject:plugin];
-            }
-        }
-    }
-    [userDefaults setObject:newPlugins forKey:KEY_USER_PLUGINS];
-}
-
-/**
- * Get plugin settings using a key of a setting element
- * @return Plugin settings as a NSArray
- */
-- (void) removeUserPluginSettingWithKey:(NSString *) key {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray * plugins = [userDefaults objectForKey:KEY_USER_PLUGINS];
-    
-    NSMutableArray * newPlugins = [[NSMutableArray alloc] init];
-    
-    if(plugins != nil){
-        for (NSDictionary * plugin in plugins) {
-            bool isKeyExist = false;
-            NSArray *pluginSettings = [plugin objectForKey:@"settings"];
-            for (NSDictionary* pluginSetting in pluginSettings) {
-                NSString * setting = [pluginSetting objectForKey:@"setting"];
-                if ([setting isEqualToString:key]){
-                    isKeyExist = true;
-                }
-            }
-            if(!isKeyExist){
-                [newPlugins addObject:plugin];
-            }
-        }
-    }
-    [userDefaults setObject:newPlugins forKey:KEY_USER_PLUGINS];
-}
-
-
-
-/**
  * Get a study configuration as text
  * @return a study configuration as a NSString
  */
@@ -1109,69 +975,6 @@ didCompleteWithError:(NSError *)error {
     webserviceServer = [userDefaults objectForKey:KEY_WEBSERVICE_SERVER];
 }
 
-
-
-
-
-/////////////////////////////////////////
-
-
-//- (BOOL) isSensorSettingWithKey:(NSString *)key{
-//    for (NSDictionary * dict in [self getSensors]) {
-//        if ([[dict objectForKey:@"setting"] isEqualToString:key]) {
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
-
-
-- (void) setUserSensorSettingWithString:(NSString *) str key:(NSString*)key{
-    NSArray * sensorSettings = [self getUserSensors];
-    NSMutableArray * currentSettings = [[NSMutableArray alloc] init];
-    for (NSDictionary * dict in sensorSettings) {
-        if ([[dict objectForKey:@"setting"] isEqualToString:key]) {
-        }else{
-            [currentSettings addObject:dict];
-        }
-    }
-    NSDictionary * setting = [[NSDictionary alloc] initWithObjects:@[key,str] forKeys:@[@"setting",@"value"]];
-    [currentSettings addObject:setting];
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:currentSettings forKey:KEY_USER_SENSORS];
-}
-
-
-- (void) setUserPluginSettingWithString:(NSString *) str key:(NSString*)key statusKey:(NSString *)statusKey {
-    
-    NSArray * pluginSettings = [self getUserPluginSettingsWithKey:statusKey];
-    
-    if(pluginSettings != nil){
-        [self removeUserPluginWithKey:statusKey];
-    }
-    
-    NSMutableArray * currentSettings = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary * dict in pluginSettings) {
-        if ([[dict objectForKey:@"setting"] isEqualToString:key]) {
-        }else{
-            [currentSettings addObject:dict];
-        }
-    }
-    NSDictionary * setting = [[NSDictionary alloc] initWithObjects:@[key,str] forKeys:@[@"setting",@"value"]];
-    [currentSettings addObject:setting];
-    
-    // "plugin","settings"->"setting","valu"
-    NSDictionary * newPlugin = [[NSDictionary alloc] initWithObjects:@[@"",currentSettings] forKeys:@[@"plugin",@"settings"]];
-    
-    NSMutableArray * plugins = [[NSMutableArray alloc] initWithArray:[self getUserPlugins]];
-    [plugins addObject:newPlugin];
-    
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:plugins forKey:KEY_USER_PLUGINS];
-}
-
-/////////////////////////////////////////////////////////////
 
 
 /**
@@ -1303,23 +1106,6 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         NSURLProtectionSpace *protectionSpace = [challenge protectionSpace];
         SecTrustRef trust = [protectionSpace serverTrust];
         NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-        
-        // NSArray *certs = [[NSArray alloc] initWithObjects:(id)[[self class] sslCertificate], nil];
-        // int err = SecTrustSetAnchorCertificates(trust, (CFArrayRef)certs);
-        // SecTrustResultType trustResult = 0;
-        // if (err == noErr) {
-        //    err = SecTrustEvaluate(trust, &trustResult);
-        // }
-        
-        // if ([challenge.protectionSpace.host isEqualToString:@"aware.ht.sfc.keio.ac.jp"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else if ([challenge.protectionSpace.host isEqualToString:@"r2d2.hcii.cs.cmu.edu"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else if ([challenge.protectionSpace.host isEqualToString:@"api.awareframework.com"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // }
         
         completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
     }
@@ -1488,9 +1274,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     AwareUIMode uiMode = (AwareUIMode)[userDefaults integerForKey:SETTING_UI_MODE];
     return uiMode;
 }
-//- (void)connectionDidFinishDownloading:(nonnull NSURLConnection *)connection destinationURL:(nonnull NSURL *)destinationURL {
-//    <#code#>
-//}
+
 
 - (void) setAutoSyncState:(bool) state {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

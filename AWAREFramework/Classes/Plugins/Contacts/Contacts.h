@@ -15,6 +15,8 @@ extern NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY;
 
 @interface Contacts : AWARESensor<AWARESensorDelegate>
 
+@property int checkIntervalSec;
+
 - (void) updateContacts;
 - (void) checkStatus;
 - (NSDate *) getLastUpdateDate;

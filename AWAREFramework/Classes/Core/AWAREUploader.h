@@ -33,6 +33,7 @@
 
 
 - (bool) isDebug;
+- (void) setDebugState:(bool)state;
 - (bool) isSyncWithOnlyWifi;
 - (bool) isSyncWithOnlyBatteryCharging;
 

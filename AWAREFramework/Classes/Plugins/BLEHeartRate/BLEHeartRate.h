@@ -27,6 +27,12 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC;
 
 @interface BLEHeartRate : AWARESensor <AWARESensorDelegate, CBCentralManagerDelegate, CBPeripheralDelegate>
 
+
+
+@property double intervalSec;
+@property double activeTimeSec;
+@property bool always;
+
 @property (nonatomic, strong) CBCentralManager *myCentralManager;
 @property (nonatomic, strong) CBPeripheral *peripheralDevice;
 @property (nonatomic, strong) NSString *bodyData;

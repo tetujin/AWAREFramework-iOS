@@ -24,7 +24,7 @@ NSString * const AWARE_PREFERENCES_OPENWEATHER_API_KEY   = @"api_key_plugin_open
     double thisLat;
     double thisLon;
     NSString* identificationForOpenWeather;
-    NSString * userApiKey;
+    // NSString * userApiKey;
     NSMutableData * receivedData;
 }
 
@@ -98,7 +98,8 @@ int ONE_HOUR = 60*60;
                              @"weather_description"
                              ]];
         [self updateWeatherData:[NSDate new] Lat:0 Lon:0];
-        userApiKey = nil;
+        _apiKey = nil;
+        _frequencyMin = 15;
         
         [self setTypeAsPlugin];
         [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_OPENWEATHER desc:@"(boolean) to activate / deactivate the plugin."];
@@ -111,7 +112,9 @@ int ONE_HOUR = 60*60;
 
 
 - (void) createTable{
-    NSLog(@"Start Open Weather Map");
+    if ([self isDebug]) {
+        NSLog(@"Create a table of OpenWeather Map Plugin");
+    }
     NSString *query = [[NSString alloc] init];
     query =
     @"_id integer primary key autoincrement,"
@@ -137,28 +140,28 @@ int ONE_HOUR = 60*60;
     [super createTable:query];
 }
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    double frequencyMin = [self getSensorSetting:settings withKey:@"plugin_openweather_frequency"];
-    double frequencySec = 60.0f * frequencyMin;
-    if (frequencyMin == -1) {
-        frequencySec = 60.0f*15.0f;
-    }
-    
-//    NSString * apiKey = nil;
-    if (settings != nil) {
-        for (NSDictionary * setting in settings) {
-            if ([[setting objectForKey:@"setting"] isEqualToString:@"api_key_plugin_openweather"]) {
-                userApiKey = [setting objectForKey:@"value"];
+- (void)setParameters:(NSArray *)parameters{
+    if(parameters != nil){
+        double min = [self getSensorSetting:parameters withKey:@"plugin_openweather_frequency"];
+        if (min > 0) {
+            _frequencyMin = min;
+        }
+        for (NSDictionary * param in parameters) {
+            if ([[param objectForKey:@"setting"] isEqualToString:@"api_key_plugin_openweather"]) {
+                _apiKey = [param objectForKey:@"value"];
             }
         }
     }
+}
+
+- (BOOL)startSensorWithSettings:(NSArray *)settings{
+    
     
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     AWARECore * core = delegate.sharedAWARECore;
     locationManager = core.sharedLocationManager;
     
-    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:frequencySec
+    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:_frequencyMin * 60
                                                     target:self
                                                   selector:@selector(getNewWeatherData)
                                                   userInfo:nil
@@ -227,10 +230,10 @@ int ONE_HOUR = 60*60;
     sessionConfig.discretionary = YES;
     
     NSString *url = @"";
-    if(userApiKey == nil){
+    if(_apiKey == nil){
         url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, OPEN_WEATHER_API_DEFAULT_KEY];
     }else{
-        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, userApiKey];
+        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, _apiKey];
     }
 
     request = [[NSMutableURLRequest alloc] init];

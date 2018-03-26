@@ -22,6 +22,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
                         dbEntityName:NSStringFromClass([EntityNTPTime class])
                               dbType:dbType];
     if (self) {
+        _intervalSec = 60*10; // 10 min
+        
         [self setCSVHeader:@[@"timestamp", @"device_id", @"drift", @"ntp_time"]];
         
         [self setTypeAsPlugin];
@@ -32,7 +34,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -45,8 +49,10 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
 
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
-    NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
-    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:60*10
+    if ([self isDebug]){
+        NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    }
+    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:_intervalSec
                                                     target:self
                                                   selector:@selector(getNTPTime)
                                                   userInfo:nil

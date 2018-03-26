@@ -36,9 +36,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     NSArray *services;
     
     NSTimer * timer;
-    
-    double intervalSec;
-    double activeTimeSec;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -55,8 +52,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
         KEY_HR_RSSI = @"rssi";
         KEY_HR_LABEL = @"label";
         
-        intervalSec = 60.0f*5.0f;
-        activeTimeSec = 30.0f;
+        _intervalSec = 60.0f*5.0f;
+        _activeTimeSec = 30.0f;
+        _always = NO;
         
         [self setCSVHeader:@[KEY_HR_TIMESTAMP,
                              KEY_HR_DEVICE_ID,
@@ -97,36 +95,30 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     [super createTable:query];
 }
 
-
-
-- (BOOL) startSensor{
-    return [self startSensorWithSettings:nil];
-}
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    
-    bool always = NO;
-    
-    if (settings != nil) {
-        double tempIntervalMin = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_PLUGIN_BLE_HR_INTERVAL_TIME_MIN];
+- (void)setParameters:(NSArray *)parameters{
+    if (parameters != nil) {
+        double tempIntervalMin = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_PLUGIN_BLE_HR_INTERVAL_TIME_MIN];
         if(tempIntervalMin > 0){
-            intervalSec = 60.0f * tempIntervalMin;
+            _intervalSec = 60.0f * tempIntervalMin;
         }
         
-        double tempActiveTimeSec = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC];
+        double tempActiveTimeSec = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC];
         if(tempActiveTimeSec > 0){
-            activeTimeSec = tempActiveTimeSec;
+            _activeTimeSec = tempActiveTimeSec;
         }
         
         if(tempIntervalMin == 0 || tempActiveTimeSec == 0){
-            always = YES;
+            _always = YES;
         }
     }
+}
+
+- (BOOL) startSensor{
     
-    if(always){
+    if(_always){
         [self startHeartRateSensor];
     }else{
-        timer = [NSTimer scheduledTimerWithTimeInterval:intervalSec
+        timer = [NSTimer scheduledTimerWithTimeInterval:_intervalSec
                                                  target:self
                                                selector:@selector(startDutyCycle)
                                                userInfo:nil
@@ -152,9 +144,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 /////////////////////////////////////////////////////////////////
 
 - (void) startDutyCycle {
-    NSLog(@"[%@] Start a duty cycle...", [self getSensorName]);
+    if ([self isDebug]){
+        NSLog(@"[%@] Start a duty cycle...", [self getSensorName]);
+    }
     [self startHeartRateSensor];
-    [self performSelector:@selector(stopHeartRateSensor) withObject:nil afterDelay:activeTimeSec];
+    [self performSelector:@selector(stopHeartRateSensor) withObject:nil afterDelay:_activeTimeSec];
 }
 
 - (void) startHeartRateSensor{
@@ -164,7 +158,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 
 - (void) stopHeartRateSensor{
     // Start a BLE central manager
-    NSLog(@"[%@]...Stop a duty cycle", [self getSensorName]);
+    if ([self isDebug]){
+        NSLog(@"[%@]...Stop a duty cycle", [self getSensorName]);
+    }
     if(_myCentralManager != nil){
         [_myCentralManager stopScan];
         _myCentralManager = nil;
@@ -178,20 +174,29 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 
 
 
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    NSLog(@"centralManagerDidUpdateState");
-    if([central state] == CBCentralManagerStatePoweredOff){
-        NSLog(@"CoreBluetooth BLE hardware is powered off");
-    }else if([central state] == CBCentralManagerStatePoweredOn){
-        NSLog(@"CoreBluetooth BLE hardware is powered on");
-        [central scanForPeripheralsWithServices:services options:nil];
-    }else if([central state] == CBCentralManagerStateUnauthorized){
-        NSLog(@"CoreBluetooth BLE hardware is unauthorized");
-    }else if([central state] == CBCentralManagerStateUnknown){
-        NSLog(@"CoreBluetooth BLE hardware is unknown");
-    }else if([central state] == CBCentralManagerStateUnsupported){
-        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    switch ([central state]) {
+        case CBManagerStateUnknown:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnknown", [self getSensorName]);
+            break;
+        case CBManagerStatePoweredOn:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStatePoweredOn", [self getSensorName]);
+            [_myCentralManager scanForPeripheralsWithServices:services options:nil];
+            break;
+        case CBManagerStateResetting:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateResetting", [self getSensorName]);
+            break;
+        case CBManagerStatePoweredOff:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStatePoweredOff", [self getSensorName]);
+            break;
+        case CBManagerStateUnsupported:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnsupported", [self getSensorName]);
+            break;
+        case CBManagerStateUnauthorized:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnauthorized", [self getSensorName]);
+            break;
+        default:
+            break;
     }
 }
 

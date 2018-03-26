@@ -18,7 +18,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 
 @implementation Wifi{
     NSTimer * sensingTimer;
-    double defaultInterval;
+    double sensingInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -27,7 +27,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                         dbEntityName:NSStringFromClass([EntityWifi class])
                               dbType:dbType];
     if (self) {
-        defaultInterval = 60.0f; // 60sec. = 1min.
+        sensingInterval = 60.0f; // 60sec. = 1min.
         [self setCSVHeader:@[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"]];
     
         [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_WIFI desc:@"true or false to activate or deactivate sensor."];
@@ -39,7 +39,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 
 - (void) createTable {
     // Send a create table query
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -54,26 +56,25 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     [super createTable:query];
 }
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_wifi"];
-    if(frequency != -1){
-        NSLog(@"Wi-Fi sensing requency is %f ", frequency);
-    }else{
-        frequency = defaultInterval;
+    if (parameters != nil) {
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_wifi"];
+        if(frequency > 0){
+            sensingInterval = frequency;
+        }
     }
-    
-    return [self startSensorWithInterval:frequency];
 }
 
 - (BOOL)startSensor {
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:sensingInterval];
 }
 
 - (BOOL)startSensorWithInterval:(double) interval{
     // Set and start a data upload interval
-    NSLog(@"[%@] Start Wifi Sensor", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Start Wifi Sensor", [self getSensorName]);
+    }
     sensingTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                     target:self
                                                   selector:@selector(getWifiInfo)

@@ -27,6 +27,7 @@
                         dbEntityName:NSStringFromClass([EntityMemory class])
                               dbType:dbType];
     if (self) {
+        _intervalSec = 60*5;
         KEY_MEMORY_TIMESTAMP = @"timestamp";
         KEY_MEMORY_DEVICE_ID = @"device_id";
         KEY_MEMORY_USED = @"mem_used";
@@ -49,12 +50,12 @@
     [super createTable:query];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    return [self startSensorWithInterval:60*5];
+- (void)setParameters:(NSArray *)parameters{
+
 }
 
 - (BOOL)startSensor{
-    return [self startSensorWithInterval:60*5];
+    return [self startSensorWithInterval:_intervalSec];
 }
 
 - (BOOL) startSensorWithInterval:(double)interval{
@@ -100,7 +101,10 @@
     mem_used =  mem_used/1000/1000/1000;
     mem_free =  mem_free/1000/1000/1000;
     double mem_total = mem_used + mem_free;
-    NSLog(@"used: %f free: %f total: %f", mem_used, mem_free, mem_total);
+    
+    if ([self isDebug]) {
+        NSLog(@"used: %f free: %f total: %f", mem_used, mem_free, mem_total);
+    }
     
 //    NSMutableDictionary *query = [[NSMutableDictionary alloc] init];
 //    [query setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_MEMORY_TIMESTAMP];

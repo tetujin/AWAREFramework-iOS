@@ -18,9 +18,6 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     CMMotionActivityManager *motionActivityManager;
     NSString * KEY_TIMESTAMP_OF_LAST_UPDATE;
     NSTimer * timer;
-    double defaultInterval;
-    IOSActivityRecognitionMode sensingMode;
-    CMMotionActivityConfidence confidenceFilter;
     
     /* stationary,walking,running,automotive,cycling,unknown */
     NSString * ACTIVITY_NAME_STATIONARY;
@@ -56,10 +53,10 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     if (self) {
         motionActivityManager = [[CMMotionActivityManager alloc] init];
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_sensor_ios_activity_recognition_last_update_timestamp";
-        defaultInterval = 60*3; // 3 min
+        _sensingInterval = 60*3; // 3 min
         disposableCount = 0;
-        sensingMode = IOSActivityRecognitionModeLive;
-        confidenceFilter = CMMotionActivityConfidenceLow;
+        _sensingMode = IOSActivityRecognitionModeLive;
+        _confidenceFilter = CMMotionActivityConfidenceLow;
         [self setCSVHeader:@[@"timestamp",
                              @"device_id",
                              ACTIVITIES,
@@ -103,30 +100,31 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    NSLog(@"Start Motion Activity Manager! ");
+-(void)setParameters:(NSArray *)parameters{
     
-    
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_plugin_ios_activity_recognition"];
-    if (frequency < defaultInterval) {
-        frequency = defaultInterval;
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_plugin_ios_activity_recognition"];
+    if (frequency > 0) {
+        _sensingInterval = frequency;
     }
     
-    int liveMode = [self getSensorSetting:settings withKey:@"status_plugin_ios_activity_recognition_live"];
+    int liveMode = [self getSensorSetting:parameters withKey:@"status_plugin_ios_activity_recognition_live"];
     
     if(liveMode == 1){
-        return [self startSensorWithConfidenceFilter:CMMotionActivityConfidenceLow mode:IOSActivityRecognitionModeLive interval:frequency disposableLimit:0];
+        _sensingMode = IOSActivityRecognitionModeLive;
     }else{
-        return [self startSensorWithConfidenceFilter:CMMotionActivityConfidenceLow mode:IOSActivityRecognitionModeHistory interval:frequency disposableLimit:0];
+        _sensingMode = IOSActivityRecognitionModeHistory;
     }
 }
 
-
-- (BOOL) startSensorWithLiveMode:(CMMotionActivityConfidence) filterLevel{
-    return [self startSensorWithConfidenceFilter:filterLevel mode:IOSActivityRecognitionModeLive interval:defaultInterval disposableLimit:0];
+- (BOOL)startSensor{
+    return [self startSensorWithConfidenceFilter:_confidenceFilter mode:IOSActivityRecognitionModeHistory interval:_sensingInterval disposableLimit:0];
 }
 
-- (BOOL) startSensorWithHistoryMode:(CMMotionActivityConfidence)filterLevel interval:(double) interval{
+- (BOOL) startSensorAsLiveModeWithFilterLevel:(CMMotionActivityConfidence) filterLevel {
+    return [self startSensorWithConfidenceFilter:filterLevel mode:IOSActivityRecognitionModeLive interval:_sensingInterval disposableLimit:0];
+}
+
+- (BOOL) startSensorAsHistoryModeWithFilterLevel:(CMMotionActivityConfidence)filterLevel interval:(double) interval{
     return [self startSensorWithConfidenceFilter:filterLevel mode:IOSActivityRecognitionModeHistory interval:interval disposableLimit:0];
 }
 
@@ -134,9 +132,6 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                                     mode:(IOSActivityRecognitionMode)mode
                                 interval:(double) interval
                          disposableLimit:(int)limit{
-    
-    confidenceFilter = filterLevel;
-    sensingMode = mode;
     
     // history mode
     if( mode == IOSActivityRecognitionModeHistory){
@@ -282,7 +277,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     
     // NSLog(@"%ld", motionActivity.confidence);
     
-    switch (confidenceFilter) {
+    switch (_confidenceFilter) {
         case CMMotionActivityConfidenceHigh:
             if(motionActivity.confidence == CMMotionActivityConfidenceMedium ||
                motionActivity.confidence == CMMotionActivityConfidenceLow){

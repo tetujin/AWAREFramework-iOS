@@ -23,7 +23,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
 
 @implementation Rotation {
     CMMotionManager* motionManager;
-    double defaultInterval;
+    double sensingInterval;
     int dbWriteInterval;
 }
 
@@ -35,7 +35,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
             // dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        defaultInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         // [self setCSVHeader:@[@"timestamp",@"device_id"]];
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"]];
@@ -49,7 +49,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -64,27 +66,26 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     [super createTable:query];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency
-    double interval = defaultInterval;
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_rotation"];
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_rotation"];
     if(frequency != -1){
-        NSLog(@"Rotation's frequency is %f", frequency);
-        double iOSfrequency = [self convertMotionSensorFrequecyFromAndroid:frequency];
-        interval = iOSfrequency;
+        sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
     }
     
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION];
-    if(tempHz > 0){
-        interval = 1.0f/tempHz;
+    double hz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION];
+    if(hz > 0){
+        sensingInterval = 1.0f/hz;
     }
     
-    int buffer = (double)dbWriteInterval/interval;
-    return [self startSensorWithInterval:interval bufferSize:buffer];
+    int buffer = (double)dbWriteInterval/sensingInterval;
+    [self setBufferSize:buffer];
+    
+    // return [self startSensorWithInterval:interval bufferSize:buffer];
 }
 
 - (BOOL)startSensor{
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:sensingInterval];
 }
 
 - (BOOL)startSensorWithInterval:(double)interval{
@@ -98,12 +99,15 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
 
 - (BOOL)startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
     
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Rotation Sensor", [self getSensorName]);
+    }
+    
     [self setBufferSize:buffer];
     
     [self setFetchLimit:fetchLimit];
     
     // Set and start motion sensor
-    NSLog(@"[%@] Start Rotation Sensor", [self getSensorName]);
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = interval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue new]
@@ -121,9 +125,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                               [dict setObject:@3 forKey:@"accuracy"];//int
                                               [dict setObject:@"" forKey:@"label"]; //text
                                                
-                                               if([self getDBType] == AwareDBTypeCoreData){
+                                               if([self getDBType] == AwareDBTypeSQLite){
                                                    [self saveData:dict];
-                                               }else if([self getDBType] == AwareDBTypeTextFile){
+                                               }else if([self getDBType] == AwareDBTypeJSON){
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self saveData:dict];
                                                    });

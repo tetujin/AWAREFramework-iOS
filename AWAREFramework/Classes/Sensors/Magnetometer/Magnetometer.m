@@ -15,7 +15,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
 
 @implementation Magnetometer{
     CMMotionManager* manager;
-    double defaultInterval;
+    double sensingInterval;
     int dbWriteInterval;
 }
 
@@ -27,7 +27,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
             // dbType:dbType];
     if (self) {
         manager = [[CMMotionManager alloc] init];
-        defaultInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
     
@@ -42,7 +42,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
 
 - (void) createTable{
     // Send a table craete query
-    NSLog(@"[%@] Create table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -56,30 +58,27 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     [super createTable:query];
 }
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    
+- (void)setParameters:(NSArray *)parameters{
     // Get and set a sensng frequency to CMMotionManager
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_magnetometer"];
-    if(frequency != -1){
-        NSLog(@"Accelerometer's frequency is %f !!", frequency);
-        double iOSfrequency = [self convertMotionSensorFrequecyFromAndroid:frequency];
-        frequency = iOSfrequency;
-    }else{
-        frequency = defaultInterval;
+    if (parameters != nil) {
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_magnetometer"];
+        if(frequency != -1){
+            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        }
+        
+        double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER];
+        if(tempHz > 0){
+            sensingInterval = 1.0f/tempHz;
+        }
+        
+        int buffer = dbWriteInterval/sensingInterval;
+        [self setBufferSize:buffer];
     }
-    
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER];
-    if(tempHz > 0){
-        frequency = 1.0f/tempHz;
-    }
-    
-    int buffer = dbWriteInterval/frequency;
-    return [self startSensorWithInterval:frequency bufferSize:buffer];
 }
 
+
 - (BOOL) startSensor{
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:sensingInterval];
 }
 
 - (BOOL) startSensorWithInterval:(double)interval{
@@ -98,7 +97,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     [self setFetchLimit:fetchLimit];
     
     // Set and start a sensor
-    NSLog(@"[%@] Start Mag sensor", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Mag sensor", [self getSensorName]);
+    }
     
     manager.magnetometerUpdateInterval = interval;
     
@@ -129,9 +130,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                                                                                  object:nil
                                                                                                userInfo:userInfo];
 
-                                         if([self getDBType] == AwareDBTypeCoreData){
+                                         if([self getDBType] == AwareDBTypeSQLite){
                                              [self saveData:dict];
-                                         }else if ([self getDBType] == AwareDBTypeTextFile){
+                                         }else if ([self getDBType] == AwareDBTypeJSON){
                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                  [self saveData:dict];
                                              });

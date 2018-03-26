@@ -12,6 +12,8 @@ extern NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE;
 
 @interface Fitbit : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, UIAlertViewDelegate>
 
+@property double intervalMin;
+
 - (void) loginWithOAuth2WithClientId:(NSString *)clientId apiSecret:(NSString *)apiSecret;
 - (void) refreshToken;
 - (void) getData:(id)sender;

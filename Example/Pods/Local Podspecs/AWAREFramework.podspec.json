@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "summary": "A short description of AWAREFramework.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/tetujin/AWAREFramework",
+  "homepage": "https://github.com/tetujin/AWAREFramework-iOS",
   "license": {
     "type": "Apache2",
     "file": "LICENSE"
@@ -12,11 +12,11 @@
     "tetujin": "tetujin@ht.sfc.keio.ac.jp"
   },
   "source": {
-    "git": "https://github.com/tetujin/AWAREFramework.git",
+    "git": "https://github.com/tetujin/AWAREFramework-iOS.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "9.3"
+    "ios": "10"
   },
   "pod_target_xcconfig": {
     "SWIFT_VERSION": "3.2"

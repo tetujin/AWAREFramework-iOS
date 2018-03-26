@@ -52,7 +52,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:@"plugin_sensor_tag"
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if(self != nil){
         UUID_KEY = @"CC2650 SensorTag";
         UUID = @"";
@@ -70,35 +70,44 @@
     [tcqMaker addColumn:@"" type:TCQTypeReal default:@"'0'"];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    // active sensors
+- (void)setParameters:(NSArray *)parameters{
     
-    // interval
-    
-    
-    return YES;
+}
+
+- (BOOL)startSensor{
+    return NO;
 }
 
 - (BOOL)stopSensor{
-    return YES;
+    return NO;
 }
 
 
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    NSLog(@"centralManagerDidUpdateState");
-    if([central state] == CBCentralManagerStatePoweredOff){
-        NSLog(@"CoreBluetooth BLE hardware is powered off");
-    }else if([central state] == CBCentralManagerStatePoweredOn){
-        NSLog(@"CoreBluetooth BLE hardware is powered on");
-        NSArray *services = @[[CBUUID UUIDWithString:SENSORTAG_SERVICE_UUID]];
-        [central scanForPeripheralsWithServices:services options:nil];
-    }else if([central state] == CBCentralManagerStateUnauthorized){
-        NSLog(@"CoreBluetooth BLE hardware is unauthorized");
-    }else if([central state] == CBCentralManagerStateUnknown){
-        NSLog(@"CoreBluetooth BLE hardware is unknown");
-    }else if([central state] == CBCentralManagerStateUnsupported){
-        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    NSArray *services = @[[CBUUID UUIDWithString:SENSORTAG_SERVICE_UUID]];
+    
+    switch ([central state]) {
+        case CBManagerStateUnknown:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnknown", [self getSensorName]);
+            break;
+        case CBManagerStatePoweredOn:
+            if ([self isDebug]) { NSLog(@"[%@] CBManagerStatePoweredOn", [self getSensorName]);}
+            [_myCentralManager scanForPeripheralsWithServices:services options:nil];
+            break;
+        case CBManagerStateResetting:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateResetting", [self getSensorName]);
+            break;
+        case CBManagerStatePoweredOff:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStatePoweredOff", [self getSensorName]);
+            break;
+        case CBManagerStateUnsupported:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnsupported", [self getSensorName]);
+            break;
+        case CBManagerStateUnauthorized:
+            if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnauthorized", [self getSensorName]);
+            break;
+        default:
+            break;
     }
 }
 

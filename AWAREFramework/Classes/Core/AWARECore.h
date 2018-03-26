@@ -43,4 +43,6 @@
 - (bool) checkLowPowerModeWithViewController:(UIViewController *) viewController;
 - (void) checkStorageUsageWithViewController:(UIViewController *) viewController;
 
+- (void) requestBackgroundSensing;
+
 @end

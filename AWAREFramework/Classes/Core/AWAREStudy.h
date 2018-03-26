@@ -13,31 +13,24 @@
 // int frequencyCleanOldData; // (0 = never, 1 = weekly, 2 = monthly, 3 = daily, 4 = always)
 
 typedef enum: NSInteger {
-    cleanOldDataTypeNever = 0,
-    cleanOldDataTypeWeekly = 1,
+    cleanOldDataTypeNever   = 0,
+    cleanOldDataTypeWeekly  = 1,
     cleanOldDataTypeMonthly = 2,
-    cleanOldDataTypeDaily = 3,
-    cleanOldDataTypeAlways = 4
+    cleanOldDataTypeDaily   = 3,
+    cleanOldDataTypeAlways  = 4
 } cleanOldDataType;
 
-/*
-typedef enum: NSInteger {
-    dataExportTypeUnknown = 0,
-    dataExportTypeForAutoSync = 1,
-    dataExportTypeAsCSV  = 2,
-    dataExportTypeAsJSON = 3
-} dataExportType;
-*/
 
 typedef enum: NSInteger {
-    AwareDBTypeUnknown  = 0,
-    AwareDBTypeTextFile = 1,
-    AwareDBTypeCoreData = 2
+    AwareDBTypeUnknown = 0,
+    AwareDBTypeJSON    = 1,   // JSON
+    AwareDBTypeSQLite  = 2, // SQLite
+    AWAREDBTypeCSV     = 3     // CSV
 } AwareDBType;
 
 typedef enum: NSInteger{
-    AwareUIModeNormal = 0,
-    AwareUIModeHideAll = 1,
+    AwareUIModeNormal       = 0,
+    AwareUIModeHideAll      = 1,
     AwareUIModeHideSettings = 2
 } AwareUIMode;
 
@@ -51,7 +44,7 @@ typedef enum: NSInteger{
 
 - (void) setWebserviceServer:(NSString *)url;
 - (BOOL) setStudyInformationWithURL:(NSString*)url;
-- (BOOL) refreshStudy;
+- (void) refreshStudy;
 - (BOOL) clearAllSetting;
 - (void) refreshAllSetting;
 
@@ -79,11 +72,10 @@ typedef enum: NSInteger{
 - (NSArray *) getPluginSettingsWithKey:(NSString *) key;
 
 
-- (BOOL) isSensorSettingWithKey:(NSString *)key;
-
+// - (BOOL) isSensorSettingWithKey:(NSString *)key;
 // - (void) setUserSettingWithNumber:(NSNumber *)number key:(NSString*)key;
-- (void) setUserSensorSettingWithString:(NSString *)str  key:(NSString *)key;
-- (void) setUserPluginSettingWithString:(NSString *)str  key:(NSString *)key statusKey:(NSString *)statusKey;
+// - (void) setUserSensorSettingWithString:(NSString *)str  key:(NSString *)key;
+// - (void) setUserPluginSettingWithString:(NSString *)str  key:(NSString *)key statusKey:(NSString *)statusKey;
 
 // Check some thing
 - (BOOL) isAvailable;
@@ -109,7 +101,7 @@ typedef enum: NSInteger{
 - (bool) getDebugState;
 - (bool) getDataUploadStateInWifi;
 - (bool) getDataUploadStateWithOnlyBatterChargning;
-- (int) getUploadIntervalAsSecond;
+- (int)  getUploadIntervalAsSecond;
 - (NSInteger) getMaximumByteSizeForDataUpload;  // for Text File
 - (NSInteger) getMaxFetchSize;
 - (AwareDBType) getDBType;

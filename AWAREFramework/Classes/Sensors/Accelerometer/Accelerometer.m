@@ -64,30 +64,25 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
 /**
  *
  */
-- (BOOL) startSensorWithSettings:(NSArray *)settings{
+// - (BOOL) startSensorWithSettings:(NSArray *)settings{
 
-    double frequency = sensingInterval;
-    if(settings != nil){
-        double tempFrequency = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER];
+- (void)setParameters:(NSArray *)parameters{
+    if(parameters != nil){
+        double tempFrequency = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER];
         if(tempFrequency != -1){
-            frequency = [self convertMotionSensorFrequecyFromAndroid:tempFrequency];
+            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:tempFrequency];
         }
+        
+        double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER];
+        if(tempHz > 0){
+            sensingInterval = 1.0f/tempHz;
+        }
+        [self setBufferSize:dbWriteInterval/sensingInterval];
     }
-    
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER];
-    if(tempHz > 0){
-        frequency = 1.0f/tempHz;
-    }
-    
-    int buffer = dbWriteInterval/frequency;
-    
-    return [self startSensorWithInterval:frequency bufferSize:buffer];
 }
 
 
 - (BOOL) startSensor {
-    // NSDictionary * defaultSettings = [self getDefaultSettings];
-    // double frequency = [[defaultSettings objectForKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER] doubleValue];
     return [self startSensorWithInterval:sensingInterval];
 }
 
@@ -107,7 +102,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     [super startSensor];
     
     // Set and start a data uploader
-    NSLog(@"[%@] Start Sensor!", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Sensor!", [self getSensorName]);
+    }
     
     // Set buffer size for reducing file access
     [self setBufferSize:buffer];
@@ -120,7 +117,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
                                   withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
                                       if( error ) {
-                                          NSLog(@"%@:%ld", [error domain], [error code] );
+                                          NSLog(@"[accelerometer] %@:%ld", [error domain], [error code] );
                                       } else {
                                           
                                           // SQLite
@@ -132,7 +129,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                           [dict setObject:@(accelerometerData.acceleration.z) forKey:@"double_values_2"];
                                           [dict setObject:@3 forKey:@"accuracy"];
                                           [dict setObject:@"" forKey:@"label"];
-                                          // NSLog(@"%f", accelerometerData.acceleration.x);
                                           [self setLatestValue:[NSString stringWithFormat:
                                                                 @"%f, %f, %f",
                                                                 accelerometerData.acceleration.x,
@@ -149,10 +145,10 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                           
                                           
                                           ////// SQLite DB ////////
-                                          if([self getDBType] == AwareDBTypeCoreData) {
+                                          if([self getDBType] == AwareDBTypeSQLite) {
                                               [self saveData:dict];
                                          //////////// Text File based DB ///////////////////////////////////
-                                          } else if ([self getDBType] == AwareDBTypeTextFile){
+                                          } else if ([self getDBType] == AwareDBTypeJSON){
                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                      [self saveData:dict];
                                                 });
@@ -187,9 +183,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     entityAcc.double_values_2 = [data objectForKey:@"double_values_2"];
     entityAcc.accuracy = [data objectForKey:@"accuracy"];
     entityAcc.label = [data objectForKey:@"label"];
-    
-    // NSLog(@"%@",entityAcc.debugDescription);
-    
 }
 
 
@@ -199,20 +192,15 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     return YES;
 }
 
-
-
 ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////
 
 - (BOOL) setInterval:(double)interval{
-    // [self setDefaultSettingWithNumber:@(interval) key:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER];
     sensingInterval = interval;
     return YES;
 }
 
 - (double) getInterval{
-    // NSDictionary * settings = [self getDefaultSettings];
-    // return [[settings objectForKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER] doubleValue];
     return sensingInterval;
 }
 

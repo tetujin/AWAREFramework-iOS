@@ -82,7 +82,9 @@
 
 - (void) createTable{
     // Send a table create query
-    NSLog(@"[%@] create table!", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] create table!", [self getSensorName]);
+    }
     
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
     [tcqMaker addColumn:KEY_END_TIMESTAMP type:TCQTypeReal default:@"0"];
@@ -94,22 +96,18 @@
     [tcqMaker addColumn:KEY_FLOORS_ASCENDED type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:KEY_FLOORS_DESCENDED type:TCQTypeInteger default:@"0"];
     [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
-//    NSMutableString *query = [[NSMutableString alloc] init];
-//    [query appendString:@"_id integer primary key autoincrement,"];
-//    [query appendFormat:@"%@ real default 0,", KEY_TIMESTAMP];
-//    [query appendFormat:@"%@ text default '',", KEY_DEVICE_ID];
-//    [query appendFormat:@"%@ integer default 0,", KEY_NUMBER_OF_STEPS];
-//    [query appendFormat:@"%@ integer default 0,", KEY_DISTANCE];
-//    [query appendFormat:@"%@ real default 0,", KEY_CURRENT_PACE];
-//    [query appendFormat:@"%@ real default 0,", KEY_CURRENT_CADENCE];
-//    [query appendFormat:@"%@ integer default 0,", KEY_FLOORS_ASCENDED];
-//    [query appendFormat:@"%@ integer default 0", KEY_FLOORS_DESCENDED];
-//    [query appendString:@"UNIQUE (timestamp,device_id)"];
-//    [super createTable:query];
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    if (parameters != nil) {
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_pedometer"];
+        if(frequency > 0){
+            frequencySec = frequency;
+        }
+    }
+}
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor {
     // Check a pedometer sensor
     if (![CMPedometer isStepCountingAvailable]) {
         NSLog(@"[%@] Your device is not support this sensor.", [self getSensorName]);
@@ -118,17 +116,11 @@
         NSLog(@"[%@] start sensor!", [self getSensorName]);
     }
     
-    // [self setBufferSize:10];
-    
     // Initialize a pedometer sensor
     if (!_pedometer) {
         _pedometer = [[CMPedometer alloc]init];
     }
-    
-    frequencySec = [self getSensorSetting:settings withKey:@"frequency_pedometer"];
-    if(frequencySec < 0){
-        frequencySec = 60*10; // <- 10 min
-    }
+
     
     timer = [NSTimer scheduledTimerWithTimeInterval:frequencySec
                                              target:self
@@ -137,111 +129,6 @@
                                             repeats:YES];
     [timer fire];
     
-//
-    // Start live tracking
-//    [_pedometer startPedometerUpdatesFromDate:[NSDate new]
-//                                  withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
-//                                                   NSNumber * numberOfSteps = @0;
-//                                                    NSNumber * distance = @0;
-//                                                    NSNumber * currentPace = @0;
-//                                                    NSNumber * currentCadence = @0;
-//                                                    NSNumber * floorsAscended = @0;
-//                                                    NSNumber * floorsDescended = @0;
-//                                      
-//                                                    // step counting
-//                                                    if ([CMPedometer isStepCountingAvailable]) {
-//                                                        if (!pedometerData.numberOfSteps) {                                                            numberOfSteps = @0;
-//                                                        }else{
-//                                                            numberOfSteps = [NSNumber numberWithInteger:(pedometerData.numberOfSteps.integerValue - totalSteps.integerValue)];
-//                                                            totalSteps = pedometerData.numberOfSteps;
-//                                                        }
-//                                                    } else {
-//                                                        NSLog(@"Step Counter not available.");
-//                                                    }
-//                                      
-//                                                    // distance (m)
-//                                                    if ([CMPedometer isDistanceAvailable]) {
-//                                                        if (!pedometerData.distance) {
-//                                                            distance = @0;
-//                                                        }else{
-//                                                            distance = [NSNumber numberWithDouble:(pedometerData.distance.doubleValue - totalDistance.doubleValue)];
-//                                                            totalDistance = pedometerData.distance;
-//                                                        //}else {
-//                                                        //    NSLog(@"Distance estimate not available.");
-//                                                        }
-//                                                    }
-//                                                    
-//                                                    if ([AWAREUtils getCurrentOSVersionAsFloat] > 9.0) {
-//                                                        // pace (s/m)
-//                                                        if ([CMPedometer isPaceAvailable]) {
-//                                                            if (pedometerData.currentPace) {
-//                                                                currentPace = pedometerData.currentPace;
-//                                                                if (! currentPace) currentPace = @0;
-//                                                            }
-//                                                        } else {
-//                                                            NSLog(@"Pace not available.");
-//                                                        }
-//                                                        
-//                                                        // cadence (steps/second)
-//                                                        if ([CMPedometer isCadenceAvailable]) {
-//                                                            if (pedometerData.currentCadence) {
-//                                                                currentCadence = pedometerData.currentCadence;
-//                                                                if(!currentCadence) currentCadence = @0;
-//                                                            }
-//                                                        } else {
-//                                                            NSLog(@"Cadence not available.");
-//                                                        }
-//                                                    }
-//                                                    
-//                                                    // flights climbed
-//                                                    if ([CMPedometer isFloorCountingAvailable]) {
-//                                                        if (pedometerData.floorsAscended) {
-//                                                            floorsAscended = [NSNumber numberWithInteger:(pedometerData.floorsAscended.integerValue - totalFloorsAscended.integerValue)];
-//                                                            totalFloorsAscended = pedometerData.floorsAscended;
-//                                                        }
-//                                                    } else {
-//                                                        NSLog(@"Floors ascended not available.");
-//                                                    }
-//                                                    
-//                                                    // floors descended
-//                                                    if ([CMPedometer isFloorCountingAvailable]) {
-//                                                        if (pedometerData.floorsDescended) {
-//                                                            floorsDescended =  [NSNumber numberWithInteger:(pedometerData.floorsDescended.integerValue - totalFllorsDescended.integerValue)];
-//                                                            totalFllorsDescended = pedometerData.floorsDescended;
-//                                                        }
-//                                                    } else {
-//                                                        NSLog(@"Floors descended not available.");
-//                                                    }
-//                                                    
-//                                                    NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-//                                                    [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
-//                                                    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_TIMESTAMP];
-//                                                    [dict setObject:numberOfSteps forKey:KEY_NUMBER_OF_STEPS];
-//                                                    [dict setObject:distance forKey:KEY_DISTANCE];
-//                                                    [dict setObject:currentPace forKey:KEY_CURRENT_PACE];
-//                                                    [dict setObject:currentCadence forKey:KEY_CURRENT_CADENCE];
-//                                                    [dict setObject:floorsAscended forKey:KEY_FLOORS_ASCENDED];
-//                                                    [dict setObject:floorsDescended forKey:KEY_FLOORS_DESCENDED];
-//                                      
-//                                      
-//
-//                                                    dispatch_async(dispatch_get_main_queue(), ^{
-//                                                        
-//                                                        //[AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ steps", numberOfSteps] soundFlag:YES];
-//                                                        
-//                                                        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
-//                                                                                                             forKey:EXTRA_DATA];
-//                                                        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_PEDOMETER
-//                                                                                                            object:nil
-//                                                                                                          userInfo:userInfo];
-//                                                        [self saveData:dict];
-//                                                    });
-////                                                    
-//                                                    NSString * message = [NSString stringWithFormat:@"%@(%@) %@(%@) %@ %@ %@(%@) %@(%@)", numberOfSteps, totalSteps, distance, totalDistance, currentPace, currentCadence, floorsAscended,totalFloorsAscended, floorsDescended, totalFllorsDescended];
-////                                                    // [self sendLocalNotificationForMessage:message soundFlag:NO];
-//                                                    [self setLatestValue:[NSString stringWithFormat:@"%@", message]];
-//    }];
-//    
     return NO;
 }
 
@@ -408,7 +295,7 @@
                                                     currentPace.intValue, floorsAscended.intValue,
                                                     floorsDescended.intValue];
 //                                                    // [self sendLocalNotificationForMessage:message soundFlag:NO];
-    NSLog(@"%@", message);
+    if ([self isDebug]) NSLog(@"%@", message);
     [self setLatestValue:[NSString stringWithFormat:@"%@", message]];
 }
 

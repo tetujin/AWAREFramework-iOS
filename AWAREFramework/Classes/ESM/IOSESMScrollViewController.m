@@ -73,7 +73,7 @@
     
     flowsFlag = NO;
     
-    iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeCoreData];
+    iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
     [iOSESM allowsCellularAccess];
     [iOSESM allowsDateUploadWithoutBatteryCharging];
     
@@ -551,7 +551,7 @@
         
         [delegate.managedObjectContext reset];
         
-        iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeCoreData];
+        iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
         esmSchedules = [iOSESM getValidESMSchedulesWithDatetime:[NSDate new]];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"AWARE can not save your answer" message:@"Please push submit button again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -736,7 +736,7 @@
 //    }
     
     if(results != nil){
-        NSLog(@"Stored ESM Schedules are %ld", results.count);
+        // NSLog(@"Stored ESM Schedules are %ld", results.count);
         NSMutableArray * esms = [[NSMutableArray alloc] init];
         for (EntityESMSchedule * schedule in results) {
             if (schedule != nil) {
@@ -749,7 +749,7 @@
         }
         return esms;
     }else{
-        NSLog(@"Stored ESM Schedule is Null.");
+        // NSLog(@"Stored ESM Schedule is Null.");
         return @[];
     }
 }

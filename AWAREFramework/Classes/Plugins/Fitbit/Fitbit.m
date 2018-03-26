@@ -40,7 +40,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_FITBIT
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if(self != nil){
         isAlertingFitbitLogin = false;
         fitbitData = [[FitbitData alloc] initWithAwareStudy:study dbType:dbType];
@@ -59,6 +59,8 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         
         hourFormat = [[NSDateFormatter alloc] init];
         [hourFormat setDateFormat:@"yyyy-MM-dd HH"];
+        
+        _intervalMin = 15;
         
         [self setTypeAsPlugin];
         
@@ -107,25 +109,13 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
 }
 
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    
+- (void)setParameters:(NSArray *)parameters{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:settings forKey:@"aware.plugn.fitbit.settings"];
+    [defaults setObject:parameters forKey:@"aware.plugn.fitbit.settings"];
     
-//    NSString * clientId = [self getSettingAsStringFromSttings:settings withKey:@"api_key_plugin_fitbit"];
-//    NSString * apiSecret = [self getSettingAsStringFromSttings:settings withKey:@"api_secret_plugin_fitbit"];
-    
-    //    if([clientId isEqualToString:@""] && [apiSecret isEqualToString:@""]){
-    //        // clientId = [defaults objectForKey:@"api_key_plugin_fitbit"];
-    //        // apiSecret = [defaults objectForKey:@"api_secret_plugin_fitbit"];
-    //        clientId = [Fitbit getFitbitClientIdForUI:YES];
-    //        apiSecret = [Fitbit getFitbitApiSecretForUI:YES];
-    //    }
-    
-    double intervalMin = [self getSensorSetting:settings withKey:@"plugin_fitbit_frequency"];
-    if(intervalMin<0){
-        intervalMin = 15;
+    double interval = [self getSensorSetting:parameters withKey:@"plugin_fitbit_frequency"];
+    if(interval>0){
+        _intervalMin = interval;
     }
     
     if([Fitbit getFitbitAccessToken] == nil || [[Fitbit getFitbitAccessToken] isEqualToString:@""]) {
@@ -140,6 +130,11 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
             [alert show];
         }
     }
+}
+
+- (BOOL)startSensorWithSettings:(NSArray *)settings{
+    
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getData:)
@@ -159,7 +154,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
                                                object:[[NSDictionary alloc] initWithObjects:@[@"heartrate"] forKeys:@[@"type"]]];
     
     
-    updateTimer = [NSTimer scheduledTimerWithTimeInterval:intervalMin*60
+    updateTimer = [NSTimer scheduledTimerWithTimeInterval:_intervalMin*60
                                                    target:self
                                                  selector:@selector(getData:)
                                                  userInfo:[[NSDictionary alloc] initWithObjects:@[@"all"] forKeys:@[@"type"]]

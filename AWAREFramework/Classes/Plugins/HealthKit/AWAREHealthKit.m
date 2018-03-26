@@ -31,7 +31,7 @@
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_HEALTH_KIT
                         dbEntityName:nil
-                              dbType:AwareDBTypeTextFile];
+                              dbType:AwareDBTypeJSON];
     if(self){
 
         // Add your HealthKit code here

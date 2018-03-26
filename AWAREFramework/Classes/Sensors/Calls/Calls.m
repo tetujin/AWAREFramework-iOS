@@ -50,8 +50,9 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 }
 
 - (void) createTable{
-    
-    NSLog(@"[%@] Create Telephony Sensor Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Telephony Sensor Table", [self getSensorName]);
+    }
     
     NSMutableString *query = [[NSMutableString alloc] init];
     [query appendString:@"_id integer primary key autoincrement,"];
@@ -64,11 +65,11 @@ NSString* const KEY_CALLS_TRACE = @"trace";
     [super createTable:query];
 }
 
--(BOOL)startSensor{
-    return [self startSensorWithSettings:nil];
+- (void)setParameters:(NSArray *)parameters{
+    
 }
 
--(BOOL)startSensorWithSettings:(NSArray *)settings{
+-(BOOL)startSensor{
     
     [super startSensor];
     
@@ -106,7 +107,9 @@ NSString* const KEY_CALLS_TRACE = @"trace";
             start = [NSDate new];
         }
         
-        NSLog(@"[%@] Call Duration is %d seconds @ [%@]", [super getSensorName], duration, callTypeStr);
+        if ([self isDebug]) {
+            NSLog(@"[%@] Call Duration is %d seconds @ [%@]", [super getSensorName], duration, callTypeStr);
+        }
         
         // dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -208,7 +211,7 @@ NSString* const KEY_CALLS_TRACE = @"trace";
                                  soundFlag : (BOOL) soundFlag {
     UILocalNotification *localNotification = [UILocalNotification new];
     CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-    NSLog(@"OS:%f", currentVersion);
+    // NSLog(@"OS:%f", currentVersion);
     if (currentVersion >= 9.0){
         localNotification.alertBody = @"Call from/to who?";
     } else {

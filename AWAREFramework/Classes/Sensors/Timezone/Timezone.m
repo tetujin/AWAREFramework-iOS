@@ -15,7 +15,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
 
 @implementation Timezone{
     NSTimer * sensingTimer;
-    double defaultInterval;
+    double updateInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -25,7 +25,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
                               dbType:dbType
                           bufferSize:0];
     if (self) {
-        defaultInterval = 60*60;// 3600 sec. = 1 hour
+        updateInterval = 60*60;// 3600 sec. = 1 hour
         [self setCSVHeader:@[@"timestamp",@"device_id",@"timezone"]];
         
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_TIMEZONE      desc:@"true or false to activate or deactivate sensor."];
@@ -36,7 +36,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -46,25 +48,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [super createTable:query];
 }
 
-
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (void)setParameters:(NSArray *)parameters{
     // Get a frequency of data upload from settings
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_timezone"];
-    if (frequency <= 0) {
-        frequency = defaultInterval ;//60*60;//3600 sec = 1 hour
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_timezone"];
+    if (frequency > 0) {
+        updateInterval = frequency ;//60*60;//3600 sec = 1 hour
     }
-    return [self startSensorWithInterval:frequency];
 }
 
-
 - (BOOL) startSensor{
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:updateInterval];
 }
 
 - (BOOL) startSensorWithInterval:(double)interval{
     
     // Set and start sensing timer
-    NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    }
     [self getTimezone];
     sensingTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                     target:self

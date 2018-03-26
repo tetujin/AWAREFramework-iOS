@@ -10,6 +10,8 @@
 
 @interface Memory : AWARESensor <AWARESensorDelegate>
 
+@property double intervalSec;
+
 - (BOOL) startSensor;
 - (BOOL) startSensorWithInterval:(double)interval;
 

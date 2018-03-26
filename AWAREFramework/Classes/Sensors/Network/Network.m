@@ -42,7 +42,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
 
 - (void) createTable{
     // Send a create table query
-    NSLog(@"[%@] Cretate Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Cretate Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -54,54 +56,56 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     [super createTable:query];
 }
 
-- (BOOL)startSensor{
-    return [self startSensorWithSettings:nil];
+- (void)setParameters:(NSArray *)parameters{
+    
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
+- (BOOL)startSensor{
     // Set and start a network reachability sensor
-    NSLog(@"Start Network Sensing!");
+    if ([self isDebug]) {
+        NSLog(@"Start Network Sensing!");
+    }
     reachability = [[SCNetworkReachability alloc] initWithHost:@"https://github.com"];
     [reachability reachabilityStatus:^(SCNetworkStatus status) {
-         switch (status) {
-             case SCNetworkStatusReachableViaWiFi:
-                 NSLog(@"Reachable via WiFi");
-                 networkState= YES;
-                 networkType = @1;
-                 networkSubtype = @"WIFI";
-                 [self getNetworkInfo];
-
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_ON object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
-                 
-                 break;
-             case SCNetworkStatusReachableViaCellular:
-                 NSLog(@"Reachable via Cellular");
-                 networkState= YES;
-                 networkType = @4;
-                 networkSubtype = @"MOBILE";
-                 [self getNetworkInfo];
-                 
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_ON object:nil];
-                 
-                 break;
-             case SCNetworkStatusNotReachable:
-                 NSLog(@"Not Reachable");
-                 networkType = @0;
-                 networkState= NO;
-                 networkSubtype = @"";
-                 [self getNetworkInfo];
-                 
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_UNAVAILABLE object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
-                 
-                 break;
-         }
-     }];
+        switch (status) {
+            case SCNetworkStatusReachableViaWiFi:
+                NSLog(@"Reachable via WiFi");
+                self->networkState= YES;
+                self->networkType = @1;
+                self->networkSubtype = @"WIFI";
+                [self getNetworkInfo];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_ON object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
+                
+                break;
+            case SCNetworkStatusReachableViaCellular:
+                NSLog(@"Reachable via Cellular");
+                self->networkState= YES;
+                self->networkType = @4;
+                self->networkSubtype = @"MOBILE";
+                [self getNetworkInfo];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_ON object:nil];
+                
+                break;
+            case SCNetworkStatusNotReachable:
+                NSLog(@"Not Reachable");
+                self->networkType = @0;
+                self->networkState= NO;
+                self->networkSubtype = @"";
+                [self getNetworkInfo];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_UNAVAILABLE object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
+                
+                break;
+        }
+    }];
     return YES;
 }
 

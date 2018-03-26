@@ -27,7 +27,8 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 @protocol AWARESensorDelegate <NSObject>
 
-- (BOOL) startSensorWithSettings:(NSArray *)settings;
+- (void) setParameters:(NSArray *)parameters;
+// - (BOOL) startSensorWithSettings:(NSArray *)settings;
 - (BOOL) startSensor;
 - (BOOL) stopSensor;
 - (BOOL) quitSensor;
@@ -57,6 +58,8 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 - (void) addDefaultSettingWithBool:(NSNumber *)boolValue   key:(NSString *)key desc:(NSString *)desc;
 - (void) addDefaultSettingWithString:(NSString *)strValue key:(NSString *)key desc:(NSString *)desc;
 - (void) addDefaultSettingWithNumber:(NSNumber *)numberValue key:(NSString *)key desc:(NSString *)desc;
+
+- (void) setParameters:(NSArray *) parameters;
 
 // set & get settings
 //- (void) setDefaultSettingWithString:(NSString *) value key:(NSString *) key;
@@ -123,6 +126,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 - (bool) isDataStoring;
 
 - (bool) isDebug;
+- (void) setDebugState:(bool)state;
 - (bool) saveData:(NSDictionary *) data;
 - (bool) saveData:(NSDictionary *) data toLocalFile:(NSString*) fileName;
 - (bool) saveDataWithArray:(NSArray*) array;

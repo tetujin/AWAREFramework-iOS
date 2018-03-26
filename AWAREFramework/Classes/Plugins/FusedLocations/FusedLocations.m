@@ -39,13 +39,14 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
         
         // Make a visit location sensor
         visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:awareStudy dbType:dbType];
+        _intervalSec = 180;
+        _accuracyMeter = 100;
         
         [self setTypeAsPlugin];
         
         [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION desc:@"true or false to activate or deactivate accelerometer sensor."];
         [self addDefaultSettingWithNumber:@0 key:AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION desc:@"How frequently to fetch user's location (in seconds.)"];
         [self addDefaultSettingWithNumber:@102 key:AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION desc:@"One of the following numbers: 100 (high power): uses GPS only - works best outdoors, highest accuracy 102 (balanced): uses GPS, Network and Wifi - works both indoors and outdoors, good accuracy 104 (low power): uses only Network and WiFi - poorest accuracy, medium accuracy 105 (no power) - scavenges location requests from other apps."];
-    
     }
     return self;
 }
@@ -59,43 +60,49 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     [visitLocationSensor createTable];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
-
+- (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency for a location sensor
-//    double interval = 0;
-    double interval = 180;
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_google_fused_location"];
-    if(frequency != -1){
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_google_fused_location"];
+    if(frequency > 0){
         NSLog(@"Location sensing requency is %f ", frequency);
-        interval = frequency;
+        _intervalSec = frequency;
     }
-    
+    int accuracyType = [self getSensorSetting:parameters withKey:@"accuracy_google_fused_location"];
+
+    if(accuracyType == 100){
+        _accuracy = kCLLocationAccuracyBest;
+        _accuracyMeter = 0;
+    }else if (accuracyType == 101) { // High accuracy
+        _accuracy = kCLLocationAccuracyNearestTenMeters;
+        _accuracyMeter = 10;
+    } else if (accuracyType == 102) { //balanced
+        _accuracy = kCLLocationAccuracyHundredMeters;
+        _accuracyMeter = 100;
+    } else if (accuracyType == 104) { //low power
+        _accuracy = kCLLocationAccuracyKilometer;
+        _accuracyMeter = 1000;
+    } else if (accuracyType == 105) { //no power
+        _accuracy = kCLLocationAccuracyThreeKilometers;
+        _accuracyMeter = 3000;
+    } else {
+        _accuracy = kCLLocationAccuracyHundredMeters;
+        _accuracyMeter = 100;
+    }
+}
+
+-(BOOL)startSensor{
+    return [self startSensorWithInterval:_intervalSec accuracy:_accuracy distanceFilter:_accuracyMeter];
+}
+
+- (BOOL) startSensorWithInterval:(double)intervalSecond
+                        accuracy:(CLLocationAccuracy)accuracy
+                  distanceFilter:(int)fiterMeter{
     // Initialize a location sensor
     if (locationManager == nil){
         // AppDelegate *delegate=(AppDelegate*)[UIApplication sharedApplication].delegate;
         locationManager = [[CLLocationManager alloc] init];
         // Get a sensing accuracy for a location sensor
-        NSInteger accuracySetting = 0;
-        int accuracy = [self getSensorSetting:settings withKey:@"accuracy_google_fused_location"];
-        if(accuracy == 100){
-            accuracySetting = kCLLocationAccuracyBest;
-            locationManager.distanceFilter = kCLDistanceFilterNone;
-        }else if (accuracy == 101) { // High accuracy
-            accuracySetting = kCLLocationAccuracyNearestTenMeters;
-            locationManager.distanceFilter = 10;
-        } else if (accuracy == 102) { //balanced
-            accuracySetting = kCLLocationAccuracyHundredMeters;
-            locationManager.distanceFilter = 100;
-        } else if (accuracy == 104) { //low power
-            accuracySetting = kCLLocationAccuracyKilometer;
-            locationManager.distanceFilter = 1000;
-        } else if (accuracy == 105) { //no power
-            accuracySetting = kCLLocationAccuracyThreeKilometers;
-            locationManager.distanceFilter = 3000;
-        } else {
-            accuracySetting = kCLLocationAccuracyHundredMeters;
-            locationManager.distanceFilter = 100;
-        }
+        
         // One of the following numbers: 100 (High accuracy); 102 (balanced); 104 (low power); 105 (no power, listens to others location requests)
         // http://stackoverflow.com/questions/3411629/decoding-the-cllocationaccuracy-consts
         //    GPS - kCLLocationAccuracyBestForNavigation;
@@ -105,10 +112,10 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
         //    Cell Tower - kCLLocationAccuracyKilometer;
         //    Cell Tower - kCLLocationAccuracyThreeKilometers;
         locationManager.delegate = self;
-        locationManager.desiredAccuracy = accuracySetting;
+        locationManager.desiredAccuracy = accuracy;
         locationManager.pausesLocationUpdatesAutomatically = NO;
         if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-        //This variable is an important method for background sensing after iOS9
+            //This variable is an important method for background sensing after iOS9
             locationManager.allowsBackgroundLocationUpdates = YES;
         }
         locationManager.activityType = CLActivityTypeOther;
@@ -116,35 +123,25 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
             [locationManager requestAlwaysAuthorization];
         }
         
+        locationManager.distanceFilter = fiterMeter;
+        
         [locationSensor saveAuthorizationStatus:[CLLocationManager authorizationStatus]];
-    
+        
         // Set a movement threshold for new events.
         [locationManager startMonitoringVisits]; // This method calls didVisit.
         [locationManager startMonitoringSignificantLocationChanges];
         [locationManager startUpdatingLocation];
         
-        // [fusedLocationsSensor setBufferSize:3];
-        // [locationManager startUpdatingHeading];
-        
-        if(interval > 0){
-            locationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+        if(intervalSecond > 0){
+            locationTimer = [NSTimer scheduledTimerWithTimeInterval:intervalSecond
                                                              target:self
                                                            selector:@selector(getGpsData:)
                                                            userInfo:nil
                                                             repeats:YES];
-            
+            return YES;
         }
-        
-//        AppDelegate * delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//        if(delegate.sharedAWARECore.sharedLocationManager != nil){
-//            [delegate.sharedAWARECore.sharedLocationManager stopUpdatingLocation];
-//            [delegate.sharedAWARECore.sharedLocationManager stopMonitoringSignificantLocationChanges];
-//            delegate.sharedAWARECore.sharedLocationManager = locationManager;
-//        }
-
     }
-    
-    return YES;
+    return NO;
 }
 
 
@@ -164,20 +161,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     
     return YES;
 }
-
-
-//- (void) syncAwareDB {
-//    [super syncAwareDB];
-//    [visitLocationSensor syncAwareDB];
-//}
-//
-//- (void) syncAwareDBWithLocationTable {
-//    [super syncAwareDB];
-//}
-//
-//- (void) syncAwareDBWithLocationVisitTable {
-//    [visitLocationSensor syncAwareDB];
-//}
 
 - (void) syncAwareDB {
     [visitLocationSensor syncAwareDB];

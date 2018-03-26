@@ -107,7 +107,7 @@
 
 /**
  * Save data with NSDictionary
- * @param NSDictionary  A sensor data as a NSDictionary
+ * @param data NSDictionary : A sensor data as a NSDictionary
  * @return A result of data storing
  */
 - (bool) saveData:(NSDictionary *) data {
@@ -118,8 +118,8 @@
 
 /**
  * Save data with a NSDictionary and a sensor(storage) name
- * @param NSDictionary  A sensor data as a NSDictionary
- * @param NSString      A sensor name
+ * @param data NSDictionary  A sensor data as a NSDictionary
+ * @param fileName NSString      A sensor name
  * @return A result of data storing
  */
 - (bool) saveData:(NSDictionary *)data toLocalFile:(NSString *)fileName{
@@ -234,6 +234,7 @@
         }
         if(header != nil){
             line = [NSString stringWithFormat:@"%@%@",header,line];
+            // line = [NSString stringWithFormat:@"%@%@\n",header,line];
         }
         //////////////////////////////////////////////////////////
         
@@ -478,7 +479,7 @@
     if (csvExport) {
         file = [NSString stringWithFormat:@"%@.csv",fileName];
     }else{
-        file = [NSString stringWithFormat:@"%@.dat",fileName];
+        file = [NSString stringWithFormat:@"%@.json",fileName];
     }
     NSString * path = [documentsDirectory stringByAppendingPathComponent:file];
     return path;
@@ -504,7 +505,7 @@
     if (csvExport) {
         file = [NSString stringWithFormat:@"%@.csv",fileName];
     }else{
-        file = [NSString stringWithFormat:@"%@.dat",fileName];
+        file = [NSString stringWithFormat:@"%@.json",fileName];
     }
     NSString * path = [documentsDirectory stringByAppendingPathComponent:file];
     NSFileManager *manager = [NSFileManager defaultManager];
@@ -513,14 +514,14 @@
                                        contents:[NSData data]
                                      attributes:nil];
         if (!result) {
-            NSLog(@"[%@] Failed to create the file.", fileName);
+            // NSLog(@"[%@] Failed to create the file.", fileName);
             return NO;
         }else{
-            NSLog(@"[%@] Create the file.", fileName);
+            // NSLog(@"[%@] Create the file.", fileName);
             return YES;
         }
     }else{
-        NSLog(@"[%@] file is existed", fileName);
+        // NSLog(@"[%@] file is existed", fileName);
     }
     return NO;
 }
@@ -530,7 +531,7 @@
 ///////////////////////////////////////////////////////////////////
 /**
  * Clear data from a local storage with a file name
- * @param   NSStr   ing    A file name for a local storage
+ * @param   NSString    A file name for a local storage
  * @return  A result of data clearing
  */
 - (bool)clearFile:(NSString *)fileName{
@@ -546,7 +547,7 @@
     if (csvExport) {
         file = [NSString stringWithFormat:@"%@.csv",fileName];
     }else{
-        file = [NSString stringWithFormat:@"%@.dat",fileName];
+        file = [NSString stringWithFormat:@"%@.json",fileName];
     }
     
     NSString * path = [documentsDirectory stringByAppendingPathComponent:file];

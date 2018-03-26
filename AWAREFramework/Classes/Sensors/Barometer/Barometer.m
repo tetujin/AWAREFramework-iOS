@@ -38,7 +38,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
     [tcqMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
@@ -47,21 +49,17 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     [super createTable:query];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    
+- (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_barometer"];
+    double frequency = [self getSensorSetting:parameters withKey:@"frequency_barometer"];
     if(frequency != -1){
         // NOTE: The frequency value is a microsecond
-        frequency = frequency/1000000;
-    }else{
-        // default value = 200000(microseconds) = 0.2(second)
-        frequency = sensingInterval;
+        sensingInterval = frequency/1000000;
     }
     
     // Set a buffer size for reducing file access
-    int buffer = (int)(dbWriteInterval/frequency);
-    return [self startSensorWithInterval:frequency bufferSize:buffer];
+    int buffer = (int)(dbWriteInterval/sensingInterval);
+    [self setBufferSize:buffer];
 }
 
 - (BOOL) startSensor{
@@ -87,7 +85,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     timestamp = [[NSDate new] timeIntervalSince1970];
     
     // Set and start a sensor
-    NSLog(@"[%@] Start Barometer Sensor", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Barometer Sensor", [self getSensorName]);
+    }
     if (![CMAltimeter isRelativeAltitudeAvailable]) {
         NSLog(@"This device doesen't support CMAltimeter.");
     } else {
@@ -98,9 +98,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                               
                                               double currentTimestamp = [[NSDate new] timeIntervalSince1970];
                                               
-                                              if( (currentTimestamp - timestamp) > interval ){
+                                              if( (currentTimestamp - self->timestamp) > interval ){
                                                   
-                                                 timestamp = currentTimestamp;
+                                                  self->timestamp = currentTimestamp;
                                                   
                                                  double pressureDouble = [altitudeData.pressure doubleValue];
 
@@ -113,9 +113,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                                  [dict setObject:@"" forKey:@"label"];
                                                  [self setLatestValue:[NSString stringWithFormat:@"%f", pressureDouble*10.0f]];
   
-                                                  if([self getDBType] == AwareDBTypeCoreData) {
+                                                  if([self getDBType] == AwareDBTypeSQLite) {
                                                       [self saveData:dict];
-                                                  }else if([self getDBType] == AwareDBTypeTextFile){
+                                                  }else if([self getDBType] == AwareDBTypeJSON){
                                                       dispatch_async(dispatch_get_main_queue(), ^{
                                                           [self saveData:dict];
                                                       });

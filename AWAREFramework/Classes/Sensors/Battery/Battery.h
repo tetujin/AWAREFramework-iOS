@@ -11,4 +11,6 @@
 
 @interface Battery : AWARESensor <AWARESensorDelegate>
 
+@property double intervalSecond;
+
 @end

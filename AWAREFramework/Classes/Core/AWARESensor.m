@@ -50,7 +50,6 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     /** latest Sensor Value */
     NSString * latestSensorValue;
     /** buffer size */
-    // int bufferSize;
 
     /** debug state */
     bool debug;
@@ -94,12 +93,6 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 @implementation AWARESensor
 
-//- (instancetype) initWithAwareStudy:(AWAREStudy *)study{
-//    
-//    NSLog(@"Please overwrite this method");
-//    
-//    return [self initWithAwareStudy:study sensorName:@"---" dbEntityName:AwareDBTypeCoreData];
-//}
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType pluginName:(NSString *) pluginName {
     
@@ -111,7 +104,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study
                          sensorName:(NSString *)name
                        dbEntityName:(NSString *)entity {
-    return [self initWithAwareStudy:study sensorName:name dbEntityName:entity dbType:AwareDBTypeCoreData];
+    return [self initWithAwareStudy:study sensorName:name dbEntityName:entity dbType:AwareDBTypeSQLite];
 }
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study
@@ -137,15 +130,13 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         defaultSettings = [[NSMutableArray alloc] init];
         
         // Get debug state
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        debug = [userDefaults boolForKey:SETTING_DEBUG_STATE];
-        
         if(study == nil){
             // If the study object is nil(null), the initializer gnerates a new AWAREStudy object.
             awareStudy = [[AWAREStudy alloc] initWithReachability:NO];
         }else{
             awareStudy = study;
         }
+        debug = [awareStudy getDebugState];
         
         // Save sensorName instance to awareSensorName
         awareSensorName = name;
@@ -159,7 +150,6 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         latestSensorValue = @"";
         
         // init buffer size
-        // bufferSize = buffer;
         [super setBufferSize:buffer];
         
         // AWARE DB setting
@@ -169,37 +159,14 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         
         latestData = [[NSDictionary alloc] init];
         
-        /**
-         * NOTE: Switch to CoreData to TextFile DB if this device is using TextFile DB
-         */
-        BOOL textFileExistance = NO;
-        if(dbType == AwareDBTypeCoreData){
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString * path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.dat",name]];
-            NSFileManager *manager = [NSFileManager defaultManager];
-            if (![manager fileExistsAtPath:path]) { // yes
-                textFileExistance = YES;
-            }else{
-                textFileExistance = NO;
-            }
-            // switch the db type to TextFile
-            if(textFileExistance){
-                awareDBType = AwareDBTypeTextFile;
-            }
-        }
-        
         switch (dbType) {
-            case AwareDBTypeCoreData:
-//                 baseDataUploader = [[AWARECoreDataManager alloc] initWithAwareStudy:awareStudy sensorName:name dbEntityName:entity];
-                NSLog(@"[%@] Initialize an AWARESensor (Type=CoreData,EntityName=%@,BufferSize=%d)", name, entity, buffer);
+            case AwareDBTypeSQLite:
+                if([self isDebug]) { NSLog(@"[%@] Initialize an AWARESensor (Type=CoreData,EntityName=%@,BufferSize=%d)", name, entity, buffer); }
                 break;
-            case AwareDBTypeTextFile:
-                // Make a local storage with sensor name
-                localStorage = [[LocalFileStorageHelper alloc] initWithStorageName:name];
-                // Make an uploader instance with the local storage and an aware study instance.
-                 baseDataUploader = [[AWAREDataUploader alloc] initWithLocalStorage:localStorage withAwareStudy:awareStudy];
-                NSLog(@"[%@] Initialize an AWARESensor (Type=TextFile,DBName=%@,BufferSize=%d)", name, name, buffer);
+            case AwareDBTypeJSON:
+                if ([self isDebug]) { NSLog(@"[%@] Initialize an AWARESensor (Type=TextFile,DBName=%@,BufferSize=%d)", name, name, buffer); }
+                localStorage     = [[LocalFileStorageHelper alloc] initWithStorageName:name];
+                baseDataUploader = [[AWAREDataUploader alloc] initWithLocalStorage:localStorage withAwareStudy:awareStudy];
                 break;
             default:
                 break;
@@ -226,14 +193,21 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return NO;
 }
 
+/**
+ * DEFAULT:
+ *
+ */
+- (void)setParameters:(NSArray *)parameters{
+    NSLog(@"[%@] Please overwrite -setParameters: method", [self getSensorName]);
+}
 
 /**
  * DEFAULT:
  *
  */
--(BOOL)startSensorWithSettings:(NSArray *)settings{
-    return [self startSensor];
-}
+//-(BOOL)startSensorWithSettings:(NSArray *)settings{
+//    return [self startSensor];
+//}
 
 - (BOOL) startSensor {
     sensorStatus = YES;
@@ -342,71 +316,10 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     [defaultSettings addObject:dict];
 }
 
-//- (NSString *) convertKeyToType:(AwareSettingType) type {
-//    NSString * typeStr = @"";
-//    switch (type) {
-//        case AwareSettingTypeBool:
-//            typeStr = KEY_CEL_SETTING_TYPE_BOOL;
-//            break;
-//        case AwareSettingTypeNumber:
-//            typeStr = KEY_CEL_SETTING_TYPE_NUMBER;
-//            break;
-//        case AwareSettingTypeString:
-//            typeStr = KEY_CEL_SETTING_TYPE_STRING;
-//            break;
-//        default:
-//            break;
-//    }
-//    return typeStr;
-//}
-
-//- (void) setDefaultSettingWithString:(NSString *) value
-//                                 key:(NSString *) key {
-//    if(value!=nil && key!=nil){
-//        NSDictionary * dict = [[NSDictionary alloc] initWithObjects:@[value] forKeys:@[key]];
-//        [self setDefaultSettings:dict];
-//    }
-//}
-//
-//- (void) setDefaultSettingWithNumber:(NSNumber *) value
-//                                 key:(NSString *) key {
-//    if(value!=nil && key!=nil){
-//        NSDictionary * dict = [[NSDictionary alloc] initWithObjects:@[value] forKeys:@[key]];
-//        [self setDefaultSettings:dict];
-//    }
-//}
-//
-//- (void) setDefaultSettings:(NSDictionary *) dict {
-//    NSUserDefaults * userDefauts = [NSUserDefaults standardUserDefaults];
-//    NSDictionary * defaultSettings = [userDefauts objectForKey:[self getKeyForDefaultSettings]];
-//    if(defaultSettings != nil){
-//        NSMutableDictionary * mutableDict = [[NSMutableDictionary alloc] initWithDictionary:defaultSettings];
-//        for (NSString * key in [dict allKeys]) {
-//            [mutableDict setObject:[dict objectForKey:key] forKey:key];
-//        }
-//        [userDefauts setObject:mutableDict forKey:[self getKeyForDefaultSettings]];
-//    }else{
-//        [userDefauts setObject:dict forKey:[self getKeyForDefaultSettings]];
-//    }
-//}
-//
-//- (NSDictionary *) getDefaultSettings{
-//    NSUserDefaults * userDefauts = [NSUserDefaults standardUserDefaults];
-//    NSDictionary * defaultSettings = [userDefauts objectForKey:[self getKeyForDefaultSettings]];
-//    return defaultSettings;
-//}
-//
-//- (NSString *) getKeyForDefaultSettings{
-//    return [NSString stringWithFormat:@"aware_sensor_default_settings_%@",[self getSensorName]];
-//}
-
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 /**
  * Set the latest sensor data
  *
- * @param   NSString    The latest sensor value as a NSString value
+ * @param   valueStr  NSString  The latest sensor value as a NSString value
  */
 
 - (void) setLatestValue:(NSString *)valueStr{
@@ -419,7 +332,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
  * Set buffer size of sensor data
  * NOTE: If you use high sampling rate sensor (such as an accelerometer, gyroscope, and magnetic-field),
  * you shold use to set buffer value.
- * @param int A buffer size
+ * @param size (int) A buffer size
  */
 - (void) setBufferSize:(int) size{
     if (localStorage != nil) {
@@ -914,6 +827,10 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
  */
 - (bool) isDebug{
     return debug;
+}
+
+- (void) setDebugState:(bool)state{
+    debug = state;
 }
 
 - (NSString *) getWebserviceUrl{

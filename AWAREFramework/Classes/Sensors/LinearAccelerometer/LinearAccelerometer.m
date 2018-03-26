@@ -44,7 +44,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 
 @implementation LinearAccelerometer {
     CMMotionManager* motionManager;
-    double defaultInterval;
+    double sensingInterval;
     int dbWriteInterval;
 }
 
@@ -56,7 +56,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
         // dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        defaultInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
@@ -83,26 +83,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    double interval = defaultInterval;
-    double frequency = [self getSensorSetting:settings withKey:@"frequency_linear_accelerometer"];
-    if(frequency != -1){
-        NSLog(@"Linear Accelerometer's frequency is %f !!", frequency);
-        double iOSfrequency = [self convertMotionSensorFrequecyFromAndroid:frequency];
-        interval = iOSfrequency;
+- (void)setParameters:(NSArray *)parameters{
+    if (parameters != nil) {
+        double frequency = [self getSensorSetting:parameters withKey:@"frequency_linear_accelerometer"];
+        if(frequency != -1){
+            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        }
+        double hz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER];
+        if(hz > 0){
+            sensingInterval = 1.0f/hz;
+        }
+        int buffer = dbWriteInterval/sensingInterval;
+        [self setBufferSize:buffer];
     }
-    double tempHz = [self getSensorSetting:settings withKey:AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER];
-    if(tempHz > 0){
-        interval = 1.0f/tempHz;
-    }
-    int buffer = dbWriteInterval/interval;
-    [self startSensorWithInterval:interval bufferSize:buffer];
-    return YES;
 }
 
 
 - (BOOL)startSensor{
-    return [self startSensorWithInterval:defaultInterval];
+    return [self startSensorWithInterval:sensingInterval];
 }
 
 - (BOOL)startSensorWithInterval:(double)interval{
@@ -114,14 +112,16 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 }
 
 - (BOOL)startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Linear Acc Sensor", [self getSensorName]);
+    }
     
     // Set a buffer size for reducing file access
     [self setBufferSize:buffer];
     
     [self setFetchLimit:fetchLimit];
-    
-    // Start a motion sensor
-    NSLog(@"[%@] Start Linear Acc Sensor", [self getSensorName]);
+
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = interval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
@@ -149,9 +149,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                                                                                                        object:nil
                                                                                                      userInfo:userInfo];
                                                    
-                                               if([self getDBType] == AwareDBTypeCoreData){
+                                               if([self getDBType] == AwareDBTypeSQLite){
                                                    [self saveData:dict];
-                                               }else if([self getDBType] == AwareDBTypeTextFile){
+                                               }else if([self getDBType] == AwareDBTypeJSON){
                                                    dispatch_async(dispatch_get_main_queue(), ^{
                                                        [self saveData:dict];
                                                    });

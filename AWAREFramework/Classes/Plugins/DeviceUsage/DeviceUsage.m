@@ -34,7 +34,9 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]) {
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -45,13 +47,17 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     [super createTable:query];
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    
+}
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+- (BOOL)startSensor{
+    if ([self isDebug]){
+        NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
+    }
     lastTime = [[[NSDate alloc] init] timeIntervalSince1970];
     
     [self registerAppforDetectDisplayStatus];
-    
     return YES;
 }
 

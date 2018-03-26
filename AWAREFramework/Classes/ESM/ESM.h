@@ -1,18 +1,16 @@
 //
 //  ESM.h
-//  AWARE
+//  AWAREFramework
 //
-//  Created by Yuuki Nishiyama on 12/16/15.
-//  Copyright © 2015 Yuuki NISHIYAMA. All rights reserved.
+//  Created by Yuuki Nishiyama on 2018/03/22.
 //
 
-/** ESM and WebESM plugin are replaced to iOS ESM ( = IOSESM class) plugin */
-
+#import <UIKit/UIKit.h>
 #import "AWARESensor.h"
+#import "EntityESMSchedule.h"
 
-@interface ESM : AWARESensor <AWARESensorDelegate>
+@interface ESM : AWARESensor
 
-// + (BOOL) isAppearedThisSection;
-// + (void) setAppearedState:(BOOL)state;
+- (BOOL) setESMSchedule:(EntityESMSchedule* )esmSchedule;
 
 @end

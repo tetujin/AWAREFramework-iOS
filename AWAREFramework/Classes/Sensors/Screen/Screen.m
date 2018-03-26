@@ -38,7 +38,9 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
 
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = [[NSString alloc] init];
     query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
@@ -48,12 +50,14 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     [super createTable:query];
 }
 
-- (BOOL) startSensor{
-    return [self startSensorWithSettings:nil];
+- (void)setParameters:(NSArray *)parameters{
+    
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    NSLog(@"[%@] Start Screen Sensor", [self getSensorName]);
+- (BOOL) startSensor{
+    if ([self isDebug]) {
+        NSLog(@"[%@] Start Screen Sensor", [self getSensorName]);
+    }
     [self registerAppforDetectLockState];
     [self registerAppforDetectDisplayStatus];
     return YES;

@@ -17,5 +17,8 @@ extern NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION;
 
 @interface FusedLocations : AWARESensor <AWARESensorDelegate, CLLocationManagerDelegate>
 
+@property int intervalSec;
+@property int accuracyMeter;
+@property CLLocationAccuracy accuracy;
 
 @end

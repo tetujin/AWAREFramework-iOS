@@ -267,6 +267,8 @@ extern NSString * const ACTION_AWARE_SETTING_UI_UPDATE_REQUEST;
 
 extern NSString * const ACTION_AWARE_FITBIT_LOGIN_REQUEST;
 
+extern NSString * const ACTION_AWARE_UPDATE_STUDY_CONFIG;
+
 @interface AWAREKeys: NSObject
 
 @end
