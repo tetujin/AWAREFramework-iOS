@@ -14,11 +14,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 
 @implementation Barometer{
     CMAltimeter* altitude;
-    double sensingInterval;
-    int dbWriteInterval;
     double timestamp;
 }
-
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     self = [super initWithAwareStudy:study
@@ -26,8 +23,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                         dbEntityName:NSStringFromClass([EntityBarometer class])
                               dbType:dbType];
     if (self) {
-        sensingInterval = 0.2f;
-        dbWriteInterval = 30;
+        super.sensingInterval = 0.2f;
+        super.savingInterval = 30.0f; // 30 sec
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"]];
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_BAROMETER        desc:@"e.g., True or False"];
         [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_BAROMETER     desc:@"Non-deterministic frequency in microseconds (dependent of the hardware sensor capabilities and resources). You can also use a SensorManager sensor delay constant."];
@@ -52,35 +49,18 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 - (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_barometer"];
-    if(frequency != -1){
+    if(frequency > 0){
         // NOTE: The frequency value is a microsecond
-        sensingInterval = frequency/1000000;
+        super.sensingInterval = frequency/1000000;
     }
-    
-    // Set a buffer size for reducing file access
-    int buffer = (int)(dbWriteInterval/sensingInterval);
-    [self setBufferSize:buffer];
 }
 
-- (BOOL) startSensor{
-    return [self startSensorWithInterval:sensingInterval];
-}
 
-- (BOOL) startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+- (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
     [super startSensor];
     
-    [self setFetchLimit:fetchLimit];
-    
-    [self setBufferSize:buffer];
+    [self setBufferSize:savingInterval/sensingInterval];
     
     timestamp = [[NSDate new] timeIntervalSince1970];
     
@@ -98,7 +78,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                               
                                               double currentTimestamp = [[NSDate new] timeIntervalSince1970];
                                               
-                                              if( (currentTimestamp - self->timestamp) > interval ){
+                                              if( (currentTimestamp - self->timestamp) > super.sensingInterval ){
                                                   
                                                   self->timestamp = currentTimestamp;
                                                   
@@ -173,14 +153,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     return YES;
 }
 
-- (BOOL) setInterval:(double)interval{
-    sensingInterval = interval;
-    return YES;
-}
-
-- (double) getInterval{
-    return sensingInterval;
-}
 
 
 @end

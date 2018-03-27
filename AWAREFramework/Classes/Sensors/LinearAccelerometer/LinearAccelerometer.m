@@ -44,8 +44,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 
 @implementation LinearAccelerometer {
     CMMotionManager* motionManager;
-    double sensingInterval;
-    int dbWriteInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -56,8 +54,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
         // dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
     
@@ -69,7 +67,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 }
 
 - (void) createTable{
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     NSString *query = @"_id integer primary key autoincrement,"
                         "timestamp real default 0,"
                         "device_id text default '',"
@@ -87,43 +87,26 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
     if (parameters != nil) {
         double frequency = [self getSensorSetting:parameters withKey:@"frequency_linear_accelerometer"];
         if(frequency != -1){
-            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
         }
         double hz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER];
         if(hz > 0){
-            sensingInterval = 1.0f/hz;
+            super.sensingInterval = 1.0f/hz;
         }
-        int buffer = dbWriteInterval/sensingInterval;
-        [self setBufferSize:buffer];
     }
 }
 
-
-- (BOOL)startSensor{
-    return [self startSensorWithInterval:sensingInterval];
-}
-
-- (BOOL)startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL)startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-
-- (BOOL)startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+-(BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
 
     if ([self isDebug]) {
         NSLog(@"[%@] Start Linear Acc Sensor", [self getSensorName]);
     }
     
     // Set a buffer size for reducing file access
-    [self setBufferSize:buffer];
-    
-    [self setFetchLimit:fetchLimit];
+    [self setBufferSize:savingInterval/sensingInterval];
 
     if( motionManager.deviceMotionAvailable ){
-        motionManager.deviceMotionUpdateInterval = interval;
+        motionManager.deviceMotionUpdateInterval = sensingInterval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database

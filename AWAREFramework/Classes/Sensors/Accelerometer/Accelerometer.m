@@ -17,13 +17,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
 
 @implementation Accelerometer{
     CMMotionManager *manager;
-    double sensingInterval;
-    int dbWriteInterval; //second
-    int currentBufferSize;
-    NSMutableArray * bufferArray;
-    NSDictionary * defaultSettings;
-    double hzMonitor;
-    double hz;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -33,12 +26,12 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                               dbType:dbType];
     if (self) {
         manager = [[CMMotionManager alloc] init];
-        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        bufferArray = [[NSMutableArray alloc] init];
-        currentBufferSize = 0;
-        hz = 0;
-        hzMonitor = 0;
+        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        // bufferArray = [[NSMutableArray alloc] init];
+        // currentBufferSize = 0;
+        // hz = 0;
+        // hzMonitor = 0;
         [self setCSVHeader:@[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"]];
         
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_ACCELEROMETER        desc:@"true or false to activate or deactivate accelerometer sensor."];
@@ -50,7 +43,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
 }
 
 - (void) createTable {
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    if ([self isDebug]){
+        NSLog(@"[%@] Create Table", [self getSensorName]);
+    }
     TCQMaker * queryMaker = [[TCQMaker alloc] init];
     [queryMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
     [queryMaker addColumn:@"double_values_1" type:TCQTypeReal default:@"0"];
@@ -70,36 +65,20 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     if(parameters != nil){
         double tempFrequency = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER];
         if(tempFrequency != -1){
-            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:tempFrequency];
+            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:tempFrequency];
         }
         
         double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER];
         if(tempHz > 0){
-            sensingInterval = 1.0f/tempHz;
+            super.sensingInterval = 1.0f/tempHz;
         }
-        [self setBufferSize:dbWriteInterval/sensingInterval];
     }
 }
 
-
-- (BOOL) startSensor {
-    return [self startSensorWithInterval:sensingInterval];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-            
 /**
  * Start sensor with interval and buffer, fetchLimit
  */
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
-    
-    [super startSensor];
+- (BOOL) startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
     // Set and start a data uploader
     if ([self isDebug]) {
@@ -107,11 +86,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     }
     
     // Set buffer size for reducing file access
-    [self setBufferSize:buffer];
+    [self setBufferSize:savingInterval/sensingInterval];
     
-    [self setFetchLimit:fetchLimit];
-    
-    manager.accelerometerUpdateInterval = interval;
+    manager.accelerometerUpdateInterval = sensingInterval;
     
     // Set and start a motion sensor
     [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
@@ -187,21 +164,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
 
 
 -(BOOL) stopSensor {
-    [super stopSensor];
     [manager stopAccelerometerUpdates];
     return YES;
 }
 
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-
-- (BOOL) setInterval:(double)interval{
-    sensingInterval = interval;
-    return YES;
-}
-
-- (double) getInterval{
-    return sensingInterval;
-}
 
 @end

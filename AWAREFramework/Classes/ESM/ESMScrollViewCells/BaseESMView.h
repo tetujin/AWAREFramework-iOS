@@ -15,18 +15,6 @@
 #import <AudioToolbox/AudioServices.h>
 
 typedef enum: NSInteger {
-    AwareESMTypeNone        = 0,
-    AwareESMTypeText        = 1,
-    AwareESMTypeRadio       = 2,
-    AwareESMTypeCheckbox    = 3,
-    AwareESMTypeLikertScale = 4,
-    AwareESMTypeQuickAnswer = 5,
-    AwareESMTypeScale       = 6,
-    AwareESMTypeDateTime    = 7,
-    AwareESMTypePAM         = 8
-} AwareESMType;
-
-typedef enum: NSInteger {
     AwareESMCellStyleESM = 0,
     AwareESMCellStyleFooter = 1,
     AwareESMCellStyleNull = 2,

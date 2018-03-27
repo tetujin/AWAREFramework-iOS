@@ -88,8 +88,8 @@
         }
         
         [coreStudy setUploadIntervalWithMinutue:syncInterval];
-        [coreStudy setDataUploadStateInWifi:isWifiOnly];
-        [coreStudy setDataUploadStateWithOnlyBatterChargning:isBatteryOnly];
+        [coreStudy setDataUploadOnlyWifi:isWifiOnly];
+        [coreStudy setDataUploadOnlyBatterChargning:isBatteryOnly];
         [coreStudy setCleanOldDataType:dbCleanType];
         [coreStudy setUIMode:uiMode];
         

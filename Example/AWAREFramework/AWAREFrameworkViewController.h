@@ -9,6 +9,6 @@
 @import UIKit;
 @import AWAREFramework;
 
-@interface AWAREFrameworkViewController : IOSESMScrollViewController
+@interface AWAREFrameworkViewController : UIViewController
 
 @end

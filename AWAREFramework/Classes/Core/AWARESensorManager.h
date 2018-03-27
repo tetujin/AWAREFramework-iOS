@@ -25,20 +25,15 @@
 
 // add a new sensor
 - (void) addSensor:(AWARESensor *) sensor;
-- (void) addSensors:(NSArray<AWARESensor *> *)sensors;
-- (BOOL) isExist :(NSString *) key;
-
-// sensor manager (start and stop)
-- (BOOL) startAllSensors;
-
+- (void) addSensors:(NSArray *)sensors;
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+- (BOOL) isExist :(NSString *) key;
 
-// - (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study;
-// - (BOOL) startAllSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+- (BOOL) startAllSensors;
+
 - (BOOL) createAllTables;
 
-// - (BOOL) clearDataFromLocalDB;
 - (void)removeAllFilesFromDocumentRoot;
 
 - (void) stopAndRemoveAllSensors;
@@ -64,6 +59,6 @@
 - (NSDictionary *) getLatestSensorData:(NSString *) sensorName;
 - (NSArray *) getAllSensors;
 
-- (void) testSensing;
+// - (void) testSensing;
 
 @end

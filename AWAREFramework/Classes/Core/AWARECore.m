@@ -54,8 +54,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:@"aware_inited"]) {
         [_sharedAwareStudy setDebugState:NO];
-        [_sharedAwareStudy setDataUploadStateInWifi:YES];
-        [_sharedAwareStudy setDataUploadStateWithOnlyBatterChargning:YES];
+        [_sharedAwareStudy setDataUploadOnlyWifi:YES];
+        [_sharedAwareStudy setDataUploadOnlyBatterChargning:YES];
         [_sharedAwareStudy setUploadIntervalWithMinutue:60];
         [_sharedAwareStudy setMaximumByteSizeForDataUpload:10000];
         [_sharedAwareStudy setMaximumNumberOfRecordsForDataUpload:2000];

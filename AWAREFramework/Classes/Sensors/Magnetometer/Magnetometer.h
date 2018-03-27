@@ -9,16 +9,12 @@
 #import "AWARESensor.h"
 #import <CoreMotion/CoreMotion.h>
 #import "AWAREKeys.h"
+#import "AWAREMotionSensor.h"
 
 extern NSString* const AWARE_PREFERENCES_STATUS_MAGNETOMETER;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_MAGNETOMETER;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER;
 
-@interface Magnetometer : AWARESensor <AWARESensorDelegate>
-
-- (BOOL) startSensor;
-- (BOOL) startSensorWithInterval:(double)interval;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit;
+@interface Magnetometer : AWAREMotionSensor <AWARESensorDelegate>
 
 @end

@@ -8,18 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreMotion/CoreMotion.h>
-#import "AWARESensor.h"
+// #import "AWARESensor.h"
 #import "AWAREKeys.h"
+#import "AWAREMotionSensor.h"
 
 extern NSString* const AWARE_PREFERENCES_STATUS_ACCELEROMETER;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER;
 
-@interface Accelerometer : AWARESensor <AWARESensorDelegate>
-
-- (BOOL) startSensor;
-- (BOOL) startSensorWithInterval:(double)interval;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit;
+@interface Accelerometer : AWAREMotionSensor <AWARESensorDelegate>
 
 @end

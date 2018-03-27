@@ -15,8 +15,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
 
 @implementation Magnetometer{
     CMMotionManager* manager;
-    double sensingInterval;
-    int dbWriteInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -27,8 +25,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
             // dbType:dbType];
     if (self) {
         manager = [[CMMotionManager alloc] init];
-        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
     
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_MAGNETOMETER        desc:@"e.g., True or False"];
@@ -63,45 +61,26 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     if (parameters != nil) {
         double frequency = [self getSensorSetting:parameters withKey:@"frequency_magnetometer"];
         if(frequency != -1){
-            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
         }
         
         double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER];
         if(tempHz > 0){
-            sensingInterval = 1.0f/tempHz;
+            super.sensingInterval = 1.0f/tempHz;
         }
-        
-        int buffer = dbWriteInterval/sensingInterval;
-        [self setBufferSize:buffer];
     }
 }
 
-
-- (BOOL) startSensor{
-    return [self startSensorWithInterval:sensingInterval];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
-    
-    // Set a buffer size for reducing file access
-    [self setBufferSize:buffer];
-    
-    [self setFetchLimit:fetchLimit];
+- (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
     // Set and start a sensor
     if ([self isDebug]) {
         NSLog(@"[%@] Start Mag sensor", [self getSensorName]);
     }
+
+    [self setBufferSize:savingInterval/sensingInterval];
     
-    manager.magnetometerUpdateInterval = interval;
+    manager.magnetometerUpdateInterval = sensingInterval;
     
     [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]
                                  withHandler:^(CMMagnetometerData * _Nullable magnetometerData,

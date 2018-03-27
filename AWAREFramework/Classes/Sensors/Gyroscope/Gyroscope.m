@@ -16,8 +16,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 
 @implementation Gyroscope{
     CMMotionManager* gyroManager;
-    double sensingInterval;
-    int dbWriteInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -27,8 +25,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                               dbType:dbType];
     if (self) {
         gyroManager = [[CMMotionManager alloc] init];
-        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
         
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_GYROSCOPE        desc:@"e.g., true or false"];
@@ -60,43 +58,26 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     if(parameters != nil){
         double frequency = [self getSensorSetting:parameters withKey:@"frequency_gyroscope"];
         if(frequency != -1){
-            sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
         }
 
         double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE];
         if(tempHz > 0){
-            sensingInterval = 1.0f/tempHz;
+            super.sensingInterval = 1.0f/tempHz;
         }
-        [self setBufferSize:dbWriteInterval/sensingInterval];
     }
 }
 
-
-- (BOOL) startSensor{
-    return [self startSensorWithInterval:sensingInterval];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+- (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
     // Set and start a data uploader
     if([self isDebug]){
         NSLog(@"[%@] Start Gyro Sensor", [self getSensorName]);
     }
     
-    [self setBufferSize:buffer];
-    
-    [self setFetchLimit:fetchLimit];
-    
-    gyroManager.gyroUpdateInterval = interval;
+    [self setBufferSize:savingInterval/sensingInterval];
+
+    gyroManager.gyroUpdateInterval = sensingInterval;
     
     // Start a sensor
     [gyroManager startGyroUpdatesToQueue:[NSOperationQueue currentQueue]

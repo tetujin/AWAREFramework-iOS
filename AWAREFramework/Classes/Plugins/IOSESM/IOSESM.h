@@ -7,7 +7,7 @@
 //
 
 #import "AWARESensor.h"
-#import "EntityESMSchedule.h"
+#import "EntityESMSchedule+CoreDataClass.h"
 
 @interface IOSESM : AWARESensor <AWARESensorDelegate>
 

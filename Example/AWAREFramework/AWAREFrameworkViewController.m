@@ -9,6 +9,7 @@
 #import "AWAREFrameworkViewController.h"
 #import "AWAREFrameworkAppDelegate.h"
 #import <AWAREFramework/AWARESensors.h>
+#import <AWaREFramework/ESMSchedule.h>
 
 @interface AWAREFrameworkViewController ()
 
@@ -23,6 +24,19 @@
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
     AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+    
+    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [accelerometer setDebugState:YES];
+    [accelerometer setSensingIntervalWithHz:10];
+    [accelerometer setSavingInterval:30];
+    
+    IOSESM * esm = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    
+    [manager addSensors:@[esm,accelerometer]];
+    
+    [manager createAllTables];
+    
+    [manager startAllSensors];
     
 //    Battery * battery = [[Battery alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
 //    [battery setIntervalSecond:1];
@@ -45,22 +59,26 @@
     
     //////////////////////////////////
     
-    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+//     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
 //    NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 //    context.persistentStoreCoordinator =  delegate.persistentStoreCoordinator;
 //
 //    EntityESMSchedule * schedule = [[EntityESMSchedule alloc] initWithContext:context];
 //    schedule.start_date = [NSDate new];
 //    schedule.end_date = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24];
-//    schedule.fire_hour = @1;
-//    schedule.notification_title = @"hello";
+//    schedule.fire_hour = @13;
+//    schedule.notification_title = @"Hello";
 //    schedule.noitification_body = @"this is a test noftification from AWARE iOS";
 //    schedule.schedule_id = @"test_id";
 //
-//
 //    EntityESM * textESM = [[EntityESM alloc] initWithContext:context];
-//    [textESM setAsTextESMWithTitle:@"test" instructions:@"please write something" isNa:NO submitButton:@"submit"];
-//
+//    [textESM setAsTextESMWithTrigger:@"OK"
+//                                json:@""
+//                               title:@""
+//                        instructions:@""
+//                                isNa:@YES
+//                        submitButton:@""
+//                 expirationThreshold:@5];
 //    [schedule addEsmsObject:textESM];
 //
 //    NSError * error = nil;
@@ -68,6 +86,17 @@
 //    if (success){
 //        NSLog(@"==== success! ====");
 //    }
+
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    
+//    IOSESMScrollViewController * esmView  = [[IOSESMScrollViewController alloc] init];
+////    [self presentViewController:esmView animated:YES completion:^{
+////
+////    }];
+//    [self.navigationController pushViewController:esmView animated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning

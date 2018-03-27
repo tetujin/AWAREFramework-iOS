@@ -8,17 +8,13 @@
 
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
+#import "AWAREMotionSensor.h"
 #import <CoreMotion/CoreMotion.h>
 
 extern NSString* const AWARE_PREFERENCES_STATUS_GRAVITY;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_GRAVITY;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY;
 
-@interface Gravity : AWARESensor <AWARESensorDelegate>
-
-- (BOOL) startSensor;
-- (BOOL) startSensorWithInterval:(double)interval;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit;
+@interface Gravity : AWAREMotionSensor <AWARESensorDelegate>
 
 @end

@@ -10,7 +10,7 @@
 #import "TCQMaker.h"
 #import "AWAREDelegate.h"
 #import "EntityESM+CoreDataClass.h"
-#import "EntityESMSchedule.h"
+#import "EntityESMSchedule+CoreDataClass.h"
 #import "EntityESMHistory.h"
 #import "EntityESMAnswer.h"
 #import "AWAREUtils.h"

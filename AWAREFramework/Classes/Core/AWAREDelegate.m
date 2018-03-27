@@ -460,9 +460,9 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
             NSNumber * state = [awareAps objectForKey:@"value"];
             if(state != nil){
                 if(state.intValue == 0){
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadStateInWifi:NO];
+                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyWifi:NO];
                 }else{
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadStateInWifi:YES];
+                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyWifi:YES];
                 }
                 [observer sendSurvivalSignalWithCategory:awareCategory message:state.stringValue];
             }else{
@@ -473,9 +473,9 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
             NSNumber * state = [awareAps objectForKey:@"value"];
             if(state != nil){
                 if(state.intValue == 0){
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadStateWithOnlyBatterChargning:NO];
+                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyBatterChargning:NO];
                 }else{
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadStateWithOnlyBatterChargning:YES];
+                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyBatterChargning:YES];
                 }
                 [observer sendSurvivalSignalWithCategory:awareCategory message:state.stringValue];
             }else{
@@ -568,19 +568,6 @@ forRemoteNotification:(NSDictionary *)userInfo
     UIMutableUserNotificationCategory *labelBooleanCategory = [[UIMutableUserNotificationCategory alloc] init];
     labelBooleanCategory.identifier = SENSOR_LABELS_TYPE_BOOLEAN;
     [labelBooleanCategory setActions:@[addTrueAction, addFalseAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    // Upload date
-    //            UIMutableUserNotificationAction *esmAction = [[UIMutableUserNotificationAction alloc] init];
-    //            esmAction.title = @"Answer";
-    //            esmAction.identifier = @"esm_action";
-    //            esmAction.activationMode = UIUserNotificationActivationModeForeground;
-    //            esmAction.authenticationRequired = YES;
-    //            esmAction.destructive = NO;
-    //
-    //            UIMutableUserNotificationCategory *esmCategory = [[UIMutableUserNotificationCategory alloc] init];
-    //            esmCategory.identifier = SENSOR_PLUGIN_CAMPUS;
-    //            [esmCategory setActions:@[esmAction] forContext:UIUserNotificationActionContextMinimal];
-    
     
     // Upload date
     UIMutableUserNotificationAction *updateCalendarAction = [[UIMutableUserNotificationAction alloc] init];

@@ -23,8 +23,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
 
 @implementation Gravity {
     CMMotionManager* motionManager;
-    double sensingInterval;
-    int dbWriteInterval;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -35,8 +33,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
             //dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
+        super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
         [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_GRAVITY        desc:@"e.g., true or false"];
         [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_GRAVITY     desc:@"e.g., 200000 (normal), 60000 (UI), 20000 (game), 0 (fastest)."];
@@ -67,41 +65,25 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_gravity"];
     if(frequency != -1){
         NSLog(@"Gravity's frequency is %f !!", frequency);
-        sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
     }
     
     double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY];
     if(tempHz > 0){
-        sensingInterval = 1.0f/tempHz;
+        super.sensingInterval = 1.0f/tempHz;
     }
-    
-    [self setBufferSize:dbWriteInterval/sensingInterval];
 }
 
-- (BOOL) startSensor{
-    return [self startSensorWithInterval:sensingInterval];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval{
-    return [self startSensorWithInterval:interval bufferSize:[self getBufferSize]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer{
-    return [self startSensorWithInterval:interval bufferSize:buffer fetchLimit:[self getFetchLimit]];
-}
-
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit{
+- (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     // Set a buffer size for reducing file access
-    [self setBufferSize:buffer];
-    
-    [self setFetchLimit:fetchLimit];
-    
     if ([self isDebug]) {
         NSLog(@"[%@] Start Gravity Sensor", [self getSensorName]);
     }
+ 
+    [self setBufferSize:sensingInterval/savingInterval];
     
     if( motionManager.deviceMotionAvailable ){
-        motionManager.deviceMotionUpdateInterval = interval;
+        motionManager.deviceMotionUpdateInterval = sensingInterval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database.

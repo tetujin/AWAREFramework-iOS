@@ -7,6 +7,7 @@
 //
 
 #import "AWARESensor.h"
+#import "AWAREMotionSensor.h"
 #import "AWAREKeys.h"
 #import <CoreMotion/CoreMotion.h>
 
@@ -15,11 +16,6 @@ extern NSString* const AWARE_PREFERENCES_FREQUENCY_ROTATION;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION;
 
 
-@interface Rotation : AWARESensor <AWARESensorDelegate>
-
-- (BOOL) startSensor;
-- (BOOL) startSensorWithInterval:(double)interval;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer;
-- (BOOL) startSensorWithInterval:(double)interval bufferSize:(int)buffer fetchLimit:(int)fetchLimit;
+@interface Rotation : AWAREMotionSensor <AWARESensorDelegate>
 
 @end

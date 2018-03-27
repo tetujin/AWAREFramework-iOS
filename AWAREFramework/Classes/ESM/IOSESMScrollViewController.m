@@ -62,10 +62,31 @@
 
 @implementation IOSESMScrollViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    [super loadView];
+    UIColor *customColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    self.view.backgroundColor = customColor;
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:scrollView];
+    _mainScrollView = scrollView;
     
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     AWARECore * core = delegate.sharedAWARECore;
@@ -252,6 +273,7 @@
         }
     ///////////////////////////////////////////////////////////////
     }else{ /// ESMs by esm_flows exist
+        
         @try {
             NSArray * nextESMs = [self getNextESMsFromDB];
             
@@ -503,14 +525,14 @@
             answer.esm_status = esmState;
             
             NSLog(@"--------[%@]---------", esm.esm_trigger);
-            NSLog(@"%@", answer.device_id);
-            NSLog(@"%@", answer.timestamp);
-            NSLog(@"%@", answer.esm_trigger);
-            NSLog(@"%@", answer.esm_json);
-            NSLog(@"%@", answer.esm_expiration_threshold);
-            NSLog(@"%@", answer.double_esm_user_answer_timestamp);
-            NSLog(@"%@", answer.esm_status);
-            NSLog(@"%@", answer.esm_user_answer);
+            NSLog(@"device_id:        %@", answer.device_id);
+            NSLog(@"timestamp:        %@", answer.timestamp);
+            NSLog(@"esm_trigger:      %@", answer.esm_trigger);
+            NSLog(@"esm_json:         %@", answer.esm_json);
+            NSLog(@"threshold:        %@", answer.esm_expiration_threshold);
+            NSLog(@"answer_timestamp: %@", answer.double_esm_user_answer_timestamp);
+            NSLog(@"esm_status:       %@", answer.esm_status);
+            NSLog(@"user_answer:      %@", answer.esm_user_answer);
             NSLog(@"---------------------");
             
             //////////////////////////////////////////////////
@@ -544,7 +566,7 @@
     
     // Save all data to SQLite
     NSError * error = nil;
-    bool result = [context save:&error];
+    bool isSaved = [context save:&error];
     context.mergePolicy = originalMergePolicy;
     if(error != nil){
         NSLog(@"%@", error);
@@ -560,7 +582,7 @@
     
     ////////////////////////////////////////
     // Check an exist of next ESM
-    if ( result ) {
+    if ( isSaved ) {
         
         /// for appearing esms by esm_flows ///
         if(flowsFlag){
@@ -600,6 +622,7 @@
         ///////////////////////
         
         if(isDone){
+            
             if([study getStudyId] == nil){
                 esmNumber = 0;
                 currentESMNumber = 0;
@@ -608,13 +631,12 @@
                                                                 message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
                 [alert show];
                 [self.navigationController popToRootViewControllerAnimated:YES];
+                
             }else{
-                if([delegate.sharedAWARECore.sharedSensorManager isExist:SENSOR_PLUGIN_IOS_ESM]){
-                    [SVProgressHUD showWithStatus:@"uploading"];
-                    [iOSESM setUploadingState:NO];
-                    [iOSESM syncAwareDB];
-                    [iOSESM refreshNotifications];
-                }
+                [SVProgressHUD showWithStatus:@"uploading"];
+                [iOSESM setUploadingState:NO];
+                [iOSESM syncAwareDBInForeground];
+                [iOSESM refreshNotifications];
             }
         }
     } else {

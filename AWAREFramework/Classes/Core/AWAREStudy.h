@@ -34,7 +34,7 @@ typedef enum: NSInteger{
     AwareUIModeHideSettings = 2
 } AwareUIMode;
 
-@interface AWAREStudy : NSObject <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLConnectionDownloadDelegate>
+@interface AWAREStudy : NSObject <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) NSString* getSettingIdentifier;
 @property (strong, nonatomic) NSString* makeDeviceTableIdentifier;
@@ -71,12 +71,6 @@ typedef enum: NSInteger{
 - (NSArray *) getPlugins;
 - (NSArray *) getPluginSettingsWithKey:(NSString *) key;
 
-
-// - (BOOL) isSensorSettingWithKey:(NSString *)key;
-// - (void) setUserSettingWithNumber:(NSNumber *)number key:(NSString*)key;
-// - (void) setUserSensorSettingWithString:(NSString *)str  key:(NSString *)key;
-// - (void) setUserPluginSettingWithString:(NSString *)str  key:(NSString *)key statusKey:(NSString *)statusKey;
-
 // Check some thing
 - (BOOL) isAvailable;
 - (bool) isNetworkReachable;
@@ -86,9 +80,8 @@ typedef enum: NSInteger{
 
 ////////////////////////////////////
 - (void) setDebugState:(bool)state;
-- (void) setDataUploadStateInWifiAndMobileNetwork:(bool)state;
-- (void) setDataUploadStateInWifi:(bool)state;
-- (void) setDataUploadStateWithOnlyBatterChargning:(bool)state;
+- (void) setDataUploadOnlyWifi:(bool)state;
+- (void) setDataUploadOnlyBatterChargning:(bool)state;
 - (void) setUploadIntervalWithMinutue:(int)min;
 - (void) setMaximumByteSizeForDataUpload:(NSInteger)size;  // for Text File
 - (void) setMaximumNumberOfRecordsForDataUpload:(NSInteger)number;  // for SQLite DB

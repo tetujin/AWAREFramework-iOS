@@ -7,10 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AWARESensor.h"
-#import "EntityESMSchedule.h"
+#import "EntityESMSchedule+CoreDataClass.h"
 
-@interface ESM : AWARESensor
-
-- (BOOL) setESMSchedule:(EntityESMSchedule* )esmSchedule;
+@interface ESM:AWARESensor
 
 @end

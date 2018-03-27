@@ -433,7 +433,7 @@
  * 
  * @param sensorName A NSString sensor name (key)
  */
-- (void) stopASensor:(NSString *)sensorName{
+- (void) stopSensor:(NSString *)sensorName{
     for (AWARESensor* sensor in awareSensors) {
         if ([sensor.getSensorName isEqualToString:sensorName]) {
             [sensor stopSensor];

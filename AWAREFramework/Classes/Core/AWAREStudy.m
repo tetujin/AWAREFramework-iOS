@@ -1157,24 +1157,12 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     [userDefaults synchronize];
 }
 
-- (void) setDataUploadStateInWifiAndMobileNetwork:(bool)state{
-    if(state){
-        state = NO;
-    }else{
-        state = YES;
-    }
+- (void) setDataUploadOnlyWifi:(bool)state{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:state forKey:SETTING_SYNC_WIFI_ONLY];
     [userDefaults synchronize];
 }
-
-- (void) setDataUploadStateInWifi:(bool)state{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:state forKey:SETTING_SYNC_WIFI_ONLY];
-    [userDefaults synchronize];
-}
-
-- (void) setDataUploadStateWithOnlyBatterChargning:(bool)state{
+- (void) setDataUploadOnlyBatterChargning:(bool)state{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:state forKey:SETTING_SYNC_BATTERY_CHARGING_ONLY];
     [userDefaults synchronize];
