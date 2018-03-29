@@ -116,7 +116,7 @@
         shutterBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         shutterBtn.center = CGPointMake(self.mainView.center.x,
                                         previewHeight - 50 );
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
         [shutterBtn addTarget:self action:@selector(pressedShutterButton:) forControlEvents:UIControlEventTouchUpInside];
         shutterBtn.tag = 0;
         [self.mainView addSubview:shutterBtn];
@@ -159,7 +159,7 @@
     
     if(tag==0){ // normal -> stop
         AudioServicesPlaySystemSound(1117);
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_stop"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_stop"] forState:UIControlStateNormal];
         shutterBtn.tag = 1;
         NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:videoFileName];
         NSFileManager *manager = [[NSFileManager alloc] init];
@@ -188,7 +188,7 @@
                                                     timerLabel.text = [NSString stringWithFormat:@"%@:%@",mmstr,ssstr];
                                                 }];
     }else if(tag==1){ // stop -> cancel
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_cancel"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
         shutterBtn.tag = 2;
         _playerViewController.view.hidden = NO;
         [_videoOutput stopRecording];
@@ -199,7 +199,7 @@
         AudioServicesPlaySystemSound(1118);
     }else if(tag==2){ // cancel -> normal
         _playerViewController.view.hidden = YES;
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
         shutterBtn.tag = 0;
         // remove video
         NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:videoFileName];

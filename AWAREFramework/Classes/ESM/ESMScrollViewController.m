@@ -1,71 +1,76 @@
 //
-//  IOSESMTableViewController.m
-//  AWARE
+//  ESMScrollViewController.m
+//  AWAREFramework
 //
-//  Created by Yuuki Nishiyama on 2017/07/30.
-//  Copyright © 2017 Yuuki NISHIYAMA. All rights reserved.
+//  Created by Yuuki Nishiyama on 2018/03/29.
 //
 
-#import "IOSESMScrollViewController.h"
-
-#import "AWAREDelegate.h"
-#import "AWARECore.h"
+#import "ESMScrollViewController.h"
 #import "AWAREStudy.h"
-#import "EntityESM+CoreDataClass.h"
-#import "IOSESM.h"
+#import "AWAREDelegate.h"
+#import "ESMScheduleManager.h"
+
+/////////
 #import "EntityESMAnswer.h"
 #import "EntityESMHistory.h"
 
+///////// views ////////
 #import "BaseESMView.h"
 #import "ESMFreeTextView.h"
-#import "ESMLikertScaleView.h"
 #import "ESMRadioView.h"
 #import "ESMCheckBoxView.h"
-#import "ESMQuickAnswerView.h"
+#import "ESMLikertScaleView.h"
 #import "ESMScaleView.h"
-#import "ESMDateTimePickerView.h"
-#import "ESMNumberView.h"
-#import "ESMWebView.h"
 #import "ESMPAMView.h"
-#import "ESMClockTimePickerView.h"
-#import "ESMPictureView.h"
+#import "ESMAudioView.h"
 #import "ESMVideoView.h"
 #import "ESMAudioView.h"
+#import "ESMNumberView.h"
+#import "ESMQuickAnswerView.h"
+#import "ESMDateTimePickerView.h"
+#import "ESMClockTimePickerView.h"
+#import "ESMWebView.h"
+#import "ESMPictureView.h"
 
-@interface IOSESMScrollViewController (){
+//////// ESM sensor //////////
+#import "ESM.h"
+
+@interface ESMScrollViewController () {
     AWAREStudy * study;
-    IOSESM * iOSESM;
+    ESM * esmSensor;
+    
     NSArray * esmSchedules;
     NSMutableArray * esmCells;
     int currentESMNumber;
     int currentESMScheduleNumber;
     int totalHight;
+    int esmNumber;
+     NSString * finalBtnLabel;
+     NSString * cancelBtnLabel;
     
-    // BaseESMView * cv1;
+    // for touch events
     NSMutableArray* freeTextViews;
     NSMutableArray* sliderViews;
     NSMutableArray* numberViews;
     
-    int esmNumber;
-    
     // for ESM flows
-    // NSMutableArray * nextESMs;
     bool flowsFlag;
     NSNumber * previousInterfaceType;
     
+    // for observers
     NSObject * observer;
     NSObject * quickBtnObserver;
-    
     NSString * appIntegration;
 }
 @end
 
-@implementation IOSESMScrollViewController
+@implementation ESMScrollViewController
+
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-
+    
     if (self) {
         
     }
@@ -75,7 +80,7 @@
 - (void)loadView
 {
     [super loadView];
-    UIColor *customColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    UIColor *customColor = [UIColor colorWithRed:0.99 green:0.99 blue:0.99 alpha:1.0];
     self.view.backgroundColor = customColor;
 }
 
@@ -93,10 +98,15 @@
     study = core.sharedAwareStudy;
     
     flowsFlag = NO;
+    finalBtnLabel = @"Submit";
+    cancelBtnLabel = @"Cancel";
+    freeTextViews = [[NSMutableArray alloc] init];
+    sliderViews   = [[NSMutableArray alloc] init];
+    numberViews   = [[NSMutableArray alloc] init];
     
-    iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [iOSESM allowsCellularAccess];
-    [iOSESM allowsDateUploadWithoutBatteryCharging];
+    esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [esmSensor allowsCellularAccess];
+    [esmSensor allowsDateUploadWithoutBatteryCharging];
     
     _esms = [[NSMutableArray alloc] init];
     esmSchedules = [[NSArray alloc] init];
@@ -130,45 +140,32 @@
                                 
                                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Submission is succeeded!" message:@"Thank you for your submission." preferredStyle:UIAlertControllerStyleAlert];
                                 [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                                    esmNumber = 0;
-                                    currentESMNumber = 0;
-                                    currentESMScheduleNumber = 0;
+                                    self->esmNumber = 0;
+                                    self->currentESMNumber = 0;
+                                    self->currentESMScheduleNumber = 0;
                                     
-                                    NSLog(@"[App Integration] %@", appIntegration);
+                                    NSLog(@"[App Integration] %@", self->appIntegration);
                                     
                                     ////////////////////////////////////////////////
                                     // AppIntegration
-                                    if (appIntegration != nil) {
-                                        NSURL *url = [NSURL URLWithString:appIntegration];
+                                    if (self->appIntegration != nil) {
+                                        NSURL *url = [NSURL URLWithString:self->appIntegration];
                                         ////////  a valid url scheme /////////
                                         // if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                                            
-                                            @try {
-                                                [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-                                                    if (success) {
-                                                        NSLog(@"App Integration is succeeded.");
-                                                    }else{
-                                                        NSLog(@"App Integratioin is failed.");
-                                                    }
-                                                }];
-                                            } @catch (NSException *exception) {
-                                                NSLog(@"%@", exception.debugDescription);
-                                            }
-                                            
-                                        /////// an invalied url scheme //////////
-                                        //}else{
-//                                            if(![appIntegration isEqualToString:@""]){
-//                                                NSLog(@"%@ is an invalied url scheme.", appIntegration);
-//                                                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"App Integration Error"
-//                                                                                                 message:[NSString stringWithFormat:@"%@ is an invalid url scheme.",appIntegration]
-//                                                                                                delegate:nil
-//                                                                                       cancelButtonTitle:@"close"
-//                                                                                       otherButtonTitles:nil];
-//                                                [alert show];
-//                                            }
-//                                        }
+                                        
+                                        @try {
+                                            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+                                                if (success) {
+                                                    NSLog(@"App Integration is succeeded.");
+                                                }else{
+                                                    NSLog(@"App Integratioin is failed.");
+                                                }
+                                            }];
+                                        } @catch (NSException *exception) {
+                                            NSLog(@"%@", exception.debugDescription);
+                                        }
                                     }
-                                    appIntegration = nil;
+                                    self->appIntegration = nil;
                                     [self.navigationController popToRootViewControllerAnimated:YES];
                                 }]];
                                 [self presentViewController:alertController animated:YES completion:nil];
@@ -192,11 +189,11 @@
                     }
                 }];
     quickBtnObserver = [[NSNotificationCenter defaultCenter] addObserverForName:ACTION_AWARE_PUSHED_QUICK_ANSWER_BUTTON
-                                                                        object:nil
-                                                                        queue:nil
-                                                                        usingBlock:^(NSNotification *notif) {
-                                                                            [self pushedSubmitButton:nil];
-                                                                        }];
+                                                                         object:nil
+                                                                          queue:nil
+                                                                     usingBlock:^(NSNotification *notif) {
+                                                                         [self pushedSubmitButton:nil];
+                                                                     }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -213,17 +210,13 @@
     }
     totalHight = 0;
     
-    freeTextViews = [[NSMutableArray alloc] init];
-    sliderViews   = [[NSMutableArray alloc] init];
-    numberViews   = [[NSMutableArray alloc] init];
-    NSString * finalBtnLabel = @"Submit";
-    NSString * cancelBtnLabel = @"Cancel";
-    
     bool isQuickAnswer = NO;
     
     ///////////////////////////////////////////////////////////////
     if(!flowsFlag){ /// normal case
-        esmSchedules = [iOSESM getValidESMSchedulesWithDatetime:[NSDate new]];
+        ESMScheduleManager *esmManager = [[ESMScheduleManager alloc] init];
+        esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
+        
         if(esmSchedules != nil && esmSchedules.count > currentESMScheduleNumber){
             EntityESMSchedule * esmSchedule = esmSchedules[currentESMScheduleNumber];
             NSLog(@"[interface: %@]", esmSchedule.interface);
@@ -273,8 +266,10 @@
                 }
             }
             
+        }else{
+            NSLog(@"[ESMScrollViewController] NO ESM");
         }
-    ///////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////
     }else{ /// ESMs by esm_flows exist
         
         @try {
@@ -428,8 +423,8 @@
 //////////////////////////////////////////
 
 - (void) pushedCancelButton:(id) senser {
-    AudioServicesPlaySystemSound(1105);
-
+    AudioServicesPlaySystemSound(1104);
+    
     //////  interface = 1   ////////////
     EntityESMSchedule * schedule = esmSchedules[currentESMScheduleNumber];
     if([schedule.interface isEqualToNumber:@1]){
@@ -454,8 +449,8 @@
             }
             // isDone = YES;
         }
-    
-    /////  interface = 0 //////////
+        
+        /////  interface = 0 //////////
     }else{
         currentESMNumber--;
         if (currentESMNumber >= 0 ){
@@ -486,7 +481,7 @@
 
 
 - (void) pushedSubmitButton:(id) senser {
-    AudioServicesPlaySystemSound(1104);
+    AudioServicesPlaySystemSound(1105);
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     context.persistentStoreCoordinator = delegate.persistentStoreCoordinator;
@@ -504,7 +499,7 @@
         entityESMSchedule.temporary = @(YES);
         
         for (BaseESMView *esmView in esmCells) {
-    
+            
             // A status of the ESM (0-new, 1-dismissed, 2-answered, 3-expired) -> Defualt is zero(0).
             NSNumber * esmState = [esmView getESMState];
             // A user ansert of the ESM
@@ -517,7 +512,7 @@
             EntityESM * esm = esmView.esmEntity;
             
             EntityESMAnswer * answer = (EntityESMAnswer *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
-                                                                                        inManagedObjectContext:context];
+                                                                                         inManagedObjectContext:context];
             answer.device_id = deviceId;
             answer.timestamp = esm.timestamp;
             answer.esm_json = esm.esm_json;
@@ -560,7 +555,7 @@
                 }
             }
         }
-            
+        
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.debugDescription);
     } @finally {
@@ -576,11 +571,12 @@
         
         [delegate.managedObjectContext reset];
         
-        iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-        esmSchedules = [iOSESM getValidESMSchedulesWithDatetime:[NSDate new]];
+        // esmSensor = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+        ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+        esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"AWARE can not save your answer" message:@"Please push submit button again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"AWARE can not save your answer" message:@"Please push submit button again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
     }
     
     ////////////////////////////////////////
@@ -637,9 +633,11 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                [iOSESM setUploadingState:NO];
-                [iOSESM syncAwareDBInForeground];
-                [iOSESM refreshNotifications];
+                [esmSensor setUploadingState:NO];
+                [esmSensor syncAwareDBInForeground];
+                // [esmSensor refreshNotifications];
+                ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+                [esmManager refreshNotificationSchedules];
             }
         }
     } else {
@@ -656,8 +654,8 @@
     
     NSError *e = nil;
     NSArray * flowsArray = [NSJSONSerialization JSONObjectWithData:[flowsStr dataUsingEncoding:NSUTF8StringEncoding]
-                                                         options:NSJSONReadingAllowFragments
-                                                           error:&e];
+                                                           options:NSJSONReadingAllowFragments
+                                                             error:&e];
     if ( e != nil) {
         NSLog(@"ERROR: %@", e.debugDescription);
         return nil;
@@ -741,7 +739,7 @@
     // [req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) OR (expiration_threshold=0)", datetime, datetime]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"(temporary == 1)"]];
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:NO];
-//    NSSortDescriptor *sortBySID = [[NSSortDescriptor alloc] initWithKey:@"schedule_id" ascending:NO];
+    //    NSSortDescriptor *sortBySID = [[NSSortDescriptor alloc] initWithKey:@"schedule_id" ascending:NO];
     [req setSortDescriptors:@[sort]];
     
     NSFetchedResultsController *fetchedResultsController
@@ -756,9 +754,9 @@
     }
     
     NSArray *results = [fetchedResultsController fetchedObjects];
-//    for (EntityESMSchedule * s in results) {
-//        NSLog(@"%@",s.notification_title);
-//    }
+    //    for (EntityESMSchedule * s in results) {
+    //        NSLog(@"%@",s.notification_title);
+    //    }
     
     if(results != nil){
         // NSLog(@"Stored ESM Schedules are %ld", results.count);
@@ -853,6 +851,5 @@
         NSLog(@"%@", error.debugDescription);
     }
 }
-
 
 @end

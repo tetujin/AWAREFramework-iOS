@@ -38,10 +38,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
         // [self setCSVHeader:@[@"timestamp",@"device_id"]];
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"]];
 
-        [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_ROTATION        desc:@"e.g., True or False"];
-        [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_ROTATION     desc:@"e.g., 200000 (normal), 60000 (UI), 20000 (game), 0 (fastest)."];
-        [self addDefaultSettingWithNumber:@0      key:AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION  desc:@"e.g., 1-100hz (default=0)"];
-
     }
     return self;
 }

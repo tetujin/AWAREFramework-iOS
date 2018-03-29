@@ -58,4 +58,7 @@ typedef enum: NSInteger {
 //////////////////////////////
 - (NSArray *) convertJsonStringToArray:(NSString *) jsonString;
 
+- (UIImage *) getImageFromLibBundleWithImageName:(NSString *) imageName type:(NSString *)type;
+- (UIImage *) getImageFromLibAssetsWithImageName:(NSString *) imageName;
+
 @end

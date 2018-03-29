@@ -58,7 +58,7 @@
                                                                  totalHeight,
                                                                  30,
                                                                  30)];
-        [s setImage:[UIImage imageNamed:@"unchecked_box"] forState:UIControlStateNormal];
+        [s setImage:[self getImageFromLibAssetsWithImageName:@"unchecked_box"] forState:UIControlStateNormal];
         [s addTarget:self action:@selector(pushedCheckBox:) forControlEvents:UIControlEventTouchUpInside];
         s.tag = i;
         [options addObject:s];
@@ -91,11 +91,11 @@
     
     if ([sender isSelected]) {
         AudioServicesPlaySystemSound(1104);
-        [sender setImage:[UIImage imageNamed:@"unchecked_box"] forState:UIControlStateNormal];
+        [sender setImage:[self getImageFromLibAssetsWithImageName:@"unchecked_box"] forState:UIControlStateNormal];
         [sender setSelected:NO];
     } else {
         AudioServicesPlaySystemSound(1105);
-        [sender setImage:[UIImage imageNamed:@"checked_box"] forState:UIControlStateSelected];
+        [sender setImage:[self getImageFromLibAssetsWithImageName:@"checked_box"] forState:UIControlStateSelected];
         [sender setSelected:YES];
     }
     

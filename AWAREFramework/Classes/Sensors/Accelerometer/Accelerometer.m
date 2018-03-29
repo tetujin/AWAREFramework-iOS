@@ -28,15 +28,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
         manager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // bufferArray = [[NSMutableArray alloc] init];
-        // currentBufferSize = 0;
-        // hz = 0;
-        // hzMonitor = 0;
         [self setCSVHeader:@[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"]];
-        
-        [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_ACCELEROMETER        desc:@"true or false to activate or deactivate accelerometer sensor."];
-        [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER     desc:@"non-deterministic frequency in microseconds (dependent of the hardware sensor capabilities and resources), e.g., 200000 (normal), 60000 (UI), 20000 (game), 0 (fastest)."];
-        [self addDefaultSettingWithNumber:@0    key:AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER desc:@"100-1Hz (defualt=0)"];
     }
     
     return self;

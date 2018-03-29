@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityESMSchedule+CoreDataClass.h"
+#import "ESMItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,9 +22,9 @@ typedef enum: NSInteger {
     AwareESMTypeScale       = 6,
     AwareESMTypeDateTime    = 7,
     AwareESMTypePAM         = 8,
-    AwareESMTypeWeb         = 9
+    AwareESMTypeNumeric     = 9,
+    AwareESMTypeWeb         = 10
 } AwareESMType;
-
 
 @interface EntityESM : EntityESMSchedule
 

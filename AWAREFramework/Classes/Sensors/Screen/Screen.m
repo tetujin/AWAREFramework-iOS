@@ -31,7 +31,6 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
                               dbType:dbType];
     if (self) {
         [self setCSVHeader:@[@"timestamp",@"device_id",@"screen_status"]];
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_SCREEN desc:@"true or false to activate or deactivate sensor."];
     }
     return self;
 }

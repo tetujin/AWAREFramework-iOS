@@ -1,6 +1,6 @@
 {
   "name": "AWAREFramework",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "summary": "AWARE: An Open-source Context Instrumentation Framework",
   "description": "AWARE is an Android and iOS framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data. They transform data into information you can understand.",
   "homepage": "https://github.com/tetujin/AWAREFramework-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/tetujin/AWAREFramework-iOS.git",
-    "tag": "0.1.3"
+    "tag": "0.1.4"
   },
   "platforms": {
     "ios": "10"
@@ -27,7 +27,8 @@
       "AWAREFramework/Assets/**/*.png",
       "AWAREFramework/Assets/*.xib",
       "AWAREFramework/Assets/**/*.jpg",
-      "AWAREFramework/Assets/**/*.xcdatamodeld"
+      "AWAREFramework/Assets/**/*.xcdatamodeld",
+      "AWAREFramework/Assets/**/*.xcassets"
     ]
   },
   "resources": "AWAREFramework/Assets/**/*.xcdatamodeld",
@@ -40,7 +41,8 @@
     "CoreMotion",
     "CoreBluetooth",
     "EventKit",
-    "EventKitUI"
+    "EventKitUI",
+    "UserNotifications"
   ],
   "static_framework": true,
   "dependencies": {

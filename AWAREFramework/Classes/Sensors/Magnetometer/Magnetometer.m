@@ -28,11 +28,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
-    
-        [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_MAGNETOMETER        desc:@"e.g., True or False"];
-        [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_MAGNETOMETER     desc:@"e.g., 200000 (normal), 60000 (UI), 20000 (game), 0 (fastest)."];
-        [self addDefaultSettingWithNumber:@0      key:AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER  desc:@"e.g., 1-100hz (default=0)"];
-
     }
     return self;
 }

@@ -37,9 +37,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
         sensingInterval = 10.0f;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         [self setCSVHeader:@[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"]];
-        
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PROCESSOR desc:@"true or false to activate or deactivate sensor."];
-        [self addDefaultSettingWithNumber:@10 key:AWARE_PREFERENCES_FREQUENCY_PROCESSOR desc:@"frequency in seconds to update the processor load, by default is 10 seconds."];
     }
     return self;
 }

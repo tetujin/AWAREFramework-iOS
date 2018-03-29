@@ -76,7 +76,7 @@
         //////////////////////////////////
         imageView = [[UIImageView alloc] initWithFrame:previewLayer.frame];
         [imageView setBackgroundColor:[UIColor grayColor]];
-        UIImage * img = nil; // [UIImage imageNamed:@"bg1"];
+        UIImage * img = nil; // [self getImageFromLibAssetsWithImageName:@"bg1"];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [imageView setImage:img];
         [imageView setHidden:YES];
@@ -87,7 +87,7 @@
         shutterBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
         shutterBtn.center = CGPointMake(self.mainView.center.x,
                                         previewHeight - 50 );
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
         [shutterBtn addTarget:self action:@selector(pressedShutterButton:) forControlEvents:UIControlEventTouchUpInside];
         shutterBtn.tag = 0;
         [self.mainView addSubview:shutterBtn];
@@ -129,7 +129,7 @@
                                                                               completionBlock:^(NSURL *assetURL, NSError *error) {
                                                                               }];
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              [shutterBtn setImage:[UIImage imageNamed:@"camera_button_cancel"] forState:UIControlStateNormal];
+                                                              [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
                                                               shutterBtn.tag = 1;
                                                               imageView.image = image;
                                                               imageView.hidden = NO;
@@ -138,7 +138,7 @@
         
     }else{
         imageView.hidden = YES;
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
         shutterBtn.tag = 0;
     }
 }

@@ -14,12 +14,12 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 - (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
     self = [super initWithFrame:frame esm:esm];
@@ -33,16 +33,16 @@
 
 
 /**
-* esm_type=8: Add a PAM (WIP)
-*
-* @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
-* @param tag An tag for identification of the ESM element
-*/
+ * esm_type=8: Add a PAM (WIP)
+ *
+ * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
+ * @param tag An tag for identification of the ESM element
+ */
 
 - (void) addPAMElement:(EntityESM *)esm withFrame:(CGRect)frame{
-
+    
     buttons = [[NSMutableArray alloc] init];
-
+    
     int totalHeight = 0;
     int column = 4;
     int row = 4;
@@ -56,12 +56,13 @@
         for (int columnNum=0; columnNum<column; columnNum++) {
             // 1. Get random number between 1 and 3
             int randomNum = arc4random() % 3 + 1;
-            NSString * imagePath = [NSString stringWithFormat:@"%d_%d.jpg",pamNum, randomNum];
+            NSString * imageName = [NSString stringWithFormat:@"%d_%d",pamNum, randomNum];
             UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(cellWidth * columnNum,
                                                                            cellHeight * rowNum,
                                                                            cellWidth,
                                                                            cellHeight)];
-            [button setImage:[UIImage imageNamed:imagePath] forState:UIControlStateNormal];
+            UIImage *image = [self getImageFromLibBundleWithImageName:imageName type:@"jpg"];
+            [button setImage:image forState:UIControlStateNormal];
             button.tag = pamNum;
             button.titleLabel.text = [NSString stringWithFormat:@"%d", pamNum];
             [button addTarget:self
@@ -85,7 +86,7 @@
 
 - (void) pushedPamImage:(UIButton *) sender {
     NSString *  selected = sender.titleLabel.text;
-    AudioServicesPlaySystemSound(1104);
+    AudioServicesPlaySystemSound(1105);
     for (UIButton * uiButton in buttons) {
         uiButton.layer.borderWidth = 0;
         uiButton.selected = NO;

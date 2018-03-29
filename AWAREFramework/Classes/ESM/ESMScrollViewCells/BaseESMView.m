@@ -26,6 +26,8 @@
     int HEIGHT_SPACE;
     int HEIGHT_LINE;
     int HEIGHT_NA;
+    
+    NSBundle *bundle;
 
 }
 
@@ -63,6 +65,8 @@
         HEIGHT_SPACE = 5;
         HEIGHT_LINE = 1;
         HEIGHT_NA = 30;
+        
+        bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"AWAREFramework" withExtension:@"bundle"]];
         
         [self generateESMView];
     }
@@ -110,7 +114,9 @@
     _naView = [[UIView alloc] initWithFrame:CGRectMake(0, [self getBaseViewHeight], WIDTH_BASE_VIEW, HEIGHT_NA)];
     // na button
     _naButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, HEIGHT_NA, HEIGHT_NA)];
-    [_naButton setImage:[UIImage imageNamed:@"unchecked_box"] forState:UIControlStateNormal];
+    
+    [_naButton setImage:[self getImageFromLibAssetsWithImageName:@"unchecked_box"] forState:UIControlStateNormal];
+//    [_naButton setImage:[UIImage imageNamed:@"unchecked_box"] forState:UIControlStateNormal];
     [_naButton addTarget:self action:@selector(pushedNAButton:) forControlEvents:UIControlEventTouchDown];
     // na label
     UILabel * naLabel = [[UILabel alloc] initWithFrame:CGRectMake(HEIGHT_NA+5, 0, 50, HEIGHT_NA)];
@@ -177,11 +183,11 @@
 - (IBAction)pushedNAButton:(id)sender {
     UIImage *img = nil;
     if(naState){
-        img = [UIImage imageNamed:@"unchecked_box"];
+        img = [self getImageFromLibAssetsWithImageName:@"unchecked_box"];
         AudioServicesPlaySystemSound(1104);
         naState = NO;
     }else{
-        img = [UIImage imageNamed:@"checked_box"];
+        img = [self getImageFromLibAssetsWithImageName:@"checked_box"];
         AudioServicesPlaySystemSound(1105);
         naState = YES;
     }
@@ -259,6 +265,16 @@
 
 
 /////////////////////////////////////////////
+
+- (UIImage *) getImageFromLibBundleWithImageName:(NSString *) imageName type:(NSString *)type{
+    NSString * imagePath = [bundle pathForResource:imageName ofType:type];
+    return [UIImage imageWithContentsOfFile:imagePath];
+}
+
+- (UIImage *) getImageFromLibAssetsWithImageName:(NSString *) imageName{
+    UIImage * image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil] ;
+    return image;
+}
 
 
 //-(void)onSingleTap:(UITapGestureRecognizer *)recognizer {

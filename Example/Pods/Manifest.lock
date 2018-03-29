@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (0.1.3):
+  - AWAREFramework (0.1.4):
     - EAIntroView (~> 2.9.0)
     - EZAudio
     - GoogleSignIn
@@ -56,7 +56,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: 64a387c37d1e8e7d354838195e46cce3a107db7a
+  AWAREFramework: fbc0f295e3f938ba2534904142c83a26f3f038f9
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   EZAudio: 3b1cb4b6d7ebca68f0c2478576d75940aad4aa99

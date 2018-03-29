@@ -57,10 +57,6 @@
         KEY_FLOORS_ASCENDED = @"floors_ascended";
         KEY_FLOORS_DESCENDED = @"floors_descended";
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_plugin_sensor_pedometer_last_update_timestamp";
-//        totalSteps = @0;
-//        totalDistance = @0;
-//        totalFloorsAscended = @0;
-//        totalFllorsDescended = @0;
         frequencySec = 60*10;
         [self setCSVHeader:@[KEY_DEVICE_ID,
                              KEY_TIMESTAMP,
@@ -72,9 +68,6 @@
                              KEY_CURRENT_CADENCE,
                              KEY_FLOORS_ASCENDED,
                              KEY_FLOORS_DESCENDED]];
-        ///////////////////////
-        [self addDefaultSettingWithBool:@NO key:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_PEDOMETER] desc:@"true or false to activate or deactivate accelerometer sensor."];
-        [self addDefaultSettingWithNumber:@600 key:@"frequency_pedometer" desc:@"Sensing frequency of pedometer(default value is 600sec)."];
     }
     return self;
 }

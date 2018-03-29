@@ -7,8 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AWARESensor.h"
-#import "EntityESMSchedule+CoreDataClass.h"
 
-@interface ESM:AWARESensor
+@interface ESM:AWARESensor <AWARESensorDelegate>
 
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType;
 @end

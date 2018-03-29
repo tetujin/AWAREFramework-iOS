@@ -11,6 +11,45 @@
 @implementation EntityESM
 
 
+- (void) setESMWithESMItem:(ESMItem *) esmItem{
+    self.device_id = esmItem.device_id;
+    self.double_esm_user_answer_timestamp = esmItem.double_esm_user_answer_timestamp;
+    self.esm_checkboxes = esmItem.esm_checkboxes;
+    self.esm_expiration_threshold = esmItem.esm_expiration_threshold;
+    self.esm_flows = esmItem.esm_flows;
+    self.esm_instructions = esmItem.esm_instructions;
+    self.esm_json = esmItem.esm_json;
+    self.esm_likert_max = esmItem.esm_likert_max;
+    self.esm_likert_max_label = esmItem.esm_likert_max_label;
+    self.esm_likert_min_label = esmItem.esm_likert_min_label;
+    self.esm_likert_step = esmItem.esm_likert_step;
+    self.esm_minute_step = esmItem.esm_minute_step;
+    self.esm_na = esmItem.esm_na;
+    self.esm_number = esmItem.esm_number;
+    self.esm_quick_answers = esmItem.esm_quick_answers;
+    self.esm_radios = esmItem.esm_radios;
+    self.esm_scale_max = esmItem.esm_scale_max;
+    self.esm_scale_max_label = esmItem.esm_scale_max_label;
+    self.esm_scale_min = esmItem.esm_scale_min;
+    self.esm_scale_min_label = esmItem.esm_scale_min_label;
+    self.esm_scale_start = esmItem.esm_scale_start;
+    self.esm_scale_step = esmItem.esm_scale_step;
+    self.esm_start_date= esmItem.esm_start_date;
+    self.esm_start_time = esmItem.esm_start_time;
+    self.esm_status = esmItem.esm_status;
+    self.esm_submit = esmItem.esm_submit;
+    self.esm_time_format = esmItem.esm_time_format;
+    self.esm_title = esmItem.esm_title;
+    self.esm_trigger = esmItem.esm_trigger;
+    self.esm_type = esmItem.esm_type;
+    self.esm_url = esmItem.esm_url;
+    self.esm_user_answer = esmItem.esm_user_answer;
+    self.esm_app_integration = esmItem.esm_app_integration;
+    
+//    self.timestamp = @0;
+//    self.esm_schedule
+}
+
 - (EntityESM *)setESMWithConfiguration:(NSDictionary *)config{
     if (config != nil) {
         NSNumber * esmType = [config objectForKey:@"esm_type"];

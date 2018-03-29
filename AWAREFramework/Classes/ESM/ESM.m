@@ -7,23 +7,21 @@
 
 #import "ESM.h"
 #import "AWAREDelegate.h"
+#import "EntityESMAnswer.h"
 
 @implementation ESM
 
-- (BOOL)setESMSchedule:(EntityESMSchedule *)esmSchedule{
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator =  delegate.persistentStoreCoordinator;
-    
-    NSMergePolicy *originalMergePolicy = context.mergePolicy;
-    context.mergePolicy = NSOverwriteMergePolicy;
-    
-    NSError * error = nil;
-    bool result = [context save:&error];
-    context.mergePolicy = originalMergePolicy;
-//    EntityESMSchedule * entityESMSchedule = (EntityESMSchedule *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class])
-    
-    return result;
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                            dbType:(AwareDBType)dbType{
+    self = [super initWithAwareStudy:study
+                          sensorName:@"esms"
+                        dbEntityName:NSStringFromClass([EntityESMAnswer class])
+                              dbType:AwareDBTypeSQLite
+                          bufferSize:0];
+    if(self != nil){
+        
+    }
+    return self;
 }
 
 @end

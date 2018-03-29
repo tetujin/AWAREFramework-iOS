@@ -111,7 +111,7 @@
         // [option setCenter:CGPointMake(x, y)];
         option.tag = i;
         [option addTarget:self action:@selector(pushedLikertButton:) forControlEvents:UIControlEventTouchUpInside];
-        [option setImage:[UIImage imageNamed:@"unselected_circle"] forState:UIControlStateNormal];
+        [option setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
         option.selected = NO;
         // [option setBackgroundColor:[UIColor redColor]];
         [ratingView addSubview:option];
@@ -137,12 +137,12 @@
     for (int i=0; i<options.count; i++) {
         UIButton * option = (UIButton *)[options objectAtIndex:i];
         if (i==sender.tag) {
-            [option setImage:[UIImage imageNamed:@"selected_circle"] forState:UIControlStateNormal];
+            [option setImage:[self getImageFromLibAssetsWithImageName:@"selected_circle"] forState:UIControlStateNormal];
             option.selected = YES;
             selectedOption = i+1;
             AudioServicesPlaySystemSound(1104);
         }else{
-            [option setImage:[UIImage imageNamed:@"unselected_circle"] forState:UIControlStateNormal];
+            [option setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
             option.selected = NO;
             AudioServicesPlaySystemSound(1105);
         }

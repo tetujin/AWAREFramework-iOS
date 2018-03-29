@@ -104,7 +104,7 @@
     shutterBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     shutterBtn.center = CGPointMake(self.mainView.center.x,
                                     previewHeight - 50 );
-    [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+    [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
     [shutterBtn addTarget:self action:@selector(pressedShutterButton:) forControlEvents:UIControlEventTouchUpInside];
     shutterBtn.tag = 0;
     [self.mainView addSubview:shutterBtn];
@@ -119,7 +119,7 @@
                                                              0,
                                                              50, 50)];
     audioPlayBtn.center = CGPointMake(audioPlayBtn.center.x, shutterBtn.center.y);
-    [audioPlayBtn setImage:[UIImage imageNamed:@"aware_audio_play"] forState:UIControlStateNormal];
+    [audioPlayBtn setImage:[self getImageFromLibAssetsWithImageName:@"aware_audio_play"] forState:UIControlStateNormal];
     audioPlayBtn.tag = 0;
     [audioPlayBtn addTarget:self action:@selector(tappedAudioPlayButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.mainView addSubview:audioPlayBtn];
@@ -159,7 +159,7 @@
     
     if(tag==0){ // normal -> stop
         AudioServicesPlaySystemSound(1117);
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_stop"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_stop"] forState:UIControlStateNormal];
         shutterBtn.tag = 1;
         NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:audioFileName];
         NSFileManager *manager = [[NSFileManager alloc] init];
@@ -173,7 +173,7 @@
 
     }else if(tag==1){ // stop -> cancel
         // change button image and tag for next action
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_cancel"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
         shutterBtn.tag = 2;
         // _playerViewController.view.hidden = NO;
         timerLabel.text = @"00:00";
@@ -188,7 +188,7 @@
     
     }else if(tag==2){ // cancel -> normal
         // _playerViewController.view.hidden = YES;
-        [shutterBtn setImage:[UIImage imageNamed:@"camera_button_normal"] forState:UIControlStateNormal];
+        [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
         shutterBtn.tag = 0;
         // remove video
         NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:audioFileName];
@@ -250,11 +250,11 @@
 - (void) tappedAudioPlayButton:(UIButton *)sender{
     NSInteger tag = sender.tag;
     if(tag == 0){
-        [audioPlayBtn setImage:[UIImage imageNamed:@"aware_audio_pause"] forState:UIControlStateNormal];
+        [audioPlayBtn setImage:[self getImageFromLibAssetsWithImageName:@"aware_audio_pause"] forState:UIControlStateNormal];
         audioPlayBtn.tag = 1;
         [self play];
     }else{
-        [audioPlayBtn setImage:[UIImage imageNamed:@"aware_audio_play"] forState:UIControlStateNormal];
+        [audioPlayBtn setImage:[self getImageFromLibAssetsWithImageName:@"aware_audio_play"] forState:UIControlStateNormal];
         audioPlayBtn.tag = 0;
         [self stopPlaying];
     }

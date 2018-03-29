@@ -10,5 +10,6 @@
 @import AWAREFramework;
 
 @interface AWAREFrameworkViewController : UIViewController
+- (IBAction)pushedESMCheckButton:(id)sender;
 
 @end

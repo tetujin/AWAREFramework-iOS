@@ -11,7 +11,7 @@
 #import "AWAREStudy.h"
 #import <CoreData/CoreData.h>
 
-@interface SQLiteSyncExecutor: NSObject <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
+@interface SQLiteSyncExecutor: AWAREUploader <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 @property NSManagedObjectContext *mainQueueManagedObjectContext;
 @property NSManagedObjectContext *writeQueueManagedObjectContext;

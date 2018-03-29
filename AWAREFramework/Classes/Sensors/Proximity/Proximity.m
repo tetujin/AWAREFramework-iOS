@@ -22,7 +22,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
                           bufferSize:0];
     if (self) {
         [self setCSVHeader:@[@"timestamp",@"device_id",@"double_proximity",@"accuracy",@"label"]];
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PROXIMITY desc:@" true or false to activate or deactivate sensor."];
     }
     return self;
 }

@@ -53,7 +53,7 @@
         //////////////////////////////////////
         
         UIButton *s = [[UIButton alloc] initWithFrame:CGRectMake(  margin, totalHeight, objHeight, objHeight)];
-        [s setImage:[UIImage imageNamed:@"unselected_circle"] forState:UIControlStateNormal];
+        [s setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
         s.tag = i;
         [s addTarget:self action:@selector(selectedRadioButton:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -89,10 +89,10 @@
 -(void)selectedRadioButton:(UIButton *)sender{
     NSLog(@"sender:%ld",sender.tag);
     for (UIButton * button in options) {
-        [button setImage:[UIImage imageNamed:@"unselected_circle"] forState:UIControlStateNormal];
+        [button setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
     }
-    [[options objectAtIndex:sender.tag] setImage:[UIImage imageNamed:@"selected_circle"] forState:UIControlStateNormal];
-    AudioServicesPlaySystemSound(1104);
+    [[options objectAtIndex:sender.tag] setImage:[self getImageFromLibAssetsWithImageName:@"selected_circle"] forState:UIControlStateNormal];
+    AudioServicesPlaySystemSound(1105);
     selectedLabelName = [labels objectAtIndex:sender.tag];
 }
 

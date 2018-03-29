@@ -29,9 +29,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     if (self) {
         sensingInterval = 60.0f; // 60sec. = 1min.
         [self setCSVHeader:@[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"]];
-    
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_WIFI desc:@"true or false to activate or deactivate sensor."];
-        [self addDefaultSettingWithNumber:@60 key:AWARE_PREFERENCES_FREQUENCY_WIFI desc:@"how often to scan for devices, in seconds (default = 60 seconds)."];
     }
     return self;
 }

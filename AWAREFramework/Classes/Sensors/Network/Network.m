@@ -34,7 +34,6 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                              @"network_type",
                              @"network_subtype",
                              @"network_state"]];
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_NETWORK_EVENTS desc:@"True or False"];
     }
     return self;
 }

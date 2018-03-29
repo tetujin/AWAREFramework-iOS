@@ -27,10 +27,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     if (self) {
         updateInterval = 60*60;// 3600 sec. = 1 hour
         [self setCSVHeader:@[@"timestamp",@"device_id",@"timezone"]];
-        
-        [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_TIMEZONE      desc:@"true or false to activate or deactivate sensor."];
-        [self addDefaultSettingWithNumber:@3600   key:AWARE_PREFERENCES_FREQUENCY_TIMEZONE   desc:@"how frequently we check the device’s timezone, in seconds – default is 3600 seconds (i.e.,  1h)."];
-        
     }
     return self;
 }

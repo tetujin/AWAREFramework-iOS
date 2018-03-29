@@ -26,9 +26,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
         super.sensingInterval = 0.2f;
         super.savingInterval = 30.0f; // 30 sec
         [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"]];
-        [self addDefaultSettingWithBool:@NO       key:AWARE_PREFERENCES_STATUS_BAROMETER        desc:@"e.g., True or False"];
-        [self addDefaultSettingWithNumber:@200000 key:AWARE_PREFERENCES_FREQUENCY_BAROMETER     desc:@"Non-deterministic frequency in microseconds (dependent of the hardware sensor capabilities and resources). You can also use a SensorManager sensor delay constant."];
-        // [self addDefaultSettingWithNumber:@0      key:AWARE_PREFERENCES_FREQUENCY_HZ_BAROMETER  desc:@""];
     }
     return self;
 }
