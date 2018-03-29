@@ -39,14 +39,6 @@ NSString * const EZAudioPlayerDidReachEndOfFileNotification = @"EZAudioPlayerDid
 NSString * const EZAudioPlayerDidSeekNotification = @"EZAudioPlayerDidSeekNotification";
 
 //------------------------------------------------------------------------------
-#pragma mark - EZAudioPlayer (Interface Extension)
-//------------------------------------------------------------------------------
-
-@interface EZAudioPlayer ()
-@property (nonatomic, assign, readwrite) EZAudioPlayerState state;
-@end
-
-//------------------------------------------------------------------------------
 #pragma mark - EZAudioPlayer (Implementation)
 //------------------------------------------------------------------------------
 
@@ -187,7 +179,6 @@ NSString * const EZAudioPlayerDidSeekNotification = @"EZAudioPlayerDidSeekNotifi
 - (void)setup
 {
     self.output = [EZOutput output];
-    self.state = EZAudioPlayerStateReadyToPlay;
 }
 
 //------------------------------------------------------------------------------
@@ -326,7 +317,6 @@ NSString * const EZAudioPlayerDidSeekNotification = @"EZAudioPlayerDidSeekNotifi
 - (void)play
 {
     [self.output startPlayback];
-    self.state = EZAudioPlayerStatePlaying;
 }
 
 //------------------------------------------------------------------------------
@@ -354,16 +344,13 @@ NSString * const EZAudioPlayerDidSeekNotification = @"EZAudioPlayerDidSeekNotifi
 - (void)pause
 {
     [self.output stopPlayback];
-    self.state = EZAudioPlayerStatePaused;
 }
 
 //------------------------------------------------------------------------------
 
 - (void)seekToFrame:(SInt64)frame
 {
-    self.state = EZAudioPlayerStateSeeking;
     [self.audioFile seekToFrame:frame];
-    self.state = self.isPlaying ? EZAudioPlayerStatePlaying : EZAudioPlayerStatePaused;
     [[NSNotificationCenter defaultCenter] postNotificationName:EZAudioPlayerDidSeekNotification
                                                         object:self];
 }
@@ -397,7 +384,6 @@ NSString * const EZAudioPlayerDidSeekNotification = @"EZAudioPlayerDidSeekNotifi
         {
             [self pause];
             [self seekToFrame:0];
-            self.state = EZAudioPlayerStateEndOfFile;
             [[NSNotificationCenter defaultCenter] postNotificationName:EZAudioPlayerDidReachEndOfFileNotification
                                                                 object:self];
         }

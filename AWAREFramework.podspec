@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.2' }
 
-  s.source_files = 'AWAREFramework/Classes/**/*'
+  s.source_files = ['AWAREFramework/Classes/**/*']
   
    s.resource_bundles = {
      'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld', 'AWAREFramework/Assets/**/*.xcassets']
@@ -47,9 +47,10 @@ Pod::Spec.new do |s|
   s.dependency 'SCNetworkReachability'
   s.dependency 'GoogleSignIn'
   s.dependency 'ios-ntp'
-  s.dependency 'EZAudio'
+  s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
   s.dependency 'SVProgressHUD'
   s.dependency 'EAIntroView', '~> 2.9.0'
+  s.dependency 'TPCircularBuffer'
   # s.dependency 'EstimoteSDK'
   
 end

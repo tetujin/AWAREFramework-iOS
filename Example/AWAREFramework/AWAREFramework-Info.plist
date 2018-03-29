@@ -30,6 +30,7 @@
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>

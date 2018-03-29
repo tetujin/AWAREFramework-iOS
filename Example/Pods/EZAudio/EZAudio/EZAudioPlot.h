@@ -25,7 +25,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "EZPlot.h"
-#import "EZAudioDisplayLink.h"
 
 @class EZAudio;
 
@@ -197,11 +196,4 @@ FOUNDATION_EXPORT UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength;
 
 //------------------------------------------------------------------------------
 
-@end
-
-@interface EZAudioPlot () <EZAudioDisplayLinkDelegate>
-@property (nonatomic, strong) EZAudioDisplayLink *displayLink;
-@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
-@property (nonatomic, assign) CGPoint            *points;
-@property (nonatomic, assign) UInt32              pointCount;
 @end

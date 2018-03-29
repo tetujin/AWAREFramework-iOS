@@ -24,6 +24,7 @@
 //  THE SOFTWARE.
 
 #import "EZAudioPlot.h"
+#import "EZAudioDisplayLink.h"
 
 //------------------------------------------------------------------------------
 #pragma mark - Constants
@@ -33,6 +34,17 @@ UInt32 const kEZAudioPlotMaxHistoryBufferLength = 8192;
 UInt32 const kEZAudioPlotDefaultHistoryBufferLength = 512;
 UInt32 const EZAudioPlotDefaultHistoryBufferLength = 512;
 UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength = 8192;
+
+//------------------------------------------------------------------------------
+#pragma mark - EZAudioPlot (Interface Extension)
+//------------------------------------------------------------------------------
+
+@interface EZAudioPlot () <EZAudioDisplayLinkDelegate>
+@property (nonatomic, strong) EZAudioDisplayLink *displayLink;
+@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
+@property (nonatomic, assign) CGPoint            *points;
+@property (nonatomic, assign) UInt32              pointCount;
+@end
 
 //------------------------------------------------------------------------------
 #pragma mark - EZAudioPlot (Implementation)

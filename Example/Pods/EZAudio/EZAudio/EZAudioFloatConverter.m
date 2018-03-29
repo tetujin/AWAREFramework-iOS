@@ -58,12 +58,9 @@ OSStatus EZAudioFloatConverterCallback(AudioConverterRef             inAudioConv
                                        void                         *inUserData)
 {
     AudioBufferList *sourceBuffer = (AudioBufferList *)inUserData;
-    
     memcpy(ioData,
            sourceBuffer,
            sizeof(AudioBufferList) + (sourceBuffer->mNumberBuffers - 1) * sizeof(AudioBuffer));
-    sourceBuffer = NULL;
-    
     return noErr;
 }
 
@@ -200,19 +197,12 @@ OSStatus EZAudioFloatConverterCallback(AudioConverterRef             inAudioConv
                         toFloatBuffers:(float **)buffers
                     packetDescriptions:(AudioStreamPacketDescription *)packetDescriptions
 {
-    if (frames != 0)
+    if (frames == 0)
     {
-        //
-        // Make sure the data size coming in is consistent with the number
-        // of frames we're actually getting
-        //
-        for (int i = 0; i < audioBufferList->mNumberBuffers; i++) {
-            audioBufferList->mBuffers[i].mDataByteSize = frames * self.info->inputFormat.mBytesPerFrame;
-        }
         
-        //
-        // Fill out the audio converter with the source buffer
-        //
+    }
+    else
+    {
         [EZAudioUtilities checkResult:AudioConverterFillComplexBuffer(self.info->converterRef,
                                                                       EZAudioFloatConverterCallback,
                                                                       audioBufferList,
@@ -220,11 +210,6 @@ OSStatus EZAudioFloatConverterCallback(AudioConverterRef             inAudioConv
                                                                       self.info->floatAudioBufferList,
                                                                       packetDescriptions ? packetDescriptions : self.info->packetDescriptions)
                             operation:"Failed to fill complex buffer in float converter"];
-        
-        //
-        // Copy the converted buffers into the float buffer array stored
-        // in memory
-        //
         for (int i = 0; i < self.info->floatAudioBufferList->mNumberBuffers; i++)
         {
             memcpy(buffers[i],

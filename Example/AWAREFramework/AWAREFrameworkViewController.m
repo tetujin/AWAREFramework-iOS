@@ -32,6 +32,10 @@
     [accelerometer setSensingIntervalWithHz:10];
     [accelerometer setSavingInterval:30];
     
+    AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [noise setDebugState:YES];
+    [noise startSensor];
+    
     ESM * esm = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
     
     [manager addSensors:@[accelerometer,esm]];

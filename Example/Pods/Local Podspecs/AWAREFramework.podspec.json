@@ -21,7 +21,9 @@
   "pod_target_xcconfig": {
     "SWIFT_VERSION": "3.2"
   },
-  "source_files": "AWAREFramework/Classes/**/*",
+  "source_files": [
+    "AWAREFramework/Classes/**/*"
+  ],
   "resource_bundles": {
     "AWAREFramework": [
       "AWAREFramework/Assets/**/*.png",
@@ -59,13 +61,16 @@
 
     ],
     "EZAudio": [
-
+      "1.1.2"
     ],
     "SVProgressHUD": [
 
     ],
     "EAIntroView": [
       "~> 2.9.0"
+    ],
+    "TPCircularBuffer": [
+
     ]
   }
 }

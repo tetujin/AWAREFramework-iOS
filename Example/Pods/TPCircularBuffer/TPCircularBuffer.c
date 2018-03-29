@@ -2,30 +2,9 @@
 //  TPCircularBuffer.c
 //  Circular/Ring buffer implementation
 //
-//  https://github.com/michaeltyson/TPCircularBuffer
-//
 //  Created by Michael Tyson on 10/12/2011.
-//
-//  Copyright (C) 2012-2013 A Tasty Pixel
-//
-//  This software is provided 'as-is', without any express or implied
-//  warranty.  In no event will the authors be held liable for any damages
-//  arising from the use of this software.
-//
-//  Permission is granted to anyone to use this software for any purpose,
-//  including commercial applications, and to alter it and redistribute it
-//  freely, subject to the following restrictions:
-//
-//  1. The origin of this software must not be misrepresented; you must not
-//     claim that you wrote the original software. If you use this software
-//     in a product, an acknowledgment in the product documentation would be
-//     appreciated but is not required.
-//
-//  2. Altered source versions must be plainly marked as such, and must not be
-//     misrepresented as being the original software.
-//
-//  3. This notice may not be removed or altered from any source distribution.
-//
+//  Copyright 2011-2012 A Tasty Pixel. All rights reserved.
+
 
 #include "TPCircularBuffer.h"
 #include <mach/mach.h>
@@ -40,13 +19,13 @@ static inline bool _reportResult(kern_return_t result, const char *operation, co
     return true;
 }
 
-bool TPCircularBufferInit(TPCircularBuffer *buffer, int32_t length) {
+bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
 
     // Keep trying until we get our buffer, needed to handle race conditions
     int retries = 3;
     while ( true ) {
 
-        buffer->length = (int32_t)round_page(length);    // We need whole page sizes
+        buffer->length = round_page(length);    // We need whole page sizes
 
         // Temporarily allocate twice the length, so we have the contiguous address space to
         // support a second instance of the buffer directly after

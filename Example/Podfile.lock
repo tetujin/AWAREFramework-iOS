@@ -1,21 +1,22 @@
 PODS:
   - AWAREFramework (0.1.4):
     - EAIntroView (~> 2.9.0)
-    - EZAudio
+    - EZAudio (= 1.1.2)
     - GoogleSignIn
     - ios-ntp
     - MQTTKit
     - SCNetworkReachability
     - SVProgressHUD
+    - TPCircularBuffer
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
-  - EZAudio (1.1.5):
-    - EZAudio/Full (= 1.1.5)
-  - EZAudio/Core (1.1.5)
-  - EZAudio/Full (1.1.5):
+  - EZAudio (1.1.2):
+    - EZAudio/Full (= 1.1.2)
+  - EZAudio/Core (1.1.2)
+  - EZAudio/Full (1.1.2):
     - EZAudio/Core
-    - TPCircularBuffer (= 1.1)
+    - TPCircularBuffer (~> 0.0)
   - GoogleSignIn (4.1.2):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
@@ -46,7 +47,7 @@ PODS:
   - SCNetworkReachability/Core (2.0.6):
     - macros_blocks (~> 0.0.1)
   - SVProgressHUD (2.2.5)
-  - TPCircularBuffer (1.1)
+  - TPCircularBuffer (0.0.1)
 
 DEPENDENCIES:
   - AWAREFramework (from `../`)
@@ -56,10 +57,10 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: fbc0f295e3f938ba2534904142c83a26f3f038f9
+  AWAREFramework: bea72aada947e37070c9534d6ce81665737e8850
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
-  EZAudio: 3b1cb4b6d7ebca68f0c2478576d75940aad4aa99
+  EZAudio: 01373de2b1257b77be1bf13753fb1c4ea8a9777e
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
@@ -69,7 +70,7 @@ SPEC CHECKSUMS:
   MQTTKit: a4e6b8aa92db1aeae917d2b773fd72a7749937c4
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  TPCircularBuffer: 4960a919e667280f7f38963d771f45871b64fe62
+  TPCircularBuffer: 949e9632b9fb99b7274d7b2296ee22bff5841e35
 
 PODFILE CHECKSUM: 7d0ae0b906ddc337226eb23f210b035e8069bbb7
 
