@@ -17,7 +17,6 @@
 #import "EntityBatteryCharge.h"
 #import "EntityBatteryDischarge.h"
 
-
 @implementation Battery {
     NSString* BATTERY_DISCHARGERES;
     NSString* BATTERY_CHARGERES;
@@ -36,10 +35,30 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName: SENSOR_BATTERY];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY entityName:NSStringFromClass([EntityBattery class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+            EntityBattery* batteryData = (EntityBattery *)[NSEntityDescription
+                                                           insertNewObjectForEntityForName:entity
+                                                           inManagedObjectContext:childContext];
+            
+            batteryData.device_id = [data objectForKey:@"device_id"];
+            batteryData.timestamp = [data objectForKey:@"timestamp"];
+            batteryData.battery_status = [data objectForKey:@"battery_status"];
+            batteryData.battery_level = [data objectForKey:@"battery_level"];
+            batteryData.battery_scale = [data objectForKey:@"battery_scale"];
+            batteryData.battery_voltage = [data objectForKey:@"battery_voltage"];
+            batteryData.battery_temperature = [data objectForKey:@"battery_temperature"];
+            batteryData.battery_adaptor = [data objectForKey:@"battery_adaptor"];
+            batteryData.battery_health = [data objectForKey:@"battery_health"];
+            batteryData.battery_technology = [data objectForKey:@"battery_technology"];
+        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_BATTERY
-                        dbEntityName:NSStringFromClass([EntityBattery class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         BATTERY_DISCHARGERES = @"battery_discharges";
         BATTERY_CHARGERES = @"battery_charges";
@@ -57,24 +76,16 @@
             [userDefaults setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP];
             [userDefaults setInteger:[UIDevice currentDevice].batteryLevel*100 forKey:KEY_LAST_BATTERY_LEVEL];
         }
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"battery_status",@"battery_level",@"battery_scale",@"battery_voltage", @"battery_temperature",@"battery_adaptor",@"battery_health",@"battery_technology"]];
+//        [self setCSVHeader:@[@"timestamp",@"device_id",@"battery_status",@"battery_level",@"battery_scale",@"battery_voltage", @"battery_temperature",@"battery_adaptor",@"battery_health",@"battery_technology"]];
         
         // Get default information from local storage
-        batteryChargeSensor = [[BatteryCharge alloc] initWithAwareStudy:study
-                                                           sensorName:BATTERY_CHARGERES
-                                                         dbEntityName:NSStringFromClass([EntityBatteryCharge class])
-                                                               dbType:dbType];
-        [batteryChargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
+        batteryChargeSensor = [[BatteryCharge alloc] initWithAwareStudy:study dbType:dbType];
+//        [batteryChargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
         
-        batteryDischargeSensor = [[BatteryDischarge alloc] initWithAwareStudy:study
-                                                              sensorName:BATTERY_DISCHARGERES
-                                                            dbEntityName:NSStringFromClass([EntityBatteryDischarge class])
-                                                                  dbType:dbType];
+        batteryDischargeSensor = [[BatteryDischarge alloc] initWithAwareStudy:study dbType:dbType];
         
-        [batteryDischargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
+//        [batteryDischargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
         
-        [batteryChargeSensor trackDebugEvents];
-        [batteryDischargeSensor trackDebugEvents];
         previousBatteryLevel = [UIDevice currentDevice].batteryLevel*100;
         
         [self batteryLevelChanged:nil];
@@ -91,20 +102,28 @@
 }
 
 - (void) createBatteryTable{
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
-    "timestamp real default 0,"
-    "device_id text default '',"
-    "battery_status integer default 0,"
-    "battery_level integer default 0,"
-    "battery_scale integer default 0,"
-    "battery_voltage integer default 0,"
-    "battery_temperature integer default 0,"
-    "battery_adaptor integer default 0,"
-    "battery_health integer default 0,"
-    "battery_technology text default ''";
-    // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    TCQMaker * maker = [[TCQMaker alloc] init];
+//    NSString *query = [[NSString alloc] init];
+//    query = @"_id integer primary key autoincrement,"
+//    "timestamp real default 0,"
+//    "device_id text default '',"
+//    "battery_status integer default 0,"
+    [maker addColumn:@"battery_status" type:TCQTypeInteger default:@"0"];
+//    "battery_level integer default 0,"
+    [maker addColumn:@"battery_level" type:TCQTypeInteger default:@"0"];
+//    "battery_scale integer default 0,"
+    [maker addColumn:@"battery_scale" type:TCQTypeInteger default:@"0"];
+//    "battery_voltage integer default 0,"
+    [maker addColumn:@"battery_voltage" type:TCQTypeInteger default:@"0"];
+//    "battery_temperature integer default 0,"
+    [maker addColumn:@"battery_temperature" type:TCQTypeInteger default:@"0"];
+//    "battery_adaptor integer default 0,"
+    [maker addColumn:@"battery_adaptor" type:TCQTypeInteger default:@"0"];
+//    "battery_health integer default 0,"
+    [maker addColumn:@"battery_health" type:TCQTypeInteger default:@"0"];
+//    "battery_technology text default ''";
+    [maker addColumn:@"battery_technology" type:TCQTypeText default:@"''"];
+    [self.storage createDBTableOnServerWithTCQMaker:maker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -155,7 +174,7 @@
 }
 
 - (bool)isUploading{
-    if([super isUploading] || [batteryChargeSensor isUploading] || [batteryDischargeSensor isUploading]){
+    if([self.storage isSyncing] || [batteryChargeSensor.storage isSyncing] || [batteryDischargeSensor.storage isSyncing]){
         return YES;
     }else{
         return NO;
@@ -166,25 +185,10 @@
 //////////////////////////////
 //////////////////////////////
 
--(BOOL)syncAwareDBInForeground{
-    if(![super syncAwareDBInForeground]){
-        return NO;
-    }
-    
-    if(![batteryChargeSensor syncAwareDBInForeground]){
-        return NO;
-    }
-    
-    if(![batteryDischargeSensor syncAwareDBInForeground]){
-        return NO;
-    }
-    return YES;
-}
-
-- (void) syncAwareDB {
-    [super syncAwareDB];
-    [batteryChargeSensor syncAwareDB];
-    [batteryDischargeSensor syncAwareDB];
+- (void)startSyncDB {
+    [self.storage startSyncStorage];
+    [batteryChargeSensor.storage startSyncStorage];
+    [batteryDischargeSensor.storage startSyncStorage];
 }
 
 
@@ -192,10 +196,6 @@
 /////////////////////////////////////////////////////////////////////////////////////
 
 - (void)batteryLevelChanged:(NSNotification *)notification {
-    
-//    if (previousBatteryLevel == [UIDevice currentDevice].batteryLevel*100) {
-//        return;
-//    }
     
     // 0 unknown, 1 unplegged, 2 charging, 3 full
     // NSLog(@"battery status: %d",state);
@@ -227,51 +227,12 @@
                                                       userInfo:userInfo];
     
     // NSLog(@"[Battery Sensor] %d", [NSThread isMainThread] );
-    
-    [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+//    [self saveData:dict];
     
 }
 
 
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityBattery* batteryData = (EntityBattery *)[NSEntityDescription
-                                                   insertNewObjectForEntityForName:entity
-                                                   inManagedObjectContext:childContext];
-    
-    batteryData.device_id = [data objectForKey:@"device_id"];
-    batteryData.timestamp = [data objectForKey:@"timestamp"];
-    batteryData.battery_status = [data objectForKey:@"battery_status"];
-    batteryData.battery_level = [data objectForKey:@"battery_level"];
-    batteryData.battery_scale = [data objectForKey:@"battery_scale"];
-    batteryData.battery_voltage = [data objectForKey:@"battery_voltage"];
-    batteryData.battery_temperature = [data objectForKey:@"battery_temperature"];
-    batteryData.battery_adaptor = [data objectForKey:@"battery_adaptor"];
-    batteryData.battery_health = [data objectForKey:@"battery_health"];
-    batteryData.battery_technology = [data objectForKey:@"battery_technology"];
-}
-
-
-
-
-- (void)saveDummyData{
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:@1 forKey:@"battery_status"];
-    [dict setObject:@1 forKey:@"battery_level"];
-    [dict setObject:@100 forKey:@"battery_scale"];
-    [dict setObject:@0 forKey:@"battery_voltage"];
-    [dict setObject:@0 forKey:@"battery_temperature"];
-    [dict setObject:@0 forKey:@"battery_adaptor"];
-    [dict setObject:@0 forKey:@"battery_health"];
-    [dict setObject:@"" forKey:@"battery_technology"];
-    
-    [self saveData:dict];
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -331,7 +292,7 @@
                                                               startBatteryLevel:lastBatteryLevel
                                                                 endBatteryLevel:currentBatteryLevel];
         } @catch (NSException *exception) {
-            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_discharge"];
+//            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_discharge"];
         } @finally {
             
         }
@@ -350,7 +311,7 @@
                                                         startBatteryLevel:lastBatteryLevel
                                                           endBatteryLevel:currentBatteryLevel];
         } @catch (NSException *exception) {
-            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_charge"];
+//            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_charge"];
         } @finally {
         }
     }

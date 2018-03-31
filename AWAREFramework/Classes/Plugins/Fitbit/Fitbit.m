@@ -37,10 +37,11 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study
                             dbType:(AwareDBType)dbType{
     
+    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_FITBIT];
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_FITBIT
-                        dbEntityName:nil
-                              dbType:AwareDBTypeJSON];
+                             storage:storage];
     if(self != nil){
         isAlertingFitbitLogin = false;
         fitbitData = [[FitbitData alloc] initWithAwareStudy:study dbType:dbType];
@@ -62,8 +63,6 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         
         _intervalMin = 15;
         
-        [self setTypeAsPlugin];
-        
         //        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
         //        NSString * clientId = [defaults objectForKey:@"228524"]; // TEMP // @"227YG3"];
         //        NSString * apiSecret = [defaults objectForKey:@"dc3fea72a8013836fbe70bf7b2caf54a"]; // TEMP // @"033ed2a3710c0cde04343d073c09e378"];
@@ -71,14 +70,6 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         NSString * apiSecret = [Fitbit getFitbitApiSecret];
         if(clientId == nil) clientId = @"";
         if(apiSecret == nil) apiSecret = @"";
-        
-        [self addDefaultSettingWithBool:@NO key:@"status_plugin_fitbit" desc:@"(boolean) activate/deactivate plugin"];
-        [self addDefaultSettingWithString:@"metric" key:@"units_plugin_fitbit" desc:@"(String) one of metric/imperial"];
-        [self addDefaultSettingWithNumber:@15 key:@"plugin_fitbit_frequency" desc:@"(integer) interval in which to check for new data on Fitbit. Fitbit has a hard-limit of 150 data checks, per hour, per device."];
-        [self addDefaultSettingWithString:@"1min" key:@"fitbit_granularity" desc:@"(String) intraday granularity. One of 1d/15min/1min for daily summary, 15 minutes and 1 minute, respectively."];
-        [self addDefaultSettingWithString:@"1min" key:@"fitbit_hr_granularity" desc:@"(String) intraday granularity. One of 1min/1sec for 1 minute, and 5 second interval respectively (setting is 1sec but returns every 5sec)."];
-        [self addDefaultSettingWithString:@"" key:@"api_key_plugin_fitbit" desc:@"(String) Fitbit Client Key"];
-        [self addDefaultSettingWithString:@"" key:@"api_secret_plugin_fitbit" desc:@"(String) Fitbit Client Secret"];
     }
     
     return self;
@@ -90,24 +81,17 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     [super createTable];
 }
 
-- (void)syncAwareDBInBackground{
-    [fitbitData syncAwareDBInBackground];
-    [fitbitDevice syncAwareDBInBackground];
-    [super syncAwareDBInBackground];
+- (void)startSyncDB{
+    [fitbitData startSyncDB];
+    [fitbitDevice startSyncDB];
+    [super startSyncDB];
 }
 
-- (void) syncAwareDB{
-    [fitbitData syncAwareDB];
-    [fitbitDevice syncAwareDB];
-    [super syncAwareDB];
+- (void)stopSyncDB{
+    [fitbitData stopSyncDB];
+    [fitbitDevice stopSyncDB];
+    [super stopSyncDB];
 }
-
-- (BOOL)syncAwareDBInForeground{
-    [fitbitData syncAwareDBInForeground];
-    [fitbitDevice syncAwareDBInForeground];
-    return [super syncAwareDBInForeground];
-}
-
 
 - (void)setParameters:(NSArray *)parameters{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
@@ -392,7 +376,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
                         [self loginWithOAuth2WithClientId:[Fitbit getFitbitClientId] apiSecret:[Fitbit getFitbitApiSecret]];
                     }else if([errorType isEqualToString:@"expired_token"]){
                         [self refreshToken];
-                        [self saveDebugEventWithText:@"responseString" type:DebugTypeWarn label:[NSString stringWithFormat:@"fitbit plugin: refresh token %@", [NSDate new]]];
+                        // [self saveDebugEventWithText:@"responseString" type:DebugTypeWarn label:[NSString stringWithFormat:@"fitbit plugin: refresh token %@", [NSDate new]]];
                     }
                 }
             }

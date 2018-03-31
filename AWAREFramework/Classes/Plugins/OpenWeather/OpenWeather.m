@@ -70,41 +70,71 @@ int ONE_HOUR = 60*60;
 
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER entityName:NSStringFromClass([EntityOpenWeather class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityOpenWeather * weatherData = (EntityOpenWeather *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                 inManagedObjectContext:childContext];
+                                            
+                                            weatherData.device_id =         [data objectForKey:@"device_id"];
+                                            weatherData.timestamp =         [data objectForKey:@"timestamp"];
+                                            weatherData.city =              [data objectForKey:@"city"];
+                                            weatherData.temperature =       [data objectForKey:@"temperature"];
+                                            weatherData.temperature_max =   [data objectForKey:@"temperature_max"];
+                                            weatherData.temperature_min =   [data objectForKey:@"temperature_min"];
+                                            weatherData.unit =              [data objectForKey:@"unit"];
+                                            weatherData.humidity =          [data objectForKey:@"humidity"];
+                                            weatherData.pressure =          [data objectForKey:@"pressure"];
+                                            weatherData.wind_speed =        [data objectForKey:@"wind_speed"];
+                                            weatherData.wind_degrees =      [data objectForKey:@"wind_degrees"];
+                                            weatherData.cloudiness =        [data objectForKey:@"cloudiness"];
+                                            weatherData.weather_icon_id =   [data objectForKey:@"weather_icon_id"];
+                                            weatherData.weather_description=[data objectForKey:@"weather_description"];
+                                            weatherData.rain =              [data objectForKey:@"rain"];
+                                            weatherData.snow =              [data objectForKey:@"snow"];
+                                            weatherData.sunrise =           [data objectForKey:@"sunrise"];
+                                            weatherData.sunset =            [data objectForKey:@"sunset"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_OPEN_WEATHER
-                        dbEntityName:NSStringFromClass([EntityOpenWeather class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         locationManager = nil;
         receivedData = [[NSMutableData alloc] init];
         identificationForOpenWeather = @"http_for_open_weather_";
-        [self setCSVHeader:@[@"timestamp",
-                             @"device_id",
-                             @"city",
-                             @"temperature",
-                             @"temperature_max",
-                             @"temperature_min",
-                             @"unit",
-                             @"humidity",
-                             @"pressure",
-                             @"wind_speed",
-                             @"wind_degrees",
-                             @"cloudiness",
-                             @"rain",
-                             @"snow",
-                             @"sunrise",
-                             @"sunset",
-                             @"weather_icon_id",
-                             @"weather_description"
-                             ]];
+//        [self setCSVHeader:@[@"timestamp",
+//                             @"device_id",
+//                             @"city",
+//                             @"temperature",
+//                             @"temperature_max",
+//                             @"temperature_min",
+//                             @"unit",
+//                             @"humidity",
+//                             @"pressure",
+//                             @"wind_speed",
+//                             @"wind_degrees",
+//                             @"cloudiness",
+//                             @"rain",
+//                             @"snow",
+//                             @"sunrise",
+//                             @"sunset",
+//                             @"weather_icon_id",
+//                             @"weather_description"
+//                             ]];
         [self updateWeatherData:[NSDate new] Lat:0 Lon:0];
         _apiKey = nil;
         _frequencyMin = 15;
         
-        [self setTypeAsPlugin];
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_OPENWEATHER desc:@"(boolean) to activate / deactivate the plugin."];
-        [self addDefaultSettingWithNumber:@15 key:AWARE_PREFERENCES_OPENWEATHER_FREQUENCY desc:@"weather check interval in minutes."];
-        [self addDefaultSettingWithString:@"54e5dee2e6a2479e0cc963cf20f233cc" key:AWARE_PREFERENCES_OPENWEATHER_API_KEY desc:@" get a valid key at http://openweathermap.org/"];
+//        [self setTypeAsPlugin];
+//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_OPENWEATHER desc:@"(boolean) to activate / deactivate the plugin."];
+//        [self addDefaultSettingWithNumber:@15 key:AWARE_PREFERENCES_OPENWEATHER_FREQUENCY desc:@"weather check interval in minutes."];
+//        [self addDefaultSettingWithString:@"54e5dee2e6a2479e0cc963cf20f233cc" key:AWARE_PREFERENCES_OPENWEATHER_API_KEY desc:@" get a valid key at http://openweathermap.org/"];
         
     }
     return self;
@@ -137,7 +167,7 @@ int ONE_HOUR = 60*60;
     "weather_icon_id int default 0,"
     "weather_description text default ''";
     //"UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -178,14 +208,6 @@ int ONE_HOUR = 60*60;
     return YES;
 }
 
-- (BOOL)syncAwareDBInForeground{
-    return [super syncAwareDBInForeground];
-}
-
-- (BOOL) isUploading{
-    // NSLog(@"%d %@", [super isUploading], [self getEntityName]);
-    return [super isUploading];
-}
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -303,13 +325,13 @@ didReceiveResponse:(NSURLResponse *)response
         if ( jsonWeatherData == nil) {
             if ([self isDebug]) {
                 NSLog( @"%@", e.debugDescription );
-                [self sendLocalNotificationForMessage:e.debugDescription soundFlag:NO];
+                // [self sendLocalNotificationForMessage:e.debugDescription soundFlag:NO];
             }
             return;
         }
         
         if ([self isDebug]) {
-            [self sendLocalNotificationForMessage:@"Get Weather Information" soundFlag:NO];
+            // [self sendLocalNotificationForMessage:@"Get Weather Information" soundFlag:NO];
         }
         
         
@@ -336,41 +358,12 @@ didReceiveResponse:(NSURLResponse *)response
             [dict setObject:[self getSunRise] forKey:@"sunrise"];
             [dict setObject:[self getSunSet] forKey:@"sunset"];
             
-            [self saveData:dict];
+            [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
             [self setLatestData:dict];
         });
     }
 }
 
-
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityOpenWeather * weatherData = (EntityOpenWeather *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                         inManagedObjectContext:childContext];
-    
-    weatherData.device_id =         [data objectForKey:@"device_id"];
-    weatherData.timestamp =         [data objectForKey:@"timestamp"];
-    weatherData.city =              [data objectForKey:@"city"];
-    weatherData.temperature =       [data objectForKey:@"temperature"];
-    weatherData.temperature_max =   [data objectForKey:@"temperature_max"];
-    weatherData.temperature_min =   [data objectForKey:@"temperature_min"];
-    weatherData.unit =              [data objectForKey:@"unit"];
-    weatherData.humidity =          [data objectForKey:@"humidity"];
-    weatherData.pressure =          [data objectForKey:@"pressure"];
-    weatherData.wind_speed =        [data objectForKey:@"wind_speed"];
-    weatherData.wind_degrees =      [data objectForKey:@"wind_degrees"];
-    weatherData.cloudiness =        [data objectForKey:@"cloudiness"];
-    weatherData.weather_icon_id =   [data objectForKey:@"weather_icon_id"];
-    weatherData.weather_description=[data objectForKey:@"weather_description"];
-    weatherData.rain =              [data objectForKey:@"rain"];
-    weatherData.snow =              [data objectForKey:@"snow"];
-    weatherData.sunrise =           [data objectForKey:@"sunrise"];
-    weatherData.sunset =            [data objectForKey:@"sunset"];
-    
-}
 
 //
 //- (void)URLSession:(NSURLSession *)session

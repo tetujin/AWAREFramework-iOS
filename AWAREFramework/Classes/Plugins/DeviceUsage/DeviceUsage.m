@@ -19,16 +19,32 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE entityName:NSStringFromClass([EntityDeviceUsage class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityDeviceUsage * deviceUsage = (EntityDeviceUsage *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                 inManagedObjectContext:childContext];
+                                            deviceUsage.timestamp = [data objectForKey:@"timestamp"];
+                                            deviceUsage.device_id = [data objectForKey:@"device_id"];
+                                            deviceUsage.elapsed_device_on = [data objectForKey:@"elapsed_device_on"];
+                                            deviceUsage.elapsed_device_off = [data objectForKey:@"elapsed_device_off"];
+                                            
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_DEVICE_USAGE
-                        dbEntityName:NSStringFromClass([EntityDeviceUsage class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"elapsed_device_on",@"elapsed_device_off"]];
-    
-        [self setTypeAsPlugin];
-        
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_DEVICE_USAGE desc:@"true or false to activate or deactivate accelerometer sensor."];
+//        [self setCSVHeader:@[@"timestamp",@"device_id",@"elapsed_device_on",@"elapsed_device_off"]];
+//
+//        [self setTypeAsPlugin];
+//
+//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_DEVICE_USAGE desc:@"true or false to activate or deactivate accelerometer sensor."];
     }
     return self;
 }
@@ -44,7 +60,8 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     "elapsed_device_on real default 0,"
     "elapsed_device_off real default 0";
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -65,17 +82,6 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     [self unregisterAppforDetectDisplayStatus];
     return YES;
 }
-
-- (void)saveDummyData{
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:unixtime forKey:@"timestamp"];
-    [dic setObject:[self getDeviceId] forKey:@"device_id"];
-    [dic setObject:@0 forKey:@"elapsed_device_on"]; // real
-    [dic setObject:@0 forKey:@"elapsed_device_off"]; // real
-    [self saveData:dic];
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +138,8 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         }
         
         [self setLatestValue:[NSString stringWithFormat:@"[%d] %f", awareScreenState, elapsedTime ]];
-        [self saveData:dict];
+        // [self saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         [self setLatestData:dict];
         
     });
@@ -162,19 +169,6 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
 
 
 /////////////////////////////////////////////////////////////
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityDeviceUsage * deviceUsage = (EntityDeviceUsage *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                         inManagedObjectContext:childContext];
-    deviceUsage.timestamp = [data objectForKey:@"timestamp"];
-    deviceUsage.device_id = [data objectForKey:@"device_id"];
-    deviceUsage.elapsed_device_on = [data objectForKey:@"elapsed_device_on"];
-    deviceUsage.elapsed_device_off = [data objectForKey:@"elapsed_device_off"];
-    
-}
 
 
 

@@ -19,16 +19,24 @@
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    SQLiteStorage * storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"push_notification_device_tokens" entityName:NSStringFromClass([EntityPushNotification class])
+                                    insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                        EntityPushNotification * entityPush = (EntityPushNotification *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                      inManagedObjectContext:childContext];
+                                        entityPush.device_id = [data objectForKey:self->KEY_PUSH_DEVICE_ID];
+                                        entityPush.timestamp = [data objectForKey:self->KEY_PUSH_TIMESTAMP];
+                                        entityPush.token = [data objectForKey:self->KEY_PUSH_TOKEN];
+                                    }];
+    
     self = [super initWithAwareStudy:study
-                          sensorName:@"push_notification_device_tokens"
-                        dbEntityName:NSStringFromClass([EntityPushNotification class])
-                              dbType:AwareDBTypeSQLite];
+                           sensorName:@"push_notification_device_tokens"
+                              storage:storage];
     if(self != nil){
         KEY_PUSH_DEVICE_ID = @"device_id";
         KEY_PUSH_TIMESTAMP = @"timestamp";
         KEY_PUSH_TOKEN = @"token";
-        [self allowsCellularAccess];
-        [self allowsDateUploadWithoutBatteryCharging];
+//        [self.storage allowsCellularAccess];
+//        [self.storage allowsDateUploadWithoutBatteryCharging];
     }
     return self;
 }
@@ -45,7 +53,8 @@
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_PUSH_TOKEN]];
     [query appendString:@"UNIQUE (timestamp,device_id)"];
     
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -53,7 +62,7 @@
 }
 
 - (BOOL)startSensor{
-    [self performSelector:@selector(syncAwareDBInBackground) withObject:nil afterDelay:1];
+    [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:1];
     return YES;
 }
 
@@ -72,7 +81,8 @@
     [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_PUSH_TIMESTAMP];
     [dict setObject:[self getDeviceId] forKey:KEY_PUSH_DEVICE_ID];
     [dict setObject:token forKey:KEY_PUSH_TOKEN];
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
     // Save the token to user default
@@ -95,16 +105,6 @@
     return NO;
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityPushNotification * entityPush = (EntityPushNotification *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                              inManagedObjectContext:childContext];
-    entityPush.device_id = [data objectForKey:KEY_PUSH_DEVICE_ID];
-    entityPush.timestamp = [data objectForKey:KEY_PUSH_TIMESTAMP];
-    entityPush.token = [data objectForKey:KEY_PUSH_TOKEN];
-}
 
 - (void)saveDummyData{
     [self saveStoredPushNotificationDeviceToken];
@@ -112,9 +112,9 @@
 
 //////////////////////////////////////////////////
 
-- (BOOL)syncAwareDBInForeground{
-    return [super syncAwareDBInForeground];
-}
+//- (BOOL)syncAwareDBInForeground{
+//    return [super syncAwareDBInForeground];
+//}
 
 - (NSString *) getPushNotificationToken {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];

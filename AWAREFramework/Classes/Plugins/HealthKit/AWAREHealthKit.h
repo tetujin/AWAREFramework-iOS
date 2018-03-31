@@ -6,7 +6,7 @@
 //  Copyright © 2016 Yuuki NISHIYAMA. All rights reserved.
 //
 
-#import "AWAREPlugin.h"
+#import "AWARESensor.h"
 
 @interface AWAREHealthKit : AWARESensor <AWARESensorDelegate>
 

@@ -22,13 +22,33 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_WIFI];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_WIFI entityName:NSStringFromClass([EntityWifi class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityWifi* entityWifi = (EntityWifi *)[NSEntityDescription
+                                                                                    insertNewObjectForEntityForName:entity
+                                                                                    inManagedObjectContext:childContext];
+                                            entityWifi.device_id = [data objectForKey:@"device_id"];
+                                            entityWifi.timestamp = [data objectForKey:@"timestamp"];
+                                            entityWifi.bssid = [data objectForKey:@"bssid"];//finalBSSID;
+                                            entityWifi.ssid = [data objectForKey:@"ssid"];//ssid;
+                                            entityWifi.security = [data objectForKey:@"security"];// @"";
+                                            entityWifi.frequency = [data objectForKey:@"frequency"];//@0;
+                                            entityWifi.rssi = [data objectForKey:@"rssi"]; //@0;
+                                            entityWifi.label = [data objectForKey:@"label"];//@"";
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_WIFI
-                        dbEntityName:NSStringFromClass([EntityWifi class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         sensingInterval = 60.0f; // 60sec. = 1min.
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"]];
     }
     return self;
 }
@@ -50,7 +70,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     "rssi integer default 0,"
     "label text default ''";
     //"UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -150,7 +171,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         [dict setObject:@0 forKey:@"rssi"]; //int
         [dict setObject:@"" forKey:@"label"]; //text
 
-        [self saveData:dict];
+        // [self saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         
         [self setLatestData:dict];
         
@@ -160,47 +182,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
             [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
         }
         
-        if(![self isWiFiEnabled]){
-            [self saveDebugEventWithText:@"Wifi module is powered off" type:DebugTypeWarn label:@""];
-        }
+//        if(![self isWiFiEnabled]){
+//            [self saveDebugEventWithText:@"Wifi module is powered off" type:DebugTypeWarn label:@""];
+//        }
     }
     
     [self broadcastScanEnded];
 }
 
-
--(void)insertNewEntityWithData:(NSDictionary *)data
-          managedObjectContext:(NSManagedObjectContext *)childContext
-                    entityName:(NSString *)entity{
-    
-    EntityWifi* entityWifi = (EntityWifi *)[NSEntityDescription
-                                      insertNewObjectForEntityForName:entity
-                                      inManagedObjectContext:childContext];
-    entityWifi.device_id = [data objectForKey:@"device_id"];
-    entityWifi.timestamp = [data objectForKey:@"timestamp"];
-    entityWifi.bssid = [data objectForKey:@"bssid"];//finalBSSID;
-    entityWifi.ssid = [data objectForKey:@"ssid"];//ssid;
-    entityWifi.security = [data objectForKey:@"security"];// @"";
-    entityWifi.frequency = [data objectForKey:@"frequency"];//@0;
-    entityWifi.rssi = [data objectForKey:@"rssi"]; //@0;
-    entityWifi.label = [data objectForKey:@"label"];//@"";
-}
-
-
-- (void)saveDummyData{
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:@"dummy" forKey:@"bssid"]; //text
-    [dict setObject:@"dummy" forKey:@"ssid"]; //text
-    [dict setObject:@"dummy" forKey:@"security"]; //text
-    [dict setObject:@0 forKey:@"frequency"];//int
-    [dict setObject:@0 forKey:@"rssi"]; //int
-    [dict setObject:@"dummy" forKey:@"label"]; //text
-    
-    [self saveData:dict];
-}
 
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

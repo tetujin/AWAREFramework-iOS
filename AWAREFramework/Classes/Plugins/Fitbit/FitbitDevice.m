@@ -15,14 +15,30 @@
     NSMutableData * responseData;
 }
 
-- (instancetype)initWithAwareStudy:(AWAREStudy *)study
-                            dbType:(AwareDBType)dbType{
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"fitbit_device"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"fitbit_device" entityName:NSStringFromClass([EntityFitbitDevice class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityFitbitDevice* entityFitbitDevice = (EntityFitbitDevice *)[NSEntityDescription
+                                                                                                            insertNewObjectForEntityForName:entity
+                                                                                                            inManagedObjectContext:childContext];
+                                            
+                                            entityFitbitDevice.timestamp = [data objectForKey:@"timestamp"];
+                                            entityFitbitDevice.device_id = [data objectForKey:@"device_id"];
+                                            entityFitbitDevice.fitbit_id = [data objectForKey:@"fitbit_id"];
+                                            entityFitbitDevice.fitbit_version = [data objectForKey:@"fitbit_version"];
+                                            entityFitbitDevice.fitbit_battery = [data objectForKey:@"fitbit_battery"];
+                                            entityFitbitDevice.fitbit_mac = [data objectForKey:@"fitbit_mac"];
+                                            entityFitbitDevice.fitbit_last_sync = [data objectForKey:@"fitbit_last_sync"];
+                                        }];
+    }
     
     self = [super initWithAwareStudy:study
                           sensorName:@"fitbit_device"
-                        dbEntityName:NSStringFromClass([EntityFitbitDevice class])
-                              dbType:AwareDBTypeSQLite
-                          bufferSize:0];
+                             storage:storage];
     if(self != nil){
         identificationForFitbitDevice = @"";
         responseData = [[NSMutableData alloc] init];
@@ -37,8 +53,8 @@
     [tcq addColumn:@"fitbit_battery" type:TCQTypeText default:@"''"];
     [tcq addColumn:@"fitbit_mac" type:TCQTypeText default:@"''"];
     [tcq addColumn:@"fitbit_last_sync" type:TCQTypeText default:@"''"];
-    
-    [super createTable:tcq.getDefaudltTableCreateQuery];
+    [self.storage createDBTableOnServerWithTCQMaker:tcq];
+    // [super createTable:tcq.getDefaudltTableCreateQuery];
 }
 
 - (BOOL)startSensorWithSettings:(NSArray *)settings{
@@ -133,7 +149,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([self isDebug]) {
-                    [self sendLocalNotificationForMessage:@"Fitbit plugin got device data" soundFlag:NO];
+                    // [self sendLocalNotificationForMessage:@"Fitbit plugin got device data" soundFlag:NO];
                 }
             });
             
@@ -160,7 +176,8 @@
                     [dict setObject:fitbitLastSync forKey:@"fitbit_last_sync"];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self saveData:dict];
+                        // [self saveData:dict];
+                        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
                     });
                 }
             }
@@ -170,22 +187,6 @@
     } @finally {
         
     }
-}
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityFitbitDevice* entityFitbitDevice = (EntityFitbitDevice *)[NSEntityDescription
-                                                               insertNewObjectForEntityForName:entity
-                                                               inManagedObjectContext:childContext];
-
-    entityFitbitDevice.timestamp = [data objectForKey:@"timestamp"];
-    entityFitbitDevice.device_id = [data objectForKey:@"device_id"];
-    entityFitbitDevice.fitbit_id = [data objectForKey:@"fitbit_id"];
-    entityFitbitDevice.fitbit_version = [data objectForKey:@"fitbit_version"];
-    entityFitbitDevice.fitbit_battery = [data objectForKey:@"fitbit_battery"];
-    entityFitbitDevice.fitbit_mac = [data objectForKey:@"fitbit_mac"];
-    entityFitbitDevice.fitbit_last_sync = [data objectForKey:@"fitbit_last_sync"];
 }
 
 /////////////////////////////////////////////////////////////////////

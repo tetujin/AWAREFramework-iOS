@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreMotion/CoreMotion.h>
-// #import "AWARESensor.h"
 #import "AWAREKeys.h"
 #import "AWAREMotionSensor.h"
 

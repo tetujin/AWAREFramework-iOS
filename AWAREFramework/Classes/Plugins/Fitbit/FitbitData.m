@@ -26,11 +26,26 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"fitbit_data"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"fitbit_data" entityName:NSStringFromClass([EntityFitbitData class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityFitbitData * entityFitbitData = (EntityFitbitData *)[NSEntityDescription
+                                                                                                       insertNewObjectForEntityForName:entity
+                                                                                                       inManagedObjectContext:childContext];
+                                            entityFitbitData.device_id = [self getDeviceId];
+                                            entityFitbitData.timestamp = [data objectForKey:@"timestamp"];
+                                            entityFitbitData.device_id = [data objectForKey:@"device_id"];
+                                            entityFitbitData.fitbit_data = [data objectForKey:@"fitbit_data"];
+                                            entityFitbitData.fitbit_data_type = [data objectForKey:@"fitbit_data_type"];
+                                            entityFitbitData.fitbit_id = [data objectForKey:@"fitbit_id"];
+                                        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:@"fitbit_data"
-                        dbEntityName:NSStringFromClass([EntityFitbitData class])
-                              dbType:AwareDBTypeSQLite
-                          bufferSize:0];
+            storage:storage];
     if(self != nil){
         identificationForFitbitData = @"";
         
@@ -55,8 +70,8 @@
     [tcq addColumn:@"fitbit_id" type:TCQTypeText default:@"''"];
     [tcq addColumn:@"fitbit_data_type" type:TCQTypeText default:@"''"];
     [tcq addColumn:@"fitbit_data" type:TCQTypeText default:@"''"];
-    
-    [super createTable:tcq.getDefaudltTableCreateQuery];
+    [self.storage createDBTableOnServerWithTCQMaker:tcq];
+    // [super createTable:tcq.getDefaudltTableCreateQuery];
 }
 
 
@@ -294,7 +309,7 @@
             NSLog(@"%@",error.debugDescription);
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([self isDebug]) {
-                    [self sendLocalNotificationForMessage:[NSString stringWithFormat:@"[%@]%@",type,error.debugDescription] soundFlag:NO];
+//                    [self sendLocalNotificationForMessage:[NSString stringWithFormat:@"[%@]%@",type,error.debugDescription] soundFlag:NO];
                 }
             });
             return;
@@ -316,7 +331,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([self isDebug]) {
-                    [self sendLocalNotificationForMessage:[NSString stringWithFormat:@"Fitbit plugin got %@ data (%ld bytes)", type, data.length] soundFlag:NO];
+//                    [self sendLocalNotificationForMessage:[NSString stringWithFormat:@"Fitbit plugin got %@ data (%ld bytes)", type, data.length] soundFlag:NO];
                 }
             });
             
@@ -349,7 +364,8 @@
                                                               userInfo:userInfo];
             NSLog(@"%@",[NSString stringWithFormat:@"action.aware.plugin.fitbit.get.activity.%@",type]);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self saveData:dict];
+                // [self saveData:dict];
+                [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
             });
         }else{
             
@@ -366,19 +382,6 @@
     } @catch (NSException *exception) {
     } @finally {
     }
-}
-
-
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityFitbitData * entityFitbitData = (EntityFitbitData *)[NSEntityDescription
-                                                               insertNewObjectForEntityForName:entity
-                                                               inManagedObjectContext:childContext];
-    entityFitbitData.device_id = [self getDeviceId];
-    entityFitbitData.timestamp = [data objectForKey:@"timestamp"];
-    entityFitbitData.device_id = [data objectForKey:@"device_id"];
-    entityFitbitData.fitbit_data = [data objectForKey:@"fitbit_data"];
-    entityFitbitData.fitbit_data_type = [data objectForKey:@"fitbit_data_type"];
-    entityFitbitData.fitbit_id = [data objectForKey:@"fitbit_id"];
 }
 
 
@@ -440,8 +443,8 @@ didReceiveResponse:(NSURLResponse *)response
     NSString * identifier = session.configuration.identifier;
     
     if (self.isDebug && error != nil) {
-        [self sendLocalNotificationForMessage:error.debugDescription soundFlag:NO];
-        [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] Error:%@ ",identifier,error.debugDescription] type:DebugTypeInfo label:identifier];
+//        [self sendLocalNotificationForMessage:error.debugDescription soundFlag:NO];
+//        [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] Error:%@ ",identifier,error.debugDescription] type:DebugTypeInfo label:identifier];
     }
     
     // NSLog(@"[%@]URLSession:task:didCompleteWithError",identifier);
@@ -462,7 +465,7 @@ didReceiveResponse:(NSURLResponse *)response
         [self saveData:data response:nil error:error type:identifier];
     }else{
         NSLog(@"data is nil @ FitbitData plugin");
-        [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] data is nil",identifier] type:DebugTypeInfo label:identifier];
+//        [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] data is nil",identifier] type:DebugTypeInfo label:identifier];
     }
     
     // clear

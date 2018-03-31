@@ -23,23 +23,36 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations" entityName:NSStringFromClass([EntityLocation class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityLocation* entityLocation = (EntityLocation *)[NSEntityDescription
+                                                                                                insertNewObjectForEntityForName:entity
+                                                                                                inManagedObjectContext:childContext];
+                                            
+                                            entityLocation.device_id = [data objectForKey:@"device_id"];
+                                            entityLocation.timestamp = [data objectForKey:@"timestamp"];
+                                            entityLocation.double_latitude = [data objectForKey:@"double_latitude"];
+                                            entityLocation.double_longitude = [data objectForKey:@"double_longitude"];
+                                            entityLocation.double_bearing = [data objectForKey:@"double_bearing"];
+                                            entityLocation.double_speed = [data objectForKey:@"double_speed"];
+                                            entityLocation.double_altitude = [data objectForKey:@"double_altitude"];
+                                            entityLocation.provider = [data objectForKey:@"provider"];
+                                            entityLocation.accuracy = [data objectForKey:@"accuracy"];
+                                            entityLocation.label = [data objectForKey:@"label"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:@"locations"
-                        dbEntityName:NSStringFromClass([EntityLocation class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         interval = 180; // 180sec(=3min)
         accuracy = 250; // 250m
-        [self setCSVHeader:@[@"timestamp",
-                             @"device_id",
-                             @"double_latitude",
-                             @"double_longitude",
-                             @"double_bearing",
-                             @"double_speed",
-                             @"double_altitude",
-                             @"provider",
-                             @"accuracy",
-                             @"label"]];
+        // [self setCSVHeader:@[@"timestamp", @"device_id", @"double_latitude", @"double_longitude", @"double_bearing", @"double_speed", @"double_altitude", @"provider", @"accuracy", @"label"]];
     }
     return self;
 }
@@ -64,7 +77,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         "accuracy real default 0,"
         "label text default ''";
         // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -264,13 +278,13 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f", location.coordinate.latitude, location.coordinate.longitude, location.speed]];
     [self setLatestData:dict];
     
-    if([self getDBType] == AwareDBTypeSQLite){
-        [self saveData:dict];
-    }else if ([self getDBType] == AwareDBTypeJSON){
-        // [self saveData:dict toLocalFile:@"locations"];
-        [self saveData:dict];
-    }
-    
+//    if([self getDBType] == AwareDBTypeSQLite){
+//        [self saveData:dict];
+//    }else if ([self getDBType] == AwareDBTypeJSON){
+//        // [self saveData:dict toLocalFile:@"locations"];
+//        [self saveData:dict];
+//    }
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
                           location.coordinate.latitude,
                           location.coordinate.longitude,
@@ -283,32 +297,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
                                                       userInfo:userInfo];
 }
 
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityLocation* entityLocation = (EntityLocation *)[NSEntityDescription
-                                              insertNewObjectForEntityForName:entity
-                                              inManagedObjectContext:childContext];
-    
-    entityLocation.device_id = [data objectForKey:@"device_id"];
-    entityLocation.timestamp = [data objectForKey:@"timestamp"];
-    entityLocation.double_latitude = [data objectForKey:@"double_latitude"];
-    entityLocation.double_longitude = [data objectForKey:@"double_longitude"];
-    entityLocation.double_bearing = [data objectForKey:@"double_bearing"];
-    entityLocation.double_speed = [data objectForKey:@"double_speed"];
-    entityLocation.double_altitude = [data objectForKey:@"double_altitude"];
-    entityLocation.provider = [data objectForKey:@"provider"];
-    entityLocation.accuracy = [data objectForKey:@"accuracy"];
-    entityLocation.label = [data objectForKey:@"label"];
-    
-}
-
-
-- (void)saveDummyData{
-    [self getGpsData:nil];
-}
 
 
 //- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
@@ -331,7 +319,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 
 - (void) saveAuthorizationStatus:(CLAuthorizationStatus ) status {
     if(status == kCLAuthorizationStatusNotDetermined ){
-        [self saveDebugEventWithText:@"Location sensor's authorization is not determined" type:DebugTypeWarn label:@""];
+//        [self saveDebugEventWithText:@"Location sensor's authorization is not determined" type:DebugTypeWarn label:@""];
         
         //        NSString * title = @"Location Sensor Error";
         //        NSString * message = @"Please allow to use location sensor on AWARE client iOS from 'Settings > AWARE > Location> Always'";
@@ -351,7 +339,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     }else if (status == kCLAuthorizationStatusRestricted ){
         NSString * title = @"Location Sensor Error";
         NSString * message = @"Please allow to use location sensor on AWARE client iOS from 'Settings > AWARE > Location> Always'";
-        [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
+        // [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
             [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
                                                category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
@@ -368,7 +356,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         
         NSString * title = @"Location Sensor Error";
         NSString * message = @"Please turn on the location service from 'Settings > General > Privacy > Location Services'";
-        [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
+        // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
             [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
                                                category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
@@ -378,7 +366,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         }
         //////////////////// kCLAuthorizationStatusAuthorized /////////////////////////
     }else if (status == kCLAuthorizationStatusAuthorized || status == kCLAuthorizationStatusAuthorizedAlways){
-        [self saveDebugEventWithText:@"Location sensor's authorization is authorized always" type:DebugTypeWarn label:@""];
+        // [ self saveDebugEventWithText:@"Location sensor's authorization is authorized always" type:DebugTypeWarn label:@""];
         //        NSString * title = @"Location Sensor";
         //        NSString * message = @"Location service setting is correct! Thank you for your cooperation";
         //        if([AWAREUtils isBackground]){
@@ -391,10 +379,10 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         
         /////////////////// kCLAuthorizationStatusAuthorizedWhenInUse ///////////////////
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
-        [self saveDebugEventWithText:@"Location sensor's authorization is authorized when in use" type:DebugTypeWarn label:@""];
+        // [self saveDebugEventWithText:@"Location sensor's authorization is authorized when in use" type:DebugTypeWarn label:@""];
         NSString * title = @"Location Sensor Error";
         NSString * message = @"Please allow to use location sensor 'Always' on AWARE client iOS from 'Settings > AWARE > Location> Always'";
-        [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
+        // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
             [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
                                                category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
@@ -409,7 +397,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         
         //////////////////// Unknown ///////////////////////////////
     }else {
-        [self saveDebugEventWithText:@"Location sensor's authorization is unknown" type:DebugTypeWarn label:@""];
+        // [self saveDebugEventWithText:@"Location sensor's authorization is unknown" type:DebugTypeWarn label:@""];
     }
 }
 

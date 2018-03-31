@@ -10,25 +10,45 @@
 #import "AWAREUtils.h"
 #import "EntityAccelerometer.h"
 #import "EntityAccelerometer+CoreDataProperties.h"
+#import "JSONStorage.h"
+#import "SQLiteStorage.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_ACCELEROMETER    = @"status_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER = @"frequency_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_accelerometer";
 
 @implementation Accelerometer{
+    
     CMMotionManager *manager;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"accelerometer"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"accelerometer" entityName:NSStringFromClass([EntityAccelerometer class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
+            EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription
+                                                                      insertNewObjectForEntityForName:entity
+                                                                      inManagedObjectContext:childContext];
+            entityAcc.device_id = [self getDeviceId];
+            entityAcc.timestamp = [dataDict objectForKey:@"timestamp"];
+            entityAcc.double_values_0 = [dataDict objectForKey:@"double_values_0"];
+            entityAcc.double_values_1 = [dataDict objectForKey:@"double_values_1"];
+            entityAcc.double_values_2 = [dataDict objectForKey:@"double_values_2"];
+            entityAcc.accuracy = [dataDict objectForKey:@"accuracy"];
+            entityAcc.label = [dataDict objectForKey:@"label"];
+        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:@"accelerometer"
-                        dbEntityName:NSStringFromClass([EntityAccelerometer class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         manager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"]];
+        
     }
     
     return self;
@@ -44,8 +64,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     [queryMaker addColumn:@"double_values_2" type:TCQTypeReal default:@"0"];
     [queryMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [queryMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-    NSString * query = [queryMaker getDefaudltTableCreateQuery];
-    [super createTable:query];
+    // NSString * query = [queryMaker getDefaudltTableCreateQuery];
+    [self.storage createDBTableOnServerWithTCQMaker:queryMaker];
 }
 
 /**
@@ -78,7 +98,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     }
     
     // Set buffer size for reducing file access
-    [self setBufferSize:savingInterval/sensingInterval];
+    // [self setBufferSize:savingInterval/sensingInterval];
+    [self.storage setBufferSize:savingInterval/sensingInterval];
     
     manager.accelerometerUpdateInterval = sensingInterval;
     
@@ -112,47 +133,13 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                                                                               object:nil
                                                                                             userInfo:userInfo];
                                           
-                                          
-                                          ////// SQLite DB ////////
-                                          if([self getDBType] == AwareDBTypeSQLite) {
-                                              [self saveData:dict];
-                                         //////////// Text File based DB ///////////////////////////////////
-                                          } else if ([self getDBType] == AwareDBTypeJSON){
-                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                     [self saveData:dict];
-                                                });
-                                          }
-                                          
-                                          ////////////////////////////////
-//                                          if ( hzMonitor == 0 ) {
-//                                              hzMonitor = [[NSDate date] timeIntervalSince1970];
-//                                          } else {
-//                                              double gap = ([[NSDate new] timeIntervalSince1970] - hzMonitor);
-//                                              if (gap > 1) {
-//                                                  NSLog(@"Hz:%f(hz)",hz);
-//                                                  hzMonitor = [[NSDate date] timeIntervalSince1970];
-//                                                  hz=0;
-//                                              }
-//                                          }
-//                                          hz++;
+                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
                                       }
                                   }];
 
     return YES;
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription
-                                                           insertNewObjectForEntityForName:entity
-                                                           inManagedObjectContext:childContext];
-    entityAcc.device_id = [self getDeviceId];
-    entityAcc.timestamp = [data objectForKey:@"timestamp"];
-    entityAcc.double_values_0 = [data objectForKey:@"double_values_0"];
-    entityAcc.double_values_1 = [data objectForKey:@"double_values_1"];
-    entityAcc.double_values_2 = [data objectForKey:@"double_values_2"];
-    entityAcc.accuracy = [data objectForKey:@"accuracy"];
-    entityAcc.label = [data objectForKey:@"label"];
-}
 
 
 -(BOOL) stopSensor {

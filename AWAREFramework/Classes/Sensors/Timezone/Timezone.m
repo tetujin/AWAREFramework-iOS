@@ -19,14 +19,30 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_TIMEZONE];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_TIMEZONE entityName:NSStringFromClass([EntityTimezone class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityTimezone* entityTimezone = (EntityTimezone *)[NSEntityDescription
+                                                                                                insertNewObjectForEntityForName:entity
+                                                                                                inManagedObjectContext:childContext];
+                                            
+                                            entityTimezone.device_id = [data objectForKey:@"device_id"];
+                                            entityTimezone.timestamp = [data objectForKey:@"timestamp"];
+                                            entityTimezone.timezone = [[NSTimeZone localTimeZone] description];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_TIMEZONE
-                        dbEntityName:NSStringFromClass([EntityTimezone class])
-                              dbType:dbType
-                          bufferSize:0];
+                             storage:storage];
     if (self) {
         updateInterval = 60*60;// 3600 sec. = 1 hour
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"timezone"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"timezone"]];
     }
     return self;
 }
@@ -41,7 +57,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     "device_id text default '',"
     "timezone text default ''";
     //"UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -82,14 +99,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
 }
 
 
-- (void)saveDummyData{
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:[[NSTimeZone localTimeZone] description] forKey:@"timezone"];
-    [self saveData:dict];
-}
-
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +113,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
     [dict setObject:[[NSTimeZone localTimeZone] description] forKey:@"timezone"];
     [self setLatestValue:[NSString stringWithFormat:@"%@", [[NSTimeZone localTimeZone] description]]];
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
     // Broadcast
@@ -114,19 +124,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
                                                         object:nil
                                                       userInfo:userInfo];
 
-    
-}
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityTimezone* entityTimezone = (EntityTimezone *)[NSEntityDescription
-                                              insertNewObjectForEntityForName:entity
-                                              inManagedObjectContext:childContext];
-    
-    entityTimezone.device_id = [data objectForKey:@"device_id"];
-    entityTimezone.timestamp = [data objectForKey:@"timestamp"];
-    entityTimezone.timezone = [[NSTimeZone localTimeZone] description];
 }
 
 @end

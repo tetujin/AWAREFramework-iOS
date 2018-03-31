@@ -20,10 +20,11 @@
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"basic_settings"];
     self = [super initWithAwareStudy:study
-                          sensorName:@"BasicSettings"
-                        dbEntityName:nil
-                              dbType:AwareDBTypeJSON];
+                          sensorName:@"basic_settings"
+                             storage:storage];
     if (self) {
         AWAREDelegate * delegate = (AWAREDelegate *)[[UIApplication sharedApplication] delegate];
         coreStudy = delegate.sharedAWARECore.sharedAwareStudy;

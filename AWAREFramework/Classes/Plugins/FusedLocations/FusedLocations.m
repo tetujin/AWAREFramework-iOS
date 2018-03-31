@@ -22,31 +22,35 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     
     Locations * locationSensor;
     VisitLocations * visitLocationSensor;
-    AWAREStudy * awareStudy;
+    // AWAREStudy * awareStudy;
     
     CLLocation * previousLocation;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_GOOGLE_FUSED_LOCATION];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_GOOGLE_FUSED_LOCATION
-                        dbEntityName:NSStringFromClass([EntityLocation class])
-                              dbType:dbType];
-    awareStudy = study;
+                             storage:storage];
+            
+    // awareStudy = study;
     if (self) {
         // Make a fused location sensor
-        locationSensor = [[Locations alloc] initWithAwareStudy:awareStudy dbType:dbType];
+        locationSensor = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
         
         // Make a visit location sensor
-        visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:awareStudy dbType:dbType];
+        visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:study dbType:dbType];
         _intervalSec = 180;
         _accuracyMeter = 100;
         
-        [self setTypeAsPlugin];
-        
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION desc:@"true or false to activate or deactivate accelerometer sensor."];
-        [self addDefaultSettingWithNumber:@0 key:AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION desc:@"How frequently to fetch user's location (in seconds.)"];
-        [self addDefaultSettingWithNumber:@102 key:AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION desc:@"One of the following numbers: 100 (high power): uses GPS only - works best outdoors, highest accuracy 102 (balanced): uses GPS, Network and Wifi - works both indoors and outdoors, good accuracy 104 (low power): uses only Network and WiFi - poorest accuracy, medium accuracy 105 (no power) - scavenges location requests from other apps."];
+//        [self setTypeAsPlugin];
+//
+//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION desc:@"true or false to activate or deactivate accelerometer sensor."];
+//        [self addDefaultSettingWithNumber:@0 key:AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION desc:@"How frequently to fetch user's location (in seconds.)"];
+//        [self addDefaultSettingWithNumber:@102 key:AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION desc:@"One of the following numbers: 100 (high power): uses GPS only - works best outdoors, highest accuracy 102 (balanced): uses GPS, Network and Wifi - works both indoors and outdoors, good accuracy 104 (low power): uses only Network and WiFi - poorest accuracy, medium accuracy 105 (no power) - scavenges location requests from other apps."];
     }
     return self;
 }
@@ -162,34 +166,17 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     return YES;
 }
 
-- (void) syncAwareDB {
-    [visitLocationSensor syncAwareDB];
-    [locationSensor syncAwareDB];
-    [super syncAwareDB];
+- (void) startSyncDB{
+    [visitLocationSensor startSyncDB];
+    [locationSensor startSyncDB];
+    [super startSyncDB];
 }
 
-- (BOOL)syncAwareDBInForeground{
-    if(![visitLocationSensor syncAwareDBInForeground]){
-        return NO;
-    }
-    
-    if(![locationSensor syncAwareDBInForeground]){
-        return NO;
-    }
-    
-    if(![super syncAwareDBInForeground]){
-        return NO;
-    }
-    
-
-    
-    return YES;
+- (void)stopSyncDB{
+    [visitLocationSensor stopSyncDB];
+    [locationSensor stopSyncDB];
+    [super stopSyncDB];
 }
-
-- (NSString *) getSyncProgressAsText{
-    return [self getSyncProgressAsText:@"locations"];
-}
-
 
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////
@@ -236,7 +223,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     [dict setObject:@"fused" forKey:@"provider"];
     [dict setObject:[NSNumber numberWithInt:accuracy] forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
-    [locationSensor saveData:dict];
+    // [locationSensor saveData:dict];
+    [locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [locationSensor setLatestData:dict];
     
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
@@ -260,15 +248,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     
 }
 
-
-- (bool)isUploading:(CLAuthorizationStatus ) state{
-    if([locationSensor isUploading] || [visitLocationSensor isUploading]){
-        return YES;
-    }else{
-        return NO;
-    }
-}
-
 //- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
 //    if (newHeading.headingAccuracy < 0)
 //        return;
@@ -287,22 +266,5 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-
-- (void)saveDummyData{
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:@0 forKey:@"double_latitude"];
-    [dict setObject:@0 forKey:@"double_longitude"];
-    [dict setObject:@0 forKey:@"double_bearing"];
-    [dict setObject:@0 forKey:@"double_speed"];
-    [dict setObject:@0 forKey:@"double_altitude"];
-    [dict setObject:@"fused" forKey:@"provider"];
-    [dict setObject:@0 forKey:@"accuracy"];
-    [dict setObject:@"dummy" forKey:@"label"];
-    [locationSensor saveData:dict];
-}
-
 
 @end

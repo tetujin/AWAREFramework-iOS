@@ -12,12 +12,15 @@
 #import <AWAREFramework/ESMSchedule.h>
 #import <AWAREFramework/ESMScheduleManager.h>
 #import <AWAREFramework/ESMScrollViewController.h>
+#import <AWAREFramework/SyncExecutor.h>
 
 @interface AWAREFrameworkViewController ()
 
 @end
 
-@implementation AWAREFrameworkViewController
+@implementation AWAREFrameworkViewController{
+    SQLiteStorage * storage;
+}
 
 - (void)viewDidLoad
 {
@@ -25,29 +28,11 @@
     // Do any additional setup after loading the view, typically from a nib.
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+    // AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+    [study setMaximumNumberOfRecordsForDBSync:100];
     
-    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [accelerometer setDebugState:YES];
-    [accelerometer setSensingIntervalWithHz:10];
-    [accelerometer setSavingInterval:30];
-    
-    AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [noise setDebugState:YES];
-    [noise startSensor];
-    
-    ESM * esm = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    
-    [manager addSensors:@[accelerometer,esm]];
-    [manager createAllTables];
-    [manager startAllSensors];
-    
-    [self setESMSchedule];
-    
-    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    [esmManager setNotificationSchedules];
+    [study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/1550/idXL2PZTlDNN"];
 }
-
 
 - (void)viewDidAppear:(BOOL)animated{
     
@@ -64,14 +49,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)pushedESMCheckButton:(id)sender {
-    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    if ([esmManager getValidSchedules].count > 0) {
-        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-        [self.navigationController pushViewController:esmView animated:YES];
+
+- (void) testSQLite{
+    
+    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+    [storage setBufferSize:500];
+    for (int i =0; i<1000; i++) {
+        NSNumber * timestamp = @([NSDate new].timeIntervalSince1970);
+        [storage saveDataWithDictionary:@{@"timestamp":timestamp,@"device_id":study.getDeviceId} buffer:YES saveInMainThread:YES];
     }
 }
-
 
 
 - (void) setESMSchedule{
@@ -90,11 +78,9 @@
     ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"text"];
      [text setTitle:@"hello world!"];
     
-    ///////////////////////
     ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"radio"
                                                       radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
     [schedule.esms addObject:radio];
-    
     
     ///////////////////////
     ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox"
@@ -109,7 +95,6 @@
                                                                  likertStep:1];
     [schedule.esms addObject:likertScale];
     
-    
     ////////////////////////
     ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam"];
     [schedule.esms addObject:pam];
@@ -120,7 +105,7 @@
     
     [esmManager addSchedule:schedule];
     
-    // [esmManager setNotificationSchedules];
+    [esmManager setNotificationSchedules];
 }
 
 

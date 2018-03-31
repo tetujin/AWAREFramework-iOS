@@ -14,10 +14,8 @@
 #import "Debug.h"
 #import "PushNotification.h"
 #import "IOSESM.h"
-#import "Labels.h"
-#import "GoogleCalPush.h"
 #import "GoogleLogin.h"
-#import "Observer.h"
+#import <UserNotifications/UserNotifications.h>
 
 #import "Fitbit.h"
 
@@ -74,25 +72,12 @@
         // Set background fetch
         [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
         
-        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-            NSSet *categories = [self getNotificationCategories];
-            
-            // Set the category to application
-            UIUserNotificationType types = UIUserNotificationTypeBadge|
-            UIUserNotificationTypeSound|
-            UIUserNotificationTypeNone|
-            UIUserNotificationTypeAlert;
-            UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
-            [application registerUserNotificationSettings:mySettings];
-            
-        }else{
-            UIUserNotificationType types = UIUserNotificationTypeBadge|
-            UIUserNotificationTypeSound|
-            UIUserNotificationTypeNone|
-            UIUserNotificationTypeAlert;
-            UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-            [application registerUserNotificationSettings:mySettings];
-        }
+        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
+                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                                  // Enable or disable features based on authorization.
+                              }];
+        
     }
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
@@ -149,10 +134,9 @@
         notification.applicationIconBadgeNumber = 1;
         [[UIApplication sharedApplication] scheduleLocalNotification:notification];
         
-        
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:notification.alertBody type:DebugTypeWarn label:@"stop"];
-        [debugSensor syncAwareDB];
+//        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
+//        [debugSensor saveDebugEventWithText:notification.alertBody type:DebugTypeWarn label:@"stop"];
+//        [debugSensor syncAwareDB];
     }
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:YES forKey:KEY_APP_TERMINATED];
@@ -197,28 +181,28 @@ performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
             NSString *formattedDateString = [dateFormatter stringFromDate:[NSDate new]];
             
-            Debug * debug = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
-            [debug saveDebugEventWithText:@"This is a background fetch" type:DebugTypeInfo label:formattedDateString];
-            bool result = [debug syncAwareDBInForeground];
-            
-            NSString * debugMessage = @"";
-            if (result) {
-                debugMessage = @"Sucess to upload debug message in the background fetch.";
-            }else{
-                debugMessage = @"Faile to upload debug message in the background fetch.";
-            }
-            [debug saveDebugEventWithText:debugMessage type:DebugTypeInfo label:formattedDateString];
-            //    [AWAREUtils sendLocalNotificationForMessage:debugMessage soundFlag:YES];
-            
-            if (result) {
+//            Debug * debug = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
+//            [debug saveDebugEventWithText:@"This is a background fetch" type:DebugTypeInfo label:formattedDateString];
+//            bool result = [debug syncAwareDBInForeground];
+//
+//            NSString * debugMessage = @"";
+//            if (result) {
+//                debugMessage = @"Sucess to upload debug message in the background fetch.";
+//            }else{
+//                debugMessage = @"Faile to upload debug message in the background fetch.";
+//            }
+//            // [debug saveDebugEventWithText:debugMessage type:DebugTypeInfo label:formattedDateString];
+//            //    [AWAREUtils sendLocalNotificationForMessage:debugMessage soundFlag:YES];
+//
+//            if (result) {
                 completionHandler(UIBackgroundFetchResultNewData);
-            }else{
-                completionHandler(UIBackgroundFetchResultFailed);
-            }
-            
-            debug = nil;
-            
-            NSLog(@"... Finish a background fetch");
+//            }else{
+//                completionHandler(UIBackgroundFetchResultFailed);
+//            }
+//            
+//            debug = nil;
+//            
+//            NSLog(@"... Finish a background fetch");
 
         });
     });
@@ -262,9 +246,9 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
         
     PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeSQLite];
     [pushNotification savePushNotificationDeviceToken:token];
-    [pushNotification allowsCellularAccess];
-    [pushNotification allowsDateUploadWithoutBatteryCharging];
-    [pushNotification performSelector:@selector(syncAwareDBInForeground) withObject:nil afterDelay:3];
+//    [pushNotification.storage allowsCellularAccess];
+//    [pushNotification.storage allowsDateUploadWithoutBatteryCharging];
+    [pushNotification performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
     
     NSLog(@"deviceToken: %@", token);
 }
@@ -287,14 +271,8 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
  */
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     // Calendar and ESM plugin use this method
-    AWAREStudy * awareStudy = _sharedAWARECore.sharedAwareStudy;
-    if ([notification.category isEqualToString:SENSOR_PLUGIN_GOOGLE_CAL_PUSH]){
-        GoogleCalPush * balancedCampusJournal = [[GoogleCalPush alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-        [balancedCampusJournal makePrepopulateEvetnsWith:[NSDate new]];
-    }
+    
 }
-
-
 
 
 /**
@@ -311,33 +289,32 @@ forLocalNotification:(UILocalNotification *)notification
     NSDictionary *userInfo = [(UILocalNotification*)notification userInfo];
     AWAREStudy * awareStudy = _sharedAWARECore.sharedAwareStudy;
     if ([identifier isEqualToString:@"calendar_update_action"]) {
-        GoogleCalPush * balancedCampusJournal = [[GoogleCalPush alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-        [balancedCampusJournal makePrepopulateEvetnsWith:[NSDate new]];
+        
     } else if ([identifier isEqualToString:@"add_label_action"]) {
-        NSString * inputText = [responseInfo objectForKey:UIUserNotificationActionResponseTypedTextKey];
-        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-        [labelSensor saveLabel:inputText
-                       withKey:[userInfo objectForKey:@"key"]
-                          type:identifier
-                          body:notification.alertBody
-                   triggerTime:notification.fireDate
-                  answeredTime:[NSDate new]];
+//        NSString * inputText = [responseInfo objectForKey:UIUserNotificationActionResponseTypedTextKey];
+//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
+//        [labelSensor saveLabel:inputText
+//                       withKey:[userInfo objectForKey:@"key"]
+//                          type:identifier
+//                          body:notification.alertBody
+//                   triggerTime:notification.fireDate
+//                  answeredTime:[NSDate new]];
     } else if ([identifier isEqualToString:@"add_bool_action_yes"]){
-        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-        [labelSensor saveLabel:@"1"
-                       withKey:[userInfo objectForKey:@"key"]
-                          type:identifier
-                          body:notification.alertBody
-                   triggerTime:notification.fireDate
-                  answeredTime:[NSDate new]];
+//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
+//        [labelSensor saveLabel:@"1"
+//                       withKey:[userInfo objectForKey:@"key"]
+//                          type:identifier
+//                          body:notification.alertBody
+//                   triggerTime:notification.fireDate
+//                  answeredTime:[NSDate new]];
     } else if ([identifier isEqualToString:@"add_bool_action_no"]){
-        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-        [labelSensor saveLabel:@"0"
-                       withKey:[userInfo objectForKey:@"key"]
-                          type:identifier
-                          body:notification.alertBody
-                   triggerTime:notification.fireDate
-                  answeredTime:[NSDate new]];
+//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
+//        [labelSensor saveLabel:@"0"
+//                       withKey:[userInfo objectForKey:@"key"]
+//                          type:identifier
+//                          body:notification.alertBody
+//                   triggerTime:notification.fireDate
+//                  answeredTime:[NSDate new]];
     } else if ([identifier isEqualToString:@"edit_label_action"]){
 //        NSString * inputText = [responseInfo objectForKey:UIUserNotificationActionResponseTypedTextKey];
 //        ESM * esm = [[ESM alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
@@ -393,124 +370,6 @@ forLocalNotification:(UILocalNotification *)notification
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"pushInfo in Background: %@", [userInfo description]);
-    
-    NSDictionary * awareAps= [userInfo objectForKey:@"aware-aps"];
-    if(awareAps != nil){
-        Observer * observer = [[Observer alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
-        NSString *awareCategory = [awareAps objectForKey:@"category"];
-        /////////////// refresh /////////////////
-        if([awareCategory isEqualToString:@"refresh"]){
-            [_sharedAWARECore.sharedAwareStudy refreshStudy];
-            [observer sendSurvivalSignalWithCategory:awareCategory message:@"try"];
-        /////////////// forcibly upload /////////////////
-        }else if([awareCategory isEqualToString:@"upload"]){
-            [_sharedAWARECore.sharedSensorManager syncAllSensorsWithDBInForeground];
-            [observer sendSurvivalSignalWithCategory:awareCategory message:@"try"];
-        /////////////// compliance check /////////////////
-        }else if([awareCategory isEqualToString:@"compliance"]){
-            // [WIP] New function
-            [_sharedAWARECore checkCompliance];
-            [observer sendComplianceState];
-        /////////////// ping ///////////////////////
-        }else if([awareCategory isEqualToString:@"ping"]){
-            // [WIP] New function
-            [observer sendSurvivalSignalWithCategory:awareCategory message:@"ping"];
-            /////////////// ios_esm ///////////////////////
-        }else if ([awareCategory isEqualToString:@"ios_esm"]){
-            NSString * trigger = [userInfo objectForKey:@"trigger"];
-            NSString * title = [userInfo objectForKey:@"title"];
-            NSNumber * firedTimestamp = [AWAREUtils getUnixTimestamp:[NSDate new]];
-            NSNumber * scheduledTimestamp = [userInfo objectForKey:@"schedule"];
-            
-            if([trigger isEqual:[NSNull null]] || trigger == nil){
-                trigger = @"";
-            }
-            if([title  isEqual:[NSNull null]] || title == nil){
-                title = @"";
-            }
-            if([scheduledTimestamp isEqual:[NSNull null]] || scheduledTimestamp == nil){
-                scheduledTimestamp = [AWAREUtils getUnixTimestamp:[NSDate new]];
-            }
-            if(userInfo == NULL){
-                userInfo = [[NSDictionary alloc] init];
-            }
-            
-            IOSESM * iOSESM = [[IOSESM alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeSQLite];
-            [iOSESM saveESMAnswerWithTimestamp:scheduledTimestamp
-                                      deviceId:[_sharedAWARECore.sharedAwareStudy getDeviceId]
-                                       esmJson:[iOSESM convertNSArraytoJsonStr:@[userInfo]]
-                                    esmTrigger:trigger
-                        esmExpirationThreshold:@0
-                        esmUserAnswerTimestamp:firedTimestamp
-                                 esmUserAnswer:title
-                                     esmStatus:@0];
-            
-            // [WIP] New function
-            [observer sendSurvivalSignalWithCategory:awareCategory message:@"recived a notification for iOS EMS."];
-        /////////////// version check ///////////////////////
-        }else if([awareCategory isEqualToString:@"version"]){
-            NSString* version = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-            NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-            if(build != nil){
-                version = [version stringByAppendingFormat:@"(%@)", build];
-            }
-            [observer sendSurvivalSignalWithCategory:awareCategory message:version];
-        /////////////// wifi ///////////////////////
-        }else if([awareCategory isEqualToString:@"only_wifi"]){
-            NSNumber * state = [awareAps objectForKey:@"value"];
-            if(state != nil){
-                if(state.intValue == 0){
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyWifi:NO];
-                }else{
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyWifi:YES];
-                }
-                [observer sendSurvivalSignalWithCategory:awareCategory message:state.stringValue];
-            }else{
-                [observer sendSurvivalSignalWithCategory:awareCategory message:@"-1"];
-            }
-        /////////////// battery ///////////////////////
-        }else if([awareCategory isEqualToString:@"only_battery"]){
-            NSNumber * state = [awareAps objectForKey:@"value"];
-            if(state != nil){
-                if(state.intValue == 0){
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyBatterChargning:NO];
-                }else{
-                    [_sharedAWARECore.sharedAwareStudy setDataUploadOnlyBatterChargning:YES];
-                }
-                [observer sendSurvivalSignalWithCategory:awareCategory message:state.stringValue];
-            }else{
-                [observer sendSurvivalSignalWithCategory:awareCategory message:@"-1"];
-            }
-        /////////////// max upload length ///////////////////////
-        }else if([awareCategory isEqualToString:@"max_upload_length"]){
-            NSNumber * length = [awareAps objectForKey:@"value"];
-            if(length != nil){
-                [_sharedAWARECore.sharedAwareStudy setMaximumByteSizeForDataUpload:length.intValue];
-                [observer sendSurvivalSignalWithCategory:awareCategory message:length.stringValue];
-                [_sharedAWARECore.sharedSensorManager startAllSensors];
-            }else{
-                [observer sendSurvivalSignalWithCategory:awareCategory message:@"-1"];
-            }
-        ////////////// sync interval //////////////
-        }else if([awareCategory isEqualToString:@"sync_interval_min"]){
-            NSNumber * interval = [awareAps objectForKey:@"value"];
-            if(interval != nil){
-                [_sharedAWARECore.sharedAwareStudy setUploadIntervalWithMinutue:interval.intValue];
-                int uploadInterval = [_sharedAWARECore.sharedAwareStudy getUploadIntervalAsSecond];
-                [_sharedAWARECore.sharedSensorManager startUploadTimerWithInterval:uploadInterval];
-                [observer sendSurvivalSignalWithCategory:awareCategory message:interval.stringValue];
-            }else{
-                [observer sendSurvivalSignalWithCategory:awareCategory message:@"-1"];
-            }
-        }
-        
-        if (awareCategory == nil) {
-            awareCategory = @"unknown";
-        }
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[notification] received a push notification" type:DebugTypeInfo label:awareCategory];
-        
-    }
     
     completionHandler(UIBackgroundFetchResultNoData);
 }
@@ -631,9 +490,9 @@ void exceptionHandler(NSException *exception) {
     //    NSLog(@"%@", exception.callStackSymbols);
     //    NSString * error = [NSString stringWithFormat:@"[%@] %@ , %@" , exception.name, exception.reason, exception.callStackSymbols];
     
-    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
-    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
-    [debugSensor syncAwareDB];
+//    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
+//    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
+//    [debugSensor syncAwareDB];
 }
 
 

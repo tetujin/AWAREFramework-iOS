@@ -17,17 +17,31 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
  }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME entityName:NSStringFromClass([EntityNTPTime class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityNTPTime * entityNTP = (EntityNTPTime *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                       inManagedObjectContext:childContext];
+                                            entityNTP.device_id = [data objectForKey:@"device_id"];
+                                            entityNTP.timestamp = [data objectForKey:@"timestamp"];;
+                                            entityNTP.drift     = [data objectForKey:@"drift"];
+                                            entityNTP.ntp_time  = [data objectForKey:@"ntp_time"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_NTPTIME
-                        dbEntityName:NSStringFromClass([EntityNTPTime class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         _intervalSec = 60*10; // 10 min
         
-        [self setCSVHeader:@[@"timestamp", @"device_id", @"drift", @"ntp_time"]];
-        
-        [self setTypeAsPlugin];
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_NTPTIME desc:@"true or false to activate or deactivate accelerometer sensor."];
+//        [self setCSVHeader:@[@"timestamp", @"device_id", @"drift", @"ntp_time"]];
+//
+//        [self setTypeAsPlugin];
+//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_NTPTIME desc:@"true or false to activate or deactivate accelerometer sensor."];
         
     }
     return self;
@@ -44,7 +58,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     "drift real default 0," //clocks drift from ntp time
     "ntp_time real default 0"; //actual ntp timestamp in milliseconds
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    // [[ ]][super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 
@@ -89,17 +104,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     
     //dispatch_async(dispatch_get_main_queue(), ^{
     [self setLatestData:dict];
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     //});
-}
-
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityNTPTime * entityNTP = (EntityNTPTime *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                          inManagedObjectContext:childContext];
-    entityNTP.device_id = [data objectForKey:@"device_id"];
-    entityNTP.timestamp = [data objectForKey:@"timestamp"];;
-    entityNTP.drift     = [data objectForKey:@"drift"];
-    entityNTP.ntp_time  = [data objectForKey:@"ntp_time"];
 }
 
 

@@ -13,11 +13,20 @@
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study
                             dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ESMS];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_ESMS entityName:NSStringFromClass([EntityESMAnswer class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
-                          sensorName:@"esms"
-                        dbEntityName:NSStringFromClass([EntityESMAnswer class])
-                              dbType:AwareDBTypeSQLite
-                          bufferSize:0];
+                          sensorName:SENSOR_ESMS
+                             storage:storage];
     if(self != nil){
         
     }

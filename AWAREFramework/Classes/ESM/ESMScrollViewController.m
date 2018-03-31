@@ -105,8 +105,8 @@
     numberViews   = [[NSMutableArray alloc] init];
     
     esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [esmSensor allowsCellularAccess];
-    [esmSensor allowsDateUploadWithoutBatteryCharging];
+//    [esmSensor.storage allowsCellularAccess];
+//    [esmSensor.storage allowsDateUploadWithoutBatteryCharging];
     
     _esms = [[NSMutableArray alloc] init];
     esmSchedules = [[NSArray alloc] init];
@@ -633,8 +633,6 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                [esmSensor setUploadingState:NO];
-                [esmSensor syncAwareDBInForeground];
                 // [esmSensor refreshNotifications];
                 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
                 [esmManager refreshNotificationSchedules];

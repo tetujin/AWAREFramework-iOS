@@ -15,24 +15,34 @@
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations_visit"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations_visit" entityName:NSStringFromClass([EntityLocationVisit class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityLocationVisit * visitData = (EntityLocationVisit *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                   inManagedObjectContext:childContext];
+                                            
+                                            visitData.device_id = [data objectForKey:@"device_id"];
+                                            visitData.timestamp = [data objectForKey:@"timestamp"];
+                                            visitData.double_latitude = [data objectForKey:@"double_latitude"];
+                                            visitData.double_longitude = [data objectForKey:@"double_longitude"];
+                                            visitData.provider = [data  objectForKey:@"provider"];
+                                            visitData.accuracy = [data objectForKey:@"accuracy"];
+                                            visitData.address = [data objectForKey:@"address"];
+                                            visitData.name = [data objectForKey:@"name"];
+                                            visitData.double_arrival = [data objectForKey:@"double_arrival"];
+                                            visitData.double_departure = [data objectForKey:@"double_departure"];
+                                            visitData.label = [data objectForKey:@"label"];
+                                        }];
+    }
     
     self = [self initWithAwareStudy:study
                          sensorName:@"locations_visit"
-                       dbEntityName:NSStringFromClass([EntityLocationVisit class])
-                             dbType:dbType];
+                            storage:storage];
     if(self != nil){
-        [self setCSVHeader:@[@"timestamp",
-                             @"device_id",
-                             @"double_latitude",
-                             @"double_longitude",
-                             @"double_arrival",
-                             @"double_departure",
-                             @"address",
-                             @"name",
-                             @"provider",
-                             @"accuracy",
-                             @"label"
-                             ]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_latitude",@"double_longitude",@"double_arrival",@"double_departure",@"address",@"name",@"provider",@"accuracy",@"label"]];
     }
     
     return self;
@@ -40,7 +50,7 @@
 
 
 - (void)createTable{
-    [super createTable:
+    NSString * query =
      @"_id integer primary key autoincrement,"
      "timestamp real default 0,"
      "device_id text default '',"
@@ -52,7 +62,8 @@
      "name text default '',"
      "provider text default '',"
      "accuracy integer default 0,"
-     "label text default ''"];
+    "label text default ''";
+    [self.storage createDBTableOnServerWithQuery:query];
      // "UNIQUE (timestamp,device_id)"];
 }
 
@@ -166,7 +177,8 @@
                       [dict setObject:depature forKey:@"double_departure"]; // visitData.double_departure = depature;
                       [dict setObject:@"" forKey:@"label"]; //visitData.label = @"";
                       
-                      [self saveData:dict];
+                      // [self saveData:dict];
+                      [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
                       [self setLatestData:dict];
                       
                   });
@@ -174,27 +186,6 @@
               }];
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityLocationVisit * visitData = (EntityLocationVisit *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                           inManagedObjectContext:childContext];
-    
-    visitData.device_id = [data objectForKey:@"device_id"];
-    visitData.timestamp = [data objectForKey:@"timestamp"];
-    visitData.double_latitude = [data objectForKey:@"double_latitude"];
-    visitData.double_longitude = [data objectForKey:@"double_longitude"];
-    visitData.provider = [data  objectForKey:@"provider"];
-    visitData.accuracy = [data objectForKey:@"accuracy"];
-    visitData.address = [data objectForKey:@"address"];
-    visitData.name = [data objectForKey:@"name"];
-    visitData.double_arrival = [data objectForKey:@"double_arrival"];
-    visitData.double_departure = [data objectForKey:@"double_departure"];
-    visitData.label = [data objectForKey:@"label"];
-    
-    
-    
-}
 
 
 @end

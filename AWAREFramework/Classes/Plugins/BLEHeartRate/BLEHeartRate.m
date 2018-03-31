@@ -39,10 +39,28 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR entityName:NSStringFromClass([EntityBLEHeartRate class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityBLEHeartRate * heartRateEntity = (EntityBLEHeartRate *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                       inManagedObjectContext:childContext];
+                                            heartRateEntity.device_id = [data objectForKey:@"device_id"];
+                                            heartRateEntity.timestamp = [data objectForKey:@"timestamp"];
+                                            heartRateEntity.heartrate = [data objectForKey:@"heartrate"];
+                                            heartRateEntity.location = [data objectForKey:@"location"];
+                                            heartRateEntity.manufacturer = [data objectForKey:@"manufacturer"];
+                                            heartRateEntity.rssi = [data objectForKey:@"rssi"];
+                                            heartRateEntity.label = [data objectForKey:@"label"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_BLE_HR
-                        dbEntityName:NSStringFromClass([EntityBLEHeartRate class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         KEY_HR_TIMESTAMP = @"timestamp";
         KEY_HR_DEVICE_ID = @"device_id";
@@ -56,13 +74,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
         _activeTimeSec = 30.0f;
         _always = NO;
         
-        [self setCSVHeader:@[KEY_HR_TIMESTAMP,
-                             KEY_HR_DEVICE_ID,
-                             KEY_HR_HEARTRATE,
-                             KEY_HR_LOCATION,
-                             KEY_HR_MANUFACTURER,
-                             KEY_HR_RSSI,
-                             KEY_HR_LABEL]];
+//        [self setCSVHeader:@[KEY_HR_TIMESTAMP,
+//                             KEY_HR_DEVICE_ID,
+//                             KEY_HR_HEARTRATE,
+//                             KEY_HR_LOCATION,
+//                             KEY_HR_MANUFACTURER,
+//                             KEY_HR_RSSI,
+//                             KEY_HR_LABEL]];
         
         _bodyLocation = @-1;
         _manufacturer = @"";
@@ -73,10 +91,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
                   [CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID],
                   [CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]
                   ];
-        [self setTypeAsPlugin];
-        [self addDefaultSettingWithBool:@NO   key:AWARE_PREFERENCES_STATUS_BLE_HR desc:@"true or false to activate or deactivate sensor."];
-        [self addDefaultSettingWithNumber:@5  key:AWARE_PREFERENCES_PLUGIN_BLE_HR_INTERVAL_TIME_MIN desc:@"Sensing interval (default = 5) in minutes. NOTE: If you set '0' as a sensing interval, the plugin connects the heart-rate sensor always."];
-        [self addDefaultSettingWithNumber:@30 key:AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC desc:@"Active time (default = 30) for a duty cycle in seconds. NOTE: If you set '0' as an active time, the plugin connects the heart-rate sensor always."];
+//        [self setTypeAsPlugin];
+//        [self addDefaultSettingWithBool:@NO   key:AWARE_PREFERENCES_STATUS_BLE_HR desc:@"true or false to activate or deactivate sensor."];
+//        [self addDefaultSettingWithNumber:@5  key:AWARE_PREFERENCES_PLUGIN_BLE_HR_INTERVAL_TIME_MIN desc:@"Sensing interval (default = 5) in minutes. NOTE: If you set '0' as a sensing interval, the plugin connects the heart-rate sensor always."];
+//        [self addDefaultSettingWithNumber:@30 key:AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC desc:@"Active time (default = 30) for a duty cycle in seconds. NOTE: If you set '0' as an active time, the plugin connects the heart-rate sensor always."];
    }
     return self;
 }
@@ -91,8 +109,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_HR_MANUFACTURER]];
     [query appendString:[NSString stringWithFormat:@"%@ double default 0,", KEY_HR_RSSI]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',",KEY_HR_LABEL]];
-    [query appendString:@"UNIQUE (timestamp,device_id)"];
-    [super createTable:query];
+    // [query appendString:@"UNIQUE (timestamp,device_id)"];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -346,27 +364,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     [dict setObject:_deviceRssi forKey:KEY_HR_RSSI];
     [dict setObject:@"BLE" forKey:KEY_HR_LABEL];
     
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
     return;
 }
 
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityBLEHeartRate * heartRateEntity = (EntityBLEHeartRate *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                               inManagedObjectContext:childContext];
-    heartRateEntity.device_id = [data objectForKey:@"device_id"];
-    heartRateEntity.timestamp = [data objectForKey:@"timestamp"];
-    heartRateEntity.heartrate = [data objectForKey:@"heartrate"];
-    heartRateEntity.location = [data objectForKey:@"location"];
-    heartRateEntity.manufacturer = [data objectForKey:@"manufacturer"];
-    heartRateEntity.rssi = [data objectForKey:@"rssi"];
-    heartRateEntity.label = [data objectForKey:@"label"];
-
-}
 
 - (void) getManufacturerName:(CBCharacteristic *) characteristic {
     NSString *manufacturerName = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];  // 1
@@ -391,19 +395,5 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 
 /////////////////////////////////////////////////////////////////////
 
-- (void)saveDummyData{
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    [dic setObject:unixtime forKey:KEY_HR_TIMESTAMP];
-    [dic setObject:[self getDeviceId] forKey:KEY_HR_DEVICE_ID];
-    [dic setObject:[NSNumber numberWithInt:_heartRate] forKey:KEY_HR_HEARTRATE]; //varchar
-    [dic setObject:_bodyLocation forKey:KEY_HR_LOCATION]; //1=chest, 2=wrist
-    [dic setObject:_manufacturer forKey:KEY_HR_MANUFACTURER];
-    [dic setObject:_deviceRssi forKey:KEY_HR_RSSI];
-    [dic setObject:@"BLE" forKey:KEY_HR_LABEL];
-    
-    [self saveData:dic];
-}
 
 @end

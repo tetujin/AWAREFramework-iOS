@@ -57,8 +57,8 @@
         [_sharedAwareStudy setDataUploadOnlyWifi:YES];
         [_sharedAwareStudy setDataUploadOnlyBatterChargning:YES];
         [_sharedAwareStudy setUploadIntervalWithMinutue:60];
-        [_sharedAwareStudy setMaximumByteSizeForDataUpload:10000];
-        [_sharedAwareStudy setMaximumNumberOfRecordsForDataUpload:2000];
+        [_sharedAwareStudy setMaximumByteSizeForDBSync:10000];
+        [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:2000];
         [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeWeekly];
         [_sharedAwareStudy setAutoSyncState:YES];
         [_sharedAwareStudy setUIMode:AwareUIModeNormal];
@@ -314,7 +314,10 @@
                                                                       if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
                                                                           settingsURL = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
                                                                       }
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                          
+                                                                      }];
                                                                   }];
             UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                                     style:UIAlertActionStyleCancel
@@ -342,8 +345,8 @@
 //        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services are OFF or Background Location is NOT enabled" type:DebugTypeWarn label:title];
-        [debugSensor allowsCellularAccess];
-        [debugSensor allowsDateUploadWithoutBatteryCharging];
+        // [debugSensor.storage allowsCellularAccess];
+        // [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
         // [debugSensor syncAwareDBInBackground];
     }
     // The user has not enabled any location services. Request background authorization.
@@ -382,7 +385,10 @@
                                                                       if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
                                                                           settingsURL = [NSURL URLWithString:@"prefs:root=General&path=AUTO_CONTENT_DOWNLOAD"];
                                                                       }
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                          
+                                                                      }];
+                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
                                                                   }];
             UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                                     style:UIAlertActionStyleCancel
@@ -401,8 +407,8 @@
         
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Background App Refresh service is Restricted or Denied" type:DebugTypeWarn label:@""];
-        [debugSensor allowsDateUploadWithoutBatteryCharging];
-        [debugSensor allowsCellularAccess];
+//        [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
+//        [debugSensor.storage allowsCellularAccess];
         // [debugSensor syncAwareDBInBackground];
     } else if(backgroundRefreshStatus == UIBackgroundRefreshStatusAvailable){
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
@@ -441,7 +447,11 @@
                                                                           if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
                                                                               settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
                                                                           }
-                                                                          [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                          [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                              
+                                                                          }];
+
+                                                                          // [[UIApplication sharedApplication] openURL:settingsURL];
                                                                       }];
                 UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                                         style:UIAlertActionStyleCancel
@@ -460,8 +470,8 @@
             
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
-            [debugSensor allowsDateUploadWithoutBatteryCharging];
-            [debugSensor allowsCellularAccess];
+//            [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
+//            [debugSensor.storage allowsCellularAccess];
             // [debugSensor syncAwareDBInBackground];
         }else{
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
@@ -534,7 +544,11 @@
                                                                           if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
                                                                               settingsURL = [NSURL URLWithString:@"prefs:root=BATTERY_USAGE"];
                                                                           }
-                                                                          [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                          [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                              
+                                                                          }];
+
+                                                                          // [[UIApplication sharedApplication] openURL:settingsURL];
                                                                           
                                                                       }];
                 UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
@@ -555,8 +569,8 @@
         
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is ON" type:DebugTypeWarn label:@""];
-            [debugSensor allowsDateUploadWithoutBatteryCharging];
-            [debugSensor allowsCellularAccess];
+//            [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
+//            [debugSensor.storage allowsCellularAccess];
             // [debugSensor syncAwareDBInBackground];
         }else{
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
@@ -586,7 +600,10 @@
                                                                       if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
                                                                           settingsURL = [NSURL URLWithString:@"prefs:root=WIFI"];
                                                                       }
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                          
+                                                                      }];
+                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
                                                                       
                                                                   }];
             UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
@@ -606,8 +623,8 @@
         
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is OFF" type:DebugTypeWarn label:@""];
-        [debugSensor allowsCellularAccess];
-        [debugSensor allowsDateUploadWithoutBatteryCharging];
+//        [debugSensor.storage allowsCellularAccess];
+//        [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
         // [debugSensor syncAwareDBInBackground];
     }else{
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];

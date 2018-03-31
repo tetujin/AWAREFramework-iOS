@@ -25,12 +25,29 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN entityName:NSStringFromClass([EntityScreen class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityScreen* entityScreen = (EntityScreen *)[NSEntityDescription
+                                                                                          insertNewObjectForEntityForName:entity
+                                                                                          inManagedObjectContext:childContext];
+                                            
+                                            entityScreen.device_id = [data objectForKey:@"device_id"];
+                                            entityScreen.timestamp = [data objectForKey:@"timestamp"];
+                                            entityScreen.screen_status = [data objectForKey:@"screen_status"];
+                                            
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_SCREEN
-                        dbEntityName:NSStringFromClass([EntityScreen class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"screen_status"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"screen_status"]];
     }
     return self;
 }
@@ -46,7 +63,8 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     "device_id text default '',"
     "screen_status integer default 0";
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -186,26 +204,10 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     [dict setObject:unixtime forKey:@"timestamp"];
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
     [dict setObject:[NSNumber numberWithInt:state] forKey:@"screen_status"]; // int
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
 }
-
-
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityScreen* entityScreen = (EntityScreen *)[NSEntityDescription
-                                          insertNewObjectForEntityForName:entity
-                                          inManagedObjectContext:childContext];
-    
-    entityScreen.device_id = [data objectForKey:@"device_id"];
-    entityScreen.timestamp = [data objectForKey:@"timestamp"];
-    entityScreen.screen_status = [data objectForKey:@"screen_status"];
-    
-}
-
 
 -(void) unregisterAppforDetectLockState {
     //    notify_suspend(_notifyTokenForDidChangeLockStatus);

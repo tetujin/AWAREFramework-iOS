@@ -8,6 +8,9 @@
 
 #import "Barometer.h"
 #import "EntityBarometer.h"
+#import "SQLiteStorage.h"
+#import "JSONStorage.h"
+
 
 NSString* const AWARE_PREFERENCES_STATUS_BAROMETER    = @"status_barometer";
 NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
@@ -18,14 +21,31 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER
+                                            entityName:NSStringFromClass([EntityBarometer class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                                EntityBarometer * pressureData = (EntityBarometer *)[NSEntityDescription
+                                                                                                     insertNewObjectForEntityForName:entity
+                                                                                                     inManagedObjectContext:childContext];
+                                                
+                                                pressureData.device_id = [data objectForKey:@"device_id"];
+                                                pressureData.timestamp = [data objectForKey:@"timestamp"];
+                                                pressureData.double_values_0 = [data objectForKey:@"double_values_0"];
+                                                pressureData.accuracy = @0;
+                                                pressureData.label = @"";
+                                            }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_BAROMETER
-                        dbEntityName:NSStringFromClass([EntityBarometer class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         super.sensingInterval = 0.2f;
         super.savingInterval = 30.0f; // 30 sec
-        [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"]];
     }
     return self;
 }
@@ -39,8 +59,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     [tcqMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-    NSString * query = [tcqMaker getDefaudltTableCreateQuery];
-    [super createTable:query];
+    // NSString * query = [tcqMaker getDefaudltTableCreateQuery];
+    [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -57,7 +77,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     
     [super startSensor];
     
-    [self setBufferSize:savingInterval/sensingInterval];
+    // [self setBufferSize:savingInterval/sensingInterval];
+    [self.storage setBufferSize:savingInterval/sensingInterval];
     
     timestamp = [[NSDate new] timeIntervalSince1970];
     
@@ -89,14 +110,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                                  [dict setObject:@3 forKey:@"accuracy"];
                                                  [dict setObject:@"" forKey:@"label"];
                                                  [self setLatestValue:[NSString stringWithFormat:@"%f", pressureDouble*10.0f]];
-  
-                                                  if([self getDBType] == AwareDBTypeSQLite) {
-                                                      [self saveData:dict];
-                                                  }else if([self getDBType] == AwareDBTypeJSON){
-                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                          [self saveData:dict];
-                                                      });
-                                                  }
+                                                  
+                                                  [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
                                                   
                                                   
                                                   [self setLatestValue:[NSString stringWithFormat:@"%f", (pressureDouble * 10.0f)]];
@@ -114,31 +129,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     return YES;
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityBarometer * pressureData = (EntityBarometer *)[NSEntityDescription
-                                                         insertNewObjectForEntityForName:entity
-                                                         inManagedObjectContext:childContext];
-    
-    pressureData.device_id = [data objectForKey:@"device_id"];
-    pressureData.timestamp = [data objectForKey:@"timestamp"];
-    pressureData.double_values_0 = [data objectForKey:@"double_values_0"];
-    pressureData.accuracy = @0;
-    pressureData.label = @"";
-
-}
-
-
--(void)saveDummyData{
-    [self setBufferSize:0];
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:@1024 forKey:@"double_values_0"];
-    [dict setObject:@0 forKey:@"accuracy"];
-    [dict setObject:@"dummy" forKey:@"label"];
-    [self saveData:dict];
-}
 
 - (BOOL)stopSensor{
     // Stop a altitude sensor

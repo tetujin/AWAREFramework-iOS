@@ -32,18 +32,15 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     AWAREStudy * awareStudy;
 }
 
--(instancetype)initWithAwareStudy:(AWAREStudy *)study{
-    return [super initWithAwareStudy:study
-                          sensorName:SENSOR_PLUGIN_IOS_ESM
-                        dbEntityName:NSStringFromClass([EntityESMAnswer class])
-                              dbType:AwareDBTypeSQLite];
-}
-
 -(instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_IOS_ESM entityName:NSStringFromClass([EntityESMAnswer class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+        
+    }];
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_IOS_ESM
-                        dbEntityName:NSStringFromClass([EntityESMAnswer class])
-                              dbType:AwareDBTypeSQLite];
+                             storage:storage];
     if(self != nil){
         awareStudy = study;
         baseHttpSessionId = [NSString stringWithFormat:@"plugin_ios_esm_http_session_id"];
@@ -51,14 +48,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
         categoryIOSESM = @"plugin_ios_esm_category";
         receiveData = [[NSMutableData alloc] init];
         isLock = NO;
-        [self allowsDateUploadWithoutBatteryCharging];
-        [self allowsCellularAccess];
-        [self setCSVHeader:@[@"esm_json",
-                             @"esm_status",
-                             @"esm_expiration_threshold",
-                             @"double_esm_user_answer_timestamp",
-                             @"esm_user_answer",
-                             @"esm_trigger"]];
+//        [self.storage allowsDateUploadWithoutBatteryCharging];
+//        [self.storage allowsCellularAccess];
+//        [self setCSVHeader:@[@"esm_json",
+//                             @"esm_status",
+//                             @"esm_expiration_threshold",
+//                             @"double_esm_user_answer_timestamp",
+//                             @"esm_user_answer",
+//                             @"esm_trigger"]];
         tableName = @"esms";
         _table = @"esms";
         
@@ -68,11 +65,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
             tableName = tempTableName;
         }
         
-        [self setTypeAsPlugin];
-        
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM desc:@""];
-        [self addDefaultSettingWithString:@"esms" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME desc:@"default value is 'esms'"];
-        [self addDefaultSettingWithString:@"" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL desc:@"https://www.xxx.yyy"];
+//        [self setTypeAsPlugin];
+//
+//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM desc:@""];
+//        [self addDefaultSettingWithString:@"esms" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME desc:@"default value is 'esms'"];
+//        [self addDefaultSettingWithString:@"" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL desc:@"https://www.xxx.yyy"];
         
         // [self setFetchLimit:10];
     }
@@ -90,8 +87,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     [tcqMaker addColumn:@"esm_user_answer"                  type:TCQTypeText    default:@"''"];
     [tcqMaker addColumn:@"esm_trigger"                      type:TCQTypeText    default:@"''"];
     NSString * query = [tcqMaker getTableCreateQueryWithUniques:nil];
-    
-    [self createTable:query withTableName:tableName];
+    [self.storage createDBTableOnServerWithQuery:query tableName:SENSOR_ESMS];
 }
 
 
@@ -116,7 +112,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
         return NO;
     }
     
-    [self setBufferSize:0];
+    // [self setBufferSize:0];
     
     // Get contents from URL
     NSURL * url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@?device_id=%@",urlStr,[self getDeviceId]]];
@@ -141,15 +137,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     [self removeNotificationSchedulesFromSQLite];
     [self removeNotificationSchedules];
     return YES;
-}
-
-- (void)syncAwareDB{
-    [self syncAwareDBInBackgroundWithSensorName:tableName];
-}
-
-
-- (void) syncAwareDBInBackground{
-    [self syncAwareDBInBackgroundWithSensorName:tableName];
 }
 
 ////////////////////////////////////////////////////////////
@@ -184,9 +171,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 
 
 //////////////////////////////////////////////////////////
-- (void)syncAwareDBInBackgroundWithSensorName:(NSString *)name{
-    [super syncAwareDBInBackgroundWithSensorName:name];
-}
+//- (void)syncAwareDBInBackgroundWithSensorName:(NSString *)name{
+//    [super syncAwareDBInBackgroundWithSensorName:name];
+//}
 
 
 ///////////////////////////////////////////////////////////
@@ -306,7 +293,7 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }else{
         NSLog(@"******** ios esm ********");
-        [super URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+        // [super URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
         [session invalidateAndCancel];
         completionHandler(NSURLSessionResponseAllow);
     }
@@ -329,7 +316,7 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }else{
         NSLog(@"****** ios esm *******");
-        [super URLSession:session dataTask:dataTask didReceiveData:data];
+        // [super URLSession:session dataTask:dataTask didReceiveData:data];
     }
 }
 
@@ -347,7 +334,7 @@ didReceiveResponse:(NSURLResponse *)response
                                    cancelButton:@"Close"];
             }
             NSString * message = [NSString stringWithFormat:@"[iOS ESM] Configuration File Download Error: %@", error.debugDescription];
-            [self saveDebugEventWithText:message type:DebugTypeWarn label:@"iOS ESM"];
+            // [self saveDebugEventWithText:message type:DebugTypeWarn label:@"iOS ESM"];
         });
         return;
     }
@@ -356,7 +343,7 @@ didReceiveResponse:(NSURLResponse *)response
         [self saveRecievedESMsWithData:[receiveData copy] response:nil error:error];
         receiveData = [[NSMutableData alloc] init];
     }else{
-        [super URLSession:session task:task didCompleteWithError:error];
+       // [super URLSession:session task:task didCompleteWithError:error];
     }
     
 }
@@ -374,7 +361,7 @@ didReceiveResponse:(NSURLResponse *)response
             }
         }
     }else{
-        [super URLSession:session didBecomeInvalidWithError:error];
+        //[super URLSession:session didBecomeInvalidWithError:error];
     }
 }
 

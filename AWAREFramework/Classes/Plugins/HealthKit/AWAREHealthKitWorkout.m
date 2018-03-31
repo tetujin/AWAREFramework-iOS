@@ -24,10 +24,10 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:[NSString stringWithFormat:@"%@_workout",SENSOR_HEALTH_KIT]];
     self = [super initWithAwareStudy:study
                           sensorName:[NSString stringWithFormat:@"%@_workout",SENSOR_HEALTH_KIT]
-                        dbEntityName:nil
-                              dbType:AwareDBTypeJSON];
+                             storage:storage];
     if(self){
         KEY_DEVICE_ID = @"device_id";
         KEY_TIMESTAMP =@"timestamp";
@@ -56,7 +56,8 @@
     [tcqMaker addColumn:KEY_LABLE     type:TCQTypeText default:@"''"];
     
     NSString *query = [tcqMaker getDefaudltTableCreateQuery];
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void) saveWorkoutData:(NSArray *)data{

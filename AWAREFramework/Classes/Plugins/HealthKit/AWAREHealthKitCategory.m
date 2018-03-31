@@ -24,10 +24,10 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    self = [super initWithAwareStudy:study
-                          sensorName:[NSString stringWithFormat:@"%@_category",SENSOR_HEALTH_KIT]
-                        dbEntityName:nil
-                              dbType:AwareDBTypeJSON];
+    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:[NSString stringWithFormat:@"%@_category",SENSOR_HEALTH_KIT]];
+        self = [super initWithAwareStudy:study
+                              sensorName:[NSString stringWithFormat:@"%@_category",SENSOR_HEALTH_KIT]
+                            storage:storage];
     if(self){
         KEY_DEVICE_ID = @"device_id";
         KEY_TIMESTAMP =@"timestamp";
@@ -56,7 +56,8 @@
     [tcqMaker addColumn:KEY_LABLE     type:TCQTypeText default:@"''"];
     
     NSString *query = [tcqMaker getDefaudltTableCreateQuery];
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)saveCategoryData:(NSArray *)data{
@@ -88,7 +89,8 @@
 //        [dict setObject:@"" forKey:KEY_LABLE];
 //
 //        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self saveData:dict];
+//            // [self saveData:dict];
+//            [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
 //            [self setLatestData:dict];
 //            NSString * message = [NSString stringWithFormat:@"[date:%@][type:%@][value:%ld]",
 //                                  sample.startDate,

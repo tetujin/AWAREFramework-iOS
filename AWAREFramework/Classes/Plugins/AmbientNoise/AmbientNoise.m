@@ -54,10 +54,28 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE entityName:NSStringFromClass([EntityAmbientNoise class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityAmbientNoise * ambientNoise = (EntityAmbientNoise *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                    inManagedObjectContext:childContext];
+                                            ambientNoise.device_id = [data objectForKey:@"device_id"];
+                                            ambientNoise.timestamp = [data objectForKey:@"timestamp"];
+                                            ambientNoise.double_frequency = [data objectForKey:KEY_AMBIENT_NOISE_FREQUENCY];
+                                            ambientNoise.double_decibels = [data objectForKey:KEY_AMBIENT_NOISE_DECIDELS];
+                                            ambientNoise.double_rms = [data objectForKey:KEY_AMBIENT_NOISE_RMS];
+                                            ambientNoise.is_silent = [data objectForKey:KEY_AMBIENT_NOISE_SILENT];
+                                            ambientNoise.double_silent_threshold = [data objectForKey:KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
+                                            ambientNoise.raw = [data objectForKey:KEY_AMBIENT_NOISE_RAW];
+                                        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_AMBIENT_NOISE
-                        dbEntityName:NSStringFromClass([EntityAmbientNoise class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         KEY_AMBIENT_NOISE_TIMESTAMP = @"timestamp";
         KEY_AMBIENT_NOISE_DEVICE_ID = @"device_id";
@@ -68,14 +86,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         KEY_AMBIENT_NOISE_SILENT_THRESHOLD = @"double_silent_threshold";
         KEY_AMBIENT_NOISE_RAW = @"blob_raw";
         
-        [self setCSVHeader:@[KEY_AMBIENT_NOISE_TIMESTAMP,
-                             KEY_AMBIENT_NOISE_DEVICE_ID,
-                             KEY_AMBIENT_NOISE_FREQUENCY,
-                             KEY_AMBIENT_NOISE_DECIDELS,
-                             KEY_AMBIENT_NOISE_RMS,
-                             KEY_AMBIENT_NOISE_SILENT,
-                             KEY_AMBIENT_NOISE_SILENT_THRESHOLD,
-                             KEY_AMBIENT_NOISE_RAW]];
+//        [self setCSVHeader:@[KEY_AMBIENT_NOISE_TIMESTAMP,
+//                             KEY_AMBIENT_NOISE_DEVICE_ID,
+//                             KEY_AMBIENT_NOISE_FREQUENCY,
+//                             KEY_AMBIENT_NOISE_DECIDELS,
+//                             KEY_AMBIENT_NOISE_RMS,
+//                             KEY_AMBIENT_NOISE_SILENT,
+//                             KEY_AMBIENT_NOISE_SILENT_THRESHOLD,
+//                             KEY_AMBIENT_NOISE_RAW]];
         /**
          * How frequently do we sample the microphone (default = 5) in minutes
          */
@@ -110,12 +128,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         
         [self createRawAudioDataDirectory];
         
-        [self setTypeAsPlugin];
-        
-        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PLUGIN_AMBIENT_NOISE desc:@"activate/deactivate ambient noise plugin"];
-        [self addDefaultSettingWithNumber:@5 key:AWARE_PREFERENCES_FREQUENCY_PLUGIN_AMBIENT_NOISE desc:@"How frequently do we sample the microphone (default = 5) in minutes"];
-        [self addDefaultSettingWithNumber:@30 key:AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE desc:@"For how long we listen (default = 30) in seconds"];
-        [self addDefaultSettingWithNumber:@50 key:AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD desc:@"Silence threshold (default = 50) in dB"];
     }
     return self;
 }
@@ -142,7 +154,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 //    AmbientNoise_Data.RAW + " blob default null," +
 //    [query appendFormat:@"UNIQUE (%@,%@)", KEY_AMBIENT_NOISE_TIMESTAMP, KEY_AMBIENT_NOISE_DEVICE_ID];
 //    "UNIQUE("+AmbientNoise_Data.TIMESTAMP+","+AmbientNoise_Data.DEVICE_ID+")"
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
+    
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -351,40 +365,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     [self setLatestData:dict];
     
     @try {
-        [self saveData:dict];
+        // [self saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.debugDescription);
     }
-}
-
-
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    
-    EntityAmbientNoise * ambientNoise = (EntityAmbientNoise *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                            inManagedObjectContext:childContext];
-    ambientNoise.device_id = [data objectForKey:@"device_id"];
-    ambientNoise.timestamp = [data objectForKey:@"timestamp"];
-    ambientNoise.double_frequency = [data objectForKey:KEY_AMBIENT_NOISE_FREQUENCY];
-    ambientNoise.double_decibels = [data objectForKey:KEY_AMBIENT_NOISE_DECIDELS];
-    ambientNoise.double_rms = [data objectForKey:KEY_AMBIENT_NOISE_RMS];
-    ambientNoise.is_silent = [data objectForKey:KEY_AMBIENT_NOISE_SILENT];
-    ambientNoise.double_silent_threshold = [data objectForKey:KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
-    ambientNoise.raw = [data objectForKey:KEY_AMBIENT_NOISE_RAW];
-}
-
-- (void)saveDummyData{
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_AMBIENT_NOISE_TIMESTAMP];
-    [dic setObject:[self getDeviceId] forKey:KEY_AMBIENT_NOISE_DEVICE_ID];
-    [dic setObject:[NSNumber numberWithFloat:maxFrequency] forKey:KEY_AMBIENT_NOISE_FREQUENCY];
-    [dic setObject:[NSNumber numberWithDouble:db] forKey:KEY_AMBIENT_NOISE_DECIDELS];
-    [dic setObject:[NSNumber numberWithDouble:rms] forKey:KEY_AMBIENT_NOISE_RMS];
-    [dic setObject:[NSNumber numberWithBool:[AudioAnalysis isSilent:rms threshold:_silenceThreshold]] forKey:KEY_AMBIENT_NOISE_SILENT];
-    [dic setObject:[NSNumber numberWithInteger:_silenceThreshold] forKey:KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
-    [dic setObject:@"" forKey:KEY_AMBIENT_NOISE_RAW];
-    
-    [self saveData:dic];
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -607,8 +592,5 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 //    [self setLatestValue:[NSString stringWithFormat:@"dB:%f, RMS:%f, Frequency:%f", db, rms, maxFrequency]];
 }
 
-- (BOOL)syncAwareDBInForeground{
-    return [super syncAwareDBInForeground];
-}
 
 @end

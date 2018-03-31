@@ -8,6 +8,20 @@
 //  NOTE: Don't make an instance in a AWARESensor's constructer. The operation make infinity roop.
 //
 
+//[self setCSVHeader:@[
+//                     dmLogger.KEY_DEBUG_TIMESTAMP,
+//                     dmLogger.KEY_DEBUG_DEVICE_ID,
+//                     dmLogger.KEY_DEBUG_EVENT,
+//                     dmLogger.KEY_DEBUG_TYPE,
+//                     dmLogger.KEY_DEBUG_LABEL,
+//                     dmLogger.KEY_DEBUG_NETWORK,
+//                     dmLogger.KEY_DEBUG_APP_VERSION,
+//                     dmLogger.KEY_DEBUG_DEVICE,
+//                     dmLogger.KEY_DEBUG_OS,
+//                     dmLogger.KEY_DEBUG_BATTERY,
+//                     dmLogger.KEY_DEBUG_BATTERY_STATE
+//                     ]];
+
 #import "Debug.h"
 #import "EntityDebug.h"
 #import "AWAREKeys.h"
@@ -19,37 +33,24 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"aware_debug"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"aware_debug"
+                                            entityName:NSStringFromClass([EntityDebug class])
+                                        insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                        }];
+    }
     
-    return self = [self initWithAwareStudy:study
-                  sensorName:@"aware_debug"
-                dbEntityName:NSStringFromClass([EntityDebug class])
-                      dbType:dbType];
-}
-
-- (instancetype)initWithAwareStudy:(AWAREStudy *)study
-                        sensorName:(NSString *)sensorName
-                      dbEntityName:(NSString *)entityName
-                            dbType:(AwareDBType)dbType{
     self = [super initWithAwareStudy:study
-                          sensorName:sensorName
-                        dbEntityName:entityName
-                              dbType:dbType];
+                  sensorName:@"aware_debug"
+                             storage:storage];
     if (self) {
         awareStudy = study;
         dmLogger = [[AWAREDebugMessageLogger alloc] initWithAwareStudy:awareStudy];
-        [self setCSVHeader:@[
-                             dmLogger.KEY_DEBUG_TIMESTAMP,
-                             dmLogger.KEY_DEBUG_DEVICE_ID,
-                             dmLogger.KEY_DEBUG_EVENT,
-                             dmLogger.KEY_DEBUG_TYPE,
-                             dmLogger.KEY_DEBUG_LABEL,
-                             dmLogger.KEY_DEBUG_NETWORK,
-                             dmLogger.KEY_DEBUG_APP_VERSION,
-                             dmLogger.KEY_DEBUG_DEVICE,
-                             dmLogger.KEY_DEBUG_OS,
-                             dmLogger.KEY_DEBUG_BATTERY,
-                             dmLogger.KEY_DEBUG_BATTERY_STATE
-                             ]];
+
     }
     return self;
 }
@@ -73,11 +74,12 @@
     [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", dmLogger.KEY_DEBUG_BATTERY]];
     [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", dmLogger.KEY_DEBUG_BATTERY_STATE]];
     [query appendString:@"UNIQUE (timestamp,device_id)"];
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor{
     
     // Start a data upload timer
     if ([self isDebug]) {
@@ -138,7 +140,7 @@
     [defaults setObject:currentOsVersion forKey:dmLogger.KEY_OS_VERSION];
     
     // Set a buffer for reducing file access
-    [self setBufferSize:10];
+    [self.storage setBufferSize:10];
     
     return YES;
 }
@@ -147,39 +149,12 @@
     return YES;
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 - (void) saveDebugEventWithText:(NSString *)eventText type:(NSInteger)type label:(NSString *) label {
     [dmLogger saveDebugEventWithText:eventText type:type label:label];
 }
 
-- (void)syncAwareDB{
-    [super syncAwareDB];
-}
-
-- (BOOL)syncAwareDBInForeground{
-    return [super syncAwareDBInForeground];
-}
-
-- (void)syncAwareDBInBackground{
-    [super syncAwareDBInBackground];
-}
-
-- (void)syncAwareDBWithSensorName:(NSString *)name{
-    [super syncAwareDBWithSensorName:name];
-}
-
-- (void)syncAwareDBInBackgroundWithSensorName:(NSString *)name{
-    [super syncAwareDBInBackgroundWithSensorName:name];
-}
-
-- (BOOL)syncAwareDBInForegroundWithSensorName:(NSString *)name{
-    return [super syncAwareDBInForegroundWithSensorName:name];
-}
 
 @end

@@ -95,8 +95,8 @@
     flowsFlag = NO;
     
     iOSESM = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [iOSESM allowsCellularAccess];
-    [iOSESM allowsDateUploadWithoutBatteryCharging];
+//    [iOSESM.storage allowsCellularAccess];
+//    [iOSESM.storage allowsDateUploadWithoutBatteryCharging];
     
     _esms = [[NSMutableArray alloc] init];
     esmSchedules = [[NSArray alloc] init];
@@ -637,8 +637,8 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                [iOSESM setUploadingState:NO];
-                [iOSESM syncAwareDBInForeground];
+                // [iOSESM.storage setsyn];
+                // [iOSESM.storage syncAwareDBInForeground];
                 [iOSESM refreshNotifications];
             }
         }

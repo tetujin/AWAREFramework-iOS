@@ -23,10 +23,28 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study
                              dbType:(AwareDBType)dbType {
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS entityName:NSStringFromClass([EntityContact class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityContact * contact = (EntityContact *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                     inManagedObjectContext:childContext];
+                                            contact.timestamp = [data objectForKey:@"timestamp"];
+                                            contact.device_id = [data objectForKey:@"device_id"];
+                                            contact.name = [data objectForKey:@"name"];
+                                            contact.phone_numbers = [data objectForKey:@"phone_numbers"];
+                                            contact.emails = [data objectForKey:@"emails"];
+                                            contact.groups = [data objectForKey:@"groups"];
+                                            contact.sync_date = [data objectForKey:@"sync_date"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_CONTACTS
-                        dbEntityName:NSStringFromClass([EntityContact class])
-                              dbType:AwareDBTypeSQLite];
+                             storage:storage];
     if (self) {
         aDaySec = 60*60*24;       // 24 hours
         _checkIntervalSec = 60*15; // check a next update every 15 min
@@ -52,7 +70,7 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     [tcqMaker addColumn:@"groups"        type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:@"sync_date"     type:TCQTypeReal default:@"0"];
     
-    [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+    [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -182,7 +200,9 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
                                                  }];
     
     if (success) {
-        [self setBufferSize:(int)people.count-1];
+        // [self setBufferSize:(int)people.count-1];
+        // [self.storage setBufferSize:(int)people.count - 1];
+        NSMutableArray * contacts = [[NSMutableArray alloc] init];
         for (CNContact * contact in people) {
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             NSString *name = [NSString stringWithFormat:@"%@ %@", contact.givenName ,contact.familyName];
@@ -231,8 +251,11 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
             //////////////////// sync_date //////////////////
             [dict setObject:unixtime forKey:@"sync_date"];
             
-            [self saveData:dict];
+            [contacts addObject:dict];
         }
+        
+        //            [self saveData:dict];
+        [self.storage saveDataWithArray:contacts buffer:NO saveInMainThread:YES];
         
         // [self setBufferSize:0];
         
@@ -316,21 +339,6 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
 
 
 /////////////////////////////////////////////////////////////
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    EntityContact * contact = (EntityContact *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                             inManagedObjectContext:childContext];
-    contact.timestamp = [data objectForKey:@"timestamp"];
-    contact.device_id = [data objectForKey:@"device_id"];
-    contact.name = [data objectForKey:@"name"];
-    contact.phone_numbers = [data objectForKey:@"phone_numbers"];
-    contact.emails = [data objectForKey:@"emails"];
-    contact.groups = [data objectForKey:@"groups"];
-    contact.sync_date = [data objectForKey:@"sync_date"];
-}
 
 
 -(NSString*) jsonStringWithArray:(NSArray *)array prettyPrint:(BOOL) prettyPrint {

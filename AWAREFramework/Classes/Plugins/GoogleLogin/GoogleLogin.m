@@ -26,10 +26,10 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_GOOGLE_LOGIN];
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_GOOGLE_LOGIN
-                        dbEntityName:nil
-                              dbType:AwareDBTypeJSON];
+                             storage:storage];
     if (self) {
         KEY_GOOGLE_USER_ID = @"user_id";
         KEY_GOOGLE_NAME = @"name";
@@ -39,14 +39,14 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
         encryptionName = NO;
         encryptionEmail = NO;
         encryptionUserId = NO;
-        [self allowsCellularAccess];
-        [self allowsDateUploadWithoutBatteryCharging];
+//        [self.storage allowsCellularAccess];
+//        [self.storage allowsDateUploadWithoutBatteryCharging];
         
-        [self setCSVHeader:@[@"device_id",
-                             @"timestamp",
-                             KEY_GOOGLE_USER_ID,
-                             KEY_GOOGLE_NAME,
-                             KEY_GOOGLE_EMAIL]];
+//        [self setCSVHeader:@[@"device_id",
+//                             @"timestamp",
+//                             KEY_GOOGLE_USER_ID,
+//                             KEY_GOOGLE_NAME,
+//                             KEY_GOOGLE_EMAIL]];
     }
     return self;
 }
@@ -60,10 +60,11 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     [tcqMaker addColumn:KEY_GOOGLE_NAME type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:KEY_GOOGLE_EMAIL type:TCQTypeText default:@"''"];
 
-    [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+    // [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+    [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor{
     
 //    encryptionName = [self getBoolFromSettings:settings withKey:@"encryption_name_sha1"];
 //    encryptionEmail = [self getBoolFromSettings:settings withKey:@"encryption_email_sha1"];
@@ -81,7 +82,7 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
                                                             object:nil
                                                           userInfo:nil];
     }else{
-        [self performSelector:@selector(syncAwareDBInBackground) withObject:nil afterDelay:1];
+        [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:1];
     }
     
     return YES;
@@ -166,44 +167,13 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     [dict setObject:userId             forKey:KEY_GOOGLE_USER_ID];
     [dict setObject:name               forKey:KEY_GOOGLE_NAME];
     [dict setObject:email              forKey:KEY_GOOGLE_EMAIL];
-    //[dic setObject:[NSNull null]      forKey:KEY_GOOGLE_BLOB_PICTURE];
-    [self saveData:dict];
+    // [dic setObject:[NSNull null]      forKey:KEY_GOOGLE_BLOB_PICTURE];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
-    [self performSelector:@selector(syncAwareDB) withObject:0 afterDelay:3];
+    [self performSelector:@selector(startSyncDB) withObject:0 afterDelay:3];
     return YES;
 }
-
-
-- (void)saveDummyData{
-    
-    NSString * email = @"dummy_email";
-    NSString * userId = @"dummy_user_id";
-    NSString * name = @"dummy_name";
-    
-    if(email != nil && encryptionEmail) {
-        email = [AWAREUtils sha1:email];
-    }
-    
-    if(name != nil && encryptionName){
-        name = [AWAREUtils sha1:name];
-    }
-    
-    if(userId != nil && encryptionUserId){
-        userId = [AWAREUtils sha1:userId];
-    }
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    [dic setObject:unixtime           forKey:@"timestamp"];
-    [dic setObject:[self getDeviceId] forKey:@"device_id"];
-    [dic setObject:userId             forKey:KEY_GOOGLE_USER_ID];
-    [dic setObject:name               forKey:KEY_GOOGLE_NAME];
-    [dic setObject:email              forKey:KEY_GOOGLE_EMAIL];
-    [self saveData:dic];
-}
-
-
-///////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 

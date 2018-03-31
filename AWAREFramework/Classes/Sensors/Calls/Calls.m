@@ -26,42 +26,53 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"calls"];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"calls" entityName:NSStringFromClass([EntityCall class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityCall* callData = (EntityCall *)[NSEntityDescription
+                                                                                  insertNewObjectForEntityForName:entity
+                                                                                  inManagedObjectContext:childContext];
+                                            callData.device_id = [data objectForKey:KEY_CALLS_DEVICEID];
+                                            callData.timestamp = [data objectForKey:KEY_CALLS_TIMESTAMP];
+                                            callData.call_type = [data objectForKey:KEY_CALLS_CALL_TYPE];
+                                            callData.call_duration = [data objectForKey:KEY_CALLS_CALL_DURATION];
+                                            callData.trace = [data objectForKey:KEY_CALLS_TRACE];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
-                          sensorName:@"calls"
-                        dbEntityName:NSStringFromClass([EntityCall class])
-                              dbType:dbType];
-    if (self) {
-        [self setCSVHeader:@[KEY_CALLS_TIMESTAMP, KEY_CALLS_DEVICEID, KEY_CALLS_CALL_TYPE, KEY_CALLS_CALL_DURATION, KEY_CALLS_TRACE]];
+                          sensorName:@"calls" storage:storage];
+    if (self!=nil) {
+        // [self setCSVHeader:@[KEY_CALLS_TIMESTAMP, KEY_CALLS_DEVICEID, KEY_CALLS_CALL_TYPE, KEY_CALLS_CALL_DURATION, KEY_CALLS_TRACE]];
     }
     return self;
 }
 
-- (void)syncAwareDB{
-    [super syncAwareDB];
-}
-
-- (BOOL)syncAwareDBInForeground{
-    return [super syncAwareDBInForeground];
-}
-
-- (BOOL) isUploading{
-    return [super isUploading];
-}
 
 - (void) createTable{
     if([self isDebug]){
         NSLog(@"[%@] Create Telephony Sensor Table", [self getSensorName]);
     }
     
-    NSMutableString *query = [[NSMutableString alloc] init];
-    [query appendString:@"_id integer primary key autoincrement,"];
-    [query appendString:[NSString stringWithFormat:@"%@ real default 0,", KEY_CALLS_TIMESTAMP]];
-    [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_CALLS_DEVICEID]];
-    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_TYPE]];
-    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_DURATION]];
-    [query appendString:[NSString stringWithFormat:@"%@ text default ''", KEY_CALLS_TRACE ]];
-    // [query appendString:@"UNIQUE (timestamp,device_id)"];
-    [super createTable:query];
+    TCQMaker * maker = [[TCQMaker alloc] init];
+    [maker addColumn:KEY_CALLS_CALL_TYPE type:TCQTypeInteger default:@"0"];
+    [maker addColumn:KEY_CALLS_CALL_DURATION type:TCQTypeInteger default:@"0"];
+    [maker addColumn:KEY_CALLS_TRACE type:TCQTypeText default:@"''"];
+    [self.storage createDBTableOnServerWithTCQMaker:maker];
+    
+//    NSMutableString *query = [[NSMutableString alloc] init];
+//    [query appendString:@"_id integer primary key autoincrement,"];
+//    [query appendString:[NSString stringWithFormat:@"%@ real default 0,", KEY_CALLS_TIMESTAMP]];
+//    [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_CALLS_DEVICEID]];
+//    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_TYPE]];
+//    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_DURATION]];
+//    [query appendString:[NSString stringWithFormat:@"%@ text default ''", KEY_CALLS_TRACE ]];
+//    // [query appendString:@"UNIQUE (timestamp,device_id)"];
+//    [super createTable:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -80,30 +91,30 @@ NSString* const KEY_CALLS_TRACE = @"trace";
         NSNumber * callType = @0;
         NSString * callTypeStr = @"Unknown";
         int duration = 0;
-        if (start == nil) start = [NSDate new];
+        if (self->start == nil) self->start = [NSDate new];
         
         // one of the Android’s call types (1 – incoming, 2 – outgoing, 3 – missed)
         if (call.callState == CTCallStateIncoming) {
             // start
             callType = @1;
-            start = [NSDate new];
+            self->start = [NSDate new];
             callTypeStr = @"Incoming";
         } else if (call.callState == CTCallStateConnected){
             callType = @2;
-            duration = [[NSDate new] timeIntervalSinceDate:start];
-            start = [NSDate new];
+            duration = [[NSDate new] timeIntervalSinceDate:self->start];
+            self->start = [NSDate new];
             callTypeStr = @"Connected";
         } else if (call.callState == CTCallStateDialing){
             // start
             callType = @3;
-            start = [NSDate new];
+            self->start = [NSDate new];
             callTypeStr = @"Dialing";
         } else if (call.callState == CTCallStateDisconnected){
             // fin
             callType = @4;
             callTypeStr = @"Disconnected";
-            duration = [[NSDate new] timeIntervalSinceDate:start];
-            start = [NSDate new];
+            duration = [[NSDate new] timeIntervalSinceDate:self->start];
+            self->start = [NSDate new];
         }
         
         if ([self isDebug]) {
@@ -120,8 +131,9 @@ NSString* const KEY_CALLS_TRACE = @"trace";
             [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
             [dict setObject:callId forKey:KEY_CALLS_TRACE];
             
-            [super saveData:dict];
-            [super setLatestData:dict];
+            // [super saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        [super setLatestData:dict];
         
             // Set latest sensor data
             NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
@@ -164,33 +176,6 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 }
 
 
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    
-    
-    EntityCall* callData = (EntityCall *)[NSEntityDescription
-                                          insertNewObjectForEntityForName:entity
-                                          inManagedObjectContext:childContext];
-    callData.device_id = [data objectForKey:KEY_CALLS_DEVICEID];
-    callData.timestamp = [data objectForKey:KEY_CALLS_TIMESTAMP];
-    callData.call_type = [data objectForKey:KEY_CALLS_CALL_TYPE];
-    callData.call_duration = [data objectForKey:KEY_CALLS_CALL_DURATION];
-    callData.trace = [data objectForKey:KEY_CALLS_TRACE];
-
-}
-
-
-- (void)saveDummyData{
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_CALLS_TIMESTAMP];
-    [dict setObject:[super getDeviceId] forKey:KEY_CALLS_DEVICEID];
-    [dict setObject:@1 forKey:KEY_CALLS_CALL_TYPE];
-    [dict setObject:@23 forKey:KEY_CALLS_CALL_DURATION];
-    [dict setObject:@"test_trace" forKey:KEY_CALLS_TRACE];
-    
-    [super saveData:dict];
-}
 
 -(BOOL) stopSensor{
     _callCenter.callEventHandler = nil;

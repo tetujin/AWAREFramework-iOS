@@ -19,15 +19,34 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_GYROSCOPE];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_GYROSCOPE entityName:NSStringFromClass([EntityGyroscope class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityGyroscope* entityGyro = (EntityGyroscope *)[NSEntityDescription
+                                                                                              insertNewObjectForEntityForName:entity
+                                                                                              inManagedObjectContext:childContext];
+                                            
+                                            entityGyro.device_id = [data objectForKey:@"device_id"];
+                                            entityGyro.timestamp = [data objectForKey:@"timestamp"];
+                                            entityGyro.double_values_0 = [data objectForKey:@"double_values_0"];
+                                            entityGyro.double_values_1 = [data objectForKey:@"double_values_1"];
+                                            entityGyro.double_values_2 = [data objectForKey:@"double_values_2"];
+                                            entityGyro.accuracy = [data objectForKey:@"accuracy"];
+                                            entityGyro.label =  [data objectForKey:@"label"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_GYROSCOPE
-                        dbEntityName:NSStringFromClass([EntityGyroscope class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         gyroManager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
     }
     return self;
 }
@@ -46,7 +65,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     "double_values_2 real default 0,"
     "accuracy integer default 0,"
     "label text default ''";
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -71,7 +91,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
         NSLog(@"[%@] Start Gyro Sensor", [self getSensorName]);
     }
     
-    [self setBufferSize:savingInterval/sensingInterval];
+//    [self setBufferSize:savingInterval/sensingInterval];
+    [self.storage setBufferSize:savingInterval/sensingInterval];
 
     gyroManager.gyroUpdateInterval = sensingInterval;
     
@@ -98,13 +119,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          
                                          [self setLatestData:dict];
                                          
-                                         if([self getDBType] == AwareDBTypeSQLite){
-                                             [self saveData:dict];
-                                         }else if([self getDBType] == AwareDBTypeJSON){
-                                             dispatch_async(dispatch_get_main_queue(), ^{
-                                                 [self saveData:dict];
-                                             });
-                                         }
+                                         [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+//                                         if([self getDBType] == AwareDBTypeSQLite){
+//                                             [self saveData:dict];
+//                                         }else if([self getDBType] == AwareDBTypeJSON){
+//                                             dispatch_async(dispatch_get_main_queue(), ^{
+//                                                 [self saveData:dict];
+//                                             });
+//                                         }
                                          
                                          NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
                                                                                               forKey:EXTRA_DATA];
@@ -117,20 +139,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     return YES;
 }
 
-
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityGyroscope* entityGyro = (EntityGyroscope *)[NSEntityDescription
-                                                insertNewObjectForEntityForName:entity
-                                                inManagedObjectContext:childContext];
-    
-    entityGyro.device_id = [data objectForKey:@"device_id"];
-    entityGyro.timestamp = [data objectForKey:@"timestamp"];
-    entityGyro.double_values_0 = [data objectForKey:@"double_values_0"];
-    entityGyro.double_values_1 = [data objectForKey:@"double_values_1"];
-    entityGyro.double_values_2 = [data objectForKey:@"double_values_2"];
-    entityGyro.accuracy = [data objectForKey:@"accuracy"];
-    entityGyro.label =  [data objectForKey:@"label"];
-}
 
 - (BOOL)stopSensor{
     [gyroManager stopGyroUpdates];

@@ -39,13 +39,15 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    AWAREStorage * storage = nil;
+    storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER];
+
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_PEDOMETER
-                        dbEntityName:nil
-                              dbType:dbType];
+                             storage:storage];
+
     if (self) {
-        [self setTypeAsPlugin];
-        
         KEY_DEVICE_ID = @"device_id";
         KEY_TIMESTAMP = @"timestamp";
         KEY_END_TIMESTAMP   = @"end_timestamp";
@@ -58,16 +60,8 @@
         KEY_FLOORS_DESCENDED = @"floors_descended";
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_plugin_sensor_pedometer_last_update_timestamp";
         frequencySec = 60*10;
-        [self setCSVHeader:@[KEY_DEVICE_ID,
-                             KEY_TIMESTAMP,
-                             KEY_END_TIMESTAMP,
-                             KEY_FREQUENCY_SECOND,
-                             KEY_NUMBER_OF_STEPS,
-                             KEY_DISTANCE,
-                             KEY_CURRENT_PACE,
-                             KEY_CURRENT_CADENCE,
-                             KEY_FLOORS_ASCENDED,
-                             KEY_FLOORS_DESCENDED]];
+//        [self setCSVHeader:@[KEY_DEVICE_ID,KEY_TIMESTAMP,KEY_END_TIMESTAMP,KEY_FREQUENCY_SECOND,KEY_NUMBER_OF_STEPS,KEY_DISTANCE,KEY_CURRENT_PACE,
+//                             KEY_CURRENT_CADENCE,KEY_FLOORS_ASCENDED,KEY_FLOORS_DESCENDED]];
     }
     return self;
 }
@@ -88,7 +82,8 @@
     [tcqMaker addColumn:KEY_CURRENT_CADENCE type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_FLOORS_ASCENDED type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:KEY_FLOORS_DESCENDED type:TCQTypeInteger default:@"0"];
-    [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+//    [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+    [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -165,7 +160,7 @@
                                                // [self setLatestValue:[NSString stringWithFormat:@"[%@ - %@] %@", fromDate.debugDescription, toDate.debugDescription, pedometerData]];
                                            }
                                            if(error != nil){
-                                               [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] Error in pedometer sensor", [self getSensorName]] type:DebugTypeError label:error.debugDescription];
+//                                               [self saveDebugEventWithText:[NSString stringWithFormat:@"[%@] Error in pedometer sensor", [self getSensorName]] type:DebugTypeError label:error.debugDescription];
                                            }
                                        });
                                    }];
@@ -277,7 +272,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_PEDOMETER
                                                             object:nil
                                                           userInfo:userInfo];
-        [self saveData:dict];
+//        [self saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         [self setLatestData:dict];
     });
 //                                                    

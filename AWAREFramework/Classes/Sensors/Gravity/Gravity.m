@@ -26,16 +26,34 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY entityName:NSStringFromClass([EntityGravity class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityGravity* gravityData = (EntityGravity *)[NSEntityDescription
+                                                                                           insertNewObjectForEntityForName:entity
+                                                                                           inManagedObjectContext:childContext];
+                                            
+                                            gravityData.device_id = [data objectForKey:@"device_id"];
+                                            gravityData.timestamp = [data objectForKey:@"timestamp"];
+                                            gravityData.double_values_0 = [data objectForKey:@"double_values_0"];
+                                            gravityData.double_values_1 = [data objectForKey:@"double_values_1"];
+                                            gravityData.double_values_2 = [data objectForKey:@"double_values_2"];
+                                            gravityData.label =  [data objectForKey:@"label"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_GRAVITY
-                        dbEntityName:NSStringFromClass([EntityGravity class])
-                              dbType:dbType];
+                             storage:storage];
             //dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
     }
     return self;
 }
@@ -52,7 +70,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:@"label" type:TCQTypeText default:@"''"];
     NSString *query = [tcqMaker getDefaudltTableCreateQuery];
-    [super createTable:query];
+//    [super createTable:query];
+    [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -76,7 +95,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
         NSLog(@"[%@] Start Gravity Sensor", [self getSensorName]);
     }
  
-    [self setBufferSize:sensingInterval/savingInterval];
+    // [self setBufferSize:sensingInterval/savingInterval];
+    [self.storage setBufferSize:sensingInterval/savingInterval];
     
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;
@@ -104,15 +124,15 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                                    [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GRAVITY
                                                                                                        object:nil
                                                                                                      userInfo:userInfo];
-                                                   
-                                                   if([self getDBType] == AwareDBTypeSQLite){
-                                                       [self saveData:dict];
-                                                   }else if([self getDBType] == AwareDBTypeJSON){
-                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                           [self saveData:dict];
-                                                       });
-                                                   }
-                                                
+                                               [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+//                                                   if([self getDBType] == AwareDBTypeSQLite){
+//                                                       [self saveData:dict];
+//                                                   }else if([self getDBType] == AwareDBTypeJSON){
+//                                                       dispatch_async(dispatch_get_main_queue(), ^{
+//                                                           [self saveData:dict];
+//                                                       });
+//                                                   }
+                                               
                                                // });
                                            }];
     }
@@ -120,19 +140,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     return YES;
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityGravity* gravityData = (EntityGravity *)[NSEntityDescription
-                                                   insertNewObjectForEntityForName:entity
-                                                   inManagedObjectContext:childContext];
-    
-    gravityData.device_id = [data objectForKey:@"device_id"];
-    gravityData.timestamp = [data objectForKey:@"timestamp"];
-    gravityData.double_values_0 = [data objectForKey:@"double_values_0"];
-    gravityData.double_values_1 = [data objectForKey:@"double_values_1"];
-    gravityData.double_values_2 = [data objectForKey:@"double_values_2"];
-    gravityData.label =  [data objectForKey:@"label"];
-
-}
 
 - (BOOL)stopSensor{
     [motionManager stopDeviceMotionUpdates];

@@ -28,15 +28,35 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR entityName:NSStringFromClass([EntityProcessor class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityProcessor* entityProcessor = (EntityProcessor *)[NSEntityDescription
+                                                                                                   insertNewObjectForEntityForName:entity
+                                                                                                   inManagedObjectContext:childContext];
+                                            
+                                            entityProcessor.device_id = [data objectForKey:@"device_id"];
+                                            entityProcessor.timestamp = [data objectForKey:@"timestamp"];
+                                            entityProcessor.double_last_user = [data objectForKey:@"double_last_user"];
+                                            entityProcessor.double_last_system = [data objectForKey:@"double_last_system"];
+                                            entityProcessor.double_last_idle = [data objectForKey:@"double_last_idle"];
+                                            entityProcessor.double_user_load = [data objectForKey:@"double_user_load"];
+                                            entityProcessor.double_system_load = [data objectForKey:@"double_system_load"];
+                                            entityProcessor.double_idle_load = [data objectForKey:@"double_idle_load"];
+                                        }];
+    }
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PROCESSOR
-                        dbEntityName:NSStringFromClass([EntityProcessor class])
-                              dbType:dbType
-                          bufferSize:0];
+                             storage:storage];
     if (self) {
         sensingInterval = 10.0f;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        [self setCSVHeader:@[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"]];
     }
     return self;
 }
@@ -57,7 +77,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     "double_system_load real default 0,"
     "double_idle real default 0";
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -70,7 +91,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     }
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor{
     if ([self isDebug]) {
         NSLog(@"[%@] Start Processor Sensor", [self getSensorName]);
     }
@@ -101,7 +122,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [dict setObject:@0 forKey:@"double_system_load"]; //double
     [dict setObject:@0 forKey:@"double_idle_load"]; //double
     [self setLatestValue:[NSString stringWithFormat:@"%@ %%",appCpuUsage]];
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
     malloc(cpuUsageFloat);
@@ -112,23 +134,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     return YES;
 }
 
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityProcessor* entityProcessor = (EntityProcessor *)[NSEntityDescription
-                                                     insertNewObjectForEntityForName:entity
-                                                     inManagedObjectContext:childContext];
-    
-    entityProcessor.device_id = [data objectForKey:@"device_id"];
-    entityProcessor.timestamp = [data objectForKey:@"timestamp"];
-    entityProcessor.double_last_user = [data objectForKey:@"double_last_user"];
-    entityProcessor.double_last_system = [data objectForKey:@"double_last_system"];
-    entityProcessor.double_last_idle = [data objectForKey:@"double_last_idle"];
-    entityProcessor.double_user_load = [data objectForKey:@"double_user_load"];
-    entityProcessor.double_system_load = [data objectForKey:@"double_system_load"];
-    entityProcessor.double_idle_load = [data objectForKey:@"double_idle_load"];
-}
 
 
 ////////////////////////////////////////////////////////////////////

@@ -21,19 +21,18 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
 
 /** Initializer */
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION];
+    
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_ORIENTATION
-                        dbEntityName:nil
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         KEY_ORIENTATION_TIMESTAMP = @"timestamp";
         KEY_ORIENTATION_DEVICE_ID = @"device_id";
         KEY_ORIENTATION_STATUS = @"orientation_status";
         KEY_ORIENTATION_LABEL = @"label";
-        [self setCSVHeader:@[KEY_ORIENTATION_TIMESTAMP,
-                             KEY_ORIENTATION_DEVICE_ID,
-                             KEY_ORIENTATION_STATUS,
-                             KEY_ORIENTATION_LABEL]];
+        // [self setCSVHeader:@[KEY_ORIENTATION_TIMESTAMP,KEY_ORIENTATION_DEVICE_ID,KEY_ORIENTATION_STATUS,KEY_ORIENTATION_LABEL]];
     }
     return self;
 }
@@ -46,7 +45,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_ORIENTATION_STATUS]];
     [query appendString:[NSString stringWithFormat:@"%@ text default ''", KEY_ORIENTATION_LABEL]];
     // [query appendString:@"UNIQUE (timestamp,device_id)"];
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -132,7 +132,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [dict setObject:deviceOrientation forKey:KEY_ORIENTATION_STATUS];
     [dict setObject:label forKey:KEY_ORIENTATION_LABEL];
     [self setLatestValue:label];
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
 }
 

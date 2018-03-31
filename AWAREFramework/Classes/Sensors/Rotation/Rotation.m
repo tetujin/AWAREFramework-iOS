@@ -26,17 +26,38 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION entityName:NSStringFromClass([EntityRotation class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            
+                                            EntityRotation* entityRotation = (EntityRotation *)[NSEntityDescription
+                                                                                                insertNewObjectForEntityForName:entity
+                                                                                                inManagedObjectContext:childContext];
+                                            
+                                            entityRotation.device_id = [data objectForKey:@"device_id"];
+                                            entityRotation.timestamp = [data objectForKey:@"timestamp"];
+                                            entityRotation.double_values_0 = [data objectForKey:@"double_values_0"];
+                                            entityRotation.double_values_1 = [data objectForKey:@"double_values_1"];
+                                            entityRotation.double_values_2 = [data objectForKey:@"double_values_2"];
+                                            entityRotation.double_values_3 = [data objectForKey:@"double_values_3"];
+                                            entityRotation.accuracy = [data objectForKey:@"accuracy"];
+                                            entityRotation.label = [data objectForKey:@"label"];
+                                            
+                                        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_ROTATION
-                        dbEntityName:NSStringFromClass([EntityRotation class])
-                              dbType:dbType];
+                             storage:storage];
             // dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
         // [self setCSVHeader:@[@"timestamp",@"device_id"]];
-        [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"]];
+        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"]];
 
     }
     return self;
@@ -57,7 +78,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     "accuracy integer default 0,"
     "label text default ''";
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    // [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -79,7 +101,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
         NSLog(@"[%@] Start Rotation Sensor", [self getSensorName]);
     }
 
-    [self setBufferSize:savingInterval/sensingInterval];
+    // [self setBufferSize:savingInterval/sensingInterval];
+    [self.storage setBufferSize:savingInterval/sensingInterval];
     
     // Set and start motion sensor
     if( motionManager.deviceMotionAvailable ){
@@ -100,13 +123,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                               [dict setObject:@3 forKey:@"accuracy"];//int
                                               [dict setObject:@"" forKey:@"label"]; //text
                                                
-                                               if([self getDBType] == AwareDBTypeSQLite){
-                                                   [self saveData:dict];
-                                               }else if([self getDBType] == AwareDBTypeJSON){
-                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                       [self saveData:dict];
-                                                   });
-                                               }
+                                               [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+//                                               if([self getDBType] == AwareDBTypeSQLite){
+//                                                   [self saveData:dict];
+//                                               }else if([self getDBType] == AwareDBTypeJSON){
+//                                                   dispatch_async(dispatch_get_main_queue(), ^{
+//                                                       [self saveData:dict];
+//                                                   });
+//                                               }
                                                
                                                [self setLatestData:dict];
                                                [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];
@@ -128,25 +152,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
     return YES;
-}
-
-
-- (void)insertNewEntityWithData:(NSDictionary *)data
-           managedObjectContext:(NSManagedObjectContext *)childContext
-                     entityName:(NSString *)entity{
-    EntityRotation* entityRotation = (EntityRotation *)[NSEntityDescription
-                                              insertNewObjectForEntityForName:entity
-                                              inManagedObjectContext:childContext];
-    
-    entityRotation.device_id = [data objectForKey:@"device_id"];
-    entityRotation.timestamp = [data objectForKey:@"timestamp"];
-    entityRotation.double_values_0 = [data objectForKey:@"double_values_0"];
-    entityRotation.double_values_1 = [data objectForKey:@"double_values_1"];
-    entityRotation.double_values_2 = [data objectForKey:@"double_values_2"];
-    entityRotation.double_values_3 = [data objectForKey:@"double_values_3"];
-    entityRotation.accuracy = [data objectForKey:@"accuracy"];
-    entityRotation.label = [data objectForKey:@"label"];
-    
 }
 
 

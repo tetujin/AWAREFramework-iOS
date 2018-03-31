@@ -21,19 +21,31 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    AWAREStorage * storage = nil;
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK entityName:NSStringFromClass([EntityNetwork class])
+                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                            EntityNetwork* entityNetwork = (EntityNetwork *)[NSEntityDescription
+                                                                                             insertNewObjectForEntityForName:entity
+                                                                                             inManagedObjectContext:childContext];
+                                            
+                                            entityNetwork.device_id = [data objectForKey:@"device_id"];
+                                            entityNetwork.timestamp = [data objectForKey:@"timestamp"];
+                                            entityNetwork.network_type =    [data objectForKey:@"network_type"];
+                                            entityNetwork.network_state =   [data objectForKey:@"network_state"];
+                                            entityNetwork.network_subtype = [data objectForKey:@"network_subtype"];
+                                        }];
+    }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_NETWORK
-                        dbEntityName:NSStringFromClass([EntityNetwork class])
-                              dbType:dbType];
+                             storage:storage];
     if (self) {
         networkState= YES;
         networkType = @0;
         networkSubtype = @"";
-        [self setCSVHeader:@[@"timestamp",
-                             @"device_id",
-                             @"network_type",
-                             @"network_subtype",
-                             @"network_state"]];
+        // [self setCSVHeader:@[@"timestamp", @"device_id",@"network_type",@"network_subtype",@"network_state"]];
     }
     return self;
 }
@@ -52,7 +64,7 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     "network_subtype text default '',"
     "network_state integer default 0";
     // "UNIQUE (timestamp,device_id)";
-    [super createTable:query];
+    [self.storage createDBTableOnServerWithQuery:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -136,21 +148,10 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     [dict setObject:networkSubtype forKey:@"network_subtype"];
     [dict setObject:[NSNumber numberWithInt:networkState] forKey:@"network_state"];
     
-    [self saveData:dict];
+    // [self saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
 }
 
-- (void)insertNewEntityWithData:(NSDictionary *)data managedObjectContext:(NSManagedObjectContext *)childContext entityName:(NSString *)entity{
-    EntityNetwork* entityNetwork = (EntityNetwork *)[NSEntityDescription
-                                            insertNewObjectForEntityForName:entity
-                                                     inManagedObjectContext:childContext];
-    
-    entityNetwork.device_id = [data objectForKey:@"device_id"];
-    entityNetwork.timestamp = [data objectForKey:@"timestamp"];
-    entityNetwork.network_type =    [data objectForKey:@"network_type"];
-    entityNetwork.network_state =   [data objectForKey:@"network_state"];
-    entityNetwork.network_subtype = [data objectForKey:@"network_subtype"];
-
-}
 
 @end
