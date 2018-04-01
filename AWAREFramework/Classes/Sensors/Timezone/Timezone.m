@@ -123,6 +123,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_TIMEZONE
                                                         object:nil
                                                       userInfo:userInfo];
+    
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(dict);
+    }
 
 }
 

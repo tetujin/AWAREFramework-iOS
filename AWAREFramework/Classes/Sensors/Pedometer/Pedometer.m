@@ -286,6 +286,11 @@
 //                                                    // [self sendLocalNotificationForMessage:message soundFlag:NO];
     if ([self isDebug]) NSLog(@"%@", message);
     [self setLatestValue:[NSString stringWithFormat:@"%@", message]];
+    
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(dict);
+    }
 }
 
 

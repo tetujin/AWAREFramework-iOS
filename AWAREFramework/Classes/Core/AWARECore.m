@@ -136,7 +136,7 @@
         if (batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:self.sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[Uploader] The battery is charging. AWARE iOS start to upload sensor data." type:DebugTypeInfo label:@""];
-            [self.sharedSensorManager syncAllSensorsWithDBInBackground];
+            [self.sharedSensorManager syncAllSensors];
             [self.sharedSensorManager runBatteryStateChangeEvents];
         }
     }

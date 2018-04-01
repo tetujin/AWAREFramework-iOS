@@ -182,6 +182,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
             [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
         }
         
+        SensorEventCallBack callback = [self getSensorEventCallBack];
+        if (callback!=nil) {
+            callback(dict);
+        }
+        
 //        if(![self isWiFiEnabled]){
 //            [self saveDebugEventWithText:@"Wifi module is powered off" type:DebugTypeWarn label:@""];
 //        }

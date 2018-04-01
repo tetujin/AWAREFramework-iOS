@@ -81,7 +81,7 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 
 -(BOOL)startSensor{
     
-    [super startSensor];
+    /// [super startSensor];
     
     // Set and start a call sensor
     _callCenter = [[CTCallCenter alloc] init];
@@ -123,53 +123,57 @@ NSString* const KEY_CALLS_TRACE = @"trace";
         
         // dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSNumber *durationValue = [NSNumber numberWithInt:duration];
-            NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_CALLS_TIMESTAMP];
-            [dict setObject:[super getDeviceId] forKey:KEY_CALLS_DEVICEID];
-            [dict setObject:callType forKey:KEY_CALLS_CALL_TYPE];
-            [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
-            [dict setObject:callId forKey:KEY_CALLS_TRACE];
+        NSNumber *durationValue = [NSNumber numberWithInt:duration];
+        NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+        [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_CALLS_TIMESTAMP];
+        [dict setObject:[super getDeviceId] forKey:KEY_CALLS_DEVICEID];
+        [dict setObject:callType forKey:KEY_CALLS_CALL_TYPE];
+        [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
+        [dict setObject:callId forKey:KEY_CALLS_TRACE];
             
             // [super saveData:dict];
         [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         [super setLatestData:dict];
         
-            // Set latest sensor data
-            NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-            [timeFormat setDateFormat:@"YYYY-MM-dd HH:mm"];
-            NSString * dateStr = [timeFormat stringFromDate:[NSDate new]];
-            NSString * latestData = [NSString stringWithFormat:@"%@ [%@] %d seconds",dateStr, callTypeStr, duration];
-            [super setLatestValue: latestData];
-            
-            
-            // Broadcast a notification
-            // http://www.awareframework.com/communication/
-            // [NOTE] On the Andoind AWARE client, when the ACTION_AWARE_USER_NOT_IN_CALL and ACTION_AWARE_USER_IN_CALL are called?
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict forKey:EXTRA_DATA];
-            if (call.callState == CTCallStateIncoming) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_RINGING
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-            } else if (call.callState == CTCallStateConnected){
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_ACCEPTED
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_IN_CALL
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-            } else if (call.callState == CTCallStateDialing){
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MADE
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-            } else if (call.callState == CTCallStateDisconnected){
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MISSED
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_NOT_IN_CALL
-                                                                    object:nil
-                                                                  userInfo:userInfo];
-            }
+        // Set latest sensor data
+        NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+        [timeFormat setDateFormat:@"YYYY-MM-dd HH:mm"];
+        NSString * dateStr = [timeFormat stringFromDate:[NSDate new]];
+        NSString * latestData = [NSString stringWithFormat:@"%@ [%@] %d seconds",dateStr, callTypeStr, duration];
+        [super setLatestValue: latestData];
+        
+        SensorEventCallBack callback = [self getSensorEventCallBack];
+        if (callback!=nil) {
+            callback(dict);
+        }
+        
+        // Broadcast a notification
+        // http://www.awareframework.com/communication/
+        // [NOTE] On the Andoind AWARE client, when the ACTION_AWARE_USER_NOT_IN_CALL and ACTION_AWARE_USER_IN_CALL are called?
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict forKey:EXTRA_DATA];
+        if (call.callState == CTCallStateIncoming) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_RINGING
+                                                                object:nil
+                                                              userInfo:userInfo];
+        } else if (call.callState == CTCallStateConnected){
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_ACCEPTED
+                                                                object:nil
+                                                              userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_IN_CALL
+                                                                object:nil
+                                                              userInfo:userInfo];
+        } else if (call.callState == CTCallStateDialing){
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MADE
+                                                                object:nil
+                                                              userInfo:userInfo];
+        } else if (call.callState == CTCallStateDisconnected){
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MISSED
+                                                                object:nil
+                                                              userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_NOT_IN_CALL
+                                                                object:nil
+                                                              userInfo:userInfo];
+        }
         //});
     };
     return YES;

@@ -13,8 +13,7 @@
     int latestTextLength;
     NSString * KEY_SENSOR_UPLOAD_MARK;
     NSString * KEY_SENSOR_UPLOAD_LOSTED_TEXT_LENGTH;
-    int repetitionLimit;
-    int repetitionCount;
+    int retryCurrentCount;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -24,6 +23,8 @@
         KEY_SENSOR_UPLOAD_LOSTED_TEXT_LENGTH = [NSString stringWithFormat:@"KEY_SENSOR_UPLOAD_LOSTED_TEXT_LENGTH_%@",name];
         // [self removeLocalStorageWithName:name type:@"json"];
         [self createLocalStorageWithName:name type:@"json"];
+        self.retryLimit = 3;
+        retryCurrentCount = 0;
     }
     return self;
 }
@@ -35,7 +36,7 @@
 - (BOOL)saveDataWithArray:(NSArray *)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
 
     if (!saveInMainThread) {
-        NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
+        // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
     
     if (isRequiredBuffer) {
@@ -57,6 +58,9 @@
     }else{
         d = [NSJSONSerialization dataWithJSONObject:dataArray options:2 error:&error];
     }
+    
+    [self.buffer removeAllObjects];
+    
     if (!error) {
         lines = [[NSMutableString alloc] initWithData:d encoding:NSUTF8StringEncoding];
     } else {
@@ -81,6 +85,11 @@
 
 //////////////////////////////////////////
 
+- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
+    self.syncProcessCallBack = callback;
+    [self startSyncStorage];
+}
+
 - (void)startSyncStorage {
     NSMutableString* sensorData = [self getSensorDataForPost];
     NSString* formatedSensorData = [self fixJsonFormat:sensorData];
@@ -92,23 +101,32 @@
                 NSNumber * success = [result objectForKey:@"result"];
                 if (success.intValue == 1) {
                     if(self->latestTextLength < [self getMaxDataLength]){
-                        NSLog(@"Done");
-                        if( [self getMarker] == 0 ){
-                            [self clearLocalStorageWithName:self.sensorName type:@"json"];
-                            NSLog(@"clear the local database");
-                        }else{
-                            NSLog(@"keep use");
-                        }
+                        if (self.isDebug) NSLog(@"[%@] Done",self.sensorName);
+                        [self clearLocalStorageWithName:self.sensorName type:@"json"];
+                        if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
                         [self resetMark];
+                        [self dataSyncIsFinishedCorrectly];
                     }else{
                         [self setNextMark];
-                        NSLog(@"Next");
-                        [self startSyncStorage];
+                        [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                    }
+                }else{
+                    if (self->retryCurrentCount < self.retryLimit) {
+                        if (self.isDebug) NSLog(@"[%@] Retry (%d)",self.sensorName, self->retryCurrentCount);
+                        self->retryCurrentCount++;
+                        [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                    }else{
+                        if (self.isDebug) NSLog(@"[%@] End sync process doue to much error HTTP sessions.",self.sensorName);
+                        [self dataSyncIsFinishedCorrectly];
                     }
                 }
             }
         }];
     }
+}
+
+- (void) dataSyncIsFinishedCorrectly {
+    retryCurrentCount = 0;
 }
 
 - (void)cancelSyncStorage {
@@ -148,7 +166,7 @@
         return Nil;
     }
     
-    NSLog(@"[%@] Seek point => %ld", self.sensorName, seek);
+    if (self.isDebug) NSLog(@"[%@] Seek point => %ld", self.sensorName, seek);
     
     // Set seek point with losted text
     if (seek > [self getLostedTextLength]) {
@@ -249,7 +267,7 @@
  * Set a next progress maker to local default storage
  */
 - (void) setNextMark {
-    NSLog(@"[%@] Line length is %llu", self.sensorName, [self getFileSize]);
+    if(self.isDebug) NSLog(@"[%@] Line length is %llu", self.sensorName, [self getFileSize]);
     [self setMarker:[self getMarker]+1];
     [self setLostedTextLength:lostedTextLength];
 }

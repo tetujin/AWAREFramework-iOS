@@ -224,7 +224,7 @@
                         AWARESensor * iosActivityRecognition = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
                         // [iosActivityRecognition startSensorWithSettings:pluginSettings];
                         [iosActivityRecognition setParameters:pluginSettings];
-                        [iosActivityRecognition.storage trackDebugEvents];
+                        [iosActivityRecognition.storage setDebug:YES];
                         [self addSensor:iosActivityRecognition];
                     }
                     
@@ -465,340 +465,32 @@
 }
 
 
+- (void)syncAllSensors {
+    [self syncAllSensorsForcefully];
+}
 
-/**
- * Upload sensor data manually in the foreground
- *
- * NOTE: 
- * This method works in the foreground only, and lock the uploading file.
- * During an uploading process, an AWARE can not access to the file.
- *
- */
-- (bool) syncAllSensorsWithDBInForeground {
-    
-    if(manualUploadMonitor != nil){
-        [manualUploadMonitor invalidate];
-        manualUploadMonitor = nil;
-    }
-    
-    // [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    [SVProgressHUD showWithStatus:@"Start manual upload"];
-    
-//    [self stopAndRemoveAllSensors];
-//    [self startAllSensors];
-    
-    manualUploadMonitor = [NSTimer scheduledTimerWithTimeInterval:1
-                                                           target:self
-                                                         selector:@selector(checkAllSensorsUploadStatus:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        
-        
-        // show progress view
-        numberOfSensors = (int)awareSensors.count;
-        progresses = [[NSMutableDictionary alloc] init];
-        for (AWARESensor * sensor in awareSensors) {
-            [progresses setObject:@0 forKey:[sensor getSensorName]];
-        }
-        
-        observer = [[NSNotificationCenter defaultCenter]
-                               addObserverForName:ACTION_AWARE_DATA_UPLOAD_PROGRESS
-                               object:nil
-                               queue:nil
-                               usingBlock:^(NSNotification *notif) {
-                                   NSDictionary * userInfo = notif.userInfo;
-                                   if(userInfo != nil){
-                                       // call main thread for UI update
-                                       dispatch_sync(dispatch_get_main_queue(), ^{
-                                           NSNumber* progressStr = [userInfo objectForKey:KEY_UPLOAD_PROGRESS_STR];
-                                           BOOL isFinish =  [[userInfo objectForKey:KEY_UPLOAD_FIN] boolValue];
-                                           BOOL isSuccess = [[userInfo objectForKey:KEY_UPLOAD_SUCCESS] boolValue];
-                                           NSString* progressName = [userInfo objectForKey:KEY_UPLOAD_SENSOR_NAME];
-                                           [progresses setObject:progressStr forKey:progressName];
-
-                                           // update progress
-                                           @try {
-                                               NSMutableString * result = [[NSMutableString alloc] init];
-                                               for (id key in [progresses keyEnumerator]) {
-                                                   double progress = [[progresses objectForKey:key] doubleValue];
-                                                   [result appendFormat:@"%@ (%.2f %%)\n", key, progress];
-                                               }
-                                               [SVProgressHUD showWithStatus:result];
-                                           } @catch (NSException *exception) {
-                                               NSLog(@"%@", exception.debugDescription);
-                                           } @finally {
-                                               
-                                           }
-                                           
-                                           // stop
-                                           if(isFinish == YES && isSuccess == NO){
-                                               
-                                               AudioServicesPlayAlertSound(1010);
-                                               if([AWAREUtils isBackground]){
-                                                   [AWAREUtils sendLocalNotificationForMessage:@"[Manual Upload] Failed to upload sensor data. Please try uploading again." soundFlag:YES];
-                                               }else{
-                                                   UIAlertView *alert = [ [UIAlertView alloc]
-                                                                         initWithTitle:@""
-                                                                         message:@"[Manual Upload] Failed to upload sensor data. Please try upload again."
-                                                                         delegate:nil
-                                                                         cancelButtonTitle:@"OK"
-                                                                         otherButtonTitles:nil];
-                                                   [alert show];
-                                               }
-                                           }
-                                       });
-                                   }
-                               }];
-        
-        for ( AWARESensor * sensor in awareSensors ) {
-            // NSLog(sensor.getSensorName);
-            // [sensor resetMark]; // <- [TEST]
+- (void)syncAllSensorsForcefully{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (AWARESensor * sensor in awareSensors ) {
             [sensor startSyncDB];
         }
-        
     });
-    return YES;
-}
-
-
-- (void) checkAllSensorsUploadStatus:(id)sensder{
     
-    BOOL finish = YES;
-    for (AWARESensor * sensor in awareSensors) {
-        // NSLog(@"[%@] %d", [sensor getSensorName], [sensor isUploading]);
-        if([sensor.storage isSyncing]){
-            finish = NO;
-        }
-    }
-    
-    if(finish){
-        // stop NSTimer
-        [manualUploadMonitor invalidate];
-        manualUploadMonitor = nil;
-        // remove observer from DefaultCenter
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-       
-        // check progress of all sensors
-        BOOL completion = YES;
-        
-        @try {
-            for (id key in [progresses keyEnumerator]) {
-                double progress = [[progresses objectForKey:key] doubleValue];
-                // NSLog(@"[%@] %f", key ,progress);
-                if(progress < 100){
-                    completion = NO;
-                    break;
-                }
-            }
-        } @catch (NSException *exception) {
-            NSLog(@"%@", exception.debugDescription);
-        } @finally {
-            
-        }
-        
-        
-//        [SVProgressHUD performSelector:@selector(dismiss) withObject:nil afterDelay:1.0f];
-        [SVProgressHUD dismiss];
-        
-        if ( completion ){
-//            [SVProgressHUD showSuccessWithStatus:@"Success to upload all sensor data!"];
-            AudioServicesPlayAlertSound(1000);
-            if([AWAREUtils isBackground]){
-                [AWAREUtils sendLocalNotificationForMessage:@"[Manual Upload] Succeed to upload all sensors data." soundFlag:YES];
-            }else{
-                UIAlertView *alert = [ [UIAlertView alloc]
-                                      initWithTitle:@""
-                                      message:@"[Manual Upload] sensors data are uploaded !!"
-                                      delegate:nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-                [alert show];
-            }
-        } else {
-//            [SVProgressHUD showErrorWithStatus:@"Failed to upload sensor data. Please try upload again."];
-            // AudioServicesPlayAlertSound(1324);
-            AudioServicesPlayAlertSound(1010);
-            if([AWAREUtils isBackground]){
-                [AWAREUtils sendLocalNotificationForMessage:@"[Manual Upload] Failed to upload sensor data. Please try uploading again." soundFlag:YES];
-            }else{
-                UIAlertView *alert = [ [UIAlertView alloc]
-                                      initWithTitle:@""
-                                      message:@"[Manual Upload] Failed to upload sensor data. Please try uploading again."
-                                      delegate:nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-                [alert show];
-            }
-            
-        }
-    }
-    
-    /** ========= Freeze Check ======== */
-    @try {
-        manualUploadTime ++;
-        // NSLog(@"%d", manualUploadTime);
-        if(manualUploadTime > 60 ){
-            manualUploadTime = 0;
-            for (id key in [progresses keyEnumerator]) {
-                double progress = [[progresses objectForKey:key] doubleValue];
-                if(progress == 0 && alertState == NO ){
-                    alertState = YES;
-                    UIAlertView *alert = [ [UIAlertView alloc]
-                                          initWithTitle:@"Manual Upload"
-                                          message:@"The manual upload process might have encountered an error. Do you want to continue uploading sensor data? Please try manually uploading again."
-                                          delegate:self
-                                          cancelButtonTitle:@"NO"
-                                          otherButtonTitles:@"YES",nil];
-                    [alert show];
-                    break;
-                }
-            }
-            previousProgresses = progresses;
-        }
-    } @catch (NSException *exception) {
-        NSLog(@"%@", exception.debugDescription);
-    } @finally {
-        
-    }
-    
-    
-    /** =======  WiFi network ======= */
-//    if(![awareStudy isWifiReachable]){
-//        // stop NSTimer
-//        [manualUploadMonitor invalidate];
-//        manualUploadMonitor = nil;
-//        
-//        // remove observer from DefaultCenter
-//        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-//        [SVProgressHUD performSelector:@selector(dismiss) withObject:nil afterDelay:3.0f];
-//        AudioServicesPlayAlertSound(1324);
-//        
-//        if([AWAREUtils isBackground]){
-//            [AWAREUtils sendLocalNotificationForMessage:@"[Manual Upload] WiFi connection is closed. Please try upload again with WiFi." soundFlag:YES];
-//        }else{
-//            UIAlertView *alert = [ [UIAlertView alloc]
-//                                  initWithTitle:@""
-//                                  message:@"[Manual Upload] WiFi connection is closed. Please try upload again with WiFi."
-//                                  delegate:nil
-//                                  cancelButtonTitle:@"OK"
-//                                  otherButtonTitles:nil];
-//            [alert show];
-//        }
-//    }
-    
-    /** =========  Battery Charging  ====== */
-//    if( [UIDevice currentDevice].batteryState == UIDeviceBatteryStateUnplugged ){
-//        [manualUploadMonitor invalidate];
-//        manualUploadMonitor = nil;
-//        
-//        // remove observer from DefaultCenter
-//        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-//        [SVProgressHUD performSelector:@selector(dismiss) withObject:nil afterDelay:3.0f];
-//        AudioServicesPlayAlertSound(1324);
-//        
-//        if([AWAREUtils isBackground]){
-//            [AWAREUtils sendLocalNotificationForMessage:@"[Manual Upload] The battery is not charged. Please try upload again with battery charging." soundFlag:YES];
-//        }else{
-//            UIAlertView *alert = [ [UIAlertView alloc]
-//                                  initWithTitle:@""
-//                                  message:@"[Manual Upload] The battery is not charged. Please try upload again with battery charging."
-//                                  delegate:nil
-//                                  cancelButtonTitle:@"OK"
-//                                  otherButtonTitles:nil];
-//            [alert show];
-//        }
-//    }
-    
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1) {
-        // stop NSTimer
-        [manualUploadMonitor invalidate];
-        manualUploadMonitor = nil;
-        // remove observer from DefaultCenter
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-        [SVProgressHUD showErrorWithStatus:@"Failed to upload data to the server."];
-        AudioServicesPlayAlertSound(1324);
-        [SVProgressHUD performSelector:@selector(dismiss) withObject:nil afterDelay:3.0f];
-    }
-    alertState = NO;
-}
-
-
-//- (bool) syncOldSensorsDataInTextFileWithDBInForeground {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-//        @autoreleasepool{
-//            // Show progress bar
-//            bool sucessOfUpload = true;
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-//                [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-//            });
-//            // Sync local stored data with aware server.
-//            for ( int i=0; i<awareSensors.count; i++) {
-//                
-//                AWARESensor* sensor = [awareSensors objectAtIndex:i];
-//                NSString *message = [NSString stringWithFormat:@"Uploading %@ data %@",
-//                                     [sensor getSensorName],
-//                                     [sensor getSyncProgressAsText]];
-//                [SVProgressHUD setStatus:message];
-//                
-//                [sensor lockDB];
-//                if (![sensor syncAwareDBInForeground]) {
-//                    sucessOfUpload = NO;
-//                }
-//                [sensor unlockDB];
-//            }
-//            // Update UI in the main thread.
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-//                if (sucessOfUpload) {
-//                    [SVProgressHUD showSuccessWithStatus:@"Success to upload your data to the server!"];
-//                    AudioServicesPlayAlertSound(1000);
+//    for ( int i=0; i < awareSensors.count; i++) {
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, i * 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//            @try {
+//                if (i < self->awareSensors.count ) {
+//                    AWARESensor* sensor = [self->awareSensors objectAtIndex:i];
+//                    [sensor startSyncDB];
 //                }else{
-//                    [SVProgressHUD showErrorWithStatus:@"Failed to upload data to the server."];
-//                    AudioServicesPlayAlertSound(1324);
+//                    NSLog(@"error");
 //                }
-//                [SVProgressHUD performSelector:@selector(dismiss) withObject:nil afterDelay:3.0f];
-//                
-//            });
-//        }
-//    });
-//    return YES;
-//}
-
-
-/**
- * Sync All Sensors with DB in the bacground
- *
- */
-- (bool) syncAllSensorsWithDBInBackground {
-    
-    if([[awareStudy getStudyURL] isEqualToString:@""]){
-        return NO;
-    }
-    
-    // Sync local stored data with aware server.
-    if(awareSensors == nil){
-        return NO;
-    }
-    for ( int i=0; i < awareSensors.count; i++) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, i * 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            @try {
-                if (i < awareSensors.count ) {
-                    AWARESensor* sensor = [awareSensors objectAtIndex:i];
-                    [sensor startSyncDB];
-                }else{
-                    NSLog(@"error");
-                }
-            } @catch (NSException *e) {
-                NSLog(@"An exception was appeared: %@",e.name);
-                NSLog(@"The reason: %@",e.reason);
-            }
-        });
-    }
-    return YES;
+//            } @catch (NSException *e) {
+//                NSLog(@"An exception was appeared: %@",e.name);
+//                NSLog(@"The reason: %@",e.reason);
+//            }
+//        });
+//    }
 }
 
 
@@ -977,5 +669,17 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     return textFileExistance;
 }
 
+
+- (void)setSensorEventCallbackToAllSensors:(SensorEventCallBack)callback{
+    for (AWARESensor * sensor in awareSensors) {
+        [sensor setSensorEventCallBack:callback];
+    }
+}
+
+- (void)setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack)callback{
+    for (AWARESensor * sensor in awareSensors) {
+        [sensor.storage setSyncProcessCallBack:callback];
+    }
+}
 
 @end

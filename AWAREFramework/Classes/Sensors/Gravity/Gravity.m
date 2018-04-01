@@ -69,7 +69,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     [tcqMaker addColumn:@"double_values_2" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-    NSString *query = [tcqMaker getDefaudltTableCreateQuery];
+//    NSString *query = [tcqMaker getDefaudltTableCreateQuery];
 //    [super createTable:query];
     [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
@@ -96,7 +96,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     }
  
     // [self setBufferSize:sensingInterval/savingInterval];
-    [self.storage setBufferSize:sensingInterval/savingInterval];
+    [self.storage setBufferSize:savingInterval/sensingInterval];
     
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;
@@ -125,6 +125,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                                                                                        object:nil
                                                                                                      userInfo:userInfo];
                                                [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+                                               
+                                               SensorEventCallBack callback = [self getSensorEventCallBack];
+                                               if (callback != nil) {
+                                                   callback(dict);
+                                               }
+                                               
 //                                                   if([self getDBType] == AwareDBTypeSQLite){
 //                                                       [self saveData:dict];
 //                                                   }else if([self getDBType] == AwareDBTypeJSON){

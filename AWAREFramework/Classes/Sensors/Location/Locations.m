@@ -94,14 +94,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     }
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings {
-    
-   
-    
-    return YES;
-}
-
-
 - (BOOL)startSensor{
     return [self startSensorWithInterval:interval accuracy:accuracy];
 }
@@ -295,6 +287,11 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_LOCATIONS
                                                         object:nil
                                                       userInfo:userInfo];
+    
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback != nil) {
+        callback(dict);
+    }
 }
 
 

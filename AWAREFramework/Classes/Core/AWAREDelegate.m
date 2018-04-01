@@ -156,7 +156,7 @@
 performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
   completionHandler:(void (^)(BOOL))completionHandler{
     if([shortcutItem.type isEqualToString:@"com.awareframework.aware-client-ios.shortcut.manualupload"]){
-        [_sharedAWARECore.sharedSensorManager syncAllSensorsWithDBInForeground];
+        [_sharedAWARECore.sharedSensorManager syncAllSensorsForcefully];
     }
 }
 

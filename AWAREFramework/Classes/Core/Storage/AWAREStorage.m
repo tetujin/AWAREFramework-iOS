@@ -9,30 +9,29 @@
 #import "DBTableCreator.h"
 
 @implementation AWAREStorage{
-//    bool isOnlyWifi;
-//    bool isOnlyBatteryCharging;
     bool isStorageLocked;
-    
     bool isSyncing;
     bool isDebug;
-    
     int bufferSize;
 }
 
 @synthesize buffer;
 @synthesize awareStudy;
 @synthesize sensorName;
+@synthesize retryLimit;
+@synthesize syncTaskIntervalSecond;
+@synthesize syncProcessCallBack;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name{
     self = [super init];
     if (self!=nil) {
         self.awareStudy = study;
         self.sensorName = name;
-//        isOnlyWifi = study.getDataUploadStateInWifi;
-//        isOnlyBatteryCharging = study.getDataUploadStateWithOnlyBatterChargning;
         isStorageLocked = NO;
         isSyncing = NO;
         bufferSize = 0;
+        retryLimit = 0;
+        syncTaskIntervalSecond = 1;
         self.buffer = [[NSMutableArray alloc] init];
     }
     return self;
@@ -51,35 +50,6 @@
     isStorageLocked = NO;
 }
 
-//////////////////////////////
-
-//- (void)allowsCellularAccess {
-//    isOnlyWifi = NO;
-//}
-//
-//- (void)allowsDateUploadWithoutBatteryCharging {
-//    isOnlyBatteryCharging = NO;
-//}
-//
-//- (void)forbidCellularAccess {
-//    isOnlyWifi = YES;
-//}
-//
-//- (void)forbidDatauploadWithoutBatteryCharging {
-//    isOnlyBatteryCharging = YES;
-//}
-//
-//- (bool)isSyncWithOnlyWifi {
-//    return isOnlyWifi;
-//}
-//
-//- (bool)isSyncWithOnlyBatteryCharging {
-//    return isOnlyBatteryCharging;
-//}
-//
-//- (bool)isSyncing {
-//    return isSyncing;
-//}
 
 //////////////////////////////////
 
@@ -97,17 +67,14 @@
     bufferSize = size;
 }
 
-- (void)trackDebugEvents {
-    isDebug = YES;
-}
-
-- (void)untrackDebugEvents {
-    isDebug = NO;
-}
-
-- (bool)isTrackDebugEvents {
+- (bool) isDebug{
     return isDebug;
 }
+
+- (void) setDebug:(BOOL)status{
+    isDebug = status;
+}
+
 //////////////////////////
 
 -(BOOL)createLocalStorageWithName:(NSString*) fileName type:(NSString *) type {
@@ -146,10 +113,10 @@
             if (error!=nil) {
                 NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
             }
-            // NSLog(@"[%@] Failed to create the file.", fileName);
+            if(isDebug) NSLog(@"[%@] Failed to create the file.", fileName);
             return NO;
         }else{
-            // NSLog(@"[%@] Create the file.", fileName);
+            if(isDebug) NSLog(@"[%@] Create the file.", fileName);
             return YES;
         }
     }
@@ -191,14 +158,14 @@
     if ([manager fileExistsAtPath:path]) { // yes
         bool result = [@"" writeToFile:path atomically:NO encoding:NSUTF8StringEncoding error:nil];
         if (result) {
-            NSLog(@"[%@] Correct to clear sensor data.", fileName);
+            if(isDebug)NSLog(@"[%@] Correct to clear sensor data.", fileName);
             return YES;
         }else{
-            NSLog(@"[%@] Error to clear sensor data.", fileName);
+            if(isDebug)NSLog(@"[%@] Error to clear sensor data.", fileName);
             return NO;
         }
     }else{
-        NSLog(@"[%@] The file is not exist.", fileName);
+        if(isDebug)NSLog(@"[%@] The file is not exist.", fileName);
         [self createLocalStorageWithName:fileName type:type];
         return NO;
     }
@@ -246,6 +213,11 @@
     NSLog(@"Please orverwrite -startSyncStorage");
 }
 
+- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
+    syncProcessCallBack = callback;
+    NSLog(@"Please orverwrite -startSyncStorageWithCallBack");
+}
+
 - (void)cancelSyncStorage {
     NSLog(@"Please overwirte -cancelSyncStorage");
 }
@@ -261,6 +233,14 @@
     return YES;
 }
 
+
+- (void)resetMark{
+    
+}
+
+- (bool)isSyncing {
+    return NO;
+}
 
 
 

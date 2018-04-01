@@ -126,6 +126,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(dict);
+    }
+    
     malloc(cpuUsageFloat);
 }
 

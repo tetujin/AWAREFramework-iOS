@@ -15,13 +15,13 @@
     NSString * baseSyncDataQueryIdentifier;
     NSString * timeMarkerIdentifier;
     BOOL isUploading;
-    int currentRepetitionCounts;
-    int repetitionTime;
+    int currentRepetitionCount;
+    int requiredRepetitionCount;
     NSNumber * previousUploadingProcessFinishUnixTime; // unixtimeOfUploadingData;
     NSNumber * tempLastUnixTimestamp;
     BOOL cancel;
     SyncExecutor * executor;
-    
+    int retryCurrentCount;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -32,10 +32,12 @@
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name entityName:(NSString *)entity insertCallBack:(InsertEntityCallBack)insertCallBack{
     self = [super initWithStudy:study sensorName:name];
     if(self != nil){
-        currentRepetitionCounts = 0;
-        repetitionTime = 0;
+        currentRepetitionCount = 0;
+        requiredRepetitionCount = 0;
         isUploading = NO;
         cancel = NO;
+        self.retryLimit = 3;
+        retryCurrentCount = 0;
         entityName = entity;
         inertEntityCallBack = insertCallBack;
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@", name];
@@ -67,7 +69,7 @@
     if (self.buffer.count < [self getBufferSize]) {
         return YES;
     }
-    
+    // NSLog(@"%@", self.sensorName);
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
     
@@ -101,7 +103,7 @@
                     NSLog(@"Error saving context");
                     // [self.buffer addObjectsFromArray:array];
                 }
-                if(self.isTrackDebugEvents) NSLog(@"[%@] Data is saved", self.sensorName);
+                if(self.isDebug) NSLog(@"[%@] Data is saved", self.sensorName);
                 [self unlock];
             }];
         }
@@ -111,6 +113,10 @@
 }
 
 
+- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
+    self.syncProcessCallBack = callback;
+    [self startSyncStorage];
+}
 
 - (void)startSyncStorage {
     [executor.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
@@ -123,9 +129,11 @@
             }
             
             [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
+            ////
+            if (self.isDebug) NSLog(@"[%@] isUpload = YES", self.sensorName);
             self-> isUploading = YES;
         }else{
-            NSLog(@"tasks => %ld",dataTasks.count);
+            if (self.isDebug) NSLog(@"tasks => %ld",dataTasks.count);
         }
     }];
 }
@@ -148,7 +156,7 @@
     
     @try {
         if (entityName == nil) {
-            NSLog(@"***** ERROR: Entity Name is nil! *****");
+            NSLog(@"***** [%@] Error: Entity Name is nil! *****", self.sensorName);
             return NO;
         }
         
@@ -174,7 +182,7 @@
             // NSLog(@"[%@] %ld records", self->entityName , count);
             if (count == NSNotFound) {
                 [self unlock]; // Unlock DB
-                NSLog(@"[%@] There are no data in this database table",self->entityName);
+                if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->entityName);
                 return;
             } else if(error != nil){
                 [self unlock]; // Unlock DB
@@ -183,11 +191,14 @@
                 return;
             } else if( count== 0){
                 [self unlock];
+                if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->entityName);
                 return;
             }
             // Set repetationCount
-            self->currentRepetitionCounts = 0;
-            self->repetitionTime = (int)count/(int)self.awareStudy.getMaxFetchSize;
+            self->currentRepetitionCount = 0;
+            self->requiredRepetitionCount = (int)count/(int)self.awareStudy.getMaxFetchSize;
+            
+            if (self.isDebug) NSLog(@"[%@] %d times of sync tasks are required", self.sensorName, self->requiredRepetitionCount);
             
             // set db condition as normal
             [self unlock]; // Unlock DB
@@ -252,11 +263,9 @@
             NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
             [fetchRequest setSortDescriptors:sortDescriptors];
             
-            
             //Get NSManagedObject from managedObjectContext by using fetch setting
             NSArray *results = [private executeFetchRequest:fetchRequest error:nil] ;
             // NSLog(@"%ld",results.count); //TODO
-            // NSLog(@"%d/%d",self->currentRepetitionCounts,self->repetitionTime);
             
             [self unlock];
             
@@ -290,8 +299,8 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if ( jsonData.length == 0 || jsonData.length == 2 ) {
                             NSString * message = [NSString stringWithFormat:@"[%@] Data is Null or Length is Zero", self.sensorName];
-                            NSLog(@"%@", message);
-                             [self dataSyncIsFinishedCorrectly];
+                            if (self.isDebug) NSLog(@"%@", message);
+                            [self dataSyncIsFinishedCorrectly];
                             return;
                         }
                         
@@ -304,20 +313,50 @@
                         }
 
                         @try {
+                            self->executor.debug = self.isDebug;
                             [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
+                                
                                 if (result!=nil) {
-                                    // [result objectForKey:@""];
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        // set a repetation count
-                                        self->currentRepetitionCounts++;
-                                        [self setTimeMarkWithTimestamp:self->tempLastUnixTimestamp];
-                                        if (self->repetitionTime<self->currentRepetitionCounts) {
-                                            NSLog(@"Done");
-                                            [self dataSyncIsFinishedCorrectly];
+                                    if (self.isDebug) NSLog(@"%@",result.debugDescription);
+                                    NSNumber * isSuccess = [result objectForKey:@"result"];
+                                    if (isSuccess != nil) {
+                                        if((BOOL)isSuccess.intValue){
+                                            // set a repetation count
+                                            self->currentRepetitionCount++;
+                                            [self setTimeMarkWithTimestamp:self->tempLastUnixTimestamp];
+                                            if (self->requiredRepetitionCount<self->currentRepetitionCount) {
+                                                ///////////////// Done ////////////
+                                                if (self.isDebug) NSLog(@"[%@] Done", self.sensorName);
+                                                [self dataSyncIsFinishedCorrectly];
+                                                if (self.isDebug) NSLog(@"[%@] Clear old data", self.sensorName);
+                                                [self clearOldData];
+                                            }else{
+                                                ///////////////// continue ////////////
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    if (self.syncProcessCallBack!=nil) {
+                                                        self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                    }
+                                                    if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
+                                                    // [self syncTask];
+                                                    [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                                                });
+                                            }
                                         }else{
-                                            [self syncTask];
+                                            ///////////////// retry ////////////
+                                            
+                                            if (self->retryCurrentCount < self.retryLimit ) {
+                                                self->retryCurrentCount++;
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
+                                                    // [self syncTask];
+                                                    [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                                                });
+                                            }else{
+                                                [self dataSyncIsFinishedCorrectly];
+                                            }
                                         }
-                                    });
+
+                                    }
                                 }
                             }];
 
@@ -343,8 +382,88 @@
 - (void) dataSyncIsFinishedCorrectly {
     isUploading = NO;
     cancel = NO;
-    repetitionTime = 0;
-    currentRepetitionCounts = 0;
+    requiredRepetitionCount = 0;
+    currentRepetitionCount = 0;
+    retryCurrentCount = 0;
+}
+
+
+- (void) clearOldData{
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
+    [request setIncludesSubentities:NO];
+    
+    NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [private setParentContext:self.mainQueueManagedObjectContext];
+    [private performBlock:^{
+        
+        cleanOldDataType cleanType = [self.awareStudy getCleanOldDataType];
+        NSDate * clearLimitDate = nil;
+        bool skip = YES;
+        switch (cleanType) {
+            case cleanOldDataTypeNever:
+                skip = YES;
+                break;
+            case cleanOldDataTypeDaily:
+                skip = NO;
+                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24];
+                break;
+            case cleanOldDataTypeWeekly:
+                skip = NO;
+                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*7];
+                break;
+            case cleanOldDataTypeMonthly:
+                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*31];
+                skip = NO;
+                break;
+            case cleanOldDataTypeAlways:
+                clearLimitDate = nil;
+                skip = NO;
+                break;
+            default:
+                skip = YES;
+                break;
+        }
+        
+        if(!skip){
+            /** ========== Delete uploaded data ============= */
+            if(![self isLock]){
+                [self lock];
+                NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:self->entityName];
+                NSNumber * limitTimestamp = @0;
+                if(clearLimitDate == nil){
+                    limitTimestamp = self->tempLastUnixTimestamp;
+                }else{
+                    limitTimestamp = @([clearLimitDate timeIntervalSince1970]*1000);
+                }
+                
+                if([self->entityName isEqualToString:@"EntityESMAnswer"] ){
+                    [request setPredicate:[NSPredicate predicateWithFormat:@"(double_esm_user_answer_timestamp <= %@)", limitTimestamp]];
+                }else{
+                    [request setPredicate:[NSPredicate predicateWithFormat:@"(timestamp <= %@)", limitTimestamp]];
+                }
+                
+                NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
+                NSError *deleteError = nil;
+                [private executeRequest:delete error:&deleteError];
+                if (deleteError != nil) {
+                    NSLog(@"%@", deleteError.description);
+                }else{
+                    if(self.isDebug){
+                        NSLog(@"[%@] Sucess to clear the data from DB (timestamp <= %@ )", self.sensorName, [NSDate dateWithTimeIntervalSince1970:limitTimestamp.longLongValue/1000]);
+                    }
+                }
+                [self unlock];
+            }
+        }
+    }];
+}
+
+
+//////////////////////////////////
+
+- (void) resetMark {
+    [self setTimeMarkWithTimestamp:@0];
 }
 
 - (void) setTimeMark:(NSDate *) timestamp {

@@ -134,6 +134,10 @@
         [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"used: %f free: %f total: %f", mem_used, mem_free, mem_total] soundFlag:NO];
     }
     
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(query);
+    }
  
 }
 

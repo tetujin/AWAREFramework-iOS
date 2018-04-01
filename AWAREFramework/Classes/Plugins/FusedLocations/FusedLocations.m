@@ -239,6 +239,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
                                                      location.speed]
                                           soundFlag:NO];
     }
+    
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(dict);
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager

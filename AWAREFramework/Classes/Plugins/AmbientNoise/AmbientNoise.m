@@ -37,11 +37,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     
     NSTimer *timer;
     
-    float recordingSampleRate;
-    float targetSampleRate;
-    // long lastSetAudioSessionTime;
-    
-    // int currentSecond;
+     float recordingSampleRate;
+     float targetSampleRate;
     
     float maxFrequency;
     double db;
@@ -49,7 +46,17 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     
     float lastdb;
     
+    bool isSaveRawData;
+    
     NSString * KEY_AUDIO_CLIP_NUMBER;
+}
+
+- (BOOL)isSaveRawData{
+    return isSaveRawData;
+}
+
+- (void)saveRawData:(BOOL)state{
+    isSaveRawData = state;
 }
 
 
@@ -65,12 +72,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
                                                                                                                                     inManagedObjectContext:childContext];
                                             ambientNoise.device_id = [data objectForKey:@"device_id"];
                                             ambientNoise.timestamp = [data objectForKey:@"timestamp"];
-                                            ambientNoise.double_frequency = [data objectForKey:KEY_AMBIENT_NOISE_FREQUENCY];
-                                            ambientNoise.double_decibels = [data objectForKey:KEY_AMBIENT_NOISE_DECIDELS];
-                                            ambientNoise.double_rms = [data objectForKey:KEY_AMBIENT_NOISE_RMS];
-                                            ambientNoise.is_silent = [data objectForKey:KEY_AMBIENT_NOISE_SILENT];
-                                            ambientNoise.double_silent_threshold = [data objectForKey:KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
-                                            ambientNoise.raw = [data objectForKey:KEY_AMBIENT_NOISE_RAW];
+                                            ambientNoise.double_frequency = [data objectForKey:self->KEY_AMBIENT_NOISE_FREQUENCY];
+                                            ambientNoise.double_decibels = [data objectForKey:self->KEY_AMBIENT_NOISE_DECIDELS];
+                                            ambientNoise.double_rms = [data objectForKey:self->KEY_AMBIENT_NOISE_RMS];
+                                            ambientNoise.is_silent = [data objectForKey:self->KEY_AMBIENT_NOISE_SILENT];
+                                            ambientNoise.double_silent_threshold = [data objectForKey:self->KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
+                                            ambientNoise.raw = [data objectForKey:self->KEY_AMBIENT_NOISE_RAW];
+                                            
                                         }];
     }
     self = [super initWithAwareStudy:study
@@ -84,7 +92,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         KEY_AMBIENT_NOISE_RMS = @"double_rms";
         KEY_AMBIENT_NOISE_SILENT = @"is_silent";
         KEY_AMBIENT_NOISE_SILENT_THRESHOLD = @"double_silent_threshold";
-        KEY_AMBIENT_NOISE_RAW = @"blob_raw";
+        KEY_AMBIENT_NOISE_RAW = @"raw";
         
 //        [self setCSVHeader:@[KEY_AMBIENT_NOISE_TIMESTAMP,
 //                             KEY_AMBIENT_NOISE_DEVICE_ID,
@@ -112,7 +120,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         _frequencyMin = 5;
         _sampleSize = 30;
         _silenceThreshold = 50;
-        _saveRawData = NO;
+        isSaveRawData = NO;
         
         recordingSampleRate = 44100;
         targetSampleRate = 8000;
@@ -122,6 +130,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         rms = 0;
         
         KEY_AUDIO_CLIP_NUMBER = @"key_audio_clip";
+        
 //        _resampleOutputBuffer.bufferLen = 0;
 //        _resampleOutputBuffer.bufferSize = MAX_RESAMPLE_BUF_SIZE;
 //        _resampleOutputBuffer.bufferPtr = (float*)malloc(_resampleOutputBuffer.bufferSize * sizeof(float));
@@ -150,7 +159,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 //    AmbientNoise_Data.IS_SILENT + " integer default 0," +
     [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
 //    AmbientNoise_Data.SILENCE_THRESHOLD + " real default 0," +
-    [query appendFormat:@"%@ blob default null", KEY_AMBIENT_NOISE_RAW];
+    [query appendFormat:@"%@ text default ''", KEY_AMBIENT_NOISE_RAW];
 //    AmbientNoise_Data.RAW + " blob default null," +
 //    [query appendFormat:@"UNIQUE (%@,%@)", KEY_AMBIENT_NOISE_TIMESTAMP, KEY_AMBIENT_NOISE_DEVICE_ID];
 //    "UNIQUE("+AmbientNoise_Data.TIMESTAMP+","+AmbientNoise_Data.DEVICE_ID+")"
@@ -177,21 +186,15 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 
 }
 
--(BOOL) startSensor{
+-(BOOL) startSensor {
     NSLog(@"Start Ambient Noise Sensor!");
-    return [self startSensorWithFrequencyMin:_frequencyMin sampleSize:_sampleSize silenceThreshold:_silenceThreshold saveRawData:NO];
-}
-
-- (BOOL) startSensorWithFrequencyMin:(double)min sampleSize:(double)size silenceThreshold:(double)threshold saveRawData:(BOOL)rawDataState{
     
     [self setupMicrophone];
 
     // currentSecond = 0;
-    _frequencyMin = min;
-    _sampleSize = size;
-    _silenceThreshold = threshold;
-    
-    _saveRawData = rawDataState;
+//    _frequencyMin = min;
+//    _sampleSize = size;
+//    _silenceThreshold = threshold;
     
     timer = [NSTimer scheduledTimerWithTimeInterval:60.0f*_frequencyMin
                                              target:self
@@ -355,11 +358,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     [dict setObject:[NSNumber numberWithDouble:rms] forKey:KEY_AMBIENT_NOISE_RMS];
     [dict setObject:[NSNumber numberWithBool:[AudioAnalysis isSilent:rms threshold:_silenceThreshold]] forKey:KEY_AMBIENT_NOISE_SILENT];
     [dict setObject:[NSNumber numberWithInteger:_silenceThreshold] forKey:KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
-    if(_saveRawData){
+    if(isSaveRawData){
         NSData * data = [NSData dataWithContentsOfURL:[self testFilePathURLWithNumber:number]];
         [dict setObject:[data base64EncodedStringWithOptions:0] forKey:KEY_AMBIENT_NOISE_RAW];
     }else{
-        [dict setObject:@"" forKey:KEY_AMBIENT_NOISE_RAW];
+         [dict setObject:@"" forKey:KEY_AMBIENT_NOISE_RAW];
     }
     
     [self setLatestData:dict];
@@ -367,6 +370,12 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     @try {
         // [self saveData:dict];
         [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
+        
+        SensorEventCallBack callback = [self getSensorEventCallBack];
+        if (callback!=nil) {
+            callback(dict);
+        }
+        
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.debugDescription);
     }
@@ -377,7 +386,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 
 /**
  Called anytime the EZMicrophone starts or stops.
- @param output The instance of the EZMicrophone that triggered the event.
+
+ @param microphone The instance of the EZMicrophone that triggered the event.
  @param isPlaying A BOOL indicating whether the EZMicrophone instance is playing or not.
  */
 - (void)microphone:(EZMicrophone *)microphone changedPlayingState:(BOOL)isPlaying{

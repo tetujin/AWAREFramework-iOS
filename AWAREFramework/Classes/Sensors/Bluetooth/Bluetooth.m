@@ -173,6 +173,10 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
                                                         object:nil
                                                       userInfo:userInfo];
    
+    SensorEventCallBack callbak = [self getSensorEventCallBack];
+    if (callbak!=nil) {
+        callbak(dict);
+    }
     
     if ([self isDebug]) {
         [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"Find a new Blueooth device! %@ (%@)", name, address] soundFlag:NO];

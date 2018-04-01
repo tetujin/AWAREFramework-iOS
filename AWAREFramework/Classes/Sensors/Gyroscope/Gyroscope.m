@@ -133,6 +133,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GYROSCOPE
                                                                                              object:nil
                                                                                            userInfo:userInfo];
+                                         SensorEventCallBack callback = [self getSensorEventCallBack];
+                                         if (callback!=nil) {
+                                             callback(dict);
+                                         }
+                                         
                                     }
                                  // });
                              }];

@@ -207,6 +207,11 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
+    
+    SensorEventCallBack callback = [self getSensorEventCallBack];
+    if (callback!=nil) {
+        callback(dict);
+    }
 }
 
 -(void) unregisterAppforDetectLockState {

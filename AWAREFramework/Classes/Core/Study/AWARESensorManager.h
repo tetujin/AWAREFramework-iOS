@@ -18,6 +18,13 @@
 /** Initializer */
 - (instancetype)initWithAWAREStudy:(AWAREStudy *) study;
 
+- (void) syncAllSensors;
+- (void) syncAllSensorsForcefully;
+- (void) setSensorEventCallbackToAllSensors:(SensorEventCallBack)callback;
+- (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack)callback;
+- (void) setDebugToAllSensors:(bool)state;
+- (void) setDebugToAllStorage:(bool)state;
+
 // lock and unlock the sensor manager
 - (void) lock;
 - (void) unlock;
@@ -26,30 +33,21 @@
 // add a new sensor
 - (void) addSensor:(AWARESensor *) sensor;
 - (void) addSensors:(NSArray *)sensors;
+
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+
 - (BOOL) isExist :(NSString *) key;
 
+
 - (BOOL) startAllSensors;
-
 - (BOOL) createDBTablesOnAwareServer;
-
-- (void) removeAllFilesFromDocumentRoot;
-
 - (void) stopAndRemoveAllSensors;
 - (void) stopASensor:(NSString *) sensorName;
-
 - (void) quitAllSensor;
-
-- (void) resetAllMarkerPositionsInDB;
-
-// uploader in the foreground and background
-- (bool) syncAllSensorsWithDBInForeground;
-- (bool) syncAllSensorsWithDBInBackground;
 
 - (void) runBatteryStateChangeEvents;
 
-// upload timer
 - (void) startUploadTimerWithInterval:(double) interval;
 - (void) stopUploadTimer;
 
@@ -58,6 +56,7 @@
 - (NSDictionary *) getLatestSensorData:(NSString *) sensorName;
 - (NSArray *) getAllSensors;
 
-// - (void) testSensing;
+- (void) resetAllMarkerPositionsInDB;
+- (void) removeAllFilesFromDocumentRoot;
 
 @end

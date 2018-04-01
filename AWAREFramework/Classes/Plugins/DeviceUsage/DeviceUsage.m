@@ -142,6 +142,11 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         [self setLatestData:dict];
         
+        SensorEventCallBack callback = [self getSensorEventCallBack];
+        if (callback!=nil) {
+            callback(dict);
+        }
+        
     });
 }
 

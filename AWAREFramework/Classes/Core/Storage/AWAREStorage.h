@@ -13,24 +13,29 @@
  */
 @protocol AWAREStorageDelegate <NSObject>
 
+typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
+
 //////////////////// General //////////////////////
 
 @property (atomic) NSMutableArray * _Nonnull buffer;
 @property AWAREStudy * _Nullable awareStudy;
 @property NSString * _Nullable sensorName;
+@property int retryLimit;
+@property double syncTaskIntervalSecond;
+@property SyncProcessCallBack syncProcessCallBack;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 
 - (bool) isSyncing;
 
-- (bool) isTrackDebugEvents;
-- (void) trackDebugEvents;
-- (void) untrackDebugEvents;
+- (bool) isDebug;
+- (void) setDebug:(BOOL)status;
 
 - (BOOL) isLock;
 - (void) lock;
 - (void) unlock;
 
+- (void) resetMark;
 
 ///////////////////// Storing///////////////////////////////
 
@@ -55,15 +60,8 @@
 
 ///////////////////// Syncing ////////////////////////////////
 
-//- (bool) isSyncWithOnlyWifi;
-//- (bool) isSyncWithOnlyBatteryCharging;
-//
-//- (void) allowsCellularAccess;
-//- (void) forbidCellularAccess;
-//- (void) allowsDateUploadWithoutBatteryCharging;
-//- (void) forbidDatauploadWithoutBatteryCharging;
-
 - (void) startSyncStorage;
+- (void) startSyncStorageWithCallBack:(SyncProcessCallBack)callback;
 - (void) cancelSyncStorage;
 
 @end

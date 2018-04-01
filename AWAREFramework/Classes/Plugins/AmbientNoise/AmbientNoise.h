@@ -56,9 +56,10 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 @property int frequencyMin;
 @property int sampleSize;
 @property int silenceThreshold;
-@property BOOL saveRawData;
+
+- (BOOL) isSaveRawData;
+- (void) saveRawData:(BOOL)state;
 
 - (BOOL) startSensor;
-- (BOOL) startSensorWithFrequencyMin:(double)min sampleSize:(double)size silenceThreshold:(double)threshold saveRawData:(BOOL)rawDataState;
 
 @end

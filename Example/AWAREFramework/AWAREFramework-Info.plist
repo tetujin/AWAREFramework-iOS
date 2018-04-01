@@ -28,6 +28,8 @@
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>This application needs to access your motion data for recording your daily activities.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

@@ -52,6 +52,8 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     /** aware study*/
     AWAREStudy * awareStudy;
     NSDictionary * latestData;
+    
+    SensorEventCallBack sensorEventCallBack;
 }
 
 @end
@@ -73,13 +75,22 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         }else{
             awareStudy = study;
         }
-        debug = NO;
+        debug = study.getDebugState;
         sensorName = name;
         latestSensorValue = @"";
         latestData = [[NSDictionary alloc] init];
         _storage = localStorage;
+        [_storage setDebug:debug];
     }
     return self;
+}
+
+- (void)setSensorEventCallBack:(SensorEventCallBack)callback{
+    sensorEventCallBack = callback;
+}
+
+- (SensorEventCallBack)getSensorEventCallBack{
+    return sensorEventCallBack;
 }
 
 - (NSString *) getSensorName{
@@ -90,7 +101,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return debug;
 }
 
-- (void) setDebugMode:(BOOL)state{
+- (void) setDebug:(BOOL)state{
     debug = state;
 }
 
@@ -179,16 +190,15 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         [_storage cancelSyncStorage];
     }
 }
-//////////////////////////////////////////
-/////////////////////////////////////////
-/// Utils
+
+//////////////////// Utils ////////////////////
 
 /**
- * Get a sensor setting(such as a sensing frequency) from settings with Key
- *
- * @param NSArray   Settings
- * @param NSString  A key for the target setting
- * @return A double value of the setting.
+ Get a sensor setting(such as a sensing frequency) from settings with Key
+
+ @param settings for the target setting
+ @param key for the target setting
+ @return a double value of the setting
  */
 - (double)getSensorSetting:(NSArray *)settings withKey:(NSString *)key{
     if (settings != nil) {
@@ -218,10 +228,10 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 
 /**
- * Convert an iOS motion sensor frequency from an Androind frequency.
- *
- * @param   double  A sensing frequency for Andrind (frequency microsecond)
- * @return  double  A sensing frequency for iOS (second)
+ This method converts a sensing frequency in Android (microsecond) to an iOS sensing frequency (second).
+
+ @param intervalMicroSecond is a sensing frequency in Andrind (frequency microsecond)
+ @return a sensing frequency for iOS (second)
  */
 - (double) convertMotionSensorFrequecyFromAndroid:(double)intervalMicroSecond{
     //  Android: Non-deterministic frequency in microseconds

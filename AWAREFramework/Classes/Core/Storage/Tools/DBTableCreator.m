@@ -14,6 +14,7 @@
     NSString *tableName;
     NSString * baseCreateTableQueryIdentifier;
     NSMutableData * recievedData;
+    __weak NSURLSession *session;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -24,6 +25,16 @@
         tableName = name;
         recievedData = [[NSMutableData alloc] init];
         baseCreateTableQueryIdentifier = [NSString stringWithFormat:@"create_table_query_identifier_%@",  sensorName];
+        
+        NSURLSessionConfiguration *sessionConfig = nil;
+        sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:baseCreateTableQueryIdentifier];
+        sessionConfig.sharedContainerIdentifier= @"com.awareframework.table.create.task.identifier";
+        sessionConfig.timeoutIntervalForRequest = 10;
+        sessionConfig.HTTPMaximumConnectionsPerHost = 10;
+        sessionConfig.timeoutIntervalForResource = 10;
+        sessionConfig.allowsCellularAccess = YES;
+        
+        session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
     return self;
 }
@@ -36,11 +47,9 @@
     NSString *post = nil;
     NSData *postData = nil;
     NSMutableURLRequest *request = nil;
-    __weak NSURLSession *session = nil;
     //    NSURLSession *session = nil;
     NSString *postLength = nil;
-    NSURLSessionConfiguration *sessionConfig = nil;
-
+    
     // Make a post query for creating a table
     post = [NSString stringWithFormat:@"device_id=%@&fields=%@", [awareStudy getDeviceId], query];
     postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
@@ -53,16 +62,9 @@
     [request setHTTPBody:postData];
 
     // Generate an unique identifier for background HTTP/POST on iOS
-    sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:baseCreateTableQueryIdentifier];
-    sessionConfig.timeoutIntervalForRequest = 10;
-    sessionConfig.HTTPMaximumConnectionsPerHost = 10;
-    sessionConfig.timeoutIntervalForResource = 10;
-    sessionConfig.allowsCellularAccess = YES;
-
-    session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     [session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         if (dataTasks.count == 0) {
-            NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
+            NSURLSessionDataTask* dataTask = [self->session dataTaskWithRequest:request];
             [dataTask resume];
         }
     }];

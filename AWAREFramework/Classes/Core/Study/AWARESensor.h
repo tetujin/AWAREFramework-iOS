@@ -29,7 +29,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 - (void) stopSyncDB;
 - (void) createTable;
 - (BOOL) isDebug;
-- (void) setDebugMode:(BOOL)state;
+- (void) setDebug:(BOOL)state;
 
 @end
 
@@ -37,9 +37,13 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 @property AWAREStorage * storage;
 
+typedef void (^SensorEventCallBack)(NSDictionary *data);
+
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType;
 - (instancetype) initWithAwareStudy:(AWAREStudy *) study sensorName:(NSString *)name storage:(AWAREStorage *)localStorage;
 
+- (void) setSensorEventCallBack:(SensorEventCallBack)callback;
+- (_Nullable SensorEventCallBack) getSensorEventCallBack;
 - (NSString *) getSensorName;
 
 - (void) setParameters:(NSArray *) parameters;

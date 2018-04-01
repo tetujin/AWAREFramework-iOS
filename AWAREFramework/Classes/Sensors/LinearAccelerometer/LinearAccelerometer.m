@@ -149,6 +149,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                                                                                                      userInfo:userInfo];
                                                
                                                [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+                                               
+                                               SensorEventCallBack callback = [self getSensorEventCallBack];
+                                               if (callback!=nil) {
+                                                   callback(dict);
+                                               }
 //                                               if([self getDBType] == AwareDBTypeSQLite){
 //                                                   [self saveData:dict];
 //                                               }else if([self getDBType] == AwareDBTypeJSON){

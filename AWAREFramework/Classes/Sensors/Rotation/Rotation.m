@@ -123,7 +123,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                               [dict setObject:@3 forKey:@"accuracy"];//int
                                               [dict setObject:@"" forKey:@"label"]; //text
                                                
-                                               [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
+                                               });
+                                               
 //                                               if([self getDBType] == AwareDBTypeSQLite){
 //                                                   [self saveData:dict];
 //                                               }else if([self getDBType] == AwareDBTypeJSON){
@@ -140,7 +143,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ROTATION
                                                                                                    object:nil
                                                                                                  userInfo:userInfo];
-                                               
+                                               SensorEventCallBack callback = [self getSensorEventCallBack];
+                                               if (callback!=nil) {
+                                                   callback(dict);
+                                               }
                                                
                                            }];
     }

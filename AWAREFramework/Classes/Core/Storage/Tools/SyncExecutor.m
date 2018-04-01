@@ -16,6 +16,15 @@
     SyncExecutorCallBack executorCallback;
 }
 
+//@synthesize sharedSession = _sharedSession;
+//- (NSURLSession *) sharedSession {
+//    //    AWAREStudy * study = [[AWAREStudy alloc] initWithReachability:YES];
+//    if(_sharedSession == nil){
+//        _sharedSession = [[NSURLSession alloc] Session:_sharedAwareStudy];
+//    }
+//    return _sharedSensorManager;
+//}
+
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
     self = [super init];
     if (self != nil) {
@@ -30,6 +39,8 @@
         // Set session configuration
         NSURLSessionConfiguration *sessionConfig = nil;
         sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:baseSyncDataQueryIdentifier];
+        // https://stackoverflow.com/questions/26172783/upload-nsurlsesssion-becomes-invalidated-in-sharing-extension-in-ios8-with-error?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        sessionConfig.sharedContainerIdentifier= @"com.awareframework.sync.task.identifier";
         sessionConfig.timeoutIntervalForRequest = _timeoutIntervalForRequest;
         sessionConfig.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
         sessionConfig.timeoutIntervalForResource = _timeoutIntervalForResource;
@@ -70,19 +81,11 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:mutablePostData];
 
-    
-    // Set session configuration
-    NSURLSessionConfiguration *sessionConfig = nil;
-    sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:baseSyncDataQueryIdentifier];
-    sessionConfig.timeoutIntervalForRequest = _timeoutIntervalForRequest;
-    sessionConfig.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
-    sessionConfig.timeoutIntervalForResource = _timeoutIntervalForResource;
-    sessionConfig.allowsCellularAccess = YES;
-    
-    _session = [NSURLSession sessionWithConfiguration:sessionConfig
-                                             delegate:self
-                                        delegateQueue:nil];
-    
+    _session.configuration.timeoutIntervalForRequest =_timeoutIntervalForRequest;
+    _session.configuration.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
+    _session.configuration.timeoutIntervalForResource = _timeoutIntervalForResource;
+    _session.configuration.allowsCellularAccess = YES;
+    // NSLog(@"id:%@",_session.configuration.identifier);
     NSURLSessionDataTask* dataTask = [_session dataTaskWithRequest:request];
 
     [dataTask resume];
@@ -131,7 +134,9 @@ didReceiveResponse:(NSURLResponse *)response
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     // show progress of upload
-    NSLog(@"%@:%f%%", sensorName, (double)totalBytesSent/(double)totalBytesExpectedToSend*100.0f);
+    if (_debug) {
+        NSLog(@"[%@] ---> %3.2f%%", sensorName, (double)totalBytesSent/(double)totalBytesExpectedToSend*100.0f);
+    }
 }
 
 
@@ -171,16 +176,23 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error;
 {
-    receivedData = [[NSMutableData alloc] init];
-    isSyncing = NO;
-    if (error!=nil) {
-        [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:sensorName];
-        NSLog(@"[%@] Error: %@", sensorName, error.debugDescription);
-        executorCallback(@{@"result":@(NO),@"name":sensorName,@"error":error.debugDescription});
-    }else{
-        [self broadcastDBSyncEventWithProgress:@100 isFinish:YES isSuccess:YES sensorName:sensorName];
-        executorCallback(@{@"result":@(YES),@"name":sensorName});
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->isSyncing = NO;
+        NSString * response = @"";
+        if (self->receivedData) {
+            response = [[NSString alloc] initWithData:self->receivedData encoding:NSUTF8StringEncoding];
+        }
+        
+        if (error!=nil) {
+            [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:self->sensorName];
+            NSLog(@"[%@] Error: %@", self->sensorName, error.debugDescription);
+            self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
+        }else{
+            [self broadcastDBSyncEventWithProgress:@100 isFinish:YES isSuccess:YES sensorName:self->sensorName];
+            self->executorCallback(@{@"result":@(YES),@"name":self->sensorName,@"response":response});
+        }
+        self->receivedData = [[NSMutableData alloc] init];
+    });
 }
 
 

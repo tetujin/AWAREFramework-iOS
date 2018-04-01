@@ -14,9 +14,13 @@
 @property int HTTPMaximumConnectionsPerHost;
 @property int timeoutIntervalForResource;
 
-@property NSURLSession* session;
+@property (readonly, atomic, weak) NSURLSession* session;
+
+@property BOOL debug;
 
 typedef void (^SyncExecutorCallBack)(NSDictionary *result);
+
+// - (NSURLSession *)getSessionWithSensorName:(NSString * )name;
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name;
 - (void)syncWithData:(NSData *)data callback:(SyncExecutorCallBack)callback;

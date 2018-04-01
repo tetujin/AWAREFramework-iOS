@@ -360,6 +360,11 @@ didReceiveResponse:(NSURLResponse *)response
             
             [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
             [self setLatestData:dict];
+            
+            SensorEventCallBack callback = [self getSensorEventCallBack];
+            if (callback!=nil) {
+                callback(dict);
+            }
         });
     }
 }
