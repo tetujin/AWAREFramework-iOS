@@ -35,7 +35,15 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 -(instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     
     AWAREStorage * storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_IOS_ESM entityName:NSStringFromClass([EntityESMAnswer class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-        
+        EntityESMAnswer * entityESMAnswer = (EntityESMAnswer *)[NSEntityDescription insertNewObjectForEntityForName:entity inManagedObjectContext:childContext];
+        entityESMAnswer.device_id  = [data objectForKey:@"device_id"];
+        entityESMAnswer.timestamp  = [data objectForKey:@"timestamp"];
+        entityESMAnswer.esm_json   = [data objectForKey:@"esm_json"];
+        entityESMAnswer.esm_status = [data objectForKey:@"esm_status"];
+        entityESMAnswer.esm_expiration_threshold = [data objectForKey:@"esm_expiration_threshold"];
+        entityESMAnswer.double_esm_user_answer_timestamp = [data objectForKey:@"double_esm_user_answer_timestamp"];
+        entityESMAnswer.esm_user_answer = [data objectForKey:@"esm_user_answer"];
+        entityESMAnswer.esm_trigger = [data objectForKey:@"esm_trigger"];
     }];
     
     self = [super initWithAwareStudy:study
@@ -48,14 +56,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
         categoryIOSESM = @"plugin_ios_esm_category";
         receiveData = [[NSMutableData alloc] init];
         isLock = NO;
-//        [self.storage allowsDateUploadWithoutBatteryCharging];
-//        [self.storage allowsCellularAccess];
-//        [self setCSVHeader:@[@"esm_json",
-//                             @"esm_status",
-//                             @"esm_expiration_threshold",
-//                             @"double_esm_user_answer_timestamp",
-//                             @"esm_user_answer",
-//                             @"esm_trigger"]];
         tableName = @"esms";
         _table = @"esms";
         
@@ -64,14 +64,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
         if(tempTableName != nil){
             tableName = tempTableName;
         }
-        
-//        [self setTypeAsPlugin];
-//
-//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM desc:@""];
-//        [self addDefaultSettingWithString:@"esms" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME desc:@"default value is 'esms'"];
-//        [self addDefaultSettingWithString:@"" key:AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL desc:@"https://www.xxx.yyy"];
-        
-        // [self setFetchLimit:10];
     }
     return self;
 }

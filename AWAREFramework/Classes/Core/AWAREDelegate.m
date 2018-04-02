@@ -19,10 +19,7 @@
 
 #import "Fitbit.h"
 
-@implementation AWAREDelegate{
-    // AWARECoreDataMigrationManager * migrationManager;
-}
-
+@implementation AWAREDelegate
 /////////////////////////////////////////////////////
 
 @synthesize sharedAWARECore = _sharedAWARECore;
@@ -33,13 +30,9 @@
     return _sharedAWARECore;
 }
 
-////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////////////////////////////
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     // Set background fetch for updating debug information
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
 
@@ -58,31 +51,6 @@
     
     return YES;
 }
-
-
-
-- (void) setNotification:(UIApplication *)application {
-    // [application unregisterForRemoteNotifications];
-    
-    if ([AWAREUtils getCurrentOSVersionAsFloat] >= 8.0) {
-        // Set remote notifications
-        [application registerForRemoteNotifications];
-        // [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeNewsstandContentAvailability | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-        
-        // Set background fetch
-        [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-        
-        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
-                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                                  // Enable or disable features based on authorization.
-                              }];
-        
-    }
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -174,36 +142,13 @@ performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"Start a background fetch ...");
             
-            // Send a survival signal to the AWARE server
-            // [observer sendSurvivalSignal];
-            // Upload debug messagaes in the background (Wi-Fi is required for this upload process.)
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
             NSString *formattedDateString = [dateFormatter stringFromDate:[NSDate new]];
             
-//            Debug * debug = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
-//            [debug saveDebugEventWithText:@"This is a background fetch" type:DebugTypeInfo label:formattedDateString];
-//            bool result = [debug syncAwareDBInForeground];
-//
-//            NSString * debugMessage = @"";
-//            if (result) {
-//                debugMessage = @"Sucess to upload debug message in the background fetch.";
-//            }else{
-//                debugMessage = @"Faile to upload debug message in the background fetch.";
-//            }
-//            // [debug saveDebugEventWithText:debugMessage type:DebugTypeInfo label:formattedDateString];
-//            //    [AWAREUtils sendLocalNotificationForMessage:debugMessage soundFlag:YES];
-//
-//            if (result) {
-                completionHandler(UIBackgroundFetchResultNewData);
-//            }else{
-//                completionHandler(UIBackgroundFetchResultFailed);
-//            }
-//            
-//            debug = nil;
-//            
-//            NSLog(@"... Finish a background fetch");
+            completionHandler(UIBackgroundFetchResultNewData);
 
+            NSLog(@"... Finish a background fetch");
         });
     });
 }
@@ -246,11 +191,9 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
         
     PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeSQLite];
     [pushNotification savePushNotificationDeviceToken:token];
-//    [pushNotification.storage allowsCellularAccess];
-//    [pushNotification.storage allowsDateUploadWithoutBatteryCharging];
     [pushNotification performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
     
-    NSLog(@"deviceToken: %@", token);
+    // NSLog(@"deviceToken: %@", token);
 }
 
 // Faile to get a DeviceToken
@@ -258,7 +201,6 @@ handleEventsForBackgroundURLSession:(NSString *)identifier
     NSLog(@"deviceToken error: %@", [error description]);
     
 }
-
 
 
 ////////////////////////////
@@ -285,79 +227,7 @@ forLocalNotification:(UILocalNotification *)notification
    withResponseInfo:(NSDictionary *)responseInfo
   completionHandler:(void (^)())completionHandler{
     // Calendar and ESM plugin use this method
-    
-    NSDictionary *userInfo = [(UILocalNotification*)notification userInfo];
-    AWAREStudy * awareStudy = _sharedAWARECore.sharedAwareStudy;
-    if ([identifier isEqualToString:@"calendar_update_action"]) {
-        
-    } else if ([identifier isEqualToString:@"add_label_action"]) {
-//        NSString * inputText = [responseInfo objectForKey:UIUserNotificationActionResponseTypedTextKey];
-//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        [labelSensor saveLabel:inputText
-//                       withKey:[userInfo objectForKey:@"key"]
-//                          type:identifier
-//                          body:notification.alertBody
-//                   triggerTime:notification.fireDate
-//                  answeredTime:[NSDate new]];
-    } else if ([identifier isEqualToString:@"add_bool_action_yes"]){
-//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        [labelSensor saveLabel:@"1"
-//                       withKey:[userInfo objectForKey:@"key"]
-//                          type:identifier
-//                          body:notification.alertBody
-//                   triggerTime:notification.fireDate
-//                  answeredTime:[NSDate new]];
-    } else if ([identifier isEqualToString:@"add_bool_action_no"]){
-//        Labels * labelSensor = [[Labels alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        [labelSensor saveLabel:@"0"
-//                       withKey:[userInfo objectForKey:@"key"]
-//                          type:identifier
-//                          body:notification.alertBody
-//                   triggerTime:notification.fireDate
-//                  answeredTime:[NSDate new]];
-    } else if ([identifier isEqualToString:@"edit_label_action"]){
-//        NSString * inputText = [responseInfo objectForKey:UIUserNotificationActionResponseTypedTextKey];
-//        ESM * esm = [[ESM alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        NSMutableDictionary *dic =  [AWAREEsmUtils getEsmFormatDictionary:(NSMutableDictionary *)notification.userInfo
-//                                                             withTimesmap:[AWAREUtils getUnixTimestamp:notification.fireDate]
-//                                                                  devieId:[awareStudy getDeviceId]];
-//        //        [dic setObject:unixtime forKey:@"timestamp"];
-//        [dic setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_ESM_USER_ANSWER_TIMESTAMP];
-//        [dic setObject:[awareStudy getDeviceId] forKey:@"device_id"];
-//        [dic setObject:@2 forKey:KEY_ESM_STATUS];
-//        [dic setObject:inputText forKey:KEY_ESM_USER_ANSWER];
-//        [esm saveData:dic];
-    } else if ([identifier isEqualToString:@"esm_answer_yes_action"]){
-//        ESM * esm = [[ESM alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        NSMutableDictionary *dic =  [AWAREEsmUtils getEsmFormatDictionary:(NSMutableDictionary *)notification.userInfo
-//                                                             withTimesmap:[AWAREUtils getUnixTimestamp:notification.fireDate]
-//                                                                  devieId:[awareStudy getDeviceId]];
-//        //        [dic setObject:unixtime forKey:@"timestamp"];
-//        [dic setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_ESM_USER_ANSWER_TIMESTAMP];
-//        [dic setObject:[awareStudy getDeviceId] forKey:@"device_id"];
-//        [dic setObject:@2 forKey:KEY_ESM_STATUS];
-//        [dic setObject:@"YES" forKey:KEY_ESM_USER_ANSWER];
-//        [esm saveData:dic];
-    } else if ([identifier isEqualToString:@"esm_answer_no_action"]){
-//        ESM * esm = [[ESM alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//        NSMutableDictionary *dic =  [AWAREEsmUtils getEsmFormatDictionary:(NSMutableDictionary *)notification.userInfo
-//                                                             withTimesmap:[AWAREUtils getUnixTimestamp:notification.fireDate]
-//                                                                  devieId:[awareStudy getDeviceId]];
-//        //        [dic setObject:unixtime forKey:@"timestamp"];
-//        [dic setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_ESM_USER_ANSWER_TIMESTAMP];
-//        [dic setObject:[awareStudy getDeviceId] forKey:@"device_id"];
-//        [dic setObject:@2 forKey:KEY_ESM_STATUS];
-//        [dic setObject:@"NO" forKey:KEY_ESM_USER_ANSWER];
-//        [esm saveData:dic];
-    }
-    
-    
-    //    }else if([identifier isEqualToString:@"esm_action"]){
-    //        Scheduler * scheduler = [[Scheduler alloc] initWithSensorName:SENSOR_PLUGIN_SCHEDULER withAwareStudy:awareStudy];
-    //        [scheduler setESMWithUserInfo:notification];
-    //    }
-    
-    // Must be called when finished
+  
     completionHandler();
 }
 
@@ -397,98 +267,15 @@ forRemoteNotification:(NSDictionary *)userInfo
 }
 
 
-- (NSSet*) getNotificationCategories {
-    // For text edit
-    UIMutableUserNotificationAction *addLabelAction = [[UIMutableUserNotificationAction alloc] init];
-    addLabelAction.title = @"Add Label";
-    addLabelAction.activationMode = UIUserNotificationActivationModeBackground;
-    addLabelAction.authenticationRequired = YES;
-    addLabelAction.identifier = @"add_label_action";
-    addLabelAction.behavior = UIUserNotificationActionBehaviorTextInput;
-    
-    UIMutableUserNotificationCategory *labelCategory = [[UIMutableUserNotificationCategory alloc] init];
-    labelCategory.identifier = SENSOR_LABELS_TYPE_TEXT;
-    [labelCategory setActions:@[addLabelAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    // For label yes/no
-    UIMutableUserNotificationAction *addTrueAction = [[UIMutableUserNotificationAction alloc] init];
-    addTrueAction.title = @"YES";
-    addTrueAction.activationMode = UIUserNotificationActivationModeBackground;
-    addTrueAction.authenticationRequired = YES;
-    addTrueAction.identifier = @"add_bool_action_yes";
-    
-    UIMutableUserNotificationAction *addFalseAction = [[UIMutableUserNotificationAction alloc] init];
-    addFalseAction.title = @"NO";
-    addFalseAction.activationMode = UIUserNotificationActivationModeBackground;
-    addFalseAction.authenticationRequired = YES;
-    addFalseAction.destructive = YES;
-    addFalseAction.identifier = @"add_bool_action_no";
-    
-    UIMutableUserNotificationCategory *labelBooleanCategory = [[UIMutableUserNotificationCategory alloc] init];
-    labelBooleanCategory.identifier = SENSOR_LABELS_TYPE_BOOLEAN;
-    [labelBooleanCategory setActions:@[addTrueAction, addFalseAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    // Upload date
-    UIMutableUserNotificationAction *updateCalendarAction = [[UIMutableUserNotificationAction alloc] init];
-    updateCalendarAction.title = @"Update";
-    updateCalendarAction.identifier = @"calendar_update_action";
-    updateCalendarAction.activationMode = UIUserNotificationActivationModeBackground;
-    updateCalendarAction.authenticationRequired = YES;
-    updateCalendarAction.destructive = NO;
-    
-    UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];
-    category.identifier = SENSOR_PLUGIN_GOOGLE_CAL_PUSH;
-    [category setActions:@[updateCalendarAction] forContext:UIUserNotificationActionContextDefault];
-    
-    
-    /** ---- ESM ---- **/
-    // [For quick editing label]
-    // make a action
-    UIMutableUserNotificationAction *esmEditLabelAction = [[UIMutableUserNotificationAction alloc] init];
-    esmEditLabelAction.title = @"Edit";
-    esmEditLabelAction.activationMode = UIUserNotificationActivationModeBackground;
-    esmEditLabelAction.authenticationRequired = YES;
-    esmEditLabelAction.identifier = @"edit_label_action";
-    esmEditLabelAction.behavior = UIUserNotificationActionBehaviorTextInput;
-    // make a notification category
-    UIMutableUserNotificationCategory *esmEditLabelCategory = [[UIMutableUserNotificationCategory alloc] init];
-    esmEditLabelCategory.identifier = SENSOR_PLUGIN_CAMPUS_ESM_NOTIFICATION_LABEL;
-    [esmEditLabelCategory setActions:@[esmEditLabelAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    
-    // [For quick YES/NO question]
-    // make a action
-    UIMutableUserNotificationAction *esmAnswerYesAction = [[UIMutableUserNotificationAction alloc] init];
-    esmAnswerYesAction.title = @"YES";
-    esmAnswerYesAction.activationMode = UIUserNotificationActivationModeBackground;
-    esmAnswerYesAction.authenticationRequired = YES;
-    esmAnswerYesAction.identifier = @"esm_answer_yes_action";
-    // make a action
-    UIMutableUserNotificationAction *esmAnswerNoAction = [[UIMutableUserNotificationAction alloc] init];
-    esmAnswerNoAction.title = @"NO";
-    esmAnswerNoAction.activationMode = UIUserNotificationActivationModeBackground;
-    esmAnswerNoAction.authenticationRequired = YES;
-    esmAnswerNoAction.destructive = YES;
-    esmAnswerNoAction.identifier = @"esm_answer_no_action";
-    // make a notification category
-    UIMutableUserNotificationCategory *esmAnswerBoolQuestionCategory = [[UIMutableUserNotificationCategory alloc] init];
-    esmAnswerBoolQuestionCategory.identifier = SENSOR_PLUGIN_CAMPUS_ESM_NOTIFICATION_BOOLEAN;
-    [esmAnswerBoolQuestionCategory setActions:@[esmAnswerNoAction, esmAnswerYesAction] forContext:UIUserNotificationActionContextMinimal];
-    
-    return [NSSet setWithObjects: category,labelCategory, labelBooleanCategory, esmEditLabelCategory, esmAnswerBoolQuestionCategory, nil];
-}
-
-
-
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 void exceptionHandler(NSException *exception) {
     // http://www.yoheim.net/blog.php?q=20130113
-    //    NSLog(@"%@", exception.name);
-    //    NSLog(@"%@", exception.reason);
-    //    NSLog(@"%@", exception.callStackSymbols);
-    //    NSString * error = [NSString stringWithFormat:@"[%@] %@ , %@" , exception.name, exception.reason, exception.callStackSymbols];
+    NSLog(@"%@", exception.name);
+    NSLog(@"%@", exception.reason);
+    NSLog(@"%@", exception.callStackSymbols);
+//    NSString * error = [NSString stringWithFormat:@"[%@] %@ , %@" , exception.name, exception.reason, exception.callStackSymbols];
     
 //    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
 //    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
@@ -590,8 +377,13 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    if (_sqliteModelURL == nil) {
+        _sqliteModelURL = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
+    }
+    // NSURL *modelURL = _sqliteModelURL; // [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
+//    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:_sqliteModelURL];
     return _managedObjectModel;
 }
 
@@ -602,9 +394,8 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     }
     
     // Create the coordinator and store
-    
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+    // NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
     
@@ -614,8 +405,10 @@ didDisconnectWithUser:(GIDGoogleUser *)user
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
                              nil];
-    
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+    if (_sqliteFileURL == nil) {
+        _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+    }
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:_sqliteFileURL options:options error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
@@ -642,7 +435,7 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     if (!coordinator) {
         return nil;
     }
-    _managedObjectContext = [[NSManagedObjectContext alloc] init];
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     return _managedObjectContext;
 }
@@ -661,46 +454,5 @@ didDisconnectWithUser:(GIDGoogleUser *)user
         }
     }
 }
-
-//- (BOOL)isRequiredMigration {
-//    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
-//    NSError* error = nil;
-//    
-//    NSDictionary* sourceMetaData = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
-//                                                                                              URL:storeURL
-//                                                                                            error:&error];
-//    if (sourceMetaData == nil) {
-//        return NO;
-//    } else if (error) {
-//        NSLog(@"Checking migration was failed (%@, %@)", error, [error userInfo]);
-//        abort();
-//    }
-//    
-//    BOOL isCompatible = [self.managedObjectModel isConfiguration:nil
-//                                     compatibleWithStoreMetadata:sourceMetaData];
-//    
-//    return !isCompatible;
-//}
-//
-//- (BOOL) doMigration {
-//    NSLog(@"--- doMigration ---");
-//    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
-//    
-//    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-//                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-//                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-//                             nil];
-//    NSError *error = nil;
-//    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-//    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-//    {
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-//        // abort();
-//        return NO;
-//    }
-//    
-//    return YES;//_persistentStoreCoordinator;
-//}
-//
 
 @end

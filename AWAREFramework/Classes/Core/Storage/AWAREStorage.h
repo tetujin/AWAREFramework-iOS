@@ -37,6 +37,9 @@ typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _
 
 - (void) resetMark;
 
+- (BOOL) isStore;
+- (void) setStore:(BOOL) state;
+
 ///////////////////// Storing///////////////////////////////
 
 - (void) setBufferSize:(int)size;
@@ -52,6 +55,7 @@ typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _
 - (NSString *) getFilePathWithName:(NSString *) fileName type:(NSString *)type;
 - (BOOL) appendLine:(NSString *) line withFilePath:(NSString *)path;
 - (bool) clearLocalStorageWithName:(NSString*) fileName type:(NSString *)type;
+- (NSNumber * _Nullable)getFileSizeWithName:(NSString *)fileName type:(NSString *)type;
 ///////////////////// Initializing Server DB //////////////////////////////
 
 - (void) createDBTableOnServerWithTCQMaker:(TCQMaker *_Nonnull)tcqMaker;

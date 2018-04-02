@@ -58,8 +58,6 @@
     NSNumber * previousInterfaceType;
     
     // for observers
-    NSObject * observer;
-    NSObject * quickBtnObserver;
     NSString * appIntegration;
 }
 @end
@@ -105,6 +103,7 @@
     numberViews   = [[NSMutableArray alloc] init];
     
     esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [esmSensor createTable];
 //    [esmSensor.storage allowsCellularAccess];
 //    [esmSensor.storage allowsDateUploadWithoutBatteryCharging];
     
@@ -117,83 +116,6 @@
     self.singleTap.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:self.singleTap];
     
-    
-    observer = [[NSNotificationCenter defaultCenter]
-                addObserverForName:ACTION_AWARE_DATA_UPLOAD_PROGRESS
-                object:nil
-                queue:nil
-                usingBlock:^(NSNotification *notif) {
-                    if ([[notif.userInfo objectForKey:@"KEY_UPLOAD_SENSOR_NAME"] isEqualToString:SENSOR_PLUGIN_WEB_ESM] ||
-                        [[notif.userInfo objectForKey:@"KEY_UPLOAD_SENSOR_NAME"] isEqualToString:@"esms"] ||
-                        [[notif.userInfo objectForKey:@"KEY_UPLOAD_SENSOR_NAME"] isEqualToString:SENSOR_PLUGIN_IOS_ESM] ||
-                        [[notif.userInfo objectForKey:@"KEY_UPLOAD_SENSOR_NAME"] isEqualToString:SENSOR_PLUGIN_CAMPUS]) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            NSLog(@"%@", notif.debugDescription);
-                            
-                            BOOL uploadSuccess = [[notif.userInfo objectForKey:@"KEY_UPLOAD_SUCCESS"] boolValue];
-                            BOOL uploadFin = [[notif.userInfo objectForKey:@"KEY_UPLOAD_FIN"] boolValue];
-                            
-                            // uploadSuccess = NO; // ** Just for TEST **
-                            
-                            if( uploadFin == YES && uploadSuccess == YES ){
-                                [SVProgressHUD dismiss];
-                                
-                                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Submission is succeeded!" message:@"Thank you for your submission." preferredStyle:UIAlertControllerStyleAlert];
-                                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                                    self->esmNumber = 0;
-                                    self->currentESMNumber = 0;
-                                    self->currentESMScheduleNumber = 0;
-                                    
-                                    NSLog(@"[App Integration] %@", self->appIntegration);
-                                    
-                                    ////////////////////////////////////////////////
-                                    // AppIntegration
-                                    if (self->appIntegration != nil) {
-                                        NSURL *url = [NSURL URLWithString:self->appIntegration];
-                                        ////////  a valid url scheme /////////
-                                        // if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                                        
-                                        @try {
-                                            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-                                                if (success) {
-                                                    NSLog(@"App Integration is succeeded.");
-                                                }else{
-                                                    NSLog(@"App Integratioin is failed.");
-                                                }
-                                            }];
-                                        } @catch (NSException *exception) {
-                                            NSLog(@"%@", exception.debugDescription);
-                                        }
-                                    }
-                                    self->appIntegration = nil;
-                                    [self.navigationController popToRootViewControllerAnimated:YES];
-                                }]];
-                                [self presentViewController:alertController animated:YES completion:nil];
-                                
-                                //}else if(uploadFin == YES &&  uploadSuccess == NO){
-                            }else if(uploadSuccess == NO){
-                                [SVProgressHUD dismiss];
-                                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"** Submission is failed! **" message:@"Please submit your answer again." preferredStyle:UIAlertControllerStyleAlert];
-                                alertController.view.subviews.firstObject.backgroundColor = [UIColor redColor];
-                                alertController.view.subviews.firstObject.layer.cornerRadius = 15;
-                                alertController.view.subviews.firstObject.tintColor = [UIColor whiteColor];
-                                
-                                [alertController addAction:[UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-                                    // [self.navigationController popToRootViewControllerAnimated:YES];
-                                }]];
-                                [self presentViewController:alertController animated:YES completion:nil];
-                            }else{
-                                
-                            }
-                        });
-                    }
-                }];
-    quickBtnObserver = [[NSNotificationCenter defaultCenter] addObserverForName:ACTION_AWARE_PUSHED_QUICK_ANSWER_BUTTON
-                                                                         object:nil
-                                                                          queue:nil
-                                                                     usingBlock:^(NSNotification *notif) {
-                                                                         [self pushedSubmitButton:nil];
-                                                                     }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -321,11 +243,7 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
-    if (observer != nil) {
-        [[NSNotificationCenter defaultCenter] removeObserver:observer];
-        [[NSNotificationCenter defaultCenter] removeObserver:quickBtnObserver];
-        
-    }
+
 }
 
 //////////////////////////////////////////////////////////////
@@ -636,6 +554,18 @@
                 // [esmSensor refreshNotifications];
                 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
                 [esmManager refreshNotificationSchedules];
+                
+//                AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
+//                AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+                [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
+                    NSLog(@"%@",name);
+                    [SVProgressHUD dismiss];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    self->esmNumber = 0;
+                    self->currentESMNumber = 0;
+                    self->currentESMScheduleNumber = 0;
+                }];
+                [esmSensor startSyncDB];
             }
         }
     } else {

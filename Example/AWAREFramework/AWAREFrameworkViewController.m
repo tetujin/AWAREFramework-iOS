@@ -22,8 +22,7 @@
     
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
@@ -32,9 +31,23 @@
     [study setMaximumNumberOfRecordsForDBSync:100];
     [study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
     
-    [self testSensingWithStudy:study dbType:AwareDBTypeSQLite sensorManager:manager];
+    // delegate.sharedAWARECore.requestBackgroundSensing;
+    [delegate.sharedAWARECore requestNotification:[UIApplication sharedApplication]];
+    // [self testSensingWithStudy:study dbType:AwareDBTypeCSV sensorManager:manager];
     // [self testAccelerometerSync];
     // [self audioSensorWith:study];
+    // [self testESMSchedule];
+    // [self testCSVStorageWithStudy:study];
+    [self testSensingWithStudy:study dbType:AwareDBTypeSQLite sensorManager:manager];
+}
+
+- (void) testCSVStorageWithStudy:(AWAREStudy * )study{
+    Battery * battery = [[Battery alloc] initWithAwareStudy:study dbType:AwareDBTypeCSV];
+    [battery setIntervalSecond:1];
+    [battery startSensor];
+    [battery setSensorEventCallBack:^(NSDictionary *data) {
+        NSLog(@"%@",data.debugDescription);
+    }];
 }
 
 - (void) testAccelerometerSync{
@@ -63,11 +76,10 @@
 
 - (void)audioSensorWith:(AWAREStudy *)study{
     AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    // [noise setSaveRawData:YES];
     [noise saveRawData:YES];
     [noise createTable];
-     [noise startSensor];
-     [noise setSensorEventCallBack:^(NSDictionary *data) {
+    [noise startSensor];
+    [noise setSensorEventCallBack:^(NSDictionary *data) {
         NSLog(@"%@",[data objectForKey:@"timestamp"]);
     }];
     [noise setDebug:YES];
@@ -94,11 +106,11 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     
-    //    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    //    if ([esmManager getValidSchedules].count > 0) {
-    //        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-    //        [self.navigationController pushViewController:esmView animated:YES];
-    //    }
+        ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+        if ([esmManager getValidSchedules].count > 0) {
+            ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+            [self.navigationController pushViewController:esmView animated:YES];
+        }
 }
 
 - (void)didReceiveMemoryWarning
@@ -186,8 +198,12 @@
     [wifi startSensor];
     
     [manager addSensors:@[accelerometer,barometer,battery,bluetooth,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi]];
-//    [manager addSensor:accelerometer];
-    [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
+    
+    [manager setSensorEventCallbackToAllSensors:^(NSDictionary *data) {
+        NSLog(@"%@",data);
+    }];
+    // [manager addSensor:accelerometer];
+    // [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
     
 //    SyncProcessCallBack callback = ^(NSString *name, double progress, NSError * _Nullable error) {
 //        NSLog(@"%@ %3.2f",name, progress);
@@ -209,7 +225,7 @@
 }
 
 
-- (void) setESMSchedule{
+- (void) testESMSchedule{
     
     ESMSchedule * schedule = [[ESMSchedule alloc] init];
     schedule.notificationTitle = @"hello";
@@ -219,7 +235,7 @@
     schedule.expirationThreshold = @60;
     schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24];
     schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24];
-    schedule.interface = @0;
+    schedule.interface = @1;
     
     /////////////////////////
     ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"text"];
@@ -245,6 +261,10 @@
     ////////////////////////
     ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam"];
     [schedule.esms addObject:pam];
+    
+    
+    ESMItem * video = [[ESMItem alloc] initAsVideoESMWithTrigger:@"video"];
+    [schedule.esms addObject:video];
     
     
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];

@@ -13,49 +13,11 @@
 #import "AWARESensorManager.h"
 #import "AWAREStudy.h"
 #import "AWAREKeys.h"
-
-// AWARE Sensors
-#import "Accelerometer.h"
-#import "Gyroscope.h"
-#import "Magnetometer.h"
-#import "Rotation.h"
-#import "Battery.h"
-#import "Barometer.h"
-#import "Locations.h"
-#import "Network.h"
-#import "Wifi.h"
-#import "Processor.h"
-#import "Gravity.h"
-#import "LinearAccelerometer.h"
-#import "Bluetooth.h"
-// #import "AmbientNoise.h"
-#import "Screen.h"
-#import "NTPTime.h"
-#import "Proximity.h"
-#import "Timezone.h"
-#import "Calls.h"
-#import "ESM.h"
-#import "PushNotification.h"
-
-// AWARE Plugins
-#import "IOSActivityRecognition.h"
-#import "OpenWeather.h"
-#import "DeviceUsage.h"
-#import "GoogleLogin.h"
-#import "FusedLocations.h"
-#import "Pedometer.h"
-#import "BLEHeartRate.h"
-#import "Memory.h"
-#import "IOSESM.h"
-
-#import "Contacts.h"
-#import "Fitbit.h"
-#import "BasicSettings.h"
-#import "AmbientNoise.h"
+#import "AWARESensors.h"
 
 @implementation AWARESensorManager{
     /** upload timer */
-    NSTimer * uploadTimer;
+    NSTimer * syncTimer;
     /** sensor manager */
     NSMutableArray* awareSensors;
     /** aware study */
@@ -76,7 +38,7 @@
 
 /**
  * Init a AWARESensorManager with an AWAREStudy
- * @param   AWAREStudy  An AWAREStudy content
+ * @param  study An AWAREStudy instance
  */
 - (instancetype)initWithAWAREStudy:(AWAREStudy *) study {
     self = [super init];
@@ -105,6 +67,18 @@
 
 - (BOOL)isLocked{
     return lock;
+}
+
+- (void)setDebugToAllSensors:(bool)state{
+    for (AWARESensor * sensor in awareSensors) {
+        [sensor setDebug:state];
+    }
+}
+
+- (void)setDebugToAllStorage:(bool)state{
+    for (AWARESensor * sensor in awareSensors) {
+        [sensor.storage setDebug:YES];
+    }
 }
 
 - (BOOL) startAllSensors{
@@ -279,11 +253,6 @@
     AWARESensor * pushNotification = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
     [self addSensor:pushNotification];
     
-    
-    /**
-     * Debug Sensor
-     * NOTE: don't remove this sensor. This sensor collects debug messages.
-     */
 //    AWARESensor * debug = [[Debug alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
 //    [self addSensor:debug];
     
@@ -376,13 +345,6 @@
     return nil;
 }
 
-- (void)quitAllSensor{
-    // TODO
-    for (AWARESensor* sensor in awareSensors) {
-        [sensor stopSensor];
-    }
-}
-
 /**
  * Stop a sensor with the sensor name.
  * You can find the sensor name (key) on AWAREKeys.h and .m.
@@ -471,7 +433,7 @@
 
 - (void)syncAllSensorsForcefully{
     dispatch_async(dispatch_get_main_queue(), ^{
-        for (AWARESensor * sensor in awareSensors ) {
+        for (AWARESensor * sensor in self->awareSensors ) {
             [sensor startSyncDB];
         }
     });
@@ -494,23 +456,29 @@
 }
 
 
+/**
+ Start a timer for synchronizing local storage with remote storage automatically in the background
 
-- (void) startUploadTimerWithInterval:(double) interval {
-    if (uploadTimer != nil) {
-        [uploadTimer invalidate];
-        uploadTimer = nil;
+ @param second An interval of the synchronization event trigger
+ */
+- (void) startAutoSyncTimerWithInterval:(double) second{
+    if (syncTimer != nil) {
+        [self stopAutoSyncTimer];
     }
-    uploadTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+    syncTimer = [NSTimer scheduledTimerWithTimeInterval:second
                                                    target:self
-                                                 selector:@selector(syncAllSensorsWithDBInBackground)
+                                                 selector:@selector(syncAllSensors)
                                                  userInfo:nil
                                                   repeats:YES];
 }
 
-- (void) stopUploadTimer{
-    [uploadTimer invalidate];
-    uploadTimer = nil;
+- (void) stopAutoSyncTimer{
+    if (syncTimer != nil) {
+        [syncTimer invalidate];
+        syncTimer = nil;
+    }
 }
+
 
 - (void)runBatteryStateChangeEvents{
 //    if(awareSensors == nil) return;
@@ -519,44 +487,6 @@
 //    }
 }
 
-
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
-
-- (void) saveAllDummyDate {
-//    for (AWARESensor * sensor in awareSensors) {
-//        [sensor saveDummyData];
-//    }
-}
-
-- (void) showAllLatestSensorDataFromServer:(NSNumber *) startTimestamp {
-    for (AWARESensor * sensor in [self getAllSensors]) {
-        NSData * data = [sensor getLatestData];
-        if(data != nil){
-            // NSLog(@"[%@] sucess: %@", [sensor getSensorName], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] );
-            NSError *error = nil;
-            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &error];
-            if(error != nil){
-                NSLog(@"error: %@", error.debugDescription);
-            }
-            if(jsonArray != nil){
-                for (NSDictionary * dict in jsonArray) {
-                    NSNumber * timestamp = [dict objectForKey:@"timestamp"];
-                    if(startTimestamp.longLongValue < timestamp.longLongValue){
-                        NSLog(@"[Exist] %@ (%@ <---> %@)",[sensor getSensorName], timestamp, startTimestamp);
-                    }else{
-                        NSLog(@"[ None] %@ (%@ <---> %@)",[sensor getSensorName], timestamp, startTimestamp);
-                    }
-                }
-            }else{
-                NSLog(@"[Error] %@", [sensor getSensorName]);
-            }
-        }else{
-            NSLog(@"[Error] %@'s data is null...", [sensor getSensorName]);
-        }
-    }
-}
 
 - (void) checkLocalDBs {
     for (AWARESensor * sensor in awareSensors) {
@@ -580,14 +510,9 @@
 }
 
 - (void) resetAllMarkerPositionsInDB {
-    NSLog(@"------- Start to reset marker Position in DB -------");
-    for (AWARESensor * sensor in awareSensors) {
-//        int preMark = [sensor.storage getMarkerPosition];
-//        [sensor.storage resetMarkerPosition];
-//        int currentMark = [sensor.storage getMarkerPosition];
-//        NSLog(@"[%@] %d -> %d", [sensor getSensorName], preMark, currentMark);
-    }
-    NSLog(@"------- Finish to reset marker Position in DB -------");
+    for (AWARESensor * sensor in self->awareSensors) {
+        [sensor.storage resetMark];
+    }    
 }
 
 - (void)removeAllFilesFromDocumentRoot{
@@ -614,39 +539,6 @@
 }
 
 
-///////////////////////////////////////////////////////////////////
--  (void)URLSession:(NSURLSession *)session
-didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
-  completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition,
-                              NSURLCredential * _Nullable credential)) completionHandler{
-    // http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its
-    
-    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
-        
-        NSURLProtectionSpace *protectionSpace = [challenge protectionSpace];
-        SecTrustRef trust = [protectionSpace serverTrust];
-        NSURLCredential *credential = [NSURLCredential credentialForTrust:trust];
-        
-        // NSArray *certs = [[NSArray alloc] initWithObjects:(id)[[self class] sslCertificate], nil];
-        // int err = SecTrustSetAnchorCertificates(trust, (CFArrayRef)certs);
-        // SecTrustResultType trustResult = 0;
-        // if (err == noErr) {
-        //    err = SecTrustEvaluate(trust, &trustResult);
-        // }
-        
-        // if ([challenge.protectionSpace.host isEqualToString:@"aware.ht.sfc.keio.ac.jp"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else if ([challenge.protectionSpace.host isEqualToString:@"r2d2.hcii.cs.cmu.edu"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else if ([challenge.protectionSpace.host isEqualToString:@"api.awareframework.com"]) {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // } else {
-        //credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        // }
-        
-        completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
-    }
-}
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////

@@ -81,6 +81,12 @@
 - (instancetype) initAsWebESMWithTrigger:(NSString *) trigger
                                    url:(NSString *) url;
 
+- (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsDatePickerESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsClockDatePickerESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsPictureESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsAudioESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsVideoESMWithTrigger:(NSString *)trigger;
 
 - (void) setTitle:(NSString *) title;
 - (void) setInstructions:(NSString *) instructions;

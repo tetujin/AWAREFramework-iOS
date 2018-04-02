@@ -124,8 +124,8 @@
 
 /**
  Local push notification method
- @param message text message for notification
- @param sound type of sound for notification
+ @param message A message for the notification
+ @param soundFlag A necessity of a sound for the notification
  */
 + (UILocalNotification *) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag {
     return [self sendLocalNotificationForMessage:message
@@ -177,7 +177,7 @@
 
 
 /**
- This method provides current OS version such as iOS8.2, iOS9 or iOS9.1 with float value.
+ Provides current OS version such as iOS8.2, iOS9 or iOS9.1 with float value.
  (e.g., 8.2, 9.0, and 9.1)
  @return an os version of the device
  */
@@ -188,10 +188,9 @@
 
 
 /**
-This method provides a system uuid.
+Provides a system UUID.
  
-- NOTE: AWARE iOS uses this value as a device_id.
-- NOTE: If user uninstall the AWARE iOS, this value will be change.
+@discussion AWARE iOS uses this value as a device_id, but if a user uninstalls the AWARE iOS, this value will be change.
  
 @return A system UUID with NSString (Sample: 37ce6bb8-d35f-4375-ae90-87219bb3f97b)
  */
@@ -216,7 +215,7 @@ This method provides a system uuid.
  On the 32bit device, you should use a LongLong value insted of a Long value.
  The LongLong value is 8bit variable both 32bit and 64bit devices.
  
- @param NSDate  Commonly you can make the value using [NSDate new] method.
+ @param nsdate Commonly you can make the value using [NSDate new] method.
  @return An unixtime stamp value (e.g., 1453141282.168 => 1453141282168)
  */
 + (NSNumber *)getUnixTimestamp:(NSDate *)nsdate{

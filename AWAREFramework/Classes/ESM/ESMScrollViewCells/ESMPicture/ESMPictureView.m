@@ -7,7 +7,6 @@
 //
 
 #import "ESMPictureView.h"
-#import "IOSESMScrollViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation ESMPictureView
@@ -40,9 +39,9 @@
 
 - (void) addPicturePageElement:(EntityESM *)esm withFrame:(CGRect) frame {
     
-    int heightSpace = 10;
+    // int heightSpace = 10;
     int widthSpace = 20;
-    int previewHeight = 400;
+    // int previewHeight = 400;
     
     
     captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -129,10 +128,10 @@
                                                                               completionBlock:^(NSURL *assetURL, NSError *error) {
                                                                               }];
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
-                                                              shutterBtn.tag = 1;
-                                                              imageView.image = image;
-                                                              imageView.hidden = NO;
+                                                              [self->shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
+                                                              self->shutterBtn.tag = 1;
+                                                              self->imageView.image = image;
+                                                              self->imageView.hidden = NO;
                                                           });
                                                       }];
         

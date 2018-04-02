@@ -61,9 +61,23 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    KEY_AMBIENT_NOISE_TIMESTAMP = @"timestamp";
+    KEY_AMBIENT_NOISE_DEVICE_ID = @"device_id";
+    KEY_AMBIENT_NOISE_FREQUENCY = @"double_frequency";
+    KEY_AMBIENT_NOISE_DECIDELS = @"double_decibels";
+    KEY_AMBIENT_NOISE_RMS = @"double_rms";
+    KEY_AMBIENT_NOISE_SILENT = @"is_silent";
+    KEY_AMBIENT_NOISE_SILENT_THRESHOLD = @"double_silent_threshold";
+    KEY_AMBIENT_NOISE_RAW = @"raw";
+    
     AWAREStorage * storage = nil;
+    
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_AMBIENT_NOISE_TIMESTAMP,KEY_AMBIENT_NOISE_DEVICE_ID,KEY_AMBIENT_NOISE_FREQUENCY,KEY_AMBIENT_NOISE_DECIDELS,KEY_AMBIENT_NOISE_RMS,KEY_AMBIENT_NOISE_SILENT,KEY_AMBIENT_NOISE_SILENT_THRESHOLD,KEY_AMBIENT_NOISE_RAW];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE entityName:NSStringFromClass([EntityAmbientNoise class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -85,38 +99,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
                           sensorName:SENSOR_AMBIENT_NOISE
                              storage:storage];
     if (self) {
-        KEY_AMBIENT_NOISE_TIMESTAMP = @"timestamp";
-        KEY_AMBIENT_NOISE_DEVICE_ID = @"device_id";
-        KEY_AMBIENT_NOISE_FREQUENCY = @"double_frequency";
-        KEY_AMBIENT_NOISE_DECIDELS = @"double_decibels";
-        KEY_AMBIENT_NOISE_RMS = @"double_rms";
-        KEY_AMBIENT_NOISE_SILENT = @"is_silent";
-        KEY_AMBIENT_NOISE_SILENT_THRESHOLD = @"double_silent_threshold";
-        KEY_AMBIENT_NOISE_RAW = @"raw";
-        
-//        [self setCSVHeader:@[KEY_AMBIENT_NOISE_TIMESTAMP,
-//                             KEY_AMBIENT_NOISE_DEVICE_ID,
-//                             KEY_AMBIENT_NOISE_FREQUENCY,
-//                             KEY_AMBIENT_NOISE_DECIDELS,
-//                             KEY_AMBIENT_NOISE_RMS,
-//                             KEY_AMBIENT_NOISE_SILENT,
-//                             KEY_AMBIENT_NOISE_SILENT_THRESHOLD,
-//                             KEY_AMBIENT_NOISE_RAW]];
-        /**
-         * How frequently do we sample the microphone (default = 5) in minutes
-         */
-        // FREQUENCY_PLUGIN_AMBIENT_NOISE = @"frequency_plugin_ambient_noise";
-        
-        /**
-         * For how long we listen (default = 30) in seconds
-         */
-        // PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE = @"plugin_ambient_noise_sample_size";
-        
-        /**
-         * Silence threshold (default = 50) in dB
-         */
-        // PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"plugin_ambient_noise_silence_threshold";
-        
+
         _frequencyMin = 5;
         _sampleSize = 30;
         _silenceThreshold = 50;

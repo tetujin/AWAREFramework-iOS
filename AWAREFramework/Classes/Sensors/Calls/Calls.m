@@ -29,6 +29,9 @@ NSString* const KEY_CALLS_TRACE = @"trace";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"calls"];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_CALLS_TIMESTAMP, KEY_CALLS_DEVICEID, KEY_CALLS_CALL_TYPE, KEY_CALLS_CALL_DURATION, KEY_CALLS_TRACE];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"calls" withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"calls" entityName:NSStringFromClass([EntityCall class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -47,7 +50,7 @@ NSString* const KEY_CALLS_TRACE = @"trace";
     self = [super initWithAwareStudy:study
                           sensorName:@"calls" storage:storage];
     if (self!=nil) {
-        // [self setCSVHeader:@[KEY_CALLS_TIMESTAMP, KEY_CALLS_DEVICEID, KEY_CALLS_CALL_TYPE, KEY_CALLS_CALL_DURATION, KEY_CALLS_TRACE]];
+        // [self setCSVHeader:
     }
     return self;
 }
@@ -57,22 +60,11 @@ NSString* const KEY_CALLS_TRACE = @"trace";
     if([self isDebug]){
         NSLog(@"[%@] Create Telephony Sensor Table", [self getSensorName]);
     }
-    
     TCQMaker * maker = [[TCQMaker alloc] init];
     [maker addColumn:KEY_CALLS_CALL_TYPE type:TCQTypeInteger default:@"0"];
     [maker addColumn:KEY_CALLS_CALL_DURATION type:TCQTypeInteger default:@"0"];
     [maker addColumn:KEY_CALLS_TRACE type:TCQTypeText default:@"''"];
     [self.storage createDBTableOnServerWithTCQMaker:maker];
-    
-//    NSMutableString *query = [[NSMutableString alloc] init];
-//    [query appendString:@"_id integer primary key autoincrement,"];
-//    [query appendString:[NSString stringWithFormat:@"%@ real default 0,", KEY_CALLS_TIMESTAMP]];
-//    [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_CALLS_DEVICEID]];
-//    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_TYPE]];
-//    [query appendString:[NSString stringWithFormat:@"%@ integer default 0,", KEY_CALLS_CALL_DURATION]];
-//    [query appendString:[NSString stringWithFormat:@"%@ text default ''", KEY_CALLS_TRACE ]];
-//    // [query appendString:@"UNIQUE (timestamp,device_id)"];
-//    [super createTable:query];
 }
 
 - (void)setParameters:(NSArray *)parameters{

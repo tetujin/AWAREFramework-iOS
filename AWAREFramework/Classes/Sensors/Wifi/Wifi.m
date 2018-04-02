@@ -25,6 +25,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_WIFI];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_WIFI withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_WIFI entityName:NSStringFromClass([EntityWifi class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -48,7 +51,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                              storage:storage];
     if (self) {
         sensingInterval = 60.0f; // 60sec. = 1min.
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"bssid",@"ssid",@"security",@"frequency",@"rssi",@"label"]];
     }
     return self;
 }

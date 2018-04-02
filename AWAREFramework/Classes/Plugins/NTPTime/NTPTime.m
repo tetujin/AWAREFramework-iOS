@@ -20,6 +20,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp", @"device_id", @"drift", @"ntp_time"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME entityName:NSStringFromClass([EntityNTPTime class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -37,12 +40,6 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
                              storage:storage];
     if (self) {
         _intervalSec = 60*10; // 10 min
-        
-//        [self setCSVHeader:@[@"timestamp", @"device_id", @"drift", @"ntp_time"]];
-//
-//        [self setTypeAsPlugin];
-//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_NTPTIME desc:@"true or false to activate or deactivate accelerometer sensor."];
-        
     }
     return self;
 }

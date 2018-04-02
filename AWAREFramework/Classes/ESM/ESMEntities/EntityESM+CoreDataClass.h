@@ -12,20 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum: NSInteger {
-    AwareESMTypeNone        = 0,
-    AwareESMTypeText        = 1,
-    AwareESMTypeRadio       = 2,
-    AwareESMTypeCheckbox    = 3,
-    AwareESMTypeLikertScale = 4,
-    AwareESMTypeQuickAnswer = 5,
-    AwareESMTypeScale       = 6,
-    AwareESMTypeDateTime    = 7,
-    AwareESMTypePAM         = 8,
-    AwareESMTypeNumeric     = 9,
-    AwareESMTypeWeb         = 10
-} AwareESMType;
-
 @interface EntityESM : EntityESMSchedule
 
 - (EntityESM *) setESMWithConfiguration:(NSDictionary *) config;

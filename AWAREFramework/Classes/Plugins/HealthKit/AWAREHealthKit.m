@@ -161,21 +161,21 @@
                                                                         {
                                                                             //////////////////////// Quantity //////////////////////////////
                                                                             NSSet * quantityTypes = [self getDataQuantityTypes];
-                                                                            if([quantityTypes containsObject:query.sampleType]){
-                                                                                [awareHKQuantity saveQuantityData:results];
+                                                                            if([quantityTypes containsObject:query.objectType]){
+                                                                                [self->awareHKQuantity saveQuantityData:results];
                                                                             }
 
                                                                             //////////////////////// Catogory //////////////////////////////////
                                                                             NSSet * dataCatogoryTypes    = [self getDataCategoryTypes];
-                                                                            if([dataCatogoryTypes containsObject:query.sampleType]){
-                                                                                [awareHKCategory saveCategoryData:results];
+                                                                            if([dataCatogoryTypes containsObject:query.objectType]){
+                                                                                [self->awareHKCategory saveCategoryData:results];
 
                                                                             }
 
                                                                             ///////////////////////// Workout  /////////////////////////////////
                                                                             NSSet * dataWorkoutTypes     = [self getDataWorkoutTypes];
-                                                                            if([dataWorkoutTypes containsObject:query.sampleType]){
-                                                                                [awareHKWorkout saveWorkoutData:results];
+                                                                            if([dataWorkoutTypes containsObject:query.objectType]){
+                                                                                [self->awareHKWorkout saveWorkoutData:results];
                                                                             }
 
                                                                             //////////////////////// Correlation //////////////////////////////

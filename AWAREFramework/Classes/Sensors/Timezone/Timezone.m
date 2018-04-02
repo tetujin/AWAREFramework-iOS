@@ -23,6 +23,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_TIMEZONE];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"timezone"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_TIMEZONE withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_TIMEZONE entityName:NSStringFromClass([EntityTimezone class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -42,7 +45,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
                              storage:storage];
     if (self) {
         updateInterval = 60*60;// 3600 sec. = 1 hour
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"timezone"]];
     }
     return self;
 }

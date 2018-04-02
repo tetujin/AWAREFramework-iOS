@@ -29,6 +29,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION entityName:NSStringFromClass([EntityRotation class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -51,14 +54,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_ROTATION
                              storage:storage];
-            // dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // [self setCSVHeader:@[@"timestamp",@"device_id"]];
-        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"double_values_3", @"accuracy",@"label"]];
-
     }
     return self;
 }
@@ -77,8 +76,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     "double_values_3 real default 0,"
     "accuracy integer default 0,"
     "label text default ''";
-    // "UNIQUE (timestamp,device_id)";
-    // [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -93,7 +90,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     if(hz > 0){
         super.sensingInterval = 1.0f/hz;
     }
-    // return [self startSensorWithInterval:interval bufferSize:buffer];
 }
 
 - (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
@@ -101,7 +97,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
         NSLog(@"[%@] Start Rotation Sensor", [self getSensorName]);
     }
 
-    // [self setBufferSize:savingInterval/sensingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
     // Set and start motion sensor
@@ -126,14 +121,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                                });
-                                               
-//                                               if([self getDBType] == AwareDBTypeSQLite){
-//                                                   [self saveData:dict];
-//                                               }else if([self getDBType] == AwareDBTypeJSON){
-//                                                   dispatch_async(dispatch_get_main_queue(), ^{
-//                                                       [self saveData:dict];
-//                                                   });
-//                                               }
                                                
                                                [self setLatestData:dict];
                                                [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];

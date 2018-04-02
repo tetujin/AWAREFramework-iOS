@@ -64,6 +64,10 @@
 
 - (BOOL)saveDataWithArray:(NSArray * _Nullable)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
 
+    if (!self.isStore) {
+        return NO;
+    }
+    
     [self.buffer addObjectsFromArray:dataArray];
     // NSLog(@"%ld",self.buffer.count);
     if (self.buffer.count < [self getBufferSize]) {
@@ -327,6 +331,9 @@
                                             if (self->requiredRepetitionCount<self->currentRepetitionCount) {
                                                 ///////////////// Done ////////////
                                                 if (self.isDebug) NSLog(@"[%@] Done", self.sensorName);
+                                                if (self.syncProcessCallBack!=nil) {
+                                                    self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                }
                                                 [self dataSyncIsFinishedCorrectly];
                                                 if (self.isDebug) NSLog(@"[%@] Clear old data", self.sensorName);
                                                 [self clearOldData];

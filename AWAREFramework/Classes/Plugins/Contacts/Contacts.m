@@ -26,6 +26,9 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"name",@"phone_numbers",@"emails",@"groups",@"sync_date"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS entityName:NSStringFromClass([EntityContact class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -254,21 +257,10 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
             [contacts addObject:dict];
         }
         
-        //            [self saveData:dict];
         [self.storage saveDataWithArray:contacts buffer:NO saveInMainThread:YES];
-        
-        // [self setBufferSize:0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-//            if([AWAREUtils isForeground]){
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success!"
-//                                                                message:[NSString stringWithFormat:@"Saved %ld contacts", people.count]
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"Close"
-//                                                      otherButtonTitles:nil];
-//                [alert show];
-//            }
             NSDate * now = [NSDate new];
             [self setLastUpdateDateWithDate:now];
             

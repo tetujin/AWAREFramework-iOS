@@ -24,6 +24,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER
                                             entityName:NSStringFromClass([EntityBarometer class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -45,7 +48,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     if (self) {
         super.sensingInterval = 0.2f;
         super.savingInterval = 30.0f; // 30 sec
-        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0",@"accuracy",@"label"]];
     }
     return self;
 }

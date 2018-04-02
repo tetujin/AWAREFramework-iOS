@@ -22,6 +22,9 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"elapsed_device_on",@"elapsed_device_off"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE entityName:NSStringFromClass([EntityDeviceUsage class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -40,11 +43,7 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
                           sensorName:SENSOR_PLUGIN_DEVICE_USAGE
                              storage:storage];
     if (self) {
-//        [self setCSVHeader:@[@"timestamp",@"device_id",@"elapsed_device_on",@"elapsed_device_off"]];
-//
-//        [self setTypeAsPlugin];
-//
-//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_DEVICE_USAGE desc:@"true or false to activate or deactivate accelerometer sensor."];
+        
     }
     return self;
 }
@@ -103,8 +102,8 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         
         int awareScreenState = 0;
         double currentTime = [[NSDate date] timeIntervalSince1970];
-        double elapsedTime = currentTime - lastTime;
-        lastTime = currentTime;
+        double elapsedTime = currentTime - self->lastTime;
+        self->lastTime = currentTime;
         
         uint64_t state = UINT64_MAX;
         notify_get_state(token, &state);
@@ -116,11 +115,6 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
             [dict setObject:@0 forKey:@"elapsed_device_off"]; // real
             if ([self isDebug]) {
                 NSLog(@"screen off");
-//                NSString * message = [NSString stringWithFormat:@"Elapsed Time of device ON: %@ [Event at %@]",
-//                                      [self unixtime2str:elapsedTime],
-//                                      [self nsdate2FormattedTime:[NSDate new]]
-//                                      ];
-//                [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
             }
         // screen on
         } else {
@@ -129,11 +123,6 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
             [dict setObject:[NSNumber numberWithDouble:elapsedTime] forKey:@"elapsed_device_off"]; // real
             if([self isDebug]){
                 NSLog(@"screen on");
-//                NSString * message = [NSString stringWithFormat:@"Elapsed Time of device OFF: %@ [Event at %@]",
-//                                      [self unixtime2str:elapsedTime],
-//                                      [self nsdate2FormattedTime:[NSDate new]]
-//                                      ];
-//                [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
             }
         }
         

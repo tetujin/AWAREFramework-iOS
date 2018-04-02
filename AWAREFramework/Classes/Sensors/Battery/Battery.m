@@ -38,6 +38,9 @@
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName: SENSOR_BATTERY];
+    }else if(dbType == AwareDBTypeCSV){
+    NSArray * header = @[@"timestamp",@"device_id",@"battery_status",@"battery_level",@"battery_scale",@"battery_voltage", @"battery_temperature",@"battery_adaptor",@"battery_health",@"battery_technology"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY entityName:NSStringFromClass([EntityBattery class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
             EntityBattery* batteryData = (EntityBattery *)[NSEntityDescription
@@ -76,7 +79,6 @@
             [userDefaults setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP];
             [userDefaults setInteger:[UIDevice currentDevice].batteryLevel*100 forKey:KEY_LAST_BATTERY_LEVEL];
         }
-//        [self setCSVHeader:@[@"timestamp",@"device_id",@"battery_status",@"battery_level",@"battery_scale",@"battery_voltage", @"battery_temperature",@"battery_adaptor",@"battery_health",@"battery_technology"]];
         
         // Get default information from local storage
         batteryChargeSensor = [[BatteryCharge alloc] initWithAwareStudy:study dbType:dbType];
@@ -226,9 +228,7 @@
                                                         object:nil
                                                       userInfo:userInfo];
     
-    // NSLog(@"[Battery Sensor] %d", [NSThread isMainThread] );
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-//    [self saveData:dict];
     
     SensorEventCallBack callback = [self getSensorEventCallBack];
     if (callback != nil) {

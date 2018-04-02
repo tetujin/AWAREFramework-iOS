@@ -7,6 +7,7 @@
 //
 
 #import "EntityESM+CoreDataClass.h"
+#import "ESM.h"
 
 @implementation EntityESM
 

@@ -22,12 +22,11 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (strong, nonatomic) NSURL *sqliteModelURL;
+@property (strong, nonatomic) NSURL *sqliteFileURL;
+
 - (void)saveContext;
 
-- (void)setNotification:(UIApplication *)application;
 
-// for migration
-//- (BOOL)isRequiredMigration;
-//- (BOOL)doMigration;
 
 @end

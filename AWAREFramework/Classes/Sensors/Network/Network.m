@@ -24,6 +24,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp", @"device_id",@"network_type",@"network_subtype",@"network_state"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK entityName:NSStringFromClass([EntityNetwork class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -45,7 +48,6 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
         networkState= YES;
         networkType = @0;
         networkSubtype = @"";
-        // [self setCSVHeader:@[@"timestamp", @"device_id",@"network_type",@"network_subtype",@"network_state"]];
     }
     return self;
 }
@@ -148,7 +150,6 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     [dict setObject:networkSubtype forKey:@"network_subtype"];
     [dict setObject:[NSNumber numberWithInt:networkState] forKey:@"network_state"];
     
-    // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     

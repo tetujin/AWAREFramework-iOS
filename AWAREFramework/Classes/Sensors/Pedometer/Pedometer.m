@@ -40,28 +40,32 @@
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     
+    KEY_DEVICE_ID = @"device_id";
+    KEY_TIMESTAMP = @"timestamp";
+    KEY_END_TIMESTAMP   = @"end_timestamp";
+    KEY_FREQUENCY_SECOND = @"frequency_second";
+    KEY_NUMBER_OF_STEPS = @"number_of_steps";
+    KEY_DISTANCE = @"distance";
+    KEY_CURRENT_PACE = @"current_pace";
+    KEY_CURRENT_CADENCE = @"current_cadence";
+    KEY_FLOORS_ASCENDED = @"floors_ascended";
+    KEY_FLOORS_DESCENDED = @"floors_descended";
+    KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_plugin_sensor_pedometer_last_update_timestamp";
+    
     AWAREStorage * storage = nil;
-    storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER];
+    if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_DEVICE_ID,KEY_TIMESTAMP,KEY_END_TIMESTAMP,KEY_FREQUENCY_SECOND,KEY_NUMBER_OF_STEPS,KEY_DISTANCE,KEY_CURRENT_PACE,KEY_CURRENT_CADENCE,KEY_FLOORS_ASCENDED,KEY_FLOORS_DESCENDED];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER withHeader:header];
+    }else{
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER];
+    }
 
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_PEDOMETER
                              storage:storage];
 
     if (self) {
-        KEY_DEVICE_ID = @"device_id";
-        KEY_TIMESTAMP = @"timestamp";
-        KEY_END_TIMESTAMP   = @"end_timestamp";
-        KEY_FREQUENCY_SECOND = @"frequency_second";
-        KEY_NUMBER_OF_STEPS = @"number_of_steps";
-        KEY_DISTANCE = @"distance";
-        KEY_CURRENT_PACE = @"current_pace";
-        KEY_CURRENT_CADENCE = @"current_cadence";
-        KEY_FLOORS_ASCENDED = @"floors_ascended";
-        KEY_FLOORS_DESCENDED = @"floors_descended";
-        KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_plugin_sensor_pedometer_last_update_timestamp";
         frequencySec = 60*10;
-//        [self setCSVHeader:@[KEY_DEVICE_ID,KEY_TIMESTAMP,KEY_END_TIMESTAMP,KEY_FREQUENCY_SECOND,KEY_NUMBER_OF_STEPS,KEY_DISTANCE,KEY_CURRENT_PACE,
-//                             KEY_CURRENT_CADENCE,KEY_FLOORS_ASCENDED,KEY_FLOORS_DESCENDED]];
     }
     return self;
 }

@@ -22,9 +22,20 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    KEY_MEMORY_TIMESTAMP = @"timestamp";
+    KEY_MEMORY_DEVICE_ID = @"device_id";
+    KEY_MEMORY_USED = @"mem_used";
+    KEY_MEMORY_FREE = @"mem_free";
+    KEY_MEMORY_TOTAL = @"mem_total";
+    
     AWAREStorage * storage = nil;
+    
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"memory"];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_MEMORY_TIMESTAMP, KEY_MEMORY_DEVICE_ID, KEY_MEMORY_USED, KEY_MEMORY_FREE, KEY_MEMORY_TOTAL];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"memory" withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"memory" entityName:NSStringFromClass([EntityMemory class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -43,12 +54,6 @@
                              storage:storage];
     if (self) {
         _intervalSec = 60*5;
-        KEY_MEMORY_TIMESTAMP = @"timestamp";
-        KEY_MEMORY_DEVICE_ID = @"device_id";
-        KEY_MEMORY_USED = @"mem_used";
-        KEY_MEMORY_FREE = @"mem_free";
-        KEY_MEMORY_TOTAL = @"mem_total";
-//        [self setCSVHeader:@[KEY_MEMORY_TIMESTAMP, KEY_MEMORY_DEVICE_ID, KEY_MEMORY_USED, KEY_MEMORY_FREE, KEY_MEMORY_TOTAL]];
     }
     return self;
 }
@@ -127,7 +132,6 @@
     [query setObject:[NSNumber numberWithDouble:mem_used] forKey:KEY_MEMORY_USED];
     [query setObject:[NSNumber numberWithDouble:mem_free] forKey:KEY_MEMORY_FREE];
     [query setObject:[NSNumber numberWithDouble:mem_total] forKey:KEY_MEMORY_TOTAL];
-    // [self saveData:query];
     [self.storage saveDataWithDictionary:query buffer:NO saveInMainThread:YES];
 
     if ([self isDebug]) {

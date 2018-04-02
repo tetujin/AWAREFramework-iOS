@@ -11,6 +11,7 @@
 #import "AWAREKeys.h"
 #import "AWARESensorManager.h"
 
+
 @interface AWARECore : NSObject <CLLocationManagerDelegate>
 
 // Core Location Manager
@@ -44,5 +45,5 @@
 - (void) checkStorageUsageWithViewController:(UIViewController *) viewController;
 
 - (void) requestBackgroundSensing;
-
+- (void) requestNotification:(UIApplication*)application;
 @end

@@ -186,10 +186,14 @@ didCompleteWithError:(nullable NSError *)error;
         if (error!=nil) {
             [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:self->sensorName];
             NSLog(@"[%@] Error: %@", self->sensorName, error.debugDescription);
-            self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
+            if (self->executorCallback!=nil) {
+                self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
+            }
         }else{
             [self broadcastDBSyncEventWithProgress:@100 isFinish:YES isSuccess:YES sensorName:self->sensorName];
-            self->executorCallback(@{@"result":@(YES),@"name":self->sensorName,@"response":response});
+            if (self->executorCallback!=nil) {
+                self->executorCallback(@{@"result":@(YES),@"name":self->sensorName,@"response":response});
+            }
         }
         self->receivedData = [[NSMutableData alloc] init];
     });

@@ -13,6 +13,7 @@
 #import <ifaddrs.h>
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import <UserNotifications/UserNotifications.h>
 
 @implementation AWARECore
 
@@ -78,7 +79,7 @@
     // start sensors
     [_sharedSensorManager startAllSensors];
     if([_sharedAwareStudy getAutoSyncState]){
-        [_sharedSensorManager startUploadTimerWithInterval:uploadInterval];
+        [_sharedSensorManager startAutoSyncTimerWithInterval:uploadInterval];
     }
     //    [self.sharedSensorManager syncAllSensorsWithDBInBackground];
     
@@ -145,7 +146,7 @@
 - (void) deactivate{
     [_sharedSensorManager stopAndRemoveAllSensors];
     [_sharedLocationManager stopUpdatingLocation];
-    [_sharedSensorManager stopUploadTimer];
+    [_sharedSensorManager stopAutoSyncTimer];
     [_dailyUpdateTimer invalidate];
     [_complianceTimer invalidate];
     //
@@ -661,6 +662,19 @@
 }
 
 ///////////////////////////////////////////////////////////////
+
+
+
+- (void)requestNotification:(UIApplication*)application{
+    [application registerForRemoteNotifications];
+    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              // Enable or disable features based on authorization.
+                              
+                          }];
+}
 
 
 

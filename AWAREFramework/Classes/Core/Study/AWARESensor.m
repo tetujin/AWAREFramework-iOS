@@ -228,7 +228,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 
 /**
- This method converts a sensing frequency in Android (microsecond) to an iOS sensing frequency (second).
+ Converts a sensing frequency which format is Android (microsecond) to an iOS sensing frequency (second).
 
  @param intervalMicroSecond is a sensing frequency in Andrind (frequency microsecond)
  @return a sensing frequency for iOS (second)
@@ -238,9 +238,27 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     // (dependent of the hardware sensor capabilities and resources),
     // e.g., 200000 (normal), 60000 (UI), 20000 (game), 0 (fastest).
     double intervalSecond = intervalMicroSecond/(double)1000000;
-    NSLog(@"Sensing Interval: %f (second)",intervalSecond);
-    NSLog(@"Hz: %f (Hz)", (double)1/intervalSecond);
+    if ([self isDebug]) {
+        NSLog(@"Sensing Interval: %f (second)",intervalSecond);
+        NSLog(@"Hz: %f (Hz)", (double)1/intervalSecond);
+    }
     return intervalSecond;
+}
+
+
+- (void) setStore:(BOOL)state{
+    if (_storage != nil) {
+        [_storage setStore:state];
+    }
+}
+
+- (BOOL) isStore{
+    if (_storage != nil) {
+        return [_storage isStore];
+    }else{
+        NSLog(@"[%@] local-storage is null", sensorName);
+        return NO;
+    }
 }
 
 @end

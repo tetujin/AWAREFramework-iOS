@@ -40,9 +40,21 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     
+    KEY_HR_TIMESTAMP = @"timestamp";
+    KEY_HR_DEVICE_ID = @"device_id";
+    KEY_HR_HEARTRATE = @"heartrate";
+    KEY_HR_LOCATION = @"location";
+    KEY_HR_MANUFACTURER = @"manufacturer";
+    KEY_HR_RSSI = @"rssi";
+    KEY_HR_LABEL = @"label";
+    
     AWAREStorage * storage = nil;
+    
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_HR_TIMESTAMP,KEY_HR_DEVICE_ID,KEY_HR_HEARTRATE,KEY_HR_LOCATION,KEY_HR_MANUFACTURER,KEY_HR_RSSI,KEY_HR_LABEL];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR entityName:NSStringFromClass([EntityBLEHeartRate class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -62,25 +74,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
                           sensorName:SENSOR_PLUGIN_BLE_HR
                              storage:storage];
     if (self) {
-        KEY_HR_TIMESTAMP = @"timestamp";
-        KEY_HR_DEVICE_ID = @"device_id";
-        KEY_HR_HEARTRATE = @"heartrate";
-        KEY_HR_LOCATION = @"location";
-        KEY_HR_MANUFACTURER = @"manufacturer";
-        KEY_HR_RSSI = @"rssi";
-        KEY_HR_LABEL = @"label";
-        
         _intervalSec = 60.0f*5.0f;
         _activeTimeSec = 30.0f;
         _always = NO;
-        
-//        [self setCSVHeader:@[KEY_HR_TIMESTAMP,
-//                             KEY_HR_DEVICE_ID,
-//                             KEY_HR_HEARTRATE,
-//                             KEY_HR_LOCATION,
-//                             KEY_HR_MANUFACTURER,
-//                             KEY_HR_RSSI,
-//                             KEY_HR_LABEL]];
         
         _bodyLocation = @-1;
         _manufacturer = @"";

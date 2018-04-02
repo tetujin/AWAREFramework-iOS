@@ -18,6 +18,9 @@
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations_visit"];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"double_latitude",@"double_longitude",@"double_arrival",@"double_departure",@"address",@"name",@"provider",@"accuracy",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations_visit" withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations_visit" entityName:NSStringFromClass([EntityLocationVisit class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -42,7 +45,7 @@
                          sensorName:@"locations_visit"
                             storage:storage];
     if(self != nil){
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_latitude",@"double_longitude",@"double_arrival",@"double_departure",@"address",@"name",@"provider",@"accuracy",@"label"]];
+        // [self setCSVHeader:];
     }
     
     return self;

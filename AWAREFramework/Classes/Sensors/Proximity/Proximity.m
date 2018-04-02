@@ -18,6 +18,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"double_proximity",@"accuracy",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY entityName:NSStringFromClass([EntityProximity class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -37,7 +40,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
                           sensorName:SENSOR_PROXIMITY
                              storage:storage];
     if (self) {
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_proximity",@"accuracy",@"label"]];
+        
     }
     return self;
 }
@@ -99,7 +102,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
     [dict setObject:@0 forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
     [self setLatestValue:[NSString stringWithFormat:@"[%d]", state ]];
-    // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     SensorEventCallBack callback = [self getSensorEventCallBack];

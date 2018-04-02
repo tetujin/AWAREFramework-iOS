@@ -12,6 +12,7 @@
     bool isStorageLocked;
     bool isSyncing;
     bool isDebug;
+    bool isStore;
     int bufferSize;
 }
 
@@ -29,6 +30,7 @@
         self.sensorName = name;
         isStorageLocked = NO;
         isSyncing = NO;
+        isStore = YES;
         bufferSize = 0;
         retryLimit = 0;
         syncTaskIntervalSecond = 1;
@@ -37,21 +39,32 @@
     return self;
 }
 
-//////////////////////////////
+
+/**
+ Return an accessibility of a lock state
+
+ @return An accessibility of a lock state
+ */
 - (BOOL)isLock {
     return isStorageLocked;
 }
 
+
+/**
+ Lock an accessibility of a lock state
+ */
 - (void)lock {
     isStorageLocked = YES;
 }
 
+
+/**
+ Unlock an acessibility of lock state
+ */
 - (void)unlock {
     isStorageLocked = NO;
 }
 
-
-//////////////////////////////////
 
 - (nullable NSDictionary *) getLatestData {
     return @{};
@@ -173,6 +186,8 @@
 }
 
 
+
+
 //////////////////////////////////
 - (NSString *) getFilePathWithName:(NSString *) fileName type:(NSString *)type{
     NSArray  * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -182,6 +197,19 @@
     return path;
 }
 
+- (NSNumber *)getFileSizeWithName:(NSString *)fileName type:(NSString *)type{
+    NSString *path = [self getFilePathWithName:fileName type:type];
+    NSFileManager *man = [NSFileManager defaultManager];
+    NSError * error = nil;
+    NSDictionary *attribute = [man attributesOfItemAtPath:path error: &error];
+    if (error == nil) {
+        NSNumber *fileSize = [attribute objectForKey:NSFileSize];
+        return fileSize;
+    }else{
+        NSLog(@"%@", error.debugDescription);
+    }
+    return nil;
+}
 
 
 //////////////////////////
@@ -242,6 +270,13 @@
     return NO;
 }
 
+- (BOOL) isStore{
+    return isStore;
+}
+
+- (void) setStore:(BOOL) state{
+    isStore = state;
+}
 
 
 @end

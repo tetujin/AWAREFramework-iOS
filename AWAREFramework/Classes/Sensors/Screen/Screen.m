@@ -28,6 +28,9 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"screen_status"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN entityName:NSStringFromClass([EntityScreen class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -47,7 +50,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
                           sensorName:SENSOR_SCREEN
                              storage:storage];
     if (self) {
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"screen_status"]];
+        
     }
     return self;
 }
@@ -62,8 +65,6 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     "timestamp real default 0,"
     "device_id text default '',"
     "screen_status integer default 0";
-    // "UNIQUE (timestamp,device_id)";
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 

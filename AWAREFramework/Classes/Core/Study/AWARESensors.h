@@ -50,6 +50,9 @@
 #import "IOSActivityRecognition.h"
 #import "Contacts.h"
 #import "Fitbit.h"
+#import "BasicSettings.h"
+#import "AmbientNoise.h"
+#import "GoogleLogin.h"
 
 @interface AWARESensors : NSObject
 

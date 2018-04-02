@@ -25,7 +25,7 @@ typedef enum: NSInteger {
     AwareDBTypeUnknown = 0,
     AwareDBTypeJSON    = 1,   // JSON
     AwareDBTypeSQLite  = 2, // SQLite
-    AWAREDBTypeCSV     = 3     // CSV
+    AwareDBTypeCSV     = 3     // CSV
 } AwareDBType;
 
 typedef enum: NSInteger{

@@ -35,6 +35,10 @@
 
 - (BOOL)saveDataWithArray:(NSArray *)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
 
+    if (!self.isStore) {
+        return NO;
+    }
+    
     if (!saveInMainThread) {
         // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
@@ -194,8 +198,8 @@
 
 /**
  * Convert an unformated JSON text to a formated JSON text.
- * @param   NSString    An unformated JSON text
- * @return  NSString    A formated JSON text
+ * @param clipedText An unformated JSON text
+ * @return  A formated JSON text as a NSString
  *
  * For example,
  * [Before: Unformated JSON Text]

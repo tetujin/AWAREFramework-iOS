@@ -6,6 +6,7 @@
 //
 
 #import "ESMItem.h"
+#import "ESM.h"
 
 @implementation ESMItem{
     NSMutableDictionary * esmDict;
@@ -296,6 +297,71 @@
     }
     return self;
 }
+
+- (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypeTime
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+
+- (instancetype) initAsDatePickerESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypeDate
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+
+- (instancetype) initAsClockDatePickerESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypeClock
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+
+- (instancetype) initAsPictureESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypePicture
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+- (instancetype) initAsAudioESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypeAudio
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+- (instancetype) initAsVideoESMWithTrigger:(NSString *)trigger{
+    self = [self init];
+    esmDict = [self setBasicElementsWithESMType:AwareESMTypeVideo
+                                        trigger:trigger];
+    if (esmDict != nil) {
+        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return self;
+}
+
+
 
 //////////////////////////////////////
 

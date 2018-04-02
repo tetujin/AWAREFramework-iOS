@@ -29,6 +29,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY entityName:NSStringFromClass([EntityGravity class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -53,7 +56,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
         motionManager = [[CMMotionManager alloc] init];
         super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
         super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // [self setCSVHeader:@[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"]];
+        // [self setCSVHeader:];
     }
     return self;
 }
@@ -69,8 +72,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     [tcqMaker addColumn:@"double_values_2" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-//    NSString *query = [tcqMaker getDefaudltTableCreateQuery];
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 

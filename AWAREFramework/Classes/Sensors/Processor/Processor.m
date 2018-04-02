@@ -31,6 +31,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR entityName:NSStringFromClass([EntityProcessor class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -56,7 +59,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     if (self) {
         sensingInterval = 10.0f;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // [self setCSVHeader:@[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"]];
     }
     return self;
 }
@@ -122,7 +124,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [dict setObject:@0 forKey:@"double_system_load"]; //double
     [dict setObject:@0 forKey:@"double_idle_load"]; //double
     [self setLatestValue:[NSString stringWithFormat:@"%@ %%",appCpuUsage]];
-    // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     

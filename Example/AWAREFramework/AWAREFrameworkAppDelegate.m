@@ -12,6 +12,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+//    NSURL *fileURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.aware.ios"];
+//    fileURL = [fileURL URLByAppendingPathComponent:@"aware.sqlite"];
+//    self.sqliteFileURL = fileURL;
+    
     // Override point for customization after application launch.
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     

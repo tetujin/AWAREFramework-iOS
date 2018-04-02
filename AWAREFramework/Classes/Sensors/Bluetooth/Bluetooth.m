@@ -17,8 +17,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 @implementation Bluetooth {
     //MDBluetoothManager * mdBluetoothManager;
     NSTimer * scanTimer;
-    // int scanDuration;
-    // int scanInterval;
     NSDate * sessionTime;
     
     NSString * KEY_BLUETOOTH_TIMESTAMP;
@@ -30,9 +28,18 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    KEY_BLUETOOTH_TIMESTAMP = @"timestamp";
+    KEY_BLUETOOTH_DEVICE_ID = @"device_id";
+    KEY_BLUETOOTH_ADDRESS = @"bt_address";
+    KEY_BLUETOOTH_NAME = @"bt_name";
+    KEY_BLUETOOTH_RSSI = @"bt_rssi";
+    KEY_BLUETOOTH_LABLE = @"label";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_BLUETOOTH_TIMESTAMP, KEY_BLUETOOTH_DEVICE_ID, KEY_BLUETOOTH_ADDRESS, KEY_BLUETOOTH_NAME, KEY_BLUETOOTH_RSSI, KEY_BLUETOOTH_LABLE];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH entityName:NSStringFromClass([EntityBluetooth class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -54,36 +61,18 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
         _scanDuration = 30; // 30 second
         _scanInterval = 60*5; // 5 min
         sessionTime = [NSDate new];
-        
-        KEY_BLUETOOTH_TIMESTAMP = @"timestamp";
-        KEY_BLUETOOTH_DEVICE_ID = @"device_id";
-        KEY_BLUETOOTH_ADDRESS = @"bt_address";
-        KEY_BLUETOOTH_NAME = @"bt_name";
-        KEY_BLUETOOTH_RSSI = @"bt_rssi";
-        KEY_BLUETOOTH_LABLE = @"label";
-        
-        // [self setCSVHeader:@[KEY_BLUETOOTH_TIMESTAMP, KEY_BLUETOOTH_DEVICE_ID, KEY_BLUETOOTH_ADDRESS, KEY_BLUETOOTH_NAME, KEY_BLUETOOTH_RSSI, KEY_BLUETOOTH_LABLE]];
     }
     return self;
 }
 
 - (void) createTable{
     // Send a table create query (for both BLE and classic Bluetooth)
-    // NSLog(@"[%@] Create Table", [self getSensorName]);
+    NSLog(@"[%@] Create Table", [self getSensorName]);
     TCQMaker * maker = [[TCQMaker alloc] init];
-//    NSMutableString * query = [[NSMutableString alloc] init];
-//    [query appendString:@"_id integer primary key autoincrement,"];
-//    [query appendFormat:@"%@ real default 0,", KEY_BLUETOOTH_TIMESTAMP];
-//    [query appendFormat:@"%@ text default '',", KEY_BLUETOOTH_DEVICE_ID];
-//    [query appendFormat:@"%@ text default '',", KEY_BLUETOOTH_ADDRESS];
-    [maker addColumn:KEY_BLUETOOTH_ADDRESS type:TCQTypeText default:@"''"];
-//    [query appendFormat:@"%@ text default '',", KEY_BLUETOOTH_NAME];
-    [maker addColumn:KEY_BLUETOOTH_NAME type:TCQTypeText default:@"''"];
-//    [query appendFormat:@"%@ integer default 0,", KEY_BLUETOOTH_RSSI];
-    [maker addColumn:KEY_BLUETOOTH_RSSI type:TCQTypeInteger default:@"0"];
-//    [query appendFormat:@"%@ text default ''", KEY_BLUETOOTH_LABLE];
-    [maker addColumn:KEY_BLUETOOTH_LABLE type:TCQTypeText default:@"''"];
-    // [query appendFormat:@"UNIQUE (timestamp,device_id)"];
+    [maker addColumn:KEY_BLUETOOTH_ADDRESS type:TCQTypeText    default:@"''"];
+    [maker addColumn:KEY_BLUETOOTH_NAME    type:TCQTypeText    default:@"''"];
+    [maker addColumn:KEY_BLUETOOTH_RSSI    type:TCQTypeInteger default:@"0"];
+    [maker addColumn:KEY_BLUETOOTH_LABLE   type:TCQTypeText    default:@"''"];
     //[super createTable:query];
     [self.storage createDBTableOnServerWithTCQMaker:maker];
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -42,6 +43,7 @@
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		437BCDE00AB3128F6E7EC88F /* AWAREFramework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
+		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		6003F58A195388D20070C39A /* AWAREFramework_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAREFramework_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -76,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
+				4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
 				61364AFF98A956D31C7F2541 /* Pods_AWAREFramework_Example.framework in Frameworks */,
@@ -132,6 +135,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F3B188220718E4800364E9B /* ExternalAccessory.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -255,11 +259,32 @@
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = FH352PYMNC;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 0;
+							};
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
 							};
 						};
 					};

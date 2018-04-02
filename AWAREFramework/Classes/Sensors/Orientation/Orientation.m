@@ -21,18 +21,27 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
 
 /** Initializer */
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+    
+    KEY_ORIENTATION_TIMESTAMP = @"timestamp";
+    KEY_ORIENTATION_DEVICE_ID = @"device_id";
+    KEY_ORIENTATION_STATUS = @"orientation_status";
+    KEY_ORIENTATION_LABEL = @"label";
+    
     AWAREStorage * storage = nil;
-    storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION];
+    
+    if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[KEY_ORIENTATION_TIMESTAMP,KEY_ORIENTATION_DEVICE_ID,KEY_ORIENTATION_STATUS,KEY_ORIENTATION_LABEL];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION withHeader:header];
+    }else{
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION];
+    }
     
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_ORIENTATION
                              storage:storage];
     if (self) {
-        KEY_ORIENTATION_TIMESTAMP = @"timestamp";
-        KEY_ORIENTATION_DEVICE_ID = @"device_id";
-        KEY_ORIENTATION_STATUS = @"orientation_status";
-        KEY_ORIENTATION_LABEL = @"label";
-        // [self setCSVHeader:@[KEY_ORIENTATION_TIMESTAMP,KEY_ORIENTATION_DEVICE_ID,KEY_ORIENTATION_STATUS,KEY_ORIENTATION_LABEL]];
+
+
     }
     return self;
 }
@@ -54,8 +63,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
 }
 
 - (BOOL) startSensor{
-    //    [self setBufferSize:5];
-    
     // Start and set an orientation monitoring
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     

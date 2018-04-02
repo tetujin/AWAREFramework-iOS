@@ -73,6 +73,9 @@ int ONE_HOUR = 60*60;
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp",@"device_id",@"city",@"temperature",@"temperature_max",@"temperature_min",@"unit",@"humidity",@"pressure",@"wind_speed",@"wind_degrees",@"cloudiness",@"rain",@"snow",@"sunrise",@"sunset",@"weather_icon_id",@"weather_description"];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER entityName:NSStringFromClass([EntityOpenWeather class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -108,34 +111,9 @@ int ONE_HOUR = 60*60;
         locationManager = nil;
         receivedData = [[NSMutableData alloc] init];
         identificationForOpenWeather = @"http_for_open_weather_";
-//        [self setCSVHeader:@[@"timestamp",
-//                             @"device_id",
-//                             @"city",
-//                             @"temperature",
-//                             @"temperature_max",
-//                             @"temperature_min",
-//                             @"unit",
-//                             @"humidity",
-//                             @"pressure",
-//                             @"wind_speed",
-//                             @"wind_degrees",
-//                             @"cloudiness",
-//                             @"rain",
-//                             @"snow",
-//                             @"sunrise",
-//                             @"sunset",
-//                             @"weather_icon_id",
-//                             @"weather_description"
-//                             ]];
         [self updateWeatherData:[NSDate new] Lat:0 Lon:0];
         _apiKey = nil;
         _frequencyMin = 15;
-        
-//        [self setTypeAsPlugin];
-//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_OPENWEATHER desc:@"(boolean) to activate / deactivate the plugin."];
-//        [self addDefaultSettingWithNumber:@15 key:AWARE_PREFERENCES_OPENWEATHER_FREQUENCY desc:@"weather check interval in minutes."];
-//        [self addDefaultSettingWithString:@"54e5dee2e6a2479e0cc963cf20f233cc" key:AWARE_PREFERENCES_OPENWEATHER_API_KEY desc:@" get a valid key at http://openweathermap.org/"];
-        
     }
     return self;
 }
@@ -293,15 +271,6 @@ didReceiveResponse:(NSURLResponse *)response
         [session invalidateAndCancel];
         receivedData = [[NSMutableData alloc] init];
     }
-
-//    [super URLSession:session
-//             dataTask:dataTask
-//   didReceiveResponse:response
-//    completionHandler:completionHandler];
-    
-//    [session finishTasksAndInvalidate];
-//    [session invalidateAndCancel];
-//    completionHandler(NSURLSessionResponseAllow);
 }
 
 
@@ -311,7 +280,6 @@ didReceiveResponse:(NSURLResponse *)response
     if(data != nil){
         [receivedData appendData:data];
     }
-    // [super URLSession:session dataTask:dataTask didReceiveData:data];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{

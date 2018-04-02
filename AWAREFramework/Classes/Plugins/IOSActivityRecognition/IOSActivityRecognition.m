@@ -48,6 +48,9 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION];
+    }else if(dbType == AwareDBTypeCSV){
+        NSArray * header = @[@"timestamp", @"device_id", ACTIVITIES,CONFIDENCE,ACTIVITY_NAME_STATIONARY,ACTIVITY_NAME_WALKING,ACTIVITY_NAME_RUNNING,ACTIVITY_NAME_AUTOMOTIVE,ACTIVITY_NAME_CYCLING,ACTIVITY_NAME_UNKNOWN,LABEL];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION withHeader:header];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION entityName:NSStringFromClass([EntityIOSActivityRecognition class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -79,21 +82,6 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
         disposableCount = 0;
         _sensingMode = IOSActivityRecognitionModeLive;
         _confidenceFilter = CMMotionActivityConfidenceLow;
-//        [self setCSVHeader:@[@"timestamp",
-//                             @"device_id",
-//                             ACTIVITIES,
-//                             CONFIDENCE,
-//                             ACTIVITY_NAME_STATIONARY,
-//                             ACTIVITY_NAME_WALKING,
-//                             ACTIVITY_NAME_RUNNING,
-//                             ACTIVITY_NAME_AUTOMOTIVE,
-//                             ACTIVITY_NAME_CYCLING,
-//                             ACTIVITY_NAME_UNKNOWN,
-//                             LABEL]];
-//        [self setTypeAsPlugin];
-//        [self addDefaultSettingWithBool:@NO    key:AWARE_PREFERENCES_STATUS_IOS_ACTIVITY_RECOGNITION    desc:@"activate/deactivate plugin"];
-//        [self addDefaultSettingWithNumber:@180 key:AWARE_PREFERENCES_FREQUENCY_IOS_ACTIVITY_RECOGNITION desc:@"How frequently to detect user's activity (in seconds)"];
-//        [self addDefaultSettingWithNumber:@0   key:AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION desc:@"0=Off, 1=On (default setting is '0')"];
     }
     return self;
 }
@@ -118,7 +106,6 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     query = [tcqMaker getDefaudltTableCreateQuery];
     /* stationary,walking,running,automotive,cycling,unknown */
     
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -196,13 +183,13 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                                                                NSDictionary * activityDict = [self toDictionary:activity];
                                                                [self.storage saveDataWithDictionary:activityDict buffer:NO saveInMainThread:YES];
                                                                // [self addMotionActivity:activity];
-                                                               NSString * message = [NSString stringWithFormat:@"[%d] disposable mode: %@", disposableCount, activity.debugDescription];
+                                                               NSString * message = [NSString stringWithFormat:@"[%d] disposable mode: %@", self->disposableCount, activity.debugDescription];
                                                                NSLog(@"%@", message);
-                                                               if(disposableCount < limit){
-                                                                   disposableCount++;
+                                                               if(self->disposableCount < limit){
+                                                                   self->disposableCount++;
                                                                }else{
-                                                                   [motionActivityManager stopActivityUpdates];
-                                                                   disposableCount = 0;
+                                                                   [self->motionActivityManager stopActivityUpdates];
+                                                                   self->disposableCount = 0;
                                                                    NSLog(@"Stop iOS Activity Recognition Plugin as disposable mode");
                                                                    if([self isDebug]){
                                                                        [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];

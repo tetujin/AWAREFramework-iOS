@@ -18,45 +18,42 @@
 /** Initializer */
 - (instancetype)initWithAWAREStudy:(AWAREStudy *) study;
 
-- (void) syncAllSensors;
-- (void) syncAllSensorsForcefully;
+- (void) addSensor:(AWARESensor *) sensor;
+- (void) addSensors:(NSArray *)sensors;
+- (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
+- (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+- (BOOL) isExist :(NSString *) key;
+- (NSArray *) getAllSensors;
+
+///////////////////////////////////
 - (void) setSensorEventCallbackToAllSensors:(SensorEventCallBack)callback;
 - (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack)callback;
 - (void) setDebugToAllSensors:(bool)state;
 - (void) setDebugToAllStorage:(bool)state;
 
-// lock and unlock the sensor manager
-- (void) lock;
-- (void) unlock;
-- (BOOL) isLocked;
-
-// add a new sensor
-- (void) addSensor:(AWARESensor *) sensor;
-- (void) addSensors:(NSArray *)sensors;
-
-- (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
-- (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
-
-- (BOOL) isExist :(NSString *) key;
-
-
-- (BOOL) startAllSensors;
+////////////////////////////////////////
 - (BOOL) createDBTablesOnAwareServer;
-- (void) stopAndRemoveAllSensors;
-- (void) stopASensor:(NSString *) sensorName;
-- (void) quitAllSensor;
-
+- (BOOL) startAllSensors;
 - (void) runBatteryStateChangeEvents;
+- (void) stopAndRemoveAllSensors;
+- (void) stopSensor:(NSString *) sensorName;
 
-- (void) startUploadTimerWithInterval:(double) interval;
-- (void) stopUploadTimer;
+//////////////////
+- (void) syncAllSensors;
+- (void) syncAllSensorsForcefully;
+
+////////////////////////
+- (void) startAutoSyncTimerWithInterval:(double) second;
+- (void) stopAutoSyncTimer;
+
+////////////////////////////
 
 // get latest sensor data with sensor name
 - (NSString *) getLatestSensorValue:(NSString *)sensorName;
 - (NSDictionary *) getLatestSensorData:(NSString *) sensorName;
-- (NSArray *) getAllSensors;
 
 - (void) resetAllMarkerPositionsInDB;
 - (void) removeAllFilesFromDocumentRoot;
+
 
 @end

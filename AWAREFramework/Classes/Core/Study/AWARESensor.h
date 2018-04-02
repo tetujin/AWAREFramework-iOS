@@ -16,6 +16,7 @@
 #import "AWAREStorage.h"
 #import "JSONStorage.h"
 #import "SQLiteStorage.h"
+#import "CSVStorage.h"
 
 extern double const MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
 extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
@@ -56,6 +57,9 @@ typedef void (^SensorEventCallBack)(NSDictionary *data);
 - (NSString *) getDeviceId;
 - (double) getSensorSetting:(NSArray *)settings withKey:(NSString *)key;
 - (NSString *)getSettingAsStringFromSttings:(NSArray *)settings withKey:(NSString *)key;
+
+- (void) setStore:(BOOL)state;
+- (BOOL) isStore;
 
 // Utils
 - (double) convertMotionSensorFrequecyFromAndroid:(double)intervalMicroSecond;

@@ -38,8 +38,8 @@
 /**
  * esm_type=3 : Add a Check Box Element
  *
- * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_checkboxes, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
- * @param tag An tag for identification of the ESM element
+ * @param esm NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_checkboxes, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
+ * @param frame An tag for identification of the ESM element
  */
 - (void) addCheckBoxElement:(EntityESM *)esm withFrame:(CGRect) frame {
     

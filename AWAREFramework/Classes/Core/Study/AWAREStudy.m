@@ -932,7 +932,7 @@ didCompleteWithError:(NSError *)error {
     
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     AWARECore * core = delegate.sharedAWARECore;
-    [core.sharedSensorManager quitAllSensor];
+    [core.sharedSensorManager stopAndRemoveAllSensors];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:KEY_MQTT_SERVER];

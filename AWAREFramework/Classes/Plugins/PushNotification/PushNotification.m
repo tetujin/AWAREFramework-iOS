@@ -35,8 +35,6 @@
         KEY_PUSH_DEVICE_ID = @"device_id";
         KEY_PUSH_TIMESTAMP = @"timestamp";
         KEY_PUSH_TOKEN = @"token";
-//        [self.storage allowsCellularAccess];
-//        [self.storage allowsDateUploadWithoutBatteryCharging];
     }
     return self;
 }
@@ -52,7 +50,6 @@
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_PUSH_DEVICE_ID]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_PUSH_TOKEN]];
     [query appendString:@"UNIQUE (timestamp,device_id)"];
-    
     // [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }

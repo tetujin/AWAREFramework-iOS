@@ -8,6 +8,7 @@
 
 #import "BaseESMView.h"
 #import "EntityESM+CoreDataClass.h"
+#import "ESM.h"
 
 @implementation BaseESMView{
     bool naState;
