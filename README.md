@@ -5,13 +5,15 @@
 [![License](https://img.shields.io/cocoapods/l/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 [![Platform](https://img.shields.io/cocoapods/p/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 
-AWARE is an OS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data. They transform data into information you can understand.
+[AWARE](http://www.awareframework.com/) is an OS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data. They transform data into information you can understand.
 
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 Just a following code your can start to collect smartphone data in the background.
+
+Objective-C:
 ```objective-c
 /// Example: Accelerometer ///
 Accelerometer * accelerometer = [[Accelerometer alloc] init];
@@ -21,7 +23,14 @@ Accelerometer * accelerometer = [[Accelerometer alloc] init];
 }];
 ```
 
-In addition, you can connect your application to AWARE server for collecting data remotely.
+Swift:
+```swift
+coming soon
+```
+
+In addition, you can connect your application to AWARE server for collecting data remotely. About AWARE server, please check our [website](http://www.awareframework.com/).
+
+Objective-C:
 ```objective-c
 /// Example: Accelerometer + AWARE Server ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
@@ -32,6 +41,11 @@ Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 [accelerometer startSensor];
 
 [accelerometer startSyncDB]; // NOTE: By using this method, the sync is called only one time. To syncing continuously, you need to use AWARESensorManager or call the method yourself using NSTimer.
+```
+
+Swift:
+```swift
+coming soon
 ```
 
 ## Requirements
@@ -102,7 +116,7 @@ Objective-C
 
 Swift
 ```swift
-TBD
+coming soon
 ```
 
 4. Your application needs to call permission request for the location sensor using following code when the application is opened first time. 
@@ -116,7 +130,7 @@ AWARECore * core = delegate.sharedAWARECore;
     
 Swift    
 ```swift
-TBD
+coming soon
 ```
 
 5. All set
