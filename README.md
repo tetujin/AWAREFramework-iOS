@@ -46,17 +46,19 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 ```
 
 2. Add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)
-**Info.plist**
-* Privacy - Location Always and When In Use Usage Description
-* Privacy - Location Always Usage Description
-**Capabilities/Background Modes**
-* Location updates
+
+    **Info.plist**
+        * Privacy - Location Always and When In Use Usage Description
+        * Privacy - Location Always Usage Description
+    
+    **Capabilities/Background Modes**
+        * Location updates
 
 3. For collecting your activities data in the background, your AppDelegate needs to succeed AWAREDelegate class.
 
 **Objective-C**
 ```objective-c
-### AppDelegate.h ###
+/// AppDelegate.h ///
 @import UIKit;
 @import AWAREFramework;
 
@@ -65,7 +67,7 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 @end
 ```
 ```objective-c
-### AppDelegate.m ###
+/// AppDelegate.m ///
 #import "AppDelegate.h"
 
 @implementation AppDelegate
@@ -96,7 +98,6 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 }
 
 @end
-
 ```
 
 **Swift**
@@ -112,7 +113,8 @@ AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].d
 AWARECore * core = delegate.sharedAWARECore;
 [core requestBackgroundSensing];
 ```
-**Swift**
+    
+**Swift**    
 ```swift
 TBD
 ```
