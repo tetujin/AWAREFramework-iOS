@@ -123,22 +123,15 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          [self setLatestData:dict];
                                          
                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
-//                                         if([self getDBType] == AwareDBTypeSQLite){
-//                                             [self saveData:dict];
-//                                         }else if([self getDBType] == AwareDBTypeJSON){
-//                                             dispatch_async(dispatch_get_main_queue(), ^{
-//                                                 [self saveData:dict];
-//                                             });
-//                                         }
                                          
                                          NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
                                                                                               forKey:EXTRA_DATA];
                                          [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GYROSCOPE
                                                                                              object:nil
                                                                                            userInfo:userInfo];
-                                         SensorEventCallBack callback = [self getSensorEventCallBack];
-                                         if (callback!=nil) {
-                                             callback(dict);
+                                         SensorEventHandler handler = [self getSensorEventHandler];
+                                         if (handler!=nil) {
+                                             handler(self, dict);
                                          }
                                          
                                     }

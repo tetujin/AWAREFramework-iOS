@@ -206,9 +206,9 @@ didCompleteWithError:(nullable NSError *)error;
  * AWARE URL makers
  */
 - (NSString *)getWebserviceUrl{
-    NSString* url = [awareStudy getWebserviceServer];
+    NSString* url = [awareStudy getStudyURL];
     if (url == NULL || [url isEqualToString:@""]) {
-        NSLog(@"[Error] You did not have a StudyID. Please check your study configuration.");
+        NSLog(@"[SyncExecutor] Error: You don't have a StudyURL.");
         return @"";
     }
     return url;

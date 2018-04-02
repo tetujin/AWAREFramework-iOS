@@ -26,7 +26,7 @@
 - (NSArray *) getAllSensors;
 
 ///////////////////////////////////
-- (void) setSensorEventCallbackToAllSensors:(SensorEventCallBack)callback;
+- (void) setSensorEventHandlerToAllSensors:(SensorEventHandler)handler;
 - (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack)callback;
 - (void) setDebugToAllSensors:(bool)state;
 - (void) setDebugToAllStorage:(bool)state;
@@ -43,7 +43,8 @@
 - (void) syncAllSensorsForcefully;
 
 ////////////////////////
-- (void) startAutoSyncTimerWithInterval:(double) second;
+- (void) startAutoSyncTimerWithIntervalSecond:(double) second;
+- (void) startAutoSyncTimer;
 - (void) stopAutoSyncTimer;
 
 ////////////////////////////

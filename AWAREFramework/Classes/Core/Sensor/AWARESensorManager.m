@@ -46,12 +46,6 @@
         awareSensors = [[NSMutableArray alloc] init];
         awareStudy = study;
         lock = false;
-
-        manualUploadProgress = 0;
-        numberOfSensors = 0;
-        manualUploadTime = 0;
-        alertState = NO;
-        previousProgresses = [[NSDictionary alloc] init];
     }
     return self;
 }
@@ -456,12 +450,18 @@
 }
 
 
+- (void) startAutoSyncTimer{
+    if(awareStudy != nil){
+        [self startAutoSyncTimerWithIntervalSecond:[awareStudy getAutoDBSyncIntervalSecond]];
+    }
+}
+
 /**
  Start a timer for synchronizing local storage with remote storage automatically in the background
 
  @param second An interval of the synchronization event trigger
  */
-- (void) startAutoSyncTimerWithInterval:(double) second{
+- (void) startAutoSyncTimerWithIntervalSecond:(double) second{
     if (syncTimer != nil) {
         [self stopAutoSyncTimer];
     }
@@ -562,9 +562,9 @@
 }
 
 
-- (void)setSensorEventCallbackToAllSensors:(SensorEventCallBack)callback{
+- (void)setSensorEventHandlerToAllSensors:(SensorEventHandler)handler{
     for (AWARESensor * sensor in awareSensors) {
-        [sensor setSensorEventCallBack:callback];
+        [sensor setSensorEventHandler:handler];
     }
 }
 

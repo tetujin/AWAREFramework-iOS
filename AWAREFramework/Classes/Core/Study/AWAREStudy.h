@@ -24,8 +24,8 @@ typedef enum: NSInteger {
 typedef enum: NSInteger {
     AwareDBTypeUnknown = 0,
     AwareDBTypeJSON    = 1,   // JSON
-    AwareDBTypeSQLite  = 2, // SQLite
-    AwareDBTypeCSV     = 3     // CSV
+    AwareDBTypeSQLite  = 2,   // SQLite
+    AwareDBTypeCSV     = 3    // CSV
 } AwareDBType;
 
 typedef enum: NSInteger{
@@ -34,7 +34,16 @@ typedef enum: NSInteger{
     AwareUIModeHideSettings = 2
 } AwareUIMode;
 
+typedef enum: NSInteger{
+    AwareStudyStateNoChange   = 0,
+    AwareStudyStateNew        = 1,
+    AwareStudyStateUpdate     = 2,
+    AwareStudyStateError      = 3
+} AwareStudyState;
+
 @interface AWAREStudy : NSObject <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+
+typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState state, NSError * _Nullable  error);
 
 @property (strong, nonatomic) NSString* getSettingIdentifier;
 @property (strong, nonatomic) NSString* makeDeviceTableIdentifier;
@@ -42,70 +51,55 @@ typedef enum: NSInteger{
 
 - (instancetype) initWithReachability: (BOOL) reachabilityState;
 
-- (void) setWebserviceServer:(NSString *)url;
-- (BOOL) setStudyInformationWithURL:(NSString*)url;
-- (void) refreshStudy;
-- (BOOL) clearAllSetting;
-- (void) refreshAllSetting;
-
-
-// Getter
-- (NSString *) getDeviceId;
-- (NSString* ) getMqttServer;
-- (NSString* ) getMqttUserName;
-- (NSString* ) getMqttPassowrd;
-- (NSNumber* ) getMqttPort;
-- (NSNumber* ) getMqttKeepAlive;
-- (NSNumber* ) getMqttQos;
-- (NSString* ) getStudyId;
-- (NSString* ) getWebserviceServer;
+- (void) setStudyURL:(NSString *)url;
 - (NSString* ) getStudyURL;
+- (NSString *) getDeviceId;
 
-- (void) setDeviceName:(NSString *) deviceName;
-- (NSString *) getDeviceName;
-
-- (NSString *) getStudyConfigurationAsText;
-
-// Sensor and plugin infromation
-- (NSArray *) getSensors;
-- (NSArray *) getPlugins;
-- (NSArray *) getPluginSettingsWithKey:(NSString *) key;
-
-// Check some thing
-- (BOOL) isAvailable;
 - (bool) isNetworkReachable;
 - (bool) isWifiReachable;
 - (NSString *) getNetworkReachabilityAsText;
 
-
 ////////////////////////////////////
-- (void) setDebugState:(bool)state;
-- (void) setDataUploadOnlyWifi:(bool)state;
-- (void) setDataUploadOnlyBatterChargning:(bool)state;
-- (void) setUploadIntervalWithMinutue:(int)min;
+- (void) setDebug:(bool)state;
+- (void) setAutoDBSyncOnlyWifi:(bool)state;
+- (void) setAutoDBSyncOnlyBatterChargning:(bool)state;
+- (void) setAutoDBSyncIntervalWithMinutue:(int)minutue;
+- (void) setAutoDBSync:(bool) state;
 - (void) setMaximumByteSizeForDBSync:(NSInteger)size;  // for Text File
 - (void) setMaximumNumberOfRecordsForDBSync:(NSInteger)number;  // for SQLite DB
 - (void) setDBType:(AwareDBType)type;
 - (void) setCleanOldDataType:(cleanOldDataType)type;
-- (void) setCSVExport:(bool)state;
 - (void) setUIMode:(AwareUIMode) mode;
-
-/////////////////////////////////////
-- (bool) getDebugState;
-- (bool) getDataUploadStateInWifi;
-- (bool) getDataUploadStateWithOnlyBatterChargning;
-- (int)  getUploadIntervalAsSecond;
-- (NSInteger) getMaximumByteSizeForDataUpload;  // for Text File
-- (NSInteger) getMaxFetchSize;
-- (AwareDBType) getDBType;
-- (cleanOldDataType) getCleanOldDataType;
-- (bool) getCSVExport;
-- (AwareUIMode) getUIMode;
-
-- (int)  getCPUTheshold;
 - (void) setCPUTheshold:(int)threshold;
 
-- (void) setAutoSyncState:(bool) state;
-- (BOOL) getAutoSyncState;
+/////////////////////////////////////
+- (bool) isDebug;
+- (bool) isAutoDBSyncOnlyWifi;
+- (bool) isAutoDBSyncOnlyBatterChargning;
+- (int)  getAutoDBSyncIntervalSecond; // second
+- (NSInteger) getMaximumByteSizeForDBSync;  // for Text File
+- (NSInteger) getMaximumNumberOfRecordsForDBSync;
+- (AwareDBType) getDBType;
+- (cleanOldDataType) getCleanOldDataType;
+- (AwareUIMode) getUIMode;
+- (int)  getCPUTheshold;
+- (BOOL) isAutoDBSync;
+
+///////////// [Remote Server Based Settings] /////////////////
+
+- (void) joinStudyWithURL:(NSString*)url completion:(JoinStudyCompletionHandler)completionHandler;
+- (void) refreshStudySettings;
+- (BOOL) clearStudySettings;
+
+- (NSString *) getStudyConfigurationAsText;
+
+- (void) setDeviceName:(NSString *) deviceName;
+- (NSString *) getDeviceName;
+
+/// Sensor and plugin infromation
+- (NSArray *) getSensors;
+- (NSArray *) getPlugins;
+- (NSArray *) getPluginSettingsWithKey:(NSString *) key;
+
 
 @end

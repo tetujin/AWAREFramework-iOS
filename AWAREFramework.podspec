@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
   s.dependency 'SCNetworkReachability'
   s.dependency 'GoogleSignIn'
   s.dependency 'ios-ntp'
-  s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
+  s.dependency 'EZAudio', '1.1.2' #, '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
   s.dependency 'SVProgressHUD'
   s.dependency 'EAIntroView', '~> 2.9.0'
   s.dependency 'TPCircularBuffer'

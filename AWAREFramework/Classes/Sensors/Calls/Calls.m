@@ -134,9 +134,9 @@ NSString* const KEY_CALLS_TRACE = @"trace";
         NSString * latestData = [NSString stringWithFormat:@"%@ [%@] %d seconds",dateStr, callTypeStr, duration];
         [super setLatestValue: latestData];
         
-        SensorEventCallBack callback = [self getSensorEventCallBack];
-        if (callback!=nil) {
-            callback(dict);
+        SensorEventHandler handler = [self getSensorEventHandler];
+        if (handler!=nil) {
+            handler(self, dict);
         }
         
         // Broadcast a notification

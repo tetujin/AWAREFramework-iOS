@@ -35,9 +35,9 @@
 
 - (void)setParameters:(NSArray *)parameters {
     if (parameters != nil) {
-        syncInterval  = [coreStudy getUploadIntervalAsSecond]/60;
-        isWifiOnly    = [coreStudy getDataUploadStateInWifi];
-        isBatteryOnly = [coreStudy getDataUploadStateWithOnlyBatterChargning];
+        syncInterval  = [coreStudy getAutoDBSyncIntervalSecond]/60;
+        isWifiOnly    = [coreStudy isAutoDBSyncOnlyWifi];
+        isBatteryOnly = [coreStudy isAutoDBSyncOnlyBatterChargning];
         dbCleanType   = [coreStudy getCleanOldDataType];
         uiMode        = [coreStudy getUIMode];
         
@@ -88,9 +88,9 @@
             }
         }
         
-        [coreStudy setUploadIntervalWithMinutue:syncInterval];
-        [coreStudy setDataUploadOnlyWifi:isWifiOnly];
-        [coreStudy setDataUploadOnlyBatterChargning:isBatteryOnly];
+        [coreStudy setAutoDBSyncIntervalWithMinutue:syncInterval];
+        [coreStudy setAutoDBSyncOnlyWifi:isWifiOnly];
+        [coreStudy setAutoDBSyncOnlyBatterChargning:isBatteryOnly];
         [coreStudy setCleanOldDataType:dbCleanType];
         [coreStudy setUIMode:uiMode];
         

@@ -261,7 +261,7 @@
 }
 
 - (NSInteger) getMaxDataLength {
-    return self.awareStudy.getMaximumByteSizeForDataUpload;
+    return self.awareStudy.getMaximumByteSizeForDBSync;
 }
 
 ///////////////////////////////////////

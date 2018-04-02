@@ -162,9 +162,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
                                                         object:nil
                                                       userInfo:userInfo];
    
-    SensorEventCallBack callbak = [self getSensorEventCallBack];
-    if (callbak!=nil) {
-        callbak(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
     
     if ([self isDebug]) {

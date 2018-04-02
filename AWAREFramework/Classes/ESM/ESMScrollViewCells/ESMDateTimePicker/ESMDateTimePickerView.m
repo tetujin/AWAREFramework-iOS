@@ -48,11 +48,9 @@
 
 
 /**
-* esm_type=7 : Add a Date and Time Picker
-*
-* @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
-* @param tag An tag for identification of the ESM element
-*/
+esm_type=7 : Add a Date and Time Picker
+
+ */
 - (void) addTimePickerElement:(EntityESM *)esm withFrame:(CGRect) frame uiMode:(UIDatePickerMode) mode version:(int)ver{
     version = ver;
     dateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(40,

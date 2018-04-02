@@ -230,9 +230,9 @@
     
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback != nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
     
 }

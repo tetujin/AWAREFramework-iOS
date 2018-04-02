@@ -19,7 +19,7 @@ Objective-C:
 /// Example: Accelerometer ///
 Accelerometer * accelerometer = [[Accelerometer alloc] init];
 [accelerometer startSensor];
-[accelerometer setSensorEventCallBack:^(NSDictionary *data) {
+[accelerometer setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
     NSLog(@"%@",data.debugDescription);
 }];
 ```
@@ -36,18 +36,44 @@ Objective-C:
 /// Example: Accelerometer + AWARE Server ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-[study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"];
+AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+
+[study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"];
 
 Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 [accelerometer startSensor];
 
-[accelerometer startSyncDB]; // NOTE: By using this method, the sync is called only one time. To syncing continuously, you need to use AWARESensorManager or call the method yourself using NSTimer.
+[accelerometer startSyncDB]; 
+
+// NOTE: -startSyncDB method executes a sync task only one time. To syncing continuously, you need to add the sensor to AWARESensorManager or call the method yourself using NSTimer.
+[manager addSensor:accelerometer];
 ```
 
 Swift:
 ```swift
 coming soon
 ```
+
+You can apply settings on AWARE dashboard.
+
+Objective-C
+```objective-c
+AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+
+[study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+    [manager addSensorsWithStudy:study];
+    [manager startAllSensors];
+}];
+
+```
+
+Swift
+```swift
+coming soon
+```
+
 
 ## Requirements
 * More than iOS 10

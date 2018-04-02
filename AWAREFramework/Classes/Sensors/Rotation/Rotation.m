@@ -130,9 +130,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ROTATION
                                                                                                    object:nil
                                                                                                  userInfo:userInfo];
-                                               SensorEventCallBack callback = [self getSensorEventCallBack];
-                                               if (callback!=nil) {
-                                                   callback(dict);
+                                               SensorEventHandler handler = [self getSensorEventHandler];
+                                               if (handler!=nil) {
+                                                   handler(self, dict);
                                                }
                                                
                                            }];

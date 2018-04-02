@@ -540,7 +540,7 @@
         
         if(isDone){
             
-            if([study getStudyId] == nil){
+            if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""]){
                 esmNumber = 0;
                 currentESMNumber = 0;
                 currentESMScheduleNumber = 0;
@@ -551,12 +551,9 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                // [esmSensor refreshNotifications];
                 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
                 [esmManager refreshNotificationSchedules];
                 
-//                AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
-//                AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
                     NSLog(@"%@",name);
                     [SVProgressHUD dismiss];

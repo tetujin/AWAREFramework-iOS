@@ -53,7 +53,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     AWAREStudy * awareStudy;
     NSDictionary * latestData;
     
-    SensorEventCallBack sensorEventCallBack;
+    SensorEventHandler eventHandler;
 }
 
 @end
@@ -88,7 +88,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         }else{
             awareStudy = study;
         }
-        debug = study.getDebugState;
+        debug = study.isDebug;
         sensorName = name;
         latestSensorValue = @"";
         latestData = [[NSDictionary alloc] init];
@@ -98,12 +98,12 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return self;
 }
 
-- (void)setSensorEventCallBack:(SensorEventCallBack)callback{
-    sensorEventCallBack = callback;
+- (void)setSensorEventHandler:(SensorEventHandler)handler{
+    eventHandler = handler;
 }
 
-- (SensorEventCallBack)getSensorEventCallBack{
-    return sensorEventCallBack;
+- (SensorEventHandler)getSensorEventHandler{
+    return eventHandler;
 }
 
 - (NSString *) getSensorName{

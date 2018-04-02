@@ -272,12 +272,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f", location.coordinate.latitude, location.coordinate.longitude, location.speed]];
     [self setLatestData:dict];
     
-//    if([self getDBType] == AwareDBTypeSQLite){
-//        [self saveData:dict];
-//    }else if ([self getDBType] == AwareDBTypeJSON){
-//        // [self saveData:dict toLocalFile:@"locations"];
-//        [self saveData:dict];
-//    }
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
                           location.coordinate.latitude,
@@ -290,9 +284,9 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
                                                         object:nil
                                                       userInfo:userInfo];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback != nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
 }
 

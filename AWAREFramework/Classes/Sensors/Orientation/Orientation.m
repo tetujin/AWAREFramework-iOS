@@ -143,9 +143,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback!=nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
 }
 

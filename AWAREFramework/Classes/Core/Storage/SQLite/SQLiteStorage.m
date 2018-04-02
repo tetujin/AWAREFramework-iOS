@@ -200,7 +200,7 @@
             }
             // Set repetationCount
             self->currentRepetitionCount = 0;
-            self->requiredRepetitionCount = (int)count/(int)self.awareStudy.getMaxFetchSize;
+            self->requiredRepetitionCount = (int)count/(int)[self.awareStudy getMaximumNumberOfRecordsForDBSync];
             
             if (self.isDebug) NSLog(@"[%@] %d times of sync tasks are required", self.sensorName, self->requiredRepetitionCount);
             
@@ -251,7 +251,7 @@
         [private setParentContext:self.mainQueueManagedObjectContext];
         [private performBlock:^{
             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->entityName];
-            [fetchRequest setFetchLimit: self.awareStudy.getMaxFetchSize ]; // <-- set a fetch limit for this query
+            [fetchRequest setFetchLimit: self.awareStudy.getMaximumNumberOfRecordsForDBSync ]; // <-- set a fetch limit for this query
             [fetchRequest setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
             [fetchRequest setIncludesSubentities:NO];
             [fetchRequest setResultType:NSDictionaryResultType];

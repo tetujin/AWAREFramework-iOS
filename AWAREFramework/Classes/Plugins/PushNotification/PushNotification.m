@@ -87,9 +87,9 @@
     [defaults setObject:token forKey:KEY_APNS_TOKEN];
     [defaults synchronize];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback!=nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
 }
 

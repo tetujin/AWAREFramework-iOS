@@ -239,9 +239,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
                                           soundFlag:NO];
     }
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback!=nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
 }
 

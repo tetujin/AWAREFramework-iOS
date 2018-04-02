@@ -354,9 +354,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         // [self saveData:dict];
         [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
         
-        SensorEventCallBack callback = [self getSensorEventCallBack];
-        if (callback!=nil) {
-            callback(dict);
+        SensorEventHandler handler = [self getSensorEventHandler];
+        if (handler!=nil) {
+            handler(self, dict);
         }
         
     } @catch (NSException *exception) {

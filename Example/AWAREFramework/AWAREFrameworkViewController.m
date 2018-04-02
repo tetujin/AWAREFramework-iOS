@@ -31,33 +31,21 @@
     
     AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
     AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
-    [study setMaximumNumberOfRecordsForDBSync:100];
-    [study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
     
-    Accelerometer * accelerometer = [[Accelerometer alloc] init];
-    [accelerometer startSensor];
-    [accelerometer setSensingIntervalWithHz:10];
-    [accelerometer setSensorEventCallBack:^(NSDictionary *data) {
-        NSLog(@"%@",data.debugDescription);
+    [study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+        [manager addSensorsWithStudy:study];
+        [manager startAllSensors];
     }];
-    
-    // delegate.sharedAWARECore.requestBackgroundSensing;
-//    [delegate.sharedAWARECore requestNotification:[UIApplication sharedApplication]];
-//    // [self testSensingWithStudy:study dbType:AwareDBTypeCSV sensorManager:manager];
-//    // [self testAccelerometerSync];
-//    // [self audioSensorWith:study];
-//    // [self testESMSchedule];
-//    // [self testCSVStorageWithStudy:study];
-//    [self testSensingWithStudy:study dbType:AwareDBTypeSQLite sensorManager:manager];
+
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{
     Battery * battery = [[Battery alloc] initWithAwareStudy:study dbType:AwareDBTypeCSV];
     [battery setIntervalSecond:1];
     [battery startSensor];
-    [battery setSensorEventCallBack:^(NSDictionary *data) {
-        NSLog(@"%@",data.debugDescription);
-    }];
+//    [battery setSensorEventCallBack:^(NSDictionary *data) {
+//        NSLog(@"%@",data.debugDescription);
+//    }];
 }
 
 - (void) testAccelerometerSync{
@@ -89,9 +77,9 @@
     [noise saveRawData:YES];
     [noise createTable];
     [noise startSensor];
-    [noise setSensorEventCallBack:^(NSDictionary *data) {
-        NSLog(@"%@",[data objectForKey:@"timestamp"]);
-    }];
+//    [noise setSensorEventCallBack:^(NSDictionary *data) {
+//        NSLog(@"%@",[data objectForKey:@"timestamp"]);
+//    }];
     [noise setDebug:YES];
 ////    [noise.storage setBufferSize:55];
 //    [noise.storage setDebug:YES];
@@ -209,9 +197,9 @@
     
     [manager addSensors:@[accelerometer,barometer,battery,bluetooth,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi]];
     
-    [manager setSensorEventCallbackToAllSensors:^(NSDictionary *data) {
-        NSLog(@"%@",data);
-    }];
+//    [manager setSensorEventCallbackToAllSensors:^(NSDictionary *data) {
+//        NSLog(@"%@",data);
+//    }];
     // [manager addSensor:accelerometer];
     // [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
     

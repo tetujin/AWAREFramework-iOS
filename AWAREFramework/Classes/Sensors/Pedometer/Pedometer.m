@@ -291,9 +291,9 @@
     if ([self isDebug]) NSLog(@"%@", message);
     [self setLatestValue:[NSString stringWithFormat:@"%@", message]];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback!=nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
 }
 

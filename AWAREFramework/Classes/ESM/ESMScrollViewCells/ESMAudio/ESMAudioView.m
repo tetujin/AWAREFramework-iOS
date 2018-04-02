@@ -324,9 +324,9 @@
     // Set a timer to monitor levels, current time
     baseTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
                                                 repeats:YES block:^(NSTimer * _Nonnull timer) {
-                                                    totalTime++;
-                                                    int mm = totalTime/60;
-                                                    int ss = totalTime%60;
+                                                    self->totalTime++;
+                                                    int mm = self->totalTime/60;
+                                                    int ss = self->totalTime%60;
                                                     NSString * ssstr;
                                                     NSString * mmstr;
                                                     if(ss<10){
@@ -339,9 +339,9 @@
                                                     }else{
                                                         mmstr = [NSString stringWithFormat:@"%d",mm];
                                                     }
-                                                    timerLabel.text = [NSString stringWithFormat:@"%@:%@",mmstr,ssstr];
+                                                    self->timerLabel.text = [NSString stringWithFormat:@"%@:%@",mmstr,ssstr];
                                                     
-                                                    [_recorder updateMeters];
+                                                    [self->_recorder updateMeters];
                                                 }];
     return YES;
 }

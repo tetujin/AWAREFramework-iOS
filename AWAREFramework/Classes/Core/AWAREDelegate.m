@@ -134,7 +134,8 @@ performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
 ///   Backgroud Fetch
 /// https://mobiforge.com/design-development/using-background-fetch-ios
 ///////////////////////////////////////////////////////////////////////////
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+- (void)application:(UIApplication *)application
+performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     /// NOTE: A background fetch method can work for 30 second. Also, the method is called randomly by OS.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -300,7 +301,8 @@ void exceptionHandler(NSException *exception) {
             if (dict != nil) {
                 NSString * studyURL = [dict objectForKey:@"study_url"];
                 if(studyURL != nil){
-                    [_sharedAWARECore.sharedAwareStudy setStudyInformationWithURL:studyURL];
+                    // [_sharedAWARECore.sharedAwareStudy setStudyInformationWithURL:studyURL];
+                    [_sharedAWARECore.sharedAwareStudy joinStudyWithURL:studyURL completion:nil];
                 }
             }
         }else if([[url host] isEqualToString:@"com.aware.ios.oauth2"]){

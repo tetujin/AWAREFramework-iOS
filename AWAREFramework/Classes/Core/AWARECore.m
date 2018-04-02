@@ -54,14 +54,14 @@
     /// Set defualt settings
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:@"aware_inited"]) {
-        [_sharedAwareStudy setDebugState:NO];
-        [_sharedAwareStudy setDataUploadOnlyWifi:YES];
-        [_sharedAwareStudy setDataUploadOnlyBatterChargning:YES];
-        [_sharedAwareStudy setUploadIntervalWithMinutue:60];
+        [_sharedAwareStudy setDebug:NO];
+        [_sharedAwareStudy setAutoDBSyncOnlyWifi:YES];
+        [_sharedAwareStudy setAutoDBSyncOnlyBatterChargning:YES];
+        [_sharedAwareStudy setAutoDBSyncIntervalWithMinutue:60];
+        [_sharedAwareStudy setAutoDBSync:YES];
         [_sharedAwareStudy setMaximumByteSizeForDBSync:10000];
         [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:2000];
         [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeWeekly];
-        [_sharedAwareStudy setAutoSyncState:YES];
         [_sharedAwareStudy setUIMode:AwareUIModeNormal];
         [_sharedAwareStudy setDBType:AwareDBTypeSQLite];
         [userDefaults setBool:YES forKey:@"aware_inited"];
@@ -78,26 +78,9 @@
     
     // start sensors
     [_sharedSensorManager startAllSensors];
-    if([_sharedAwareStudy getAutoSyncState]){
-        [_sharedSensorManager startAutoSyncTimerWithInterval:uploadInterval];
+    if([_sharedAwareStudy isAutoDBSync]){
+        [_sharedSensorManager startAutoSyncTimerWithIntervalSecond:uploadInterval];
     }
-    //    [self.sharedSensorManager syncAllSensorsWithDBInBackground];
-    
-    /// Set a timer for a daily sync update
-    /**
-     * Every 2AM, AWARE iOS refresh the joining study in the background.
-     * A developer can change the time (2AM to xxxAM/PM) by changing the dailyUpdateTime(NSDate) Object
-     */
-    NSDate* dailyUpdateTime = [AWAREUtils getTargetNSDate:[NSDate new] hour:2 minute:0 second:0 nextDay:YES]; //2AM
-    _dailyUpdateTimer = [[NSTimer alloc] initWithFireDate:dailyUpdateTime
-                                                 interval:60*60*24 // daily
-                                                   target:_sharedAwareStudy
-                                                 selector:@selector(refreshStudy)
-                                                 userInfo:nil
-                                                  repeats:YES];
-    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    [runLoop addTimer:_dailyUpdateTimer forMode:NSRunLoopCommonModes];
-
     
     // Compliance checker
     NSDate* dailyCheckComplianceTime = [AWAREUtils getTargetNSDate:[NSDate new] hour:0 minute:0 second:0 nextDay:YES];
@@ -132,7 +115,7 @@
 }
 
 - (void) changedBatteryState:(id) sender{
-    if ([_sharedAwareStudy getAutoSyncState]){
+    if ([_sharedAwareStudy isAutoDBSync]){
         NSInteger batteryState = [UIDevice currentDevice].batteryState;
         if (batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:self.sharedAwareStudy dbType:AwareDBTypeJSON];
@@ -346,8 +329,6 @@
 //        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services are OFF or Background Location is NOT enabled" type:DebugTypeWarn label:title];
-        // [debugSensor.storage allowsCellularAccess];
-        // [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
         // [debugSensor syncAwareDBInBackground];
     }
     // The user has not enabled any location services. Request background authorization.

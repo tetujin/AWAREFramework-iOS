@@ -183,9 +183,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
             [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
         }
         
-        SensorEventCallBack callback = [self getSensorEventCallBack];
-        if (callback!=nil) {
-            callback(dict);
+        SensorEventHandler handler = [self getSensorEventHandler];
+        if (handler!=nil) {
+            handler(self, dict);
         }
         
 //        if(![self isWiFiEnabled]){

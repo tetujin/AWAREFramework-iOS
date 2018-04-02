@@ -99,11 +99,13 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
     [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
     
-    //dispatch_async(dispatch_get_main_queue(), ^{
     [self setLatestData:dict];
-    // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-    //});
+    
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
+    }
 }
 
 

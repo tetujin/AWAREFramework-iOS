@@ -123,9 +123,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                                   [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_BAROMETER
                                                                                                       object:nil
                                                                                                     userInfo:userInfo];
-                                                  SensorEventCallBack callback = [self getSensorEventCallBack];
-                                                  if (callback != nil) {
-                                                      callback(dict);
+                                                  SensorEventHandler handler = [self getSensorEventHandler];
+                                                  if (handler!=nil) {
+                                                      handler(self, dict);
                                                   }
                                               }
                                           }];

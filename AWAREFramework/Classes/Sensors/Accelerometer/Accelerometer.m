@@ -134,9 +134,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                                                                               object:nil
                                                                                             userInfo:userInfo];
                                           
-                                          SensorEventCallBack callback = [self getSensorEventCallBack];
-                                          if (callback!=nil) {
-                                              callback(dict);
+                                          SensorEventHandler handler = [self getSensorEventHandler];
+                                          if (handler!=nil) {
+                                              handler(self, dict);
                                           }
                                           
                                           [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];

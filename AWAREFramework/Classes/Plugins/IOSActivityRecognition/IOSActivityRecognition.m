@@ -378,9 +378,9 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     [dict setObject:@(motionActivity.unknown)    forKey:ACTIVITY_NAME_UNKNOWN];   // 0 or 1
     [dict setObject:@""                          forKey:LABEL];
     
-    SensorEventCallBack callback = [self getSensorEventCallBack];
-    if (callback!=nil) {
-        callback(dict);
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
     }
     
     return dict;

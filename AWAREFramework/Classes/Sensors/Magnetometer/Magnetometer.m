@@ -127,19 +127,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                                                                                userInfo:userInfo];
                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                          
-                                         SensorEventCallBack callback = [self getSensorEventCallBack];
-                                         if (callback!=nil) {
-                                             callback(dict);
+                                         SensorEventHandler handler = [self getSensorEventHandler];
+                                         if (handler!=nil) {
+                                             handler(self, dict);
                                          }
-//                                         if([self getDBType] == AwareDBTypeSQLite){
-//                                             [self saveData:dict];
-//                                         }else if ([self getDBType] == AwareDBTypeJSON){
-//                                             dispatch_async(dispatch_get_main_queue(), ^{
-//                                                 [self saveData:dict];
-//                                             });
-//                                         }
-                                         
-                                         // });
                                      }
                                  }];
 
