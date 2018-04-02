@@ -47,16 +47,16 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 
 2. Add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)
 
-    **Info.plist**
-        * Privacy - Location Always and When In Use Usage Description
-        * Privacy - Location Always Usage Description
-    
-    **Capabilities/Background Modes**
-        * Location updates
+* Info.plist
+    * Privacy - Location Always and When In Use Usage Description
+    * Privacy - Location Always Usage Description
+
+* Capabilities/Background Modes
+    * Location updates
 
 3. For collecting your activities data in the background, your AppDelegate needs to succeed AWAREDelegate class.
 
-**Objective-C**
+Objective-C
 ```objective-c
 /// AppDelegate.h ///
 @import UIKit;
@@ -100,21 +100,21 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 @end
 ```
 
-**Swift**
+Swift
 ```swift
 TBD
 ```
 
 4. Your application needs to call permission request for the location sensor using following code when the application is opened first time. 
 
-**Objective-C**
+Objective-C
 ```objective-c
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore * core = delegate.sharedAWARECore;
 [core requestBackgroundSensing];
 ```
     
-**Swift**    
+Swift    
 ```swift
 TBD
 ```
