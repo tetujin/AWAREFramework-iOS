@@ -16,7 +16,7 @@ Just the following code, your application can collect sensor data in the backgro
 
 Objective-C:
 ```objective-c
-/// Example: Accelerometer ///
+/// Example1: Accelerometer (Objective-C) ///
 Accelerometer * accelerometer = [[Accelerometer alloc] init];
 [accelerometer startSensor];
 [accelerometer setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
@@ -26,17 +26,23 @@ Accelerometer * accelerometer = [[Accelerometer alloc] init];
 
 Swift:
 ```swift
-coming soon
+/// Example1: Accelerometer (Swift) ///
+let accelerometer = Accelerometer()
+accelerometer.startSensor()
+accelerometer.setSensorEventHandler { (sensor, data) in
+    print(data)
+}
 ```
 
 In addition, you can connect your application to AWARE server for collecting data remotely. About AWARE server, please check our [website](http://www.awareframework.com/).
 
 Objective-C:
 ```objective-c
-/// Example: Accelerometer + AWARE Server ///
+/// Example2: Accelerometer + AWARE Server (Objective-C) ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+AWARECore  * core  = delegate.sharedAWARECore;
+AWAREStudy * study = core.sharedAwareStudy;
+AWARESensorManager * manager = core.sharedSensorManager;
 
 [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"];
 
@@ -45,24 +51,42 @@ Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 
 [accelerometer startSyncDB]; 
 
-// NOTE: -startSyncDB method executes a sync task only one time. To syncing continuously, you need to add the sensor to AWARESensorManager or call the method yourself using NSTimer.
+// NOTE: -startSyncDB method executes a sync task only one time. You need to add the sensor to AWARESensorManager or call the method yourself using NSTimer for syncing DB continuously.
+
 [manager addSensor:accelerometer];
 ```
 
 Swift:
 ```swift
-coming soon
+/// Example2: Accelerometer + AWARE Server (Swift) ///
+let delegate = UIApplication.shared.delegate as! AWAREDelegate
+let core = delegate.sharedAWARECore
+let study = core?.sharedAwareStudy
+let manager = core?.sharedSensorManager
+
+study?.setStudyURL("https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS")
+
+let accelerometer = Accelerometer()
+accelerometer.startSensor()
+accelerometer.startSyncDB()
+
+manager?.add(accelerometer)
 ```
+
 
 You can apply settings on AWARE dashboard.
 
 Objective-C
 ```objective-c
+/// Example3: AWARE Dashboard ////
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+AWARECore  * core  = delegate.sharedAWARECore;
+AWAREStudy * study = core.sharedAwareStudy;
+AWARESensorManager * manager = core.sharedSensorManager;
 
-[study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+NSString * url = @"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS";
+
+[study joinStudyWithURL:url completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
     [manager addSensorsWithStudy:study];
     [manager startAllSensors];
 }];
@@ -71,7 +95,15 @@ AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
 
 Swift
 ```swift
-coming soon
+let core = delegate.sharedAWARECore
+let study = core?.sharedAwareStudy
+let manager = core?.sharedSensorManager
+
+let url = "https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"
+study?.join(withURL: url, completion: { (settings, studyState, error) in
+    manager?.addSensors(with: study)
+    manager?.startAllSensors()
+})
 ```
 
 
@@ -143,7 +175,37 @@ Objective-C
 
 Swift
 ```swift
-coming soon
+import UIKit
+import AWAREFramework
+
+@UIApplicationMain
+class AppDelegate: AWAREDelegate {
+
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    return true
+    }
+
+    override func applicationWillResignActive(_ application: UIApplication) {
+        super.applicationWillResignActive(application)
+    }
+
+    override func applicationDidEnterBackground(_ application: UIApplication) {
+        super.applicationDidEnterBackground(application)
+    }
+
+    override func applicationWillEnterForeground(_ application: UIApplication) {
+        super.applicationWillEnterForeground(application)
+    }
+
+    override func applicationDidBecomeActive(_ application: UIApplication) {
+        super.applicationDidBecomeActive(application)
+    }
+
+    override func applicationWillTerminate(_ application: UIApplication) {
+        super.applicationWillTerminate(application)
+    }
+}
 ```
 
 4. Your application needs to call permission request for the location sensor using following code when the application is opened first time. 
@@ -157,7 +219,9 @@ AWARECore * core = delegate.sharedAWARECore;
     
 Swift    
 ```swift
-coming soon
+let delegate = UIApplication.shared.delegate as! AWAREDelegate
+let core = delegate.sharedAWARECore
+delegate.sharedAWARECore.requestBackgroundSensing()
 ```
 
 5. All set
