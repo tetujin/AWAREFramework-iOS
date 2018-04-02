@@ -11,7 +11,8 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-Just a following code your can start to collect smartphone data in the background.
+
+Just the following code, your application can collect sensor data in the background.
 
 Objective-C:
 ```objective-c
