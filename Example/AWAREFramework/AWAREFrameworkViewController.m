@@ -25,18 +25,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
-    [core requestBackgroundSensing];
-    
-    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
-    
-    [study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
-        [manager addSensorsWithStudy:study];
-        [manager startAllSensors];
-    }];
-
+//    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+//    AWARECore * core = delegate.sharedAWARECore;
+//    [core requestBackgroundSensing];
+//
+//    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+//    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+//
+//    [study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+//        [manager addSensorsWithStudy:study];
+//        [manager startAllSensors];
+//    }];
+    [self testESMSchedule];
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{
@@ -77,17 +77,8 @@
     [noise saveRawData:YES];
     [noise createTable];
     [noise startSensor];
-//    [noise setSensorEventCallBack:^(NSDictionary *data) {
-//        NSLog(@"%@",[data objectForKey:@"timestamp"]);
-//    }];
     [noise setDebug:YES];
-////    [noise.storage setBufferSize:55];
-//    [noise.storage setDebug:YES];
-//    for (int i =0; i<100; i++) {
-//        //        NSNumber * timestamp = @([NSDate new].timeIntervalSince1970);
-//        [noise.storage saveDataWithDictionary:@{@"timestamp":@(i),@"device_id":study.getDeviceId} buffer:YES saveInMainThread:YES];
-//    }
-//
+
     [noise.storage setDebug:YES];
     [noise performSelector:@selector(startSyncDB) withObject:nil afterDelay:10];
 //    id callback = ^(NSString *name, double progress, NSError * _Nullable error) {
@@ -103,12 +94,12 @@
 
 
 - (void)viewDidAppear:(BOOL)animated{
-    
-        ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-        if ([esmManager getValidSchedules].count > 0) {
-            ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-            [self.navigationController pushViewController:esmView animated:YES];
-        }
+//    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+//    if ([esmManager getValidSchedules].count > 0) {
+//        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+//        [self.navigationController pushViewController:esmView animated:YES];
+//    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -228,49 +219,40 @@
     ESMSchedule * schedule = [[ESMSchedule alloc] init];
     schedule.notificationTitle = @"hello";
     schedule.noitificationBody = @"This is a test notification";
-    schedule.fireHours = @[@8,@9,@10,@11,@16,@17,@18,@19,@20,@21,@22,@23,@24,@1];
+    schedule.fireHours = @[@8,@9,@10,@11,@16,@17,@18,@19,@20,@21,@22,@23,@0,@1];
     schedule.scheduleId = @"id_1";
     schedule.expirationThreshold = @60;
-    schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24];
-    schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24];
+    schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24*10];
+    schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*10];
     schedule.interface = @1;
     
     /////////////////////////
-    ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"text"];
-     [text setTitle:@"hello world!"];
-    
-    ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"radio"
+    ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"0_text"];
+    ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"1_radio"
                                                       radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
-    [schedule.esms addObject:radio];
-    
-    ///////////////////////
-    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox"
+    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"2_checkbox"
                                                             checkboxes:@[@"A",@"B",@"C",@"E",@"F"]];
-    [schedule.esms addObject:checkbox];
-    
-    /////////////////////
-    ESMItem * likertScale = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"likert"
+    ESMItem * likertScale = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"3_likert"
                                                                   likertMax:10
                                                              likertMinLabel:@"min"
                                                              likertMaxLabel:@"max"
                                                                  likertStep:1];
-    [schedule.esms addObject:likertScale];
-    
-    ////////////////////////
-    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam"];
-    [schedule.esms addObject:pam];
-    
-    
-    ESMItem * video = [[ESMItem alloc] initAsVideoESMWithTrigger:@"video"];
-    [schedule.esms addObject:video];
-    
+    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"4_pam"];
+    ESMItem * video = [[ESMItem alloc] initAsVideoESMWithTrigger:@"5_video"];
+    [schedule addESMs:@[text,radio,checkbox,likertScale,pam,video]];
     
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
     [esmManager deleteAllSchedules];
+    [esmManager removeNotificationSchedules];
     
     [esmManager addSchedule:schedule];
-    
     [esmManager setNotificationSchedules];
+    
+    if ([esmManager getValidSchedules].count > 0) {
+        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+        [self.navigationController pushViewController:esmView animated:YES];
+    }
+
 }
 
 

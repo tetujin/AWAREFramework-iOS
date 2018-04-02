@@ -38,6 +38,8 @@ typedef enum: NSInteger {
 @property (nonatomic) IBOutlet UIView *splitLineView;
 @property (nonatomic) IBOutlet UIView *spaceView;
 
+@property BOOL isDebug;
+
 - (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm;
 
 // - (void) setElements;

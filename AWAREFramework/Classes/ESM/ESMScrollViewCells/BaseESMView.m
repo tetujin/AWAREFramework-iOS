@@ -53,6 +53,9 @@
     self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 0)];
     
     if(self != nil){
+        
+        _isDebug = NO;
+        
         _esmEntity = esm;
         
         // x = frame.origin.x;

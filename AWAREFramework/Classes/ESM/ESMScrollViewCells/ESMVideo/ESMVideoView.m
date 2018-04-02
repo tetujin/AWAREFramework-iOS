@@ -40,9 +40,7 @@
     
     videoFileName = [NSString stringWithFormat:@"%@_output.mp4",esm.esm_trigger];
     
-    // int heightSpace = 10;
     int widthSpace = 20;
-    // int previewHeight = 400;
     
     //////////////////////////// Audio //////////////////////////////
     NSError *error = nil;
@@ -146,7 +144,7 @@
         
         [captureSession startRunning];
     }else {
-        NSLog(@"ERROR:%@", error);
+        NSLog(@"[ESMVideoView] Video-&Audio-input are null");
     }
     
     [self refreshSizeOfRootView];

@@ -6,8 +6,10 @@
 //
 
 #import "ESMScheduleManager.h"
+#import "EntityESMAnswerHistory+CoreDataClass.h"
 #import "AWAREDelegate.h"
 #import <UserNotifications/UserNotifications.h>
+#import "EntityESMAnswer.h"
 
 @implementation ESMScheduleManager{
     NSString * categoryNormalESM;
@@ -33,7 +35,9 @@
     }
     
     for (NSNumber * hour in hours) {
-        EntityESMSchedule * entityScehdule = (EntityESMSchedule *)[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:context];
+        EntityESMSchedule * entityScehdule = [[EntityESMSchedule alloc] initWithContext:context];
+//        (EntityESMSchedule *)[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class])
+//                                                                                                inManagedObjectContext:context];
         entityScehdule.schedule_id = schedule.scheduleId;
         entityScehdule.expiration_threshold = schedule.expirationThreshold;
         entityScehdule.start_date = schedule.startDate;
@@ -160,16 +164,9 @@
     NSMutableArray * fetchedESMSchedules = [[NSMutableArray alloc] init];
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
-    
-    // NSNumber * interface = @0;
-    // NSArray * notifications = [UIApplication sharedApplication].scheduledLocalNotifications;
-    // NSLog(@"Registered Notifications: %ld", notifications.count);
-    // NSMutableArray * validSchedules = [[NSMutableArray alloc] init];
-    
-    
     /////////////////////////////////////////////////////////
     // get fixed esm schedules
-    //    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
+    // NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
                                inManagedObjectContext:delegate.managedObjectContext]];
@@ -194,13 +191,26 @@
     }
     
     NSArray *results = [fetchedResultsController fetchedObjects];
-//    if ([self isDebug]){
-//        if(results != nil){
-//            NSLog(@"Stored ESM Schedules are %ld", results.count);
-//        }else{
-//            NSLog(@"Stored ESM Schedule is Null.");
-//        }
-//    }
+    
+    
+    /////// Fetch history data //////////////
+    NSFetchRequest *historyReq = [[NSFetchRequest alloc] init];
+    [historyReq setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMAnswerHistory class])
+                                      inManagedObjectContext:delegate.managedObjectContext]];
+    NSNumber * now = @([NSDate new].timeIntervalSince1970);
+    NSNumber * start = @([AWAREUtils getTargetNSDate:[NSDate new] hour:0 nextDay:false].timeIntervalSince1970);
+    [historyReq setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) && (timestamp <= %@)", start,now]]; //(timestamp >= %@) &&
+    NSSortDescriptor *historySort = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
+    [historyReq setSortDescriptors:@[historySort]];
+    NSFetchedResultsController *historyFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:historyReq
+                                                                                                      managedObjectContext:delegate.managedObjectContext
+                                                                                                        sectionNameKeyPath:nil
+                                                                                                                 cacheName:nil];
+    NSError * historyError = nil;
+    if (![historyFetchedResultsController performFetch:&historyError]) {
+        NSLog(@"Unresolved error %@, %@", historyError, [historyError userInfo]);
+    }
+    NSArray * history = [historyFetchedResultsController fetchedObjects];
     
     for (EntityESMSchedule * schedule in results) {
         NSSet * childEsms = schedule.esms;
@@ -276,18 +286,6 @@
         if(isValidESM){
             for (EntityESM * esm in sortedEsms) {
                 esm.timestamp = [AWAREUtils getUnixTimestamp:datetime];
-                // NSLog(esm.debugDescription);
-                // esm.interface = interface;
-                // debug
-                //                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                //                [dateFormat setDateFormat:@"MM/dd/yyyy HH:mm"];
-                //                [NSTimeZone resetSystemTimeZone];
-                //                NSString *date = [dateFormat stringFromDate:datetime];
-                //
-                //                [dateFormat setTimeZone:[NSTimeZone systemTimeZone]];
-                //                NSLog(@"[timestamp:%@][type:%@][trigger:%@][fire:%@][interface:%@] %@",
-                //                      esm.esm_number, esm.esm_type,
-                //                      esm.esm_trigger, date, esm.interface, esm.esm_title );
             }
             bool hasScheduleId = NO;
             for (EntityESMSchedule * storedSchedule in fetchedESMSchedules) {
@@ -297,7 +295,26 @@
                     break;
                 }
             }
-            if(!hasScheduleId && scheduleId != nil){
+            
+            /// Answered or Not ////
+            bool isAnswered = false;
+            if (history != nil) {
+                for (EntityESMAnswerHistory * answeredESM in history) {
+                    NSString * historyScheduleId = answeredESM.schedule_id;
+                    NSNumber * historyFireHour   = answeredESM.fire_hour;
+                    if([scheduleId isEqualToString:historyScheduleId] &&
+                       [fireHour isEqualToNumber:@(-1)]){
+                        // isAnswered = true;
+                    } else if ([scheduleId isEqualToString:historyScheduleId] &&
+                               [fireHour isEqualToNumber:historyFireHour]) {
+                        isAnswered = true;
+                        NSLog(@"schedule id=%@, fire-hour=%@", scheduleId, fireHour);
+                    }
+                }
+            }
+            
+            ///// insert an ESM schedule to to valid schedules
+            if(!hasScheduleId && scheduleId != nil && !isAnswered){
                 [fetchedESMSchedules addObject:schedule];
                 NSLog(@"[id:%@][randomize:%@][expiration:%@]",scheduleId,randomize,expiration);
             }
@@ -331,6 +348,7 @@
     
     if(results == nil) return;
     
+    ////////////////////////////////////
     for (int i=0; i<results.count; i++) {
         
         EntityESMSchedule * schedule = results[i];
@@ -363,7 +381,7 @@
            && expirationTime.timeIntervalSince1970 >= now.timeIntervalSince1970){
             isInTime = YES;
         }
-        NSLog(@"[BASE_TIME:%@]\n[CURRENT_TIME:%@]\n[EXPIRATION_TIME:%@][IN_TIME:%d]", inspirationTime, now, expirationTime, isInTime);
+        // NSLog(@"[BASE_TIME:%@]\n[CURRENT_TIME:%@]\n[EXPIRATION_TIME:%@][IN_TIME:%d]", inspirationTime, now, expirationTime, isInTime);
         // Check an answering condition
         if(isInTime){
             
@@ -409,20 +427,13 @@
         
         // WIP: WEEKLY and MONTHLY Notifications
         
-        // WIP: Quick ESM (YES/NO and Text)
-        
         // WIP: Event based ESMs (battery, activity, and/or network)
         
         // WIP: Location based ESMs
+        
+        // WIP: WEEKDAY baed notification
     }
-    
-    
-    
-    
-    [self getValidSchedulesWithDatetime:[NSDate new]];
-    
-    // [self setLatestValue:[NSString stringWithFormat:@"You have %ld scheduled notification(s)", results.count]];
-    // });
+    // [self getValidSchedulesWithDatetime:[NSDate new]];
 }
 
 - (void) refreshNotificationSchedules {
@@ -458,7 +469,7 @@
     NSError *deleteError = nil;
     [delegate.managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
-        NSLog(@"ERROR: A delete query is failed");
+        NSLog(@"[ESMScheduleManager:removeNotificationScheduleFromSQLite] Error: A delete query is failed");
     }
 }
 

@@ -87,7 +87,9 @@
 
 
 -(void)selectedRadioButton:(UIButton *)sender{
-    NSLog(@"sender:%ld",sender.tag);
+    if([self isDebug]){
+        NSLog(@"sender:%ld",sender.tag);
+    }
     for (UIButton * button in options) {
         [button setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
     }

@@ -226,7 +226,13 @@
         <attribute name="esm_user_answer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
+    <entity name="EntityESMAnswerHistory" representedClassName="EntityESMAnswerHistory" syncable="YES">
+        <attribute name="fire_hour" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="schedule_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
     <entity name="EntityESMHistory" representedClassName="EntityESMHistory" syncable="YES">
+        <attribute name="answered_date" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="expiration_threshold" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="fire_date" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="original_fire_date" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
@@ -238,7 +244,7 @@
         <attribute name="context" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="end_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="expiration_threshold" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="fire_hour" optional="YES" attributeType="Integer 16" minValueString="-1" maxValueString="23" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fire_hour" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="23" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="interface" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="noitification_body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notification_title" optional="YES" attributeType="String" syncable="YES"/>
@@ -552,7 +558,7 @@
         <element name="EntityESM" positionX="549" positionY="396" width="128" height="570"/>
         <element name="EntityESMAnswer" positionX="448" positionY="297" width="128" height="165"/>
         <element name="EntityESMAnswerBC" positionX="306" positionY="153" width="128" height="405"/>
-        <element name="EntityESMHistory" positionX="297" positionY="144" width="128" height="135"/>
+        <element name="EntityESMHistory" positionX="297" positionY="144" width="128" height="150"/>
         <element name="EntityESMSchedule" positionX="97" positionY="582" width="146" height="240"/>
         <element name="EntityEstimoteAirpressure" positionX="297" positionY="144" width="128" height="105"/>
         <element name="EntityEstimoteAmbientLight" positionX="315" positionY="162" width="128" height="105"/>
@@ -590,5 +596,6 @@
         <element name="EntityScreen" positionX="189" positionY="153" width="128" height="30"/>
         <element name="EntityTimezone" positionX="198" positionY="162" width="128" height="30"/>
         <element name="EntityWifi" positionX="207" positionY="171" width="128" height="30"/>
+        <element name="EntityESMAnswerHistory" positionX="306" positionY="153" width="128" height="90"/>
     </elements>
 </model>

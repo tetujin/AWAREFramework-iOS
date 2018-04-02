@@ -11,7 +11,7 @@
 #import "AWAREDelegate.h"
 #import "EntityESM+CoreDataClass.h"
 #import "EntityESMSchedule+CoreDataClass.h"
-#import "EntityESMHistory.h"
+#import "EntityESMAnswerHistory+CoreDataClass.h"
 #import "EntityESMAnswer.h"
 #import "AWAREUtils.h"
 #import "AWAREKeys.h"

@@ -12,7 +12,7 @@
 
 /////////
 #import "EntityESMAnswer.h"
-#import "EntityESMHistory.h"
+#import "EntityESMAnswerHistory+CoreDataClass.h"
 
 ///////// views ////////
 #import "BaseESMView.h"
@@ -104,8 +104,6 @@
     
     esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
     [esmSensor createTable];
-//    [esmSensor.storage allowsCellularAccess];
-//    [esmSensor.storage allowsDateUploadWithoutBatteryCharging];
     
     _esms = [[NSMutableArray alloc] init];
     esmSchedules = [[NSArray alloc] init];
@@ -511,6 +509,7 @@
         EntityESMSchedule * schedule = esmSchedules[currentESMScheduleNumber];
         bool isDone = NO;
         if([schedule.interface isEqualToNumber:@1]){
+            [self saveHistory:schedule context:context];
             currentESMScheduleNumber++;
             if (currentESMScheduleNumber < esmSchedules.count){
                 [self viewDidAppear:NO];
@@ -525,6 +524,7 @@
                 [self viewDidAppear:NO];
                 return;
             }else{
+                [self saveHistory:schedule context:context];
                 currentESMScheduleNumber++;
                 if (currentESMScheduleNumber < esmSchedules.count){
                     currentESMNumber = 0;
@@ -577,17 +577,21 @@
         tempSchedule:(EntityESMSchedule *) entityESMSchedule {
     NSString * flowsStr = esm.esm_flows;
     
+    if (flowsStr == nil || [flowsStr isEqualToString:@""]) {
+        return NO;
+    }
+    
     NSError *e = nil;
     NSArray * flowsArray = [NSJSONSerialization JSONObjectWithData:[flowsStr dataUsingEncoding:NSUTF8StringEncoding]
                                                            options:NSJSONReadingAllowFragments
                                                              error:&e];
     if ( e != nil) {
-        NSLog(@"ERROR: %@", e.debugDescription);
-        return nil;
+        NSLog(@"[ESMScrollViewController -addNextESMs] Error: %@", e.debugDescription);
+        return NO;
     }
     if(flowsArray == nil){
-        NSLog(@"ERROR: web esm array is null.");
-        return nil;
+        NSLog(@"[ESMScrollViewController -addNextESMs] Error: web esm array is null.");
+        return NO;
     }
     ////////////////////////////////////////
     bool flag = NO;
@@ -751,29 +755,21 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-- (void) saveESMHistoryWithScheduleId:(NSString *)scheduleId
-                     originalFireDate:(NSNumber *)originalFireDate
-                            randomize:(NSNumber *)randomize
-                             fireDate:(NSNumber *)fireDate
-                  expirationThreshold:(NSNumber *)expirationThreshold
+//////////////////////////////////////////////////////////////////////////////////////
 
-{
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    // the status of the ESM (0-new, 1-dismissed, 2-answered, 3-expired) -> Defualt is zero(0).
-    NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = delegate.persistentStoreCoordinator;
-    
-    EntityESMHistory * history = (EntityESMHistory *)[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMHistory class])
-                                                                                   inManagedObjectContext:context];
-    history.schedule_id = scheduleId;//x
-    history.original_fire_date = originalFireDate;//x
-    history.randomize = randomize; //x
-    history.fire_date = fireDate;
-    history.expiration_threshold = expirationThreshold;
-    
+- (void) saveHistory:(EntityESMSchedule *)esmSchedule context:(NSManagedObjectContext *)context {
+    EntityESMAnswerHistory * entityESMHistory = (EntityESMAnswerHistory *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswerHistory class])
+                                                                            
+                                                                                                         inManagedObjectContext:context];
+    entityESMHistory.timestamp = @([NSDate new].timeIntervalSince1970);
+    entityESMHistory.fire_hour = esmSchedule.fire_hour;
+    entityESMHistory.schedule_id = esmSchedule.schedule_id;
     NSError * error = nil;
-    if(![context save:&error]){
+    bool result = [context save:&error];
+    if(!result && error != nil){
         NSLog(@"%@", error.debugDescription);
+    }else{
+        NSLog(@"Success to save data");
     }
 }
 

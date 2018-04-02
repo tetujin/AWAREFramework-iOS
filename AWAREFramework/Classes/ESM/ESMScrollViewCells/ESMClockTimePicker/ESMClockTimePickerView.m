@@ -371,7 +371,9 @@
     [formatter setDateFormat:@"HH"];
     [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"US"]];
     NSString *dateString = [formatter stringFromDate:nowdate];
-    NSLog(@"%@",dateString);
+    if (self.isDebug) {
+        NSLog(@"%@",dateString);
+    }
     if( dateString.intValue >= 12 ){ // pm
         return NO;
     }else{

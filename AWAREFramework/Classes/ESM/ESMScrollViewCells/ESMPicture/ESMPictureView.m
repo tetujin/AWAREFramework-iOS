@@ -102,7 +102,7 @@
         
         [captureSession startRunning];
     }else {
-        NSLog(@"ERROR:%@", error);
+        NSLog(@"[ESMPicture] Error:%@", error);
     }
 
     

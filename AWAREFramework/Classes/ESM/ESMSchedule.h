@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ESMItem.h"
 
 @interface ESMSchedule : NSObject
 
@@ -21,7 +22,10 @@
 @property (nonatomic) NSNumber *randomizeEsm;
 @property (nonatomic) NSNumber *randomizeSchedule;
 @property (nonatomic) NSNumber *temporary;
-@property (nonatomic) NSMutableArray  *esms;
+@property (readonly)  NSArray  *esms;
+
+- (void)addESMs:(NSArray <ESMItem *> *)esmItems;
+- (void)addESM:(ESMItem *)esmItem;
 
 @end
 ///////////////////
