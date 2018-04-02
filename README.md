@@ -13,7 +13,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 Just a following code your can start to collect smartphone data in the background.
 ```objective-c
-### Example: Accelerometer ###
+/// Example: Accelerometer ///
 Accelerometer * accelerometer = [[Accelerometer alloc] init];
 [accelerometer startSensor];
 [accelerometer setSensorEventCallBack:^(NSDictionary *data) {
@@ -23,7 +23,7 @@ Accelerometer * accelerometer = [[Accelerometer alloc] init];
 
 In addition, you can connect your application to AWARE server for collecting data remotely.
 ```objective-c
-### Example: Accelerometer + AWARE Server ###
+/// Example: Accelerometer + AWARE Server ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
 [study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"];
@@ -47,12 +47,12 @@ pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 
 2. Add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)
 
-* Info.plist
-    * Privacy - Location Always and When In Use Usage Description
-    * Privacy - Location Always Usage Description
+    * Info.plist
+        * Privacy - Location Always and When In Use Usage Description
+       * Privacy - Location Always Usage Description
 
-* Capabilities/Background Modes
-    * Location updates
+    * Capabilities/Background Modes
+       * Location updates
 
 3. For collecting your activities data in the background, your AppDelegate needs to succeed AWAREDelegate class.
 
