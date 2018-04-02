@@ -26,19 +26,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    AWARECore * core = delegate.sharedAWARECore;
+    [core requestBackgroundSensing];
+    
     AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
     AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
     [study setMaximumNumberOfRecordsForDBSync:100];
     [study setWebserviceServer:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
     
+    Accelerometer * accelerometer = [[Accelerometer alloc] init];
+    [accelerometer startSensor];
+    [accelerometer setSensingIntervalWithHz:10];
+    [accelerometer setSensorEventCallBack:^(NSDictionary *data) {
+        NSLog(@"%@",data.debugDescription);
+    }];
+    
     // delegate.sharedAWARECore.requestBackgroundSensing;
-    [delegate.sharedAWARECore requestNotification:[UIApplication sharedApplication]];
-    // [self testSensingWithStudy:study dbType:AwareDBTypeCSV sensorManager:manager];
-    // [self testAccelerometerSync];
-    // [self audioSensorWith:study];
-    // [self testESMSchedule];
-    // [self testCSVStorageWithStudy:study];
-    [self testSensingWithStudy:study dbType:AwareDBTypeSQLite sensorManager:manager];
+//    [delegate.sharedAWARECore requestNotification:[UIApplication sharedApplication]];
+//    // [self testSensingWithStudy:study dbType:AwareDBTypeCSV sensorManager:manager];
+//    // [self testAccelerometerSync];
+//    // [self audioSensorWith:study];
+//    // [self testESMSchedule];
+//    // [self testCSVStorageWithStudy:study];
+//    [self testSensingWithStudy:study dbType:AwareDBTypeSQLite sensorManager:manager];
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{

@@ -354,7 +354,7 @@
         // The fireData is Valid Time?
         NSDate * expirationTime = [originalFireDate dateByAddingTimeInterval:expiration.integerValue * 60];
         NSDate * inspirationTime = originalFireDate;
-        if(randomize > 0){
+        if(randomize.intValue > 0){
             // expirationTime = [fireDate dateByAddingTimeInterval:expiration.integerValue * 60 + randomize.integerValue*60];
             inspirationTime = [originalFireDate dateByAddingTimeInterval:-1*randomize.integerValue * 60];
         }

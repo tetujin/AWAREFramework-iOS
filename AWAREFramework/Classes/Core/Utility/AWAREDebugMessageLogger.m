@@ -50,8 +50,10 @@
 
 - (void) saveDebugEventWithText:(NSString *)eventText type:(NSInteger)type label:(NSString *) label {
     if (eventText == nil) eventText = @"";
-    if (label == nil) eventText = @"";
-    
+    if (label == nil){
+        eventText = @"";
+        label == @"";
+    }
     NSString * osVersion = [[UIDevice currentDevice] systemVersion];
     NSString * deviceName = [AWAREUtils deviceName];
     NSString * appVersion = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];

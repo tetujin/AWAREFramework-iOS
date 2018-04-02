@@ -68,8 +68,8 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         //        NSString * apiSecret = [defaults objectForKey:@"dc3fea72a8013836fbe70bf7b2caf54a"]; // TEMP // @"033ed2a3710c0cde04343d073c09e378"];
         NSString * clientId = [Fitbit getFitbitClientId];
         NSString * apiSecret = [Fitbit getFitbitApiSecret];
-        if(clientId == nil) clientId = @"";
-        if(apiSecret == nil) apiSecret = @"";
+//        if(clientId == nil) clientId = @"";
+//        if(apiSecret == nil) apiSecret = @"";
     }
     
     return self;

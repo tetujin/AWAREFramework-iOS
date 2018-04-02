@@ -191,7 +191,7 @@
             } else if(error != nil){
                 [self unlock]; // Unlock DB
                 NSLog(@"%@", error.description);
-                count = 0;
+                // count = 0;
                 return;
             } else if( count== 0){
                 [self unlock];

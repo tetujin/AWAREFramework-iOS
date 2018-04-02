@@ -60,6 +60,19 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 @implementation AWARESensor
 
+
+- (instancetype) init{
+    return [self initWithAwareStudy:nil dbType:AwareDBTypeSQLite];
+}
+
+- (instancetype) initWithDBType:(AwareDBType)dbType{
+    return [self initWithAwareStudy:nil dbType:dbType];
+}
+
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study{
+    return [self initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+}
+
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     NSLog(@"Please orverwrite this method -iniWithAwareStudy:dbType");
     return self;
