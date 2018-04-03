@@ -20,7 +20,7 @@
     NSNumber * previousUploadingProcessFinishUnixTime; // unixtimeOfUploadingData;
     NSNumber * tempLastUnixTimestamp;
     BOOL cancel;
-    SyncExecutor * executor;
+    // SyncExecutor * executor;
     int retryCurrentCount;
 }
 
@@ -51,7 +51,7 @@
             NSDate * now = [NSDate new];
             [self setTimeMark:now];
         }
-        executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+        // executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
     }
     return self;
 }
@@ -123,23 +123,25 @@
 }
 
 - (void)startSyncStorage {
-    [executor.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
-        if (dataTasks.count == 0){
+    // SyncExecutor * executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+    // [executor.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+       //  if (dataTasks.count == 0){
             // check wifi state
-            if(self->isUploading){
-                NSString * message= [NSString stringWithFormat:@"[%@] Now sendsor data is uploading.", self.sensorName];
-                NSLog(@"%@", message);
-                return;
-            }
-            
-            [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
-            ////
-            if (self.isDebug) NSLog(@"[%@] isUpload = YES", self.sensorName);
-            self-> isUploading = YES;
-        }else{
-            if (self.isDebug) NSLog(@"tasks => %ld",dataTasks.count);
-        }
-    }];
+    //}else{
+    //    if (self.isDebug) NSLog(@"tasks => %ld",dataTasks.count);
+    //}
+    // }];
+    
+    if(self->isUploading){
+        NSString * message= [NSString stringWithFormat:@"[%@] Now sendsor data is uploading.", self.sensorName];
+        NSLog(@"%@", message);
+        return;
+    }
+    
+    [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
+    if (self.isDebug) NSLog(@"[SQLiteStorage:%@] start sync process ", self.sensorName);
+    self-> isUploading = YES;
+
 }
 
 - (void)cancelSyncStorage {
@@ -317,8 +319,10 @@
                         }
 
                         @try {
-                            self->executor.debug = self.isDebug;
-                            [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
+                            // self->executor.debug = self.isDebug;
+                            SyncExecutor * executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            executor.debug = self.isDebug;
+                            [executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
                                 
                                 if (result!=nil) {
                                     if (self.isDebug) NSLog(@"%@",result.debugDescription);
@@ -339,39 +343,31 @@
                                                 [self clearOldData];
                                             }else{
                                                 ///////////////// continue ////////////
-                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                    if (self.syncProcessCallBack!=nil) {
-                                                        self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
-                                                    }
-                                                    if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
-                                                    // [self syncTask];
-                                                    [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-                                                });
+                                                if (self.syncProcessCallBack!=nil) {
+                                                    self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                }
+                                                if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
+                                                // [self syncTask];
+                                                [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
                                             }
                                         }else{
                                             ///////////////// retry ////////////
-                                            
                                             if (self->retryCurrentCount < self.retryLimit ) {
                                                 self->retryCurrentCount++;
-                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                    if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
-                                                    // [self syncTask];
-                                                    [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-                                                });
+                                                if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
+                                                // [self syncTask];
+                                                [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
                                             }else{
                                                 [self dataSyncIsFinishedCorrectly];
                                             }
                                         }
-
                                     }
                                 }
                             }];
-
                         } @catch (NSException *exception) {
                             NSLog(@"[%@] %@",self.sensorName, exception.debugDescription);
                             [self dataSyncIsFinishedCorrectly];
                         }
-                        
                     });
                 }else{
                     NSLog(@"%@] %@", self.sensorName, error.debugDescription);
@@ -387,11 +383,12 @@
 }
 
 - (void) dataSyncIsFinishedCorrectly {
+    if (self.isDebug) NSLog(@"[SQLiteStorage:%@] start sync process ", self.sensorName);
     isUploading = NO;
-    cancel = NO;
+    cancel      = NO;
     requiredRepetitionCount = 0;
-    currentRepetitionCount = 0;
-    retryCurrentCount = 0;
+    currentRepetitionCount  = 0;
+    retryCurrentCount       = 0;
 }
 
 

@@ -329,7 +329,7 @@
 //        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services are OFF or Background Location is NOT enabled" type:DebugTypeWarn label:title];
-        // [debugSensor syncAwareDBInBackground];
+        [debugSensor startSyncDB];
     }
     // The user has not enabled any location services. Request background authorization.
     else if (status == kCLAuthorizationStatusNotDetermined) {
@@ -452,9 +452,7 @@
             
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
-//            [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
-//            [debugSensor.storage allowsCellularAccess];
-            // [debugSensor syncAwareDBInBackground];
+            [debugSensor startSyncDB];
         }else{
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is permitted" type:DebugTypeInfo label:@""];
@@ -551,9 +549,7 @@
         
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is ON" type:DebugTypeWarn label:@""];
-//            [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
-//            [debugSensor.storage allowsCellularAccess];
-            // [debugSensor syncAwareDBInBackground];
+            [debugSensor startSyncDB];
         }else{
             Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is OFF" type:DebugTypeInfo label:@""];
@@ -605,9 +601,7 @@
         
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is OFF" type:DebugTypeWarn label:@""];
-//        [debugSensor.storage allowsCellularAccess];
-//        [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
-        // [debugSensor syncAwareDBInBackground];
+        [debugSensor startSyncDB];
     }else{
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is On" type:DebugTypeInfo label:@""];
@@ -635,11 +629,7 @@
 }
 
 - (NSDictionary *) wifiDetails {
-    return
-    (__bridge NSDictionary *)
-    CNCopyCurrentNetworkInfo(
-                             CFArrayGetValueAtIndex( CNCopySupportedInterfaces(), 0)
-                             );
+    return (__bridge NSDictionary *) CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex( CNCopySupportedInterfaces(), 0));
 }
 
 ///////////////////////////////////////////////////////////////

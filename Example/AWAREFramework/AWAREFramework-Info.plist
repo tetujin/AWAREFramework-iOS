@@ -24,6 +24,8 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This application needs to access your calendar data for recording your daily activities.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This application needs to access your camera for recording a video.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

@@ -1,10 +1,9 @@
 PODS:
-  - AWAREFramework (0.1.8):
+  - AWAREFramework (0.1.10):
     - EAIntroView (~> 2.9.0)
     - EZAudio (= 1.1.2)
     - GoogleSignIn
     - ios-ntp
-    - MQTTKit
     - SCNetworkReachability
     - SVProgressHUD
     - TPCircularBuffer
@@ -41,7 +40,6 @@ PODS:
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
   - macros_blocks/core (0.0.4)
-  - MQTTKit (0.1.0)
   - SCNetworkReachability (2.0.6):
     - SCNetworkReachability/Core (= 2.0.6)
   - SCNetworkReachability/Core (2.0.6):
@@ -57,7 +55,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: 0e77acc23080e4fba744937113a5b064ecc3faec
+  AWAREFramework: 9d8379eed3d0e10b2557a58090da45742af7b53f
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   EZAudio: 01373de2b1257b77be1bf13753fb1c4ea8a9777e
@@ -67,7 +65,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
   ios-ntp: f363fc8445fabcd0bc5b89cb5745dcde1387aeeb
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
-  MQTTKit: a4e6b8aa92db1aeae917d2b773fd72a7749937c4
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TPCircularBuffer: 949e9632b9fb99b7274d7b2296ee22bff5841e35

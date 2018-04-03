@@ -16,15 +16,6 @@
     SyncExecutorCallBack executorCallback;
 }
 
-//@synthesize sharedSession = _sharedSession;
-//- (NSURLSession *) sharedSession {
-//    //    AWAREStudy * study = [[AWAREStudy alloc] initWithReachability:YES];
-//    if(_sharedSession == nil){
-//        _sharedSession = [[NSURLSession alloc] Session:_sharedAwareStudy];
-//    }
-//    return _sharedSensorManager;
-//}
-
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
     self = [super init];
     if (self != nil) {
@@ -46,17 +37,21 @@
         sessionConfig.timeoutIntervalForResource = _timeoutIntervalForResource;
         sessionConfig.allowsCellularAccess = YES;
         
-        
         _session = [NSURLSession sessionWithConfiguration:sessionConfig
                                                               delegate:self
                                                          delegateQueue:nil];
+        
+//        if (_debug) {
+//            NSLog(@"[SyncExecutor:%@] NSURLSession is initalized",sensorName);
+//            NSLog(@"[SyncExecutor:%@] NSURLSession identifier = %@",sensorName, sessionConfig.identifier);
+//            NSLog(@"[SyncExecutor:%@] NSURLSession container identifier = %@",sensorName, sessionConfig.sharedContainerIdentifier);
+//        }
         
     }
     return self;
 }
 
 - (void)syncWithData:(NSData *)data callback:(SyncExecutorCallBack)callback{
-    
     if (isSyncing) {
         NSLog(@"[%@] still in a sync process", sensorName);
         return;
@@ -85,7 +80,8 @@
     _session.configuration.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
     _session.configuration.timeoutIntervalForResource = _timeoutIntervalForResource;
     _session.configuration.allowsCellularAccess = YES;
-    // NSLog(@"id:%@",_session.configuration.identifier);
+//    if (_debug) NSLog(@"id:%@",_session.configuration.identifier);
+//    if (_debug) NSLog(@"shared id:%@",_session.configuration.sharedContainerIdentifier);
     NSURLSessionDataTask* dataTask = [_session dataTaskWithRequest:request];
 
     [dataTask resume];

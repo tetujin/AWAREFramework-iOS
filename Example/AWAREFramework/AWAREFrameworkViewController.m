@@ -25,18 +25,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-//    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-//    AWARECore * core = delegate.sharedAWARECore;
-//    [core requestBackgroundSensing];
-//
-//    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-//    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
-//
+    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    AWARECore * core = delegate.sharedAWARECore;
+    [core requestBackgroundSensing];
+
+    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+    [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
+    [study setMaximumNumberOfRecordsForDBSync:10];
+    // [study setDebug:YES];
+    
+    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
+    
+    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [accelerometer startSensor];
+    [manager addSensor:accelerometer];
+
+    [manager performSelector:@selector(syncAllSensors ) withObject:nil afterDelay:60];
+    
 //    [study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
 //        [manager addSensorsWithStudy:study];
 //        [manager startAllSensors];
 //    }];
-    [self testESMSchedule];
+//    [self testESMSchedule];
+    
+//    Calendar * calendar = [[Calendar alloc] init];
+//    [calendar startSensor];
+//    [calendar setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        NSLog(@"%@", sensor.debugDescription);
+//    }];
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{

@@ -422,31 +422,43 @@
 
 
 - (void)syncAllSensors {
-    [self syncAllSensorsForcefully];
+    
+    if ([awareStudy isAutoDBSyncOnlyWifi]) {
+        if (![awareStudy isWifiReachable]) {
+            if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] No Wifi Reachable");
+            return;
+        }else{
+            if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Wifi Reachable");
+        }
+    }
+    
+    if ([awareStudy isAutoDBSyncOnlyBatterChargning]) {
+        switch ([UIDevice currentDevice].batteryState) {
+            case UIDeviceBatteryStateFull:
+            case UIDeviceBatteryStateCharging:
+                if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Battery Charging Condition");
+                break;
+            case UIDeviceBatteryStateUnknown:
+            case UIDeviceBatteryStateUnplugged:
+                if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Not Battery Charging Condition");
+                return;
+        }
+    }
+    
+    if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
+
+    for (AWARESensor * sensor in self->awareSensors ) {
+        [sensor startSyncDB];
+    }
 }
 
 - (void)syncAllSensorsForcefully{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        for (AWARESensor * sensor in self->awareSensors ) {
-            [sensor startSyncDB];
-        }
-    });
     
-//    for ( int i=0; i < awareSensors.count; i++) {
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, i * 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//            @try {
-//                if (i < self->awareSensors.count ) {
-//                    AWARESensor* sensor = [self->awareSensors objectAtIndex:i];
-//                    [sensor startSyncDB];
-//                }else{
-//                    NSLog(@"error");
-//                }
-//            } @catch (NSException *e) {
-//                NSLog(@"An exception was appeared: %@",e.name);
-//                NSLog(@"The reason: %@",e.reason);
-//            }
-//        });
-//    }
+    if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
+    
+    for (AWARESensor * sensor in self->awareSensors ) {
+        [sensor startSyncDB];
+    }
 }
 
 
