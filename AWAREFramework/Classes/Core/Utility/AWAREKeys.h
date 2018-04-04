@@ -44,6 +44,8 @@ extern NSString* const KEY_CEL_SETTING_TYPE_STRING;
 extern NSString* const KEY_CEL_SETTING_TYPE_BOOL;
 
 
+extern NSString* const KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER;
+
 extern NSString* const KEY_STUDY_QR_CODE;
 
 extern NSString* const KEY_MQTT_PASS;

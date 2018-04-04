@@ -109,20 +109,20 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
         int awareScreenState = 0;
         
         if(state == 0) {
-            NSLog(@"unlock device");
             if ([self isDebug]) {
-                [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"(3) Unlock at %@",[self nsdate2FormattedTime:[NSDate new]]]
-                                                  soundFlag:NO];
+                NSLog(@"unlock device");
+//                [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"(3) Unlock at %@",[self nsdate2FormattedTime:[NSDate new]]]
+//                                                  soundFlag:NO];
             }
             awareScreenState = 3;
             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_UNLOCKED
                                                                 object:nil
                                                               userInfo:nil];
         } else {
-            NSLog(@"lock device");
             if ([self isDebug]) {
-                [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"(2) Lock at %@",[self nsdate2FormattedTime:[NSDate new]]]
-                                                  soundFlag:NO];
+                NSLog(@"lock device");
+                // [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"(2) Lock at %@",[self nsdate2FormattedTime:[NSDate new]]]
+//                                                  soundFlag:NO];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_LOCKED
                                                                 object:nil

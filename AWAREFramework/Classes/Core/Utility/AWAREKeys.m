@@ -36,6 +36,8 @@ NSString* const KEY_CEL_SETTING_TYPE_NUMBER = @"setting_type_number";
 NSString* const KEY_CEL_SETTING_TYPE_STRING = @"setting_type_string";
 NSString* const KEY_CEL_SETTING_TYPE_BOOL   = @"setting_type_boolean";
 
+NSString* const KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER = @"key_aware_notification_default_identifier";
+
 NSString* const KEY_STUDY_QR_CODE = @"study_qr_code";
 
 NSString* const KEY_MQTT_PASS     = @"mqtt_password";

@@ -334,8 +334,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         NSString * message = @"Please allow to use location sensor on AWARE client iOS from 'Settings > AWARE > Location> Always'";
         // [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
-            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
+            // [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
+            //                                     category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
         }else{
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                                 message:message
@@ -351,8 +351,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         NSString * message = @"Please turn on the location service from 'Settings > General > Privacy > Location Services'";
         // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
-            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
+//            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
+//                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
         }else{
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
             [alertView show];
@@ -377,8 +377,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         NSString * message = @"Please allow to use location sensor 'Always' on AWARE client iOS from 'Settings > AWARE > Location> Always'";
         // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
         if([AWAREUtils isBackground]){
-            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
+//            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
+//                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
         }else{
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                                 message:message

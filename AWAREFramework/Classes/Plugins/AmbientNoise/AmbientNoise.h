@@ -12,7 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
-#include <EZAudio/EZAudio.h>
+#import "EZAudio.h"
 
 //
 // By default this will record a file to the application's documents directory

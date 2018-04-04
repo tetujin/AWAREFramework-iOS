@@ -167,9 +167,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
         handler(self, dict);
     }
     
-    if ([self isDebug]) {
-        [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"Find a new Blueooth device! %@ (%@)", name, address] soundFlag:NO];
-    }
+//    if ([self isDebug]) {
+//        [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"Find a new Blueooth device! %@ (%@)", name, address] soundFlag:NO];
+//    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 
 - (void) stopToScanBluetooth {
     if ([self isDebug]){
-        [AWAREUtils sendLocalNotificationForMessage:@"Stop scanning Bluetooth devices!" soundFlag:NO];
+        // [AWAREUtils sendLocalNotificationForMessage:@"Stop scanning Bluetooth devices!" soundFlag:NO];
     }
     
     // [mdBluetoothManager endScan];

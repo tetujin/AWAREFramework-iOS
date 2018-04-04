@@ -132,7 +132,7 @@
                           name = placemark.name;
                           if ([self isDebug]) {
                               NSLog( @"%@", visitMsg );
-                              [AWAREUtils sendLocalNotificationForMessage:visitMsg soundFlag:YES];
+                              // [AWAREUtils sendLocalNotificationForMessage:visitMsg soundFlag:YES];
                           }
                       }
                   }

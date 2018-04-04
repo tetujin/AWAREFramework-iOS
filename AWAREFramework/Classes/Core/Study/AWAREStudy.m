@@ -419,7 +419,7 @@ didCompleteWithError:(NSError *)error {
         if (error != nil) {
             NSLog(@"[AWAREStudy] Error: %@", error.debugDescription);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [AWAREUtils sendLocalNotificationForMessage:error.debugDescription soundFlag:YES];
+                // [AWAREUtils sendLocalNotificationForMessage:error.debugDescription soundFlag:YES];
             });
         }
         if( data != nil ){
@@ -534,9 +534,6 @@ didCompleteWithError:(NSError *)error {
     [[session dataTaskWithRequest: request  completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"Error: %@", error.debugDescription);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [AWAREUtils sendLocalNotificationForMessage:error.debugDescription soundFlag:YES];
-            });
         }
         if( data != nil ){
             if (self->isDebug) NSLog(@"Success: %@", [[NSString alloc] initWithData: data  encoding: NSUTF8StringEncoding]);

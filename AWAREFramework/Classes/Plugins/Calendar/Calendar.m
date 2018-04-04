@@ -12,7 +12,9 @@
 @implementation Calendar{
     EKEventStore   * store;
     EKSource       * source;
-    NSMutableArray * events;
+    NSTimer        * timer;
+    CalendarEventHandler calendarEventHandler;
+    CalendarEventsHandler calendarEventsHandler;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -40,13 +42,11 @@
     self = [super initWithAwareStudy:study sensorName:@"plugin_calendar" storage:storage];
     if (self!=nil) {
         store = [[EKEventStore alloc] init];
-        events = [[NSMutableArray alloc] init];
-        _offsetStartDay = 0;
-        _offsetStartMonth = 0;
-        _offsetStartYear = 0;
-        _offsetEndDay = 1;
-        _offsetEndMonth = 0;
-        _offsetEndYear = 0;
+        // events = [[NSMutableArray alloc] init];
+        _vaildFutureDays = 0;
+        _vaildPastDays = 0;
+        _checkingIntervalSecond = 60; //*15;
+        _sensingEventHour = 0;
     }
     return self;
 }
@@ -77,12 +77,27 @@
                                                      selector:@selector(storeChanged:)
                                                          name:EKEventStoreChangedNotification
                                                        object:self->store];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self collectCalendarEvents];
+            });
         }else{ // no
             
         }
     }];
     
-    [self getEvents];
+    if (timer==nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:_checkingIntervalSecond
+                                                 target:self
+                                               selector:@selector(collectCalendarEventsIfNeed)
+                                               userInfo:nil
+                                                repeats:YES];
+    }
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults doubleForKey:@"plugin_calendar_setting_next_fetch"] != 0) {
+        NSDate * nextFetch = [AWAREUtils getTargetNSDate:[NSDate new] hour:_sensingEventHour nextDay:YES];
+        [defaults setDouble:nextFetch.timeIntervalSince1970 forKey:@"plugin_calendar_setting_next_fetch"];
+    }
     
     return YES;
 }
@@ -93,12 +108,50 @@
                                                     name:EKEventStoreChangedNotification
                                                   object:store];
     store = nil;
+    if (timer!=nil) {
+        [timer invalidate];
+        timer = nil;
+    }
     return YES;
 }
 
 
 /////////////////////////////////////////
 
+- (BOOL) collectCalendarEventsIfNeed {
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    double nextFetch = [defaults doubleForKey:@"plugin_calendar_setting_next_fetch"];
+    
+    NSDate * now = [NSDate new];
+    
+    if (nextFetch < now.timeIntervalSince1970) {
+        
+        [self collectCalendarEvents];
+        
+        [defaults setDouble:[AWAREUtils getTargetNSDate:[NSDate new] hour:_sensingEventHour nextDay:YES].timeIntervalSince1970 forKey:@"plugin_calendar_setting_next_fetch"];
+        [defaults synchronize];
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+- (void) collectCalendarEvents {
+    NSArray * events = [self getEvents];
+    
+    for (CalEvent * event in events) {
+        NSMutableDictionary * dict = [event getCalEventAsDictionaryWithDeviceId:self.getDeviceId
+                                                                      timestamp:[AWAREUtils getUnixTimestamp:[NSDate new]]];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        SensorEventHandler handler = [self getSensorEventHandler];
+        if (handler!=nil) {
+            handler(self, dict);
+        }
+        [self setLatestData:dict];
+    }
+}
 
 /**
  This method is called when any canelar events are modified on the Calendar.app
@@ -107,6 +160,7 @@
  */
 - (void) storeChanged:(NSNotification *) notification {
     if ([self isDebug]) NSLog(@"A calendar event is updated!");
+    [self collectCalendarEvents];
 }
 
 
@@ -119,54 +173,54 @@
 - (NSArray *) getCalendars {
     NSMutableArray * cals = [[NSMutableArray alloc] init];
     for (EKSource *calSource in store.sources) {
-        NSLog(@"%@",calSource);
+        if([self isDebug]) NSLog(@"%@",calSource);
         [cals addObject:calSource.title];
     }
     return cals;
 }
 
-- (void) getEvents {
-    [events removeAllObjects];
+
+/**
+ Get calendar evetns
+
+ @return Calendar events as a NSArray format
+*/
+- (NSArray *) getEvents {
+    // [events removeAllObjects];
+    NSMutableArray * events = [[NSMutableArray alloc] init];
     NSArray <EKEvent *> * ekEvents = [store eventsMatchingPredicate:[self getPredication]];
+    if (calendarEventsHandler!=nil) {
+        calendarEventsHandler(self, ekEvents);
+    }
     if (ekEvents != nil) {
         for (EKEvent * ekEvent in ekEvents) {
-            NSLog(@"[%@] %@",ekEvent.calendar.title, ekEvent.title);
+            if (calendarEventHandler!=nil) {
+                calendarEventHandler(self, ekEvent);
+            }
             CalEvent* event = [[CalEvent alloc] initWithEKEvent:ekEvent];
-            [self->events addObject:event];
+            [events addObject:event];
         }
     }
+    return events;
 }
 
-- (void) saveCalendarEvent:(CalEvent *)calEvent{
-    NSMutableDictionary * dict = [calEvent getCalEventAsDictionaryWithDeviceId:self.getDeviceId
-                                                                     timestamp:[AWAREUtils getUnixTimestamp:[NSDate new]]];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-    SensorEventHandler handler = [self getSensorEventHandler];
-    if (handler!=nil) {
-        handler(self, dict);
-    }
-    [self setLatestData:dict];
-}
 
 - (NSPredicate *) getPredication {
-    NSDate *now = [NSDate date];
-    NSDateComponents *offsetComponentsEnd = [NSDateComponents new];
-    [offsetComponentsEnd setDay:_offsetEndDay];
-    [offsetComponentsEnd setMonth:_offsetEndMonth];
-    [offsetComponentsEnd setYear:_offsetEndYear];
-    [offsetComponentsEnd setHour:0];
-    [offsetComponentsEnd setMinute:0];
-    [offsetComponentsEnd setSecond:0];
-    NSDate *endDate = [[NSCalendar currentCalendar] dateByAddingComponents:offsetComponentsEnd toDate:now options:0];
     
-    NSDateComponents *offsetComponentsStart = [NSDateComponents new];
-    [offsetComponentsStart setDay:_offsetStartDay];
-    [offsetComponentsStart setMonth:_offsetStartMonth];
-    [offsetComponentsStart setYear:_offsetStartYear];
-    [offsetComponentsStart setHour:0];
-    [offsetComponentsStart setMinute:0];
-    [offsetComponentsStart setSecond:0];
-    NSDate *startDate = [[NSCalendar currentCalendar] dateByAddingComponents:offsetComponentsStart toDate:now options:0];
+    NSDate *now = [NSDate date];
+    
+    NSDate * vaildPastDate = now;
+    if (_vaildPastDays != 0) {
+        vaildPastDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*_vaildPastDays];
+    }
+    
+    NSDate * vaildFutureDate = now;
+    if (_vaildFutureDays != 0) {
+        vaildFutureDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*_vaildPastDays];
+    }
+    
+    NSDate * startDate = [AWAREUtils getTargetNSDate:vaildPastDate hour:0 nextDay:NO];
+    NSDate * endDate = [AWAREUtils getTargetNSDate:vaildFutureDate hour:0 nextDay:YES];
     
     NSPredicate *predicate = [store predicateForEventsWithStartDate:startDate
                                                             endDate:endDate
@@ -184,13 +238,15 @@
     [super setLatestValue:[NSString stringWithFormat:@"[%@] %@ (%@)", event.status, event.title, formattedDateString]];
 }
 
+- (void)setCalendarEventHandler:(CalendarEventHandler)handler{
+    calendarEventHandler = handler;
+}
+
+- (void) setCalendarEventsHandler:(CalendarEventsHandler)handler{
+    calendarEventsHandler = handler;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 //- (void) updateExistingEvents {
 //    [events removeAllObjects];
 //    // Loop through all events in range

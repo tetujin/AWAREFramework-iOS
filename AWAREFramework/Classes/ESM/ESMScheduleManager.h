@@ -21,7 +21,6 @@
 
 
 - (void) setNotificationSchedules ;
-- (NSArray *) getNotificationSchedules;
 - (void) removeNotificationSchedules;
 - (void) refreshNotificationSchedules;
 

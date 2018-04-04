@@ -367,7 +367,7 @@ didReceiveResponse:(NSURLResponse *)response
         dispatch_async( dispatch_get_main_queue() , ^{
             AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
             NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            context.persistentStoreCoordinator =  delegate.persistentStoreCoordinator;
+            context.persistentStoreCoordinator =  delegate.sharedCoreDataHandler.persistentStoreCoordinator;
             
             int number = 0;
             
@@ -424,7 +424,7 @@ didReceiveResponse:(NSURLResponse *)response
                     entityESMSchedule.noitification_body = notificationBody;
                     entityESMSchedule.randomize_schedule = randomize_schedule;
                     entityESMSchedule.schedule_id = scheduleId;
-                    entityESMSchedule.context = eventContext;
+                    entityESMSchedule.contexts = eventContext;
                     entityESMSchedule.interface = interface;
                     
                     for (NSDictionary * esmDict in esms) {
@@ -535,7 +535,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
     
     NSError *deleteError = nil;
-    [delegate.managedObjectContext executeRequest:delete error:&deleteError];
+    [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
         NSLog(@"ERROR: A delete query is failed");
     }
@@ -550,12 +550,12 @@ didReceiveResponse:(NSURLResponse *)response
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     [fetchRequest setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                                        inManagedObjectContext:delegate.managedObjectContext]];
+                                        inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
     
     NSDate * now = [NSDate new];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@)", now, now]];
     NSError *error = nil;
-    NSArray *results = [delegate.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
+    NSArray *results = [delegate.sharedCoreDataHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
     
     if(results == nil) return;
     
@@ -625,14 +625,31 @@ didReceiveResponse:(NSURLResponse *)response
         }else{ // If the value is 1-24
             // [TEST]
             // fireDate = [AWAREUtils getTargetNSDate:[NSDate new] hour:11 minute:30 second:0 nextDay:YES];
-            [AWAREUtils sendLocalNotificationForMessage:schedule.noitification_body
-                                                  title:schedule.notification_title
-                                              soundFlag:YES
-                                               category:categoryIOSESM
-                                               fireDate:fireDate
-                                         repeatInterval:NSCalendarUnitDay
-                                               userInfo:userInfo
-                                        iconBadgeNumber:1];
+//            [AWAREUtils sendLocalNotificationForMessage:schedule.noitification_body
+//                                                  title:schedule.notification_title
+//                                              soundFlag:YES
+//                                               category:categoryIOSESM
+//                                               fireDate:fireDate
+//                                         repeatInterval:NSCalendarUnitDay
+//                                               userInfo:userInfo
+//                                        iconBadgeNumber:1];
+            UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
+            content.title = schedule.notification_title;
+            content.body = schedule.noitification_body;
+            content.sound = [UNNotificationSound defaultSound];
+            content.categoryIdentifier = categoryIOSESM;
+            content.userInfo = userInfo;
+            content.badge = @(1);
+            
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDateComponents *components = [calendar components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:fireDate];
+            UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];
+            
+            UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER content:content trigger:trigger];
+            
+            [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+                
+            }];
         }
         
         // WIP: WEEKLY and MONTHLY Notifications
@@ -690,7 +707,7 @@ didReceiveResponse:(NSURLResponse *)response
 //    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                               inManagedObjectContext:delegate.managedObjectContext]];
+                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
     // [req setFetchLimit:1];
     
     //[req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) AND (fire_hour=-1)", datetime, datetime]];
@@ -702,7 +719,7 @@ didReceiveResponse:(NSURLResponse *)response
     
     NSFetchedResultsController *fetchedResultsController
     = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                          managedObjectContext:delegate.managedObjectContext
+                                          managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
                                             sectionNameKeyPath:nil
                                                      cacheName:nil];
     
@@ -1058,7 +1075,7 @@ didReceiveResponse:(NSURLResponse *)response
     dispatch_async(dispatch_get_main_queue(), ^{
         AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
         NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        context.persistentStoreCoordinator = delegate.persistentStoreCoordinator;
+        context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
         EntityESMAnswer * answer = (EntityESMAnswer *)
         [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
                                       inManagedObjectContext:context];
@@ -1077,7 +1094,7 @@ didReceiveResponse:(NSURLResponse *)response
         if(error != nil){
             NSLog(@"%@", error.debugDescription);
             if([self isDebug]){
-                [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"ERROR: %@",  error.debugDescription] soundFlag:NO];
+                // [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"ERROR: %@",  error.debugDescription] soundFlag:NO];
             }
         }
     });

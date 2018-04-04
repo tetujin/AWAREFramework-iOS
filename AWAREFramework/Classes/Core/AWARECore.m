@@ -150,7 +150,6 @@
  * And also, this sensing interval is the most low level.
  */
 - (void) initLocationSensor {
-    // NSLog(@"start location sensing!");
     // CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     // if ( _sharedLocationManager == nil) {
     if ( _sharedLocationManager != nil) {
@@ -158,7 +157,6 @@
         [_sharedLocationManager stopMonitoringVisits];
         [_sharedLocationManager stopUpdatingLocation];
         [_sharedLocationManager stopMonitoringSignificantLocationChanges];
-        // _sharedLocationManager = nil;
     }
 
     _sharedLocationManager  = [[CLLocationManager alloc] init];
@@ -178,8 +176,6 @@
      
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
-        // Set a movement threshold for new events.
-        // _sharedLocationManager.distanceFilter = 25; // meters
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager startMonitoringSignificantLocationChanges];
     }
@@ -197,7 +193,7 @@
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         bool debugMode = [userDefaults boolForKey:SETTING_DEBUG_STATE];
         if(debugMode){
-            [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
+            // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
         }
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:message type:DebugTypeInfo label:@""];
@@ -218,6 +214,17 @@
     if (_sharedLocationManager != nil){
         [_sharedLocationManager requestAlwaysAuthorization];
     }
+}
+
+- (void)requestNotification:(UIApplication*)application{
+    [application registerForRemoteNotifications];
+    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                              // Enable or disable features based on authorization.
+                              
+                          }];
 }
 
 
@@ -401,64 +408,72 @@
 }
 
 - (bool) checkNotificationSettingWithViewController:(UIViewController *) viewController  showDetail:(BOOL)detail{
-    
     bool state = NO;
-    
-    if ([AWAREUtils getCurrentOSVersionAsFloat] >= 8) {
-        // NSString *title = @"Notification service is permitted.";
-        // NSString *message = @"";
-        UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-        if((currentSettings.types==0) || (currentSettings.types==4) || (currentSettings.types==5)) {
-            //[self showAlertview:@"通知設定が未許可です。\n設定 > 通知 > で通知を許可してください。"];
-            // currentSettings.types=0 >>> 通知off , sound - , aicon -
-            // currentSettings.types=4 >>> 通知on , soundOff , aiconOff
-            // currentSettings.types=5 >>> 通知on , soundOff , aiconOn
-            // currentSettings.types=6 >>> 通知on , soundOn , aiconOff
-            // currentSettings.types=7 >>> 通知on , soundOn , aiconOn
-            NSString *title = @"Notification service is not permitted.";
-            NSString *message = @"To send important notifications, please allow the 'Notification' service in the General Settings.";
-        
-            if([AWAREUtils isForeground]  && viewController!=nil ){
-                UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                               message:message
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                      handler:^(UIAlertAction * action) {
-                                                                          // Send the user to the Settings for this app
-                                                                          NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                          if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                              settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
-                                                                          }
-                                                                          [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+    // authorizationStatus;
+    // soundSetting __TVOS_PROHIBITED;
+    // badgeSetting __WATCHOS_PROHIBITED;
+    // alertSetting __TVOS_PROHIBITED;
+    // notificationCenterSetting __TVOS_PROHIBITED;
+    // lockScreenSetting __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
+    // carPlaySetting __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
+    // alertStyle __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
+    // showPreviewsSetting  __IOS_AVAILABLE(11.0)
+    [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        switch (settings.authorizationStatus) {
+            case UNAuthorizationStatusAuthorized:
+                break;
+            case UNAuthorizationStatusDenied:
+            case UNAuthorizationStatusNotDetermined:{
+                NSString * title = @"Notification service is not permitted.";
+                NSString * message = @"To send important notifications, please allow the 'Notification' service in the General Settings.";
+                
+                if([AWAREUtils isForeground]  && viewController!=nil ){
+                    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
+                                                                                   message:message
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                                          handler:^(UIAlertAction * action) {
+                                                                              // Send the user to the Settings for this app
+                                                                              NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                                                                              if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                                  settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
+                                                                              }
+                                                                              [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+                                                                                  
+                                                                              }];
+                                                                              
+                                                                              // [[UIApplication sharedApplication] openURL:settingsURL];
+                                                                          }];
+                    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                            style:UIAlertActionStyleCancel
+                                                                          handler:^(UIAlertAction * _Nonnull action) {
                                                                               
                                                                           }];
-
-                                                                          // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                      }];
-                UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                        style:UIAlertActionStyleCancel
-                                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                                          
-                                                                      }];
-                [alert addAction:defaultAction];
-                [alert addAction:cancelAction];
-                if(detail){
-                     [viewController presentViewController:alert animated:YES completion:nil];
+                    [alert addAction:defaultAction];
+                    [alert addAction:cancelAction];
+                    if(detail){
+                        [viewController presentViewController:alert animated:YES completion:nil];
+                    }
+                }else{
+                    // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Notification' service in the Settings.app->Notification->Allow Notifications." soundFlag:NO];
                 }
-            }else{
-                // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Notification' service in the Settings.app->Notification->Allow Notifications." soundFlag:NO];
+                Debug * debugSensor = [[Debug alloc] initWithAwareStudy:self->_sharedAwareStudy dbType:AwareDBTypeJSON];
+                [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
+                [debugSensor startSyncDB];
+                break;
             }
-            
-            
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
-            [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
-            [debugSensor startSyncDB];
-        }else{
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
-            [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is permitted" type:DebugTypeInfo label:@""];
-            state = YES;
         }
-    }
+//        switch (settings.lockScreenSetting) {
+//            case UNNotificationSettingEnabled:
+//                break;
+//            case UNNotificationSettingDisabled:
+//                break;
+//            case UNNotificationSettingNotSupported:
+//                break;
+//            default:
+//                break;
+//        }
+    }];
     return state;
 }
 
@@ -482,17 +497,18 @@
         // [debugSensor syncAwareDBInBackground];
         if(percentage < 5 && detail){ // %
             state = NO;
-            NSString * title = @"Please upload stored data manually!";
+            NSString * title = @"Please sync your local database manually!";
             NSString * message = [NSString stringWithFormat:@"You are using  %.3f GB ", free];
             if([AWAREUtils isForeground]){
-                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title
-                                                                 message:message
-                                                                delegate:self
-                                                       cancelButtonTitle:nil
-                                                       otherButtonTitles:@"ON", nil];
-                [alert show];
+                UIAlertController * alertContoller = [UIAlertController alertControllerWithTitle:title
+                                                                                         message:message preferredStyle:UIAlertControllerStyleAlert];
+                [alertContoller addAction:[UIAlertAction actionWithTitle:@"start manual sync" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self->_sharedSensorManager syncAllSensors];
+                }]];
+                [alertContoller addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                }]];
             }else{
-                [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
+                // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
             }
         }
     }
@@ -635,17 +651,6 @@
 ///////////////////////////////////////////////////////////////
 
 
-
-- (void)requestNotification:(UIApplication*)application{
-    [application registerForRemoteNotifications];
-    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)
-                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                              // Enable or disable features based on authorization.
-                              
-                          }];
-}
 
 
 

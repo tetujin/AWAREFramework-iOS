@@ -52,7 +52,7 @@
     if (eventText == nil) eventText = @"";
     if (label == nil){
         eventText = @"";
-        label == @"";
+        label = @"";
     }
     NSString * osVersion = [[UIDevice currentDevice] systemVersion];
     NSString * deviceName = [AWAREUtils deviceName];

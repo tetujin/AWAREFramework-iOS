@@ -10,7 +10,6 @@
 
 /// Sensors
 #import "Accelerometer.h"
-// #import "AmbientLight.h"
 #import "Barometer.h"
 #import "Battery.h"
 #import "BatteryCharge.h"
@@ -21,7 +20,6 @@
 #import "Debug.h"
 #import "Gravity.h"
 #import "Gyroscope.h"
-// #import "IBeacon.h"
 #import "LinearAccelerometer.h"
 #import "Locations.h"
 #import "VisitLocations.h"

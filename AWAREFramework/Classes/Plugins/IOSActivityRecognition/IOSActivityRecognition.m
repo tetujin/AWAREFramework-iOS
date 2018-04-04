@@ -184,15 +184,17 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                                                                [self.storage saveDataWithDictionary:activityDict buffer:NO saveInMainThread:YES];
                                                                // [self addMotionActivity:activity];
                                                                NSString * message = [NSString stringWithFormat:@"[%d] disposable mode: %@", self->disposableCount, activity.debugDescription];
-                                                               NSLog(@"%@", message);
+                                                               if (self.isDebug) {
+                                                                   NSLog(@"%@", message);
+                                                               }
                                                                if(self->disposableCount < limit){
                                                                    self->disposableCount++;
                                                                }else{
                                                                    [self->motionActivityManager stopActivityUpdates];
                                                                    self->disposableCount = 0;
-                                                                   NSLog(@"Stop iOS Activity Recognition Plugin as disposable mode");
                                                                    if([self isDebug]){
-                                                                       [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
+                                                                       NSLog(@"Stop iOS Activity Recognition Plugin as disposable mode");
+                                                                       // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
                                                                    }
                                                                }
                                                            }
@@ -269,11 +271,9 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                 [self setLastUpdateWithDate:toDate];
                 
                 if ([self isDebug]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSInteger count = activities.count;
-                        NSString * message = [NSString stringWithFormat:@"iOS Activity Recognition Sensor is called by a timer (%ld activites)" ,count];
-                        [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
-                    });
+                    NSInteger count = activities.count;
+                    NSString * message = [NSString stringWithFormat:@"iOS Activity Recognition Sensor is called by a timer (%ld activites)" ,count];
+                    NSLog(@"%@",message);
                 }
             }
         }];

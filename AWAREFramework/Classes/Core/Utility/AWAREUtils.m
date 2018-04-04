@@ -127,53 +127,63 @@
  @param message A message for the notification
  @param soundFlag A necessity of a sound for the notification
  */
-+ (UILocalNotification *) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag {
-    return [self sendLocalNotificationForMessage:message
-                                    title:nil
-                                soundFlag:soundFlag
-                                 category:nil
-                                 fireDate:[NSDate new]
-                           repeatInterval:0
-                                 userInfo:nil
-                          iconBadgeNumber:0];
-}
+//+ (void) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag {
+//    [self sendLocalNotificationForMessage:message
+//                                           title:nil
+//                                       soundFlag:soundFlag
+//                                        category:nil
+//                                        fireDate:[NSDate new]
+//                                  repeatInterval:0
+//                                        userInfo:nil
+//                                 iconBadgeNumber:0
+//                                      identifier:KEY_AWARE_NOTIFICATION_DEFAULT_IDENTIFIER];
+//}
+//
+//
+//+ (void) sendLocalNotificationForMessage:(NSString *)message
+//                                               title:(NSString *)title
+//                                           soundFlag:(BOOL)soundFlag
+//                                            category:(NSString *) category
+//                                            fireDate:(NSDate*)fireDate
+//                                      repeatInterval:(NSCalendarUnit)repeatInterval
+//                                            userInfo:(NSDictionary *) userInfo
+//                                     iconBadgeNumber:(NSInteger)iconBadgeNumber
+//                                          identifier:(NSString *) identifier{
+//    UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
+//    content.title = title;
+//    content.body = message;
+//    content.categoryIdentifier = category;
+//    content.badge = @(iconBadgeNumber);
+//    content.userInfo = userInfo;
+//    if (soundFlag) {
+//        content.sound = [UNNotificationSound defaultSound];
+//    }
+//    
+//    NSUInteger units = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+//    NSDateComponents* triggerDate = [[NSCalendar currentCalendar] components:units fromDate:fireDate];
+//    UNNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate  repeats:NO];
+//    
+//    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
+//    
+//    [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+//        if (error!=nil) {
+//            NSLog(@"%@",error.debugDescription);
+//        }
+//    }];
+//    // return request;
+//}
 
 
-+ (UILocalNotification*) sendLocalNotificationForMessage:(NSString *)message
-                                   title:(NSString *)title
-                               soundFlag:(BOOL)soundFlag
-                                category:(NSString *) category
-                                fireDate:(NSDate*)fireDate
-                          repeatInterval:(NSCalendarUnit)repeatInterval
-                                userInfo:(NSDictionary *) userInfo
-                         iconBadgeNumber:(NSInteger)iconBadgeNumber {
-    UILocalNotification *localNotification = [UILocalNotification new];
-    localNotification.alertBody = message;
-    localNotification.fireDate = fireDate;
-    localNotification.repeatInterval = repeatInterval;
-    localNotification.userInfo = userInfo;
-    localNotification.category = category;
-    localNotification.applicationIconBadgeNumber = iconBadgeNumber;
-    if ([AWAREUtils getCurrentOSVersionAsFloat] >= 8.2){
-        localNotification.alertTitle = title;
-    }
-    if(soundFlag) {
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-    }
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    return localNotification;
-}
 
-
-
-+ (bool) cancelLocalNotification:(UILocalNotification *) notification {
-    if (notification == nil) {
-        return NO;
-    } else{
-        [[UIApplication sharedApplication] cancelLocalNotification:notification];
-        return YES;
-    }
-}
+//+ (bool) cancelLocalNotification:(UNNotification *) notification {
+//    if (notification == nil) {
+//        return NO;
+//    } else{
+//        // [[UIApplication sharedApplication] cancelLocalNotification:notification];
+//        [[UNUserNotificationCenter currentNotificationCenter] remote
+//        return YES;
+//    }
+//}
 
 
 /**
@@ -317,9 +327,13 @@ Provides a system UUID.
  * @param input A NSString object for hasing
  *
  */
-+ (NSString*) sha1:(NSString*)input
++ (NSString*) sha1:(NSString*)input{
+    return [self sha1:input debug:NO];
+}
+
++ (NSString*) sha1:(NSString*)input debug:(BOOL)debug
 {
-    NSLog(@"Before: %@", input);
+    if (debug) { NSLog(@"Before: %@", input); }
     const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:input.length];
     
@@ -332,7 +346,7 @@ Provides a system UUID.
     for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
         [output appendFormat:@"%02x", digest[i]];
     
-    NSLog(@"After: %@", output);
+    if (debug) { NSLog(@"After: %@", output); }
     
     return output;
     

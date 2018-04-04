@@ -163,8 +163,8 @@
     if(_end == nil) _end = @"";
     
 //    @property (nonatomic, strong) IBOutlet NSString* allDay;
-    _allDay = [NSString stringWithFormat:@"%d",event.allDay];
-    if(_allDay == nil) _allDay = @"0";
+    _allDay = @(event.allDay);
+    if(_allDay == nil) _allDay = @0;
     
 //    @property (nonatomic, strong) IBOutlet NSString* color;
     _color = _calendarColor;
@@ -283,7 +283,7 @@
     [query appendFormat:@"%@ text default '',", DESCRIPTION];
     [query appendFormat:@"%@ text default '',", BEGIN];
     [query appendFormat:@"%@ text default '',", END];
-    [query appendFormat:@"%@ text default '',", ALL_DAY];
+    [query appendFormat:@"%@ integer default 0,", ALL_DAY];
     [query appendFormat:@"%@ text default '',", COLOR];
     [query appendFormat:@"%@ text default '',", HAS_ALARM];
     [query appendFormat:@"%@ text default '',", AVAILABILITY];
@@ -294,9 +294,8 @@
     [query appendFormat:@"%@ text default '',", STATUS];
     [query appendFormat:@"%@ text default '',", SEEN];
     
-    [query appendString:@"UNIQUE (timestamp,device_id)"];
+    // [query appendString:@"UNIQUE (timestamp,device_id)"];
     
-    //    [super createTable:query];
     return query;
 }
 
@@ -374,8 +373,12 @@
     if(_end == nil) [dic setObject:@"" forKey:END];
     
 //    [query appendFormat:@"%@ text default '',", ALL_DAY];
-    [dic setObject:_allDay forKey:ALL_DAY];
-    if(_allDay == nil) [dic setObject:@"" forKey:ALL_DAY];
+
+    if(_allDay == nil){
+        [dic setObject:@0 forKey:ALL_DAY];
+    }else{
+        [dic setObject:_allDay forKey:ALL_DAY];
+    }
     
 //    [query appendFormat:@"%@ text default '',", COLOR];
     [dic setObject:_color forKey:COLOR];

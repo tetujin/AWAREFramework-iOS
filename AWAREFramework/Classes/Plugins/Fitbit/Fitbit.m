@@ -670,7 +670,8 @@ didReceiveResponse:(NSURLResponse *)response
                         [alert show];
                     }else{
                         if ([self isDebug]) {
-                            [AWAREUtils sendLocalNotificationForMessage:@"[Fitbit] Refresh Token: access_tokne is empty" soundFlag:NO];
+                            NSLog(@"[Fitbit] Refresh Token: access_tokne is empty");
+                            // [AWAREUtils sendLocalNotificationForMessage:@"[Fitbit] Refresh Token: access_tokne is empty" soundFlag:NO];
                         }
                     }
                     return;
@@ -684,7 +685,8 @@ didReceiveResponse:(NSURLResponse *)response
                         [alert show];
                     }else{
                         if ([self isDebug]) {
-                            [AWAREUtils sendLocalNotificationForMessage:@"[Fitbit] Refresh Token: Success to update tokens" soundFlag:NO];
+                            NSLog(@"[Fitbit] Refresh Token: Success to update tokens");
+                            // [AWAREUtils sendLocalNotificationForMessage:@"[Fitbit] Refresh Token: Success to update tokens" soundFlag:NO];
                         }
                     }
                 }

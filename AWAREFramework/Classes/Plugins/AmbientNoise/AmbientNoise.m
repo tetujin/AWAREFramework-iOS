@@ -251,7 +251,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     // if ([self isDebug] && currentSecond == 0) {
     if ([self isDebug] && [number isEqualToNumber:@0]) {
         NSLog(@"Start Recording");
-        [AWAREUtils sendLocalNotificationForMessage:@"[Ambient Noise] Start Recording" soundFlag:NO];
+        // [AWAREUtils sendLocalNotificationForMessage:@"[Ambient Noise] Start Recording" soundFlag:NO];
     } else if ([number isEqualToNumber:@-1]){
         NSLog(@"An error at ambient noise sensor...");
     }
@@ -305,11 +305,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
             number++;
             [self startRecording:[NSDictionary dictionaryWithObject:@(number) forKey:self->KEY_AUDIO_CLIP_NUMBER]];
         }else{
-            NSLog(@"Stop Recording");
             number = 0;
             self->_isRecording = NO;
             if ([self isDebug]) {
-                [AWAREUtils sendLocalNotificationForMessage:@"[Ambient Noise] Stop Recording" soundFlag:NO];
+                NSLog(@"Stop Recording");
+                // [AWAREUtils sendLocalNotificationForMessage:@"[Ambient Noise] Stop Recording" soundFlag:NO];
             }
         }
         
@@ -329,7 +329,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         NSString * message = [NSString stringWithFormat:@"dB:%f, RMS:%f, Frequency:%f", db, rms, maxFrequency];
         NSLog(@"%@",message);
         if(_sampleSize<=number){
-            [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
+            // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
         }
     }
 

@@ -2,14 +2,14 @@
 //  EntityESMSchedule+CoreDataClass.h
 //  
 //
-//  Created by Yuuki Nishiyama on 2018/03/27.
+//  Created by Yuuki Nishiyama on 2018/04/04.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class EntityESM;
+@class EntityESM, NSObject;
 
 NS_ASSUME_NONNULL_BEGIN
 

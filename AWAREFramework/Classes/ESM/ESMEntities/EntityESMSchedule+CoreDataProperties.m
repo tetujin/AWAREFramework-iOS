@@ -2,7 +2,7 @@
 //  EntityESMSchedule+CoreDataProperties.m
 //  
 //
-//  Created by Yuuki Nishiyama on 2018/03/27.
+//  Created by Yuuki Nishiyama on 2018/04/04.
 //
 //
 
@@ -11,10 +11,10 @@
 @implementation EntityESMSchedule (CoreDataProperties)
 
 + (NSFetchRequest<EntityESMSchedule *> *)fetchRequest {
-	return [[NSFetchRequest alloc] initWithEntityName:@"EntityESMSchedule"];
+	return [NSFetchRequest fetchRequestWithEntityName:@"EntityESMSchedule"];
 }
 
-@dynamic context;
+@dynamic contexts;
 @dynamic end_date;
 @dynamic expiration_threshold;
 @dynamic fire_hour;
@@ -26,6 +26,10 @@
 @dynamic schedule_id;
 @dynamic start_date;
 @dynamic temporary;
+@dynamic timer;
+@dynamic repeat;
 @dynamic esms;
+@dynamic months;
+@dynamic weekdays;
 
 @end

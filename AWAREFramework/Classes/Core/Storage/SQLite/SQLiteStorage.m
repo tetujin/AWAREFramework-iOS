@@ -45,7 +45,7 @@
         tempLastUnixTimestamp = @0;
         AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
         self.mainQueueManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:delegate.persistentStoreCoordinator];
+        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:delegate.sharedCoreDataHandler.persistentStoreCoordinator];
         previousUploadingProcessFinishUnixTime = [self getTimeMark];
         if([previousUploadingProcessFinishUnixTime isEqualToNumber:@0]){
             NSDate * now = [NSDate new];
@@ -79,7 +79,7 @@
     
     AWAREDelegate * delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [parentContext setPersistentStoreCoordinator:delegate.persistentStoreCoordinator];
+    [parentContext setPersistentStoreCoordinator:delegate.sharedCoreDataHandler.persistentStoreCoordinator];
     
     NSManagedObjectContext* childContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [childContext setParentContext:parentContext];

@@ -172,7 +172,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         [dict setObject:@0 forKey:@"rssi"]; //int
         [dict setObject:@"" forKey:@"label"]; //text
 
-        // [self saveData:dict];
         [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
         
         [self setLatestData:dict];
@@ -180,17 +179,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         [self broadcastDetectedNewDevice];
         
         if ([self isDebug]) {
-            [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
+            NSLog(@"%@ (%@)",ssid, finalBSSID);
+            // [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
         }
         
         SensorEventHandler handler = [self getSensorEventHandler];
         if (handler!=nil) {
             handler(self, dict);
         }
-        
-//        if(![self isWiFiEnabled]){
-//            [self saveDebugEventWithText:@"Wifi module is powered off" type:DebugTypeWarn label:@""];
-//        }
     }
     
     [self broadcastScanEnded];

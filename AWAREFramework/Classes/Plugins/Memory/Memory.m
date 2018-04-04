@@ -135,7 +135,7 @@
     [self.storage saveDataWithDictionary:query buffer:NO saveInMainThread:YES];
 
     if ([self isDebug]) {
-        [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"used: %f free: %f total: %f", mem_used, mem_free, mem_total] soundFlag:NO];
+        // [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"used: %f free: %f total: %f", mem_used, mem_free, mem_total] soundFlag:NO];
     }
     
     SensorEventHandler handler = [self getSensorEventHandler];

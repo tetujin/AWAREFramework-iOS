@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '0.1.10'
+  s.version          = '0.1.12'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -41,12 +41,12 @@ Pod::Spec.new do |s|
    s.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI', 'UserNotifications', 'EventKit', 'EventKitUI'
+  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI', 'UserNotifications', 'EventKit', 'EventKitUI','Accelerate', 'AudioToolbox','AVFoundation','GLKit'
   s.static_framework = true
   s.dependency 'SCNetworkReachability'
   s.dependency 'GoogleSignIn'
   s.dependency 'ios-ntp'
-  s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
+  # s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
   s.dependency 'SVProgressHUD'
   s.dependency 'EAIntroView', '~> 2.9.0'
   s.dependency 'TPCircularBuffer'

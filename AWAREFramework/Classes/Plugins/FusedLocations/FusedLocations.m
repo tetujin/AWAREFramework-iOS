@@ -232,11 +232,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
                           location.speed]];
     
     if ([self isDebug]) {
-        [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"Location: %f, %f, %f",
-                                                     location.coordinate.latitude,
-                                                     location.coordinate.longitude,
-                                                     location.speed]
-                                          soundFlag:NO];
+        NSLog(@"[locations] %f, %f, %f",location.coordinate.latitude,location.coordinate.longitude,location.speed);
     }
     
     SensorEventHandler handler = [self getSensorEventHandler];

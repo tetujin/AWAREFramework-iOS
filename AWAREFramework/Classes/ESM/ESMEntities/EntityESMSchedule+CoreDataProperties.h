@@ -2,7 +2,7 @@
 //  EntityESMSchedule+CoreDataProperties.h
 //  
 //
-//  Created by Yuuki Nishiyama on 2018/03/27.
+//  Created by Yuuki Nishiyama on 2018/04/04.
 //
 //
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSFetchRequest<EntityESMSchedule *> *)fetchRequest;
 
-@property (nullable, nonatomic, copy) NSString *context;
+@property (nullable, nonatomic, copy) NSString *contexts;
 @property (nullable, nonatomic, copy) NSDate *end_date;
 @property (nullable, nonatomic, copy) NSNumber *expiration_threshold;
 @property (nullable, nonatomic, copy) NSNumber *fire_hour;
@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *schedule_id;
 @property (nullable, nonatomic, copy) NSDate *start_date;
 @property (nullable, nonatomic, copy) NSNumber *temporary;
+@property (nullable, nonatomic, retain) NSObject *timer; // <-- NOTE: should be saved NSDateComponents!
+@property (nullable, nonatomic, copy) NSNumber *repeat;
+@property (nullable, nonatomic, copy) NSNumber *months; // 1-12
+@property (nullable, nonatomic, copy) NSString *weekdays; // 0-6
 @property (nullable, nonatomic, retain) NSSet<EntityESM *> *esms;
 
 @end

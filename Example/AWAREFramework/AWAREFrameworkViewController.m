@@ -28,31 +28,70 @@
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     AWARECore * core = delegate.sharedAWARECore;
     [core requestBackgroundSensing];
+    [core requestNotification:[UIApplication sharedApplication]];
+}
 
-    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
-    [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
-    [study setMaximumNumberOfRecordsForDBSync:10];
-    // [study setDebug:YES];
-    
-    AWARESensorManager * manager = delegate.sharedAWARECore.sharedSensorManager;
-    
-    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [accelerometer startSensor];
-    [manager addSensor:accelerometer];
 
-    [manager performSelector:@selector(syncAllSensors ) withObject:nil afterDelay:60];
+
+
+- (void) calendarESMTest {
+    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    AWARECore * core = delegate.sharedAWARECore;
+    [core requestBackgroundSensing];
+    [core requestNotification:[UIApplication sharedApplication]];
     
-//    [study joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
-//        [manager addSensorsWithStudy:study];
-//        [manager startAllSensors];
-//    }];
-//    [self testESMSchedule];
+    Calendar * calendar = [[Calendar alloc] init];
+    [calendar setCalendarEventsHandler:^(AWARESensor *sensor, NSArray<EKEvent *> *events) {
+        if (events != nil) {
+            
+            ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+            [esmManager deleteAllSchedules];
+            [esmManager removeNotificationSchedules];
+            
+            for (EKEvent * event in events) {
+                if (event == nil) continue;
+                if (event.calendar == nil) continue;
+                if (event.calendar.title == nil) continue;
+                
+                if([event.calendar.title isEqualToString:@"AWARE"]){
+                    // NSString * notes = event.notes;
+                    NSString * notes = @"[{ \"esm \":{ \"esm_type \":4, \"esm_likert_max \":5, \"esm_likert_max_label \": \"Great \", \"esm_likert_min_label \": \"Poor \", \"esm_likert_step \":1, \"esm_title \": \"Productivity \", \"esm_instructions \": \"How productive was your day? \", \"esm_submit \": \"OK \"}}]";
+                    NSString * trigger = event.title;
+                    NSDate * begin = event.startDate;
+                    NSDate * end = event.endDate;
+                    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+                    schedule.startDate = begin;
+                    schedule.endDate = end;
+                    schedule.notificationTitle = trigger;
+                    schedule.expirationThreshold = @0;
+                    schedule.repeat = NO;
+                    NSCalendar * cal = [NSCalendar currentCalendar];
+                    NSDateComponents * componetns = [cal components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:begin];
+                    // [schedule setNotificationTimer:componetns withRepeat:NO];
+                    [schedule addTimer:componetns];
+                    
+                    
+                    if (notes!=nil) {
+                        NSData * data = [notes dataUsingEncoding:NSUTF8StringEncoding];
+                        NSArray * esms = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                        // NSLog(@"%@", esms.debugDescription);
+                        for (NSDictionary * esm in esms) {
+                            NSLog(@"%@",esm);
+                            ESMItem * item = [[ESMItem alloc] initWithConfiguration:esm];
+                            [schedule addESM:item];
+                        }
+                    }
+                    [esmManager addSchedule:schedule];
+                }
+            }
+            [esmManager setNotificationSchedules];
+        }
+    }];
     
-//    Calendar * calendar = [[Calendar alloc] init];
-//    [calendar startSensor];
-//    [calendar setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-//        NSLog(@"%@", sensor.debugDescription);
-//    }];
+    [calendar setStore:NO];
+    [calendar.storage setDebug:YES];
+    [calendar setDebug:YES];
+    [calendar startSensor];
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{
@@ -110,11 +149,11 @@
 
 
 - (void)viewDidAppear:(BOOL)animated{
-//    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-//    if ([esmManager getValidSchedules].count > 0) {
-//        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-//        [self.navigationController pushViewController:esmView animated:YES];
-//    }
+    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+    if ([esmManager getValidSchedules].count > 0) {
+        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+        [self.navigationController pushViewController:esmView animated:YES];
+    }
 
 }
 
@@ -233,14 +272,14 @@
 - (void) testESMSchedule{
     
     ESMSchedule * schedule = [[ESMSchedule alloc] init];
-    schedule.notificationTitle = @"hello";
-    schedule.noitificationBody = @"This is a test notification";
-    schedule.fireHours = @[@8,@9,@10,@11,@16,@17,@18,@19,@20,@21,@22,@23,@0,@1];
-    schedule.scheduleId = @"id_1";
+    schedule.notificationTitle = @"title";
+    schedule.noitificationBody = @"body";
+    schedule.scheduleId = @"id";
     schedule.expirationThreshold = @60;
     schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24*10];
     schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*10];
     schedule.interface = @1;
+    schedule.fireHours = @[@8,@9,@10,@11,@16,@17,@18,@19,@20,@21,@22,@23,@0,@1];
     
     /////////////////////////
     ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"0_text"];
@@ -259,10 +298,7 @@
     
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
     [esmManager deleteAllSchedules];
-    [esmManager removeNotificationSchedules];
-    
     [esmManager addSchedule:schedule];
-    [esmManager setNotificationSchedules];
     
     if ([esmManager getValidSchedules].count > 0) {
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];

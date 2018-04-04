@@ -1,7 +1,6 @@
 PODS:
-  - AWAREFramework (0.1.10):
+  - AWAREFramework (0.1.11):
     - EAIntroView (~> 2.9.0)
-    - EZAudio (= 1.1.2)
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
@@ -10,12 +9,6 @@ PODS:
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
-  - EZAudio (1.1.2):
-    - EZAudio/Full (= 1.1.2)
-  - EZAudio/Core (1.1.2)
-  - EZAudio/Full (1.1.2):
-    - EZAudio/Core
-    - TPCircularBuffer (~> 0.0)
   - GoogleSignIn (4.1.2):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
@@ -55,10 +48,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: 9d8379eed3d0e10b2557a58090da45742af7b53f
+  AWAREFramework: f1730cc7bab2a6f5454a1ee5422b9a47d56499d1
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
-  EZAudio: 01373de2b1257b77be1bf13753fb1c4ea8a9777e
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2

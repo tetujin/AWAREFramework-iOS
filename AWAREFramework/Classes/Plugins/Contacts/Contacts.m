@@ -180,7 +180,10 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
                 [self setNextUpdateDateWithDate:targetDate];
                 ////////////////// TEST ////////////////
                 // [self setNextUpdateDateWithDate:[[NSDate alloc] initWithTimeIntervalSinceNow:frequencyDays.intValue*60]];
-                if ([self isDebug]) [AWAREUtils sendLocalNotificationForMessage:@"contact update" soundFlag:YES];
+                if ([self isDebug]){
+                    NSLog(@"[%@] The contact list is updated.", self.getSensorName);
+                    // [AWAREUtils sendLocalNotificationForMessage:@"contact update" soundFlag:YES];
+                }
                 ////////////////////////////////////////
             }
         }

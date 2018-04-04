@@ -400,7 +400,7 @@
     AudioServicesPlaySystemSound(1105);
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = delegate.persistentStoreCoordinator;
+    context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
     
     NSMergePolicy *originalMergePolicy = context.mergePolicy;
     context.mergePolicy = NSOverwriteMergePolicy;
@@ -458,7 +458,7 @@
             entityESMSchedule.noitification_body = [esm.noitification_body copy];
             entityESMSchedule.randomize_schedule = [esm.randomize_schedule copy];
             entityESMSchedule.schedule_id = [esm.schedule_id copy];
-            entityESMSchedule.context = [esm.context copy];
+            entityESMSchedule.contexts = [esm.contexts copy];
             entityESMSchedule.interface = [esm.interface copy];
             
             // NSLog(@"[esm_app_integration] %@", [esmView.esmEntity.esm_app_integration copy]);
@@ -485,7 +485,7 @@
     if(error != nil){
         NSLog(@"%@", error);
         
-        [delegate.managedObjectContext reset];
+        [delegate.sharedCoreDataHandler.managedObjectContext reset];
         
         // esmSensor = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
         ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
@@ -544,10 +544,15 @@
                 esmNumber = 0;
                 currentESMNumber = 0;
                 currentESMScheduleNumber = 0;
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Thank you for your answer!"
-                                                                message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
-                [alert show];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }]];
+                
+                [self presentViewController:alertController animated:YES completion:^{
+                    
+                }];
+                
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
@@ -557,10 +562,17 @@
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
                     NSLog(@"%@",name);
                     [SVProgressHUD dismiss];
-                    [self.navigationController popViewControllerAnimated:YES];
-                    self->esmNumber = 0;
-                    self->currentESMNumber = 0;
-                    self->currentESMScheduleNumber = 0;
+                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        self->esmNumber = 0;
+                        self->currentESMNumber = 0;
+                        self->currentESMScheduleNumber = 0;
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                    }]];
+                    
+                    [self presentViewController:alertController animated:YES completion:^{
+                        
+                    }];
                 }];
                 [esmSensor startSyncDB];
             }
@@ -664,7 +676,7 @@
     
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                               inManagedObjectContext:delegate.managedObjectContext]];
+                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
     // [req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) OR (expiration_threshold=0)", datetime, datetime]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"(temporary == 1)"]];
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:NO];
@@ -673,7 +685,7 @@
     
     NSFetchedResultsController *fetchedResultsController
     = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                          managedObjectContext:delegate.managedObjectContext
+                                          managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
                                             sectionNameKeyPath:nil
                                                      cacheName:nil];
     
@@ -710,16 +722,16 @@
 - (bool) removeTempESMsFromDB{
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:delegate.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporary==1"];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     
     NSError *error;
-    NSArray *items = [delegate.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *items = [delegate.sharedCoreDataHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     for (NSManagedObject *managedObject in items){
-        [delegate.managedObjectContext deleteObject:managedObject];
+        [delegate.sharedCoreDataHandler.managedObjectContext deleteObject:managedObject];
     }
     
     if (error!= nil) {
@@ -752,8 +764,6 @@
     return @"[]";
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////
 

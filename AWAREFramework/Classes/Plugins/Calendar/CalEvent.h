@@ -27,55 +27,55 @@ typedef NS_ENUM(NSInteger, CalEventType) {
 - (void) setCalendarEventType: (CalEventType) eventType;
 - (NSString *) getCreateTableQuery;
 
-@property (nonatomic, strong) IBOutlet NSObject* objectManageId;
+@property (nonatomic, strong)  NSObject* objectManageId;
 
-@property (nonatomic, strong) IBOutlet NSString *eventType;
+@property (nonatomic, strong)  NSString *eventType;
 
-@property (nonatomic, strong) IBOutlet EKEvent * ekEvent;
+@property (nonatomic, strong)  EKEvent * ekEvent;
 
 //[query appendFormat:@"%@ text default '',", CAL_ID];
-@property (nonatomic, strong) IBOutlet NSString* calendarId;
+@property (nonatomic, strong)  NSString* calendarId;
 //[query appendFormat:@"%@ text default '',", ACCOUNT_NAME];
-@property (nonatomic, strong) IBOutlet NSString* accountName;
+@property (nonatomic, strong)  NSString* accountName;
 //[query appendFormat:@"%@ text default '',", CAL_NAME];
-@property (nonatomic, strong) IBOutlet NSString* calendarName;
+@property (nonatomic, strong)  NSString* calendarName;
 
 //[query appendFormat:@"%@ text default '',", OWNER_ACCOUNT];
-@property (nonatomic, strong) IBOutlet NSString* ownerAccount;
+@property (nonatomic, strong)  NSString* ownerAccount;
 //[query appendFormat:@"%@ text default '',", CAL_COLOR];
-@property (nonatomic, strong) IBOutlet NSString* calendarColor;
+@property (nonatomic, strong)  NSString* calendarColor;
 
 
 //[query appendFormat:@"%@ text default '',", EVENT_ID];
-@property (nonatomic, strong) IBOutlet NSString * eventId;
+@property (nonatomic, strong)  NSString * eventId;
 //[query appendFormat:@"%@ text default '',", TITLE];
-@property (nonatomic, strong) IBOutlet NSString * title;
+@property (nonatomic, strong)  NSString * title;
 //[query appendFormat:@"%@ text default '',", LOCATION];
-@property (nonatomic, strong) IBOutlet NSString*  location;
+@property (nonatomic, strong)  NSString*  location;
 //[query appendFormat:@"%@ text default '',", DESCRIPTION];
-@property (nonatomic, strong) IBOutlet NSString* notes;
+@property (nonatomic, strong)  NSString* notes;
 //[query appendFormat:@"%@ text default '',", BEGIN];
-@property (nonatomic, strong) IBOutlet NSString* begin;
+@property (nonatomic, strong)  NSString* begin;
 //[query appendFormat:@"%@ text default '',", END];
-@property (nonatomic, strong) IBOutlet NSString* end;
+@property (nonatomic, strong)  NSString* end;
 //[query appendFormat:@"%@ text default '',", ALL_DAY];
-@property (nonatomic, strong) IBOutlet NSString* allDay;
+@property (nonatomic, strong)  NSNumber* allDay;
 //[query appendFormat:@"%@ text default '',", COLOR];
-@property (nonatomic, strong) IBOutlet NSString* color;
+@property (nonatomic, strong)  NSString* color;
 //[query appendFormat:@"%@ text default '',", HAS_ALARM];
-@property (nonatomic, strong) IBOutlet NSString* hasAlarm;
+@property (nonatomic, strong)  NSString* hasAlarm;
 //[query appendFormat:@"%@ text default '',", AVAILABILITY];
-@property (nonatomic, strong) IBOutlet NSString* availability;
+@property (nonatomic, strong)  NSString* availability;
 //[query appendFormat:@"%@ text default '',", IS_ORGANIZER];
-@property (nonatomic, strong) IBOutlet NSString* isOganizer;
+@property (nonatomic, strong)  NSString* isOganizer;
 //[query appendFormat:@"%@ text default '',", EVENT_TIMEZONE];
-@property (nonatomic, strong) IBOutlet NSString* eventTimezone;
+@property (nonatomic, strong)  NSString* eventTimezone;
 //[query appendFormat:@"%@ text default '',", RRULE];
-@property (nonatomic, strong) IBOutlet NSString* rrule;
+@property (nonatomic, strong)  NSString* rrule;
 //
 //[query appendFormat:@"%@ text default '',", STATUS];
-@property (nonatomic, strong) IBOutlet NSString* status;
+@property (nonatomic, strong)  NSString* status;
 //[query appendFormat:@"%@ text default '',", SEEN];
-@property (nonatomic, strong) IBOutlet NSString* seen;
+@property (nonatomic, strong)  NSString* seen;
 
 @end
