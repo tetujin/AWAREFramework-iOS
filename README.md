@@ -7,6 +7,34 @@
 
 [AWARE](http://www.awareframework.com/) is an OS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data (ESM). They transform data into information you can understand.
 
+## Supported Sensors
+* Accelerometer
+* Gyroscope
+* Magnetometer
+* Gravity
+* Rotation
+* Motion Activity
+* Pedometer
+* Location
+* Barometer
+* Battery
+* Network
+* Call
+* Bluetooth
+* Processor
+* Proximity
+* Timezone
+* Wifi
+* Screen Events
+* Microphone (Ambient Noise)
+* Heartrate (BLE)
+* Calendar
+* Contact
+* [Fitbit](https://dev.fitbit.com/)
+* [Google Login](https://developers.google.com/identity/sign-in/ios/)
+* Memory
+* [NTPTime](https://github.com/jbenet/ios-ntp)
+* [OpenWeatherMap](https://openweathermap.org/api)
 
 ## Example
 
@@ -16,35 +44,23 @@ Just the following code, your application can collect sensor data in the backgro
 ```objective-c
 /// Example1 (Objective-C): Accelerometer ///
 Accelerometer * accelerometer = [[Accelerometer alloc] init];
+[accelerometer setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+    NSLog(@"%@",data.debugDescription);
+}];
 [accelerometer startSensor];
 ```
 ```swift
 /// Example1  (Swift): Accelerometer ///
 let accelerometer = Accelerometer()
-accelerometer.startSensor()
-```
-
-You can handle the sensor data by using event handler.
-```objective-c
-/// Example2 (Objective-C): Accelerometer + Event Handler///
-Accelerometer * accelerometer = [[Accelerometer alloc] init];
-[accelerometer startSensor];
-[accelerometer setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-    NSLog(@"%@",data.debugDescription);
-}];
-```
-```swift
-/// Example2(Swift): Accelerometer + Event Handler ///
-let accelerometer = Accelerometer()
-accelerometer.startSensor()
 accelerometer.setSensorEventHandler { (sensor, data) in
     print(data)
 }
+accelerometer.startSensor()
 ```
 
 In addition, you can connect your application to AWARE server for collecting data remotely. About AWARE server, please check our [website](http://www.awareframework.com/).
 ```objective-c
-/// Example3 (Objective-C): Accelerometer + AWARE Server ///
+/// Example2 (Objective-C): Accelerometer + AWARE Server ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore  * core  = delegate.sharedAWARECore;
 AWAREStudy * study = core.sharedAwareStudy;
@@ -59,7 +75,7 @@ Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 [manager addSensor:accelerometer];
 ```
 ```swift
-/// Example3 (Swift): Accelerometer + AWARE Server ///
+/// Example2 (Swift): Accelerometer + AWARE Server ///
 let delegate = UIApplication.shared.delegate as! AWAREDelegate
 let core = delegate.sharedAWARECore
 let study = core?.sharedAwareStudy
@@ -77,7 +93,7 @@ manager?.add(accelerometer)
 You can apply settings on AWARE dashboard.
 
 ```objective-c
-/// Example4 (Objective-C): AWARE Dashboard ////
+/// Example3 (Objective-C): AWARE Dashboard ////
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore     * core     = delegate.sharedAWARECore;
 AWAREStudy         * study   = core.sharedAwareStudy;
@@ -91,7 +107,7 @@ NSString * url = @"https://api.awareframework.com/index.php/webservice/index/STU
 
 ```
 ```swift
-/// Example4 (Swift): AWARE Dashboard ////
+/// Example3 (Swift): AWARE Dashboard ////
 let core = delegate.sharedAWARECore
 let study = core?.sharedAwareStudy
 let manager = core?.sharedSensorManager
@@ -181,36 +197,6 @@ let delegate = UIApplication.shared.delegate as! AWAREDelegate
 let core = delegate.sharedAWARECore
 delegate.sharedAWARECore.requestBackgroundSensing()
 ```
-
-## Supported Sensors
-* Accelerometer
-* Gyroscope
-* Magnetometer
-* Gravity
-* Rotation
-* Motion Activity
-* Pedometer
-* Location
-* Barometer
-* Battery
-* Network
-* Call
-* Bluetooth
-* Processor
-* Proximity
-* Timezone
-* Wifi
-* Screen Events
-* Microphone (Ambient Noise)
-* Heartrate (BLE)
-* Calendar
-* Contact
-* Fitbit
-* Google Login
-* Memory
-* NTPTime
-* OpenWeatherMap
-* HealthKit (developing now)
 
 ## Experimental Sampling Method (ESM)
 
