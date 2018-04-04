@@ -7,35 +7,6 @@
 
 [AWARE](http://www.awareframework.com/) is an OS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data (ESM). They transform data into information you can understand.
 
-## Supported Sensors
-* Accelerometer
-* Gyroscope
-* Magnetometer
-* Gravity
-* Rotation
-* Motion Activity
-* Pedometer
-* Location
-* Barometer
-* Battery
-* Network
-* Call
-* Bluetooth
-* Processor
-* Proximity
-* Timezone
-* Wifi
-* Screen Events
-* Microphone (Ambient Noise)
-* Heartrate (BLE)
-* Calendar
-* Contact
-* Fitbit
-* Google Login
-* Memory
-* NTPTime
-* OpenWeatherMap
-* HealthKit (developing now)
 
 ## Example
 
@@ -213,6 +184,36 @@ let delegate = UIApplication.shared.delegate as! AWAREDelegate
 let core = delegate.sharedAWARECore
 delegate.sharedAWARECore.requestBackgroundSensing()
 ```
+
+## Supported Sensors
+* Accelerometer
+* Gyroscope
+* Magnetometer
+* Gravity
+* Rotation
+* Motion Activity
+* Pedometer
+* Location
+* Barometer
+* Battery
+* Network
+* Call
+* Bluetooth
+* Processor
+* Proximity
+* Timezone
+* Wifi
+* Screen Events
+* Microphone (Ambient Noise)
+* Heartrate (BLE)
+* Calendar
+* Contact
+* Fitbit
+* Google Login
+* Memory
+* NTPTime
+* OpenWeatherMap
+* HealthKit (developing now)
 
 ## Experimental Sampling Method (ESM)
 
