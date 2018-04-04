@@ -198,7 +198,7 @@ let core = delegate.sharedAWARECore
 delegate.sharedAWARECore.requestBackgroundSensing()
 ```
 
-## Experimental Sampling Method (ESM)
+## Experience Sampling Method (ESM)
 
 AWAREFramework-iOS supports ESM function. You can make ESMs by the following source code (e.g., send scheduled Radio ESM at 9:00, 12:00, 18:00, and 21:00).
 
