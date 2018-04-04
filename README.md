@@ -103,9 +103,6 @@ study?.join(withURL: url, completion: { (settings, studyState, error) in
 })
 ```
 
-## Requirements
-* More than iOS 10
-
 ## Installation
 
 AWAREFramework is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
