@@ -285,6 +285,8 @@
     ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"0_text"];
     ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"1_radio"
                                                       radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
+    radio.esm_title = @"ESM title";
+    radio.esm_instructions = @"some instructions";
     ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"2_checkbox"
                                                             checkboxes:@[@"A",@"B",@"C",@"E",@"F"]];
     ESMItem * likertScale = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"3_likert"
