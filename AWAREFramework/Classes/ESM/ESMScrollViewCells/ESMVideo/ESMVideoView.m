@@ -24,8 +24,8 @@
 }
 
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addVideoElement:esm withFrame:frame];
@@ -168,9 +168,9 @@
         totalTime = 0;
         baseTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
                                                 repeats:YES block:^(NSTimer * _Nonnull timer) {
-                                                    totalTime++;
-                                                    int mm = totalTime/60;
-                                                    int ss = totalTime%60;
+                                                    self->totalTime++;
+                                                    int mm = self->totalTime/60;
+                                                    int ss = self->totalTime%60;
                                                     NSString * ssstr;
                                                     NSString * mmstr;
                                                     if(ss<10){
@@ -183,7 +183,7 @@
                                                     }else{
                                                         mmstr = [NSString stringWithFormat:@"%d",mm];
                                                     }
-                                                    timerLabel.text = [NSString stringWithFormat:@"%@:%@",mmstr,ssstr];
+                                                    self->timerLabel.text = [NSString stringWithFormat:@"%@:%@",mmstr,ssstr];
                                                 }];
     }else if(tag==1){ // stop -> cancel
         [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];

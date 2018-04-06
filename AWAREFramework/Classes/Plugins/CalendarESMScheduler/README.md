@@ -1,10 +1,10 @@
-AWARE Plugin: Shared Google Calendar's ESM Scheduler
+AWARE Plugin: Shared Google Calendar"s ESM Scheduler
 ==========================
 
 This plugin allows you to schedule ESMs using a shared Google Calendar with your study participants. This plugin reads the events of a shared Google calendar. 
 
 **Direct sharing** 
-- Share the calendar directly with your participants' google account email address (automatically added to their calendar)
+- Share the calendar directly with your participants" google account email address (automatically added to their calendar)
 
 **Indirect sharing**
 - Participants subscribe to your public shared calendar (you need to give them the calendar ical address).
@@ -16,15 +16,15 @@ This plugin assumes the following:
 
 ```
 [
-{'esm':
-{'esm_type':4,
-'esm_likert_max':5,
-'esm_likert_max_label':'Great',
-'esm_likert_min_label':'Poor',
-'esm_likert_step':1,
-'esm_title':'Productivity',
-'esm_instructions':'How productive was your day?',
-'esm_submit':'OK'
+{"esm":
+{"esm_type":4,
+"esm_likert_max":5,
+"esm_likert_max_label":"Great",
+"esm_likert_min_label":"Poor",
+"esm_likert_step":1,
+"esm_title":"Productivity",
+"esm_instructions":"How productive was your day?",
+"esm_submit":"OK"
 }
 },
 ...
@@ -36,4 +36,4 @@ Parameters adjustable on the dashboard and client:
 - **status_plugin_esm_scheduler**: (boolean) activate/deactivate plugin
 
 # Providers
-The data of this plugin is stored in the ESM's sensor database table. To use this plugin, you **MUST** enable the ESM sensor for your study, otherwise no ESM will be triggered nor their data will be stored.
+The data of this plugin is stored in the ESM"s sensor database table. To use this plugin, you **MUST** enable the ESM sensor for your study, otherwise no ESM will be triggered nor their data will be stored.

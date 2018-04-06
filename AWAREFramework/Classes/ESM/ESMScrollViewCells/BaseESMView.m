@@ -49,10 +49,12 @@
 /**
  * You have to set a fixed
  */
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
     self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 0)];
     
     if(self != nil){
+        
+        _viewController = viewController;
         
         _isDebug = NO;
         

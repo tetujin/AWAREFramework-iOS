@@ -63,13 +63,8 @@
     return YES;
 }
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
 
-/**
- * Save a device token for push notification
- * @param NSString  A device token
- */
+
 - (void) savePushNotificationDeviceToken:(NSString*) token {
     if (token == nil) {
         return;

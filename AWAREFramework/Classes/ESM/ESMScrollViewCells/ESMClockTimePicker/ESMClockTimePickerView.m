@@ -43,8 +43,8 @@
 }
 */
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     amHours = @[@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"1",@"2",@"3"];
     pmHours = @[@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"0",@"13",@"14",@"15"];

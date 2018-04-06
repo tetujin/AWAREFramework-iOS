@@ -441,7 +441,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
              error:(NSError *)error
 {
     NSString * serialNumber = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", peripheral);
     NSString *name = [NSString stringWithFormat:@"%@ (%@)", peripheral.name, serialNumber];
     NSString *uuid = peripheral.identifier.UUIDString;
     NSNumber *rssi = peripheral.RSSI;

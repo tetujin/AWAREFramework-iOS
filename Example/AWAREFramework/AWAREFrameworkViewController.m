@@ -31,41 +31,39 @@
     [core requestBackgroundSensing];
     [core requestNotification:[UIApplication sharedApplication]];
     
-    Accelerometer * acc = [[Accelerometer alloc] init];
-    acc.threshold = 1.0;
-    // [acc setDebug:YES];
-    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-        NSLog(@"%@", data);
-    }];
-    [acc startSensor];
+//    Accelerometer * acc = [[Accelerometer alloc] init];
+//    acc.threshold = 1.0;
+//    // [acc setDebug:YES];
+//    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        NSLog(@"%@", data);
+//    }];
+//    [acc startSensor];
     // [acc.storage setDebug:YES];
     
 //    CalendarESMScheduler * calScheduler = [[CalendarESMScheduler alloc] init];
 //    [calScheduler setDebug:YES];
 //    [calScheduler startSensor];
+
+    ESMScheduleManager * manager = [[ESMScheduleManager alloc] init];
+    manager.debug = YES;
+    [manager removeAllNotifications];
+    [manager removeAllSchedulesFromDB];
+    [manager removeAllESMHitoryFromDB];
     
-//    ESMSchedule * schdule = [[ESMSchedule alloc] init];
-//    schdule.scheduleId = @"hello 2";
-//    schdule.fireHours = @[@22];
-//    schdule.notificationTitle = @"Helllo World!";
-//    schdule.noitificationBody = @"heyhey";
-//    schdule.expirationThreshold = @60;
-//
-//    ESMItem * likert = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"likert"
-//                                                              likertMax:7 likertMinLabel:@"min" likertMaxLabel:@"max" likertStep:1];
-//    likert.esm_title = @"Likert ESM";
-//    likert.esm_instructions = @"instructions";
-//
-//    ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"text"];
-//    likert.esm_instructions = @"inst";
-//    likert.esm_title = @"title title";
-//
-//    [schdule addESMs:@[likert, text]];
-//
-//    ESMScheduleManager * manager = [[ESMScheduleManager alloc] init];
-//    // [manager removeAllSchedulesFromDB];
-//    manager.debug = YES;
-//    [manager addSchedule:schdule];
+    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+    schedule.scheduleId = @"PAM";
+    schedule.fireHours = @[@13,@14,@15,@16];
+    schedule.notificationTitle = @"Please answer a question!";
+    schedule.expirationThreshold = @45;
+    schedule.randomizeSchedule = @15;
+
+    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam2"];
+    
+    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox" checkboxes:@[@"Other",@"A"]];
+    
+    [schedule addESMs:@[pam, checkbox]];
+
+    [manager addSchedule:schedule];
     
 }
 
@@ -162,7 +160,10 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    if ([esmManager getValidSchedules].count > 0) {
+    
+    NSArray * schdules = [esmManager getValidSchedules];
+    
+    if (schdules.count > 0) {
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
         [self.navigationController pushViewController:esmView animated:YES];
     }

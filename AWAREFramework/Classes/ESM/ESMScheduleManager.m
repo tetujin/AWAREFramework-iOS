@@ -65,7 +65,7 @@
         if (hour.intValue != -1 && notification) {
             [self setHourBasedNotification:entityScehdule datetime:now];
         }
-
+        NSLog(@"-> %@", entityScehdule.randomize_schedule);
     }
     
     for (NSDateComponents * timer in schedule.timers) {
@@ -225,7 +225,9 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     
     if (deleted) {
         if(notification){
-            [self removeNotifications];
+            [self removeESMNotificationsWithHandler:^{
+                
+            }];
         }
         return YES;
     }else{
@@ -277,13 +279,13 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     NSArray * periodValidSchedules = [fetchedResultsController fetchedObjects];
     
     
-    /////// Fetch history data of ESM answers
+    /////// Fetch ESM answer history from Today
     NSFetchRequest *historyReq = [[NSFetchRequest alloc] init];
     [historyReq setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMAnswerHistory class])
                                       inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
     NSNumber * now = @(datetime.timeIntervalSince1970);
     NSNumber * start = @([AWAREUtils getTargetNSDate:[NSDate new] hour:0 nextDay:false].timeIntervalSince1970);
-    [historyReq setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) && (timestamp <= %@)", start,now]]; //(timestamp >= %@) &&
+    [historyReq setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) && (timestamp <= %@)", start, now]]; //(timestamp >= %@) &&
     NSSortDescriptor *historySort = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
     [historyReq setSortDescriptors:@[historySort]];
     NSFetchedResultsController *historyFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:historyReq
@@ -313,16 +315,6 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         /**  Hours Based ESM */
         if (hour.intValue != -1) {
             isValidSchedule = [self isValidHourBasedESMSchedule:schedule history:answerHistory targetDatetime:datetime];
-            
-            /**  Context Based ESM */
-            //        if (context != nil) {
-            //
-            //        }
-            
-            /**  Week Based ESM */
-            //        if (![weekday isEqualToNumber:@0]) {
-            //            isValidSchedule = [self isValidTimerBasedESMSchedule:schedule history:answerHistory targetDatetime:datetime];
-            //        }
         }
         
         /**  Timer Based ESM */
@@ -349,40 +341,63 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return vaild or invaild
  */
 - (BOOL) isValidHourBasedESMSchedule:(EntityESMSchedule  *)schedule history:(NSArray *)history targetDatetime:(NSDate *)datetime{
-    // NSSet * childEsms = schedule.esms;
-    // NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"esm_number" ascending:YES];
-    // NSArray *sortDescriptors = [NSArray arrayWithObjects:sort,nil];
-    // NSArray *sortedEsms = [childEsms sortedArrayUsingDescriptors:sortDescriptors];
+
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM/dd/yyyy HH:mm"];
+    [NSTimeZone resetSystemTimeZone];
+    
     NSString * scheduleId = schedule.schedule_id;
+    if(scheduleId == nil){
+        if (_debug) NSLog(@"[ESMScheduleManager] (invalid) Schdule ID is Empty");
+        return NO;
+    }
+    
     NSNumber * randomize = schedule.randomize_schedule;
     if(randomize == nil) randomize = @0;
     NSNumber * expiration = schedule.expiration_threshold;
     if(expiration == nil) expiration = @0;
-    int validRange = 60*(randomize.intValue + expiration.intValue); // min
 
-    NSNumber * fireHour = schedule.fire_hour;
-    NSDate * targetDateToday       = [AWAREUtils getTargetNSDate:[NSDate new] hour:[fireHour intValue] nextDay:NO];
-    NSDate * targetDateNextday     = [AWAREUtils getTargetNSDate:[NSDate new] hour:[fireHour intValue] nextDay:YES];
-    NSDate * validStartDateToday   = [targetDateToday   dateByAddingTimeInterval:-1 * validRange];
-    NSDate * validEndDateToday     = [targetDateToday   dateByAddingTimeInterval:validRange];
-    NSDate * validStartDateNextday = [targetDateNextday dateByAddingTimeInterval:-1 * validRange];
-    NSDate * validEndDateNextday   = [targetDateNextday dateByAddingTimeInterval:validRange];
     NSDate * now = [NSDate date];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"MM/dd/yyyy HH:mm"];
-    [NSTimeZone resetSystemTimeZone];
-
-    ////// start/end time based validation /////
-    if(scheduleId == nil){
-        if (_debug) NSLog(@"[ESMScheduleManager] (invalid) Schdule ID is Empty");
-        return NO;
-    }else if ( ((now.timeIntervalSince1970 >= validStartDateToday.timeIntervalSince1970) && (now.timeIntervalSince1970 <= validEndDateToday.timeIntervalSince1970 )) ||
-              ((now.timeIntervalSince1970 >= validStartDateNextday.timeIntervalSince1970) && (now.timeIntervalSince1970 <= validEndDateNextday.timeIntervalSince1970)) ){
-        if (_debug) NSLog(@"[ESMScheduleManager] (valid) start < now < end");
+    NSNumber * fireHour = schedule.fire_hour;
+    NSDate * targetDateInToday       = [AWAREUtils getTargetNSDate:now hour:[fireHour intValue] nextDay:NO];
+    NSDate * targetDateInNextday     = [AWAREUtils getTargetNSDate:now hour:[fireHour intValue] nextDay:YES];
+    
+    double nowUnix = now.timeIntervalSince1970;
+    
+    /// randomize mode -> need to make a buffer ////
+    if (randomize.intValue > 0) {
+        ////// start/end time based validation /////
+        int validRange = 60 * (randomize.intValue + expiration.intValue); // min
+        NSDate * validStartDateToday   = [targetDateInToday   dateByAddingTimeInterval:-1 * validRange];
+        NSDate * validEndDateToday     = [targetDateInToday   dateByAddingTimeInterval:validRange];
+        
+        NSDate * validStartDateNextday = [targetDateInNextday dateByAddingTimeInterval:-1 * validRange];
+        NSDate * validEndDateNextday   = [targetDateInNextday dateByAddingTimeInterval:validRange];
+        
+        if ( ((nowUnix  >= validStartDateToday.timeIntervalSince1970) && (nowUnix  <= validEndDateToday.timeIntervalSince1970 )) ||
+             ((nowUnix  >= validStartDateNextday.timeIntervalSince1970) && (nowUnix  <= validEndDateNextday.timeIntervalSince1970)) ){
+            if (_debug) NSLog(@"[ESMScheduleManager] (valid) start < now < end");
+        }else{
+            if (_debug) NSLog(@"[ESMScheduleManager] (invalid) out of term");
+            return NO;
+        }
+    //// normal mode ////
     }else{
-        if (_debug) NSLog(@"[ESMScheduleManager] (invalid) out of term");
-        return NO;
+        int validRange = 60 * expiration.intValue;
+        NSDate * validStartDateToday   = targetDateInToday;
+        NSDate * validEndDateToday     = [targetDateInToday   dateByAddingTimeInterval:validRange];
+        
+        NSDate * validStartDateNextday = targetDateInNextday;
+        NSDate * validEndDateNextday   = [targetDateInNextday dateByAddingTimeInterval:validRange];
+        if ( ((nowUnix  >= validStartDateToday.timeIntervalSince1970) && (nowUnix  <= validEndDateToday.timeIntervalSince1970 )) ||
+             ((nowUnix  >= validStartDateNextday.timeIntervalSince1970) && (nowUnix  <= validEndDateNextday.timeIntervalSince1970)) ){
+            if (_debug) NSLog(@"[ESMScheduleManager] (valid) start < now < end");
+        }else{
+            if (_debug) NSLog(@"[ESMScheduleManager] (invalid) out of term");
+            return NO;
+        }
     }
+
     
     /////  history based validation  //////
     if (history != nil) {
@@ -390,20 +405,19 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
             NSString * historyScheduleId = answeredESM.schedule_id;
             NSNumber * historyFireHour   = answeredESM.fire_hour;
             if ([scheduleId isEqualToString:historyScheduleId] && [fireHour isEqualToNumber:historyFireHour]) {
-                if (_debug) NSLog(@"invalid => schedule id=%@, fire-hour=%@", scheduleId, fireHour);
+                if (_debug) NSLog(@"[ESMScheduleManager] (invalid) => schedule id=%@, fire-hour=%@", scheduleId, fireHour);
                 return NO;
             }else{
-                // if (_debug) NSLog(@"schedule id=%@, fire-hour=%@", scheduleId, fireHour);
+                if (_debug) NSLog(@"[ESMScheduleManager] (valid) schedule id=%@, fire-hour=%@", scheduleId, fireHour);
             }
         }
     }
-    
     
     if([expiration isEqualToNumber:@0]){
         return YES;
     }
     
-    NSLog(@"[id:%@][randomize:%@][expiration:%@]",scheduleId,randomize,expiration);
+    NSLog(@"[id:%@][hour:%@][randomize:%@][expiration:%@]",scheduleId,fireHour,randomize,expiration);
     return YES;
 }
 
@@ -490,7 +504,13 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         if (error!=nil) {
             NSLog(@"[ESMScheduleManager:HourBasedNotification] %@", error.debugDescription);
         }else{
-            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification");
+            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification: %ld:%ld",trigger.dateComponents.hour,trigger.dateComponents.minute);
+            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+            [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
+                for (UNNotificationRequest * request in requests) {
+                    NSLog(@"%@",request.identifier);
+                }
+            }];
         }
     }];
 }
@@ -558,7 +578,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  
  @note This operation is aynchroized!!
  */
-- (void)removeNotifications {
+- (void)removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler)handler {
     
     NSDate * now = [NSDate new];
     
@@ -580,6 +600,9 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
                 }
             }
         }
+        if (handler != nil) {
+            handler();
+        }
     }];
 }
 
@@ -587,7 +610,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 /**
  Refresh notifications times
  */
-- (void) refreshNotifications{
+- (void) refreshESMNotifications{
     NSDate * now = [NSDate new];
     
     // Get ESMs from SQLite by using CoreData
@@ -655,6 +678,37 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     }
     return YES;
 }
+
+
+/**
+ Remove all pending/delivded notifications from the UNUserNotificationCenter for a debug
+ */
+- (void) removeAllNotifications {
+    UNUserNotificationCenter * notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    [notificationCenter removeAllDeliveredNotifications];
+    [notificationCenter removeAllPendingNotificationRequests];
+}
+
+/**
+ Remove all ESM answer histories
+
+ @return A status of the removing ESM history
+ */
+- (BOOL) removeAllESMHitoryFromDB {
+    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMAnswerHistory class])];
+    NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
+    
+    NSError *deleteError = nil;
+    [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
+    if(deleteError != nil){
+        NSLog(@"[ESMScheduleManager:removeESMHistoryFromSQLite] Error: A delete query is failed");
+        return NO;
+    }
+    return YES;
+}
+
 
 
 ////////////////////////////////

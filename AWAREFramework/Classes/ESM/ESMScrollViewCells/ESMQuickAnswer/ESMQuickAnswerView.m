@@ -20,8 +20,8 @@
 }
 */
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addQuickAnswerElement:esm withFrame:frame];
@@ -31,14 +31,6 @@
 }
 
 
-
-
-/**
- * esm_type=5 : Add a Quick Answer Element
- *
- * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_quick_answers, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
- * @param tag An tag for identification of the ESM element
- */
 - (void) addQuickAnswerElement:(EntityESM *) esm withFrame:(CGRect) frame {
     buttons = [[NSMutableArray alloc] init];
     

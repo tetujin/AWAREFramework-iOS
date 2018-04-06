@@ -26,6 +26,7 @@ typedef enum: NSInteger {
     int esmType;
 }
 
+@property UIViewController * viewController;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 
 @property (nonatomic) IBOutlet EntityESM * esmEntity;
@@ -40,7 +41,7 @@ typedef enum: NSInteger {
 
 @property BOOL isDebug;
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm;
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController;
 
 // - (void) setElements;
 - (IBAction)pushedNAButton:(id)sender;

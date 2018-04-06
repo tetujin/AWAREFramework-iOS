@@ -69,7 +69,8 @@
                         
                         /////////////// generate UNNotification ////////////
                         NSCalendar * cal = [NSCalendar currentCalendar];
-                        NSDateComponents * componetns = [cal components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:begin];                        [schedule addTimer:componetns];
+                        NSDateComponents * componetns = [cal components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:begin];
+                        [schedule addTimer:componetns];
                         UNNotificationTrigger * notificationTrigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:componetns repeats:NO];
                         
                         if (blockSelf.isDebug) {

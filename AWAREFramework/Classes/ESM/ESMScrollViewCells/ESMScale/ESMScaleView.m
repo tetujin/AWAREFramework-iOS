@@ -24,8 +24,8 @@
 */
 
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addScaleElement:esm withFrame:frame];
@@ -36,17 +36,10 @@
 
 
 
-/**
- * esm_type=6 : Add a Scale Element
- *
- * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_scale_min, esm_scale_max,
- esm_scale_start, esm_scale_max_label, esm_scale_min_label, esm_scale_step, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
- * @param tag An tag for identification of the ESM element
- */
 - (void) addScaleElement:(EntityESM *) esm withFrame:(CGRect) frame{
     int valueLabelH = 30;
     int mainContentH = 60;
-    int spaceH = 10;
+    // int spaceH = 10;
 
     // Add a value label
     // UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(mainContentRect.origin.x+60, totalHight, mainContentRect.size.width-120, valueLabelH)];

@@ -24,8 +24,8 @@
 */
 
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addTimePickerElement:esm withFrame:frame uiMode:UIDatePickerModeDateAndTime version:1];
@@ -36,12 +36,12 @@
 //    dateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
 //    dateTimePicker.datePickerMode = UIDatePickerModeDate;
 //    dateTimePicker.datePickerMode = UIDatePickerModeTime;
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm uiMode:(UIDatePickerMode)mode version:(int)ver{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm uiMode:(UIDatePickerMode)mode version:(int)version viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     userAnswer = @"";
     if(self != nil){
         // version = v;
-        [self addTimePickerElement:esm withFrame:frame uiMode:mode version:ver];
+        [self addTimePickerElement:esm withFrame:frame uiMode:mode version:version];
     }
     return self;
 }

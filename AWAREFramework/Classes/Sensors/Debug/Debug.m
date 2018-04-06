@@ -96,7 +96,7 @@
     // App Install event
     if (![defaults boolForKey:dmLogger.KEY_APP_INSTALL]) {
         if ([self isDebug]) {
-            NSString* message = [NSString stringWithFormat:@"AWARE iOS is installed"];
+            // NSString* message = [NSString stringWithFormat:@"AWARE iOS is installed"];
             // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
         }
         NSString *updateInformation = [NSString stringWithFormat:@"[SOFTWARE INSTALL] %@", currentVersion];

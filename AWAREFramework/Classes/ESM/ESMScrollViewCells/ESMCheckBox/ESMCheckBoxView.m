@@ -21,8 +21,8 @@
  }
  */
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addCheckBoxElement:esm withFrame:frame];
@@ -116,40 +116,64 @@
         }
         
         if ([matchedText isEqualToString:@"Other"]) {
-            UIAlertView *av = [[UIAlertView alloc]initWithTitle:@""
-                                                        message:@"Please write your original option."
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"OK", nil];
-            av.alertViewStyle = UIAlertViewStylePlainTextInput;
-            av.tag = tag;
-            [av textFieldAtIndex:0].delegate = self;
-            [av show];
+            
+            // use UIAlertController
+            UIAlertController *alert= [UIAlertController
+                                       alertControllerWithTitle:@""
+                                       message:@"Please write your original option."
+                                       preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * action){
+                                                           //Do Some action here
+                                                           UITextField *textField = alert.textFields[0];
+                                                           // NSLog(@"text was %@", textField.text);
+                                                           NSInteger tag = textField.tag;
+                                                           NSString * inputText = textField.text;
+                                                           
+                                                           UILabel * label = [self->labels objectAtIndex:tag];
+                                                           
+                                                           NSError *error = nil;
+                                                           NSString *pattern = @"Other*";
+                                                           NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&error];
+                                                           NSTextCheckingResult *match = [regexp firstMatchInString:label.text options:0 range:NSMakeRange(0, label.text.length)];
+                                                           NSString *matchedText = @"";
+                                                           if (match.numberOfRanges > 0) {
+                                                               NSLog(@"matched text: %@", [label.text substringWithRange:[match rangeAtIndex:0]]);
+                                                               matchedText = [label.text substringWithRange:[match rangeAtIndex:0]];
+                                                           }
+                                                           if ([matchedText isEqualToString:@"Other"]) {
+                                                               label.text = [NSString stringWithFormat:@"Other: %@", inputText];
+                                                           }
+                                                       }];
+            UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               
+                                                               NSLog(@"cancel btn");
+                                                               
+                                                               [alert dismissViewControllerAnimated:YES completion:nil];
+                                                               
+                                                           }];
+            
+            [alert addAction:ok];
+            [alert addAction:cancel];
+            
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = @"";
+                textField.keyboardType = UIKeyboardTypeDefault;
+                textField.tag = tag;
+            }];
+            
+            if(self.viewController!=nil){
+                [self.viewController presentViewController:alert animated:YES completion:nil];
+            }else{
+                NSLog(@"[ESMCheckBoxView] viewController is null");
+            }
         }
     }
 }
 
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    // NSLog(@"%@",[alertView textFieldAtIndex:0].text);
-    NSInteger tag = alertView.tag;
-    NSString * inputText = [alertView textFieldAtIndex:0].text;
-    
-    UILabel * label = [labels objectAtIndex:tag];
-    
-    NSError *error = nil;
-    NSString *pattern = @"Other*";
-    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&error];
-    NSTextCheckingResult *match = [regexp firstMatchInString:label.text options:0 range:NSMakeRange(0, label.text.length)];
-    NSString *matchedText = @"";
-    if (match.numberOfRanges > 0) {
-        NSLog(@"matched text: %@", [label.text substringWithRange:[match rangeAtIndex:0]]);
-        matchedText = [label.text substringWithRange:[match rangeAtIndex:0]];
-    }
-    if ([matchedText isEqualToString:@"Other"]) {
-        label.text = [NSString stringWithFormat:@"Other: %@", inputText];
-    }
-}
 
 
 - (NSString *)getUserAnswer{
@@ -160,7 +184,6 @@
     for (UIButton * btn in options) {
         if(btn.isSelected){
             NSString * selectedLabel = [[labels objectAtIndex:btn.tag] text];
-            // NSLog(@"%@",selectedLabel);
             [selectedOps addObject:selectedLabel];
             isDismiss = NO;
         }

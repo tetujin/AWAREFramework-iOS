@@ -132,10 +132,11 @@ Add permissions on Xcode for the background sensing (NOTE: the following permiss
 * Info.plist
     * Privacy - Location Always and When In Use Usage Description
     * Privacy - Location Always Usage Description
+![Image](./Screenshots/info_plist_location.png)
 
 * Capabilities/Background Modes
     * Location updates
-
+![Image](./Screenshots/background_modes.png)
 
 For collecting your activities data in the background, your AppDelegate needs to succeed AWAREDelegate class.
 

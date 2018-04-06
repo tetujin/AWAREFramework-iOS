@@ -21,8 +21,8 @@
 */
 
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addFreeTextElement:esm withFrame:frame];
@@ -32,12 +32,6 @@
 
 
 
-/**
- * esm_type=1 : Add a Free Text element
- *
- * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
- * @param tag An tag for identification of the ESM element
- */
 - (void) addFreeTextElement:(EntityESM *)esm withFrame:(CGRect)frame {
     
     _freeTextView = [[UITextView alloc] initWithFrame:CGRectMake(10,

@@ -13,6 +13,8 @@
 
 @property BOOL debug;
 
+typedef void (^NotificationRemoveCompleteHandler)(void);
+
 - (BOOL) addSchedule:(ESMSchedule *)schedule;
 - (BOOL) addSchedule:(ESMSchedule *)schedule withNotification:(BOOL)notification;
 - (BOOL) deleteScheduleWithId:(NSString *)scheduleId;
@@ -22,8 +24,10 @@
 - (NSArray *) getValidSchedulesWithDatetime:(NSDate *)datetime;
 
 - (BOOL) removeAllSchedulesFromDB;
+- (BOOL) removeAllESMHitoryFromDB;
 
-- (void) removeNotifications;
-- (void) refreshNotifications;
+- (void) removeAllNotifications;
+- (void) removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler)handler;
+- (void) refreshESMNotifications;
 
 @end

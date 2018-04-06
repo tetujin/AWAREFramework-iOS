@@ -23,8 +23,8 @@
 }
 
 
-- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm{
-    self = [super initWithFrame:frame esm:esm];
+- (instancetype)initWithFrame:(CGRect)frame esm:(EntityESM *)esm viewController:(UIViewController *)viewController{
+    self = [super initWithFrame:frame esm:esm viewController:viewController];
     
     if(self != nil){
         [self addAudioElement:esm withFrame:frame];
@@ -149,7 +149,7 @@
         NSLog(@"Error activating audio session: %@", error.localizedFailureReason);
         return NO;
     }
-    return session.inputIsAvailable;
+    return session.isInputAvailable;
 }
 
 

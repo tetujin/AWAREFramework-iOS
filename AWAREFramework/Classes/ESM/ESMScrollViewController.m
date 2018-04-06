@@ -94,6 +94,7 @@
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     AWARECore * core = delegate.sharedAWARECore;
     study = core.sharedAwareStudy;
+    [study setStudyURL:@""];
     
     flowsFlag = NO;
     finalBtnLabel = @"Submit";
@@ -137,8 +138,8 @@
         ESMScheduleManager *esmManager = [[ESMScheduleManager alloc] init];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
         
-        if(esmSchedules != nil && esmSchedules.count > currentESMScheduleNumber){
-            EntityESMSchedule * esmSchedule = esmSchedules[currentESMScheduleNumber];
+        if(esmSchedules != nil){
+            EntityESMSchedule * esmSchedule = esmSchedules[0];
             NSLog(@"[interface: %@]", esmSchedule.interface);
             NSSet * childEsms = esmSchedule.esms;
             // NSNumber * interface = schedule.interface;
@@ -150,18 +151,13 @@
                 NSLog(@"NO ESM Entity");
                 return;
             }
-            _esms = sortedEsms;
+            _esms = [[NSMutableArray alloc] initWithArray:sortedEsms];
             //// interfacce 1 ////////
             if([esmSchedule.interface isEqualToNumber:@1]){
                 previousInterfaceType = @1;
                 // Submit button be shown if the element is the last one.
                 // [self setSubmitButton];
-                self.navigationItem.title = [NSString stringWithFormat:@"%@ - %d/%ld",
-                                             esmSchedule.schedule_id,
-                                             currentESMScheduleNumber+1,
-                                             esmSchedules.count];
-                
-                
+                self.navigationItem.title = [NSString stringWithFormat:@"%@",esmSchedule.schedule_id];
                 for (EntityESM * esm in _esms) {
                     [self addAnESM:esm];
                     if([esm.esm_type isEqualToNumber:@5]){
@@ -175,12 +171,10 @@
                 EntityESM * esm = sortedEsms[currentESMNumber];
                 [self addAnESM:esm];
                 finalBtnLabel = esm.esm_submit;
-                self.navigationItem.title = [NSString stringWithFormat:@"%@(%d/%ld) - %d/%ld",
+                self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%ld)",
                                              esmSchedule.schedule_id,
                                              currentESMNumber+1,
-                                             sortedEsms.count,
-                                             currentESMScheduleNumber+1,
-                                             esmSchedules.count];
+                                             sortedEsms.count];
                 if([esm.esm_type isEqualToNumber:@5]){
                     isQuickAnswer = YES;
                 }
@@ -251,48 +245,51 @@
     int esmType = [esm.esm_type intValue];
     BaseESMView * esmView = nil;
     
-    if (esmType == 1) {
-        esmView = [[ESMFreeTextView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
+    if (esmType == AwareESMTypeText) {
+        esmView = [[ESMFreeTextView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
         [freeTextViews addObject:esmView];
-    } else if(esmType == 2){
-        esmView = [[ESMRadioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 3){
-        esmView = [[ESMCheckBoxView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 4){
-        esmView = [[ESMLikertScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 5){
-        esmView = [[ESMQuickAnswerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 6){
-        esmView = [[ESMScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
+    } else if(esmType == AwareESMTypeRadio){
+        esmView = [[ESMRadioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeCheckbox){
+        esmView = [[ESMCheckBoxView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeLikertScale){
+        esmView = [[ESMLikertScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeQuickAnswer){
+        esmView = [[ESMQuickAnswerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeScale){
+        esmView = [[ESMScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm  viewController:self];
         [sliderViews addObject:esmView];
-    } else if(esmType == 7){
+    } else if(esmType == AwareESMTypeDateTime){
         esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
                                                            esm:esm uiMode:UIDatePickerModeDateAndTime
-                                                       version:1];
-    } else if(esmType == 8){
-        esmView = [[ESMPAMView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 9){
-        esmView = [[ESMNumberView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypePAM){
+        esmView = [[ESMPAMView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeNumeric){
+        esmView = [[ESMNumberView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
         [numberViews addObject:esmView];
-    } else if(esmType == 10){
-        esmView = [[ESMWebView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 11){
+    } else if(esmType == AwareESMTypeWeb){
+        esmView = [[ESMWebView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeDate){
         esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
                                                            esm:esm uiMode:UIDatePickerModeDate
-                                                       version:1];
-    } else if(esmType == 12){
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypeTime){
         esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
                                                            esm:esm
                                                         uiMode:UIDatePickerModeTime
-                                                       version:1];
-    } else if(esmType == 13){
-        esmView = [[ESMClockTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 14){ // picture
-        esmView = [[ESMPictureView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 15){ // voice
-        esmView = [[ESMAudioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
-    } else if(esmType == 16){ // video
-        esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm];
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypeClock){
+        esmView = [[ESMClockTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypePicture){ // picture
+        esmView = [[ESMPictureView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeAudio){ // voice
+        esmView = [[ESMAudioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeVideo){ // video
+        esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
     }
     
     
@@ -484,15 +481,9 @@
     context.mergePolicy = originalMergePolicy;
     if(error != nil){
         NSLog(@"%@", error);
-        
         [delegate.sharedCoreDataHandler.managedObjectContext reset];
-        
-        // esmSensor = [[IOSESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
         ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
-        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"AWARE can not save your answer" message:@"Please push submit button again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alert show];
     }
     
     ////////////////////////////////////////
@@ -539,7 +530,7 @@
         ///////////////////////
         
         if(isDone){
-            
+             NSLog(@"%@",[study getStudyURL]);
             if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""]){
                 esmNumber = 0;
                 currentESMNumber = 0;
@@ -557,20 +548,21 @@
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
                 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-                [esmManager refreshNotifications];
+                [esmManager refreshESMNotifications];
                 
+                __block typeof(self) blockSelf = self; // TODO
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    NSLog(@"%@",name);
+                    // NSLog(@"%@",name);
                     [SVProgressHUD dismiss];
                     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         self->esmNumber = 0;
                         self->currentESMNumber = 0;
                         self->currentESMScheduleNumber = 0;
-                        [self.navigationController popToRootViewControllerAnimated:YES];
+                        [blockSelf.navigationController popToRootViewControllerAnimated:YES];
                     }]];
                     
-                    [self presentViewController:alertController animated:YES completion:^{
+                    [blockSelf presentViewController:alertController animated:YES completion:^{
                         
                     }];
                 }];
