@@ -8,7 +8,7 @@
 
 #import "BaseESMView.h"
 
-@interface ESMNumberView : BaseESMView
+@interface ESMNumberView : BaseESMView <UITextViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic) IBOutlet UITextView * freeTextView;
 @property (nonatomic) IBOutlet UIPickerView * pickerView;

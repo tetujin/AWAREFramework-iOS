@@ -61,7 +61,9 @@
     
     ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox" checkboxes:@[@"Other",@"A"]];
     
-    [schedule addESMs:@[pam, checkbox]];
+    ESMItem * num = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
+    
+    [schedule addESMs:@[pam, checkbox, num]];
 
     [manager addSchedule:schedule];
     
@@ -159,15 +161,17 @@
 
 
 - (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    
     NSArray * schdules = [esmManager getValidSchedules];
-    
     if (schdules.count > 0) {
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-        [self.navigationController pushViewController:esmView animated:YES];
+        [self presentViewController:esmView animated:YES completion:^{
+            
+        }];
+        /** or, following code if your project using Navigation Controller */
+        // [self.navigationController pushViewController:esmView animated:YES];
     }
-
 }
 
 - (void)didReceiveMemoryWarning

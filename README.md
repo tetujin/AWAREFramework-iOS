@@ -40,6 +40,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+### Exmaple 1: Initialize sensors and save sensor data to the local database
 Just the following code, your application can collect sensor data in the background. The data is saved in a local-storage.
 ```objective-c
 /// Example1 (Objective-C): Accelerometer ///
@@ -57,7 +58,7 @@ accelerometer.setSensorEventHandler { (sensor, data) in
 }
 accelerometer.startSensor()
 ```
-
+### Exmaple 2: Sync local-database and AWARE Server
 In addition, you can connect your application to AWARE server for collecting data remotely. About AWARE server, please check our [website](http://www.awareframework.com/).
 ```objective-c
 /// Example2 (Objective-C): Accelerometer + AWARE Server ///
@@ -89,7 +90,7 @@ accelerometer.startSyncDB()
 manager?.add(accelerometer)
 ```
 
-
+### Exmaple 3: Apply settings on AWARE Dashboard
 You can apply settings on AWARE dashboard.
 
 ```objective-c
@@ -230,7 +231,25 @@ ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
 
 ```swift
 \\\ Swift \\\
-coming soon
+let schdule = ESMSchedule.init()
+schdule.notificationTitle = "notification title"
+schdule.noitificationBody = "notification body"
+schdule.scheduleId = "schedule_id"
+schdule.expirationThreshold = 60
+schdule.startDate = Date.init()
+schdule.endDate = Date.init(timeIntervalSinceNow: 60*60*24*10)
+schdule.fireHours = [9,15,18,21]
+
+let radio = ESMItem.init(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
+radio?.esm_title = "ESM title"
+radio?.esm_instructions = "some instructions"
+schdule.addESM(radio)
+
+let esmManager = ESMScheduleManager.init()
+// esmManager.removeAllNotifications()
+// esmManager.removeAllESMHitoryFromDB()
+// esmManager.removeAllSchedulesFromDB()
+esmManager.add(schdule)
 ```
 
 Please call the following chunk of code for appearing ESMScrollViewController (e.g., at -viewDidAppear: ).
@@ -238,14 +257,27 @@ Please call the following chunk of code for appearing ESMScrollViewController (e
 ```objective-c
 \\\ Objective-C: check valid ESMs and show ESMScrollViewController \\\
 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-if ([esmManager getValidSchedules].count > 0) {
+NSArray * schdules = [esmManager getValidSchedules];
+if (schdules.count > 0) {
+    /** initialize ESMScrollView */
     ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-    [self.navigationController pushViewController:esmView animated:YES];
+    /** move to ESMScrollView */
+    [self presentViewController:esmView animated:YES completion:nil];
+    /** or, following code if your project using Navigation Controller */
+    // [self.navigationController pushViewController:esmView animated:YES];
 }
 ```
 ```swift
 \\\ Swift \\\
-coming soon
+let esmManager = ESMScheduleManager.init()
+let schedules = esmManager.getValidSchedules()
+if let unwrappedSchedules = schedules {
+    if(unwrappedSchedules.count > 0){
+        let esmViewController = ESMScrollViewController.init()
+        self.present(esmViewController, animated: true) {
+        }
+    }
+}
 ```
 
 ### Supported ESM Types

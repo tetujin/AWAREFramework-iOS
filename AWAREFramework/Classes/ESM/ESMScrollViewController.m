@@ -498,6 +498,9 @@
                 UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [self.navigationController popToRootViewControllerAnimated:YES];
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        
+                    }];
                 }]];
                 
                 [self presentViewController:alertController animated:YES completion:^{
@@ -519,6 +522,9 @@
                         self->esmNumber = 0;
                         self->currentESMNumber = 0;
                         [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                        [blockSelf dismissViewControllerAnimated:YES completion:^{
+                            
+                        }];
                     }]];
                     
                     [blockSelf presentViewController:alertController animated:YES completion:^{

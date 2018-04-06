@@ -39,7 +39,7 @@
     _freeTextView.selectable = YES;
     _freeTextView.keyboardType = UIKeyboardTypeNumberPad;
     _freeTextView.textAlignment = NSTextAlignmentCenter;
-    _freeTextView.delegate = self;
+     _freeTextView.delegate = self;
     [_freeTextView setFont:[UIFont systemFontOfSize:23]];
     [self.mainView addSubview:_freeTextView];
     

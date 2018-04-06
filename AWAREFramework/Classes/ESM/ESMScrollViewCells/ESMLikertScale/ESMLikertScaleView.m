@@ -32,12 +32,6 @@
 }
 
 
-/**
- * esm_type=4 : Add a Likert Scale Element
- *
- * @param dic NSDictionary for ESM Object which needs <i>esm_type, esm_title, esm_instructions, esm_likert_max, esm_likert_max_label, esm_likert_min_label, esm_likert_step, esm_submit, esm_expiration_threshold, and esm_trigger.</i>
- * @param tag An tag for identification of the ESM element
- */
 - (void) addLikertScaleElement:(EntityESM *)esm withFrame:(CGRect)frame{
     
     selectedOption = 0; // defualt value is 0
