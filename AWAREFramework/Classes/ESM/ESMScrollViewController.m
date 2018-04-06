@@ -42,7 +42,7 @@
     NSArray * esmSchedules;
     NSMutableArray * esmCells;
     int currentESMNumber;
-    int currentESMScheduleNumber;
+    // int currentESMScheduleNumber;
     int totalHight;
     int esmNumber;
      NSString * finalBtnLabel;
@@ -339,56 +339,19 @@
     AudioServicesPlaySystemSound(1104);
     
     //////  interface = 1   ////////////
-    EntityESMSchedule * schedule = esmSchedules[currentESMScheduleNumber];
+    EntityESMSchedule * schedule = esmSchedules[0];
     if([schedule.interface isEqualToNumber:@1]){
-        if(currentESMScheduleNumber > 0){
-            currentESMScheduleNumber--;
-        }else{
-            currentESMScheduleNumber = 0;
-        }
-        if (currentESMScheduleNumber < esmSchedules.count){
-            [self viewDidAppear:NO];
-            return;
-        }else{
-            EntityESMSchedule * previousESMSchedule = esmSchedules[currentESMScheduleNumber];
-            if( [previousESMSchedule.interface isEqualToNumber:@0] ){
-                if(previousESMSchedule.esms.count > 0){
-                    currentESMNumber = (int)previousESMSchedule.esms.count - 1;
-                }else{
-                    currentESMNumber = 0;
-                }
-            }else{
-                currentESMNumber = 0;
-            }
-            // isDone = YES;
-        }
-        
+        currentESMNumber = 0;
+        [self viewDidAppear:NO];
+        return;
         /////  interface = 0 //////////
     }else{
         currentESMNumber--;
-        if (currentESMNumber >= 0 ){
-            [self viewDidAppear:NO];
-            return;
-        }else{
-            // currentESMNumber = 0;
-            if (currentESMScheduleNumber > 0){
-                currentESMScheduleNumber--;
-                EntityESMSchedule * previousESMSchedule = esmSchedules[currentESMScheduleNumber];
-                if( [previousESMSchedule.interface isEqualToNumber:@0] ){
-                    if(previousESMSchedule.esms.count > 0){
-                        currentESMNumber = (int)previousESMSchedule.esms.count - 1;
-                    }else{
-                        currentESMNumber = 0;
-                    }
-                }else{
-                    currentESMNumber = 0;
-                }
-                [self viewDidAppear:NO];
-                return;
-            }else{
-                NSLog(@"This ESM is the first ESM.");
-            }
+        if (currentESMNumber < 0 ){
+            currentESMNumber = 0;
         }
+        [self viewDidAppear:NO];
+        return;
     }
 }
 
@@ -497,18 +460,17 @@
         }
         
         //////  interface = 1   ////////////
-        EntityESMSchedule * schedule = esmSchedules[currentESMScheduleNumber];
+        EntityESMSchedule * schedule = esmSchedules[0];
         bool isDone = NO;
         if([schedule.interface isEqualToNumber:@1]){
             [self saveHistory:schedule context:context];
-            currentESMScheduleNumber++;
-            if (currentESMScheduleNumber < esmSchedules.count){
+            if(esmSchedules.count > 1){
                 [self viewDidAppear:NO];
                 return;
             }else{
                 isDone = YES;
             }
-            /////  interface = 0 //////////
+        /////  interface = 0 (one by one) //////////
         }else{
             currentESMNumber++;
             if (currentESMNumber < schedule.esms.count){
@@ -516,8 +478,7 @@
                 return;
             }else{
                 [self saveHistory:schedule context:context];
-                currentESMScheduleNumber++;
-                if (currentESMScheduleNumber < esmSchedules.count){
+                if (esmSchedules.count > 1){
                     currentESMNumber = 0;
                     [self viewDidAppear:NO];
                     return;
@@ -534,7 +495,6 @@
             if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""]){
                 esmNumber = 0;
                 currentESMNumber = 0;
-                currentESMScheduleNumber = 0;
                 UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -558,7 +518,6 @@
                     [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         self->esmNumber = 0;
                         self->currentESMNumber = 0;
-                        self->currentESMScheduleNumber = 0;
                         [blockSelf.navigationController popToRootViewControllerAnimated:YES];
                     }]];
                     

@@ -54,8 +54,8 @@
     schedule.scheduleId = @"PAM";
     schedule.fireHours = @[@13,@14,@15,@16];
     schedule.notificationTitle = @"Please answer a question!";
-    schedule.expirationThreshold = @45;
-    schedule.randomizeSchedule = @15;
+    schedule.expirationThreshold = @30;
+    schedule.randomizeSchedule = @5;
 
     ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam2"];
     
