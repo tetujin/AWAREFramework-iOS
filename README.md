@@ -59,14 +59,26 @@ accelerometer.setSensorEventHandler { (sensor, data) in
 accelerometer.startSensor()
 ```
 ### Exmaple 2: Sync local-database and AWARE Server
-In addition, you can connect your application to AWARE server for collecting data remotely. About AWARE server, please check our [website](http://www.awareframework.com/).
+
+AWARECore, AWAREStudy, and AWARESensorManager are singleton instances for managing sensing/synchronization schedule in the library. You can access the instances via AWAREDelegate. The AWAREDelegate is described in the library installing section.  
 ```objective-c
-/// Example2 (Objective-C): Accelerometer + AWARE Server ///
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore  * core  = delegate.sharedAWARECore;
 AWAREStudy * study = core.sharedAwareStudy;
 AWARESensorManager * manager = core.sharedSensorManager;
+```
 
+```swift
+let delegate = UIApplication.shared.delegate as! AWAREDelegate
+let core = delegate.sharedAWARECore
+let study = core?.sharedAwareStudy
+let manager = core?.sharedSensorManager
+```
+
+You can synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
+
+```objective-c
+/// Example2 (Objective-C): Accelerometer + AWARE Server ///
 [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"];
 Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 [accelerometer startSensor];
@@ -77,11 +89,6 @@ Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 ```
 ```swift
 /// Example2 (Swift): Accelerometer + AWARE Server ///
-let delegate = UIApplication.shared.delegate as! AWAREDelegate
-let core = delegate.sharedAWARECore
-let study = core?.sharedAwareStudy
-let manager = core?.sharedSensorManager
-
 study?.setStudyURL("https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS")
 let accelerometer = Accelerometer(awareStudy: study)
 accelerometer.startSensor()
@@ -91,15 +98,11 @@ manager?.add(accelerometer)
 ```
 
 ### Exmaple 3: Apply settings on AWARE Dashboard
-You can apply settings on AWARE dashboard.
+
+You can appy the setting on AWARE Dashboard by using -joinStuyWithURL:completion method.
 
 ```objective-c
 /// Example3 (Objective-C): AWARE Dashboard ////
-AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-AWARECore     * core     = delegate.sharedAWARECore;
-AWAREStudy         * study   = core.sharedAwareStudy;
-AWARESensorManager * manager = core.sharedSensorManager;
-
 NSString * url = @"https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS";
 [study joinStudyWithURL:url completion:^(NSArray *settings, AwareStudyState state, NSError * _Nullable error) {
     [manager addSensorsWithStudy:study];
@@ -109,10 +112,6 @@ NSString * url = @"https://api.awareframework.com/index.php/webservice/index/STU
 ```
 ```swift
 /// Example3 (Swift): AWARE Dashboard ////
-let core = delegate.sharedAWARECore
-let study = core?.sharedAwareStudy
-let manager = core?.sharedSensorManager
-
 let url = "https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"
 study?.join(withURL: url, completion: { (settings, studyState, error) in
     manager?.addSensors(with: study)
@@ -184,20 +183,22 @@ class AppDelegate: AWAREDelegate {
 }
 ```
 
-Your application needs to call permission request for the location sensor using following code when the application is opened first time. 
+Your application needs to call permission request for the location sensor using following code when the application is opened first time. (e.g., -viewDidLoad on UIViewController)
 
 Objective-C
 ```objective-c
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore * core = delegate.sharedAWARECore;
-[core requestBackgroundSensing];
+[core requestBackgroundSensing]; // for background sensing
+[core requestNotification:[UIApplication sharedApplication]]; // for notifications
 ```
     
 Swift    
 ```swift
 let delegate = UIApplication.shared.delegate as! AWAREDelegate
 let core = delegate.sharedAWARECore
-delegate.sharedAWARECore.requestBackgroundSensing()
+core.requestBackgroundSensing()
+core.requestNotification(UIApplication.shared)
 ```
 
 ## Experience Sampling Method (ESM)
@@ -238,7 +239,7 @@ schdule.scheduleId = "schedule_id"
 schdule.expirationThreshold = 60
 schdule.startDate = Date.init()
 schdule.endDate = Date.init(timeIntervalSinceNow: 60*60*24*10)
-schdule.fireHours = [9,15,18,21]
+schdule.fireHours = [9,12,18,21]
 
 let radio = ESMItem.init(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
 radio?.esm_title = "ESM title"
