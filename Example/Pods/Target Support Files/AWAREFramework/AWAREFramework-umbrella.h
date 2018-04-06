@@ -89,6 +89,7 @@
 #import "CalEvent.h"
 #import "EntityCalendar+CoreDataClass.h"
 #import "EntityCalendar+CoreDataProperties.h"
+#import "CalendarESMScheduler.h"
 #import "Contacts.h"
 #import "EntityContact+CoreDataClass.h"
 #import "EntityContact+CoreDataProperties.h"

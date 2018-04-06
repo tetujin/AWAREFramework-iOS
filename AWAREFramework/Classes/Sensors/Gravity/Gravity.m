@@ -51,12 +51,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_GRAVITY
                              storage:storage];
-            //dbType:dbType];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // [self setCSVHeader:];
     }
     return self;
 }
@@ -81,12 +77,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_gravity"];
     if(frequency != -1){
         NSLog(@"Gravity's frequency is %f !!", frequency);
-        super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        [self setSensingIntervalWithSecond:[self convertMotionSensorFrequecyFromAndroid:frequency]];
     }
     
     double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY];
     if(tempHz > 0){
-        super.sensingInterval = 1.0f/tempHz;
+        [self setSensingIntervalWithSecond:1.0f/tempHz];
     }
 }
 
@@ -105,7 +101,13 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database.
                                                
-                                               // dispatch_async(dispatch_get_main_queue(),^{
+                                               if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.gravity.x lastValueKey:@"double_values_0"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.gravity.y lastValueKey:@"double_values_1"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.gravity.z lastValueKey:@"double_values_2"]
+                                                   ) {
+                                                   return;
+                                               }
                                                    
                                                   NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
                                                   NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];

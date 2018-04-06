@@ -11,8 +11,9 @@
 
 @interface AWAREMotionSensor : AWARESensor
 
-@property double  savingInterval;
-@property double sensingInterval;
+@property (readonly) double savingInterval;
+@property (readonly) double sensingInterval;
+@property double threshold;
 
 - (void) setSensingIntervalWithSecond:(double)second;
 - (void) setSensingIntervalWithHz:(double)hz;
@@ -23,5 +24,7 @@
 - (BOOL) startSensor;
 - (BOOL) startSensorWithSensingInterval:(double)interval;
 - (BOOL) startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval;
+
+- (BOOL) isHigherThanThresholdWithTargetValue:(double)value lastValueKey:(NSString *)key;
 
 @end

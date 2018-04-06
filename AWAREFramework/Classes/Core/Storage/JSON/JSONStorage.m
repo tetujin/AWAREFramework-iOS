@@ -43,14 +43,24 @@
         // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
     
-    if (isRequiredBuffer) {
+    if (self.saveInterval > 0 ) {
+        // time based operation
+        NSDate * now = [NSDate new];
+        if (now.timeIntervalSince1970 < self.lastSaveTimestamp + self.saveInterval) {
+            return YES;
+        }else{
+            if ([self isDebug]) { NSLog(@"[JSONStorage] %@: Save data by time-base trigger", self.sensorName); }
+            self.lastSaveTimestamp = now.timeIntervalSince1970;
+        }
+    }else{
         [self.buffer addObjectsFromArray:dataArray];
         if (self.buffer.count < self.getBufferSize) {
             return YES;
-        }
-        if (self.buffer == 0) {
+        }else if (self.buffer == 0) {
             NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
             return YES;
+        }else{
+            if ([self isDebug]) { NSLog(@"[JSONStorage] %@: Save data by buffer limit-based trigger", self.sensorName); }
         }
     }
     

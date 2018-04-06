@@ -557,7 +557,7 @@
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
                 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-                [esmManager refreshNotificationSchedules];
+                [esmManager refreshNotifications];
                 
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
                     NSLog(@"%@",name);

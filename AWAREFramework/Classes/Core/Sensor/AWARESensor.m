@@ -91,7 +91,7 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         debug = study.isDebug;
         sensorName = name;
         latestSensorValue = @"";
-        latestData = [[NSDictionary alloc] init];
+        // latestData = [[NSDictionary alloc] init];
         _storage = localStorage;
         [_storage setDebug:debug];
     }
@@ -178,11 +178,12 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 }
 
 - (NSDictionary *) getLatestData{
-    if (latestData != nil) {
-        return latestData;
-    }else{
-        return [[NSDictionary alloc] init];
-    }
+    return latestData;
+//    if (latestData != nil) {
+//        return latestData;
+//    }else{
+//        return [[NSDictionary alloc] init];
+//    }
 }
 
 //////////////////////////////////////////////////////////////////

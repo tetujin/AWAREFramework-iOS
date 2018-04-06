@@ -18,8 +18,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER = @"frequency_acceler
 NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_accelerometer";
 
 @implementation Accelerometer{
-    
     CMMotionManager *manager;
+    NSArray * lastValues;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -48,8 +48,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                              storage:storage];
     if (self) {
         manager = [[CMMotionManager alloc] init];
-        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
+        lastValues = [[NSArray alloc] init];
     }
     
     return self;
@@ -65,41 +64,39 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     [queryMaker addColumn:@"double_values_2" type:TCQTypeReal default:@"0"];
     [queryMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [queryMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-    // NSString * query = [queryMaker getDefaudltTableCreateQuery];
     [self.storage createDBTableOnServerWithTCQMaker:queryMaker];
 }
 
-/**
- *
- */
-// - (BOOL) startSensorWithSettings:(NSArray *)settings{
+
 
 - (void)setParameters:(NSArray *)parameters{
     if(parameters != nil){
         double tempFrequency = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER];
         if(tempFrequency != -1){
-            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:tempFrequency];
+            [self setSensingIntervalWithSecond:[self convertMotionSensorFrequecyFromAndroid:tempFrequency]];
         }
         
         double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER];
         if(tempHz > 0){
-            super.sensingInterval = 1.0f/tempHz;
+            [self setSensingIntervalWithSecond:1.0f/tempHz];
+        }
+        
+        double threshold = [self getSensorSetting:parameters withKey:@"threshold_accelerometer"];
+        if (threshold > 0) {
+            [self setThreshold:threshold];
         }
     }
 }
 
-/**
- * Start sensor with interval and buffer, fetchLimit
- */
-- (BOOL) startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
-    
+
+- (BOOL) startSensorWithSensingInterval:(double)sensingInterval
+                         savingInterval:(double)savingInterval{
     // Set and start a data uploader
     if ([self isDebug]) {
         NSLog(@"[%@] Start Sensor!", [self getSensorName]);
     }
     
     // Set buffer size for reducing file access
-    // [self setBufferSize:savingInterval/sensingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
     manager.accelerometerUpdateInterval = sensingInterval;
@@ -110,6 +107,14 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                       if( error ) {
                                           NSLog(@"[accelerometer] %@:%ld", [error domain], [error code] );
                                       } else {
+                                          
+                                          if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                             ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.x lastValueKey:@"double_values_0"] &&
+                                             ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.y lastValueKey:@"double_values_1"] &&
+                                             ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.z lastValueKey:@"double_values_2"]
+                                            ) {
+                                              return;
+                                          }
                                           
                                           // SQLite
                                           NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];

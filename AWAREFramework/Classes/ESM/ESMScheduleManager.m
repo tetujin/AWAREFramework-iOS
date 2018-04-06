@@ -1,9 +1,14 @@
+
 //
 //  ESMScheduleManager.m
 //  AWAREFramework
 //
 //  Created by Yuuki Nishiyama on 2018/03/27.
 //
+
+/**
+ ESMScheduleManager handles ESM schdule.
+ */
 
 #import "ESMScheduleManager.h"
 #import "EntityESMAnswerHistory+CoreDataClass.h"
@@ -24,11 +29,24 @@
     return self;
 }
 
-- (BOOL) addSchedule:(ESMSchedule *)schedule{
+//////////////// ESM Schdule /////////////
+
+/**
+ Add ESMSchdule to this ESMScheduleManager. The ESMSchduleManager **saves a schdule to the database** and ** set a UNNotification**.
+
+ @param schedule ESMSchdule
+ @return A status of data saving operation
+ */
+- (BOOL) addSchedule:(ESMSchedule *) schedule{
+    return [self addSchedule:schedule withNotification:YES];
+}
+
+- (BOOL) addSchedule:(ESMSchedule *) schedule withNotification:(BOOL)notification{
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     NSManagedObjectContext * manageContext = delegate.sharedCoreDataHandler.managedObjectContext;
     manageContext.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
     
+    NSDate * now = [NSDate new];
     NSArray * hours = schedule.fireHours;
     //////////////////////////////////////////////
     for (NSNumber * hour in hours) {
@@ -43,6 +61,11 @@
             EntityESM * entityESM = (EntityESM *)[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESM class]) inManagedObjectContext:manageContext];
             [entityScehdule addEsmsObject:[self transferESMItem:esmItem toEntity:entityESM]];
         }
+        /**  Hours Based ESM */
+        if (hour.intValue != -1 && notification) {
+            [self setHourBasedNotification:entityScehdule datetime:now];
+        }
+
     }
     
     for (NSDateComponents * timer in schedule.timers) {
@@ -52,6 +75,10 @@
         for (ESMItem * esmItem in schedule.esms) {
             EntityESM * entityESM = (EntityESM *)[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESM class]) inManagedObjectContext:manageContext];
             [entityScehdule addEsmsObject:[self transferESMItem:esmItem toEntity:entityESM]];
+        }
+        /**  Timer Based ESM */
+        if( timer != nil && notification){
+            [self setTimeBasedNotification:entityScehdule datetime:now];
         }
     }
     
@@ -63,10 +90,18 @@
             NSLog(@"[ESMScheduleManager] data save error: %@", error.debugDescription);
         }
     }
-    [self refreshNotificationSchedules];
+    
     return saved;
 }
 
+
+/**
+ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
+
+ @param schedule ESMSchdule
+ @param entityScehdule EntityESMSchdule
+ @return EntityESMSchdule which has parameters of ESMSchdule
+ */
 - (EntityESMSchedule *) transferESMSchedule:(ESMSchedule *)schedule toEntity:(EntityESMSchedule *)entityScehdule{
     entityScehdule.schedule_id = schedule.scheduleId;
     entityScehdule.expiration_threshold = schedule.expirationThreshold;
@@ -82,6 +117,14 @@
     return entityScehdule;
 }
 
+
+/**
+Transfer parameters in ESMSchdule to EntityESMSchedule instance.
+
+ @param esmItem ESMItem
+ @param entityESM EntityESM
+ @return EntityESM which has parameters of ESMItem
+ */
 - (EntityESM *) transferESMItem:(ESMItem *)esmItem toEntity:(EntityESM *)entityESM{
     entityESM.device_id = esmItem.device_id;
     entityESM.double_esm_user_answer_timestamp = esmItem.double_esm_user_answer_timestamp;
@@ -120,7 +163,12 @@
 }
 
 
+/**
+ Delete ESMSchdule by a schedule ID
 
+ @param scheduleId Schdule ID
+ @return A status of data deleting operation
+ */
 - (BOOL) deleteScheduleWithId:(NSString *)scheduleId{
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     NSManagedObjectContext * context = delegate.sharedCoreDataHandler.managedObjectContext;
@@ -148,7 +196,17 @@
     }
 }
 
+
+/**
+ Delete all of ESMSchdule in the DB
+
+ @return A status of data deleting operation
+ */
 - (BOOL)deleteAllSchedules{
+    return [self deleteAllSchedulesWithNotification:YES];
+}
+
+- (BOOL) deleteAllSchedulesWithNotification:(BOOL)notification{
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     NSManagedObjectContext * context = delegate.sharedCoreDataHandler.managedObjectContext;
     context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
@@ -164,7 +222,11 @@
     
     NSError *saveError = nil;
     BOOL deleted = [context save:&saveError];
+    
     if (deleted) {
+        if(notification){
+            [self removeNotifications];
+        }
         return YES;
     }else{
         if (saveError!=nil) {
@@ -173,9 +235,6 @@
         return YES;
     }
 }
-
-
-/////////////////////////////////////////////////////////
 
 
 /**
@@ -280,6 +339,15 @@
 }
 
 
+
+/**
+ Validate an ESM Schdule
+
+ @param schedule EntityESMSchdule
+ @param history An array list of EntityESMAnswerHistory
+ @param datetime A target datetime
+ @return vaild or invaild
+ */
 - (BOOL) isValidHourBasedESMSchedule:(EntityESMSchedule  *)schedule history:(NSArray *)history targetDatetime:(NSDate *)datetime{
     // NSSet * childEsms = schedule.esms;
     // NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"esm_number" ascending:YES];
@@ -306,84 +374,58 @@
 
     ////// start/end time based validation /////
     if(scheduleId == nil){
+        if (_debug) NSLog(@"[ESMScheduleManager] (invalid) Schdule ID is Empty");
         return NO;
-    }else if([expiration isEqualToNumber:@0]){
-        return YES;
     }else if ( ((now.timeIntervalSince1970 >= validStartDateToday.timeIntervalSince1970) && (now.timeIntervalSince1970 <= validEndDateToday.timeIntervalSince1970 )) ||
               ((now.timeIntervalSince1970 >= validStartDateNextday.timeIntervalSince1970) && (now.timeIntervalSince1970 <= validEndDateNextday.timeIntervalSince1970)) ){
-        
+        if (_debug) NSLog(@"[ESMScheduleManager] (valid) start < now < end");
     }else{
+        if (_debug) NSLog(@"[ESMScheduleManager] (invalid) out of term");
         return NO;
     }
-
+    
     /////  history based validation  //////
     if (history != nil) {
         for (EntityESMAnswerHistory * answeredESM in history) {
             NSString * historyScheduleId = answeredESM.schedule_id;
             NSNumber * historyFireHour   = answeredESM.fire_hour;
             if ([scheduleId isEqualToString:historyScheduleId] && [fireHour isEqualToNumber:historyFireHour]) {
-                // NSLog(@"schedule id=%@, fire-hour=%@", scheduleId, fireHour);
+                if (_debug) NSLog(@"invalid => schedule id=%@, fire-hour=%@", scheduleId, fireHour);
                 return NO;
+            }else{
+                // if (_debug) NSLog(@"schedule id=%@, fire-hour=%@", scheduleId, fireHour);
             }
         }
     }
+    
+    
+    if([expiration isEqualToNumber:@0]){
+        return YES;
+    }
+    
     NSLog(@"[id:%@][randomize:%@][expiration:%@]",scheduleId,randomize,expiration);
     return YES;
 }
 
 
 - (BOOL) isValidTimerBasedESMSchedule:(EntityESMSchedule  *)schedule history:(NSArray *)history targetDatetime:(NSDate *)datetime{
-    /////  history based validation  //////
-//    NSString * scheduleId = schedule.schedule_id;
-//    if (history != nil) {
-//        for (EntityESMAnswerHistory * answeredESM in history) {
-//            NSString * historyScheduleId = answeredESM.schedule_id;
-//            if ([scheduleId isEqualToString:historyScheduleId]) {
-//                return NO;
-//            }
-//        }
-//    }
     return YES;
 }
 
 
-//////////////////////////////////////////////////////////////
+///////////////// UNNotifications ///////////////////////
 
-- (void)setNotificationSchedules {
-    
-    NSDate * now = [NSDate new];
-    
-    // Get ESMs from SQLite by using CoreData
-    NSArray * esmSchedules = [self getValidSchedulesWithDatetime:now];
-    if(esmSchedules == nil) return;
-    
-    ////////////////////////////////////
-    for (int i=0; i<esmSchedules.count; i++) {
-        
-        EntityESMSchedule * schedule = esmSchedules[i];
-        
-        NSNumber * hour = schedule.fire_hour;
-        NSDateComponents * timer = (NSDateComponents *)schedule.timer;
-        
-        /**  Hours Based ESM */
-        if (hour.intValue != -1) {
-            [self setHourBasedNotification:schedule datetime:now];
-        }
-    
-        /**  Timer Based ESM */
-        if( timer != nil ){
-            [self setTimerBasedNotification:schedule datetime:now];
-        }
-    }
-    // [self getValidSchedulesWithDatetime:[NSDate new]];
-}
+/**
+ set an hour based UNNotification
 
-
+ @param schedule EntityESMSchedule
+ @param datetime A target time
+ */
 - (void) setHourBasedNotification:(EntityESMSchedule *)schedule datetime:(NSDate *) datetime {
-    
+
     NSNumber * randomize = schedule.randomize_schedule;
     if(randomize == nil) randomize = @0;
-    
+
     NSNumber * fireHour   = schedule.fire_hour;
     NSNumber * expiration = schedule.expiration_threshold;
     NSDate   * fireDate   = [AWAREUtils getTargetNSDate:[NSDate new] hour:[fireHour intValue] nextDay:YES];
@@ -394,13 +436,13 @@
     if (schedule.repeat!=nil) {
         repeat = schedule.repeat.boolValue;
     }
-    
+
     if(![randomize isEqualToNumber:@0]){
         // Make a andom date
         int randomMin = (int)[self randomNumberBetween:-1*randomize.intValue maxNumber:randomize.intValue];
         fireDate = [AWAREUtils getTargetNSDate:[NSDate new] hour:[fireHour intValue] minute:randomMin second:0 nextDay:YES];
     }
-    
+
     // The fireData is Valid Time?
     NSDate * expirationTime = [originalFireDate dateByAddingTimeInterval:expiration.integerValue * 60];
     NSDate * inspirationTime = originalFireDate;
@@ -418,12 +460,12 @@
     if(isInTime){
         [fireDate dateByAddingTimeInterval:60*60*24]; // <- temporary solution
     }
-    
-    
+
+
     NSDictionary * userInfo = [[NSDictionary alloc] initWithObjects:@[originalFireDate, randomize, scheduleId,expiration,fireDate,interface]
                                                             forKeys:@[@"original_fire_date", @"randomize",
                                                                       @"schedule_id", @"expiration_threshold",@"fire_date",@"interface"]];
-    
+
     // If the value is 0-23
     UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
     content.title = schedule.notification_title;
@@ -432,26 +474,36 @@
     content.categoryIdentifier = categoryNormalESM;
     content.userInfo = userInfo;
     content.badge = @(1);
-    
+
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:fireDate];
     UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:repeat];
-    
-    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:[NSString stringWithFormat:@"%@_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,fireHour.stringValue] content:content trigger:trigger];
-    
+
+    NSString *notificationId = [NSString stringWithFormat:@"%@_%@_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,fireHour.stringValue,schedule.schedule_id];
+
+    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:notificationId content:content trigger:trigger];
+
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    [center removePendingNotificationRequestsWithIdentifiers:@[notificationId]];
+    [center removeDeliveredNotificationsWithIdentifiers:@[notificationId]];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
         if (error!=nil) {
-            // NSLog(@"[ESMScheduleManager:HourBasedNotification] %@", error.debugDescription);
+            NSLog(@"[ESMScheduleManager:HourBasedNotification] %@", error.debugDescription);
         }else{
-            // NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification");
+            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification");
         }
     }];
 }
 
 
 
-- (void) setTimerBasedNotification:(EntityESMSchedule *)schedule datetime:(NSDate *)datetime{
+/**
+ Set a time based notifiation
+
+ @param schedule EntityESMSchdule
+ @param datetime A target datetime of the notification (NSDate)
+ */
+- (void) setTimeBasedNotification:(EntityESMSchedule *)schedule datetime:(NSDate *)datetime{
     
     NSNumber * randomize = schedule.randomize_schedule;
     if(randomize == nil) randomize = @0;
@@ -483,52 +535,113 @@
     NSDateComponents * components = (NSDateComponents *)schedule.timer;
     if (components !=nil) {
         UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:repeat];
-        NSString * requestId = [NSString stringWithFormat:@"%@_%ld_%ld",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,components.hour,components.minute];
+        NSString * requestId = [NSString stringWithFormat:@"%@_%ld_%ld_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,components.hour,components.minute, schedule.schedule_id];
         UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:requestId content:content trigger:trigger];
+        
         UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+        [center removePendingNotificationRequestsWithIdentifiers:@[requestId]];
+        [center removeDeliveredNotificationsWithIdentifiers:@[requestId]];
         [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-            // NSLog(@"%@",request.debugDescription);
             if (error!=nil) {
                 NSLog(@"[ESMScheduleManager:TimerBasedNotification] %@", error.debugDescription);
             }else{
-                // NSLog(@"[ESMScheduleManager:TimerBasedNotification] Set a notification");
+                if(self->_debug)NSLog(@"[ESMScheduleManager:TimerBasedNotification] Set a notification");
             }
         }];
     }
 }
 
-- (void) refreshNotificationSchedules {
-    [self removeNotificationSchedules];
-    [self setNotificationSchedules];
-}
 
 
-- (void) removeNotificationSchedules {
-    [UNUserNotificationCenter.currentNotificationCenter getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
-        if(requests != nil){
-            NSMutableArray * unrequredNotifications = [[NSMutableArray alloc] init];
+/**
+ Remove pending notification schedules which has KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER.
+ 
+ @note This operation is aynchroized!!
+ */
+- (void)removeNotifications {
+    
+    NSDate * now = [NSDate new];
+    
+    // Get ESMs from SQLite by using CoreData
+    NSArray * esmSchedules = [self getValidSchedulesWithDatetime:now];
+    if(esmSchedules == nil) return;
+    
+    // remove all old notifications from UNUserNotificationCenter
+    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
+        if (requests != nil) {
             for (UNNotificationRequest * request in requests) {
-                if([request.content.categoryIdentifier isEqualToString:self->categoryNormalESM]) {
-                    [unrequredNotifications addObject:request.identifier];
+                NSString * identifer = request.identifier;
+                if (identifer!=nil) {
+                    if ([identifer hasPrefix:KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER]) {
+                        if (self->_debug) NSLog(@"[ESMScheduleManager] remove pending notification: %@", identifer);
+                        [center removePendingNotificationRequestsWithIdentifiers:@[identifer]];
+                    }
                 }
-            }
-            if (unrequredNotifications.count > 0) {
-                [UNUserNotificationCenter.currentNotificationCenter removePendingNotificationRequestsWithIdentifiers:unrequredNotifications];
             }
         }
     }];
 }
 
 
+/**
+ Refresh notifications times
+ */
+- (void) refreshNotifications{
+    NSDate * now = [NSDate new];
+    
+    // Get ESMs from SQLite by using CoreData
+    NSArray * esmSchedules = [self getValidSchedulesWithDatetime:now];
+    if(esmSchedules == nil) return;
+    
+    // remove all old notifications from UNUserNotificationCenter
+    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
+        if (requests != nil) {
+            for (UNNotificationRequest * request in requests) {
+                NSString * identifer = request.identifier;
+                if (identifer!=nil) {
+                    if ([identifer hasPrefix:KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER]) {
+                        if (self->_debug) NSLog(@"[ESMScheduleManager] remove pending notification: %@", identifer);
+                        [center removePendingNotificationRequestsWithIdentifiers:@[identifer]];
+                    }
+                }
+            }
+        }
+        
+        //////// Set new UNNotifications /////////
+        for (int i=0; i<esmSchedules.count; i++) {
+
+            EntityESMSchedule * schedule = esmSchedules[i];
+
+            NSNumber * hour = schedule.fire_hour;
+            NSDateComponents * timer = (NSDateComponents *)schedule.timer;
+
+            /**  Hours Based ESM */
+            if (hour.intValue != -1) {
+                [self setHourBasedNotification:schedule datetime:now];
+            }
+
+            /**  Timer Based ESM */
+            if( timer != nil ){
+                [self setTimeBasedNotification:schedule datetime:now];
+            }
+        }
+    }];
+}
 
 
+////////////// DEBUG ////////////////
 
 
-
-
-
-
-- (void) removeNotificationSchedulesFromSQLite {
+/**
+ Remove all ESM Schdules from database.
+ 
+ @note This method remove all of schedule entities from SQLite. Please use care fully.
+ 
+ @return A state of the remove offeration success or not.
+ */
+- (BOOL) removeAllSchedulesFromDB {
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
@@ -538,16 +651,10 @@
     [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
         NSLog(@"[ESMScheduleManager:removeNotificationScheduleFromSQLite] Error: A delete query is failed");
+        return NO;
     }
+    return YES;
 }
-
-
-
-
-
-
-
-
 
 
 ////////////////////////////////

@@ -47,9 +47,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                              storage:storage];
     if (self) {
         gyroManager = [[CMMotionManager alloc] init];
-        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        super.savingInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
-        // [self setCSVHeader:];
     }
     return self;
 }
@@ -77,12 +74,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     if(parameters != nil){
         double frequency = [self getSensorSetting:parameters withKey:@"frequency_gyroscope"];
         if(frequency != -1){
-            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            [self setSensingIntervalWithSecond:[self convertMotionSensorFrequecyFromAndroid:frequency]];
         }
 
         double tempHz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE];
         if(tempHz > 0){
-            super.sensingInterval = 1.0f/tempHz;
+            [self setSensingIntervalWithSecond:1.0f/tempHz];
         }
     }
 }
@@ -104,11 +101,18 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                              withHandler:^(CMGyroData * _Nullable gyroData,
                                            NSError * _Nullable error) {
                                  
-                                 // dispatch_async(dispatch_get_main_queue(),^{
-                                     
                                      if( error ) {
                                          NSLog(@"%@:%ld", [error domain], [error code] );
                                      } else {
+                                         
+                                         if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                             ![self isHigherThanThresholdWithTargetValue:gyroData.rotationRate.x lastValueKey:@"double_values_0"] &&
+                                             ![self isHigherThanThresholdWithTargetValue:gyroData.rotationRate.y lastValueKey:@"double_values_1"] &&
+                                             ![self isHigherThanThresholdWithTargetValue:gyroData.rotationRate.z lastValueKey:@"double_values_2"]
+                                             ) {
+                                             return;
+                                         }
+                                         
                                          NSNumber *unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
                                          NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                                          [dict setObject:unixtime forKey:@"timestamp"];
@@ -133,9 +137,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          if (handler!=nil) {
                                              handler(self, dict);
                                          }
-                                         
                                     }
-                                 // });
                              }];
     return YES;
 }

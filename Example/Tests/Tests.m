@@ -7,6 +7,7 @@
 //
 
 @import XCTest;
+@import AWAREFramework;
 
 @interface Tests : XCTestCase
 
@@ -26,9 +27,15 @@
     [super tearDown];
 }
 
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+- (void) testSensingBattery {
+    
+//    Battery * battery = [[Battery alloc] init];
+//    [battery setIntervalSecond:10];
+//    [battery setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        NSLog(@"%@",data);
+//    }];
+//    [battery startSensor];
+    
 }
 
 @end

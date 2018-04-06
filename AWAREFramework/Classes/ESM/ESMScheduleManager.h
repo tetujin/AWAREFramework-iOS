@@ -14,14 +14,16 @@
 @property BOOL debug;
 
 - (BOOL) addSchedule:(ESMSchedule *)schedule;
+- (BOOL) addSchedule:(ESMSchedule *)schedule withNotification:(BOOL)notification;
 - (BOOL) deleteScheduleWithId:(NSString *)scheduleId;
 - (BOOL) deleteAllSchedules;
+- (BOOL) deleteAllSchedulesWithNotification:(BOOL)notification;
 - (NSArray *) getValidSchedules;
 - (NSArray *) getValidSchedulesWithDatetime:(NSDate *)datetime;
 
+- (BOOL) removeAllSchedulesFromDB;
 
-- (void) setNotificationSchedules ;
-- (void) removeNotificationSchedules;
-- (void) refreshNotificationSchedules;
+- (void) removeNotifications;
+- (void) refreshNotifications;
 
 @end

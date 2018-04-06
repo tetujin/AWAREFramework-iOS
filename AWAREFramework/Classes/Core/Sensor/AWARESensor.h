@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <Foundation/Foundation.h>
+#import <math.h>
 #import "AWAREUtils.h"
 #import "AWAREStudy.h"
 #import "AWAREKeys.h"
@@ -54,7 +55,7 @@ typedef void (^SensorEventHandler)(AWARESensor *sensor, NSDictionary *data);
 - (void) setLatestValue:(NSString *) valueStr;
 - (NSString *) getLatestValue;
 - (void) setLatestData:(NSDictionary *)dict;
-- (NSDictionary *) getLatestData;
+- (NSDictionary * _Nullable) getLatestData;
 
 - (NSString *) getDeviceId;
 - (double) getSensorSetting:(NSArray *)settings withKey:(NSString *)key;

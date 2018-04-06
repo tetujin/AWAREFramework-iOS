@@ -23,6 +23,8 @@ typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _
 @property int retryLimit;
 @property double syncTaskIntervalSecond;
 @property SyncProcessCallBack syncProcessCallBack;
+@property double saveInterval;
+@property double lastSaveTimestamp;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 

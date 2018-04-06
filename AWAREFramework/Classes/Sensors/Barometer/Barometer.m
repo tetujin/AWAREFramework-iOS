@@ -46,8 +46,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                           sensorName:SENSOR_BAROMETER
                              storage:storage];
     if (self) {
-        super.sensingInterval = 0.2f;
-        super.savingInterval = 30.0f; // 30 sec
+        [self setSensingIntervalWithSecond:0.2f];
+        [self setSavingIntervalWithSecond:30.0f]; // 30 sec
     }
     return self;
 }
@@ -70,7 +70,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_barometer"];
     if(frequency > 0){
         // NOTE: The frequency value is a microsecond
-        super.sensingInterval = frequency/1000000;
+        [self setSensingIntervalWithSecond:frequency/1000000];
     }
 }
 

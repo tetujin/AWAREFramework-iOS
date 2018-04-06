@@ -248,23 +248,24 @@ coming soon
 ```
 
 ### Supported ESM Types
+AWAREFramework-iOS supports 16 typs of ESMs (Text, Radio, Checkbox, Likert Scale, Quick Answer, Scale, DateTime, PAM, Numeric, Web, Date, Time, Clock, Picture, Audio, and Video)
 
-* Text
-* Radio
-* Checkbox
-* Likert Scale
-* Quick Answer
-* Scale
-* DateTime
-* PAM
-* Numeric
-* Web
-* Date
-* Time
-* Clock
-* Picture
-* Audio
-* Video
+#### Text
+#### Radio
+#### Checkbox
+#### Likert Scale
+#### Quick Answer
+#### Scale
+#### DateTime
+#### PAM
+#### Numeric
+#### Web
+#### Date
+#### Time
+#### Clock
+#### Picture
+#### Audio
+#### Video
 
 ## Author
 

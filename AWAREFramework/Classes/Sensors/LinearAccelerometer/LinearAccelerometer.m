@@ -75,8 +75,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                         storage:storage];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
     }
     return self;
 }
@@ -103,11 +101,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
     if (parameters != nil) {
         double frequency = [self getSensorSetting:parameters withKey:@"frequency_linear_accelerometer"];
         if(frequency != -1){
-            super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+            [self setSensingIntervalWithSecond:[self convertMotionSensorFrequecyFromAndroid:frequency]];
         }
         double hz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER];
         if(hz > 0){
-            super.sensingInterval = 1.0f/hz;
+            [self setSensingIntervalWithSecond:1.0f/hz];
         }
     }
 }
@@ -128,8 +126,15 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database
                                                
-                                               // dispatch_async(dispatch_get_main_queue(),^{
-                                                   
+                                               
+                                                   if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.x lastValueKey:@"double_values_0"] &&
+                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.y lastValueKey:@"double_values_1"] &&
+                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.z lastValueKey:@"double_values_2"]
+                                                       ) {
+                                                       return;
+                                                   }
+                                               
                                                    //////////////////////////////////////////////////
                                                    NSNumber *unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
                                                    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];

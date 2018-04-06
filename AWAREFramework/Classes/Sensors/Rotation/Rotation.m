@@ -56,8 +56,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                              storage:storage];
     if (self) {
         motionManager = [[CMMotionManager alloc] init];
-        super.sensingInterval = MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
-        super.savingInterval  = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
     }
     return self;
 }
@@ -83,12 +81,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     // Get a sensing frequency
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_rotation"];
     if(frequency != -1){
-        super.sensingInterval = [self convertMotionSensorFrequecyFromAndroid:frequency];
+        [self setSensingIntervalWithSecond:[self convertMotionSensorFrequecyFromAndroid:frequency]];
     }
     
     double hz = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION];
     if(hz > 0){
-        super.sensingInterval = 1.0f/hz;
+        [self setSensingIntervalWithSecond:1.0f/hz];
     }
 }
 
@@ -106,7 +104,15 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue new]
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database.
-                                               NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+                                               if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.attitude.pitch lastValueKey:@"double_values_0"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.attitude.roll lastValueKey:@"double_values_1"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.attitude.yaw lastValueKey:@"double_values_2"]
+                                                   ) {
+                                                   return;
+                                               }
+                                               
+                                              NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
                                            
                                               NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                                               [dict setObject:unixtime forKey:@"timestamp"];

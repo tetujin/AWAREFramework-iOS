@@ -20,7 +20,6 @@
     NSNumber * previousUploadingProcessFinishUnixTime; // unixtimeOfUploadingData;
     NSNumber * tempLastUnixTimestamp;
     BOOL cancel;
-    // SyncExecutor * executor;
     int retryCurrentCount;
 }
 
@@ -68,12 +67,25 @@
         return NO;
     }
     
-    [self.buffer addObjectsFromArray:dataArray];
-    // NSLog(@"%ld",self.buffer.count);
-    if (self.buffer.count < [self getBufferSize]) {
-        return YES;
+    if (self.saveInterval > 0 ) {
+        // time based operation
+        NSDate * now = [NSDate new];
+        if (now.timeIntervalSince1970 < self.lastSaveTimestamp + self.saveInterval) {
+            return YES;
+        }else{
+            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: save data by time-base trigger", self.sensorName); }
+            self.lastSaveTimestamp = now.timeIntervalSince1970;
+        }
+    }else{
+        // buffer size based operation
+        [self.buffer addObjectsFromArray:dataArray];
+        if (self.buffer.count < [self getBufferSize]) {
+            return YES;
+        }else{
+            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: save data by buffer limit-based trigger", self.sensorName); }
+        }
     }
-    // NSLog(@"%@", self.sensorName);
+
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
     
@@ -107,7 +119,7 @@
                     NSLog(@"Error saving context");
                     // [self.buffer addObjectsFromArray:array];
                 }
-                if(self.isDebug) NSLog(@"[%@] Data is saved", self.sensorName);
+                if(self.isDebug) NSLog(@"[SQLiteStorage] %@: Data is saved", self.sensorName);
                 [self unlock];
             }];
         }

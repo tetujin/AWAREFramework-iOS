@@ -22,6 +22,8 @@
 @synthesize retryLimit;
 @synthesize syncTaskIntervalSecond;
 @synthesize syncProcessCallBack;
+@synthesize lastSaveTimestamp;
+@synthesize saveInterval;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name{
     self = [super init];
@@ -33,6 +35,8 @@
         isStore = YES;
         bufferSize = 0;
         retryLimit = 0;
+        lastSaveTimestamp = 0;
+        saveInterval = 0;
         syncTaskIntervalSecond = 1;
         self.buffer = [[NSMutableArray alloc] init];
     }
