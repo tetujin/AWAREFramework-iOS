@@ -18,6 +18,11 @@ typedef enum: NSInteger {
     AwareESMWeekdaySaturday  = 7
 } AwareESMWeekday;
 
+typedef enum: NSInteger {
+    AwareESMInterfaceTypeOneByOne = 0,
+    AwareESMInterfaceTypeAllInOne = 1
+} AwareESMInterfaceType;
+
 @interface ESMSchedule : NSObject
 
 @property (nonatomic) NSString *scheduleId;
@@ -47,6 +52,8 @@ typedef enum: NSInteger {
 - (void) addContext:(NSString *)context;
 - (void) addTimer:(NSDateComponents *)timer;
 - (void) addWeekday:(AwareESMWeekday)weekday;
+
+- (void) setInterfaceType:(AwareESMInterfaceType)interfaceType;
 
 @end
 ///////////////////

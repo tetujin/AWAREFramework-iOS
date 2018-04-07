@@ -32,8 +32,8 @@
 @property (nonatomic) NSString *esm_scale_min_label;
 @property (nonatomic) NSNumber *esm_scale_start;
 @property (nonatomic) NSNumber *esm_scale_step;
-@property (nonatomic) NSString *esm_start_date;
-@property (nonatomic) NSString *esm_start_time;
+@property (nonatomic, nullable) NSString *esm_start_date;
+@property (nonatomic, nullable) NSString *esm_start_time;
 @property (nonatomic) NSNumber *esm_status;
 @property (nonatomic) NSString *esm_submit;
 @property (nonatomic) NSString *esm_time_format;
@@ -91,7 +91,7 @@
 - (void) setTitle:(NSString *) title;
 - (void) setInstructions:(NSString *) instructions;
 - (void) setSubmitButtonName:(NSString *) submit;
-- (void) setESMExpirationMin:(int)expiration;
+- (void) setExpirationWithMinute:(int)expiration;
 - (void) setNARequirement:(BOOL)na;
 
 @end

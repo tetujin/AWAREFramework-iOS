@@ -59,6 +59,8 @@
     
     // for observers
     NSString * appIntegration;
+    
+    NSObject * quickBtnObserver;
 }
 @end
 
@@ -115,6 +117,12 @@
     self.singleTap.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:self.singleTap];
     
+    quickBtnObserver = [[NSNotificationCenter defaultCenter] addObserverForName:ACTION_AWARE_PUSHED_QUICK_ANSWER_BUTTON
+                                                                         object:nil
+                                                                          queue:nil
+                                                                     usingBlock:^(NSNotification *notif) {
+                                                                         [self pushedSubmitButton:nil];
+                                                                     }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -236,6 +244,9 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    if (quickBtnObserver!=nil) {
+        [[NSNotificationCenter defaultCenter] removeObserver:quickBtnObserver];
+    }
 }
 
 //////////////////////////////////////////////////////////////

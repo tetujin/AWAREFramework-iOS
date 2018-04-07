@@ -49,23 +49,26 @@
     [manager removeAllNotifications];
     [manager removeAllSchedulesFromDB];
     [manager removeAllESMHitoryFromDB];
-    
-    ESMSchedule * schedule = [[ESMSchedule alloc] init];
-    schedule.scheduleId = @"PAM";
-    schedule.fireHours = @[@13,@14,@15,@16];
-    schedule.notificationTitle = @"Please answer a question!";
-    schedule.expirationThreshold = @30;
-    schedule.randomizeSchedule = @5;
 
-    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam2"];
+    [self testESMSchedule];
     
-    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox" checkboxes:@[@"Other",@"A"]];
     
-    ESMItem * num = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
-    
-    [schedule addESMs:@[pam, checkbox, num]];
-
-    [manager addSchedule:schedule];
+//    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+//    schedule.scheduleId = @"PAM";
+//    schedule.fireHours = @[@13,@14,@15,@16];
+//    schedule.notificationTitle = @"Please answer a question!";
+//    schedule.expirationThreshold = @30;
+//    schedule.randomizeSchedule = @5;
+//
+//    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam2"];
+//
+//    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox" checkboxes:@[@"Other",@"A"]];
+//
+//    ESMItem * num = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
+//
+//    [schedule addESMs:@[pam, checkbox, num]];
+//
+//    [manager addSchedule:schedule];
     
 }
 
@@ -295,35 +298,97 @@
     schedule.expirationThreshold = @60;
     schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24*10];
     schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*10];
-    schedule.interface = @1;
-    schedule.fireHours = @[@8,@9,@10,@11,@16,@17,@18,@19,@20,@21,@22,@23,@0,@1];
+    // schedule.interface = @1;
+    for (int i=8; i<24; i++){
+        [schedule addHour:@(i)];
+    }
     
     /////////////////////////
-    ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"0_text"];
-    ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"1_radio"
+    ESMItem * text = [[ESMItem alloc] initAsTextESMWithTrigger:@"text"];
+    [text setTitle:@"Freetext"];
+    [text setInstructions:@"Open-ended text input"];
+    
+    ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"radio"
                                                       radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
-    radio.esm_title = @"ESM title";
-    radio.esm_instructions = @"some instructions";
-    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"2_checkbox"
-                                                            checkboxes:@[@"A",@"B",@"C",@"E",@"F"]];
-    ESMItem * likertScale = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"3_likert"
+    [radio setTitle:@"Radio"];
+    [radio setInstructions:@"Single choice is allowed"];
+    
+    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox"
+                                                            checkboxes:@[@"A",@"B",@"C",@"E",@"Other"]];
+    [checkbox setTitle:@"Checkbox"];
+    [checkbox setInstructions:@"Multiple choice is allowed"];
+    
+    ESMItem * likertScale = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"4_likert"
                                                                   likertMax:10
                                                              likertMinLabel:@"min"
                                                              likertMaxLabel:@"max"
                                                                  likertStep:1];
-    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"4_pam"];
+    [likertScale setTitle:@"Likert"];
+    [likertScale setInstructions:@"Likert ESM"];
+    
+    
+    ESMItem * quickAnswer = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B",@"C"]];
+    [quickAnswer setTitle:@"Quick Answers ESM"];
+    
+    
+    ESMItem * scale = [[ESMItem alloc] initAsScaleESMWithTrigger:@"scalse"
+                                                        scaleMin:0
+                                                        scaleMax:100
+                                                      scaleStart:50
+                                                   scaleMinLabel:@"Poor"
+                                                   scaleMaxLabel:@"Perfect"
+                                                       scaleStep:10];
+    [scale setTitle:@"Scale"];
+    [scale setInstructions:@"Scale ESM"];
+    
+    ESMItem * datetime = [[ESMItem alloc] initAsDateTimeESMWithTrigger:@"datetime"];
+    [datetime setTitle:@"Date Time"];
+    [datetime setInstructions:@"Date and Time ESM"];
+
+    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam"];
+    
+    ESMItem * numeric = [[ESMItem alloc] initAsNumericESMWithTrigger:@"number"];
+    [numeric setTitle:@"Numeric"];
+    [numeric setInstructions:@"The user can enter a number"];
+
+    ESMItem * web = [[ESMItem alloc] initAsWebESMWithTrigger:@"web" url:@"https://google.com"];
+    [web setTitle:@"Web"];
+    [web setInstructions:@"Web ESM"];
+    
+    ESMItem * date = [[ESMItem alloc] initAsDatePickerESMWithTrigger:@"date"];
+    [date setTitle:@"Date"];
+    [date setInstructions:@"Date ESM"];
+    
+    ESMItem * time = [[ESMItem alloc] initAsTimePickerESMWithTrigger:@"time"];
+    [time setTitle:@"Time"];
+    [time setInstructions:@"Time ESM"];
+
+    ESMItem * clock = [[ESMItem alloc] initAsClockDatePickerESMWithTrigger:@"clock"];
+    [clock setTitle:@"Clock"];
+    [clock setInstructions:@"Clock ESM"];
+    
+    ESMItem * picture = [[ESMItem alloc] initAsPictureESMWithTrigger:@"picture"];
+    [picture setTitle:@"Picture"];
+    [picture setInstructions:@"Picture ESM"];
+    
+    ESMItem * audio = [[ESMItem alloc] initAsAudioESMWithTrigger:@"audio"];
+    [audio setTitle:@"Audio"];
+    [audio setInstructions:@"Audio ESM"];
+    
     ESMItem * video = [[ESMItem alloc] initAsVideoESMWithTrigger:@"5_video"];
-    [schedule addESMs:@[text,radio,checkbox,likertScale,pam,video]];
+    
+    [schedule addESMs:@[text,radio,checkbox,likertScale,quickAnswer, scale, datetime, pam, numeric, web, date, time, clock, picture, audio, video]];
+    
     
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
-    [esmManager deleteAllSchedules];
+    esmManager.debug = YES;
     [esmManager addSchedule:schedule];
     
-    if ([esmManager getValidSchedules].count > 0) {
-        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-        [self.navigationController pushViewController:esmView animated:YES];
-    }
-
+//    if ([esmManager getValidSchedules].count > 0) {
+//        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+//        [self.navigationController pushViewController:esmView animated:YES];
+//    }
+    
 }
 
 

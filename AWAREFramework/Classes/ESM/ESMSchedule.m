@@ -11,6 +11,11 @@
     int esmNumber;
 }
 
+/**
+ Initialize ESMSchdule instance
+ 
+ @return An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
+ */
 - (instancetype)init{
     self = [super init];
     if (self != nil) {
@@ -36,24 +41,53 @@
     return self;
 }
 
+
+/**
+ Add a monitoring context for triggering ESM notification.
+
+ @note This function is under developing
+ 
+ @param context A context for triggering ESM notification. The nominated contexts are listed in AWAREKeys.h, also the names of context are "ACTION_AWARE_*".
+ */
 - (void) addContext:(NSString *)context {
     NSMutableArray * tempContexts = [[NSMutableArray alloc] initWithArray:_contexts];
     [tempContexts addObject:context];
     _contexts = tempContexts;
 }
 
+
+/**
+ Add a valid day of the week of an ESM schedule.
+ 
+ @note This function is under developing
+ 
+ @param weekday A valid day of the week of an ESM schedule with an AwareESMWeekday.
+ */
 -(void)addWeekday:(AwareESMWeekday)weekday {
     NSMutableArray * tempWeekdays = [[NSMutableArray alloc] initWithArray:_weekdays];
     [tempWeekdays addObject:@(weekday)];
     _weekdays = tempWeekdays;
 }
 
+
+/**
+ Add valid hours of ESM in a day.
+ 
+ @note The hour should take between 0 and 23.
+ 
+ @param hours A list (NSArray) of valid hours (NSNumber).
+ */
 - (void) addHours:(NSArray <NSNumber *> *) hours {
     for (NSNumber * hour in hours) {
         [self addHour:hour];
     }
 }
 
+/**
+ Add valid hour of ESM in a day. The hour should take between 0 and 23.
+ 
+ @param hour A valid hour (NSNumber).
+ */
 - (void) addHour:(NSNumber *)hour{
     NSMutableArray * tempHours = [[NSMutableArray alloc] initWithArray:_fireHours];
     [tempHours addObject:hour];
@@ -61,12 +95,23 @@
 }
 
 
+/**
+ Add an NSDateComponents for making fixed datetime ESMs.
+ 
+ @param timer An NSDateComponents
+ */
 - (void) addTimer:(NSDateComponents *)timer{
     NSMutableArray * tempTimers = [[NSMutableArray alloc] initWithArray:_timers];
     [tempTimers addObject:timer];
     _timers = tempTimers;
 }
 
+
+/**
+ Add an ESMItem
+
+ @param esmItem An EMSItem which has a components of ESM
+ */
 - (void)addESM:(ESMItem *)esmItem{
     if (esmItem!=nil) {
         NSMutableArray * newESMs = [[NSMutableArray alloc] initWithArray:_esms];
@@ -77,6 +122,12 @@
     }
 }
 
+
+/**
+ Add ESMItems
+
+ @param esmItems An NSArray list which has ESMItems
+ */
 - (void)addESMs:(NSArray<ESMItem *> *)esmItems{
     NSMutableArray * newESMs = [[NSMutableArray alloc] initWithArray:_esms];
     if (esmItems !=nil) {
@@ -87,6 +138,16 @@
         }
     }
     _esms = newESMs;
+}
+
+
+/**
+ Set an interface type: One-By-One or All-In-One
+
+ @param interfaceType A type of ESM Interface
+ */
+- (void)setInterfaceType:(AwareESMInterfaceType)interfaceType{
+    self.interface = @(interfaceType);
 }
 
 @end

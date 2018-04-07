@@ -37,8 +37,8 @@
         _esm_scale_min_label = @"0";
         _esm_scale_start = @5;
         _esm_scale_step = @1;
-        _esm_start_date = @""; //yyyy-MM-dd
-        _esm_start_time = @""; //"HH:mm:ss
+        _esm_start_date = nil; //yyyy-MM-dd
+        _esm_start_time = nil; //"HH:mm:ss
         _esm_status = @0;
         _esm_submit = @"Submit";
         _esm_time_format = @"";
@@ -53,7 +53,12 @@
     return self;
 }
 
+/**
+ Initialize ESMItem with a configuration file which is generated from JSON String
 
+ @param config A NSDictionary variable of a configuration file
+ @return An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
+ */
 - (instancetype) initWithConfiguration:(NSDictionary *) config {
     self = [self init];
     if (config != nil) {
@@ -140,6 +145,13 @@
     return self;
 }
 
+
+/**
+ Initialize an ESMItem object as a Free Text Input type ESM.
+
+ @param trigger A identifer of the ESM
+ @return An initialized object, or nil if an object could not be created for some reason that would not result in an exception.
+ */
 - (instancetype) initAsTextESMWithTrigger:(NSString *) trigger{
     self = [self init];
     
@@ -152,6 +164,7 @@
     
     return self;
 }
+
 
 - (instancetype) initAsRadioESMWithTrigger:(NSString *) trigger
                                 radioItems:(NSArray *) radioItems{
@@ -403,7 +416,7 @@
     }
 }
 
-- (void) setESMExpirationMin:(int)expiration{
+- (void) setExpirationWithMinute:(int)expiration{
     self.esm_expiration_threshold = @(expiration);
     if (esmDict!=nil) {
         [esmDict setObject:@(expiration) forKey:@"esm_expiration_threshold"];

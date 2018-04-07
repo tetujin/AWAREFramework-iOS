@@ -60,7 +60,7 @@ accelerometer.startSensor()
 ```
 ### Exmaple 2: Sync local-database and AWARE Server
 
-AWARECore, AWAREStudy, and AWARESensorManager are singleton instances for managing sensing/synchronization schedule in the library. You can access the instances via AWAREDelegate. The AWAREDelegate is described in the library installing section.  
+AWARECore, AWAREStudy, and AWARESensorManager are singleton instances for managing sensing/synchronization schedule in the library. You can access the instances via AWAREDelegate. The AWAREDelegate is described in the Installation section.  
 ```objective-c
 AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 AWARECore  * core  = delegate.sharedAWARECore;
@@ -75,7 +75,7 @@ let study = core?.sharedAwareStudy
 let manager = core?.sharedSensorManager
 ```
 
-You can synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
+AWAREFramework-iOS allows us to synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
 
 ```objective-c
 /// Example2 (Objective-C): Accelerometer + AWARE Server ///
@@ -99,7 +99,8 @@ manager?.add(accelerometer)
 
 ### Exmaple 3: Apply settings on AWARE Dashboard
 
-You can appy the setting on AWARE Dashboard by using -joinStuyWithURL:completion method.
+Moreover, this library allows us to apply the settings on AWARE Dashboard by using -joinStuyWithURL:completion method.
+
 
 ```objective-c
 /// Example3 (Objective-C): AWARE Dashboard ////
@@ -127,7 +128,7 @@ AWAREFramework is available through [CocoaPods](http://cocoapods.org). To instal
 pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
 ```
 
-Add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)
+First, add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)
 
 * Info.plist
     * Privacy - Location Always and When In Use Usage Description
@@ -138,7 +139,7 @@ Add permissions on Xcode for the background sensing (NOTE: the following permiss
     * Location updates
 ![Image](./Screenshots/background_modes.png)
 
-For collecting your activities data in the background, your AppDelegate needs to succeed AWAREDelegate class.
+Second, inherit AWAREDelegate at AppDelegate (or equivalent method) as follows.
 
 Objective-C
 ```objective-c
@@ -146,7 +147,7 @@ Objective-C
 @import UIKit;
 @import AWAREFramework;
 
-@interface AWAREFrameworkAppDelegate: AWAREDelegate <UIApplicationDelegate>
+@interface AppDelegate: AWAREDelegate <UIApplicationDelegate>
 
 @end
 ```
@@ -183,7 +184,7 @@ class AppDelegate: AWAREDelegate {
 }
 ```
 
-Your application needs to call permission request for the location sensor using following code when the application is opened first time. (e.g., -viewDidLoad on UIViewController)
+Finally, call permission requests for the location sensor when the app is opened in first time. (e.g., -viewDidLoad on UIViewController)
 
 Objective-C
 ```objective-c
@@ -203,7 +204,7 @@ core.requestNotification(UIApplication.shared)
 
 ## Experience Sampling Method (ESM)
 
-AWAREFramework-iOS supports ESM function. You can make ESMs by the following source code (e.g., send scheduled Radio ESM at 9:00, 12:00, 18:00, and 21:00).
+This library supports ESM. The method allows us to make questions in your app at certain times.   The following code shows to a radio type question at 9:00, 12:00, 18:00, and 21:00 every day as an example. Please access our website for learning more information about the ESM.
 
 ```objective-c
 /// Objective-C: Initialize an ESMSchedule ///
@@ -231,7 +232,7 @@ ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
 ```
 
 ```swift
-\\\ Swift \\\
+/// Swift ///
 let schdule = ESMSchedule.init()
 schdule.notificationTitle = "notification title"
 schdule.noitificationBody = "notification body"
@@ -256,7 +257,7 @@ esmManager.add(schdule)
 Please call the following chunk of code for appearing ESMScrollViewController (e.g., at -viewDidAppear: ).
 
 ```objective-c
-\\\ Objective-C: check valid ESMs and show ESMScrollViewController \\\
+/// Objective-C: check valid ESMs and show ESMScrollViewController ///
 ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
 NSArray * schdules = [esmManager getValidSchedules];
 if (schdules.count > 0) {
@@ -269,7 +270,7 @@ if (schdules.count > 0) {
 }
 ```
 ```swift
-\\\ Swift \\\
+/// Swift ///
 let esmManager = ESMScheduleManager.init()
 let schedules = esmManager.getValidSchedules()
 if let unwrappedSchedules = schedules {
@@ -285,21 +286,52 @@ if let unwrappedSchedules = schedules {
 AWAREFramework-iOS supports 16 typs of ESMs (Text, Radio, Checkbox, Likert Scale, Quick Answer, Scale, DateTime, PAM, Numeric, Web, Date, Time, Clock, Picture, Audio, and Video)
 
 #### Text
+![Image](./Screenshots/esms/1_esm_freetext.png)
+
 #### Radio
+![Image](./Screenshots/esms/2_esm_radiobox.png)
+
 #### Checkbox
+![Image](./Screenshots/esms/3_esm_checkbox.png)
+
 #### Likert Scale
+![Image](./Screenshots/esms/4_esm_likert_scale.png)
+
 #### Quick Answer
+![Image](./Screenshots/esms/5_quick_answer.png)
+
 #### Scale
+![Image](./Screenshots/esms/6_datetime.png)
+
 #### DateTime
+![Image](./Screenshots/esms/7_slider.png)
+
 #### PAM
+![Image](./Screenshots/esms/8_pam.png)
+
 #### Numeric
+![Image](./Screenshots/esms/9_number.png)
+
 #### Web
+![Image](./Screenshots/esms/10_web.png)
+
 #### Date
+![Image](./Screenshots/esms/11_date.png)
+
 #### Time
+![Image](./Screenshots/esms/12_time.png)
+
 #### Clock
+![Image](./Screenshots/esms/13_clock.png)
+
 #### Picture
+![Image](./Screenshots/esms/14_picture.png)
+
 #### Audio
+![Image](./Screenshots/esms/15_audio.png)
+
 #### Video
+![Image](./Screenshots/esms/16_video.png)
 
 ## Author
 
