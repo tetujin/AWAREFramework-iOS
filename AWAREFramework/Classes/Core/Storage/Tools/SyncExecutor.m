@@ -52,6 +52,12 @@
 }
 
 - (void)syncWithData:(NSData *)data callback:(SyncExecutorCallBack)callback{
+    
+    NSString * baseURL = [self getWebserviceUrl];
+    if (baseURL == nil || [baseURL isEqualToString:@""]) {
+        return;
+    }
+    
     if (isSyncing) {
         NSLog(@"[%@] still in a sync process", sensorName);
         return;

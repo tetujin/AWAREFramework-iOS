@@ -115,7 +115,7 @@
 - (void)addESM:(ESMItem *)esmItem{
     if (esmItem!=nil) {
         NSMutableArray * newESMs = [[NSMutableArray alloc] initWithArray:_esms];
-        esmItem.esm_number = @(esmNumber);
+        [esmItem setNumber:esmNumber];
         esmNumber++;
         [newESMs addObject:esmItem];
         _esms = newESMs;
@@ -132,7 +132,7 @@
     NSMutableArray * newESMs = [[NSMutableArray alloc] initWithArray:_esms];
     if (esmItems !=nil) {
         for (ESMItem * esm in esmItems) {
-            esm.esm_number = @(esmNumber);
+            [esm setNumber:esmNumber];
             esmNumber++;
             [newESMs addObject:esm];
         }

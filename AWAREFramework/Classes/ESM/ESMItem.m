@@ -73,7 +73,7 @@
          }
          NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (jsonString != nil) {
-            self.esm_json = jsonString;
+            _esm_json = jsonString;
         }
         
         if (esmType != nil) {
@@ -82,11 +82,11 @@
             }else if (esmType.intValue == AwareESMTypeRadio){ // radio
                 self = [self initAsRadioESMWithTrigger:trigger
                                     radioItems:@[]];
-                self.esm_radios = [config objectForKey:@"esm_radios"];
+                _esm_radios = [config objectForKey:@"esm_radios"];
             }else if (esmType.intValue == AwareESMTypeCheckbox){ // checkbox
                 self = [self initAsCheckboxESMWithTrigger:trigger
                                        checkboxes:@[]];
-                self.esm_checkboxes = [config objectForKey:@"esm_checkboxes"];
+                _esm_checkboxes = [config objectForKey:@"esm_checkboxes"];
             }else if (esmType.integerValue == AwareESMTypeLikertScale){ // likert scale
                 NSNumber * max = [config objectForKey:@"esm_likert_max"];
                 if (max == nil) max = @5;
@@ -100,7 +100,7 @@
             }else if (esmType.intValue == AwareESMTypeQuickAnswer){ // quick answer
                 self = [self initAsQuickAnawerESMWithTrigger:trigger
                                         quickAnswers:@[]];
-                self.esm_quick_answers = [config objectForKey:@"esm_quick_answers"];
+                _esm_quick_answers = [config objectForKey:@"esm_quick_answers"];
             } else if (esmType.intValue == AwareESMTypeScale ){ // scale
                 NSNumber * min = [config objectForKey:@"esm_scale_min"];
                 if (min == nil) min = @0;
@@ -136,11 +136,11 @@
         bool naState = NO;
         if (isNa != nil) naState = isNa.intValue;
         
-        self.esm_title = title;
-        self.esm_instructions = instructions;
-        self.esm_submit = submit;
-        self.esm_expiration_threshold = expiration;
-        self.esm_na = @(naState);
+        _esm_title = title;
+        _esm_instructions = instructions;
+        _esm_submit = submit;
+        _esm_expiration_threshold = expiration;
+        _esm_na = @(naState);
     }
     return self;
 }
@@ -159,7 +159,7 @@
                                         trigger:trigger];
 
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     
     return self;
@@ -172,10 +172,10 @@
     if (radioItems != nil) {
         esmDict = [self setBasicElementsWithESMType:AwareESMTypeRadio
                                             trigger:trigger];
-        self.esm_radios = [self convertToJSONStringWithArray:radioItems];
+        _esm_radios = [self convertToJSONStringWithArray:radioItems];
         if (esmDict != nil) {
             [esmDict setObject:radioItems forKey:@"esm_radios"];
-            self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+            _esm_json = [self convertToJSONStringWithDictionary:esmDict];
         }
     }
     
@@ -188,10 +188,10 @@
     if(checkboxes != nil){
         esmDict = [self setBasicElementsWithESMType:AwareESMTypeCheckbox
                                                                   trigger:trigger];
-        self.esm_checkboxes = [self convertToJSONStringWithArray:checkboxes];
+        _esm_checkboxes = [self convertToJSONStringWithArray:checkboxes];
         if (esmDict != nil) {
             [esmDict setObject:checkboxes forKey:@"esm_checkboxes"];
-            self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+            _esm_json = [self convertToJSONStringWithDictionary:esmDict];
         }
     }
     return self;
@@ -207,16 +207,16 @@
     if ( minLabel != nil && maxLabel != nil ) {
         esmDict = [self setBasicElementsWithESMType:AwareESMTypeLikertScale
                                                                   trigger:trigger];
-        self.esm_likert_max = @(likertMax);
-        self.esm_likert_min_label = minLabel;
-        self.esm_likert_max_label = maxLabel;
-        self.esm_likert_step = @(likertStep);
+        _esm_likert_max = @(likertMax);
+        _esm_likert_min_label = minLabel;
+        _esm_likert_max_label = maxLabel;
+        _esm_likert_step = @(likertStep);
         if (esmDict != nil) {
             [esmDict setObject:@(likertMax) forKey:@"esm_likert_max"];
             [esmDict setObject:@(likertStep) forKey:@"esm_likert_step"];
             [esmDict setObject:minLabel forKey:@"esm_likert_min_label"];
             [esmDict setObject:maxLabel forKey:@"esm_likert_max_label"];
-            self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+            _esm_json = [self convertToJSONStringWithDictionary:esmDict];
         }
     }
     return self;
@@ -228,10 +228,10 @@
     if(quickAnswers != nil){
         esmDict = [self setBasicElementsWithESMType:AwareESMTypeQuickAnswer
                                                                   trigger:trigger];
-        self.esm_quick_answers = [self convertToJSONStringWithArray:quickAnswers];
+        _esm_quick_answers = [self convertToJSONStringWithArray:quickAnswers];
         if (esmDict!=nil) {
             [esmDict setObject:quickAnswers forKey:@"esm_quick_answers"];
-            self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+            _esm_json = [self convertToJSONStringWithDictionary:esmDict];
         }
     }
     
@@ -256,12 +256,12 @@
         [esmDict setObject:minLabel forKey:@"esm_scale_min_label"];
         [esmDict setObject:maxLabel forKey:@"esm_scale_max_label"];
         
-        self.esm_scale_min = @(scaleMin);
-        self.esm_scale_max = @(scaleMax);
-        self.esm_scale_start = @(scaleStart);
-        self.esm_scale_min_label = minLabel;
-        self.esm_scale_max_label = maxLabel;
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_scale_min = @(scaleMin);
+        _esm_scale_max = @(scaleMax);
+        _esm_scale_start = @(scaleStart);
+        _esm_scale_min_label = minLabel;
+        _esm_scale_max_label = maxLabel;
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -271,7 +271,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeDateTime
                                                               trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -281,7 +281,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypePAM
                                                               trigger:trigger];
     if (esmDict!=nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -291,7 +291,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeNumeric
                                                               trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -302,10 +302,10 @@
     if (url!=nil) {
         esmDict = [self setBasicElementsWithESMType:AwareESMTypeWeb
                                                                   trigger:trigger];
-        self.esm_url = url;
+        _esm_url = url;
         if (esmDict != nil) {
             [esmDict setObject:url forKey:@"esm_url"];
-            self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+            _esm_json = [self convertToJSONStringWithDictionary:esmDict];
         }
     }
     return self;
@@ -316,7 +316,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeTime
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -327,7 +327,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeDate
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -338,7 +338,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeClock
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -349,7 +349,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypePicture
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -359,7 +359,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeAudio
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -369,7 +369,7 @@
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeVideo
                                         trigger:trigger];
     if (esmDict != nil) {
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
     return self;
 }
@@ -380,63 +380,104 @@
 
 - (NSMutableDictionary * ) setBasicElementsWithESMType:(AwareESMType)type
                                                trigger:(NSString *) trigger{
-    self.esm_type = @(type);
+    _esm_type = @(type);
     
     if (trigger != nil) {
-        self.esm_trigger = trigger;
+        _esm_trigger = trigger;
     }else{
-        self.esm_trigger = [[NSUUID UUID] init].UUIDString;
+        _esm_trigger = [[NSUUID UUID] init].UUIDString;
     }
     
-    NSMutableDictionary * esmDict = [[NSMutableDictionary alloc] initWithObjects:@[@(type), self.esm_trigger,self.esm_expiration_threshold,self.esm_title, self.esm_instructions, self.esm_submit, self.esm_na] forKeys:@[@"esm_type",@"esm_trigger", @"esm_expiration_threshold", @"esm_title", @"esm_instructions", @"esm_submit", @"esm_na"]];
+    NSMutableDictionary * esmDict = [[NSMutableDictionary alloc] initWithObjects:@[@(type), _esm_trigger,_esm_expiration_threshold,_esm_title, _esm_instructions, _esm_submit, _esm_na] forKeys:@[@"esm_type",@"esm_trigger", @"esm_expiration_threshold", @"esm_title", @"esm_instructions", @"esm_submit", @"esm_na"]];
     return esmDict;
 }
 
 - (void) setTitle:(NSString *) title{
-    self.esm_title = title;
+    _esm_title = title;
     if (esmDict!=nil) {
         [esmDict setObject:title forKey:@"esm_title"];
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
 }
 
 - (void) setInstructions:(NSString *) instructions{
-    self.esm_instructions = instructions;
+    _esm_instructions = instructions;
     if (esmDict!=nil) {
         [esmDict setObject:instructions forKey:@"esm_instructions"];
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
 }
 
 - (void) setSubmitButtonName:(NSString *) submit{
-    self.esm_submit = submit;
+    _esm_submit = submit;
     if (esmDict!=nil) {
         [esmDict setObject:submit forKey:@"esm_submit"];
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
 }
 
 - (void) setExpirationWithMinute:(int)expiration{
-    self.esm_expiration_threshold = @(expiration);
+    _esm_expiration_threshold = @(expiration);
     if (esmDict!=nil) {
         [esmDict setObject:@(expiration) forKey:@"esm_expiration_threshold"];
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
 }
 
 - (void) setNARequirement:(BOOL)na{
-    self.esm_na = @(na);
+    _esm_na = @(na);
     if (esmDict!=nil) {
         [esmDict setObject:@(na) forKey:@"esm_na"];
-        self.esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
     }
+}
+
+- (void) setNumber:(int)number{
+    _esm_number = @(number);
+    if (esmDict!=nil) {
+        [esmDict setObject:@(number) forKey:@"esm_number"];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+}
+
+- (BOOL) setFlowWithItems:(NSArray<ESMItem *>*)items answerKey:(NSArray <NSString *> *)keys{
+    if (items == nil || keys == nil) {
+        return NO;
+    }
+    
+    if (items.count != keys.count) {
+        return NO;
+    }
+    
+    NSMutableArray * flows = [[NSMutableArray alloc] init];
+    for (int number=0; number<keys.count; number++) {
+        NSString * key = keys[number];
+        ESMItem * item = items[number];
+        NSError * error = nil;
+        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:[item.esm_json dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+        if (error!=nil) {
+            return NO;
+        }
+        [flows addObject:@{
+                           @"user_answer":key,
+                           @"next_esm":@{@"esm":dict}
+                           }];
+    }
+    
+    NSString * flowJSON = [self convertToJSONStringWithArray:flows];
+    _esm_flows = flowJSON;
+    if (esmDict!=nil) {
+        [esmDict setObject:flowJSON forKey:@"esm_flows"];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+    return YES;
 }
 
 ////////////////////////////////
 
 - (NSString *) convertToJSONStringWithArray:(NSArray *) array{
     NSError * error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:0 error:&error];
     if (error != nil) {
         NSLog(@"[EntityESM] Convert Error to JSON-String from NSArray: %@", error.debugDescription);
         return @"";
@@ -451,7 +492,7 @@
 
 - (NSString *) convertToJSONStringWithDictionary:(NSDictionary *) dictionary{
     NSError * error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
     if (error != nil) {
         NSLog(@"[EntityESM] Convert Error to JSON-String from NSDictionary: %@", error.debugDescription);
         return @"";

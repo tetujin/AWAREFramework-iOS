@@ -15,7 +15,6 @@ NSString * const AWARE_PREFERENCES_STATUS_BLUETOOTH    = @"status_bluetooth";
 NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 
 @implementation Bluetooth {
-    //MDBluetoothManager * mdBluetoothManager;
     NSTimer * scanTimer;
     NSDate * sessionTime;
     
@@ -57,7 +56,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     
     self = [super initWithAwareStudy:study sensorName:SENSOR_BLUETOOTH storage:storage];
     if (self) {
-        // mdBluetoothManager = [MDBluetoothManager sharedInstance];
         _scanDuration = 30; // 30 second
         _scanInterval = 60*5; // 5 min
         sessionTime = [NSDate new];
@@ -73,7 +71,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     [maker addColumn:KEY_BLUETOOTH_NAME    type:TCQTypeText    default:@"''"];
     [maker addColumn:KEY_BLUETOOTH_RSSI    type:TCQTypeInteger default:@"0"];
     [maker addColumn:KEY_BLUETOOTH_LABLE   type:TCQTypeText    default:@"''"];
-    //[super createTable:query];
     [self.storage createDBTableOnServerWithTCQMaker:maker];
 }
 
@@ -92,6 +89,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     
     [super startSensor];
     
+    _peripherals = [[NSMutableArray alloc] init];
+    
     scanTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                  target:self
                                                selector:@selector(startToScanBluetooth:)
@@ -103,9 +102,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     if ([self isDebug]) {
         NSLog(@"[%@] Start BLE Sensor", [self getSensorName]);
     }
-    
-    // Set notification events for scanning classic bluetooth devices
-    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bluetoothDeviceDiscoveredNotification:) name:@"BluetoothDeviceDiscoveredNotification" object:nil];
     
     return YES;
 }
@@ -119,11 +115,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     // Stop the scan timer for the classic bluetooth
     [scanTimer invalidate];
     scanTimer = nil;
-    // Stop scanning classic bluetooth
-    // [mdBluetoothManager endScan];
-    // remove notification observer from notification center
-    // [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothDeviceDiscoveredNotification" object:nil];
-    
     [super stopSensor];
     
     return YES;
@@ -139,7 +130,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     if (name == nil) name = @"";
     if (address == nil ) address = @"";
     if (rssi == nil) rssi = @-1;
-
     
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -166,10 +156,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     if (handler!=nil) {
         handler(self, dict);
     }
-    
-//    if ([self isDebug]) {
-//        [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"Find a new Blueooth device! %@ (%@)", name, address] soundFlag:NO];
-//    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -187,80 +173,42 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_BLUETOOTH_SCAN_STARTED
                                                         object:nil
                                                       userInfo:nil];
-    
-    // Set up for a classic bluetooth
-//    if (![mdBluetoothManager bluetoothIsPowered]) {
-//        [mdBluetoothManager turnBluetoothOn];
-//    }
-    
     _peripherals = [[NSMutableArray alloc] init];
+    
     sessionTime = [NSDate new];
-    
-    // start scanning classic bluetooth devices.
-//    if (![mdBluetoothManager isScanning]) {
-//        NSString *scanStartMessage = [NSString stringWithFormat:@"Start scanning Bluetooth devices during %d second!", _scanDuration];
-//        if([self isDebug]) NSLog(@"...Start scanning Bluetooth devices.");
-//        if ([self isDebug]){
-//           [AWAREUtils sendLocalNotificationForMessage:scanStartMessage soundFlag:NO];
-//        }
-//        // start to scan Bluetooth devices
-//        [mdBluetoothManager startScan];
-//        // stop to scan Bluetooth devies after "scanDuration" second.
-//        [self performSelector:@selector(stopToScanBluetooth) withObject:0 afterDelay:_scanDuration];
-//        if([self isDebug]) NSLog(@"...After %d second, the Blueooth scan will be end.", _scanDuration);
-//    }
-    
+
+    if ([self isDebug]) {
+        NSLog(@"[Bluetooth] startToScanBluetooth");
+    }
     
     // start scanning ble devices.
-    _myCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    [_myCentralManager performSelector:@selector(stopScan) withObject:nil afterDelay:_scanDuration];
+    if ([AWAREUtils isBackground]) {
+        [_myCentralManager retrievePeripheralsWithIdentifiers:[self getKnownPeripheralUUIDs]];
+    }else{
+        _myCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    }
+    [self performSelector:@selector(stopToScanBluetooth) withObject:nil afterDelay:_scanDuration];
+
 }
 
 
 - (void) stopToScanBluetooth {
-    if ([self isDebug]){
-        // [AWAREUtils sendLocalNotificationForMessage:@"Stop scanning Bluetooth devices!" soundFlag:NO];
+    if ([self isDebug]) {
+        NSLog(@"[Bluetooth] stopToScanBluetooth");
     }
     
-    // [mdBluetoothManager endScan];
+    [_myCentralManager stopScan];
+    
+    if (_peripherals != nil) {
+        for (CBPeripheral * peripheral in _peripherals) {
+            [_myCentralManager cancelPeripheralConnection:peripheral];
+        }
+    }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_BLUETOOTH_SCAN_ENDED
                                                         object:nil
                                                       userInfo:nil];
 }
-
-//- (void)receivedBluetoothNotification:(MDBluetoothNotification)bluetoothNotification{
-//    switch (bluetoothNotification) {
-//        case MDBluetoothPowerChangedNotification:
-//            if([self isDebug]) NSLog(@"changed");
-//            break;
-//        case MDBluetoothDeviceUpdatedNotification:
-//            if([self isDebug]) NSLog(@"update");
-//            break;
-//        case MDBluetoothDeviceRemovedNotification:
-//            if([self isDebug]) NSLog(@"remove");
-//            break;
-//        case MDBluetoothDeviceDiscoveredNotification:
-//            if([self isDebug]) NSLog(@"discoverd");
-//            break;
-//        default:
-//            break;
-//    }
-//}
-
-//- (void)bluetoothDeviceDiscoveredNotification:(NSNotification *)notification{
-//    if([self isDebug]){
-//        NSLog(@"%@", notification.description);
-//    }
-//    // save a bluetooth device information
-//    BluetoothDevice * bluetoothDevice = notification.object;
-//    NSString* address = bluetoothDevice.address;
-//    NSString* name = bluetoothDevice.name;
-//    if (address == nil) address = @"";
-//    if (name == nil) name = @"";
-//    
-//    [self saveBluetoothDeviceWithAddress:address name:name rssi:@-1];
-//}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -268,37 +216,17 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    NSArray *services = @[
-                          [CBUUID UUIDWithString:BATTERY_SERVICE],
-                          [CBUUID UUIDWithString:BODY_COMPOSITION_SERIVCE],
-                          [CBUUID UUIDWithString:CURRENT_TIME_SERVICE],
-                          [CBUUID UUIDWithString:DEVICE_INFORMATION],
-                          [CBUUID UUIDWithString:ENVIRONMENTAL_SENSING],
-                          [CBUUID UUIDWithString:GENERIC_ACCESS],
-                          [CBUUID UUIDWithString:GENERIC_ATTRIBUTE],
-                          [CBUUID UUIDWithString:MEASUREMENT],
-                          [CBUUID UUIDWithString:BODY_LOCATION],
-                          [CBUUID UUIDWithString:MANUFACTURER_NAME],
-                          [CBUUID UUIDWithString:HEART_RATE_UUID],
-                          [CBUUID UUIDWithString:HTTP_PROXY_UUID],
-                          [CBUUID UUIDWithString:HUMAN_INTERFACE_DEVICE],
-                          [CBUUID UUIDWithString:INDOOR_POSITIONING],
-                          [CBUUID UUIDWithString:LOCATION_NAVIGATION ],
-                          // [CBUUID UUIDWithString:PHONE_ALERT_STATUS],
-                          [CBUUID UUIDWithString:REFERENCE_TIME],
-                          [CBUUID UUIDWithString:SCAN_PARAMETERS],
-                          [CBUUID UUIDWithString:TRANSPORT_DISCOVERY],
-                          [CBUUID UUIDWithString:USER_DATA],
-                          [CBUUID UUIDWithString:@"AA80"]
-                          ];
-    
     switch ([central state]) {
         case CBManagerStateUnknown:
             if ([self isDebug]) NSLog(@"[%@] CBManagerStateUnknown", [self getSensorName]);
             break;
         case CBManagerStatePoweredOn:
             if ([self isDebug]) { NSLog(@"[%@] CBManagerStatePoweredOn", [self getSensorName]);}
-            [central scanForPeripheralsWithServices:services options:nil];
+            // [central scanForPeripheralsWithServices:services options:nil];
+            /// for foreground sensing
+            [_myCentralManager scanForPeripheralsWithServices:nil options:nil];
+//            [_myCentralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"10B697A7-3600-4F55-85E5-16915BD23602"]]
+//                                                      options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
             break;
         case CBManagerStateResetting:
             if ([self isDebug]) NSLog(@"[%@] CBManagerStateResetting", [self getSensorName]);
@@ -361,44 +289,53 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 }
 
 
-
-
-- (void) centralManager:(CBCentralManager *)central
-  didDiscoverPeripheral:(CBPeripheral *)peripheral
-      advertisementData:(NSDictionary *)advertisementData
-                   RSSI:(NSNumber *)RSSI {
+- (void) centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     if([self isDebug]){
-        NSLog(@"Discovered %@", peripheral.name);
-        NSLog(@"UUID %@", peripheral.identifier);
-        NSLog(@"%@", peripheral);
+        NSLog(@"[Bluetooth] Name:%@, UUID: %@, RSSI: %@", peripheral.name, peripheral.identifier, RSSI);
     }
+    
+    [self savePeripheralUUID:peripheral.identifier];
+    
     NSString *name = peripheral.name;
     NSString *uuid = peripheral.identifier.UUIDString;
     
     [self saveBluetoothDeviceWithAddress:uuid name:name rssi:RSSI];
     
-    [_peripherals addObject:peripheral];
     [_myCentralManager connectPeripheral:peripheral options:nil];
-    
 }
 
 
-- (void) centralManager:(CBCentralManager *) central
-   didConnectPeripheral:(CBPeripheral *)peripheral
-{
-    if([self isDebug]){
-        NSLog(@"Peripheral connected");
-    }
+- (void) centralManager:(CBCentralManager *) central didConnectPeripheral:(CBPeripheral *)peripheral {
+    if([self isDebug]){ NSLog(@"Peripheral connected"); }
+    
+    [_peripherals addObject:peripheral];
     peripheral.delegate = self;
     [peripheral readRSSI];
     [peripheral discoverServices:nil];
 }
 
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    if(self.isDebug) { NSLog(@"[bluetooth] didDisconnectPeripheral: %@ (%@) %@", peripheral.name, peripheral.identifier.UUIDString, error.debugDescription); }
+}
+
+//- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *,id> *)dict{
+//    if (self.isDebug) {
+//        NSLog(@"%@",dict.debugDescription);
+//    }
+//}
+
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    if (self.isDebug) {
+        if(self.isDebug) { NSLog(@"[bluetooth] didFailPeripheral: %@ (%@) %@", peripheral.name, peripheral.identifier.UUIDString, error.debugDescription); }
+    }
+}
+
+//////////////////////////////////////////////
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
     for (CBService *service in peripheral.services) {
-//        NSLog(@"Discoverd serive %@", service.UUID);
+        // NSLog(@"[bluetooth] service: %@ -> %@", peripheral.name, service.UUID.UUIDString);
         if ([service.UUID isEqual:[CBUUID UUIDWithString:@"180A"]]) {
             [peripheral discoverCharacteristics:nil forService:service];
         }
@@ -437,24 +374,83 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 }
 
 
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
-             error:(NSError *)error
-{
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     NSString * serialNumber = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
     NSString *name = [NSString stringWithFormat:@"%@ (%@)", peripheral.name, serialNumber];
     NSString *uuid = peripheral.identifier.UUIDString;
-    NSNumber *rssi = peripheral.RSSI;
     if([self isDebug]){
-        NSLog(@"%@", name);
+        NSLog(@"[Bleutooth] %@", name);
     }
-    [self saveBluetoothDeviceWithAddress:uuid name:name rssi:rssi];
-    
+    [self saveBluetoothDeviceWithAddress:uuid name:name rssi:nil];
 }
 
 
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error{
-
+//    NSString *name = [NSString stringWithFormat:@"%@", peripheral.name];
+//    NSString *uuid = peripheral.identifier.UUIDString;
+//    if([self isDebug]){
+//        NSLog(@"[Bluetooth]%@:, RSSI:%@",name,RSSI);
+//    }
+//    [self saveBluetoothDeviceWithAddress:uuid name:name rssi:RSSI];
 }
+
+- (void)peripheral:(CBPeripheral *)peripheral didModifyServices:(NSArray<CBService *> *)invalidatedServices{
+    if (invalidatedServices!=nil) {
+        for (CBService * service in invalidatedServices) {
+            NSLog(@"[bluetooth] peripheral: %@ (%@), didModifyServices: %@",peripheral.name, peripheral.identifier.UUIDString, service.UUID.UUIDString);
+        }
+    }
+}
+
+
+
+/**
+ Save a peripheral UUID for recovering connection in the background
+
+ @param uuid An UUID of a perihperal
+ */
+- (void) savePeripheralUUID:(NSUUID *) uuid {
+    NSUserDefaults * defualts = [NSUserDefaults standardUserDefaults];
+    NSMutableArray * knownUUIDs = [[NSMutableArray alloc] initWithArray:[self getKnownPeripheralUUIDs]];
+    if (knownUUIDs == nil) {
+        knownUUIDs = [[NSMutableArray alloc] init];
+    }
+    if (uuid != nil) {
+        bool unknownUUID = true;
+        for (NSUUID * knownUUID in knownUUIDs) {
+            if ([knownUUID.UUIDString isEqualToString:uuid.UUIDString]) {
+                unknownUUID = false;
+                break;
+            }
+        }
+        if (unknownUUID) {
+            [knownUUIDs addObject:uuid];
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:knownUUIDs];
+            [defualts setObject:data forKey:@"key.aware.known.ble.peripheral.uuids"];
+            [defualts synchronize];
+        }else{
+            if(self.isDebug){ NSLog(@"Known UUID"); }
+        }
+    }
+}
+
+
+/**
+ get a list of known peripheral UUIDs
+
+ @return A list of known peripheral UUIDs
+ */
+- (NSArray *) getKnownPeripheralUUIDs {
+    NSUserDefaults * defualts = [NSUserDefaults standardUserDefaults];
+    NSData * knownUUIDsData = [defualts objectForKey:@"key.aware.known.ble.peripheral.uuids"];
+    if (knownUUIDsData == nil) {
+        return @[];
+    }else{
+        NSArray *knownUUIDs = [NSKeyedUnarchiver unarchiveObjectWithData:knownUUIDsData];
+        return knownUUIDs;
+    }
+}
+
 
 
 

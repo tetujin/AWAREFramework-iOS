@@ -8,36 +8,25 @@
 
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
-// Public Bluetooth API
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreLocation/CoreLocation.h>
-// Private API (for Classic Bluetooth)
-/**
- * This library(MDBluetoothManager) is made by @michaeldomer under the GPL(ver3) licence.
- * Also, you can access his original source code from GitHub(https://github.com/michaeldorner/BeeTee) .
- */
-// #import "MDBluetoothManager.h"
 
 extern NSString* const AWARE_PREFERENCES_STATUS_BLUETOOTH;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH;
 
-//@interface Bluetooth : AWARESensor <AWARESensorDelegate, CBCentralManagerDelegate, CBPeripheralDelegate,MDBluetoothObserverProtocol>
 @interface Bluetooth : AWARESensor <AWARESensorDelegate, CBCentralManagerDelegate, CBPeripheralDelegate>
 @property (nonatomic, strong) CBCentralManager *myCentralManager;
-//@property (nonatomic, strong) CBPeripheral *peripheralDevice;
 @property (strong,nonatomic) NSMutableArray *peripherals;
 
 @property (nonatomic) int scanInterval;
 @property (nonatomic) int scanDuration;
 
 - (BOOL) startSensor;
-
 - (BOOL) startSensorWithScanInterval:(int)interval duration:(int)duration;
 
 //https://developer.bluetooth.org/gatt/services/Pages/ServicesHome.aspx
 
 //#define SENSORTAG_SERVICE_UUID @"AA80"
-
 
 #define BATTERY_SERVICE @"180F"
 #define BODY_COMPOSITION_SERIVCE @"181B"

@@ -10,40 +10,40 @@
 
 @interface ESMItem : NSObject
 
-@property (nonatomic) NSString *device_id;
-@property (nonatomic) NSNumber *double_esm_user_answer_timestamp;
-@property (nonatomic) NSString *esm_checkboxes;
-@property (nonatomic) NSNumber *esm_expiration_threshold;
-@property (nonatomic) NSString *esm_flows;
-@property (nonatomic) NSString *esm_instructions;
-@property (nonatomic) NSString *esm_json;
-@property (nonatomic) NSNumber *esm_likert_max;
-@property (nonatomic) NSString *esm_likert_max_label;
-@property (nonatomic) NSString *esm_likert_min_label;
-@property (nonatomic) NSNumber *esm_likert_step;
-@property (nonatomic) NSNumber *esm_minute_step;
-@property (nonatomic) NSNumber *esm_na;
-@property (nonatomic) NSNumber *esm_number;
-@property (nonatomic) NSString *esm_quick_answers;
-@property (nonatomic) NSString *esm_radios;
-@property (nonatomic) NSNumber *esm_scale_max;
-@property (nonatomic) NSString *esm_scale_max_label;
-@property (nonatomic) NSNumber *esm_scale_min;
-@property (nonatomic) NSString *esm_scale_min_label;
-@property (nonatomic) NSNumber *esm_scale_start;
-@property (nonatomic) NSNumber *esm_scale_step;
-@property (nonatomic, nullable) NSString *esm_start_date;
-@property (nonatomic, nullable) NSString *esm_start_time;
-@property (nonatomic) NSNumber *esm_status;
-@property (nonatomic) NSString *esm_submit;
-@property (nonatomic) NSString *esm_time_format;
-@property (nonatomic) NSString *esm_title;
-@property (nonatomic) NSString *esm_trigger;
-@property (nonatomic) NSNumber *esm_type;
-@property (nonatomic) NSString *esm_url;
-@property (nonatomic) NSString *esm_user_answer;
-@property (nonatomic) NSNumber *timestamp;
-@property (nonatomic) NSString *esm_app_integration;
+@property (nonatomic, readonly) NSString *device_id;
+@property (nonatomic, readonly) NSNumber *double_esm_user_answer_timestamp;
+@property (nonatomic, readonly) NSString *esm_checkboxes;
+@property (nonatomic, readonly) NSNumber *esm_expiration_threshold;
+@property (nonatomic, readonly) NSString *esm_flows;
+@property (nonatomic, readonly) NSString *esm_instructions;
+@property (nonatomic, readonly) NSString *esm_json;
+@property (nonatomic, readonly) NSNumber *esm_likert_max;
+@property (nonatomic, readonly) NSString *esm_likert_max_label;
+@property (nonatomic, readonly) NSString *esm_likert_min_label;
+@property (nonatomic, readonly) NSNumber *esm_likert_step;
+@property (nonatomic, readonly) NSNumber *esm_minute_step;
+@property (nonatomic, readonly) NSNumber *esm_na;
+@property (nonatomic, readonly) NSNumber *esm_number;
+@property (nonatomic, readonly) NSString *esm_quick_answers;
+@property (nonatomic, readonly) NSString *esm_radios;
+@property (nonatomic, readonly) NSNumber *esm_scale_max;
+@property (nonatomic, readonly) NSString *esm_scale_max_label;
+@property (nonatomic, readonly) NSNumber *esm_scale_min;
+@property (nonatomic, readonly) NSString *esm_scale_min_label;
+@property (nonatomic, readonly) NSNumber *esm_scale_start;
+@property (nonatomic, readonly) NSNumber *esm_scale_step;
+@property (nonatomic, readonly, nullable) NSString *esm_start_date;
+@property (nonatomic, readonly, nullable) NSString *esm_start_time;
+@property (nonatomic, readonly) NSNumber *esm_status;
+@property (nonatomic, readonly) NSString *esm_submit;
+@property (nonatomic, readonly) NSString *esm_time_format;
+@property (nonatomic, readonly) NSString *esm_title;
+@property (nonatomic, readonly) NSString *esm_trigger;
+@property (nonatomic, readonly) NSNumber *esm_type;
+@property (nonatomic, readonly) NSString *esm_url;
+@property (nonatomic, readonly) NSString *esm_user_answer;
+@property (nonatomic, readonly) NSNumber *timestamp;
+@property (nonatomic, readonly) NSString *esm_app_integration;
 
 - (instancetype) initWithConfiguration:(NSDictionary *) config;
 
@@ -93,6 +93,8 @@
 - (void) setSubmitButtonName:(NSString *) submit;
 - (void) setExpirationWithMinute:(int)expiration;
 - (void) setNARequirement:(BOOL)na;
+- (void) setNumber:(int)number;
+- (BOOL) setFlowWithItems:(NSArray<ESMItem *>*)items answerKey:(NSArray <NSString *>*)keys;
 
 @end
 

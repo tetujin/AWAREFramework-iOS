@@ -80,6 +80,7 @@
 }
 
 - (UIView *) generateESMView {
+    
     // set-up title
     if([_esmEntity.esm_title isEqualToString:@""] || _esmEntity.esm_title == nil){
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, WIDTH_BASE_VIEW, 10)];
@@ -173,9 +174,9 @@
                             self.splitLineView.frame.size.height+
                             self.spaceView.frame.size.height);
     //////////////////
-    [self refreshViewPoint:self.naView under:self.mainView];
+    [self refreshViewPoint:self.naView        under:self.mainView];
     [self refreshViewPoint:self.splitLineView under:self.naView];
-    [self refreshViewPoint:self.spaceView under:self.splitLineView];
+    [self refreshViewPoint:self.spaceView     under:self.splitLineView];
 }
 
 - (void) refreshViewPoint:(UIView *)childView under:(UIView *) parentView{

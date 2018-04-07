@@ -50,26 +50,34 @@
     [manager removeAllSchedulesFromDB];
     [manager removeAllESMHitoryFromDB];
 
-    [self testESMSchedule];
     
+    ESMSchedule * schdule = [[ESMSchedule alloc] init];
+    [schdule setFireHours:@[@22,@23]];
+    [schdule setExpirationThreshold:@60];
     
-//    ESMSchedule * schedule = [[ESMSchedule alloc] init];
-//    schedule.scheduleId = @"PAM";
-//    schedule.fireHours = @[@13,@14,@15,@16];
-//    schedule.notificationTitle = @"Please answer a question!";
-//    schedule.expirationThreshold = @30;
-//    schedule.randomizeSchedule = @5;
-//
-//    ESMItem * pam = [[ESMItem alloc] initAsPAMESMWithTrigger:@"pam2"];
-//
-//    ESMItem * checkbox = [[ESMItem alloc] initAsCheckboxESMWithTrigger:@"checkbox" checkboxes:@[@"Other",@"A"]];
-//
-//    ESMItem * num = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
-//
-//    [schedule addESMs:@[pam, checkbox, num]];
-//
-//    [manager addSchedule:schedule];
+    ESMItem * item = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B"]];
+    [item setTitle:@"Which is your best?"];
     
+    ESMItem * itemA = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
+    [itemA setTitle:@"hello"];
+    
+    ESMItem * itemB = [[ESMItem alloc] initAsAudioESMWithTrigger:@"audio"];
+    [itemB setTitle:@"hello2"];
+    
+    [item setFlowWithItems:@[itemA, itemB] answerKey:@[@"A",@"B"]];
+    
+    [schdule addESM:item];
+    
+    [manager addSchedule:schdule];
+    
+//    [self testESMSchedule];
+//    Bluetooth * bluetooth = [[Bluetooth alloc] init];
+//    [bluetooth setDebug:YES];
+//    [bluetooth setScanInterval:60];
+//    [bluetooth setScanDuration:30];
+//    [bluetooth startSensor];
+//
+//    [core.sharedSensorManager addSensor:bluetooth];
 }
 
 - (void) setNotifWithHour:(int)hour min:(int)min sec:(int)sec title:(NSString *)title notifId:(NSString *)notifId {
@@ -98,9 +106,6 @@
         }
     }];
 }
-
-
-
 
 - (void) calendarESMTest {
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
@@ -168,7 +173,9 @@
     ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
     NSArray * schdules = [esmManager getValidSchedules];
     if (schdules.count > 0) {
+        // UIColor *customColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.3 alpha:1.0];
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+        // esmView.view.backgroundColor = customColor;
         [self presentViewController:esmView animated:YES completion:^{
             
         }];

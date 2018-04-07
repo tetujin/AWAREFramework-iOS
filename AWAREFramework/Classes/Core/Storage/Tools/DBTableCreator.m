@@ -47,7 +47,6 @@
     NSString *post = nil;
     NSData *postData = nil;
     NSMutableURLRequest *request = nil;
-    //    NSURLSession *session = nil;
     NSString *postLength = nil;
     
     // Make a post query for creating a table
@@ -55,6 +54,12 @@
     postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     postLength = [NSString stringWithFormat:@"%ld", [postData length]];
 
+    NSString * url = [self getWebserviceUrl];
+    if (url == nil || [url isEqualToString:@""]) {
+        NSLog(@"[DBTableCreator:%@] Study URL is Empty", sensorName);
+        return;
+    }
+    
     request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:[self getCreateTableUrl:tableName]]];
     [request setHTTPMethod:@"POST"];
