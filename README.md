@@ -283,55 +283,24 @@ if let unwrappedSchedules = schedules {
 ```
 
 ### Supported ESM Types
-AWAREFramework-iOS supports 16 typs of ESMs (Text, Radio, Checkbox, Likert Scale, Quick Answer, Scale, DateTime, PAM, Numeric, Web, Date, Time, Clock, Picture, Audio, and Video)
+This library supports 16 typs of ESMs.  You can see the screenshots from the [link](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Screenshots/esms)
 
-#### Text
-![Image](./Screenshots/esms/1_esm_freetext.png)
-
-#### Radio
-![Image](./Screenshots/esms/2_esm_radiobox.png)
-
-#### Checkbox
-![Image](./Screenshots/esms/3_esm_checkbox.png)
-
-#### Likert Scale
-![Image](./Screenshots/esms/4_esm_likert_scale.png)
-
-#### Quick Answer
-![Image](./Screenshots/esms/5_quick_answer.png)
-
-#### Scale
-![Image](./Screenshots/esms/6_datetime.png)
-
-#### DateTime
-![Image](./Screenshots/esms/7_slider.png)
-
-#### PAM
-![Image](./Screenshots/esms/8_pam.png)
-
-#### Numeric
-![Image](./Screenshots/esms/9_number.png)
-
-#### Web
-![Image](./Screenshots/esms/10_web.png)
-
-#### Date
-![Image](./Screenshots/esms/11_date.png)
-
-#### Time
-![Image](./Screenshots/esms/12_time.png)
-
-#### Clock
-![Image](./Screenshots/esms/13_clock.png)
-
-#### Picture
-![Image](./Screenshots/esms/14_picture.png)
-
-#### Audio
-![Image](./Screenshots/esms/15_audio.png)
-
-#### Video
-![Image](./Screenshots/esms/16_video.png)
+*  Text
+*  Radio
+*  Checkbox
+*  Likert Scale
+*  Quick Answer
+*  Scale
+*  DateTime
+*  PAM
+*  Numeric
+*  Web
+*  Date
+*  Time
+*  Clock
+*  Picture
+*  Audio
+*  Video
 
 ## Author
 
