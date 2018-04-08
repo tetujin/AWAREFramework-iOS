@@ -19,7 +19,7 @@
 @dynamic expiration_threshold;
 @dynamic fire_hour;
 @dynamic interface;
-@dynamic noitification_body;
+@dynamic notification_body;
 @dynamic notification_title;
 @dynamic randomize_esm;
 @dynamic randomize_schedule;

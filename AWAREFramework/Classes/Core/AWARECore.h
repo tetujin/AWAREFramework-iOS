@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "AWAREKeys.h"
 #import "AWARESensorManager.h"
+#import "ESMScheduleManager.h"
 
 
 @interface AWARECore : NSObject <CLLocationManagerDelegate>
@@ -17,11 +18,14 @@
 // Core Location Manager
 @property (strong, nonatomic) CLLocationManager *sharedLocationManager;
 
-// shared AWAREStudy
+// Shared AWAREStudy
 @property (strong, nonatomic) AWAREStudy* sharedAwareStudy;
 
 // Shared AWARESensorManager
 @property (strong, nonatomic) AWARESensorManager * sharedSensorManager;
+
+// Shared
+@property (strong, nonatomic) ESMScheduleManager * sharedESMManager;
 
 // Daily Update Timer
 @property (strong, nonatomic) NSTimer * dailyUpdateTimer;
@@ -46,4 +50,6 @@
 
 - (void) requestBackgroundSensing;
 - (void) requestNotification:(UIApplication*)application;
+
+
 @end

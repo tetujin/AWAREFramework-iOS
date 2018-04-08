@@ -15,6 +15,7 @@
     NSString * baseCreateTableQueryIdentifier;
     NSMutableData * recievedData;
     __weak NSURLSession *session;
+    TableCreateCallBack httpCallback;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -37,6 +38,10 @@
         session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
     return self;
+}
+
+- (void) setCallback:(TableCreateCallBack)callback{
+    httpCallback = callback;
 }
 
 - (void) createTable:(NSString*) query {
@@ -115,9 +120,16 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
-    if(error!=nil && recievedData != nil){
+    if(error==nil){
         NSString * result = [[NSString alloc] initWithData:recievedData encoding:NSUTF8StringEncoding];
         NSLog(@"%@",result);
+        if (httpCallback!=nil) {
+            httpCallback(YES, recievedData, error);
+        }
+    }else{
+        if (httpCallback!=nil) {
+            httpCallback(NO, recievedData, error);
+        }
     }
 }
 

@@ -6,27 +6,6 @@
 //  Copyright © 2015 Yuuki NISHIYAMA. All rights reserved.
 //
 
-
-/**
- * 2/16/2016 by Yuuki NISHIYAMA
- * 
- * The AWARESensor class is the super class of aware sensors, and wraps to access
- * local storages(LocalFileStorageHelper) and to upload sensor data to
- * an AWARE server(AWAREDataUploader).
- *
- * LocalFileStorageHelper:
- * LocalFileStoragehelper is a text file based local storage. And also, a developer can store 
- * a sensor data with a NSDictionary Object using -(bool)saveData:(NSDictionary *)data;.
- * [WIP] Now I'm making a CoreData based storage for more stable data management.
- *
- * AWAREDataUploader:
- * This class supports data upload in the background/foreground. You can upload data by using -(void)syncAwareDB; 
- * or -(BOOL)syncAwareDBInForeground;. AWAREDataUploader obtains uploading sensor data from LocalFileStorageHelper
- * by -(NSMutableString *)getSensorDataForPost;
- *
- */
-
-
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
 #import "AWAREStudy.h"
@@ -84,7 +63,10 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     self = [super init];
     if (self != nil) {
         if(study == nil){
-            awareStudy = [[AWAREStudy alloc] initWithReachability:NO];
+            // awareStudy = [[AWAREStudy alloc] initWithReachability:NO];
+            // TODO: 
+            AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+            awareStudy = delegate.sharedAWARECore.sharedAwareStudy;
         }else{
             awareStudy = study;
         }

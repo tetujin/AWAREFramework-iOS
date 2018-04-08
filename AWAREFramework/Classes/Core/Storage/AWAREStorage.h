@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "TCQMaker.h"
 #import "AWAREStudy.h"
+#import "DBTableCreator.h"
 /**
  * This delegate should be implemented by storages such as SQLite, JSON, and CSV.
  */
@@ -25,6 +26,7 @@ typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _
 @property SyncProcessCallBack syncProcessCallBack;
 @property double saveInterval;
 @property double lastSaveTimestamp;
+@property TableCreateCallBack tableCreatecallBack;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 

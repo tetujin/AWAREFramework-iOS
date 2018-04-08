@@ -44,16 +44,18 @@
 //    [calScheduler setDebug:YES];
 //    [calScheduler startSensor];
 
-    ESMScheduleManager * manager = [[ESMScheduleManager alloc] init];
-    manager.debug = YES;
-    [manager removeAllNotifications];
-    [manager removeAllSchedulesFromDB];
-    [manager removeAllESMHitoryFromDB];
-
+    Screen * screen = [[Screen alloc] init];
+    [screen startSensor];
     
+    core.sharedESMManager.debug = YES;
+    [core.sharedESMManager removeAllNotifications];
+    [core.sharedESMManager removeAllSchedulesFromDB];
+    [core.sharedESMManager removeAllESMHitoryFromDB];
+
     ESMSchedule * schdule = [[ESMSchedule alloc] init];
+    // [schdule setContexts:@[ACTION_AWARE_SCREEN_LOCKED]];
     [schdule setFireHours:@[@22,@23]];
-    [schdule setExpirationThreshold:@60];
+    // [schdule setExpirationThreshold:@60];
     
     ESMItem * item = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B"]];
     [item setTitle:@"Which is your best?"];
@@ -68,7 +70,16 @@
     
     [schdule addESM:item];
     
-    [manager addSchedule:schdule];
+    [core.sharedESMManager addSchedule:schdule];
+    
+    
+//    timer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_UNLOCKED
+//                                                            object:nil
+//                                                          userInfo:nil];
+//        NSLog(@"timer is called");
+//    }];
+
     
 //    [self testESMSchedule];
 //    Bluetooth * bluetooth = [[Bluetooth alloc] init];
@@ -78,6 +89,11 @@
 //    [bluetooth startSensor];
 //
 //    [core.sharedSensorManager addSensor:bluetooth];
+}
+
+
+- (void) sendContextBasedESMNotification:(id)sender {
+    NSLog(@"%@",sender);
 }
 
 - (void) setNotifWithHour:(int)hour min:(int)min sec:(int)sec title:(NSString *)title notifId:(NSString *)notifId {
@@ -164,7 +180,6 @@
 //    // [noise startSyncDB];
 //
 //    [noise performSelector:@selector(startSyncDB) withObject:callback afterDelay:10];
-
 }
 
 
@@ -177,7 +192,7 @@
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
         // esmView.view.backgroundColor = customColor;
         [self presentViewController:esmView animated:YES completion:^{
-            
+            \
         }];
         /** or, following code if your project using Navigation Controller */
         // [self.navigationController pushViewController:esmView animated:YES];
@@ -300,7 +315,7 @@
     
     ESMSchedule * schedule = [[ESMSchedule alloc] init];
     schedule.notificationTitle = @"title";
-    schedule.noitificationBody = @"body";
+    schedule.notificationBody = @"body";
     schedule.scheduleId = @"id";
     schedule.expirationThreshold = @60;
     schedule.startDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-60*60*24*10];

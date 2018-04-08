@@ -348,6 +348,7 @@
                                                 ///////////////// Done ////////////
                                                 if (self.isDebug) NSLog(@"[%@] Done", self.sensorName);
                                                 if (self.syncProcessCallBack!=nil) {
+                                                    if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
                                                     self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
                                                 }
                                                 [self dataSyncIsFinishedCorrectly];
@@ -356,6 +357,7 @@
                                             }else{
                                                 ///////////////// continue ////////////
                                                 if (self.syncProcessCallBack!=nil) {
+                                                    if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
                                                     self.syncProcessCallBack(self.sensorName, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
                                                 }
                                                 if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);

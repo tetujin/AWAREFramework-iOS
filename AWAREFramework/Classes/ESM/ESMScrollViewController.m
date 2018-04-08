@@ -426,7 +426,7 @@
             entityESMSchedule.start_date = [esm.start_date copy];
             entityESMSchedule.end_date = [esm.end_date copy];
             entityESMSchedule.notification_title = [esm.notification_title copy];
-            entityESMSchedule.noitification_body = [esm.noitification_body copy];
+            entityESMSchedule.notification_body = [esm.notification_body copy];
             entityESMSchedule.randomize_schedule = [esm.randomize_schedule copy];
             entityESMSchedule.schedule_id = [esm.schedule_id copy];
             entityESMSchedule.contexts = [esm.contexts copy];

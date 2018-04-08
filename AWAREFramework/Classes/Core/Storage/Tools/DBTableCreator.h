@@ -11,10 +11,14 @@
 
 @interface DBTableCreator : NSObject <NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
+typedef void (^TableCreateCallBack)(bool result, NSData * data, NSError * error);
+
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study
                         sensorName:(NSString *)name;
 
 - (void) createTable:(NSString*) query;
 - (void) createTable:(NSString *)query withTableName:(NSString*) tableName;
+
+- (void) setCallback:(TableCreateCallBack)callback;
 
 @end

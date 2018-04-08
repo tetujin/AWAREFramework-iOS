@@ -25,7 +25,7 @@
         _startDate = [[NSDate alloc] init];
         _endDate   = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*365]; // 1 Year
         _timers   = [[NSArray alloc] init]; // NSDateComponents
-        _noitificationBody = @"";
+        _notificationBody = @"";
         _notificationTitle = @"";
         _fireHours = [[NSArray alloc] init]; // NSNumber 0-23
         _contexts =  [[NSArray alloc] init]; // NSString

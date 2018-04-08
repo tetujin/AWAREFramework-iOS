@@ -96,6 +96,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
         NSLog(@"[%@] Start Sensor!", [self getSensorName]);
     }
     
+    if (![manager isAccelerometerAvailable]) {
+        if ([self isDebug]) { NSLog(@"[accelerometer] accelerometer sensor is not supported.");}
+        return NO;
+    }
+    
     // Set buffer size for reducing file access
     [self.storage setBufferSize:savingInterval/sensingInterval];
     

@@ -115,9 +115,11 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
 //                                                  soundFlag:NO];
             }
             awareScreenState = 3;
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_UNLOCKED
+            //dispatch_async(dispatch_get_main_queue(),^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_UNLOCKED
                                                                 object:nil
                                                               userInfo:nil];
+            //});
         } else {
             if ([self isDebug]) {
                 NSLog(@"lock device");

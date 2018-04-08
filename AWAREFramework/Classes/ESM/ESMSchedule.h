@@ -29,7 +29,7 @@ typedef enum: NSInteger {
 @property (nonatomic) NSNumber *expirationThreshold;
 @property (nonatomic) NSDate   *startDate;
 @property (nonatomic) NSDate   *endDate;
-@property (nonatomic) NSString *noitificationBody;
+@property (nonatomic) NSString *notificationBody;
 @property (nonatomic) NSString *notificationTitle;
 @property (nonatomic) NSArray <NSNumber *> *fireHours;
 @property (nonatomic) NSArray <NSDateComponents *> * timers;

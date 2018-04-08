@@ -247,7 +247,7 @@
         <attribute name="fire_hour" optional="YES" attributeType="Integer 16" minValueString="-1" maxValueString="23" defaultValueString="-1" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="interface" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="months" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="noitification_body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notification_body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notification_title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="randomize_esm" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="randomize_schedule" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>

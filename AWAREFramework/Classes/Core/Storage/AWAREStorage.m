@@ -24,6 +24,7 @@
 @synthesize syncProcessCallBack;
 @synthesize lastSaveTimestamp;
 @synthesize saveInterval;
+@synthesize tableCreatecallBack;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name{
     self = [super init];
@@ -221,6 +222,7 @@
 - (void)createDBTableOnServerWithTCQMaker:(TCQMaker *)tcqMaker {
     if (tcqMaker!=nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:sensorName];
+        [creator setCallback:tableCreatecallBack];
         [creator createTable:tcqMaker.getDefaudltTableCreateQuery];
     }
 }
@@ -228,6 +230,7 @@
 - (void) createDBTableOnServerWithQuery:(NSString *)query{
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:sensorName];
+        [creator setCallback:tableCreatecallBack];
         [creator createTable:query];
     }
 }
@@ -235,6 +238,7 @@
 - (void) createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *) table {
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:table];
+        [creator setCallback:tableCreatecallBack];
         [creator createTable:query];
     }
 }

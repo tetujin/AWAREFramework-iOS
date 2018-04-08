@@ -18,6 +18,7 @@
 
 @implementation ESMScheduleManager{
     NSString * categoryNormalESM;
+    NSMutableArray * contextObservers;
 }
 
 - (instancetype)init{
@@ -25,6 +26,7 @@
     if(self != nil){
         categoryNormalESM = @"category_normal_esm";
         _debug = NO;
+        contextObservers = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -48,6 +50,10 @@
     
     NSDate * now = [NSDate new];
     NSArray * hours = schedule.fireHours;
+    
+    if(hours.count == 0){
+        hours = @[@(-1)];
+    }
     //////////////////////////////////////////////
     for (NSNumber * hour in hours) {
         EntityESMSchedule * entityScehdule = [[EntityESMSchedule alloc] initWithContext:manageContext];
@@ -64,6 +70,9 @@
         /**  Hours Based ESM */
         if (hour.intValue != -1 && notification) {
             [self setHourBasedNotification:entityScehdule datetime:now];
+        }
+        if (hour.intValue == -1 && notification && ![entityScehdule.contexts isEqualToString:@""]){
+            [self setContextBasedNotification:entityScehdule];
         }
         NSLog(@"-> %@", entityScehdule.randomize_schedule);
     }
@@ -107,7 +116,7 @@
     entityScehdule.expiration_threshold = schedule.expirationThreshold;
     entityScehdule.start_date = schedule.startDate;
     entityScehdule.end_date = schedule.endDate;
-    entityScehdule.noitification_body = schedule.noitificationBody;
+    entityScehdule.notification_body = schedule.notificationBody;
     entityScehdule.notification_title = schedule.notificationTitle;
     entityScehdule.interface = schedule.interface;
     entityScehdule.randomize_esm = schedule.randomizeEsm;
@@ -308,7 +317,10 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     for (EntityESMSchedule * schedule in periodValidSchedules) {
         NSNumber * hour = schedule.fire_hour;
         NSDateComponents * timer = (NSDateComponents *)schedule.timer;
-        // NSString * context = schedule.context;
+        NSString * contexts = schedule.contexts;
+        if (contexts == nil || [contexts isEqualToString:@""]) {
+            contexts = nil;
+        }
         // NSNumber * weekday = schedule.weekday;
         
         bool isValidSchedule = NO;
@@ -321,6 +333,11 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         if( timer != nil ){
             isValidSchedule = [self isValidTimerBasedESMSchedule:schedule history:answerHistory targetDatetime:datetime];
         }
+        
+        /** Context **/
+//        if( contexts != nil ){
+//            isValidSchedule = [self isValidContextBasedESMSchedule:schedule];
+//        }
         
         if (isValidSchedule) {
             [validSchedules addObject:schedule];
@@ -483,7 +500,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     // If the value is 0-23
     UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
     content.title = schedule.notification_title;
-    content.body = schedule.noitification_body;
+    content.body = schedule.notification_body;
     content.sound = [UNNotificationSound defaultSound];
     content.categoryIdentifier = categoryNormalESM;
     content.userInfo = userInfo;
@@ -546,7 +563,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     
     UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
     content.title = schedule.notification_title;
-    content.body = schedule.noitification_body;
+    content.body = schedule.notification_body;
     content.sound = [UNNotificationSound defaultSound];
     content.categoryIdentifier = categoryNormalESM;
     content.userInfo = userInfo;
@@ -571,6 +588,65 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     }
 }
 
+/**
+ Set a time based notifiation
+ 
+ @param schedule EntityESMSchdule
+ */
+- (void) setContextBasedNotification:(EntityESMSchedule *)schedule{
+    NSString * contextsString = schedule.contexts;
+    NSData * contextsData = [contextsString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError * error = nil;
+    NSArray * contexts = [NSJSONSerialization JSONObjectWithData:contextsData options:0 error:&error];
+    if (error!=nil) {
+        return;
+    }
+    if (contexts==nil || contexts.count == 0) {
+        return;
+    }
+    for (NSString * context in contexts) {
+        NSLog(@"context: %@",context);
+
+        NSString * title = schedule.notification_title;
+        id observer = [[NSNotificationCenter defaultCenter] addObserverForName:context
+                                                                        object:nil
+                                                                         queue:[NSOperationQueue currentQueue]
+                                                                    usingBlock:^(NSNotification * _Nonnull note) {
+            UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
+            content.title = title;
+            content.sound = [UNNotificationSound defaultSound];
+            content.badge = @1;
+
+            UNNotificationTrigger * trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+            UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:@"aware.esm.context.notification" content:content trigger:trigger];
+
+            [[UNUserNotificationCenter currentNotificationCenter] removeDeliveredNotificationsWithIdentifiers:@[@"aware.esm.context.notification"]];
+            [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[@"aware.esm.context.notification"]];
+            [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+
+            }];
+            
+        }];
+        [contextObservers addObject:observer];
+
+    }
+}
+
+- (void) sendContextBasedESMNotification:(NSNotification *)notification{
+    
+    NSLog(@"%@",notification.debugDescription);
+    
+}
+
+/**
+ Set a time based notifiation
+ 
+ @param schedule EntityESMSchdule
+ */
+- (BOOL) isValidContextBasedESMSchedule:(EntityESMSchedule *)schedule {
+    
+    return YES;
+}
 
 
 /**
@@ -581,6 +657,11 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 - (void)removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler)handler {
     
     NSDate * now = [NSDate new];
+    
+    for (id observer in contextObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }
+    [contextObservers removeAllObjects];
     
     // Get ESMs from SQLite by using CoreData
     NSArray * esmSchedules = [self getValidSchedulesWithDatetime:now];
@@ -613,6 +694,11 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 - (void) refreshESMNotifications{
     NSDate * now = [NSDate new];
     
+    for (id observer in contextObservers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }
+    [contextObservers removeAllObjects];
+    
     // Get ESMs from SQLite by using CoreData
     NSArray * esmSchedules = [self getValidSchedulesWithDatetime:now];
     if(esmSchedules == nil) return;
@@ -639,7 +725,8 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 
             NSNumber * hour = schedule.fire_hour;
             NSDateComponents * timer = (NSDateComponents *)schedule.timer;
-
+            NSString * contexts = schedule.contexts;
+            
             /**  Hours Based ESM */
             if (hour.intValue != -1) {
                 [self setHourBasedNotification:schedule datetime:now];
@@ -649,6 +736,11 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
             if( timer != nil ){
                 [self setTimeBasedNotification:schedule datetime:now];
             }
+            
+            /** Context Based ESM */
+//            if (![contexts isEqualToString:@""]){
+//                [self setContextBasedNotification:schedule];
+//            }
         }
     }];
 }

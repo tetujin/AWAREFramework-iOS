@@ -421,7 +421,7 @@ didReceiveResponse:(NSURLResponse *)response
                     entityESMSchedule.start_date = startDate;
                     entityESMSchedule.end_date = endDate;
                     entityESMSchedule.notification_title = notificationTitle;
-                    entityESMSchedule.noitification_body = notificationBody;
+                    entityESMSchedule.notification_body = notificationBody;
                     entityESMSchedule.randomize_schedule = randomize_schedule;
                     entityESMSchedule.schedule_id = scheduleId;
                     entityESMSchedule.contexts = eventContext;
@@ -635,7 +635,7 @@ didReceiveResponse:(NSURLResponse *)response
 //                                        iconBadgeNumber:1];
             UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
             content.title = schedule.notification_title;
-            content.body = schedule.noitification_body;
+            content.body = schedule.notification_body;
             content.sound = [UNNotificationSound defaultSound];
             content.categoryIdentifier = categoryIOSESM;
             content.userInfo = userInfo;

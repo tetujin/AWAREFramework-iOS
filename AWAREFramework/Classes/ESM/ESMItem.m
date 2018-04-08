@@ -132,15 +132,17 @@
         NSString * submit = [config objectForKey:@"esm_submit"];
         NSNumber * expiration = [config objectForKey:@"esm_expiration_threshold"];
         NSNumber * isNa = [config objectForKey:@"esm_na"];
+        NSString * flows = [config objectForKey:@"esm_flows"];
         
         bool naState = NO;
         if (isNa != nil) naState = isNa.intValue;
-        
-        _esm_title = title;
-        _esm_instructions = instructions;
-        _esm_submit = submit;
-        _esm_expiration_threshold = expiration;
         _esm_na = @(naState);
+        
+        if(title != nil) {_esm_title = title;}
+        if(instructions != nil) {_esm_instructions = instructions;}
+        if(submit != nil) {_esm_submit = submit;}
+        if(expiration!= nil) {_esm_expiration_threshold = expiration;}
+        if (flows!=nil) { _esm_flows = flows;}
     }
     return self;
 }
@@ -461,7 +463,7 @@
         [flows addObject:@{
                            @"user_answer":key,
                            @"next_esm":@{@"esm":dict}
-                           }];
+                          }];
     }
     
     NSString * flowJSON = [self convertToJSONStringWithArray:flows];
@@ -473,7 +475,7 @@
     return YES;
 }
 
-////////////////////////////////
+////////////////////////////////////
 
 - (NSString *) convertToJSONStringWithArray:(NSArray *) array{
     NSError * error = nil;

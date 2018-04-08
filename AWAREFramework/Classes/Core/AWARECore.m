@@ -14,6 +14,7 @@
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <UserNotifications/UserNotifications.h>
+#import <ESMSchedule.h>
 
 @implementation AWARECore
 
@@ -45,6 +46,14 @@
     return _sharedAwareStudy;
 }
 
+///////////////////////////////////////////////////
+@synthesize sharedESMManager = _sharedESMManager;
+- (ESMScheduleManager * ) sharedESMManager {
+    if(_sharedESMManager == nil){
+        _sharedESMManager = [[ESMScheduleManager alloc] init];
+    }
+    return _sharedESMManager;
+}
 
 - (void) activate {
     [self deactivate];
@@ -649,7 +658,6 @@
 }
 
 ///////////////////////////////////////////////////////////////
-
 
 
 

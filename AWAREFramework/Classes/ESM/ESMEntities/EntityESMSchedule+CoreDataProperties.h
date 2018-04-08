@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSNumber *expiration_threshold;
 @property (nullable, nonatomic, copy) NSNumber *fire_hour;
 @property (nullable, nonatomic, copy) NSNumber *interface;
-@property (nullable, nonatomic, copy) NSString *noitification_body;
+@property (nullable, nonatomic, copy) NSString *notification_body;
 @property (nullable, nonatomic, copy) NSString *notification_title;
 @property (nullable, nonatomic, copy) NSNumber *randomize_esm;
 @property (nullable, nonatomic, copy) NSNumber *randomize_schedule;

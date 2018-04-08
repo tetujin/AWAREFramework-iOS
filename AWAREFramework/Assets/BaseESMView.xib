@@ -26,22 +26,22 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0t-uY-cym" userLabel="title">
-                    <rect key="frame" x="0.0" y="5" width="394" height="24"/>
+                    <rect key="frame" x="0.0" y="20" width="394" height="24"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1I-4b-INi" userLabel="Instruction">
-                    <rect key="frame" x="0.0" y="37" width="394" height="19.5"/>
+                    <rect key="frame" x="0.0" y="52" width="394" height="19.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFH-dS-Bjb" userLabel="main">
-                    <rect key="frame" x="0.0" y="66.5" width="394" height="70.5"/>
+                    <rect key="frame" x="0.0" y="81.5" width="394" height="55.5"/>
                     <color key="backgroundColor" red="0.65283804739999995" green="0.91180372239999996" blue="0.53093634629999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="QOu-xm-ieN"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="QOu-xm-ieN"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CuW-0Y-OV4" userLabel="na">
@@ -94,7 +94,7 @@
                 <constraint firstItem="CuW-0Y-OV4" firstAttribute="top" secondItem="fFH-dS-Bjb" secondAttribute="bottom" constant="1" id="FSW-k7-X3Z"/>
                 <constraint firstItem="ey4-R5-EMX" firstAttribute="top" secondItem="CuW-0Y-OV4" secondAttribute="bottom" constant="1" id="J3J-Jr-x50"/>
                 <constraint firstItem="h1I-4b-INi" firstAttribute="top" secondItem="G0t-uY-cym" secondAttribute="bottom" constant="8" id="PDe-el-X7L"/>
-                <constraint firstItem="G0t-uY-cym" firstAttribute="top" secondItem="Ctb-6q-L56" secondAttribute="top" constant="5" id="Uhm-dh-9Xa"/>
+                <constraint firstItem="G0t-uY-cym" firstAttribute="top" secondItem="Ctb-6q-L56" secondAttribute="top" constant="20" id="Uhm-dh-9Xa"/>
                 <constraint firstAttribute="trailing" secondItem="ey4-R5-EMX" secondAttribute="trailing" id="W6t-2O-tdQ"/>
                 <constraint firstAttribute="trailing" secondItem="G0t-uY-cym" secondAttribute="trailing" id="d3K-jY-W2j"/>
                 <constraint firstItem="G0t-uY-cym" firstAttribute="leading" secondItem="Ctb-6q-L56" secondAttribute="leading" id="fzA-lL-sfK"/>

@@ -210,7 +210,7 @@ This library supports ESM. The method allows us to make questions in your app at
 /// Objective-C: Initialize an ESMSchedule ///
 ESMSchedule * schedule = [[ESMSchedule alloc] init];
 schedule.notificationTitle = @"notification title";
-schedule.noitificationBody = @"notification body";
+schedule.notificationBody = @"notification body";
 schedule.scheduleId = @"schedule_id";
 schedule.expirationThreshold = @60;
 schedule.startDate = [NSDate now];
@@ -220,8 +220,8 @@ schedule.fireHours = @[@9,@12,@18,@21];
 /// Make an ESMItem ///
 ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"1_radio"
 radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
-radio.esm_title = @"ESM title";
-radio.esm_instructions = @"some instructions";
+[radio setTitle:@"ESM title"];
+[radio setInstructions:@"some instructions"];
 
 /// Add the ESMItem to ESMSchedule ///
 [schedule addESMs:@[radio]];
@@ -243,8 +243,8 @@ schdule.endDate = Date.init(timeIntervalSinceNow: 60*60*24*10)
 schdule.fireHours = [9,12,18,21]
 
 let radio = ESMItem.init(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
-radio?.esm_title = "ESM title"
-radio?.esm_instructions = "some instructions"
+radio?.setTitle("ESM title")
+radio?.setInstructions("some instructions")
 schdule.addESM(radio)
 
 let esmManager = ESMScheduleManager.init()
