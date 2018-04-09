@@ -55,21 +55,20 @@
     ESMSchedule * schdule = [[ESMSchedule alloc] init];
     // [schdule setContexts:@[ACTION_AWARE_SCREEN_LOCKED]];
     [schdule setFireHours:@[@22,@23]];
-    // [schdule setExpirationThreshold:@60];
+     [schdule setExpirationThreshold:@60];
     
-    ESMItem * item = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B"]];
-    [item setTitle:@"Which is your best?"];
-    
-    ESMItem * itemA = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
-    [itemA setTitle:@"hello"];
-    
-    ESMItem * itemB = [[ESMItem alloc] initAsAudioESMWithTrigger:@"audio"];
-    [itemB setTitle:@"hello2"];
-    
-    [item setFlowWithItems:@[itemA, itemB] answerKey:@[@"A",@"B"]];
-    
+//    ESMItem * item = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B"]];
+//    [item setTitle:@"Which is your best?"];
+//
+//    ESMItem * itemA = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
+//    [itemA setTitle:@"hello"];
+//
+//    ESMItem * itemB = [[ESMItem alloc] initAsAudioESMWithTrigger:@"audio"];
+//    [itemB setTitle:@"hello2"];
+//
+//    [item setFlowWithItems:@[itemA, itemB] answerKey:@[@"A",@"B"]];
+    ESMItem * item = [[ESMItem alloc] initAsAudioESMWithTrigger:@"trigger"];
     [schdule addESM:item];
-    
     [core.sharedESMManager addSchedule:schdule];
     
     

@@ -235,7 +235,7 @@ ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
 /// Swift ///
 let schdule = ESMSchedule.init()
 schdule.notificationTitle = "notification title"
-schdule.noitificationBody = "notification body"
+schdule.notificationBody = "notification body"
 schdule.scheduleId = "schedule_id"
 schdule.expirationThreshold = 60
 schdule.startDate = Date.init()

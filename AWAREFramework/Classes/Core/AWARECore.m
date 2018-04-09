@@ -30,7 +30,6 @@
 /////////////////////////////////////////////////////////
 @synthesize sharedSensorManager = _sharedSensorManager;
 - (AWARESensorManager *) sharedSensorManager {
-//    AWAREStudy * study = [[AWAREStudy alloc] initWithReachability:YES];
     if(_sharedSensorManager == nil){
         _sharedSensorManager = [[AWARESensorManager alloc] initWithAWAREStudy:_sharedAwareStudy];
     }
@@ -69,7 +68,7 @@
         [_sharedAwareStudy setAutoDBSyncIntervalWithMinutue:60];
         [_sharedAwareStudy setAutoDBSync:YES];
         [_sharedAwareStudy setMaximumByteSizeForDBSync:10000];
-        [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:2000];
+        [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:1000];
         [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeWeekly];
         [_sharedAwareStudy setUIMode:AwareUIModeNormal];
         [_sharedAwareStudy setDBType:AwareDBTypeSQLite];
@@ -656,10 +655,5 @@
 - (NSDictionary *) wifiDetails {
     return (__bridge NSDictionary *) CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex( CNCopySupportedInterfaces(), 0));
 }
-
-///////////////////////////////////////////////////////////////
-
-
-
 
 @end
