@@ -174,14 +174,12 @@
     NSString * file = [NSString stringWithFormat:@"%@.%@",fileName, type];
     NSString * path = [documentsDirectory stringByAppendingPathComponent:file];
     if ([manager fileExistsAtPath:path]) { // yes
-        bool result = [@"" writeToFile:path atomically:NO encoding:NSUTF8StringEncoding error:nil];
-        if (result) {
-            if(isDebug)NSLog(@"[%@] Correct to clear sensor data.", fileName);
-            return YES;
-        }else{
-            if(isDebug)NSLog(@"[%@] Error to clear sensor data.", fileName);
-            return NO;
-        }
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:path];
+        [fileHandle truncateFileAtOffset:0];
+        [fileHandle synchronizeFile];
+        [fileHandle closeFile];
+        if(self.isDebug)NSLog(@"[%@] Sensor data was cleared successfully", fileName);
+        return YES;
     }else{
         if(isDebug)NSLog(@"[%@] The file is not exist.", fileName);
         [self createLocalStorageWithName:fileName type:type];

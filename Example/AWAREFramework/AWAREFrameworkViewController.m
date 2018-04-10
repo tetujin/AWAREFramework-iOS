@@ -31,63 +31,21 @@
     [core requestBackgroundSensing];
     [core requestNotification:[UIApplication sharedApplication]];
     
-//    Accelerometer * acc = [[Accelerometer alloc] init];
-//    acc.threshold = 1.0;
-//    // [acc setDebug:YES];
-//    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-//        NSLog(@"%@", data);
+    [core.sharedAwareStudy setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
+    [core.sharedAwareStudy setMaximumByteSizeForDBSync:100000];
+    
+    Battery * battery = [[Battery alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeJSON];
+    [battery.storage setDebug:YES];
+    for (int i =0; i < 1000; i++) {
+        [battery.storage saveDataWithDictionary:@{@"battery_adaptor":@0,@"battery_health":@0,@"battery_level":@(-100),@"battery_scale":@(100),@"battery_status":@(0),@"battery_technology":@"",@"battery_temperature":@(0),@"battery_voltage":@(0),@"device_id":@"5fd18477-df66-4a8e-8fb1-010c03f75202",@"timestamp":@(i)} buffer:NO saveInMainThread:YES];
+    }
+    
+//    [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+//        [battery.storage saveDataWithDictionary:@{@"battery_adaptor":@0,@"battery_health":@0,@"battery_level":@(-100),@"battery_scale":@(100),@"battery_status":@(0),@"battery_technology":@"",@"battery_temperature":@(0),@"battery_voltage":@(0),@"device_id":@"5fd18477-df66-4a8e-8fb1-010c03f75202",@"timestamp":@([NSDate new].timeIntervalSince1970*1000)} buffer:NO saveInMainThread:YES];
 //    }];
-//    [acc startSensor];
-    // [acc.storage setDebug:YES];
     
-//    CalendarESMScheduler * calScheduler = [[CalendarESMScheduler alloc] init];
-//    [calScheduler setDebug:YES];
-//    [calScheduler startSensor];
-
-    Screen * screen = [[Screen alloc] init];
-    [screen startSensor];
+    [battery.storage performSelector:@selector(startSyncStorage) withObject:nil afterDelay:10];
     
-    core.sharedESMManager.debug = YES;
-    [core.sharedESMManager removeAllNotifications];
-    [core.sharedESMManager removeAllSchedulesFromDB];
-    [core.sharedESMManager removeAllESMHitoryFromDB];
-
-    ESMSchedule * schdule = [[ESMSchedule alloc] init];
-    // [schdule setContexts:@[ACTION_AWARE_SCREEN_LOCKED]];
-    [schdule setFireHours:@[@22,@23]];
-     [schdule setExpirationThreshold:@60];
-    
-//    ESMItem * item = [[ESMItem alloc] initAsQuickAnawerESMWithTrigger:@"quick" quickAnswers:@[@"A",@"B"]];
-//    [item setTitle:@"Which is your best?"];
-//
-//    ESMItem * itemA = [[ESMItem alloc] initAsNumericESMWithTrigger:@"num"];
-//    [itemA setTitle:@"hello"];
-//
-//    ESMItem * itemB = [[ESMItem alloc] initAsAudioESMWithTrigger:@"audio"];
-//    [itemB setTitle:@"hello2"];
-//
-//    [item setFlowWithItems:@[itemA, itemB] answerKey:@[@"A",@"B"]];
-    ESMItem * item = [[ESMItem alloc] initAsAudioESMWithTrigger:@"trigger"];
-    [schdule addESM:item];
-    [core.sharedESMManager addSchedule:schdule];
-    
-    
-//    timer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_SCREEN_UNLOCKED
-//                                                            object:nil
-//                                                          userInfo:nil];
-//        NSLog(@"timer is called");
-//    }];
-
-    
-//    [self testESMSchedule];
-//    Bluetooth * bluetooth = [[Bluetooth alloc] init];
-//    [bluetooth setDebug:YES];
-//    [bluetooth setScanInterval:60];
-//    [bluetooth setScanDuration:30];
-//    [bluetooth startSensor];
-//
-//    [core.sharedSensorManager addSensor:bluetooth];
 }
 
 

@@ -173,6 +173,8 @@
 		4E6C15FE314B339144F9B27C6E147A1C /* 8_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 53BC7FA1A1635A621045A2C8E74B686B /* 8_3.jpg */; };
 		4E9C7F204B57C7F908297D15EDFFCA7C /* EntityBatteryDischarge+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 61A7CEA978CD63479F3F3D46DC6DEF5D /* EntityBatteryDischarge+CoreDataProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED3409B2C34E0FE3325440AAFEA39B5 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D1D0800200DF3A97A523A0ADF891AF5B /* SVProgressHUD.bundle */; };
+		4F1FB1A8207C0B8C0052AEEA /* BRLineReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FB1A6207C0B8C0052AEEA /* BRLineReader.h */; };
+		4F1FB1A9207C0B8C0052AEEA /* BRLineReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FB1A7207C0B8C0052AEEA /* BRLineReader.m */; };
 		4F63D2D4C15B507796E51BE63E86F33D /* Pods-AWAREFramework_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 08CFA4BEC0CC2334E6DDFD5BDD0C7097 /* Pods-AWAREFramework_Tests-dummy.m */; };
 		4FB33121A135836C21E3DAC02B7F04FF /* ios-ntp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A324DB22908E8A9F1C1A64653566B6E /* ios-ntp-dummy.m */; };
 		503DFD0807730E1624B5B3E5009FF5E4 /* 8_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6C2B1E436CE26984CD20AF04A1FC1490 /* 8_2.jpg */; };
@@ -901,6 +903,8 @@
 		4E13DCF02BC48DA60CA7A6ACA55FD92D /* EntityLinearAccelerometer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityLinearAccelerometer.m; sourceTree = "<group>"; };
 		4E38FB944CD12332738185CC897242E4 /* JSONStorage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JSONStorage.h; sourceTree = "<group>"; };
 		4E749252E69941018C3F136DB86C85A3 /* EZAudioFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudioFile.h; sourceTree = "<group>"; };
+		4F1FB1A6207C0B8C0052AEEA /* BRLineReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BRLineReader.h; sourceTree = "<group>"; };
+		4F1FB1A7207C0B8C0052AEEA /* BRLineReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BRLineReader.m; sourceTree = "<group>"; };
 		4F3E52A759C9EFD3144F5E2A6308E839 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		4FCAA93497AA3D5F6F9523603E5C00C8 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
 		506E613341E7E42C4230D7A2471651BF /* Pods-AWAREFramework_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWAREFramework_Tests-umbrella.h"; sourceTree = "<group>"; };
@@ -2182,6 +2186,8 @@
 			children = (
 				4E38FB944CD12332738185CC897242E4 /* JSONStorage.h */,
 				B85F48D11245C4604278AAEDF6AAE228 /* JSONStorage.m */,
+				4F1FB1A6207C0B8C0052AEEA /* BRLineReader.h */,
+				4F1FB1A7207C0B8C0052AEEA /* BRLineReader.m */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -3347,6 +3353,7 @@
 				3B5F8FDB255C75B319736F9B0A2B3D26 /* MobileWiFi.h in Headers */,
 				AD3BC8A06CDC83893FE0C0E953A8908C /* Network.h in Headers */,
 				30B12179D8692FBDD1D806C26842528B /* NTPTime.h in Headers */,
+				4F1FB1A8207C0B8C0052AEEA /* BRLineReader.h in Headers */,
 				B385A89B4F02BA406052070E93C11294 /* OpenWeather.h in Headers */,
 				4D9E1DEB2337D50B01F225293220C248 /* Orientation.h in Headers */,
 				B2CAA219FE1C697795A81D03B7E7A5C4 /* PamSchema.h in Headers */,
@@ -3977,6 +3984,7 @@
 				D3D6A3758A81D8535D1EC45CCBD167A4 /* EntityLocation.m in Sources */,
 				BCB0BA2D4BAC559B81A455E7CCEB235E /* EntityLocationVisit+CoreDataProperties.m in Sources */,
 				14EF758B8AC970FDD261A35C890FE473 /* EntityLocationVisit.m in Sources */,
+				4F1FB1A9207C0B8C0052AEEA /* BRLineReader.m in Sources */,
 				05CDF1824963B6BE992B0AA8BE49CB17 /* EntityMagnetometer+CoreDataProperties.m in Sources */,
 				FBDA431987F266CBB16AA21FFD1D5764 /* EntityMagnetometer.m in Sources */,
 				2645B84C72ADCBCE8DE14CCD855EFD33 /* EntityMemory+CoreDataProperties.m in Sources */,
