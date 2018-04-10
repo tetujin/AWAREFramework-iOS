@@ -1751,6 +1751,8 @@
 				B7574547A9C588E09100EEEA25A2B462 /* SyncExecutor.m */,
 				2BCD3E598281BF5E9C6B70ECCB9BEE23 /* TCQMaker.h */,
 				830AEA7298D9164F3409C99E6E729FFA /* TCQMaker.m */,
+				4F1FB1A6207C0B8C0052AEEA /* BRLineReader.h */,
+				4F1FB1A7207C0B8C0052AEEA /* BRLineReader.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -2186,8 +2188,6 @@
 			children = (
 				4E38FB944CD12332738185CC897242E4 /* JSONStorage.h */,
 				B85F48D11245C4604278AAEDF6AAE228 /* JSONStorage.m */,
-				4F1FB1A6207C0B8C0052AEEA /* BRLineReader.h */,
-				4F1FB1A7207C0B8C0052AEEA /* BRLineReader.m */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
