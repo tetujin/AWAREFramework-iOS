@@ -19,14 +19,19 @@
 
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    SQLiteStorage * storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"push_notification_device_tokens" entityName:NSStringFromClass([EntityPushNotification class])
-                                    insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                        EntityPushNotification * entityPush = (EntityPushNotification *)[NSEntityDescription insertNewObjectForEntityForName:entity
-                                                                                                                                      inManagedObjectContext:childContext];
-                                        entityPush.device_id = [data objectForKey:self->KEY_PUSH_DEVICE_ID];
-                                        entityPush.timestamp = [data objectForKey:self->KEY_PUSH_TIMESTAMP];
-                                        entityPush.token = [data objectForKey:self->KEY_PUSH_TOKEN];
-                                    }];
+    AWAREStorage * storage = nil;
+    if(dbType == AwareDBTypeSQLite){
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"push_notification_device_tokens" entityName:NSStringFromClass([EntityPushNotification class])
+                                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
+                                                            EntityPushNotification * entityPush = (EntityPushNotification *)[NSEntityDescription insertNewObjectForEntityForName:entity
+                                                                                                                                                          inManagedObjectContext:childContext];
+                                                            entityPush.device_id = [data objectForKey:self->KEY_PUSH_DEVICE_ID];
+                                                            entityPush.timestamp = [data objectForKey:self->KEY_PUSH_TIMESTAMP];
+                                                            entityPush.token = [data objectForKey:self->KEY_PUSH_TOKEN];
+                                                        }];
+    }else{
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"push_notification_device_tokens"];
+    }
     
     self = [super initWithAwareStudy:study
                            sensorName:@"push_notification_device_tokens"
@@ -59,20 +64,30 @@
 }
 
 - (BOOL)startSensor{
-    [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:1];
+    [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
     return YES;
 }
-
-
 
 - (void) savePushNotificationDeviceToken:(NSString*) token {
     if (token == nil) {
         return;
     }
+    
+    NSString * storedToken = [self getPushNotificationToken];
+    if (storedToken!=nil) {
+        if ([storedToken isEqualToString:token]) {
+            if([self isDebug]) NSLog(@"[%@] The Push Notification Token is already stored",self.getSensorName);
+            return;
+        }else{
+            if([self isDebug]) NSLog(@"[%@] The Push Notification Token is updated",self.getSensorName);
+        }
+    }
+    
     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_PUSH_TIMESTAMP];
     [dict setObject:[self getDeviceId] forKey:KEY_PUSH_DEVICE_ID];
     [dict setObject:token forKey:KEY_PUSH_TOKEN];
+    
     // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];

@@ -17,33 +17,9 @@
 + (BOOL) isForeground;
 + (BOOL) isBackground;
 
-// Notification
-//+ (UILocalNotification *) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag;
-//+ (UILocalNotification *) sendLocalNotificationForMessage:(NSString *)message
-//                                   title:(NSString *)title
-//                               soundFlag:(BOOL)soundFlag
-//                                category:(NSString *) category
-//                                fireDate:(NSDate*)fireDate
-//                          repeatInterval:(NSCalendarUnit)repeatInterval
-//                                userInfo:(NSDictionary *) userInfo
-//                         iconBadgeNumber:(NSInteger)iconBadgeNumber;
-//+ (bool) cancelLocalNotification:(UILocalNotification *) notification;
-
-//+ (void) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag;
-//+ (void) sendLocalNotificationForMessage:(NSString *)message
-//                                                    title:(NSString *)title
-//                                                soundFlag:(BOOL)soundFlag
-//                                                 category:(NSString *) category
-//                                                 fireDate:(NSDate*)fireDate
-//                                           repeatInterval:(NSCalendarUnit)repeatInterval
-//                                                 userInfo:(NSDictionary *) userInfo
-//                                          iconBadgeNumber:(NSInteger)iconBadgeNumber;
-// + (bool) cancelLocalNotification:(UNNotification *) notification;
-
-
 // Device information
 + (float) getCurrentOSVersionAsFloat;
-+ (NSString *)getSystemUUID;
++ (NSString *) getSystemUUID;
 + (NSString*) deviceName;
 
 // Date Controller

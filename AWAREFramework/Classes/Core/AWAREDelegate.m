@@ -186,11 +186,8 @@
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
         
-    PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeSQLite];
+    PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
     [pushNotification savePushNotificationDeviceToken:token];
-    [pushNotification performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
-    
-    // NSLog(@"deviceToken: %@", token);
 }
 
 // Faile to get a DeviceToken

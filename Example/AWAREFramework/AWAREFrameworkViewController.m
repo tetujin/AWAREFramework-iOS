@@ -53,7 +53,7 @@
 //        [battery.storage startSyncStorage];
 //    }];
     
-    [self testSensingWithStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV sensorManager:core.sharedSensorManager];
+//    [self testSensingWithStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV sensorManager:core.sharedSensorManager];
     
     
 //    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];

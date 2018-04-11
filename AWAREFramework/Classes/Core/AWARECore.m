@@ -119,6 +119,12 @@
                                              selector:@selector(changedBatteryState:)
                                                  name:UIDeviceBatteryStateDidChangeNotification object:nil];
 
+    // register to observe notifications from the store
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector (ubiquitousDataDidChange:)
+                                                 name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification
+                                               object: [NSUbiquitousKeyValueStore defaultStore]];
+    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
 
 }
 
@@ -134,6 +140,18 @@
     }
 }
 
+- (void)ubiquitousDataDidChange:(NSNotification *)notification
+{
+    NSDictionary *dict = [notification userInfo];
+    NSLog(@"[iCloud] Update : %@", dict);
+//    NSArray *keys = [dict objectForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
+//    NSUbiquitousKeyValueStore *ukvs = [NSUbiquitousKeyValueStore defaultStore];
+//    for (NSString *key in keys) {
+//        NSUInteger index = [ukvs longLongForKey:key];
+//        // NSLog(@"index:%d", index);
+//    }
+}
+
 - (void) deactivate{
     [_sharedSensorManager stopAndRemoveAllSensors];
     [_sharedLocationManager stopUpdatingLocation];
@@ -146,6 +164,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationBackgroundRefreshStatusDidChangeNotification object:nil];
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceBatteryStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object: [NSUbiquitousKeyValueStore defaultStore]];
 
 }
 
@@ -234,9 +253,6 @@
                               
                           }];
 }
-
-
-
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////

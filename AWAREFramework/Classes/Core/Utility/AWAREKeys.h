@@ -11,6 +11,7 @@
 extern NSString* const KEY_APNS_TOKEN;
 extern NSString* const KEY_AWARE_STUDY;
 extern NSString* const KEY_AWARE_DEVICE_NAME;
+extern NSString* const KEY_AWARE_DEVICE_ID;
 extern NSString* const KEY_APP_TERMINATED;
 
 extern NSString* const KEY_MAX_DATA_SIZE;

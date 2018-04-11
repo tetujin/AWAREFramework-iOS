@@ -27,6 +27,7 @@
     __weak NSURLSession *session;
     NSURLSessionConfiguration *sessionConfig;
     NSMutableData * receivedData;
+    NSString * deviceId;
 }
 
 
@@ -68,6 +69,26 @@
         session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
         
         isDebug = [self isDebug];
+        
+        ///// set device_id from iCloud /////
+        NSUbiquitousKeyValueStore * iCloud = [NSUbiquitousKeyValueStore defaultStore];
+        [iCloud synchronize];
+        deviceId = [iCloud objectForKey:KEY_AWARE_DEVICE_ID];
+        if (deviceId == nil) {
+            deviceId = [AWAREUtils getSystemUUID];
+            [reachability reachabilityStatus:^(SCNetworkStatus status) {
+                switch (status){
+                    case SCNetworkStatusReachableViaWiFi:
+                    case SCNetworkStatusReachableViaCellular:
+                        [iCloud setObject:self->deviceId forKey:KEY_AWARE_DEVICE_ID];
+                        [iCloud synchronize];
+                        break;
+                    case SCNetworkStatusNotReachable:
+                        break;
+                }
+            }];
+        }
+        ////////////////////////////////////////////////
     }
     return self;
 }
@@ -574,7 +595,8 @@ didCompleteWithError:(NSError *)error {
  * @return a device id of this device
  */
 - (NSString *)getDeviceId {
-    return [AWAREUtils getSystemUUID];
+    return deviceId;
+    // return [AWAREUtils getSystemUUID];
 }
 
 /**
