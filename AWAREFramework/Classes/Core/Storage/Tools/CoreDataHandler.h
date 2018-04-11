@@ -8,7 +8,24 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+typedef enum: NSInteger {
+    AwareSQLiteStatusUnknown   = 0,
+    AwareSQLiteStatusNormal    = 1,
+    AwareSQLiteStatusNeedNigration = 2
+} AwareSQLiteStatus;
+
 @interface CoreDataHandler : NSObject
+
+
+/**
+ Migration related methods
+ */
+@property AwareSQLiteStatus status;
+- (BOOL) migrateSQLite;
+- (BOOL) backupSQLite;
+- (void)sendMigrationRequestReminders;
+- (void)stopMigrationRequestReminders;
+
 // CoreDate
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

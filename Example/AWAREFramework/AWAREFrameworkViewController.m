@@ -25,15 +25,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
-    [core requestBackgroundSensing];
-    [core requestNotification:[UIApplication sharedApplication]];
-    
-    [core.sharedAwareStudy setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
-    [core.sharedAwareStudy setDebug:YES];
-    [core.sharedAwareStudy setMaximumByteSizeForDBSync:1000000];
+        
+    // Do any additional setup after loading the view, typically from a nib.
+//    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+//    AWARECore * core = delegate.sharedAWARECore;
+//    [core requestBackgroundSensing];
+//    [core requestNotification:[UIApplication sharedApplication]];
+//
+//    [core.sharedAwareStudy setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
+//    [core.sharedAwareStudy setDebug:YES];
+//    [core.sharedAwareStudy setMaximumByteSizeForDBSync:1000000];
 
 //    IOSActivityRecognition * activity = [[IOSActivityRecognition alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
 //    [activity startSensorAsLiveModeWithFilterLevel:CMMotionActivityConfidenceLow];

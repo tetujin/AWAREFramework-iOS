@@ -20,6 +20,7 @@
 #import "CSVStorage.h"
 #import "JSONStorage.h"
 #import "SQLiteStorage.h"
+#import "BRLineReader.h"
 #import "CoreDataHandler.h"
 #import "DBTableCreator.h"
 #import "SyncExecutor.h"

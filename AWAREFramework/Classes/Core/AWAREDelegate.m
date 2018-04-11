@@ -58,10 +58,8 @@
     // Error Tacking
     NSSetUncaughtExceptionHandler(&exceptionHandler);
     
-    
     _sharedAWARECore = [[AWARECore alloc] init];
     [_sharedAWARECore activate];
-
     
     return YES;
 }

@@ -67,9 +67,9 @@
         [_sharedAwareStudy setAutoDBSyncOnlyBatterChargning:YES];
         [_sharedAwareStudy setAutoDBSyncIntervalWithMinutue:60];
         [_sharedAwareStudy setAutoDBSync:YES];
-        [_sharedAwareStudy setMaximumByteSizeForDBSync:10000];
+        [_sharedAwareStudy setMaximumByteSizeForDBSync:1000*100];
         [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:1000];
-        [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeWeekly];
+        [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeDaily];
         [_sharedAwareStudy setUIMode:AwareUIModeNormal];
         [_sharedAwareStudy setDBType:AwareDBTypeSQLite];
         [userDefaults setBool:YES forKey:@"aware_inited"];
