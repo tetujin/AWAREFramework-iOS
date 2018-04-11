@@ -54,8 +54,17 @@
     
     AWAREStorage * storage = nil;
     if(dbType == AwareDBTypeCSV){
-        NSArray * header = @[KEY_DEVICE_ID,KEY_TIMESTAMP,KEY_END_TIMESTAMP,KEY_FREQUENCY_SECOND,KEY_NUMBER_OF_STEPS,KEY_DISTANCE,KEY_CURRENT_PACE,KEY_CURRENT_CADENCE,KEY_FLOORS_ASCENDED,KEY_FLOORS_DESCENDED];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER withHeader:header];
+        NSArray * header = @[KEY_DEVICE_ID,KEY_TIMESTAMP,
+                             KEY_END_TIMESTAMP,
+                             KEY_FREQUENCY_SECOND,
+                             KEY_NUMBER_OF_STEPS,
+                             KEY_DISTANCE,
+                             KEY_CURRENT_PACE,
+                             KEY_CURRENT_CADENCE,
+                             KEY_FLOORS_ASCENDED,
+                             KEY_FLOORS_DESCENDED];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeInteger)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_PEDOMETER];
     }

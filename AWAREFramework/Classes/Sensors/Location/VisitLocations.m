@@ -20,7 +20,8 @@
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations_visit"];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"double_latitude",@"double_longitude",@"double_arrival",@"double_departure",@"address",@"name",@"provider",@"accuracy",@"label"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations_visit" withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations_visit" headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations_visit" entityName:NSStringFromClass([EntityLocationVisit class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

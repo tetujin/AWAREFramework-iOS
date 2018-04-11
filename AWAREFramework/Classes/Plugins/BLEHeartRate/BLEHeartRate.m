@@ -54,7 +54,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_HR_TIMESTAMP,KEY_HR_DEVICE_ID,KEY_HR_HEARTRATE,KEY_HR_LOCATION,KEY_HR_MANUFACTURER,KEY_HR_RSSI,KEY_HR_LABEL];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_BLE_HR entityName:NSStringFromClass([EntityBLEHeartRate class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

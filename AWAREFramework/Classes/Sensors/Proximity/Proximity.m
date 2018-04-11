@@ -20,7 +20,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"double_proximity",@"accuracy",@"label"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PROXIMITY entityName:NSStringFromClass([EntityProximity class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

@@ -52,7 +52,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id", @"double_values_0", @"double_values_1",@"double_values_2", @"accuracy",@"label"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER entityName:NSStringFromClass([EntityLinearAccelerometer class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

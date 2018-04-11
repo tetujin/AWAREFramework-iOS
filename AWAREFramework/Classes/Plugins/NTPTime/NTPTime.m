@@ -22,7 +22,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp", @"device_id", @"drift", @"ntp_time"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_NTPTIME entityName:NSStringFromClass([EntityNTPTime class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

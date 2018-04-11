@@ -28,7 +28,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations"];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp", @"device_id", @"double_latitude", @"double_longitude", @"double_bearing", @"double_speed", @"double_altitude", @"provider", @"accuracy", @"label"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations" withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations" headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations" entityName:NSStringFromClass([EntityLocation class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

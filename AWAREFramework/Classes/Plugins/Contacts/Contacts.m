@@ -27,8 +27,9 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS];
     }else if(dbType == AwareDBTypeCSV){
-        NSArray * header = @[@"timestamp",@"device_id",@"name",@"phone_numbers",@"emails",@"groups",@"sync_date"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS withHeader:header];
+        NSArray * header      = @[@"timestamp",@"device_id",@"name",@"phone_numbers",@"emails",@"groups",@"sync_date"];
+        NSArray * headerTypes = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_CONTACTS entityName:NSStringFromClass([EntityContact class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

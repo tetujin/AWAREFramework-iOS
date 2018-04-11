@@ -225,14 +225,6 @@
 //    }
 //}
 
-- (uint64_t) getFileSize{
-    return [self getFileSizeWithName:self.sensorName];
-}
-
-- (uint64_t) getFileSizeWithName:(NSString*) name {
-    NSString * path = [self getFilePathWithName:name type:FILE_EXTENSION];
-    return [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
-}
 
 - (NSInteger) getMaxDataLength {
     return self.awareStudy.getMaximumByteSizeForDBSync;

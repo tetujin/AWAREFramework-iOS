@@ -31,7 +31,8 @@ NSString* const KEY_CALLS_TRACE = @"trace";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"calls"];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_CALLS_TIMESTAMP, KEY_CALLS_DEVICEID, KEY_CALLS_CALL_TYPE, KEY_CALLS_CALL_DURATION, KEY_CALLS_TRACE];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"calls" withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"calls" headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"calls" entityName:NSStringFromClass([EntityCall class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

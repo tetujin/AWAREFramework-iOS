@@ -10,8 +10,6 @@
 
 @interface SQLiteStorage : AWAREStorage <AWAREStorageDelegate>
 
-//- (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name;
-
 @property NSManagedObjectContext *mainQueueManagedObjectContext;
 @property NSManagedObjectContext *writeQueueManagedObjectContext;
 

@@ -32,19 +32,33 @@
     [core requestNotification:[UIApplication sharedApplication]];
     
     [core.sharedAwareStudy setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
-    [core.sharedAwareStudy setMaximumByteSizeForDBSync:100000];
+    [core.sharedAwareStudy setDebug:YES];
+    [core.sharedAwareStudy setMaximumByteSizeForDBSync:1000000];
+
+//    IOSActivityRecognition * activity = [[IOSActivityRecognition alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
+//    [activity startSensorAsLiveModeWithFilterLevel:CMMotionActivityConfidenceLow];
+//    [activity setDebug:YES];
     
-    Battery * battery = [[Battery alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeJSON];
-    [battery.storage setDebug:YES];
-    for (int i =0; i < 1000; i++) {
-        [battery.storage saveDataWithDictionary:@{@"battery_adaptor":@0,@"battery_health":@0,@"battery_level":@(-100),@"battery_scale":@(100),@"battery_status":@(0),@"battery_technology":@"",@"battery_temperature":@(0),@"battery_voltage":@(0),@"device_id":@"5fd18477-df66-4a8e-8fb1-010c03f75202",@"timestamp":@(i)} buffer:NO saveInMainThread:YES];
-    }
-    
-//    [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-//        [battery.storage saveDataWithDictionary:@{@"battery_adaptor":@0,@"battery_health":@0,@"battery_level":@(-100),@"battery_scale":@(100),@"battery_status":@(0),@"battery_technology":@"",@"battery_temperature":@(0),@"battery_voltage":@(0),@"device_id":@"5fd18477-df66-4a8e-8fb1-010c03f75202",@"timestamp":@([NSDate new].timeIntervalSince1970*1000)} buffer:NO saveInMainThread:YES];
+//    Battery * battery = [[Battery alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
+//    [battery.storage setDebug:YES];
+//    for (int i =0; i < 1000; i++) {
+//        [battery.storage saveDataWithDictionary:@{@"battery_adaptor":@0,@"battery_health":@0,@"battery_level":@(-100),@"battery_scale":@(100),@"battery_status":@(0),@"battery_technology":@"",@"battery_temperature":@(0),@"battery_voltage":@(0),@"device_id":@"5fd18477-df66-4a8e-8fb1-010c03f75202",@"timestamp":@(i)} buffer:NO saveInMainThread:YES];
+//    }
+//
+//    // [battery performSelector:@selector(startSyncDB) withObject:nil afterDelay:10];
+//    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+//        [activity.storage setDebug:YES];
+//        [activity startSyncDB];
+//        [battery.storage setDebug:YES];
+//        [battery.storage startSyncStorage];
 //    }];
     
-    [battery.storage performSelector:@selector(startSyncStorage) withObject:nil afterDelay:10];
+    [self testSensingWithStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV sensorManager:core.sharedSensorManager];
+    
+    
+//    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
+//    [accelerometer startSensor];
+//    [accelerometer startSyncDB];
     
 }
 
@@ -240,7 +254,50 @@
     [wifi createTable];
     [wifi startSensor];
     
-    [manager addSensors:@[accelerometer,barometer,battery,bluetooth,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi]];
+    //////////////////
+    
+    AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:dbType];
+    [noise createTable];
+    [noise startSensor];
+    
+    Calendar * cal = [[Calendar alloc] initWithAwareStudy:study dbType:dbType];
+    [cal createTable];
+    [cal startSensor];
+    
+    Contacts * contacts = [[Contacts alloc] initWithAwareStudy:study dbType:dbType];
+    [contacts createTable];
+    [contacts startSensor];
+    
+    DeviceUsage * usage = [[DeviceUsage alloc] initWithAwareStudy:study dbType:dbType];
+    [usage createTable];
+    [usage startSensor];
+    
+    FusedLocations * flocation = [[FusedLocations alloc] initWithAwareStudy:study dbType:dbType];
+    [flocation createTable];
+    [flocation startSensor];
+    
+    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:study dbType:dbType];
+    [login createTable];
+    [login startSensor];
+    
+    IOSActivityRecognition * activity = [[IOSActivityRecognition alloc] initWithAwareStudy:study dbType:dbType];
+    [activity createTable];
+    [activity startSensor];
+    
+    Memory * memory = [[Memory alloc] initWithAwareStudy:study dbType:dbType];
+    [memory createTable];
+    [memory startSensor];
+    
+    NTPTime * ntp = [[NTPTime alloc] initWithAwareStudy:study dbType:dbType];
+    [ntp createTable];
+    [ntp startSensor];
+    
+    OpenWeather * weather = [[OpenWeather alloc] initWithAwareStudy:study dbType:dbType];
+    [weather createTable];
+    [weather startSensor];
+    
+    [manager addSensors:@[accelerometer,barometer,battery,bluetooth,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi,
+                          noise, cal, contacts, usage, flocation, login, activity, memory, ntp, weather]];
     
 //    [manager setSensorEventCallbackToAllSensors:^(NSDictionary *data) {
 //        NSLog(@"%@",data);
@@ -251,8 +308,10 @@
 //    SyncProcessCallBack callback = ^(NSString *name, double progress, NSError * _Nullable error) {
 //        NSLog(@"%@ %3.2f",name, progress);
 //    };
-//
-//    [manager setSyncProcessCallbackToAllSensorStorages:callback];
+
+    [manager setDebugToAllStorage:YES];
+    // [manager setSyncProcessCallbackToAllSensorStorages:callback];
+    [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
 }
 
 - (void) testSQLite{

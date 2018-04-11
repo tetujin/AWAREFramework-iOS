@@ -24,7 +24,8 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"elapsed_device_on",@"elapsed_device_off"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_DEVICE_USAGE entityName:NSStringFromClass([EntityDeviceUsage class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -57,8 +58,6 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     "device_id text default '',"
     "elapsed_device_on real default 0,"
     "elapsed_device_off real default 0";
-    // "UNIQUE (timestamp,device_id)";
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 

@@ -90,7 +90,7 @@
 
 /**
  * Save a stored device token fro push notification
- * @return BOOL An existance of device token for push notification
+ * @return An existance of device token for push notification
  */
 - (BOOL) saveStoredPushNotificationDeviceToken {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];

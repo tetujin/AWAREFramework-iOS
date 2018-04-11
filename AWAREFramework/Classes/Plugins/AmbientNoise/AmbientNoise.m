@@ -77,7 +77,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_AMBIENT_NOISE_TIMESTAMP,KEY_AMBIENT_NOISE_DEVICE_ID,KEY_AMBIENT_NOISE_FREQUENCY,KEY_AMBIENT_NOISE_DECIDELS,KEY_AMBIENT_NOISE_RMS,KEY_AMBIENT_NOISE_SILENT,KEY_AMBIENT_NOISE_SILENT_THRESHOLD,KEY_AMBIENT_NOISE_RAW];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE withHeader:header];
+        
+            NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeReal),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_AMBIENT_NOISE entityName:NSStringFromClass([EntityAmbientNoise class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

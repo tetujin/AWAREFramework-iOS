@@ -31,7 +31,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     
     if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_ORIENTATION_TIMESTAMP,KEY_ORIENTATION_DEVICE_ID,KEY_ORIENTATION_STATUS,KEY_ORIENTATION_LABEL];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_ORIENTATION];
     }

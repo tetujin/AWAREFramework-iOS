@@ -30,7 +30,8 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"screen_status"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_SCREEN entityName:NSStringFromClass([EntityScreen class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

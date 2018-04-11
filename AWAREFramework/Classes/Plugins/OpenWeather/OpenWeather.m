@@ -75,7 +75,8 @@ int ONE_HOUR = 60*60;
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"city",@"temperature",@"temperature_max",@"temperature_min",@"unit",@"humidity",@"pressure",@"wind_speed",@"wind_degrees",@"cloudiness",@"rain",@"snow",@"sunrise",@"sunset",@"weather_icon_id",@"weather_description"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER withHeader:header];
+        NSArray * headerTypes = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_OPEN_WEATHER entityName:NSStringFromClass([EntityOpenWeather class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

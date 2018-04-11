@@ -38,7 +38,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_BLUETOOTH_TIMESTAMP, KEY_BLUETOOTH_DEVICE_ID, KEY_BLUETOOTH_ADDRESS, KEY_BLUETOOTH_NAME, KEY_BLUETOOTH_RSSI, KEY_BLUETOOTH_LABLE];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BLUETOOTH entityName:NSStringFromClass([EntityBluetooth class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
@@ -65,7 +66,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
 
 - (void) createTable{
     // Send a table create query (for both BLE and classic Bluetooth)
-    NSLog(@"[%@] Create Table", [self getSensorName]);
+    // NSLog(@"[%@] Create Table", [self getSensorName]);
     TCQMaker * maker = [[TCQMaker alloc] init];
     [maker addColumn:KEY_BLUETOOTH_ADDRESS type:TCQTypeText    default:@"''"];
     [maker addColumn:KEY_BLUETOOTH_NAME    type:TCQTypeText    default:@"''"];

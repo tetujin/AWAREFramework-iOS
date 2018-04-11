@@ -40,7 +40,8 @@
         storage = [[JSONStorage alloc] initWithStudy:study sensorName: SENSOR_BATTERY];
     }else if(dbType == AwareDBTypeCSV){
     NSArray * header = @[@"timestamp",@"device_id",@"battery_status",@"battery_level",@"battery_scale",@"battery_voltage", @"battery_temperature",@"battery_adaptor",@"battery_health",@"battery_technology"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY withHeader:header];
+    NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BATTERY entityName:NSStringFromClass([EntityBattery class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
             EntityBattery* batteryData = (EntityBattery *)[NSEntityDescription

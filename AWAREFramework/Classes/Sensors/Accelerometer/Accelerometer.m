@@ -27,8 +27,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"accelerometer"];
     } else if (dbType == AwareDBTypeCSV){
-        NSArray * header = @[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"accelerometer" withHeader:header];
+        NSArray * headerLabels = @[@"timestamp",@"device_id",@"double_values_0",@"double_values_1",@"double_values_2",@"accuracy",@"label"];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"accelerometer" headerLabels:headerLabels headerTypes:headerTypes];
     } else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"accelerometer" entityName:NSStringFromClass([EntityAccelerometer class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
             EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription

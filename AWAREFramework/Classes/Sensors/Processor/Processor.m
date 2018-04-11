@@ -33,7 +33,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"double_last_user",@"double_last_system",@"double_last_idle",@"double_user_load",@"double_system_load",@"double_idle"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_PROCESSOR entityName:NSStringFromClass([EntityProcessor class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

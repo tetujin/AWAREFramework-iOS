@@ -26,7 +26,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp", @"device_id",@"network_type",@"network_subtype",@"network_state"];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeText),@(CSVTypeInteger)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_NETWORK entityName:NSStringFromClass([EntityNetwork class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

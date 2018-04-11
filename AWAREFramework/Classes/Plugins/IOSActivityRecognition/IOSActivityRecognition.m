@@ -50,7 +50,8 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp", @"device_id", ACTIVITIES,CONFIDENCE,ACTIVITY_NAME_STATIONARY,ACTIVITY_NAME_WALKING,ACTIVITY_NAME_RUNNING,ACTIVITY_NAME_AUTOMOTIVE,ACTIVITY_NAME_CYCLING,ACTIVITY_NAME_UNKNOWN,LABEL];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeTextJSONArray),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeInteger),@(CSVTypeText)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_IOS_ACTIVITY_RECOGNITION entityName:NSStringFromClass([EntityIOSActivityRecognition class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {

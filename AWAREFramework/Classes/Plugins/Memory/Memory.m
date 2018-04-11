@@ -35,7 +35,8 @@
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"memory"];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[KEY_MEMORY_TIMESTAMP, KEY_MEMORY_DEVICE_ID, KEY_MEMORY_USED, KEY_MEMORY_FREE, KEY_MEMORY_TOTAL];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"memory" withHeader:header];
+        NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal)];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"memory" headerLabels:header headerTypes:headerTypes];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"memory" entityName:NSStringFromClass([EntityMemory class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
