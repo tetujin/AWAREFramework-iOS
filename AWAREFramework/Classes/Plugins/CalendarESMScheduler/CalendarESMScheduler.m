@@ -41,7 +41,7 @@
     [calendar setCalendarEventsHandler:^(AWARESensor *sensor, NSArray<EKEvent *> *events) {
         if (events != nil) {
             
-            ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+            ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
             [esmManager deleteAllSchedules];
 
             

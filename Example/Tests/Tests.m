@@ -26,11 +26,10 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     
-    AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
-    core = delegate.sharedAWARECore;
-    study = core.sharedAwareStudy;
-    sensorManager = core.sharedSensorManager;
-    esmManager = core.sharedESMManager;
+    core      = [AWARECore sharedCore];
+    study      = [AWAREStudy sharedStudy];
+    sensorManager = [AWARESensorManager sharedSensorManager];
+    esmManager = [ESMScheduleManager sharedESMManager];
     
     [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
 }

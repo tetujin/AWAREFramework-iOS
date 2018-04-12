@@ -21,6 +21,9 @@ typedef enum: NSInteger {
  Migration related methods
  */
 @property AwareSQLiteStatus status;
+
++ (CoreDataHandler * )sharedHandler;
+
 - (BOOL) migrateSQLite;
 - (BOOL) backupSQLite;
 - (void)sendMigrationRequestReminders;

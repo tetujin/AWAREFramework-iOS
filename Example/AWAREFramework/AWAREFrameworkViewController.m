@@ -25,8 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-        
+    
     // Do any additional setup after loading the view, typically from a nib.
 //    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 //    AWARECore * core = delegate.sharedAWARECore;
@@ -55,13 +54,26 @@
 //        [battery.storage startSyncStorage];
 //    }];
     
-//    [self testSensingWithStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV sensorManager:core.sharedSensorManager];
+//    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeCSV sensorManager:[AWARESensorManager sharedSensorManager]];
     
     
 //    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
 //    [accelerometer startSensor];
 //    [accelerometer startSyncDB];
     
+//    ESMSchedule * schdule = [[ESMSchedule alloc] init];
+//
+//    ESMItem * item = [[ESMItem alloc] initAsTextESMWithTrigger:@"test"];
+//    [item setTitle:@"hello"];
+//    [schdule addESM:item];
+//
+    [[ESMScheduleManager sharedESMManager] removeAllSchedulesFromDB];
+    [[ESMScheduleManager sharedESMManager] removeAllESMHitoryFromDB];
+//
+//    [[ESMScheduleManager sharedESMManager] addSchedule:schdule];
+//
+
+    [self testESMSchedule];
 }
 
 
@@ -97,8 +109,8 @@
 }
 
 - (void) calendarESMTest {
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
+    // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    AWARECore * core = [AWARECore sharedCore];
     [core requestBackgroundSensing];
     [core requestNotification:[UIApplication sharedApplication]];
 }
@@ -114,8 +126,7 @@
 
 - (void) testAccelerometerSync{
     
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+    AWAREStudy * study = [AWAREStudy sharedStudy];
     [study setMaximumNumberOfRecordsForDBSync:100];
     [study setMaximumByteSizeForDBSync:1000];
     [study setCleanOldDataType:cleanOldDataTypeAlways];
@@ -158,14 +169,14 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
     NSArray * schdules = [esmManager getValidSchedules];
     if (schdules.count > 0) {
         // UIColor *customColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.3 alpha:1.0];
         ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
         // esmView.view.backgroundColor = customColor;
         [self presentViewController:esmView animated:YES completion:^{
-            \
+            
         }];
         /** or, following code if your project using Navigation Controller */
         // [self.navigationController pushViewController:esmView animated:YES];
@@ -318,8 +329,7 @@
 
 - (void) testSQLite{
     
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    AWAREStudy * study = delegate.sharedAWARECore.sharedAwareStudy;
+    AWAREStudy * study = [AWAREStudy sharedStudy];
     Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
     [accelerometer.storage setBufferSize:500];
     for (int i =0; i<1000; i++) {
@@ -420,14 +430,14 @@
     [schedule addESMs:@[text,radio,checkbox,likertScale,quickAnswer, scale, datetime, pam, numeric, web, date, time, clock, picture, audio, video]];
     
     
-    ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
     esmManager.debug = YES;
     [esmManager addSchedule:schedule];
     
-//    if ([esmManager getValidSchedules].count > 0) {
-//        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-//        [self.navigationController pushViewController:esmView animated:YES];
-//    }
+    if ([esmManager getValidSchedules].count > 0) {
+        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
+        [self.navigationController pushViewController:esmView animated:YES];
+    }
     
 }
 

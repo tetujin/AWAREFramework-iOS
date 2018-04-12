@@ -16,10 +16,32 @@
 #import <UserNotifications/UserNotifications.h>
 #import "EntityESMAnswer.h"
 
+static ESMScheduleManager * sharedESMManager;
+
 @implementation ESMScheduleManager{
     NSString * categoryNormalESM;
     NSMutableArray * contextObservers;
 }
+
++ (ESMScheduleManager *)sharedESMManager{
+    @synchronized(self){
+        if (!sharedESMManager){
+            sharedESMManager = [[ESMScheduleManager alloc] init];
+        }
+    }
+    return sharedESMManager;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (sharedESMManager == nil) {
+            sharedESMManager= [super allocWithZone:zone];
+            return sharedESMManager;
+        }
+    }
+    return nil;
+}
+
 
 - (instancetype)init{
     self = [super init];
@@ -44,9 +66,10 @@
 }
 
 - (BOOL) addSchedule:(ESMSchedule *) schedule withNotification:(BOOL)notification{
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    NSManagedObjectContext * manageContext = delegate.sharedCoreDataHandler.managedObjectContext;
-    manageContext.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+    // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    
+    NSManagedObjectContext * manageContext = [CoreDataHandler sharedHandler].managedObjectContext;
+    manageContext.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
     
     NSDate * now = [NSDate new];
     NSArray * hours = schedule.fireHours;
@@ -74,7 +97,7 @@
         if (hour.intValue == -1 && notification && ![entityScehdule.contexts isEqualToString:@""]){
             [self setContextBasedNotification:entityScehdule];
         }
-        NSLog(@"-> %@", entityScehdule.randomize_schedule);
+        // NSLog(@"-> %@", entityScehdule.randomize_schedule);
     }
     
     for (NSDateComponents * timer in schedule.timers) {
@@ -179,9 +202,9 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return A status of data deleting operation
  */
 - (BOOL) deleteScheduleWithId:(NSString *)scheduleId{
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    NSManagedObjectContext * context = delegate.sharedCoreDataHandler.managedObjectContext;
-    context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+    // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    NSManagedObjectContext * context = [CoreDataHandler sharedHandler].managedObjectContext;
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
     NSFetchRequest *deleteRequest = [[NSFetchRequest alloc] init];
     [deleteRequest setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:context]];
     [deleteRequest setIncludesPropertyValues:NO]; // fetch only a managed object ID
@@ -216,9 +239,9 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 }
 
 - (BOOL) deleteAllSchedulesWithNotification:(BOOL)notification{
-    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    NSManagedObjectContext * context = delegate.sharedCoreDataHandler.managedObjectContext;
-    context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+    // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+    NSManagedObjectContext * context = [CoreDataHandler sharedHandler].managedObjectContext;
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
     NSFetchRequest *deleteRequest = [[NSFetchRequest alloc] init];
     [deleteRequest setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:context]];
     [deleteRequest setIncludesPropertyValues:NO]; // fetch only a managed object ID
@@ -267,18 +290,18 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 - (NSArray *)getValidSchedulesWithDatetime:(NSDate *)datetime{
     
     // NSMutableArray * fetchedESMSchedules = [[NSMutableArray alloc] init];
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     // Fetch vaild schedules by date and expiration
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
+                               inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@)", datetime, datetime]];
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:NO];
     NSSortDescriptor *sortBySID = [[NSSortDescriptor alloc] initWithKey:@"schedule_id" ascending:NO];
     [req setSortDescriptors:@[sort,sortBySID]];
     NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                                                                               managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
+                                                                                               managedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext
                                                                                                  sectionNameKeyPath:nil
                                                                                                           cacheName:nil];
     NSError *error = nil;
@@ -291,14 +314,14 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     /////// Fetch ESM answer history from Today
     NSFetchRequest *historyReq = [[NSFetchRequest alloc] init];
     [historyReq setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMAnswerHistory class])
-                                      inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
+                                      inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
     NSNumber * now = @(datetime.timeIntervalSince1970);
     NSNumber * start = @([AWAREUtils getTargetNSDate:[NSDate new] hour:0 nextDay:false].timeIntervalSince1970);
     [historyReq setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) && (timestamp <= %@)", start, now]]; //(timestamp >= %@) &&
     NSSortDescriptor *historySort = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
     [historyReq setSortDescriptors:@[historySort]];
     NSFetchedResultsController *historyFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:historyReq
-                                                                                                      managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
+                                                                                                      managedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext
                                                                                                         sectionNameKeyPath:nil
                                                                                                                  cacheName:nil];
     NSError * historyError = nil;
@@ -332,6 +355,8 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         /**  Timer Based ESM */
         if( timer != nil ){
             isValidSchedule = [self isValidTimerBasedESMSchedule:schedule history:answerHistory targetDatetime:datetime];
+        } else if(hour.intValue == -1){
+            isValidSchedule = YES;
         }
         
         /** Context **/
@@ -757,13 +782,13 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return A state of the remove offeration success or not.
  */
 - (BOOL) removeAllSchedulesFromDB {
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
     
     NSError *deleteError = nil;
-    [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
+    [[CoreDataHandler sharedHandler].managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
         NSLog(@"[ESMScheduleManager:removeNotificationScheduleFromSQLite] Error: A delete query is failed");
         return NO;
@@ -787,13 +812,13 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return A status of the removing ESM history
  */
 - (BOOL) removeAllESMHitoryFromDB {
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMAnswerHistory class])];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
     
     NSError *deleteError = nil;
-    [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
+    [[CoreDataHandler sharedHandler].managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
         NSLog(@"[ESMScheduleManager:removeESMHistoryFromSQLite] Error: A delete query is failed");
         return NO;

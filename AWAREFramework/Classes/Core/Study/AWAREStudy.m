@@ -17,6 +17,8 @@
 #import "PushNotification.h"
 #import "TCQMaker.h"
 
+static AWAREStudy * sharedStudy;
+
 @implementation AWAREStudy {
     SCNetworkReachability * reachability;
     JoinStudyCompletionHandler joinStudyCompletionHandler;
@@ -30,6 +32,24 @@
     NSString * deviceId;
 }
 
++ (AWAREStudy * )sharedStudy{
+    @synchronized(self){
+        if (!sharedStudy){
+            sharedStudy = [[AWAREStudy alloc] initWithReachability:YES];
+        }
+    }
+    return sharedStudy;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (sharedStudy == nil) {
+            sharedStudy= [super allocWithZone:zone];
+            return sharedStudy;
+        }
+    }
+    return nil;
+}
 
 - (instancetype) initWithReachability: (BOOL) reachabilityState{
     self = [super init];
@@ -741,9 +761,9 @@ didCompleteWithError:(NSError *)error {
  * @return a result of a cleaning operation
  */
 - (BOOL) clearStudySettings{
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
-    [core.sharedSensorManager stopAndRemoveAllSensors];
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWARECore * core = delegate.sharedAWARECore;
+    [[AWARESensorManager sharedSensorManager] stopAndRemoveAllSensors];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:KEY_MQTT_SERVER];
@@ -896,10 +916,10 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     [userDefaults setObject:@(size) forKey:KEY_MAX_DATA_SIZE];
     [userDefaults synchronize];
     
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    AWARECore * core =[AWARECore sharedCore];
     if(core != nil){
-        [core.sharedSensorManager resetAllMarkerPositionsInDB];
+        [[AWARESensorManager sharedSensorManager] resetAllMarkerPositionsInDB];
     }
 }
 

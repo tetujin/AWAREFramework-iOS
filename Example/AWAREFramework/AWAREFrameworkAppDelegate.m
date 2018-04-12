@@ -16,6 +16,9 @@
 //    fileURL = [fileURL URLByAppendingPathComponent:@"aware.sqlite"];
 //    self.sqliteFileURL = fileURL;
     
+//    AWARECore * core = [AWARECore sharedCore];
+//    core.isNeedBackgroundSensing = NO;
+    
     // Override point for customization after application launch.
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     

@@ -16,62 +16,58 @@
 #import <UserNotifications/UserNotifications.h>
 #import <ESMSchedule.h>
 
+static AWARECore * sharedCore;
+
 @implementation AWARECore
+
++ (AWARECore *) sharedCore{
+    @synchronized(self){
+        if (!sharedCore){
+            sharedCore = [[AWARECore alloc] init];
+        }
+    }
+    return sharedCore;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (sharedCore == nil) {
+            sharedCore= [super allocWithZone:zone];
+            return sharedCore; // 初回のallocationで代入して返す
+        }
+    }
+    return nil;
+}
 
 - (instancetype)init{
     self = [super init];
     if(self != nil){
-        _sharedAwareStudy = [[AWAREStudy alloc] initWithReachability:YES];
-        _sharedSensorManager = [[AWARESensorManager alloc] initWithAWAREStudy:_sharedAwareStudy];
+        _isNeedBackgroundSensing = YES;
     }
     return self;
 }
 
-/////////////////////////////////////////////////////////
-@synthesize sharedSensorManager = _sharedSensorManager;
-- (AWARESensorManager *) sharedSensorManager {
-    if(_sharedSensorManager == nil){
-        _sharedSensorManager = [[AWARESensorManager alloc] initWithAWAREStudy:_sharedAwareStudy];
-    }
-    return _sharedSensorManager;
-}
-
-///////////////////////////////////////////////////
-@synthesize sharedAwareStudy = _sharedAwareStudy;
-- (AWAREStudy *) sharedAwareStudy{
-    if(_sharedAwareStudy == nil){
-       _sharedAwareStudy = [[AWAREStudy alloc] initWithReachability:YES];
-    }
-    return _sharedAwareStudy;
-}
-
-///////////////////////////////////////////////////
-@synthesize sharedESMManager = _sharedESMManager;
-- (ESMScheduleManager * ) sharedESMManager {
-    if(_sharedESMManager == nil){
-        _sharedESMManager = [[ESMScheduleManager alloc] init];
-    }
-    return _sharedESMManager;
-}
 
 - (void) activate {
     [self deactivate];
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     
+    AWAREStudy * study = [AWAREStudy sharedStudy];
+    
     /// Set defualt settings
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:@"aware_inited"]) {
-        [_sharedAwareStudy setDebug:NO];
-        [_sharedAwareStudy setAutoDBSyncOnlyWifi:YES];
-        [_sharedAwareStudy setAutoDBSyncOnlyBatterChargning:YES];
-        [_sharedAwareStudy setAutoDBSyncIntervalWithMinutue:60];
-        [_sharedAwareStudy setAutoDBSync:YES];
-        [_sharedAwareStudy setMaximumByteSizeForDBSync:1000*100];
-        [_sharedAwareStudy setMaximumNumberOfRecordsForDBSync:1000];
-        [_sharedAwareStudy setCleanOldDataType:cleanOldDataTypeDaily];
-        [_sharedAwareStudy setUIMode:AwareUIModeNormal];
-        [_sharedAwareStudy setDBType:AwareDBTypeSQLite];
+        [study setDebug:NO];
+        [study setAutoDBSyncOnlyWifi:YES];
+        [study setAutoDBSyncOnlyBatterChargning:YES];
+        [study setAutoDBSyncIntervalWithMinutue:60];
+        [study setAutoDBSync:YES];
+        [study setMaximumByteSizeForDBSync:1000*100];
+        [study setMaximumNumberOfRecordsForDBSync:1000];
+        [study setCleanOldDataType:cleanOldDataTypeDaily];
+        [study setUIMode:AwareUIModeNormal];
+        [study setDBType:AwareDBTypeSQLite];
         [userDefaults setBool:YES forKey:@"aware_inited"];
     }
     
@@ -82,12 +78,15 @@
      * On the iOS, we have to turn on the location sensor
      * for using application in the background.
      */
-    [self initLocationSensor];
+    if (_isNeedBackgroundSensing) {
+        [self initLocationSensor];
+    }
     
     // start sensors
-    [_sharedSensorManager startAllSensors];
-    if([_sharedAwareStudy isAutoDBSync]){
-        [_sharedSensorManager startAutoSyncTimerWithIntervalSecond:uploadInterval];
+    AWARESensorManager * sensorManager = [AWARESensorManager sharedSensorManager];
+    [sensorManager startAllSensors];
+    if([study isAutoDBSync]){
+        [sensorManager startAutoSyncTimerWithIntervalSecond:uploadInterval];
     }
     
     // Compliance checker
@@ -129,13 +128,13 @@
 }
 
 - (void) changedBatteryState:(id) sender{
-    if ([_sharedAwareStudy isAutoDBSync]){
+    if ([[AWAREStudy sharedStudy] isAutoDBSync]){
         NSInteger batteryState = [UIDevice currentDevice].batteryState;
         if (batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:self.sharedAwareStudy dbType:AwareDBTypeJSON];
+            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[Uploader] The battery is charging. AWARE iOS start to upload sensor data." type:DebugTypeInfo label:@""];
-            [self.sharedSensorManager syncAllSensors];
-            [self.sharedSensorManager runBatteryStateChangeEvents];
+            [[AWARESensorManager sharedSensorManager] syncAllSensors];
+            [[AWARESensorManager sharedSensorManager] runBatteryStateChangeEvents];
         }
     }
 }
@@ -153,9 +152,9 @@
 }
 
 - (void) deactivate{
-    [_sharedSensorManager stopAndRemoveAllSensors];
+    [[AWARESensorManager sharedSensorManager] stopAndRemoveAllSensors];
     [_sharedLocationManager stopUpdatingLocation];
-    [_sharedSensorManager stopAutoSyncTimer];
+    [[AWARESensorManager sharedSensorManager] stopAutoSyncTimer];
     [_dailyUpdateTimer invalidate];
     [_complianceTimer invalidate];
     //
@@ -222,7 +221,7 @@
         if(debugMode){
             // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
         }
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:message type:DebugTypeInfo label:@""];
         [userDefaults setBool:NO forKey:KEY_APP_TERMINATED];
     }else{
@@ -358,7 +357,7 @@
         }
         
 //        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services are OFF or Background Location is NOT enabled" type:DebugTypeWarn label:title];
         [debugSensor startSyncDB];
     }
@@ -366,7 +365,7 @@
     else if (status == kCLAuthorizationStatusNotDetermined) {
         [self initLocationSensor];
     }else{
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services is enabled" type:DebugTypeInfo label:@""];
         state = YES;
     }
@@ -418,13 +417,13 @@
             // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Background App Refresh' service in the Settings->General." soundFlag:NO];
         }
         
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Background App Refresh service is Restricted or Denied" type:DebugTypeWarn label:@""];
 //        [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
 //        [debugSensor.storage allowsCellularAccess];
         // [debugSensor syncAwareDBInBackground];
     } else if(backgroundRefreshStatus == UIBackgroundRefreshStatusAvailable){
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Background App Refresh service is Allowed" type:DebugTypeInfo label:@""];
         state = YES;
     }
@@ -481,7 +480,7 @@
                 }else{
                     // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Notification' service in the Settings.app->Notification->Allow Notifications." soundFlag:NO];
                 }
-                Debug * debugSensor = [[Debug alloc] initWithAwareStudy:self->_sharedAwareStudy dbType:AwareDBTypeJSON];
+                Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
                 [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
                 [debugSensor startSyncDB];
                 break;
@@ -516,7 +515,7 @@
         NSLog(@"Total: %.3f", total);
         float percentage = free/total * 100.0f;
         NSString * event = [NSString stringWithFormat:@"[compliance] TOTAL:%.3fGB, USED:%.3fGB, FREE:%.3fGB", total, total-free, free];
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:event type:DebugTypeInfo label:@""];
         // [debugSensor syncAwareDBInBackground];
         if(percentage < 5 && detail){ // %
@@ -527,7 +526,7 @@
                 UIAlertController * alertContoller = [UIAlertController alertControllerWithTitle:title
                                                                                          message:message preferredStyle:UIAlertControllerStyleAlert];
                 [alertContoller addAction:[UIAlertAction actionWithTitle:@"start manual sync" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [self->_sharedSensorManager syncAllSensors];
+                    [[AWARESensorManager sharedSensorManager] syncAllSensors];
                 }]];
                 [alertContoller addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 }]];
@@ -587,11 +586,11 @@
             }
             
         
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is ON" type:DebugTypeWarn label:@""];
             [debugSensor startSyncDB];
         }else{
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
             [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is OFF" type:DebugTypeInfo label:@""];
             state = YES;
         }
@@ -639,11 +638,11 @@
         }
         
         
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is OFF" type:DebugTypeWarn label:@""];
         [debugSensor startSyncDB];
     }else{
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAwareStudy dbType:AwareDBTypeJSON];
+        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is On" type:DebugTypeInfo label:@""];
     }
     

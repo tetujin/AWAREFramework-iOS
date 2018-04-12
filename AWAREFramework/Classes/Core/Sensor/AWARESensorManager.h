@@ -15,6 +15,8 @@
 
 @interface AWARESensorManager : NSObject <UIAlertViewDelegate>
 
++ (AWARESensorManager *) sharedSensorManager;
+
 /** Initializer */
 - (instancetype)initWithAWAREStudy:(AWAREStudy *) study;
 

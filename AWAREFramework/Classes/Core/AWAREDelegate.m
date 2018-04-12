@@ -21,30 +21,6 @@
 @implementation AWAREDelegate
 
 
-/**
- A singleton instance of AWARECore
- */
-@synthesize sharedAWARECore = _sharedAWARECore;
-- (AWARECore *) sharedAWARECoreManager {
-    if(_sharedAWARECore == nil){
-        _sharedAWARECore = [[AWARECore alloc] init];
-    }
-    return _sharedAWARECore;
-}
-
-/**
- A singleton instance of CoreData (SQLite) handler
- */
-@synthesize sharedCoreDataHandler = _sharedCoreDataHandler;
-- (CoreDataHandler *) sharedCoreDataHandler{
-    if (_sharedCoreDataHandler == nil) {
-        _sharedCoreDataHandler = [[CoreDataHandler alloc] init];
-    }
-    return _sharedCoreDataHandler;
-}
-
-///////////////////////////////////////////////////////////////////////
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Set background fetch for updating debug information
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
@@ -58,8 +34,7 @@
     // Error Tacking
     NSSetUncaughtExceptionHandler(&exceptionHandler);
     
-    _sharedAWARECore = [[AWARECore alloc] init];
-    [_sharedAWARECore activate];
+    [[AWARECore sharedCore] activate];
     
     return YES;
 }
@@ -119,7 +94,7 @@
         }
     }];
     
-    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
+    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
     [debugSensor saveDebugEventWithText:content.title type:DebugTypeWarn label:@"stop"];
     [debugSensor startSyncDB];
     
@@ -139,7 +114,7 @@
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
     if([shortcutItem.type isEqualToString:@"com.awareframework.aware-client-ios.shortcut.manualupload"]){
-        [_sharedAWARECore.sharedSensorManager syncAllSensorsForcefully];
+        [[AWARESensorManager sharedSensorManager] syncAllSensorsForcefully];
     }
 }
 
@@ -184,7 +159,7 @@
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
         
-    PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
+    PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
     [pushNotification savePushNotificationDeviceToken:token];
 }
 
@@ -218,7 +193,7 @@ void exceptionHandler(NSException *exception) {
             NSLog(@"Get a login call back");
             dispatch_async(dispatch_get_main_queue(), ^{
                 // [Fitbit handleURL:url sourceApplication:sourceApplication annotation:annotation];
-                Fitbit * fitbit = [[Fitbit alloc] initWithAwareStudy:self->_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeJSON];
+                Fitbit * fitbit = [[Fitbit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
                 [fitbit handleURL:url sourceApplication:sourceApplication annotation:annotation];
             });
             return YES;
@@ -241,7 +216,7 @@ void exceptionHandler(NSException *exception) {
     NSString *email = user.profile.email;
     
     if (name != nil ) {
-        GoogleLogin * googleLogin = [[GoogleLogin alloc] initWithAwareStudy:_sharedAWARECore.sharedAwareStudy dbType:AwareDBTypeSQLite];
+        GoogleLogin * googleLogin = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
         [googleLogin setGoogleAccountWithUserId:userId name:name email:email];
     }
 }

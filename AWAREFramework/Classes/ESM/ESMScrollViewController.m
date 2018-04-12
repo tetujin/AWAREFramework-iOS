@@ -93,9 +93,7 @@
     [self.view addSubview:scrollView];
     _mainScrollView = scrollView;
     
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
-    study = core.sharedAwareStudy;
+    study = [AWAREStudy sharedStudy];
     [study setStudyURL:@""];
     
     flowsFlag = NO;
@@ -143,10 +141,10 @@
     
     ///////////////////////////////////////////////////////////////
     if(!flowsFlag){ /// normal case
-        ESMScheduleManager *esmManager = [[ESMScheduleManager alloc] init];
+        ESMScheduleManager *esmManager = [ESMScheduleManager sharedESMManager];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
         
-        if(esmSchedules != nil){
+        if(esmSchedules != nil && esmSchedules.count > 0){
             EntityESMSchedule * esmSchedule = esmSchedules[0];
             NSLog(@"[interface: %@]", esmSchedule.interface);
             NSSet * childEsms = esmSchedule.esms;
@@ -211,7 +209,7 @@
         }
     }
     
-    if(!isQuickAnswer){
+    if(!isQuickAnswer || esmSchedules.count == 0){
         ////// add a submit (or next) and a cancel button /////////
         // add a cancel btn
         UIButton * cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10,
@@ -369,9 +367,9 @@
 
 - (void) pushedSubmitButton:(id) senser {
     AudioServicesPlaySystemSound(1105);
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
     
     NSMergePolicy *originalMergePolicy = context.mergePolicy;
     context.mergePolicy = NSOverwriteMergePolicy;
@@ -455,8 +453,8 @@
     context.mergePolicy = originalMergePolicy;
     if(error != nil){
         NSLog(@"%@", error);
-        [delegate.sharedCoreDataHandler.managedObjectContext reset];
-        ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+        [[CoreDataHandler sharedHandler].managedObjectContext reset];
+        ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
     }
     
@@ -521,7 +519,7 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+                ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
                 [esmManager refreshESMNotifications];
                 
                 __block typeof(self) blockSelf = self; // TODO
@@ -640,11 +638,9 @@
 ///////////////////////////////////////////
 
 - (NSArray *) getNextESMsFromDB {
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
+                               inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
     // [req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) OR (expiration_threshold=0)", datetime, datetime]];
     [req setPredicate:[NSPredicate predicateWithFormat:@"(temporary == 1)"]];
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:NO];
@@ -653,7 +649,7 @@
     
     NSFetchedResultsController *fetchedResultsController
     = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                          managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
+                                          managedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext
                                             sectionNameKeyPath:nil
                                                      cacheName:nil];
     
@@ -690,16 +686,16 @@
 - (bool) removeTempESMsFromDB{
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporary==1"];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     
     NSError *error;
-    NSArray *items = [delegate.sharedCoreDataHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *items = [[CoreDataHandler sharedHandler].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     for (NSManagedObject *managedObject in items){
-        [delegate.sharedCoreDataHandler.managedObjectContext deleteObject:managedObject];
+        [[CoreDataHandler sharedHandler].managedObjectContext deleteObject:managedObject];
     }
     
     if (error!= nil) {

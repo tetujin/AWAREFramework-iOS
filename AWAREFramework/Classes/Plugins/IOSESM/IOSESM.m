@@ -367,7 +367,8 @@ didReceiveResponse:(NSURLResponse *)response
         dispatch_async( dispatch_get_main_queue() , ^{
             AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
             NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            context.persistentStoreCoordinator =  delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+            context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
+            // context.persistentStoreCoordinator =  delegate.sharedCoreDataHandler.persistentStoreCoordinator;
             
             int number = 0;
             
@@ -529,13 +530,14 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (void) removeNotificationSchedulesFromSQLite {
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
     
     NSError *deleteError = nil;
-    [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
+    [[CoreDataHandler sharedHandler].managedObjectContext executeRequest:delete error:&deleteError];
+    // [delegate.sharedCoreDataHandler.managedObjectContext executeRequest:delete error:&deleteError];
     if(deleteError != nil){
         NSLog(@"ERROR: A delete query is failed");
     }
@@ -546,16 +548,16 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void) setNotificationSchedules {
     // Get ESMs from SQLite by using CoreData
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     [fetchRequest setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                                        inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
+                                        inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
     
     NSDate * now = [NSDate new];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@)", now, now]];
     NSError *error = nil;
-    NSArray *results = [delegate.sharedCoreDataHandler.managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
+    NSArray *results = [[CoreDataHandler sharedHandler].managedObjectContext executeFetchRequest:fetchRequest error:&error] ;
     
     if(results == nil) return;
     
@@ -707,7 +709,8 @@ didReceiveResponse:(NSURLResponse *)response
 //    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
-                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
+                    inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
+//                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
     // [req setFetchLimit:1];
     
     //[req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) AND (fire_hour=-1)", datetime, datetime]];
@@ -719,7 +722,7 @@ didReceiveResponse:(NSURLResponse *)response
     
     NSFetchedResultsController *fetchedResultsController
     = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                          managedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext
+                                          managedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext
                                             sectionNameKeyPath:nil
                                                      cacheName:nil];
     
@@ -1075,7 +1078,7 @@ didReceiveResponse:(NSURLResponse *)response
     dispatch_async(dispatch_get_main_queue(), ^{
         AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
         NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        context.persistentStoreCoordinator = delegate.sharedCoreDataHandler.persistentStoreCoordinator;
+        context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
         EntityESMAnswer * answer = (EntityESMAnswer *)
         [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
                                       inManagedObjectContext:context];

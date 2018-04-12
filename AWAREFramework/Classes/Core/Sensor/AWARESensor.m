@@ -65,8 +65,8 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         if(study == nil){
             // awareStudy = [[AWAREStudy alloc] initWithReachability:NO];
             // TODO: 
-            AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-            awareStudy = delegate.sharedAWARECore.sharedAwareStudy;
+            // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+            awareStudy = [AWAREStudy sharedStudy];
         }else{
             awareStudy = study;
         }

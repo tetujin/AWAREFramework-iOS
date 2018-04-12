@@ -62,17 +62,15 @@ accelerometer.startSensor()
 
 AWARECore, AWAREStudy, and AWARESensorManager are singleton instances for managing sensing/synchronization schedule in the library. You can access the instances via AWAREDelegate. The AWAREDelegate is described in the Installation section.  
 ```objective-c
-AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-AWARECore  * core  = delegate.sharedAWARECore;
-AWAREStudy * study = core.sharedAwareStudy;
-AWARESensorManager * manager = core.sharedSensorManager;
+AWARECore  * core  = [AWARECore sharedCore];
+AWAREStudy * study = [AWAREStudy sharedStudy];
+AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
 ```
 
 ```swift
-let delegate = UIApplication.shared.delegate as! AWAREDelegate
-let core = delegate.sharedAWARECore
-let study = core?.sharedAwareStudy
-let manager = core?.sharedSensorManager
+let core = AWARECore.sharedCore()
+let study = AWAREStudy.sharedStudy()
+let manager = AWARESensorManager.sharedSensorManager()
 ```
 
 AWAREFramework-iOS allows us to synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
@@ -188,16 +186,14 @@ Finally, call permission requests for the location sensor when the app is opened
 
 Objective-C
 ```objective-c
-AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-AWARECore * core = delegate.sharedAWARECore;
+AWARECore * core = [AWARECore sharedCore];
 [core requestBackgroundSensing]; // for background sensing
 [core requestNotification:[UIApplication sharedApplication]]; // for notifications
 ```
     
 Swift    
 ```swift
-let delegate = UIApplication.shared.delegate as! AWAREDelegate
-let core = delegate.sharedAWARECore
+let core = AWARECore.sharedCore()
 core.requestBackgroundSensing()
 core.requestNotification(UIApplication.shared)
 ```
@@ -227,7 +223,7 @@ radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
 [schedule addESMs:@[radio]];
 
 /// Add the ESMSchedule to ESMScheduleManager ///
-ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
 [esmManager addSchedule:schedule];
 ```
 
@@ -247,7 +243,7 @@ radio?.setTitle("ESM title")
 radio?.setInstructions("some instructions")
 schdule.addESM(radio)
 
-let esmManager = ESMScheduleManager.init()
+let esmManager = ESMScheduleManager.sharedESMManager()
 // esmManager.removeAllNotifications()
 // esmManager.removeAllESMHitoryFromDB()
 // esmManager.removeAllSchedulesFromDB()
@@ -258,7 +254,7 @@ Please call the following chunk of code for appearing ESMScrollViewController (e
 
 ```objective-c
 /// Objective-C: check valid ESMs and show ESMScrollViewController ///
-ESMScheduleManager * esmManager = [[ESMScheduleManager alloc] init];
+ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
 NSArray * schdules = [esmManager getValidSchedules];
 if (schdules.count > 0) {
     /** initialize ESMScrollView */
@@ -271,7 +267,7 @@ if (schdules.count > 0) {
 ```
 ```swift
 /// Swift ///
-let esmManager = ESMScheduleManager.init()
+let esmManager = ESMScheduleManager.sharedESMManager()
 let schedules = esmManager.getValidSchedules()
 if let unwrappedSchedules = schedules {
     if(unwrappedSchedules.count > 0){

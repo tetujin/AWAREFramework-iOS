@@ -49,6 +49,8 @@ typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState sta
 @property (strong, nonatomic) NSString* makeDeviceTableIdentifier;
 @property (strong, nonatomic) NSString* addDeviceTableIdentifier;
 
++ (AWAREStudy * )sharedStudy;
+
 - (instancetype) initWithReachability: (BOOL) reachabilityState;
 
 - (void) setStudyURL:(NSString *)url;

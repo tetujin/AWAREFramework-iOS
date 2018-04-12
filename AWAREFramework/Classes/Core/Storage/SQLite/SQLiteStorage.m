@@ -42,9 +42,9 @@
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@", name];
         timeMarkerIdentifier = [NSString stringWithFormat:@"uploader_coredata_timestamp_marker_%@", name];
         tempLastUnixTimestamp = @0;
-        AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+        // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
         self.mainQueueManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:delegate.sharedCoreDataHandler.persistentStoreCoordinator];
+        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:[CoreDataHandler sharedHandler].persistentStoreCoordinator];
         previousUploadingProcessFinishUnixTime = [self getTimeMark];
         if([previousUploadingProcessFinishUnixTime isEqualToNumber:@0]){
             NSDate * now = [NSDate new];
@@ -89,9 +89,9 @@
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
     
-    AWAREDelegate * delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+    // AWAREDelegate * delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [parentContext setPersistentStoreCoordinator:delegate.sharedCoreDataHandler.persistentStoreCoordinator];
+    [parentContext setPersistentStoreCoordinator:[CoreDataHandler sharedHandler].persistentStoreCoordinator];
     
     NSManagedObjectContext* childContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [childContext setParentContext:parentContext];

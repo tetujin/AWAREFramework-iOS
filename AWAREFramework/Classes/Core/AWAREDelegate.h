@@ -13,8 +13,7 @@
 #import "CoreDataHandler.h"
 
 @interface AWAREDelegate : UIResponder <UIApplicationDelegate, GIDSignInDelegate,  UIAlertViewDelegate>
-@property (strong, nonatomic) AWARECore * sharedAWARECore;
-@property (strong, nonatomic) CoreDataHandler * sharedCoreDataHandler;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @end

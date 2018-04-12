@@ -15,6 +15,8 @@
 #import "AWAREKeys.h"
 #import "AWARESensors.h"
 
+static AWARESensorManager * sharedSensorManager;
+
 @implementation AWARESensorManager{
     /** upload timer */
     NSTimer * syncTimer;
@@ -35,6 +37,26 @@
     BOOL alertState;
     NSDictionary * previousProgresses;
 }
+
++ (AWARESensorManager *) sharedSensorManager {
+    @synchronized(self){
+        if (!sharedSensorManager){
+            sharedSensorManager = [[AWARESensorManager alloc] init];
+        }
+    }
+    return sharedSensorManager;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (sharedSensorManager == nil) {
+            sharedSensorManager= [super allocWithZone:zone];
+            return sharedSensorManager;
+        }
+    }
+    return nil;
+}
+
 
 /**
  * Init a AWARESensorManager with an AWAREStudy

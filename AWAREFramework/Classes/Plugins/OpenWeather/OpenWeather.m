@@ -167,7 +167,7 @@ int ONE_HOUR = 60*60;
     
     
     AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    AWARECore * core = delegate.sharedAWARECore;
+    AWARECore * core = [AWARECore sharedCore];
     locationManager = core.sharedLocationManager;
     
     sensingTimer = [NSTimer scheduledTimerWithTimeInterval:_frequencyMin * 60

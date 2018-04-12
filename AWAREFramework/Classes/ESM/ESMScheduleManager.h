@@ -11,6 +11,8 @@
 
 @interface ESMScheduleManager : NSObject
 
++ (ESMScheduleManager *) sharedESMManager;
+
 @property BOOL debug;
 
 typedef void (^NotificationRemoveCompleteHandler)(void);

@@ -8,6 +8,8 @@
 #import "CoreDataHandler.h"
 #import <UserNotifications/UserNotifications.h>
 
+static CoreDataHandler * sharedHandler;
+
 @implementation CoreDataHandler
 
 #pragma mark - Core Data stack
@@ -16,6 +18,25 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize status = _status;
+
++ (CoreDataHandler * )sharedHandler {
+    @synchronized(self){
+        if (!sharedHandler){
+            sharedHandler = [[CoreDataHandler alloc] init];
+        }
+    }
+    return sharedHandler;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (sharedHandler == nil) {
+            sharedHandler= [super allocWithZone:zone];
+            return sharedHandler; // 初回のallocationで代入して返す
+        }
+    }
+    return nil;
+}
 
 - (instancetype)init{
     self = [super init];

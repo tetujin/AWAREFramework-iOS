@@ -27,7 +27,7 @@
                              storage:storage];
     if (self) {
         AWAREDelegate * delegate = (AWAREDelegate *)[[UIApplication sharedApplication] delegate];
-        coreStudy = delegate.sharedAWARECore.sharedAwareStudy;
+        coreStudy = [AWAREStudy sharedStudy];
     }
     return self;
 }

@@ -18,20 +18,15 @@
 // Core Location Manager
 @property (strong, nonatomic) CLLocationManager *sharedLocationManager;
 
-// Shared AWAREStudy
-@property (strong, nonatomic) AWAREStudy* sharedAwareStudy;
-
-// Shared AWARESensorManager
-@property (strong, nonatomic) AWARESensorManager * sharedSensorManager;
-
-// Shared
-@property (strong, nonatomic) ESMScheduleManager * sharedESMManager;
-
 // Daily Update Timer
 @property (strong, nonatomic) NSTimer * dailyUpdateTimer;
 
 // Base compliance
 @property (strong, nonatomic) NSTimer * complianceTimer;
+
+@property BOOL isNeedBackgroundSensing;
+
++ (AWARECore * )sharedCore;
 
 - (void) activate;
 - (void) deactivate;
