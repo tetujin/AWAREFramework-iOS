@@ -11,7 +11,7 @@
 
 @interface ESMScheduleManager : NSObject
 
-+ (ESMScheduleManager *) sharedESMManager;
++ (ESMScheduleManager *) sharedESMScheduleManager;
 
 @property BOOL debug;
 

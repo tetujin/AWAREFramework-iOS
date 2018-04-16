@@ -141,7 +141,7 @@
     
     ///////////////////////////////////////////////////////////////
     if(!flowsFlag){ /// normal case
-        ESMScheduleManager *esmManager = [ESMScheduleManager sharedESMManager];
+        ESMScheduleManager *esmManager = [ESMScheduleManager sharedESMScheduleManager];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
         
         if(esmSchedules != nil && esmSchedules.count > 0){
@@ -454,7 +454,7 @@
     if(error != nil){
         NSLog(@"%@", error);
         [[CoreDataHandler sharedHandler].managedObjectContext reset];
-        ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+        ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
         esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
     }
     
@@ -519,7 +519,7 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
-                ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+                ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
                 [esmManager refreshESMNotifications];
                 
                 __block typeof(self) blockSelf = self; // TODO

@@ -67,8 +67,8 @@
 //    [item setTitle:@"hello"];
 //    [schdule addESM:item];
 //
-    [[ESMScheduleManager sharedESMManager] removeAllSchedulesFromDB];
-    [[ESMScheduleManager sharedESMManager] removeAllESMHitoryFromDB];
+    [[ESMScheduleManager sharedESMScheduleManager] removeAllSchedulesFromDB];
+    [[ESMScheduleManager sharedESMScheduleManager] removeAllESMHitoryFromDB];
 //
 //    [[ESMScheduleManager sharedESMManager] addSchedule:schdule];
 //
@@ -169,7 +169,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
     NSArray * schdules = [esmManager getValidSchedules];
     if (schdules.count > 0) {
         // UIColor *customColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.3 alpha:1.0];
@@ -430,7 +430,7 @@
     [schedule addESMs:@[text,radio,checkbox,likertScale,quickAnswer, scale, datetime, pam, numeric, web, date, time, clock, picture, audio, video]];
     
     
-    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
     esmManager.debug = YES;
     [esmManager addSchedule:schedule];
     

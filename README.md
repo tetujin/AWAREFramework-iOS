@@ -68,9 +68,9 @@ AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
 ```
 
 ```swift
-let core = AWARECore.sharedCore()
-let study = AWAREStudy.sharedStudy()
-let manager = AWARESensorManager.sharedSensorManager()
+let core = AWARECore.shared()
+let study = AWAREStudy.shared()
+let manager = AWARESensorManager.shared()
 ```
 
 AWAREFramework-iOS allows us to synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
@@ -193,7 +193,7 @@ AWARECore * core = [AWARECore sharedCore];
     
 Swift    
 ```swift
-let core = AWARECore.sharedCore()
+let core = AWARECore.shared()
 core.requestBackgroundSensing()
 core.requestNotification(UIApplication.shared)
 ```
@@ -223,7 +223,7 @@ radioItems:@[@"A",@"B",@"C",@"D",@"E"]];
 [schedule addESMs:@[radio]];
 
 /// Add the ESMSchedule to ESMScheduleManager ///
-ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
 [esmManager addSchedule:schedule];
 ```
 
@@ -243,7 +243,7 @@ radio?.setTitle("ESM title")
 radio?.setInstructions("some instructions")
 schdule.addESM(radio)
 
-let esmManager = ESMScheduleManager.sharedESMManager()
+let esmManager = ESMScheduleManager.shared()
 // esmManager.removeAllNotifications()
 // esmManager.removeAllESMHitoryFromDB()
 // esmManager.removeAllSchedulesFromDB()
@@ -254,7 +254,7 @@ Please call the following chunk of code for appearing ESMScrollViewController (e
 
 ```objective-c
 /// Objective-C: check valid ESMs and show ESMScrollViewController ///
-ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMManager];
+ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
 NSArray * schdules = [esmManager getValidSchedules];
 if (schdules.count > 0) {
     /** initialize ESMScrollView */
@@ -267,7 +267,7 @@ if (schdules.count > 0) {
 ```
 ```swift
 /// Swift ///
-let esmManager = ESMScheduleManager.sharedESMManager()
+let esmManager = ESMScheduleManager.shared()
 let schedules = esmManager.getValidSchedules()
 if let unwrappedSchedules = schedules {
     if(unwrappedSchedules.count > 0){
