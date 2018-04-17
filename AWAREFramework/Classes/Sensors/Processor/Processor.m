@@ -125,7 +125,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [dict setObject:@0 forKey:@"double_system_load"]; //double
     [dict setObject:@0 forKey:@"double_idle_load"]; //double
     [self setLatestValue:[NSString stringWithFormat:@"%@ %%",appCpuUsage]];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     
     SensorEventHandler handler = [self getSensorEventHandler];

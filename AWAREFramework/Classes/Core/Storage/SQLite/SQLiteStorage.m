@@ -89,41 +89,60 @@
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
     
-    // AWAREDelegate * delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [parentContext setPersistentStoreCoordinator:[CoreDataHandler sharedHandler].persistentStoreCoordinator];
     
-    NSManagedObjectContext* childContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [childContext setParentContext:parentContext];
-    
-    [childContext performBlock:^{
-        
+    if (saveInMainThread) {
+        // Save data in the main thread //
         for (NSDictionary * bufferedData in copiedArray) {
-            // [self insertNewEntityWithData:bufferedData managedObjectContext:childContext entityName:entityName];
             if(self->inertEntityCallBack != nil){
-                self->inertEntityCallBack(bufferedData,childContext,self->entityName);
+                self->inertEntityCallBack(bufferedData,parentContext,self->entityName);
             }
         }
-        
         NSError *error = nil;
-        if (![childContext save:&error]) {
-            // An error is occued
+        if (![parentContext save:&error]) {
             NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
-            // [self->buffer addObjectsFromArray:array];
-            [self unlock];
+            [self.buffer addObjectsFromArray:copiedArray];
         }else{
-            // sucess to marge diff to the main context manager
-            [parentContext performBlock:^{
-                if(![parentContext save:nil]){
-                    // An error is occued
-                    NSLog(@"Error saving context");
-                    // [self.buffer addObjectsFromArray:array];
-                }
-                if(self.isDebug) NSLog(@"[SQLiteStorage] %@: Data is saved", self.sensorName);
-                [self unlock];
-            }];
+            if(self.isDebug) NSLog(@"[SQLiteStorage] %@: Data is saved in the main-thread", self.sensorName);
         }
-    }];
+        [self unlock];
+        
+    }else{
+        // Save data in the sub thread //
+        NSManagedObjectContext* childContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [childContext setParentContext:parentContext];
+        
+        [childContext performBlock:^{
+            
+            for (NSDictionary * bufferedData in copiedArray) {
+                // [self insertNewEntityWithData:bufferedData managedObjectContext:childContext entityName:entityName];
+                if(self->inertEntityCallBack != nil){
+                    self->inertEntityCallBack(bufferedData,childContext,self->entityName);
+                }
+            }
+            
+            NSError *error = nil;
+            if (![childContext save:&error]) {
+                // An error is occued
+                NSLog(@"Error saving context: %@\n%@", [error localizedDescription], [error userInfo]);
+                [self.buffer addObjectsFromArray:copiedArray];
+                [self unlock];
+            }else{
+                // sucess to marge diff to the main context manager
+                [parentContext performBlock:^{
+                    if(![parentContext save:nil]){
+                        // An error is occued
+                        NSLog(@"Error saving context");
+                        [self.buffer addObjectsFromArray:copiedArray];
+                        // [self.buffer addObjectsFromArray:array];
+                    }
+                    if(self.isDebug) NSLog(@"[SQLiteStorage] %@: Data is saved in the sub-thread", self.sensorName);
+                    [self unlock];
+                }];
+            }
+        }];
+    }
     
     return YES;
 }
@@ -135,15 +154,7 @@
 }
 
 - (void)startSyncStorage {
-    // SyncExecutor * executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
-    // [executor.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
-       //  if (dataTasks.count == 0){
-            // check wifi state
-    //}else{
-    //    if (self.isDebug) NSLog(@"tasks => %ld",dataTasks.count);
-    //}
-    // }];
-    
+
     if(self->isUploading){
         NSString * message= [NSString stringWithFormat:@"[%@] Now sendsor data is uploading.", self.sensorName];
         NSLog(@"%@", message);
@@ -198,20 +209,20 @@
             // Get count of category
             NSInteger count = [private countForFetchRequest:request error:&error];
             // NSLog(@"[%@] %ld records", self->entityName , count);
-            if (count == NSNotFound) {
-                [self unlock]; // Unlock DB
+            if (count == NSNotFound || count== 0) {
                 if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->entityName);
+                [self dataSyncIsFinishedCorrectly];
+                if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, 1.0, nil);
+                [self unlock]; // Unlock DB
                 return;
             } else if(error != nil){
-                [self unlock]; // Unlock DB
                 NSLog(@"%@", error.description);
-                // count = 0;
-                return;
-            } else if( count== 0){
-                [self unlock];
-                if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->entityName);
+                [self dataSyncIsFinishedCorrectly];
+                if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, error) ;
+                [self unlock]; // Unlock DB
                 return;
             }
+            
             // Set repetationCount
             self->currentRepetitionCount = 0;
             self->requiredRepetitionCount = (int)count/(int)[self.awareStudy getMaximumNumberOfRecordsForDBSync];
@@ -242,6 +253,7 @@
     
     if (cancel) {
         [self dataSyncIsFinishedCorrectly];
+        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -2, nil);
         return;
     }
     // NSLog(@"[%@] marker   end: %@", sensorName, [NSDate dateWithTimeIntervalSince1970:previousUploadingProcessFinishUnixTime.longLongValue/1000]);
@@ -259,8 +271,6 @@
     }
     
     @try {
-        // NSLog(@"[pretime:%@] %@", sensorName, previousUploadingProcessFinishUnixTime);
-        
         NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [private setParentContext:self.mainQueueManagedObjectContext];
         [private performBlock:^{
@@ -290,6 +300,7 @@
             if (results != nil) {
                 if (results.count == 0 || results.count == NSNotFound) {
                     [self dataSyncIsFinishedCorrectly];
+                    if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, 1.0, nil);
                     return;
                 }
                 
@@ -319,6 +330,7 @@
                             NSString * message = [NSString stringWithFormat:@"[%@] Data is Null or Length is Zero", self.sensorName];
                             if (self.isDebug) NSLog(@"%@", message);
                             [self dataSyncIsFinishedCorrectly];
+                            if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, 1.0, nil);
                             return;
                         }
                         
@@ -381,23 +393,26 @@
                         } @catch (NSException *exception) {
                             NSLog(@"[%@] %@",self.sensorName, exception.debugDescription);
                             [self dataSyncIsFinishedCorrectly];
+                            if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, nil);
                         }
                     });
                 }else{
                     NSLog(@"%@] %@", self.sensorName, error.debugDescription);
                     [self dataSyncIsFinishedCorrectly];
+                    if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, error);
                 }
             }
         }];
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.reason);
         [self dataSyncIsFinishedCorrectly];
+        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, nil);
         [self unlock];
     }
 }
 
 - (void) dataSyncIsFinishedCorrectly {
-    if (self.isDebug) NSLog(@"[SQLiteStorage:%@] start sync process ", self.sensorName);
+    if (self.isDebug) NSLog(@"[SQLiteStorage:%@] dataSyncIsFinishedCorrectly ", self.sensorName);
     isUploading = NO;
     cancel      = NO;
     requiredRepetitionCount = 0;

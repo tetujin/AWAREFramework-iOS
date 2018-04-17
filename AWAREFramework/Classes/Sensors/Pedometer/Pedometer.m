@@ -286,7 +286,7 @@
                                                             object:nil
                                                           userInfo:userInfo];
 //        [self saveData:dict];
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
         [self setLatestData:dict];
     });
 //                                                    

@@ -66,7 +66,7 @@
     [dict setObject:endTimestamp forKey:@"double_end_timestamp"];
     // Save battery charge event
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     
     [self setLatestData:dict];
     

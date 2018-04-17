@@ -23,13 +23,19 @@
 
 - (void)setUp
 {
+//    [sensorManager removeAllFilesFromDocumentRoot];
+//    CoreDataHandler * dbHandler = [CoreDataHandler sharedHandler];
+//    [dbHandler deleteLocalStorageWithName:@"AWARE" type:@"sqlite"];
+    
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     
     core      = [AWARECore sharedCore];
     study      = [AWAREStudy sharedStudy];
     sensorManager = [AWARESensorManager sharedSensorManager];
-    esmManager = [ESMScheduleManager sharedESMManager];
+    esmManager = [ESMScheduleManager sharedESMScheduleManager];
+    [study setCleanOldDataType:cleanOldDataTypeAlways];
+
     
     [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
 }
@@ -66,9 +72,9 @@
     /////////// Parameter Test ////////////////
     
     NSArray * settings = @[
-                           @{@"setting":@"status_accelerometer", @"value":@"true"},
+                           @{@"setting":@"status_accelerometer",    @"value":@"true"},
                            @{@"setting":@"frequency_accelerometer", @"value":@200000},
-                           @{@"setting":@"threshold_accelerometer",@"value":@1}
+                           @{@"setting":@"threshold_accelerometer", @"value":@1}
                            ];
     [sensor setParameters:settings];
     XCTAssertEqual(sensor.sensingInterval, 200000.0/1000000.0);
@@ -84,6 +90,7 @@
     count = 0;
     [sensor setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
         count++;
+        NSLog(@"%d",count);
     }];
     
     [NSTimer scheduledTimerWithTimeInterval:1 repeats:NO block:^(NSTimer * _Nonnull timer) {
@@ -120,12 +127,63 @@
     ////// Sync /////
     sensor = [[Accelerometer alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
     // sensor.storage.saveInterval = 0;
-    double now = [NSDate new].timeIntervalSince1970;
+    NSArray * dataset = [self getDataset];
+    sensor.storage.saveInterval = 0;
+    [sensor.storage setDebug:YES];
+    [sensor.storage saveDataWithArray:dataset buffer:NO saveInMainThread:YES];
+    XCTestExpectation *syncExpectation = [self expectationWithDescription:@"DBSyncTestBlock"];
+
+    [NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [sensor.storage startSyncStorageWithCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
+            if (progress == 1) {
+                [syncExpectation fulfill];
+                XCTAssertEqual(progress, 1);
+            }
+            NSLog(@"[%@] %f", name, progress);
+            if(error!=nil){
+                NSLog(@"%@",error.debugDescription);
+            }
+            // XCTAssertNil(error);
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:30 handler:^(NSError * _Nullable error) {
+        // XCTAssertNil(error, @"has error.");
+    }];
+    
+    
+    ///////// sub-thread test /////
+    dataset = [self getDataset];
+    sensor.storage.saveInterval = 0;
+    [sensor.storage saveDataWithArray:dataset buffer:NO saveInMainThread:NO];
+    XCTestExpectation *syncExpectation2 = [self expectationWithDescription:@"DBSyncTestBlock2"];
+
+    [NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [sensor.storage startSyncStorageWithCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
+            if (progress == 1) {
+                XCTAssertEqual(progress, 1);
+                [syncExpectation2 fulfill];
+            }
+            NSLog(@"[%@] %f", name, progress);
+            if(error!=nil){
+                NSLog(@"%@",error.debugDescription);
+            }
+            // XCTAssertNil(error);
+        }];
+    }];
+
+    [self waitForExpectationsWithTimeout:30 handler:^(NSError * _Nullable error) {
+        // XCTAssertNil(error, @"has error.");
+    }];
+    
+}
+
+- (NSArray * ) getDataset {
     NSMutableArray * dataset = [[NSMutableArray alloc] init];
-    for (int i=0; i<100; i++) {
+    for (int i=0; i<10000; i++) {
         [dataset addObject:@{
                              @"device_id":[study getDeviceId],
-                             @"timestamp":@(now+i),
+                             @"timestamp":[AWAREUtils getUnixTimestamp:[NSDate new]],
                              @"double_values_0":@0,
                              @"double_values_1":@0,
                              @"double_values_2":@0,
@@ -133,25 +191,7 @@
                              @"label":@""
                              }];
     }
-    sensor.storage.saveInterval = 0;
-    [sensor.storage saveDataWithArray:dataset buffer:NO saveInMainThread:YES];
-    XCTestExpectation *syncExpectation = [self expectationWithDescription:@"DBSyncTestBlock"];
-    
-    [NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer * _Nonnull timer) {
-        [sensor.storage startSyncStorageWithCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-            [syncExpectation fulfill];
-            if(error!=nil){
-                NSLog(@"%@",error.debugDescription);
-            }
-            XCTAssertNil(error);
-            XCTAssertEqual(progress, 1);
-        }];
-    }];
-    
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError * _Nullable error) {
-        XCTAssertNil(error, @"has error.");
-    }];
-    
+    return dataset;
 }
 
 @end

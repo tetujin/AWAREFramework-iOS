@@ -209,7 +209,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
     [dict setObject:[NSNumber numberWithInt:state] forKey:@"screen_status"]; // int
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     
     SensorEventHandler handler = [self getSensorEventHandler];

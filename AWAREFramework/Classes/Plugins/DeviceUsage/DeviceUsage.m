@@ -126,7 +126,7 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         
         [self setLatestValue:[NSString stringWithFormat:@"[%d] %f", awareScreenState, elapsedTime ]];
         // [self saveData:dict];
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
         [self setLatestData:dict];
         
         SensorEventHandler handler = [self getSensorEventHandler];

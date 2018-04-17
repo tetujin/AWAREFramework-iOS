@@ -229,7 +229,7 @@
                                                         object:nil
                                                       userInfo:userInfo];
     
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     
     SensorEventHandler handler = [self getSensorEventHandler];
     if (handler!=nil) {

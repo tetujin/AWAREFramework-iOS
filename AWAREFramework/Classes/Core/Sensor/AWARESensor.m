@@ -14,8 +14,8 @@
 #import "SCNetworkReachability.h"
 #import "AWAREStorage.h"
 
-double const MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND = 0.2f;
-int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
+double const MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND  = 0.2f;
+int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 @interface AWARESensor () {
     /** aware sensor name */
@@ -63,9 +63,9 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     self = [super init];
     if (self != nil) {
         if(study == nil){
-            // awareStudy = [[AWAREStudy alloc] initWithReachability:NO];
-            // TODO: 
-            // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
+            /**
+             * @todo How should we initialize the awareStudy variable?
+             */
             awareStudy = [AWAREStudy sharedStudy];
         }else{
             awareStudy = study;
@@ -96,23 +96,54 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return debug;
 }
 
+/**
+ Set debug status by boolean. If status "true", this library shows some debug messages on console log.
+
+ @param state A status of debug mode
+ */
 - (void) setDebug:(BOOL)state{
     debug = state;
 }
 
 
 /**
- * DEFAULT:
- *
+ Create a database table for this sensor on an AWARE server. All of the subclasses should overwrite this method for creating the table.
+ 
+ TCQMaker supports to make the query. Finally, you need to give to the instance to -createDBTableOnServer method on AWAREStorage.
+ */
+- (void) createTable {
+    NSLog(@"[%@] Please overwrite -creatTable method", [self getSensorName]);
+}
+
+/**
+ Set settings by parameters which are composed by NSDictionary.
+ The supported parameters of sensors are described in each sensor.
+ 
+ @param parameters A parameters for sensor
  */
 - (void)setParameters:(NSArray *)parameters{
     NSLog(@"[%@] Please overwrite -setParameters: method", [self getSensorName]);
 }
 
+
+/**
+ Start AWARESensor
+
+ @discussion All of sub-classes of AWARESensor should overwride this method
+ @discussion If the sensor is activated collectory, this method should return true, but if not, return false.
+ 
+ @return AWARESensor is started or not
+ */
 - (BOOL) startSensor {
     return NO;
 }
 
+
+/**
+ Stop AWARESensor
+
+ @return AWARESensor is stopped or not
+ */
 - (BOOL)stopSensor{
     return NO;
 }
@@ -122,7 +153,6 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
  *
  * @param   valueStr  NSString  The latest sensor value as a NSString value
  */
-
 - (void) setLatestValue:(NSString *)valueStr{
     latestSensorValue = valueStr;
 }
@@ -136,51 +166,50 @@ int const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return latestSensorValue;
 }
 
+
 /**
  * Get a device_id
- * @return A device_id
+ * @return The device ID of this app
  */
 - (NSString *) getDeviceId {
     return [awareStudy getDeviceId];
 }
 
+
+
 /**
- * Get a sensor name of this sensor
- * @return A sensor name of this AWARESensor
+ Set the latest sensor to AWARESensor.
+
+ @param dict The latest sensor data which is a NSDictionary object
  */
-//- (NSString *) getSensorName{
-//    return sensorName;
-//}
-
-
 - (void) setLatestData:(NSDictionary *)dict{
     if(dict != nil){
         latestData = dict;
     }
 }
 
+
+/**
+ Get the keeped latest sensor data
+
+ @return The keeped latest sensor data which is a NSDictionary object
+ */
 - (NSDictionary *) getLatestData{
     return latestData;
-//    if (latestData != nil) {
-//        return latestData;
-//    }else{
-//        return [[NSDictionary alloc] init];
-//    }
 }
 
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
-- (void) createTable {
-    
-}
-
+/**
+ Start synchronizing with a remote database
+ */
 - (void) startSyncDB {
     if(_storage != nil){
         [_storage startSyncStorage];
     }
 }
 
+/**
+ Stop synchronizing with a remote database
+ */
 - (void) stopSyncDB {
     if(_storage != nil){
         [_storage cancelSyncStorage];

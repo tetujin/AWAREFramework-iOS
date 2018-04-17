@@ -173,7 +173,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         [dict setObject:@0 forKey:@"rssi"]; //int
         [dict setObject:@"" forKey:@"label"]; //text
 
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
         
         [self setLatestData:dict];
         

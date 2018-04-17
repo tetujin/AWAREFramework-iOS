@@ -16,7 +16,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import "EntityESMAnswer.h"
 
-static ESMScheduleManager * sharedESMManager;
+static ESMScheduleManager * sharedESMScheduleManager;
 
 @implementation ESMScheduleManager{
     NSString * categoryNormalESM;
@@ -25,18 +25,18 @@ static ESMScheduleManager * sharedESMManager;
 
 + (ESMScheduleManager *)sharedESMScheduleManager{
     @synchronized(self){
-        if (!sharedESMManager){
-            sharedESMManager = [[ESMScheduleManager alloc] init];
+        if (!sharedESMScheduleManager){
+            sharedESMScheduleManager = [[ESMScheduleManager alloc] init];
         }
     }
-    return sharedESMManager;
+    return sharedESMScheduleManager;
 }
 
 + (id)allocWithZone:(NSZone *)zone {
     @synchronized(self) {
-        if (sharedESMManager == nil) {
-            sharedESMManager= [super allocWithZone:zone];
-            return sharedESMManager;
+        if (sharedESMScheduleManager == nil) {
+            sharedESMScheduleManager= [super allocWithZone:zone];
+            return sharedESMScheduleManager;
         }
     }
     return nil;

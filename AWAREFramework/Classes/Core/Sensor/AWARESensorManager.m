@@ -60,13 +60,12 @@ static AWARESensorManager * sharedSensorManager;
 
 /**
  * Init a AWARESensorManager with an AWAREStudy
- * @param  study An AWAREStudy instance
  */
-- (instancetype)initWithAWAREStudy:(AWAREStudy *) study {
+- (instancetype)init{
     self = [super init];
     if (self) {
         awareSensors = [[NSMutableArray alloc] init];
-        awareStudy = study;
+        awareStudy = [AWAREStudy sharedStudy];
         lock = false;
     }
     return self;
@@ -469,7 +468,7 @@ static AWARESensorManager * sharedSensorManager;
     
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
 
-    for (AWARESensor * sensor in self->awareSensors ) {
+    for (AWARESensor * sensor in awareSensors ) {
         [sensor startSyncDB];
     }
 }
@@ -478,7 +477,8 @@ static AWARESensorManager * sharedSensorManager;
     
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
     
-    for (AWARESensor * sensor in self->awareSensors ) {
+    for (AWARESensor * sensor in awareSensors ) {
+        NSLog(@"%@",sensor.getSensorName);
         [sensor startSyncDB];
     }
 }

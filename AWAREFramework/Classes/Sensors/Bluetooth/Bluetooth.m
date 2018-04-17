@@ -142,7 +142,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
     [dict setObject:[[AWAREUtils getUnixTimestamp:sessionTime] stringValue] forKey:@"label"]; //text
     [self setLatestValue:[NSString stringWithFormat:@"%@(%@), %@", name, address,rssi]];
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     
     [self setLatestData:dict];
     

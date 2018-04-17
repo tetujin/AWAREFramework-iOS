@@ -26,8 +26,10 @@ typedef enum: NSInteger {
 
 - (BOOL) migrateSQLite;
 - (BOOL) backupSQLite;
-- (void)sendMigrationRequestReminders;
-- (void)stopMigrationRequestReminders;
+- (void) sendMigrationRequestReminders;
+- (void) stopMigrationRequestReminders;
+
+- (bool) deleteLocalStorageWithName:(NSString*) fileName type:(NSString *)type;
 
 // CoreDate
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

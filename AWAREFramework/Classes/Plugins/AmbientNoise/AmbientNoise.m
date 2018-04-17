@@ -176,11 +176,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     
     [self setupMicrophone];
 
-    // currentSecond = 0;
-//    _frequencyMin = min;
-//    _sampleSize = size;
-//    _silenceThreshold = threshold;
-    
     timer = [NSTimer scheduledTimerWithTimeInterval:60.0f*_frequencyMin
                                              target:self
                                            selector:@selector(startRecording:)
@@ -353,8 +348,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     [self setLatestData:dict];
     
     @try {
-        // [self saveData:dict];
-        [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
+        [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
         
         SensorEventHandler handler = [self getSensorEventHandler];
         if (handler!=nil) {

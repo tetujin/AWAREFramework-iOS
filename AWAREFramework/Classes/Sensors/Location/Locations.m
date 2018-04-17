@@ -273,7 +273,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f", location.coordinate.latitude, location.coordinate.longitude, location.speed]];
     [self setLatestData:dict];
     
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
                           location.coordinate.latitude,
                           location.coordinate.longitude,

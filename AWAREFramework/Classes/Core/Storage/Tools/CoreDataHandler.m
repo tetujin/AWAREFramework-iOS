@@ -43,19 +43,31 @@ static CoreDataHandler * sharedHandler;
     if(self!= nil){
         self.status = AwareSQLiteStatusUnknown;
         // check migration requirement at here
-        if ([self isNeedMigration]) {
-            self.status = AwareSQLiteStatusNeedNigration;
+        if (_sqliteFileURL == nil) {
+            _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+        }
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:_sqliteFileURL.path]){
+            if ([self isNeedMigration]) {
+                self.status = AwareSQLiteStatusNeedNigration;
+            }else{
+                self.status = AwareSQLiteStatusNormal;
+            }
         }else{
             self.status = AwareSQLiteStatusNormal;
         }
-        // if the migration reuqired, aware send notification every 1 hour without mid-night.
+        /// @todo if the migration reuqired, aware send notification every 1 hour without mid-night.
     }
     return self;
 }
 
 - (BOOL) isNeedMigration {
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:_sqliteFileURL.path]){
+        return NO;
+    }
+    
     NSError * error = nil;
-    // NSURL * url = _sqliteModelURL = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
     if (_sqliteFileURL == nil) {
         _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
     }
@@ -64,7 +76,7 @@ static CoreDataHandler * sharedHandler;
                                                                                           options:nil
                                                                                             error:&error];
     if (error!=nil) {
-        NSLog(@"[CoreDataHandler] error at isNeedMigration: %@", error.debugDescription);
+        NSLog(@"[CoreDataHandler] error at isNeedMigration: %@, %@", error.debugDescription, error.domain);
     }
     BOOL isCompatible = [self.managedObjectModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetaData];
     if (isCompatible) {
@@ -133,10 +145,11 @@ static CoreDataHandler * sharedHandler;
 }
 
 
-- (BOOL)resetCoreData{
-    for(NSPersistentStore * store in self.managedObjectContext.persistentStoreCoordinator.persistentStores){
+- (BOOL) resetCoreData {
+
+    for(NSPersistentStore * store in _managedObjectContext.persistentStoreCoordinator.persistentStores){
         NSError * error = nil;
-        bool isRemoved = [self.managedObjectContext.persistentStoreCoordinator removePersistentStore:store error:&error];
+        bool isRemoved = [_managedObjectContext.persistentStoreCoordinator removePersistentStore:store error:&error];
         if (error !=nil) NSLog(@"%@",error.debugDescription);
         if (!isRemoved) {
             return NO;
@@ -301,6 +314,23 @@ static CoreDataHandler * sharedHandler;
             // abort();
         }
     }
+}
+
+
+- (bool) deleteLocalStorageWithName:(NSString*) fileName type:(NSString *)type{
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString * file = [NSString stringWithFormat:@"%@.%@",fileName, type];
+    NSString * path = [documentsDirectory stringByAppendingPathComponent:file];
+    if ([manager fileExistsAtPath:path]) { // yes
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:path];
+        [fileHandle truncateFileAtOffset:0];
+        [fileHandle synchronizeFile];
+        [fileHandle closeFile];
+        return YES;
+    }
+    return NO;
 }
 
 

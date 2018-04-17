@@ -150,7 +150,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_a
                                               handler(self, dict);
                                           }
                                           
-                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:YES];
+                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                       }
                                   }];
 

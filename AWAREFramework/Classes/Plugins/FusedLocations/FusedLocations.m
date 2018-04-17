@@ -223,7 +223,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     [dict setObject:@"fused" forKey:@"provider"];
     [dict setObject:[NSNumber numberWithInt:accuracy] forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
-    [locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [locationSensor setLatestData:dict];
     
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",

@@ -68,7 +68,7 @@
     [dict setObject:endBatteryLevel forKey:@"battery_end"];
     [dict setObject:endTimestamp forKey:@"double_end_timestamp"];
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     
     [self setLatestData:dict];
     

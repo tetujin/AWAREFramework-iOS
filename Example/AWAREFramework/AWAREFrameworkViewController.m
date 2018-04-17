@@ -26,6 +26,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    Accelerometer * acc = [[Accelerometer alloc] init];
+//    [acc setSavingIntervalWithSecond:1];
+//    [acc setDebug:true];
+//    [acc.storage setDebug:true];
+//    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        // NSLog(@"%@",data);
+//    }];
+//    if ([acc startSensor]) {
+//        NSLog(@"start");
+//    }else{
+//
+//    }
+    
+//    [acc performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
+    
     // Do any additional setup after loading the view, typically from a nib.
 //    AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
 //    AWARECore * core = delegate.sharedAWARECore;
@@ -54,7 +69,8 @@
 //        [battery.storage startSyncStorage];
 //    }];
     
-//    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeCSV sensorManager:[AWARESensorManager sharedSensorManager]];
+    [[AWAREStudy sharedStudy] setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
+    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
     
     
 //    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
@@ -67,13 +83,13 @@
 //    [item setTitle:@"hello"];
 //    [schdule addESM:item];
 //
-    [[ESMScheduleManager sharedESMScheduleManager] removeAllSchedulesFromDB];
-    [[ESMScheduleManager sharedESMScheduleManager] removeAllESMHitoryFromDB];
+//    [[ESMScheduleManager sharedESMScheduleManager] removeAllSchedulesFromDB];
+//    [[ESMScheduleManager sharedESMScheduleManager] removeAllESMHitoryFromDB];
 //
 //    [[ESMScheduleManager sharedESMManager] addSchedule:schdule];
 //
 
-    [self testESMSchedule];
+//    [self testESMSchedule];
 }
 
 
@@ -199,9 +215,9 @@
     [barometer startSensor];
     [barometer createTable];
 
-    Bluetooth * bluetooth = [[Bluetooth alloc] initWithAwareStudy:study dbType:dbType];
-    [bluetooth createTable];
-    [bluetooth startSensor];
+//    Bluetooth * bluetooth = [[Bluetooth alloc] initWithAwareStudy:study dbType:dbType];
+//    [bluetooth createTable];
+//    [bluetooth startSensor];
 
     Battery * battery = [[Battery alloc] initWithAwareStudy:study dbType:dbType];
     [battery createTable];
@@ -309,8 +325,10 @@
     [weather createTable];
     [weather startSensor];
     
-    [manager addSensors:@[accelerometer,barometer,battery,bluetooth,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi,
+    [manager addSensors:@[accelerometer,barometer,battery,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi,
                           noise, cal, contacts, usage, flocation, login, activity, memory, ntp, weather]];
+    
+    // bluetooth,
     
 //    [manager setSensorEventCallbackToAllSensors:^(NSDictionary *data) {
 //        NSLog(@"%@",data);
@@ -318,13 +336,16 @@
     // [manager addSensor:accelerometer];
     // [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
     
-//    SyncProcessCallBack callback = ^(NSString *name, double progress, NSError * _Nullable error) {
-//        NSLog(@"%@ %3.2f",name, progress);
-//    };
+    SyncProcessCallBack callback = ^(NSString *name, double progress, NSError * _Nullable error) {
+        NSLog(@"%@ %3.2f",name, progress);
+    };
 
     [manager setDebugToAllStorage:YES];
-    // [manager setSyncProcessCallbackToAllSensorStorages:callback];
-    [manager performSelector:@selector(syncAllSensorsForcefully) withObject:nil afterDelay:10];
+    [manager setDebugToAllSensors:YES];
+     [manager setSyncProcessCallbackToAllSensorStorages:callback];
+    [NSTimer scheduledTimerWithTimeInterval:10 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [manager syncAllSensorsForcefully];
+    }];
 }
 
 - (void) testSQLite{

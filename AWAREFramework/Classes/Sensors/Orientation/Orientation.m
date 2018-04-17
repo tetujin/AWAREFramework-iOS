@@ -141,7 +141,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [dict setObject:label forKey:KEY_ORIENTATION_LABEL];
     [self setLatestValue:label];
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     
     SensorEventHandler handler = [self getSensorEventHandler];

@@ -103,7 +103,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
     [dict setObject:@0 forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
     [self setLatestValue:[NSString stringWithFormat:@"[%d]", state ]];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     SensorEventHandler handler = [self getSensorEventHandler];
     if (handler!=nil) {

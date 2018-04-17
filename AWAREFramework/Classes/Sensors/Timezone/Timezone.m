@@ -117,7 +117,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [dict setObject:[[NSTimeZone localTimeZone] description] forKey:@"timezone"];
     [self setLatestValue:[NSString stringWithFormat:@"%@", [[NSTimeZone localTimeZone] description]]];
     // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     
     // Broadcast
