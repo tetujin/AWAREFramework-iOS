@@ -36,8 +36,9 @@ typedef enum: NSInteger {
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (strong, nonatomic) NSURL *sqliteModelURL;
+// @property (strong, nonatomic) NSURL *sqliteModelURL;
 @property (strong, nonatomic) NSURL *sqliteFileURL;
+- (void) overwriteManageObjectModelWithFileURL:(NSURL *)url;
 
 - (void)saveContext;
 

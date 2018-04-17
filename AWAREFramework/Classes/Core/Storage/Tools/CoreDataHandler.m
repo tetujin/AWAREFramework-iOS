@@ -235,13 +235,16 @@ static CoreDataHandler * sharedHandler;
         return _managedObjectModel;
     }
     
-    if (_sqliteModelURL == nil) {
-        _sqliteModelURL = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
-    }
+    NSURL * url = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
+    
     // NSURL *modelURL = _sqliteModelURL; // [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
     //    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:_sqliteModelURL];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
     return _managedObjectModel;
+}
+
+- (void) overwriteManageObjectModelWithFileURL:(NSURL *)url{
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
