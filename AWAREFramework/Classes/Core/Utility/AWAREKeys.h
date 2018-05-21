@@ -276,6 +276,12 @@ extern NSString * const PLUGIN_CALENDAR_ESM_SCHEDULER_NOTIFICATION_CATEGORY;
 
 extern NSString * const PLUGIN_CALENDAR_ESM_SCHEDULER_NOTIFICATION_ID;
 
+// Actions on ESMScrollViewController
+extern NSString * const ACTION_AWARE_ESM_CANCEL;
+extern NSString * const ACTION_AWARE_ESM_NEXT;
+extern NSString * const ACTION_AWARE_ESM_DONE;
+extern NSString * const KEY_AWARE_ESM_CELLS;
+
 @interface AWAREKeys: NSObject
 
 @end

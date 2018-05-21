@@ -20,6 +20,11 @@
 //    core.isNeedBackgroundSensing = NO;
     
     // Override point for customization after application launch.
+    
+//    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1834/iUlZ9MWTfTAN" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+//        
+//    }];
+    
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;

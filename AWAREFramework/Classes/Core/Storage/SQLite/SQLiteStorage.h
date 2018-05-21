@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AWAREStorage.h"
+#import "BaseCoreDataHandler.h"
 
 @interface SQLiteStorage : AWAREStorage <AWAREStorageDelegate>
 
@@ -15,6 +16,16 @@
 
 typedef void (^InsertEntityCallBack)(NSDictionary *dataDict, NSManagedObjectContext * childContext, NSString* entity );
 
-- (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name entityName:(NSString *) entity insertCallBack:(InsertEntityCallBack)insertCallBack;
+
+- (instancetype)initWithStudy:(AWAREStudy *) study
+                   sensorName:(NSString *) name
+                   entityName:(NSString *) entity
+               insertCallBack:(InsertEntityCallBack)insertCallBack;
+
+- (instancetype)initWithStudy:(AWAREStudy *) study
+                   sensorName:(NSString *) name
+                   entityName:(NSString *) entity
+                   dbHandler:(BaseCoreDataHandler *) dbHandler
+               insertCallBack:(InsertEntityCallBack)insertCallBack;
 
 @end

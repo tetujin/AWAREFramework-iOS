@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (0.1.15):
+  - AWAREFramework (0.1.16):
     - EAIntroView (~> 2.9.0)
     - GoogleSignIn
     - ios-ntp
@@ -14,21 +14,21 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.1.3):
-    - GoogleToolboxForMac/Defines (= 2.1.3)
-  - GoogleToolboxForMac/Defines (2.1.3)
-  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3):
-    - GoogleToolboxForMac/DebugUtils (= 2.1.3)
-    - GoogleToolboxForMac/Defines (= 2.1.3)
-    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
-  - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
+  - GoogleToolboxForMac/DebugUtils (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.4)
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.14):
-    - GTMSessionFetcher/Full (= 1.1.14)
-  - GTMSessionFetcher/Core (1.1.14)
-  - GTMSessionFetcher/Full (1.1.14):
-    - GTMSessionFetcher/Core (= 1.1.14)
+  - GTMSessionFetcher (1.1.15):
+    - GTMSessionFetcher/Full (= 1.1.15)
+  - GTMSessionFetcher/Core (1.1.15)
+  - GTMSessionFetcher/Full (1.1.15):
+    - GTMSessionFetcher/Core (= 1.1.15)
   - ios-ntp (1.1.8)
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
@@ -38,7 +38,7 @@ PODS:
   - SCNetworkReachability/Core (2.0.6):
     - macros_blocks (~> 0.0.1)
   - SVProgressHUD (2.2.5)
-  - TPCircularBuffer (0.0.1)
+  - TPCircularBuffer (1.6.1)
 
 DEPENDENCIES:
   - AWAREFramework (from `../`)
@@ -48,18 +48,18 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: c5b20279ddecc827598a1578903c6f1adf57aa6e
+  AWAREFramework: 7ec9c487011737d9bf35864a8eda514d674d1de5
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
-  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   ios-ntp: f363fc8445fabcd0bc5b89cb5745dcde1387aeeb
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  TPCircularBuffer: 949e9632b9fb99b7274d7b2296ee22bff5841e35
+  TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
 PODFILE CHECKSUM: 7d0ae0b906ddc337226eb23f210b035e8069bbb7
 

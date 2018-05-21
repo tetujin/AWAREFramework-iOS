@@ -21,6 +21,7 @@
     NSNumber * tempLastUnixTimestamp;
     BOOL cancel;
     int retryCurrentCount;
+    BaseCoreDataHandler * coreDataHandler;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -29,6 +30,11 @@
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name entityName:(NSString *)entity insertCallBack:(InsertEntityCallBack)insertCallBack{
+
+    return [self initWithStudy:study sensorName:name entityName:entity dbHandler:[CoreDataHandler sharedHandler] insertCallBack:insertCallBack];
+}
+
+- (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name entityName:(NSString *)entity dbHandler:(BaseCoreDataHandler *)dbHandler insertCallBack:(InsertEntityCallBack)insertCallBack{
     self = [super initWithStudy:study sensorName:name];
     if(self != nil){
         currentRepetitionCount = 0;
@@ -44,16 +50,18 @@
         tempLastUnixTimestamp = @0;
         // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
         self.mainQueueManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:[CoreDataHandler sharedHandler].persistentStoreCoordinator];
+        [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:dbHandler.persistentStoreCoordinator];
         previousUploadingProcessFinishUnixTime = [self getTimeMark];
         if([previousUploadingProcessFinishUnixTime isEqualToNumber:@0]){
             NSDate * now = [NSDate new];
             [self setTimeMark:now];
         }
+        coreDataHandler = dbHandler;
         // executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
     }
     return self;
 }
+
 
 - (BOOL)saveDataWithDictionary:(NSDictionary * _Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
     [self saveDataWithArray:@[dataDict] buffer:isRequiredBuffer saveInMainThread:saveInMainThread];
@@ -90,7 +98,7 @@
     [self.buffer removeAllObjects];
     
     NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [parentContext setPersistentStoreCoordinator:[CoreDataHandler sharedHandler].persistentStoreCoordinator];
+    [parentContext setPersistentStoreCoordinator:coreDataHandler.persistentStoreCoordinator];
     
     if (saveInMainThread) {
         // Save data in the main thread //

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */; };
+		4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */; };
+		4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */; };
 		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -42,6 +45,11 @@
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		437BCDE00AB3128F6E7EC88F /* AWAREFramework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		4F00EBEE20B310F3006EB9E6 /* SampleSensor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleSensor.h; sourceTree = "<group>"; };
+		4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleSensor.m; sourceTree = "<group>"; };
+		4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "EntitySample+CoreDataProperties.m"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.m"; sourceTree = "<absolute>"; };
+		4F00EBF220B33A3E006EB9E6 /* EntitySample+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "EntitySample+CoreDataProperties.h"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.h"; sourceTree = "<absolute>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		6003F58A195388D20070C39A /* AWAREFramework_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAREFramework_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +118,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		4F00EBED20B310C7006EB9E6 /* Sensor */ = {
+			isa = PBXGroup;
+			children = (
+				4F00EBEE20B310F3006EB9E6 /* SampleSensor.h */,
+				4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */,
+				4F00EBF220B33A3E006EB9E6 /* EntitySample+CoreDataProperties.h */,
+				4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */,
+			);
+			name = Sensor;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -154,7 +173,9 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* AWAREFrameworkViewController.h */,
 				6003F5A6195388D20070C39A /* AWAREFrameworkViewController.m */,
+				4F00EBED20B310C7006EB9E6 /* Sensor */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
+				4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -466,7 +487,10 @@
 			files = (
 				6003F59E195388D20070C39A /* AWAREFrameworkAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* AWAREFrameworkViewController.m in Sources */,
+				4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */,
+				4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,6 +724,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */,
+			);
+			currentVersion = 4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */;
+			path = MyCoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6003F582195388D10070C39A /* Project object */;
 }

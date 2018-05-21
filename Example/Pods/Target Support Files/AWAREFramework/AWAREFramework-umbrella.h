@@ -22,6 +22,7 @@
 #import "SQLiteStorage.h"
 #import "BRLineReader.h"
 #import "CoreDataHandler.h"
+#import "ExternalCoreDataHandler.h"
 #import "DBTableCreator.h"
 #import "SyncExecutor.h"
 #import "TCQMaker.h"

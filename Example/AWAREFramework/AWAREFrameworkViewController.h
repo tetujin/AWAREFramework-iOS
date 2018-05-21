@@ -11,4 +11,6 @@
 
 @interface AWAREFrameworkViewController : UIViewController
 
+- (IBAction)pushedSyncButton:(id)sender;
+
 @end

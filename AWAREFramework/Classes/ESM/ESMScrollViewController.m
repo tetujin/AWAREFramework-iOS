@@ -96,6 +96,8 @@
     study = [AWAREStudy sharedStudy];
     [study setStudyURL:@""];
     
+    _isSaveAnswer = YES;
+    
     flowsFlag = NO;
     finalBtnLabel = @"Submit";
     cancelBtnLabel = @"Cancel";
@@ -347,6 +349,10 @@
 - (void) pushedCancelButton:(id) senser {
     AudioServicesPlaySystemSound(1104);
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_CANCEL
+                                                        object:self
+                                                      userInfo:nil];
+    
     //////  interface = 1   ////////////
     EntityESMSchedule * schedule = esmSchedules[0];
     if([schedule.interface isEqualToNumber:@1]){
@@ -382,6 +388,13 @@
         EntityESMSchedule * entityESMSchedule = (EntityESMSchedule *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class])
                                                                                                     inManagedObjectContext:context];
         entityESMSchedule.temporary = @(YES);
+        
+        if (esmCells != nil) {
+            NSDictionary * userInfo = [[NSDictionary alloc] initWithObjects:@[esmCells.mutableCopy] forKeys:@[KEY_AWARE_ESM_CELLS]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_NEXT
+                                                                object:self
+                                                              userInfo:userInfo];
+        }
         
         for (BaseESMView *esmView in esmCells) {
             
@@ -448,19 +461,24 @@
     }
     
     // Save all data to SQLite
-    NSError * error = nil;
-    bool isSaved = [context save:&error];
-    context.mergePolicy = originalMergePolicy;
-    if(error != nil){
-        NSLog(@"%@", error);
-        [[CoreDataHandler sharedHandler].managedObjectContext reset];
-        ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
-        esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
+    bool success = false;
+    if (_isSaveAnswer) { // is save
+        NSError * error = nil;
+        success = [context save:&error];
+        context.mergePolicy = originalMergePolicy;
+        if(error != nil){
+            NSLog(@"%@", error);
+            [[CoreDataHandler sharedHandler].managedObjectContext reset];
+            ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
+            esmSchedules = [esmManager getValidSchedulesWithDatetime:[NSDate new]];
+        }
+    }else{
+        success = true;
     }
     
     ////////////////////////////////////////
     // Check an exist of next ESM
-    if ( isSaved ) {
+    if ( success ) {
         
         /// for appearing esms by esm_flows ///
         if(flowsFlag){
@@ -500,8 +518,13 @@
         ///////////////////////
         
         if(isDone){
-             NSLog(@"%@",[study getStudyURL]);
-            if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""]){
+            NSLog(@"%@",[study getStudyURL]);
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_DONE
+                                                                object:self
+                                                              userInfo:nil];
+            
+            if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""] || !_isSaveAnswer){
                 esmNumber = 0;
                 currentESMNumber = 0;
                 UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -519,12 +542,12 @@
                 
             }else{
                 [SVProgressHUD showWithStatus:@"uploading"];
+                
                 ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
                 [esmManager refreshESMNotifications];
                 
                 __block typeof(self) blockSelf = self; // TODO
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    // NSLog(@"%@",name);
                     [SVProgressHUD dismiss];
                     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -544,7 +567,7 @@
             }
         }
     } else {
-        
+        NSLog(@"Error@ESMScrollViewController: The answer of ESM did not save to SQLite database.");
     }
 }
 

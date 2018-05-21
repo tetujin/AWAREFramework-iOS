@@ -1,53 +1,33 @@
 //
-//  CoreDataHandler.m
+//  BaseCoreDataHandler.m
 //  AWAREFramework
 //
-//  Created by Yuuki Nishiyama on 2018/04/03.
+//  Created by Yuuki Nishiyama on 2018/05/21.
 //
 
-#import "CoreDataHandler.h"
+#import "BaseCoreDataHandler.h"
+#import <CoreData/CoreData.h>
 #import <UserNotifications/UserNotifications.h>
 
-static CoreDataHandler * sharedHandler;
-
-@implementation CoreDataHandler
-
-#pragma mark - Core Data stack
+@implementation BaseCoreDataHandler
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize status = _status;
-
-+ (CoreDataHandler * )sharedHandler {
-    @synchronized(self){
-        if (!sharedHandler){
-            sharedHandler = [[CoreDataHandler alloc] init];
-        }
-    }
-    return sharedHandler;
-}
-
-+ (id)allocWithZone:(NSZone *)zone {
-    @synchronized(self) {
-        if (sharedHandler == nil) {
-            sharedHandler= [super allocWithZone:zone];
-            return sharedHandler; // 初回のallocationで代入して返す
-        }
-    }
-    return nil;
-}
+@synthesize sqliteFileURL;
 
 - (instancetype)init{
     self = [super init];
     if(self!= nil){
         self.status = AwareSQLiteStatusUnknown;
+        
         // check migration requirement at here
-        if (_sqliteFileURL == nil) {
-            _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+        if (self.sqliteFileURL == nil) {
+            self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
         }
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:_sqliteFileURL.path]){
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.sqliteFileURL.path]){
             if ([self isNeedMigration]) {
                 self.status = AwareSQLiteStatusNeedNigration;
             }else{
@@ -63,16 +43,16 @@ static CoreDataHandler * sharedHandler;
 
 - (BOOL) isNeedMigration {
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_sqliteFileURL.path]){
+    if (![[NSFileManager defaultManager] fileExistsAtPath:self.sqliteFileURL.path]){
         return NO;
     }
     
     NSError * error = nil;
-    if (_sqliteFileURL == nil) {
-        _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+    if (self.sqliteFileURL == nil) {
+        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
     }
     NSDictionary *sourceMetaData = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
-                                                                                              URL:_sqliteFileURL
+                                                                                              URL:self.sqliteFileURL
                                                                                           options:nil
                                                                                             error:&error];
     if (error!=nil) {
@@ -106,11 +86,11 @@ static CoreDataHandler * sharedHandler;
     // Lets use the existing PSC
     NSPersistentStoreCoordinator *migrationPSC = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
-    if (_sqliteFileURL == nil) {
-        _sqliteFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+    if (self.sqliteFileURL == nil) {
+        self.sqliteFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
     }
     // Open the store
-    id sourceStore = [migrationPSC addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:_sqliteFileURL options:nil error:nil];
+    id sourceStore = [migrationPSC addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.sqliteFileURL options:nil error:nil];
     
     if (!sourceStore) {
         
@@ -121,7 +101,7 @@ static CoreDataHandler * sharedHandler;
         NSLog(@" Successfully added store to migrate");
         
         NSError *error;
-//        NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"AWARE_%@.sqlite",[NSDate new].debugDescription]];
+        //        NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"AWARE_%@.sqlite",[NSDate new].debugDescription]];
         NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE-bkp.sqlite"];
         NSLog(@" About to migrate the store...");
         id migrationSuccess = [migrationPSC migratePersistentStore:sourceStore toURL:backupStoreURL options:nil withType:NSSQLiteStoreType error:&error];
@@ -146,10 +126,10 @@ static CoreDataHandler * sharedHandler;
 
 
 - (BOOL) resetCoreData {
-
-    for(NSPersistentStore * store in _managedObjectContext.persistentStoreCoordinator.persistentStores){
+    
+    for(NSPersistentStore * store in self.managedObjectContext.persistentStoreCoordinator.persistentStores){
         NSError * error = nil;
-        bool isRemoved = [_managedObjectContext.persistentStoreCoordinator removePersistentStore:store error:&error];
+        bool isRemoved = [self.managedObjectContext.persistentStoreCoordinator removePersistentStore:store error:&error];
         if (error !=nil) NSLog(@"%@",error.debugDescription);
         if (!isRemoved) {
             return NO;
@@ -247,6 +227,21 @@ static CoreDataHandler * sharedHandler;
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
 }
 
+- (void) overwriteDatabasePathWithFileURL:(NSURL *)url{
+    self.sqliteFileURL = url;
+}
+
+- (void) overwriteManageObjectModelWithName:(NSString *)name{
+    NSURL * modelURL = [[NSBundle mainBundle] URLForResource:name withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+}
+
+- (void) overwriteDatabasePathWithName:(NSString *)name{
+    NSURL * dbURL = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:name];
+    self.sqliteFileURL = dbURL;
+}
+
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
     if (_persistentStoreCoordinator != nil) {
@@ -264,15 +259,15 @@ static CoreDataHandler * sharedHandler;
     NSDictionary *options = nil;
     if ([self isNeedMigration]) {
         options = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
-                                 nil];
+                   [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                   [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                   nil];
     }
     
-    if (_sqliteFileURL == nil) {
-        _sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+    if (self.sqliteFileURL == nil) {
+        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
     }
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:_sqliteFileURL options:options error:&error]) {
+    if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.sqliteFileURL options:options error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
@@ -338,3 +333,4 @@ static CoreDataHandler * sharedHandler;
 
 
 @end
+

@@ -14,6 +14,10 @@
 #import <AWAREFramework/ESMScrollViewController.h>
 #import <AWAREFramework/SyncExecutor.h>
 #import <AWAREFramework/CalendarESMScheduler.h>
+#import <AWAREFramework/AWAREKeys.h>
+#import <AWAREFramework/ExternalCoreDataHandler.h>
+
+#import "SampleSensor.h"
 
 @interface AWAREFrameworkViewController ()
 
@@ -21,6 +25,7 @@
 
 @implementation AWAREFrameworkViewController{
     NSTimer * timer;
+    SampleSensor * sensor;
 }
 
 - (void)viewDidLoad {
@@ -69,8 +74,8 @@
 //        [battery.storage startSyncStorage];
 //    }];
     
-    [[AWAREStudy sharedStudy] setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
-    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
+//    [[AWAREStudy sharedStudy] setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1749/ITrUqPkbcSNM"];
+//    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
     
     
 //    Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:core.sharedAwareStudy dbType:AwareDBTypeCSV];
@@ -88,10 +93,48 @@
 //
 //    [[ESMScheduleManager sharedESMManager] addSchedule:schdule];
 //
-
-//    [self testESMSchedule];
+    
+//    NSURL * dbURL = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"my.sqlite"];
+//    [ExternalCoreDataHandler.sharedHandler overwriteDatabasePathWithFileURL:dbURL];
+//
+//    NSURL * modelURL = [[NSBundle mainBundle] URLForResource:@"MyCoreDataModel" withExtension:@"momd"];
+//    [ExternalCoreDataHandler.sharedHandler overwriteManageObjectModelWithFileURL:modelURL];
+//
+//    sensor = [[SampleSensor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+//    [sensor startSensor];
+//    [sensor createTable];
+//
+//    [sensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
+//        NSLog(@"%f",progress);
+//        NSLog(@"%@", error);
+//    }];
+//
+//    [sensor.storage startSyncStorage];
+    
+    // [self testESMSchedule];
+    
+//    Bluetooth * bluetooth = [[Bluetooth alloc] init];
+//    [bluetooth setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        NSLog(@"%@",data);
+//    }];
+//    [bluetooth startSensor];
+    
+    Battery * battery = [[Battery alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+    [battery startSensor];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(esmEventHandler:) name:ACTION_AWARE_ESM_NEXT object:nil];
 }
 
+- (void) esmEventHandler:(NSNotification *)sender{
+    NSDictionary * userInfo = sender.userInfo;
+    NSArray * esmCells = [userInfo objectForKey:KEY_AWARE_ESM_CELLS];
+    if (esmCells) {
+        for (BaseESMView * cell in esmCells) {
+            NSLog([cell getUserAnswer]);
+            NSLog([cell esmEntity].esm_trigger);
+        }
+    }
+}
 
 - (void) sendContextBasedESMNotification:(id)sender {
     NSLog(@"%@",sender);
@@ -463,5 +506,10 @@
 }
 
 
+
+- (IBAction)pushedSyncButton:(id)sender {
+    [sensor.storage setDebug:YES];
+    [sensor.storage startSyncStorage];
+}
 
 @end

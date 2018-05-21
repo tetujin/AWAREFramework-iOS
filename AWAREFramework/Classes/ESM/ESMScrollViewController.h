@@ -13,4 +13,7 @@
 @property(nonatomic, strong) UITapGestureRecognizer *singleTap;
 @property NSMutableArray * esms;
 
+
+@property bool isSaveAnswer;
+
 @end
