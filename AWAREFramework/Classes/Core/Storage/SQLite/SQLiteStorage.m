@@ -211,7 +211,7 @@
             // NSLog(@"start time is ... %@",startTimestamp);
             [request setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
             [request setIncludesSubentities:NO];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@", startTimestamp]];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", startTimestamp]];
             
             NSError* error = nil;
             // Get count of category
@@ -288,10 +288,10 @@
             [fetchRequest setIncludesSubentities:NO];
             [fetchRequest setResultType:NSDictionaryResultType];
             if([self->entityName isEqualToString:@"EntityESMAnswer"] ){
-                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"double_esm_user_answer_timestamp >= %@",
+                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"double_esm_user_answer_timestamp > %@",
                                             self->previousUploadingProcessFinishUnixTime]];
             }else{
-                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@", self->previousUploadingProcessFinishUnixTime]];
+                [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", self->previousUploadingProcessFinishUnixTime]];
             }
             
             //Set sort option
