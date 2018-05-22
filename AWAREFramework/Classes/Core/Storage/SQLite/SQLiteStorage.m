@@ -409,6 +409,10 @@
                     [self dataSyncIsFinishedCorrectly];
                     if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, error);
                 }
+            }else{
+                NSLog(@"%@] results is null", self.sensorName);
+                [self dataSyncIsFinishedCorrectly];
+                if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -1, nil);
             }
         }];
     } @catch (NSException *exception) {
