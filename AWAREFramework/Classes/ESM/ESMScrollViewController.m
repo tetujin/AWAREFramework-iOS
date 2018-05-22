@@ -94,7 +94,6 @@
     _mainScrollView = scrollView;
     
     study = [AWAREStudy sharedStudy];
-    [study setStudyURL:@""];
     
     _isSaveAnswer = YES;
     
