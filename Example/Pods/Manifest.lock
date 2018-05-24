@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (0.1.16):
+  - AWAREFramework (0.2.1):
     - EAIntroView (~> 2.9.0)
     - GoogleSignIn
     - ios-ntp
@@ -48,7 +48,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: 7ec9c487011737d9bf35864a8eda514d674d1de5
+  AWAREFramework: ece19f3470e86e5ba0aebb1511d70e28c4d2373a
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac

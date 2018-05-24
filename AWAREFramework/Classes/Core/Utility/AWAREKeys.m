@@ -114,6 +114,7 @@ NSString* const SENSOR_PLUGIN_IOS_ESM         = @"plugin_ios_esm";
 NSString* const SENSOR_PLUGIN_CONTACTS        = @"plugin_contacts";
 NSString* const SENSOR_BASIC_SETTINGS         = @"plugin_basic_settings";
 NSString* const SENSOR_PLUGIN_CALENDAR        = @"plugin_calendar";
+NSString* const SENSOR_PLUGIN_STUDENTLIFE_AUDIO  = @"plugin_studentlife_audio";
 
 NSString* const SENSOR_PLUGIN_BLE_HR          = @"plugin_ble_heartrate";
 NSString* const SENSOR_PLUGIN_FITBIT          = @"plugin_fitbit";

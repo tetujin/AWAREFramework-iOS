@@ -19,6 +19,7 @@
 
 #import "SampleSensor.h"
 
+
 @interface AWAREFrameworkViewController ()
 
 @end
@@ -118,11 +119,21 @@
 //        NSLog(@"%@",data);
 //    }];
 //    [bluetooth startSensor];
+
+    AWAREStudy * study = [AWAREStudy sharedStudy];
+    [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1838/0VeRlyz4Zw3b"];
     
-    Battery * battery = [[Battery alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-    [battery startSensor];
+    Conversation * conv = [[Conversation alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    [conv startSensor];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(esmEventHandler:) name:ACTION_AWARE_ESM_NEXT object:nil];
+    [conv createTable];
+    
+    [conv startSyncDB];
+    
+//    Battery * battery = [[Battery alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+//    [battery startSensor];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(esmEventHandler:) name:ACTION_AWARE_ESM_NEXT object:nil];
 }
 
 - (void) esmEventHandler:(NSNotification *)sender{
