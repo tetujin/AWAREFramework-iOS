@@ -38,6 +38,7 @@
 - (BOOL) startAllSensors;
 - (void) runBatteryStateChangeEvents;
 - (void) stopAndRemoveAllSensors;
+- (void) stopAllSensors;
 - (void) stopSensor:(NSString *) sensorName;
 
 //////////////////

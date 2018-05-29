@@ -198,7 +198,7 @@ void exceptionHandler(NSException *exception) {
             });
             return YES;
         }else{
-            NSLog(@"This is not a Get a login call back");
+            NSLog(@"This is not a call back for fitbit login");
         }
         return YES;
     }else{

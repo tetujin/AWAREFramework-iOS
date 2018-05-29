@@ -120,20 +120,23 @@
 //    }];
 //    [bluetooth startSensor];
 
-    AWAREStudy * study = [AWAREStudy sharedStudy];
-    [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1838/0VeRlyz4Zw3b"];
-    
-    Conversation * conv = [[Conversation alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [conv startSensor];
-    
-    [conv createTable];
-    
-    [conv startSyncDB];
+//    AWAREStudy * study = [AWAREStudy sharedStudy];
+//    [study setStudyURL:@"https://api.awareframework.com/index.php/webservice/index/1838/0VeRlyz4Zw3b"];
+//
+//    Conversation * conv = [[Conversation alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+//    [conv startSensor];
+//
+//    [conv createTable];
+//
+//    [conv startSyncDB];
     
 //    Battery * battery = [[Battery alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
 //    [battery startSensor];
 //
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(esmEventHandler:) name:ACTION_AWARE_ESM_NEXT object:nil];
+
+    Fitbit * fitbit = [[Fitbit alloc] init];
+    [fitbit startSensor];
 }
 
 - (void) esmEventHandler:(NSNotification *)sender{

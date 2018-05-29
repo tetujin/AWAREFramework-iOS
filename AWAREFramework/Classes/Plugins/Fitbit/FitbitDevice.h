@@ -10,6 +10,8 @@
 
 @interface FitbitDevice : AWARESensor
 
-- (BOOL) getDeviceInfo;
+typedef void (^FitbitDeviceInfoCallback)( NSString * fitbitId, NSString * fitbitVersion, NSString * fitbitBattery, NSString * fitbitMac, NSString * fitbitLastSync);
+
+- (void) getDeviceInfoWithCallback:(FitbitDeviceInfoCallback)callback;
 
 @end

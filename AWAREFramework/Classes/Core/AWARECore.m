@@ -152,7 +152,7 @@ static AWARECore * sharedCore;
 }
 
 - (void) deactivate{
-    [[AWARESensorManager sharedSensorManager] stopAndRemoveAllSensors];
+    [[AWARESensorManager sharedSensorManager] stopAllSensors];
     [_sharedLocationManager stopUpdatingLocation];
     [[AWARESensorManager sharedSensorManager] stopAutoSyncTimer];
     [_dailyUpdateTimer invalidate];

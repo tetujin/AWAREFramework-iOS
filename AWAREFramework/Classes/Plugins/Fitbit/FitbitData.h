@@ -11,38 +11,46 @@
 @interface FitbitData : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
 
-// - (void) getSensorDataWithSetting:(NSArray *) settings;
+typedef void (^FitbitCaloriesRequestCallback) (NSData * result,  NSString * __nullable nextSyncDate);
+typedef void (^FitbitStepsRequestCallback)    (NSData * result,  NSString * __nullable nextSyncDate);
+typedef void (^FitbitHeartrateRequestCallback)(NSData * result,  NSString * __nullable nextSyncDate);
+typedef void (^FitbitSleepRequestCallback)();
 
 
-
-- (void) getCaloriesWithStart:(NSDate*)start
-                          end:(NSDate *)end
+- (void) getCaloriesWithStart:(NSString *)start
+                          end:(NSString *)end
                        period:(NSString *)period
-                  detailLevel:(NSString *)detailLevel;
+                  detailLevel:(NSString *)detailLevel
+                     callback:(FitbitCaloriesRequestCallback) callback;
 
-- (void) getStepsWithStart:(NSDate*)start
-                       end:(NSDate *)end
+- (void) getStepsWithStart:(NSString *)start
+                       end:(NSString *)end
                     period:(NSString *)period
-               detailLevel:(NSString *)detailLevel;
+               detailLevel:(NSString *)detailLevel
+                  callback:(FitbitStepsRequestCallback)callback;
 
-- (void) getHeartrateWithStart:(NSDate*)start
-                           end:(NSDate *)end
+- (void) getHeartrateWithStart:(NSString *)start
+                           end:(NSString *)end
                         period:(NSString *)period
-                   detailLevel:(NSString *)detailLevel;
+                   detailLevel:(NSString *)detailLevel
+                      callback:(FitbitHeartrateRequestCallback)callback;
 
-- (void) getSleepWithStart:(NSDate*)start
-                       end:(NSDate *)end
+- (void) getSleepWithStart:(NSString *)start
+                       end:(NSString *)end
                     period:(NSString *)period
-               detailLevel:(NSString *)detailLevel;
+               detailLevel:(NSString *)detailLevel
+                  callback:(FitbitSleepRequestCallback)callback;
 
-+ (NSDate *) getLastSyncSteps;
-+ (NSDate *) getLastSyncCalories;
-+ (NSDate *) getLastSyncHeartrate;
-+ (NSDate *) getLastSyncSleep;
++ (NSString *) getLastSyncDateSteps;
++ (NSString *) getLastSyncDateCalories;
++ (NSString *) getLastSyncDateHeartrate;
++ (NSString *) getLastSyncDateSleep;
 
-+ (void) setLastSyncSteps:(NSDate *)date;
-+ (void) setLastSyncCalories:(NSDate *)date;
-+ (void) setLastSyncHeartrate:(NSDate *)date;
-+ (void) setLastSyncSleep:(NSDate *)date;
++ (void) setLastSyncDateSteps:(NSString *)date;
++ (void) setLastSyncDateCalories:(NSString *)date;
++ (void) setLastSyncDateHeartrate:(NSString *)date;
++ (void) setLastSyncDateSleep:(NSString *)date;
+
++ (void) setLastSyncDate:(NSString *)date withKey:(NSString *)key;
 
 @end
