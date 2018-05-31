@@ -14,7 +14,7 @@
 typedef void (^FitbitCaloriesRequestCallback) (NSData * result,  NSString * __nullable nextSyncDate);
 typedef void (^FitbitStepsRequestCallback)    (NSData * result,  NSString * __nullable nextSyncDate);
 typedef void (^FitbitHeartrateRequestCallback)(NSData * result,  NSString * __nullable nextSyncDate);
-typedef void (^FitbitSleepRequestCallback)();
+typedef void (^FitbitSleepRequestCallback)    (NSData * result,  NSString * __nullable nextSyncDate);
 
 
 - (void) getCaloriesWithStart:(NSString *)start

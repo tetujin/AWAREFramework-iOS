@@ -205,26 +205,30 @@
 }
 
 
-
 /**
  * Get Activities Data from Fitbit Developer API
  *
  * @discussion Example URL is "https://api.fitbit.com/1/user/[user-id]/activities/date/[date].json". Please read a document of Fitbit ("https://dev.fitbit.com/docs/activity/".)
+ *
+ GET /1/user/[user-id]/[resource-path]/date/[date]/[period].json
+ GET /1/user/[user-id]/[resource-path]/date/[base-date]/[end-date].json
+ GET /1/user/[user-id]/[resource-path]/date/[date]/[date]/[detail-level]/time/[start-time]/[end-time].json
+ 
  */
 
 - (BOOL) getActivityWithDataType:(NSString *)type
                     ResourcePath:(NSString *)resourcePath
-                               start:(NSString *)start
-                                 end:(NSString *)end
-                              period:(NSString *)period
-                         detailLevel:(NSString *)detailLevel{
+                           start:(NSString *)start
+                             end:(NSString *)end
+                          period:(NSString *)period
+                     detailLevel:(NSString *)detailLevel{
     NSString * userId = [Fitbit getFitbitUserId];
     NSString* token = [Fitbit getFitbitAccessToken];
     
     if (userId == nil || token == nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString * msg = [NSString stringWithFormat:@"[Error: %@] User ID and Access Token do not exist. Please **login** again to get these.", [self getSensorName]];
-            if (self.isDebug) NSLog(@"%@",msg);
+            NSLog(@"%@",msg);
         });
         return NO;
     }
@@ -237,20 +241,21 @@
         [self sendBroadcastNotification:urlStr];
     }else if([type isEqualToString:@"sleep"]){
         // GET https://api.fitbit.com/1.2/user/[user-id]/sleep/date/[startDate]/[endDate].json
-        [urlStr appendFormat:@"/1.2/user/-/sleep/date/%@/%@.json", start, end];
+        [urlStr appendFormat:@"/1.2/user/-/sleep/date/%@/%@.json", start, start];
         [self sendBroadcastNotification:urlStr];
     }else if( start!=nil && end!=nil && detailLevel!=nil){
         // https://dev.fitbit.com/build/reference/web-api/activity/
         // [urlStr appendFormat:@"/1/user/-/%@/date/%@/%@/%@.json", resourcePath, start, end, detailLevel];
         [urlStr appendFormat:@"/1/user/-/%@/date/%@/%@.json", resourcePath, start, detailLevel];
         [self sendBroadcastNotification:urlStr];
+        NSLog(@"%@",urlStr);
     } else {
         NSString * message = [NSString stringWithFormat:@"[error][%@]URL format Error: %@", type, urlStr];
-        if (self.isDebug) NSLog(@"%@", message);
+        NSLog(@"%@", message);
         [self sendBroadcastNotification:message];
         return NO;
     }
-
+    
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
     if(token == nil) return NO;
     if(userId == nil) return NO;
@@ -276,11 +281,15 @@
 
 
 - (void) saveData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error type:(NSString *)type{
-
+    
     @try {
         if(error != nil){
-            if (self.isDebug) NSLog(@"%@",error.debugDescription);
-            [self sendBroadcastNotification:error.debugDescription];
+            // NSString *errorStr = [[NSString alloc] initWithData:data  encoding: NSUTF8StringEncoding];
+            NSLog(@"%@",error.debugDescription);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString * msg =[NSString stringWithFormat:@"[error][%@]-saveData:response:error:type %@", type, error.debugDescription];
+                NSLog(@"%@",msg);
+            });
             return;
         }
         
@@ -291,7 +300,7 @@
                                                                        options:NSJSONReadingAllowFragments
                                                                          error:&e];
             if (e != nil) {
-                if (self.isDebug) NSLog(@"failed to parse JSON: %@", error.debugDescription);
+                NSLog(@"failed to parse JSON: %@", error.debugDescription);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSString * message = [NSString stringWithFormat:@"[error][%@] failed to parse JSON: %@", type, e.debugDescription];
                     [self sendBroadcastNotification:message];
@@ -300,7 +309,7 @@
             }
             
             if([activities objectForKey:@"errors"]!=nil){
-                if (self.isDebug) NSLog(@"%@",activities.debugDescription);
+                NSLog(@"%@",activities.debugDescription);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSString * message = [NSString stringWithFormat:@"[error][%@] failed to parse JSON: %@", type, e.debugDescription];
                     [self sendBroadcastNotification:message];
@@ -314,10 +323,10 @@
             });
             
             NSString *responseString = [[NSString alloc] initWithData:data  encoding: NSUTF8StringEncoding];
-            if (self.isDebug) NSLog(@"Success: %@", responseString);
+            NSLog(@"Success: %@", responseString);
             
             NSDate * now = [NSDate new];
-        
+            
             NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
             [dict setObject:[AWAREUtils getUnixTimestamp:now] forKey:@"timestamp"]; //timestamp
             [dict setObject:[self getDeviceId] forKey:@"device_id"];  //    device_id
@@ -361,8 +370,16 @@
                     }
                 }
             }else if([type isEqualToString:@"sleep"]){
-                [FitbitData setLastSyncDate:sleepEndDate withKey:type];
-                if (sleepCallback) sleepCallback();
+                if (sleepCallback) {
+                    if([self getDaysBetweenLocalSyncDate:sleepStartDate andRemoteSyncDate:sleepEndDate] > 0){
+                        NSString * nextDate = [self getNextDateFromDate:sleepStartDate];
+                        [FitbitData setLastSyncDateSleep:nextDate];
+                        sleepCallback(data, nextDate);
+                    }else{
+                        [FitbitData setLastSyncDateSleep:[NSString stringWithFormat:@"%@T00:00:00",sleepEndDate]];
+                        sleepCallback(data, nil);
+                    }
+                }
             }
             
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
@@ -370,21 +387,21 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:[NSString stringWithFormat:@"action.aware.plugin.fitbit.get.activity.%@",type]
                                                                 object:nil
                                                               userInfo:userInfo];
-            if (self.isDebug) NSLog(@"%@",[NSString stringWithFormat:@"action.aware.plugin.fitbit.get.activity.%@",type]);
+            NSLog(@"%@",[NSString stringWithFormat:@"action.aware.plugin.fitbit.get.activity.%@",type]);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
             });
         }else{
             [self sendBroadcastNotification:[NSString stringWithFormat:@"[%@] received data is null ", type]];
-//            NSDictionary * debugMsg = @{@"debug":@"no response", @"type":type};
-//            if([responseString isEqualToString:@""]){
-//                debugMsg = @{@"debug":@"no response", @"type":type};
-//            }else if(responseString != nil){
-//                debugMsg = @{@"debug":responseString, @"type":type};
-//            }
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"action.aware.plugin.fitbit.get.activity.debug"
-//                                                                object:nil
-//                                                              userInfo:debugMsg];
+            //            NSDictionary * debugMsg = @{@"debug":@"no response", @"type":type};
+            //            if([responseString isEqualToString:@""]){
+            //                debugMsg = @{@"debug":@"no response", @"type":type};
+            //            }else if(responseString != nil){
+            //                debugMsg = @{@"debug":responseString, @"type":type};
+            //            }
+            //            [[NSNotificationCenter defaultCenter] postNotificationName:@"action.aware.plugin.fitbit.get.activity.debug"
+            //                                                                object:nil
+            //                                                              userInfo:debugMsg];
         }
     } @catch (NSException *exception) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -423,12 +440,12 @@ didReceiveResponse:(NSURLResponse *)response
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
     int responseCode = (int)[httpResponse statusCode];
     if (responseCode == 200) {
-        if (self.isDebug) NSLog(@"[%d] Success",responseCode);
+        NSLog(@"[%d] Success",responseCode);
         [session finishTasksAndInvalidate];
     }else{
         [session invalidateAndCancel];
         // clear
-        if (self.isDebug) NSLog(@"[%d] %@", responseCode, response.debugDescription);
+        NSLog(@"[%d] %@", responseCode, response.debugDescription);
         if([identifier isEqualToString:@"steps"]){
             stepsResponse = [[NSMutableData alloc] init];
         }else if([identifier isEqualToString:@"calories"]){
@@ -463,11 +480,11 @@ didReceiveResponse:(NSURLResponse *)response
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
-
+    
     NSString * identifier = session.configuration.identifier;
     
     if (error != nil) {
-        [self sendBroadcastNotification:error.debugDescription];
+        [self sendBroadcastNotification:[NSString stringWithFormat:@"[%@] Error:%@ ",identifier,error.debugDescription]];
     }
     
     // NSLog(@"[%@]URLSession:task:didCompleteWithError",identifier);
@@ -487,9 +504,8 @@ didReceiveResponse:(NSURLResponse *)response
         ////// save data ///////
         [self saveData:data response:nil error:error type:identifier];
     }else{
-        if (self.isDebug) NSLog(@"data is nil @ FitbitData plugin");
-        NSString * msg = [NSString stringWithFormat:@"[%@] data is nil",identifier];
-        [self sendBroadcastNotification:msg];
+        NSLog(@"data is nil @ FitbitData plugin");
+        [self sendBroadcastNotification:[NSString stringWithFormat:@"[%@] data is nil",identifier]];
     }
     
     // clear
@@ -521,8 +537,9 @@ didReceiveResponse:(NSURLResponse *)response
     NSString * date = [userDefualts objectForKey:[NSString stringWithFormat:@"fitbit.last.local.sync.date.%@",key]];
     if (date==nil || [date isEqualToString:@""]) {
         NSDateFormatter * dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+        [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
         date = [dateFormat stringFromDate:[NSDate new]];
+        
         [FitbitData setLastSyncDate:date withKey:key];
     }
     return date;
@@ -547,7 +564,7 @@ didReceiveResponse:(NSURLResponse *)response
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     
     NSDate * localDate = [dateFormatter dateFromString:localSyncDate];
-    if (self.isDebug) NSLog(@"%@", localDate);
+    NSLog(@"%@", localDate);
     
     NSDate * remoteDate = [dateFormatter dateFromString:remoteSyncDate];
     
@@ -583,7 +600,6 @@ didReceiveResponse:(NSURLResponse *)response
     
     return finalDateStr;
 }
-
 
 
 @end
