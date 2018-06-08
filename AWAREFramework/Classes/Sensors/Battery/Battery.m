@@ -17,6 +17,8 @@
 #import "EntityBatteryCharge.h"
 #import "EntityBatteryDischarge.h"
 
+NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
+
 @implementation Battery {
     NSString* BATTERY_DISCHARGERES;
     NSString* BATTERY_CHARGERES;

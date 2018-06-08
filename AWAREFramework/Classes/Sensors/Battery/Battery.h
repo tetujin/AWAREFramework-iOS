@@ -9,6 +9,8 @@
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
 
+extern NSString* const AWARE_PREFERENCES_STATUS_BATTERY;
+
 @interface Battery : AWARESensor <AWARESensorDelegate>
 
 @property double intervalSecond;
