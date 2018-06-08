@@ -21,9 +21,14 @@
     
     // Override point for customization after application launch.
     
-//    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1834/iUlZ9MWTfTAN" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
-//        
-//    }];
+    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+        [AWARESensorManager.sharedSensorManager addSensorsWithStudy:AWAREStudy.sharedStudy];
+        [AWARESensorManager.sharedSensorManager setDebugToAllSensors:YES];
+        [AWARESensorManager.sharedSensorManager startAllSensors];
+    }];
+    
+    AWAREStudy * study = AWAREStudy.sharedStudy;
+    [study setSetting:AWARE_PREFERENCES_STATUS_WIFI value:@"true"];
     
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     

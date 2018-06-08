@@ -248,7 +248,7 @@ didCompleteWithError:(NSError *)error {
     
     // compare the latest configuration string with the previous configuration string.
     NSString * previousConfig = [self removeStudyStartTimeFromConfig:[self getStudyConfigurationAsText]];
-    NSString * currentConfig = [self removeStudyStartTimeFromConfig:studySettingsString];
+    NSString * currentConfig  = [self removeStudyStartTimeFromConfig:studySettingsString];
     
     if([previousConfig isEqualToString:currentConfig]){
         if (isDebug) NSLog(@"[AWAREStudy] The study configuration is same as previous configuration!");
@@ -262,7 +262,8 @@ didCompleteWithError:(NSError *)error {
     
     [self setStudyConfiguration:studySettingsString];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
     NSArray * sensors = @[];
     NSArray * plugins = @[];
     if (studySettings.count > 0) {
@@ -271,39 +272,26 @@ didCompleteWithError:(NSError *)error {
         plugins = [settings objectForKey:KEY_PLUGINS];
     }
     
-    for (int i=0; i<[sensors count]; i++) {
-        NSDictionary *settingElement = [sensors objectAtIndex:i];
-        NSString *setting = [settingElement objectForKey:@"setting"];
-        NSString *value = [settingElement objectForKey:@"value"];
-        if([setting isEqualToString:@"mqtt_password"]){
-            [userDefaults setObject:value forKey:KEY_MQTT_PASS];
-        }else if([setting isEqualToString:@"mqtt_username"]){
-            [userDefaults setObject:value forKey:KEY_MQTT_USERNAME];
-        }else if([setting isEqualToString:@"mqtt_server"]){
-            [userDefaults setObject:value forKey:KEY_MQTT_SERVER];
-        }else if([setting isEqualToString:@"mqtt_port"]){
-            [userDefaults setObject:@(value.intValue) forKey:KEY_MQTT_PORT];
-        }else if([setting isEqualToString:@"mqtt_keep_alive"]){
-            [userDefaults setObject:@(value.intValue) forKey:KEY_MQTT_KEEP_ALIVE];
-        }else if([setting isEqualToString:@"mqtt_qos"]){
-            [userDefaults setObject:@(value.intValue) forKey:KEY_MQTT_QOS];
-        }else if([setting isEqualToString:@"study_id"]){
-            [userDefaults setObject:value forKey:KEY_STUDY_ID];
-        }else if([setting isEqualToString:@"webservice_server"]){
-            [userDefaults setObject:value forKey:KEY_WEBSERVICE_SERVER];
-        }else if([setting isEqualToString:@"frequency_webservice"]){
-            [userDefaults setDouble:value.intValue*60 forKey:SETTING_SYNC_INT]; // save data as second
-        }else if([setting isEqualToString:@"frequency_clean_old_data"]){
-            // (0 = never, 1 = weekly, 2 = monthly, 3 = daily, 4 = always)
-            [userDefaults setInteger:value.integerValue forKey:SETTING_FREQUENCY_CLEAN_OLD_DATA];
-        }else if([setting isEqualToString:@"webservice_wifi_only"]){
-            [userDefaults setBool:value.boolValue forKey:SETTING_SYNC_WIFI_ONLY];
+    if (sensors != nil){
+        for (NSDictionary * setting in sensors) {
+            NSString * key = [setting objectForKey:@"setting"];
+            NSObject * value = [setting objectForKey:@"value"];
+            [self setSetting:key value:value];
         }
     }
-    
-    if (sensors != nil) [userDefaults setObject:sensors forKey:KEY_SENSORS];
-    if (plugins != nil) [userDefaults setObject:plugins forKey:KEY_PLUGINS];
-    [userDefaults synchronize];
+    if (plugins != nil){
+        for (NSDictionary * plugin in plugins) {
+            NSString * pluginName = [plugin objectForKey:@"plugin"];
+            NSArray * settings = [plugin objectForKey:@"settings"];
+            if (settings != nil) {
+                for (NSDictionary * setting in sensors) {
+                    NSString * key = [setting objectForKey:@"setting"];
+                    NSObject * value = [setting objectForKey:@"value"];
+                    [self setSetting:key value:value packageName:pluginName];
+                }
+            }
+        }
+    }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -619,116 +607,110 @@ didCompleteWithError:(NSError *)error {
     // return [AWAREUtils getSystemUUID];
 }
 
-/**
- * Get sensor settings from a local storage as a NSArray object
- * @return a sensor settings as a NSArray object
- */
-- (NSArray *) getSensors {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-    NSArray * studySensors = [userDefaults objectForKey:KEY_SENSORS];
-    NSArray * userSensors  = [userDefaults objectForKey:KEY_USER_SENSORS];
+- (void) setSetting:(NSString *)key value:(NSObject *)value{
+    [self setSetting:key value:value packageName:@""];
+}
+
+- (void) setSetting:(NSString *)key value:(NSObject *)value packageName:(NSString *) packageName {
+    if (key==nil || value==nil || packageName==nil) return;
     
-    if(studySensors != nil){
-        return studySensors;
-    }else if(userSensors != nil){
-        return userSensors;
+    // Convert all of setting values to NSString from NSObject
+    // NOTE: Android version of AWARE is saving all of setting data as String even if the value is boolean and number. Similarly, all of setting values from an aware-server is string format. For converting all of the string-values to adaptive value (e.g., number, bool, and string) is hard to do at this phase, therefore, a setting value is saved as an NSString,
+    NSString * convertedSettingValue = @"";
+    if ([value isKindOfClass:[NSString class]]) {
+        convertedSettingValue = (NSString*)value;
     }else{
-        return nil;
-    }
-}
-
-
-/**
- * Get plugin settings from a local storage as a NSArray object
- * @return plugin settings as a NSArray object
- */
-- (NSArray *) getPlugins{
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    NSArray * studyPlugins = [userDefaults objectForKey:KEY_PLUGINS];
-    NSArray * userPlugins  = [userDefaults objectForKey:KEY_USER_PLUGINS];
-    
-    if(studyPlugins != nil){
-        return studyPlugins;
-    }else if(userPlugins != nil){
-        return userPlugins;
-    }else{
-        return nil;
-    }
-}
-
-
-/**
- * Get user's sensor settings from a local storage as a NSArray object
- * @return user's sensor settings as a NSArray object
- */
-- (NSArray *) getUserSensors {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:KEY_USER_SENSORS];
-}
-
-/**
- * Get user's plugin settings from a local storage as a NSArray object
- * @return user's plugin settings as a NSArray object
- */
-- (NSArray *) getUserPlugins{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:KEY_USER_PLUGINS];
-}
-
-
-
-/**
- * Get plugin settings using a key of a setting element
- * @return Plugin settings as a NSArray
- */
-- (NSArray *) getPluginSettingsWithKey:(NSString *) key {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray * plugins = [userDefaults objectForKey:KEY_PLUGINS];
-    
-    if(plugins != nil){
-        for (NSDictionary * plugin in plugins) {
-            NSArray *pluginSettings = [plugin objectForKey:@"settings"];
-            for (NSDictionary* pluginSetting in pluginSettings) {
-                NSString * setting = [pluginSetting objectForKey:@"setting"];
-                if ([setting isEqualToString:key]){
-                    return pluginSettings;
-                }
+        if ([value isKindOfClass:[@(YES) class]]) {
+            if (((NSNumber*)value).boolValue){
+                convertedSettingValue = @"true";
+            }else{
+                convertedSettingValue = @"false";
             }
+        }else if([value isKindOfClass:[NSNumber class]]){
+            convertedSettingValue = ((NSNumber *)value).stringValue;
+            if (convertedSettingValue==nil) {
+                convertedSettingValue = @"";
+            }
+        }else{
+            NSLog(@"[ERROR@AWAREStudy][setting value-type error] %@ is not supported.", NSStringFromClass([value class]));
         }
     }
     
-    return nil;
-}
-
-
-////////////////////////////////////////////
-
-/**
- * Get plugin settings using a key of a setting element
- * @return Plugin settings as a NSArray
- */
-- (NSArray *) getUserPluginSettingsWithKey:(NSString *) key {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray * plugins = [userDefaults objectForKey:KEY_USER_PLUGINS];
-    
-    if(plugins != nil){
-        for (NSDictionary * plugin in plugins) {
-            NSArray *pluginSettings = [plugin objectForKey:@"settings"];
-            for (NSDictionary* pluginSetting in pluginSettings) {
-                NSString * setting = [pluginSetting objectForKey:@"setting"];
-                if ([setting isEqualToString:key]){
-                    return pluginSettings;
-                }
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray * mutableSettings = [[NSMutableArray alloc] init];
+    NSMutableArray * settings = [userDefaults objectForKey:KEY_SENSORS];
+    if (settings == nil) {
+        mutableSettings = [[NSMutableArray alloc] init];
+    }else{
+        mutableSettings = [[NSMutableArray alloc] initWithArray:settings];
+    }
+    bool isKeyExist = false;
+    int  targetSettingIndex = 0;
+    for (int i=0; i<settings.count; i++) {
+        NSDictionary * setting = settings[i];
+        NSString * settingKey = [setting objectForKey:@"setting"];
+        if (settingKey != nil) {
+            if ([settingKey isEqualToString:key]) {
+                isKeyExist = true;
+                targetSettingIndex = i;
+                break;
             }
         }
     }
-    return nil;
+    NSDictionary * newSetting = @{@"setting":key, @"value":convertedSettingValue, @"package_name":packageName};
+    if (isKeyExist) {
+        [mutableSettings replaceObjectAtIndex:targetSettingIndex withObject:newSetting];
+    }else{
+        [mutableSettings addObject:newSetting];
+    }
+    [userDefaults setObject:mutableSettings forKey:KEY_SENSORS];
+    [userDefaults synchronize];
+    
+    if([key isEqualToString:@"mqtt_password"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_PASS];
+    }else if([key isEqualToString:@"mqtt_username"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_USERNAME];
+    }else if([key isEqualToString:@"mqtt_server"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_SERVER];
+    }else if([key isEqualToString:@"mqtt_port"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_PORT];
+    }else if([key isEqualToString:@"mqtt_keep_alive"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_KEEP_ALIVE];
+    }else if([key isEqualToString:@"mqtt_qos"]){
+        [userDefaults setObject:value forKey:KEY_MQTT_QOS];
+    }else if([key isEqualToString:@"study_id"]){
+        [userDefaults setObject:value forKey:KEY_STUDY_ID];
+    }else if([key isEqualToString:@"webservice_server"]){
+        [userDefaults setObject:value forKey:KEY_WEBSERVICE_SERVER];
+    }else if([key isEqualToString:@"frequency_webservice"]){
+        [userDefaults setDouble:((NSNumber *)value).intValue*60 forKey:SETTING_SYNC_INT]; // save data as second
+    }else if([key isEqualToString:@"frequency_clean_old_data"]){
+        // (0 = never, 1 = weekly, 2 = monthly, 3 = daily, 4 = always)
+        [userDefaults setInteger:((NSNumber *)value).integerValue forKey:SETTING_FREQUENCY_CLEAN_OLD_DATA];
+    }else if([key isEqualToString:@"webservice_wifi_only"]){
+        [userDefaults setBool: ((NSNumber *)value).boolValue forKey:SETTING_SYNC_WIFI_ONLY];
+    }
 }
+
+
+- (NSString *) getSetting:(NSString *)key{
+    if (key==nil) return @"";
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString * value = [userDefaults objectForKey:key];
+    if (value != nil) {
+        return value;
+    }else{
+        return @"";
+    }
+}
+
+- (NSArray *) getSensorSettings{
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray * settings = [userDefaults objectForKey:KEY_SENSORS];
+    return settings;
+}
+
 
 /**
  * Get a study configuration as text

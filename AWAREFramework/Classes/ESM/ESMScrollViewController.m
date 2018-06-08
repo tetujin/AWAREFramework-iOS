@@ -189,6 +189,11 @@
             
         }else{
             NSLog(@"[ESMScrollViewController] NO ESM");
+            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_DONE
+                                                                object:self
+                                                              userInfo:nil];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:^{ }];
         }
         ///////////////////////////////////////////////////////////////
     }else{ /// ESMs by esm_flows exist
@@ -706,7 +711,6 @@
 
 
 - (bool) removeTempESMsFromDB{
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporary==1"];

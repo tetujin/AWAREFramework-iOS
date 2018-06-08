@@ -99,9 +99,15 @@ typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState sta
 - (NSString *) getDeviceName;
 
 /// Sensor and plugin infromation
-- (NSArray *) getSensors;
-- (NSArray *) getPlugins;
-- (NSArray *) getPluginSettingsWithKey:(NSString *) key;
+//- (NSArray *) getSensors;
+//- (NSArray *) getPlugins;
+//- (NSArray *) getPluginSettingsWithKey:(NSString *) key;
 
+- (void) setSetting:(NSString *)key value:(NSObject *)value;
+- (void) setSetting:(NSString *)key value:(NSObject *)value packageName:(NSString *) packageName;
+
+- (NSString *) getSetting:(NSString * )key;
+
+- (NSArray *) getSensorSettings;
 
 @end

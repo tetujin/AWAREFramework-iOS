@@ -92,8 +92,35 @@ NSString* const SENSOR_LABELS        = @"labels";
 NSString* const SENSOR_ORIENTATION   = @"orientation";
 NSString* const SENSOR_HEALTH_KIT      = @"health_kit";
 NSString* const SENSOR_IOS_ESM         = @"plugin_ios_esm";
-
 NSString* const SENSOR_IOS_ACTIVITY_RECOGNITION = @"plugin_ios_activity_recognition";
+
+NSString* const STATUS_SENSOR_ACCELEROMETER = @"status_accelerometer";//accelerometer
+NSString* const STATUS_SENSOR_BAROMETER = @"status_barometer";//barometer
+NSString* const STATUS_SENSOR_BATTERY   = @"status_battery";
+NSString* const STATUS_SENSOR_BLUETOOTH = @"status_bluetooth";
+NSString* const STATUS_SENSOR_MAGNETOMETER = @"status_magnetometer";
+NSString* const STATUS_SENSOR_ESMS      = @"status_esm";
+NSString* const STATUS_SENSOR_GYROSCOPE = @"status_gyroscope";//Gyroscope
+NSString* const STATUS_SENSOR_LOCATIONS = @"status_location_gps";
+NSString* const STATUS_SENSOR_NETWORK   = @"status_network";
+NSString* const STATUS_SENSOR_PROCESSOR = @"status_processor";
+NSString* const STATUS_SENSOR_PROXIMITY = @"status_proximity";
+NSString* const STATUS_SENSOR_ROTATION  = @"status_rotation";
+NSString* const STATUS_SENSOR_SCREEN    = @"status_screen";
+NSString* const STATUS_SENSOR_TELEPHONY = @"status_telephony";
+NSString* const STATUS_SENSOR_WIFI      = @"status_wifi";
+NSString* const STATUS_SENSOR_GRAVITY   = @"status_gravity";
+NSString* const STATUS_SENSOR_LINEAR_ACCELEROMETER = @"status_linear_accelerometer";
+NSString* const STATUS_SENSOR_TIMEZONE             = @"status_timezone";
+NSString* const STATUS_SENSOR_AMBIENT_NOISE        = @"status_plugin_ambient_noise";
+NSString* const STATUS_SENSOR_SCHEDULER            = @"status_scheduler";
+NSString* const STATUS_SENSOR_CALLS                = @"status_calls";
+NSString* const STATUS_SENSOR_LABELS               = @"status_labels";
+NSString* const STATUS_SENSOR_ORIENTATION          = @"status_orientation";
+NSString* const STATUS_SENSOR_HEALTH_KIT           = @"status_health_kit";
+NSString* const STATUS_SENSOR_IOS_ESM              = @"status_plugin_ios_esm";
+
+////////////////////////////
 
 NSString* const SENSOR_PLUGIN_GOOGLE_ACTIVITY_RECOGNITION = @"plugin_google_activity_recognition";
 NSString* const SENSOR_GOOGLE_FUSED_LOCATION  = @"google_fused_location";
@@ -136,6 +163,31 @@ NSString* const SENSOR_PLUGIN_MSBAND_SENSORS_RRINTERVAL    = @"plugin_msband_sen
 
 NSString* const SENSOR_PLUGIN_MSBAND_KEY_ACTIVE_TIME_INTERVAL_IN_MINUTE = @"active_time_interval_in_minute";
 NSString* const SENSOR_PLUGIN_MSBAND_KEY_ACTIVE_IN_MINUTE = @"active_time_in_minute";
+
+
+NSString* const STATUS_SENSOR_PLUGIN_GOOGLE_ACTIVITY_RECOGNITION = @"status_plugin_google_activity_recognition";
+NSString* const STATUS_SENSOR_IOS_ACTIVITY_RECOGNITION           = @"status_plugin_ios_activity_recognition";
+NSString* const STATUS_SENSOR_GOOGLE_FUSED_LOCATION              = @"status_google_fused_location";
+NSString* const STATUS_SENSOR_PLUGIN_OPEN_WEATHER                = @"status_plugin_openweather";
+NSString* const STATUS_SENSOR_PLUGIN_MSBAND                      = @"status_plugin_msband_sensors";
+NSString* const STATUS_SENSOR_PLUGIN_DEVICE_USAGE                = @"status_plugin_device_usage";
+NSString* const STATUS_SENSOR_PLUGIN_NTPTIME                     = @"status_plugin_ntptime";
+NSString* const STATUS_SENSOR_PLUGIN_SCHEDULER                   = @"status_scheduler";
+NSString* const STATUS_SENSOR_PLUGIN_GOOGLE_CAL_PULL             = @"status_plugin_balancedcampuscalendar";
+NSString* const STATUS_SENSOR_PLUGIN_GOOGLE_CAL_PUSH             = @"status_plugin_balancedcampusjournal";
+NSString* const STATUS_SENSOR_PLUGIN_GOOGLE_LOGIN                = @"status_plugin_google_login";
+NSString* const STATUS_SENSOR_PLUGIN_CAMPUS                      = @"status_plugin_cmu_esm";
+NSString* const STATUS_SENSOR_PLUGIN_PEDOMETER       = @"status_plugin_pedometer";
+NSString* const STATUS_SENSOR_PLUGIN_WEB_ESM         = @"status_plugin_web_esm";
+NSString* const STATUS_SENSOR_PLUGIN_BLE_HR          = @"status_plugin_ble_heartrate";
+NSString* const STATUS_SENSOR_AWARE_DEBUG            = @"status_aware_debug";
+NSString* const STATUS_SENSOR_PLUGIN_IOS_ESM         = @"status_plugin_ios_esm";
+NSString* const STATUS_SENSOR_PLUGIN_FITBIT          = @"status_plugin_fitbit";
+NSString* const STATUS_SENSOR_PLUGIN_CONTACTS        = @"status_plugin_contacts";
+NSString* const STATUS_SENSOR_BASIC_SETTINGS         = @"status_plugin_basic_settings";
+NSString* const STATUS_SENSOR_PLUGIN_CALENDAR        = @"status_plugin_calendar";
+NSString* const STATUS_SENSOR_PLUGIN_STUDENTLIFE_AUDIO = @"status_plugin_studentlife_audio";
+
 
 //_PLUGIN_MSBAND_SENSORS_ACC = @"plugin_msband_sensors_accelerometer";
 //_PLUGIN_MSBAND_SENSORS_GYRO = @"plugin_msband_sensors_gyroscope";
@@ -224,20 +276,20 @@ NSString * const ACTION_AWARE_LOCATIONS = @"ACTION_AWARE_LOCATIONS"; //: new loc
 NSString * const ACTION_AWARE_MAGNETOMETER = @"ACTION_AWARE_MAGNETOMETER";
 
 // Network
-//extern NSString * const ACTION_AWARE_AIRPLANE_ON;// broadcasted when airplane mode is activated.
-//extern NSString * const ACTION_AWARE_AIRPLANE_OFF;// broadcasted when airplane mode is deactivated.
+// NSString * const ACTION_AWARE_AIRPLANE_ON;// broadcasted when airplane mode is activated.
+// NSString * const ACTION_AWARE_AIRPLANE_OFF;// broadcasted when airplane mode is deactivated.
 NSString * const ACTION_AWARE_WIFI_ON = @"ACTION_AWARE_WIFI_ON";// broadcasted when Wi-Fi is activated.
 NSString * const ACTION_AWARE_WIFI_OFF = @"ACTION_AWARE_WIFI_OFF";// broadcasted when Wi-Fi is deactivated.
 NSString * const ACTION_AWARE_MOBILE_ON = @"ACTION_AWARE_MOBILE_ON";// broadcasted when mobile network is activated.
 NSString * const ACTION_AWARE_MOBILE_OFF = @"ACTION_AWARE_MOBILE_OFF";// broadcasted when mobile network is deactivated.
-//extern NSString * const ACTION_AWARE_WIMAX_ON;// broadcasted when WIMAX is activated.
-//extern NSString * const ACTION_AWARE_WIMAX_OFF;// broadcasted when WIMAX is deactivated.
-//extern NSString * const ACTION_AWARE_BLUETOOTH_ON;// broadcasted when Bluetooth is activated.
-//extern NSString * const ACTION_AWARE_BLUETOOTH_OFF;// broadcasted when Bluetooth is deactivated.
-//extern NSString * const ACTION_AWARE_GPS_ON;// broadcasted when GPS is activated.
-//extern NSString * const ACTION_AWARE_GPS_OFF;// broadcasted when GPS is deactivated.
+// NSString * const ACTION_AWARE_WIMAX_ON;// broadcasted when WIMAX is activated.
+// NSString * const ACTION_AWARE_WIMAX_OFF;// broadcasted when WIMAX is deactivated.
+// NSString * const ACTION_AWARE_BLUETOOTH_ON;// broadcasted when Bluetooth is activated.
+// NSString * const ACTION_AWARE_BLUETOOTH_OFF;// broadcasted when Bluetooth is deactivated.
+// NSString * const ACTION_AWARE_GPS_ON;// broadcasted when GPS is activated.
+// NSString * const ACTION_AWARE_GPS_OFF;// broadcasted when GPS is deactivated.
 NSString * const ACTION_AWARE_INTERNET_AVAILABLE = @"ACTION_AWARE_INTERNET_AVAILABLE";// broadcasted when the device is connected to the internet. One extra is included to provide the active internet access network:
-//extern NSString * const EXTRA_ACCESS;// an integer with one of the following constants: 1=Wi-Fi, 2= Bluetooth, 4= Mobile, 5= WIMAX
+// NSString * const EXTRA_ACCESS;// an integer with one of the following constants: 1=Wi-Fi, 2= Bluetooth, 4= Mobile, 5= WIMAX
 NSString * const ACTION_AWARE_INTERNET_UNAVAILABLE = @"ACTION_AWARE_INTERNET_UNAVAILABLE";// broadcasted when the device is not connected to the internet.
 //NSString * const ACTION_AWARE_NETWORK_TRAFFIC = @"ACTION_AWARE_NETWORK_TRAFFIC";// broadcasted when new traffic information is available for both Wi-Fi and mobile data.
 

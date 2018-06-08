@@ -59,11 +59,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
         tableName = @"esms";
         _table = @"esms";
         
-        pluginSettings = [study getPluginSettingsWithKey:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_IOS_ESM]];
-        NSString * tempTableName = [self getStringFromSettings:pluginSettings key:@"plugin_ios_esm_table_name"];
-        if(tempTableName != nil){
-            tableName = tempTableName;
-        }
+//        pluginSettings = [study getPluginSettingsWithKey:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_IOS_ESM]];
+//        NSString * tempTableName = [self getStringFromSettings:pluginSettings key:@"plugin_ios_esm_table_name"];
+//        if(tempTableName != nil){
+//            tableName = tempTableName;
+//        }
     }
     return self;
 }

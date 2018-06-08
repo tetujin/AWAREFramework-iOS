@@ -120,23 +120,19 @@ static AWARESensorManager * sharedSensorManager;
         return NO;
     }
 
-    // sensors settings
-    NSArray *sensors = [awareStudy getSensors];
-    
-    // plugins settings
-    NSArray *plugins = [awareStudy  getPlugins];
+    NSArray * settings = [study getSensorSettings];
     
     AWARESensor* awareSensor = nil;
     
     /// start and make a sensor instance
-    if(sensors != nil){
+    if(settings != nil){
 
-        for (int i=0; i<sensors.count; i++) {
+        for (int i=0; i<settings.count; i++) {
             
             awareSensor = nil;
             
-            NSString * setting = [[sensors objectAtIndex:i] objectForKey:@"setting"];
-            NSString * value = [[sensors objectAtIndex:i] objectForKey:@"value"];
+            NSString * setting = [[settings objectAtIndex:i] objectForKey:@"setting"];
+            NSString * value = [[settings objectAtIndex:i] objectForKey:@"value"];
             
             if ([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_ACCELEROMETER]]) {
                 awareSensor= [[Accelerometer alloc] initWithAwareStudy:awareStudy dbType:dbType ];
@@ -179,97 +175,51 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[Rotation alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_IOS_ESM]]){
                 awareSensor = [[IOSESM alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_GOOGLE_ACTIVITY_RECOGNITION]]){
+                // iOS Activity Recognition API
+                awareSensor = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_IOS_ACTIVITY_RECOGNITION ]] ) {
+                awareSensor = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            } else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_OPEN_WEATHER]]){
+                awareSensor = [[OpenWeather alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_DEVICE_USAGE]]){
+                awareSensor = [[DeviceUsage alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_NTPTIME]]){
+                awareSensor = [[NTPTime alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_GOOGLE_LOGIN]]){
+                awareSensor = [[GoogleLogin alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_GOOGLE_FUSED_LOCATION]]){
+                awareSensor = [[FusedLocations alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_AMBIENT_NOISE]]){
+                awareSensor = [[AmbientNoise alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_BLE_HR]]){
+                awareSensor = [[BLEHeartRate alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_IOS_ESM]]){
+                awareSensor = [[IOSESM alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_FITBIT]]){
+                awareSensor = [[Fitbit alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_CONTACTS]]){
+                awareSensor = [[Contacts alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_PEDOMETER]]){
+                awareSensor = [[Pedometer alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_BASIC_SETTINGS]]){
+                awareSensor = [[BasicSettings alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
-            
+
             if (awareSensor != nil) {
                 // Start the sensor
                 if ([value isEqualToString:@"true"]) {
-                    [awareSensor setParameters:sensors];
+                    [awareSensor setParameters:settings];
                 }
-                // [awareSensor trackDebugEvents];
                 // Add the sensor to the sensor manager
                 [self addSensor:awareSensor];
             }
         }
     }
     
-    if(plugins != nil){
-        // Start and make a plugin instance
-        for (int i=0; i<plugins.count; i++) {
-            NSDictionary *plugin = [plugins objectAtIndex:i];
-            NSArray *pluginSettings = [plugin objectForKey:@"settings"];
-            for (NSDictionary* pluginSetting in pluginSettings) {
-                
-                awareSensor = nil;
-                NSString *pluginName = [pluginSetting objectForKey:@"setting"];
-                NSLog(@"%@", pluginName);
-                if ([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_GOOGLE_ACTIVITY_RECOGNITION]]){
-                    // NOTE: This sensor is not longer supported. The sensor will move to iOS activity recognition plugin.
-                    // awareSensor = [[ActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                    
-                    // iOS Activity Recognition API
-                    NSString * pluginState = [pluginSetting objectForKey:@"value"];
-                    if ([pluginState isEqualToString:@"true"]) {
-                        AWARESensor * iosActivityRecognition = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                        // [iosActivityRecognition startSensorWithSettings:pluginSettings];
-                        [iosActivityRecognition setParameters:pluginSettings];
-                        [iosActivityRecognition.storage setDebug:YES];
-                        [self addSensor:iosActivityRecognition];
-                    }
-                    
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_IOS_ACTIVITY_RECOGNITION ]] ) {
-                    awareSensor = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                } else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_OPEN_WEATHER]]){
-                    awareSensor = [[OpenWeather alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_DEVICE_USAGE]]){
-                    awareSensor = [[DeviceUsage alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_NTPTIME]]){
-                    awareSensor = [[NTPTime alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_GOOGLE_LOGIN]]){
-                    awareSensor = [[GoogleLogin alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_GOOGLE_FUSED_LOCATION]]){
-                    awareSensor = [[FusedLocations alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_AMBIENT_NOISE]]){
-                    awareSensor = [[AmbientNoise alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_BLE_HR]]){
-                    awareSensor = [[BLEHeartRate alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_IOS_ESM]]){
-                    awareSensor = [[IOSESM alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_FITBIT]]){
-                    awareSensor = [[Fitbit alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_CONTACTS]]){
-                    awareSensor = [[Contacts alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_PEDOMETER]]){
-                    awareSensor = [[Pedometer alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }else if([pluginName isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_BASIC_SETTINGS]]){
-                    awareSensor = [[BasicSettings alloc] initWithAwareStudy:awareStudy dbType:dbType];
-                }
-                
-                if(awareSensor != nil){
-                    NSString * pluginState = [pluginSetting objectForKey:@"value"];
-                    if ([pluginState isEqualToString:@"true"]) {
-                        // [awareSensor startSensorWithSettings:pluginSettings];
-                        [awareSensor setParameters:pluginSettings];
-                    }
-                    // [awareSensor trackDebugEvents];
-                    [self addSensor:awareSensor];
-                }
-            }
-        }
-    }
-    
-    /**
-     * [Additional hidden sensors]
-     * You can add your own AWARESensor to AWARESensorManager directly using following source code.
-     * The "-addNewSensor" method is versy userful for testing and debuging a AWARESensor without registlating a study.
-     */
-    
     // Push Notification
     AWARESensor * pushNotification = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
-    [self addSensor:pushNotification];
-    
-//    AWARESensor * debug = [[Debug alloc] initWithAwareStudy:awareStudy dbType:AwareDBTypeJSON];
-//    [self addSensor:debug];
+    [self addSensor:pushNotification];;
     
     return YES;
 }

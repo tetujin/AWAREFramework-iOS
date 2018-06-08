@@ -33,7 +33,7 @@ static AWARECore * sharedCore;
     @synchronized(self) {
         if (sharedCore == nil) {
             sharedCore= [super allocWithZone:zone];
-            return sharedCore; // 初回のallocationで代入して返す
+            return sharedCore;
         }
     }
     return nil;
@@ -157,7 +157,7 @@ static AWARECore * sharedCore;
     [[AWARESensorManager sharedSensorManager] stopAutoSyncTimer];
     [_dailyUpdateTimer invalidate];
     [_complianceTimer invalidate];
-    //
+    
     if([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0){
         [[NSNotificationCenter defaultCenter] removeObserver:self name:NSProcessInfoPowerStateDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationBackgroundRefreshStatusDidChangeNotification object:nil];
