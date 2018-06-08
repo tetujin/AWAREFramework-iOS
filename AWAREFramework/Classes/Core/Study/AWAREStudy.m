@@ -698,8 +698,19 @@ didCompleteWithError:(NSError *)error {
 
 - (NSString *) getSetting:(NSString *)key{
     if (key==nil) return @"";
+    NSString * value = nil;
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * value = [userDefaults objectForKey:key];
+    NSArray * settings = [userDefaults objectForKey:KEY_SENSORS];
+    for (NSDictionary * setting in settings) {
+        NSString * dictKey = [setting objectForKey:@"setting"];
+        NSString * dictVal = [setting objectForKey:@"value"];
+        if (dictKey != nil) {
+            if ([dictKey isEqualToString:key]) {
+                value = dictVal;
+                break;
+            }
+        }
+    }
     if (value != nil) {
         return value;
     }else{
