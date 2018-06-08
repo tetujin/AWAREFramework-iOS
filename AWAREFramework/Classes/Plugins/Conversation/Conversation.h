@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <StudentLifeAudio/StudentLifeAudio.h>
 
+extern NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION;
+
 @interface Conversation : AWARESensor <AWARESensorDelegate>
 
 @property (nonatomic, strong) AudioPipeline *pipeline;

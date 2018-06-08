@@ -204,6 +204,10 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[Pedometer alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_BASIC_SETTINGS]]){
                 awareSensor = [[BasicSettings alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:AWARE_PREFERENCES_STATUS_CONVERSATION]){
+                awareSensor = [[Conversation alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_CALENDAR_ESM]){
+                awareSensor = [[CalendarESMScheduler alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
 
             if (awareSensor != nil) {

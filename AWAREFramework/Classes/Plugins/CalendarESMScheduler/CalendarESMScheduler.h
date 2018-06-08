@@ -7,6 +7,8 @@
 
 #import "AWARESensor.h"
 
+extern NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM;
+
 @interface CalendarESMScheduler : AWARESensor
 
 @property NSString * calenderHeadName;

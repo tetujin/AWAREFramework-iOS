@@ -11,6 +11,7 @@
 #import "ESMSchedule.h"
 #import <UserNotifications/UserNotifications.h>
 
+NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_scheduler";
 
 @implementation CalendarESMScheduler{
     Calendar * calendar;

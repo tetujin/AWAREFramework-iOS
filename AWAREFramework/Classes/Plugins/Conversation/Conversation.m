@@ -16,6 +16,8 @@
 #import "AWAREKeys.h"
 #import "EntityConversation+CoreDataClass.h"
 
+NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_studentlife_audio";
+
 @interface Conversation ()
 @end
 

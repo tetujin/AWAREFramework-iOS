@@ -51,6 +51,8 @@
 #import "BasicSettings.h"
 #import "AmbientNoise.h"
 #import "GoogleLogin.h"
+#import "Conversation.h"
+#import "CalendarESMScheduler.h"
 
 @interface AWARESensors : NSObject
 
