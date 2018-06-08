@@ -61,6 +61,7 @@ NSString* const SETTING_DB_TYPE          = @"setting_db_type";
 NSString* const SETTING_UI_MODE          = @"setting_ui_mode";
 NSString* const SETTING_AUTO_SYNC        = @"setting_auto_sync";
 NSString* const SETTING_CPU_THESHOLD     = @"setting_cpu_theshold";
+NSString* const SETTING_AWARE_STUDY_STATE = @"setting_aware_study_state";
 
 NSString* const TABLE_INSERT = @"insert";
 NSString* const TABLE_LATEST = @"latest";

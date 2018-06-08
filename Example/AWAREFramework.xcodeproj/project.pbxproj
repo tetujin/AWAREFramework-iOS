@@ -10,6 +10,7 @@
 		4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */; };
 		4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */; };
 		4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */; };
+		4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */; };
 		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -44,13 +45,13 @@
 		178752BE5C2A0BE069D29B76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		437BCDE00AB3128F6E7EC88F /* AWAREFramework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		4F00EBEE20B310F3006EB9E6 /* SampleSensor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleSensor.h; sourceTree = "<group>"; };
 		4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleSensor.m; sourceTree = "<group>"; };
 		4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "EntitySample+CoreDataProperties.m"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.m"; sourceTree = "<absolute>"; };
 		4F00EBF220B33A3E006EB9E6 /* EntitySample+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "EntitySample+CoreDataProperties.h"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.h"; sourceTree = "<absolute>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
+		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		6003F58A195388D20070C39A /* AWAREFramework_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAREFramework_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -216,7 +217,7 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				437BCDE00AB3128F6E7EC88F /* AWAREFramework.podspec */,
+				4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */,
 				178752BE5C2A0BE069D29B76 /* README.md */,
 				8BBEF4912FF45EC441F46733 /* LICENSE */,
 			);
@@ -340,6 +341,7 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);

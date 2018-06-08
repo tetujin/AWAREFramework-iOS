@@ -1272,7 +1272,7 @@
 		E11D7DAE4D4C189FD510BC08A1D3793C /* EntityBarometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityBarometer.h; sourceTree = "<group>"; };
 		E148E56E8800F802AA9C9A62877263B2 /* ESMDateTimePickerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMDateTimePickerView.m; sourceTree = "<group>"; };
 		E1E1A0132CBE02FD74415462F5E5D636 /* AWAREStorage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREStorage.m; sourceTree = "<group>"; };
-		E282640BB643A7A47A7C9FA69AE719F3 /* AWAREFramework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E282640BB643A7A47A7C9FA69AE719F3 /* AWAREFramework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = AWAREFramework.podspec; sourceTree = "<group>"; };
 		E2D07CB19D8FFFA12661C5FC17934F56 /* GTMOAuth2-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GTMOAuth2-dummy.m"; sourceTree = "<group>"; };
 		E31D098DE6D81B11D1130FA6A8B91A46 /* 7_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 7_1.jpg; sourceTree = "<group>"; };
 		E3D389989B2D0C0C14A3466D1474AF68 /* SCNetworkReachability-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCNetworkReachability-prefix.pch"; sourceTree = "<group>"; };

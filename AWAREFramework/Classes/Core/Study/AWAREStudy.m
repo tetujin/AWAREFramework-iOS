@@ -303,6 +303,8 @@ didCompleteWithError:(NSError *)error {
             [self addNewDeviceToAwareServer:url withDeviceId:uuid];
         }
 
+        [self setStudyState:YES];
+        
         [NSNotificationCenter.defaultCenter postNotificationName:ACTION_AWARE_UPDATE_STUDY_CONFIG object:nil];
         if (self->joinStudyCompletionHandler!=nil) {
             if (isExistDeviceId) {
@@ -747,6 +749,8 @@ didCompleteWithError:(NSError *)error {
     // AWARECore * core = delegate.sharedAWARECore;
     [[AWARESensorManager sharedSensorManager] stopAndRemoveAllSensors];
     
+    [self setStudyState:NO];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:KEY_MQTT_SERVER];
     [userDefaults removeObjectForKey:KEY_MQTT_USERNAME];
@@ -998,6 +1002,17 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         theshold = 50;
     }
     return theshold;
+}
+
+- (bool)isStudy{
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:SETTING_AWARE_STUDY_STATE];
+}
+
+- (void) setStudyState:(bool)state{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:state forKey:SETTING_AWARE_STUDY_STATE];
+    [userDefaults synchronize];
 }
 
 @end

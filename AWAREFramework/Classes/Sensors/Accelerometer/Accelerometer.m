@@ -16,6 +16,7 @@
 NSString * const AWARE_PREFERENCES_STATUS_ACCELEROMETER    = @"status_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER = @"frequency_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER = @"frequency_hz_accelerometer";
+NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_accelerometer";
 
 @implementation Accelerometer{
     CMMotionManager *manager;

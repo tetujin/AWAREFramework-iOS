@@ -61,6 +61,8 @@ typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState sta
 - (bool) isWifiReachable;
 - (NSString *) getNetworkReachabilityAsText;
 
+- (bool) isStudy;
+
 ////////////////////////////////////
 - (void) setDebug:(bool)state;
 - (void) setAutoDBSyncOnlyWifi:(bool)state;

@@ -70,6 +70,7 @@ extern NSString* const SETTING_DB_TYPE;
 extern NSString* const SETTING_UI_MODE;
 extern NSString* const SETTING_AUTO_SYNC;
 extern NSString* const SETTING_CPU_THESHOLD;
+extern NSString* const SETTING_AWARE_STUDY_STATE;
 
 extern NSString* const TABLE_INSER;
 extern NSString* const TABLE_LATEST;
