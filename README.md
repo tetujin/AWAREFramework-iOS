@@ -157,6 +157,8 @@ Objective-C
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [super application:application didFinishLaunchingWithOptions:launchOptions];
+    AWARECore * core = [AWARECore sharedCore];
+    [core activate];
     return YES;
 }
 
@@ -175,7 +177,9 @@ class AppDelegate: AWAREDelegate {
 
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    return true
+        let core = AWARECore.shared()
+        core.activate()
+        return true
     }
     
     // ... Please call super classes (AWAREDelegate) methods when the application uses other methods on AppDelegate.
@@ -187,15 +191,15 @@ Finally, call permission requests for the location sensor when the app is opened
 Objective-C
 ```objective-c
 AWARECore * core = [AWARECore sharedCore];
-[core requestBackgroundSensing]; // for background sensing
-[core requestNotification:[UIApplication sharedApplication]]; // for notifications
+[core requestPermissionForBackgroundSensing]; // for background sensing
+[core requestPermissionForPushNotification]; // for notifications
 ```
     
 Swift    
 ```swift
 let core = AWARECore.shared()
-core.requestBackgroundSensing()
-core.requestNotification(UIApplication.shared)
+core.requestPermissionForBackgroundSensing()
+core.requestPermissionForPushNotification()
 ```
 
 ## Experience Sampling Method (ESM)
