@@ -135,19 +135,23 @@
 //
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(esmEventHandler:) name:ACTION_AWARE_ESM_NEXT object:nil];
 
-    Fitbit * fitbit = [[Fitbit alloc] init];
-    [fitbit startSensor];
-}
+//    Fitbit * fitbit = [[Fitbit alloc] init];
+//    [fitbit startSensor];
 
-- (void) esmEventHandler:(NSNotification *)sender{
-    NSDictionary * userInfo = sender.userInfo;
-    NSArray * esmCells = [userInfo objectForKey:KEY_AWARE_ESM_CELLS];
-    if (esmCells) {
-        for (BaseESMView * cell in esmCells) {
-            NSLog([cell getUserAnswer]);
-            NSLog([cell esmEntity].esm_trigger);
-        }
-    }
+    Calls * call = [[Calls alloc] initWithDBType:AwareDBTypeSQLite];
+    [call setDebug:YES];
+    [call startSensor];
+ 
+    AmbientNoise * noise = [[AmbientNoise alloc] initWithDBType:AwareDBTypeSQLite];
+    [noise setFrequencyMin:1];
+    [noise setSampleSize:30];
+    [noise setDebug:YES];
+    [noise startSensor];
+    
+    Accelerometer * acc = [[Accelerometer alloc] initWithDBType:AwareDBTypeJSON];
+    [acc setDebug:YES];
+    [acc setSensingIntervalWithHz:1];
+    [acc startSensor];
 }
 
 - (void) sendContextBasedESMNotification:(id)sender {
@@ -184,8 +188,8 @@
 - (void) calendarESMTest {
     // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
     AWARECore * core = [AWARECore sharedCore];
-    [core requestBackgroundSensing];
-    [core requestNotification:[UIApplication sharedApplication]];
+    [core requestPermissionForBackgroundSensing];
+    [core requestPermissionForPushNotification];
 }
 
 - (void) testCSVStorageWithStudy:(AWAREStudy * )study{
@@ -222,7 +226,6 @@
 
 - (void)audioSensorWith:(AWAREStudy *)study{
     AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-    [noise saveRawData:YES];
     [noise createTable];
     [noise startSensor];
     [noise setDebug:YES];

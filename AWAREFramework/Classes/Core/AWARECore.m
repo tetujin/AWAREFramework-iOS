@@ -42,7 +42,38 @@ static AWARECore * sharedCore;
 - (instancetype)init{
     self = [super init];
     if(self != nil){
+        // background sensing
         _isNeedBackgroundSensing = YES;
+        
+        /// Set defualt settings
+        AWAREStudy * study = [AWAREStudy sharedStudy];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if (![userDefaults boolForKey:@"aware_inited"]) {
+            [study setDebug:NO];
+            [study setAutoDBSyncOnlyWifi:YES];
+            [study setAutoDBSyncOnlyBatterChargning:YES];
+            [study setAutoDBSyncIntervalWithMinutue:60];
+            [study setAutoDBSync:YES];
+            [study setMaximumByteSizeForDBSync:1000*100];
+            [study setMaximumNumberOfRecordsForDBSync:1000];
+            [study setCleanOldDataType:cleanOldDataTypeDaily];
+            [study setUIMode:AwareUIModeNormal];
+            [study setDBType:AwareDBTypeSQLite];
+            [userDefaults setBool:YES forKey:@"aware_inited"];
+        }
+        
+        // locatino sensor
+        _sharedLocationManager  = [[CLLocationManager alloc] init];
+        _sharedLocationManager.delegate = self;
+        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
+        _sharedLocationManager.activityType = CLActivityTypeOther;
+        
+        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
+            /// After iOS 9.0, we have to set "YES" for background sensing.
+            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
+        }
+        
     }
     return self;
 }
@@ -53,39 +84,22 @@ static AWARECore * sharedCore;
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     
-    AWAREStudy * study = [AWAREStudy sharedStudy];
-    
-    /// Set defualt settings
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if (![userDefaults boolForKey:@"aware_inited"]) {
-        [study setDebug:NO];
-        [study setAutoDBSyncOnlyWifi:YES];
-        [study setAutoDBSyncOnlyBatterChargning:YES];
-        [study setAutoDBSyncIntervalWithMinutue:60];
-        [study setAutoDBSync:YES];
-        [study setMaximumByteSizeForDBSync:1000*100];
-        [study setMaximumNumberOfRecordsForDBSync:1000];
-        [study setCleanOldDataType:cleanOldDataTypeDaily];
-        [study setUIMode:AwareUIModeNormal];
-        [study setDBType:AwareDBTypeSQLite];
-        [userDefaults setBool:YES forKey:@"aware_inited"];
-    }
-    
-    double uploadInterval = [userDefaults doubleForKey:SETTING_SYNC_INT];
-    
     /**
      * Start a location sensor for background sensing.
      * On the iOS, we have to turn on the location sensor
      * for using application in the background.
      */
     if (_isNeedBackgroundSensing) {
-        [self initLocationSensor];
+        [self startBaseLocationSensor];
     }
+    
+    AWAREStudy * study = [AWAREStudy sharedStudy];
     
     // start sensors
     AWARESensorManager * sensorManager = [AWARESensorManager sharedSensorManager];
     [sensorManager startAllSensors];
     if([study isAutoDBSync]){
+        double uploadInterval = [study getAutoDBSyncIntervalSecond];
         [sensorManager startAutoSyncTimerWithIntervalSecond:uploadInterval];
     }
     
@@ -175,35 +189,18 @@ static AWARECore * sharedCore;
  * for using application in the background.
  * And also, this sensing interval is the most low level.
  */
-- (void) initLocationSensor {
+- (void) startBaseLocationSensor {
     // CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     // if ( _sharedLocationManager == nil) {
-    if ( _sharedLocationManager != nil) {
-        [_sharedLocationManager stopUpdatingHeading];
-        [_sharedLocationManager stopMonitoringVisits];
-        [_sharedLocationManager stopUpdatingLocation];
-        [_sharedLocationManager stopMonitoringSignificantLocationChanges];
-    }
+    NSLog(@"called startBaseLocationSensor");
 
-    _sharedLocationManager  = [[CLLocationManager alloc] init];
-    _sharedLocationManager.delegate = self;
-    _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-    _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
-    _sharedLocationManager.activityType = CLActivityTypeOther;
-
-    if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-        /// After iOS 9.0, we have to set "YES" for background sensing.
-        _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
-    }
-    
-//    if ([_sharedLocationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-//        [_sharedLocationManager requestAlwaysAuthorization];
-//    }
-     
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
+        NSLog(@"Start Background Sensing");
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager startMonitoringSignificantLocationChanges];
+    }else{
+        NSLog(@"[NOTE] Background location sensing is not allowed. Please call sendBackgroundSensingRequest first if you need to collect activities in the background.");
     }
 }
 
@@ -236,13 +233,22 @@ static AWARECore * sharedCore;
     }
 }
 
-- (void) requestBackgroundSensing {
-    if (_sharedLocationManager != nil){
-        [_sharedLocationManager requestAlwaysAuthorization];
-    }
+- (void) requestBackgroundSensing{
+    NSLog(@"Please use -requestPermissionForBackgroundSensing instead of -requestBackgroundSensing");
+    [self requestPermissionForBackgroundSensing];
 }
 
-- (void)requestNotification:(UIApplication*)application{
+- (void) requestNotification:(UIApplication *) application{
+    NSLog(@"Please use -requestPermissionForPushNotification instead of requestNotification:");
+    [self requestPermissionForPushNotification:application];
+}
+
+/////////////
+- (void) requestPermissionForPushNotification {
+    [self requestPermissionForPushNotification:[UIApplication sharedApplication]];
+}
+
+- (void) requestPermissionForPushNotification:(UIApplication*)application{
     [application registerForRemoteNotifications];
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
@@ -252,6 +258,38 @@ static AWARECore * sharedCore;
                               
                           }];
 }
+
+- (void) requestPermissionForBackgroundSensing{
+    if (_sharedLocationManager != nil){
+        [_sharedLocationManager requestAlwaysAuthorization];
+    }
+}
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if(status == kCLAuthorizationStatusNotDetermined ){
+        ////////////////// kCLAuthorizationStatusRestricted ///////////////////////
+    }else if (status == kCLAuthorizationStatusRestricted ){
+        ///////////////// kCLAuthorizationStatusDenied //////////////////////////////
+    }else if (status == kCLAuthorizationStatusDenied ){
+        //////////////////// kCLAuthorizationStatusAuthorized /////////////////////////
+    }else if (status == kCLAuthorizationStatusAuthorizedAlways){
+        /////////////////// kCLAuthorizationStatusAuthorizedWhenInUse ///////////////////
+        if(_isNeedBackgroundSensing){
+            [self startBaseLocationSensor];
+        }
+    }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
+        //////////////////// Unknown ///////////////////////////////
+    }else {
+        
+    }
+}
+
+
+
+
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -363,7 +401,7 @@ static AWARECore * sharedCore;
     }
     // The user has not enabled any location services. Request background authorization.
     else if (status == kCLAuthorizationStatusNotDetermined) {
-        [self initLocationSensor];
+        // [self startBaseLocationSensor];
     }else{
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] Location Services is enabled" type:DebugTypeInfo label:@""];

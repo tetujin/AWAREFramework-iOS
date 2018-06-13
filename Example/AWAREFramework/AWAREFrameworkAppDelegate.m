@@ -16,21 +16,23 @@
 //    fileURL = [fileURL URLByAppendingPathComponent:@"aware.sqlite"];
 //    self.sqliteFileURL = fileURL;
     
-//    AWARECore * core = [AWARECore sharedCore];
-//    core.isNeedBackgroundSensing = NO;
+    AWARECore * core = [AWARECore sharedCore];
+    [core activate];
+    [core requestPermissionForBackgroundSensing];
+    // core.isNeedBackgroundSensing = NO;
     
     // Override point for customization after application launch.
     
-    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
-        [AWARESensorManager.sharedSensorManager addSensorsWithStudy:AWAREStudy.sharedStudy];
-        [AWARESensorManager.sharedSensorManager setDebugToAllSensors:YES];
-        [AWARESensorManager.sharedSensorManager startAllSensors];
-    }];
-    
-    AWAREStudy * study = AWAREStudy.sharedStudy;
-    [study setSetting:AWARE_PREFERENCES_STATUS_WIFI value:@"true"];
-    
-    [super application:application didFinishLaunchingWithOptions:launchOptions];
+//    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+//        [AWARESensorManager.sharedSensorManager addSensorsWithStudy:AWAREStudy.sharedStudy];
+//        [AWARESensorManager.sharedSensorManager setDebugToAllSensors:YES];
+//        [AWARESensorManager.sharedSensorManager startAllSensors];
+//    }];
+//    
+//    AWAREStudy * study = AWAREStudy.sharedStudy;
+//    [study setSetting:AWARE_PREFERENCES_STATUS_WIFI value:@"true"];
+//    
+//    [super application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
 }

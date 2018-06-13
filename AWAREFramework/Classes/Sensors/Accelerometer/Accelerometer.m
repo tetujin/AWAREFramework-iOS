@@ -138,6 +138,12 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
                                                                 accelerometerData.acceleration.y,
                                                                 accelerometerData.acceleration.z]];
                                           
+                                          if (self.isDebug) {
+                                              NSLog(@"%f, %f, %f",
+                                                     accelerometerData.acceleration.x,
+                                                     accelerometerData.acceleration.y,
+                                                     accelerometerData.acceleration.z);
+                                          }
                                           [self setLatestData:dict];
                                           
                                           NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict

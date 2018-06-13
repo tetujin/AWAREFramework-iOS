@@ -53,6 +53,7 @@
 	<string>This application needs access your photo library for saving your pictures and videos.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>bluetooth-central</string>
 		<string>fetch</string>
 		<string>location</string>

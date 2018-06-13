@@ -12,6 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
+#import <CallKit/CallKit.h>
 #import "EZAudio.h"
 
 //
@@ -32,7 +33,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE;
 /** Silence threshold (default = 50) in dB */
 extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD;
 
-@interface AmbientNoise : AWARESensor <AWARESensorDelegate, EZMicrophoneDelegate, EZRecorderDelegate, EZAudioFFTDelegate>
+@interface AmbientNoise : AWARESensor <AWARESensorDelegate, EZMicrophoneDelegate, EZRecorderDelegate, EZAudioFFTDelegate, CXCallObserverDelegate>
 //
 // The microphone component
 //
@@ -57,8 +58,8 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 @property int sampleSize;
 @property int silenceThreshold;
 
-- (BOOL) isSaveRawData;
-- (void) saveRawData:(BOOL)state;
+ - (BOOL) isSaveRawData;
+ - (void) saveRawData:(BOOL)state;
 
 - (BOOL) startSensor;
 

@@ -30,7 +30,7 @@
 
 - (void) activate;
 - (void) deactivate;
-- (void) initLocationSensor;
+- (void) startBaseLocationSensor;
 
 - (void) checkCompliance;
 - (void) checkComplianceWithViewController:(UIViewController *)viewController;
@@ -43,8 +43,13 @@
 - (bool) checkLowPowerModeWithViewController:(UIViewController *)viewController showDetail:(BOOL)detail;
 - (bool) checkNotificationSettingWithViewController:(UIViewController *)viewController showDetail:(BOOL)detail;
 
+//
+- (void) requestPermissionForPushNotification;
+- (void) requestPermissionForBackgroundSensing;
+
+
 - (void) requestBackgroundSensing;
-- (void) requestNotification:(UIApplication*)application;
+- (void) requestNotification:(UIApplication *) application;
 
 
 @end
