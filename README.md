@@ -40,7 +40,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-### Exmaple 1: Initialize sensors and save sensor data to the local database
+### Example 1: Initialize sensors and save sensor data to the local database
 Just the following code, your application can collect sensor data in the background. The data is saved in a local-storage.
 ```objective-c
 /// Example1 (Objective-C): Accelerometer ///
@@ -58,7 +58,7 @@ accelerometer.setSensorEventHandler { (sensor, data) in
 }
 accelerometer.startSensor()
 ```
-### Exmaple 2: Sync local-database and AWARE Server
+### Example 2: Sync local-database and AWARE Server
 
 AWARECore, AWAREStudy, and AWARESensorManager are singleton instances for managing sensing/synchronization schedule in the library. You can access the instances via AWAREDelegate. The AWAREDelegate is described in the Installation section.  
 ```objective-c
@@ -95,7 +95,7 @@ accelerometer.startSyncDB()
 manager?.add(accelerometer)
 ```
 
-### Exmaple 3: Apply settings on AWARE Dashboard
+### Example 3: Apply settings on AWARE Dashboard
 
 Moreover, this library allows us to apply the settings on AWARE Dashboard by using -joinStuyWithURL:completion method.
 
