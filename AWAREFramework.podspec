@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '0.3.4'
+  s.version          = '0.3.6'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -50,6 +50,7 @@ Pod::Spec.new do |s|
   s.dependency 'SVProgressHUD'
   s.dependency 'EAIntroView', '~> 2.9.0'
   s.dependency 'TPCircularBuffer'
+  s.dependency 'MMLanScan'
   
   s.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
   

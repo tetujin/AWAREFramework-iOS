@@ -6,12 +6,15 @@
 //  Copyright © 2015 Yuuki NISHIYAMA. All rights reserved.
 //
 
+
 #import "Wifi.h"
 #import "EntityWifi.h"
-#import "AWAREKeys.h"
 #import <ifaddrs.h>
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import <MMLanScan/MMDevice.h>
+#import "AWAREKeys.h"
+#import "SensorWifi.h"
 
 NSString* const AWARE_PREFERENCES_STATUS_WIFI = @"status_wifi";
 NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
@@ -19,6 +22,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 @implementation Wifi{
     NSTimer * sensingTimer;
     double sensingInterval;
+    SensorWifi * sensorWifi;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -52,6 +56,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                              storage:storage];
     if (self) {
         sensingInterval = 60.0f; // 60sec. = 1min.
+        self.lanScanner = [[MMLANScanner alloc] initWithDelegate:self];
+        sensorWifi = [[SensorWifi alloc] initWithAwareStudy:study dbType:dbType];
     }
     return self;
 }
@@ -71,11 +77,21 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     "frequency integer default 0,"
     "rssi integer default 0,"
     "label text default ''";
-    //"UNIQUE (timestamp,device_id)";
-    // [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
+    
+    if(sensorWifi!=nil){
+        [sensorWifi createTable];
+    }
 }
 
+- (void)setSensingIntervalWithMinute:(double)minute{
+    sensingInterval = minute * 60.0f;
+}
+    
+- (void) setSensingIntervalWithSecond:(double)second{
+    sensingInterval = second;
+}
+    
 - (void)setParameters:(NSArray *)parameters{
     // Get a sensing frequency
     if (parameters != nil) {
@@ -86,6 +102,16 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     }
 }
 
+- (void)startSyncDB{
+    if(sensorWifi!=nil) [sensorWifi startSyncDB];
+    [super startSyncDB];
+}
+    
+- (void)stopSyncDB{
+    if(sensorWifi!=nil) [sensorWifi stopSyncDB];
+    [super stopSyncDB];
+}
+    
 - (BOOL)startSensor {
     return [self startSensorWithInterval:sensingInterval];
 }
@@ -115,114 +141,61 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     return YES;
 }
 
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    
+    
 - (void) getWifiInfo {
     
+//    NSLog(@"get wifi info");
+//    if([self isWiFiEnabled]){
+//        if([self isDebug]) NSLog(@"Wifi on");
+//    }else{
+//        if([self isDebug]) NSLog(@"Wifi off");
+//    }
+    
     [self broadcastRequestScan];
-    
     [self broadcastScanStarted];
-    
-    // Get wifi information
-    //http://www.heapoverflow.me/question-how-to-get-wifi-ssid-in-ios9-after-captivenetwork-is-depracted-and-calls-for-wif-31555640
-    NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
-    for (NSString *ifnam in ifs) {
-        NSDictionary *info = (__bridge_transfer id)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
-        NSString *bssid = @"";
-        NSString *ssid = @"";
-        
-        if (info[@"BSSID"]) {
-            bssid = info[@"BSSID"];
-        }
-        if(info[@"SSID"]){
-            ssid = info[@"SSID"];
-        }
-        
-        NSMutableString *finalBSSID = [[NSMutableString alloc] init];
-        NSArray *arrayOfBssid = [bssid componentsSeparatedByString:@":"];
-        for(int i=0; i<arrayOfBssid.count; i++){
-            NSString *element = [arrayOfBssid objectAtIndex:i];
-            if(element.length == 1){
-                [finalBSSID appendString:[NSString stringWithFormat:@"0%@:",element]];
-            }else if(element.length == 2){
-                [finalBSSID appendString:[NSString stringWithFormat:@"%@:",element]];
-            }else{
-                //            NSLog(@"error");
-            }
-        }
-        if (finalBSSID.length > 0) {
-            //        NSLog(@"%@",finalBSSID);
-            [finalBSSID deleteCharactersInRange:NSMakeRange([finalBSSID length]-1, 1)];
-        } else{
-            //        NSLog(@"error");
-        }
-        
-        [self setLatestValue:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID]];
-        
-        // Save sensor data to the local database.
-        NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setObject:unixtime forKey:@"timestamp"];
-        [dict setObject:[self getDeviceId] forKey:@"device_id"];
-        [dict setObject:finalBSSID forKey:@"bssid"]; //text
-        [dict setObject:ssid forKey:@"ssid"]; //text
-        [dict setObject:@"" forKey:@"security"]; //text
-        [dict setObject:@0 forKey:@"frequency"];//int
-        [dict setObject:@0 forKey:@"rssi"]; //int
-        [dict setObject:@"" forKey:@"label"]; //text
 
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
-        
-        [self setLatestData:dict];
-        
-        [self broadcastDetectedNewDevice];
-        
-        if ([self isDebug]) {
-            NSLog(@"%@ (%@)",ssid, finalBSSID);
-            // [AWAREUtils sendLocalNotificationForMessage:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID] soundFlag:NO];
-        }
-        
-        SensorEventHandler handler = [self getSensorEventHandler];
-        if (handler!=nil) {
-            handler(self, dict);
-        }
-    }
+    [self.lanScanner start];
+    // [self.lanScanner performSelector:@selector(stop) withObject:nil afterDelay:10];
     
-    [self broadcastScanEnded];
+    // save current connected wifi information
+    [sensorWifi saveConnectedWifiInfo];
 }
-
-
-///////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
+    
+    
+    ///////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    
 - (void) broadcastDetectedNewDevice{
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_NEW_DEVICE
                                                         object:nil
                                                       userInfo:nil];
 }
-
+    
 - (void) broadcastScanStarted{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_SCAN_STARTED
                                                         object:nil
                                                       userInfo:nil];
 }
-
+    
 - (void) broadcastScanEnded{
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_SCAN_ENDED
                                                         object:nil
                                                       userInfo:nil];
 }
-
+    
 - (void) broadcastRequestScan{
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_REQUEST_SCAN
                                                         object:nil
                                                       userInfo:nil];
 }
-
-
+    
+    
 - (BOOL) isWiFiEnabled {
     
     NSCountedSet * cset = [NSCountedSet new];
@@ -239,7 +212,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     
     return [cset countForObject:@"awdl0"] > 1 ? YES : NO;
 }
-
+    
 - (NSDictionary *) wifiDetails {
     return
     (__bridge NSDictionary *)
@@ -247,6 +220,75 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                              CFArrayGetValueAtIndex( CNCopySupportedInterfaces(), 0)
                              );
 }
+    
+    
+- (void)lanScanDidFailedToScan {
+    if ([self isDebug]) NSLog(@"lanScanDidFailedToScan");
+}
+    
+- (void)lanScanDidFindNewDevice:(MMDevice *)device {
+    
+    [self broadcastDetectedNewDevice];
+    
+    NSString * hostname = @"";
+    if(device.hostname != nil){
+        hostname = device.hostname;
+    }
+    
+    NSString * macAddress = @"";
+    if(device.macAddress != nil){
+        macAddress = device.macAddress;
+    }
+    
+    NSString * brand = @"";
+    if(device.brand != nil){
+        brand = device.brand;
+    }
+    
+    // Save sensor data to the local database.
+    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:unixtime forKey:@"timestamp"];
+    [dict setObject:[self getDeviceId] forKey:@"device_id"];
+    [dict setObject:macAddress forKey:@"bssid"]; //text
+    [dict setObject:hostname forKey:@"ssid"]; //text
+    [dict setObject:@"" forKey:@"security"]; //text
+    [dict setObject:@0 forKey:@"frequency"];//int
+    [dict setObject:@0 forKey:@"rssi"]; //int
+    [dict setObject:brand forKey:@"label"]; //text
+    
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [self setLatestData:dict];
+    
+    if ([self isDebug])  NSLog(@"%@ (%@)", hostname, macAddress);
+    
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
+    }
+}
 
-
+- (void)lanScanDidFinishScanningWithStatus:(MMLanScannerStatus)status {
+    switch (status) {
+        case MMLanScannerStatusFinished:
+            if ([self isDebug]) NSLog(@"wifi scan: finish");
+            [self.lanScanner stop];
+            [self broadcastScanEnded];
+            break;
+        case MMLanScannerStatusCancelled:
+            if ([self isDebug])  NSLog(@"wifi scan: canceled");
+            [self.lanScanner stop];
+            [self broadcastScanEnded];
+            break;
+        default:
+            // NSLog(@"other");
+            break;
+    }
+}
+    
+//- (void)lanScanProgressPinged:(float)pingedHosts from:(NSInteger)overallHosts{
+//    // NSLog(@"%f/%d = %f",pingedHosts, overallHosts, pingedHosts/overallHosts);
+//    // [self.progressView setProgress:(float)pingedHosts/overallHosts];
+//}
+    
 @end

@@ -13,4 +13,6 @@
 
 - (IBAction)pushedSyncButton:(id)sender;
 
+@property (strong, nonatomic) Bluetooth * ble;
+
 @end

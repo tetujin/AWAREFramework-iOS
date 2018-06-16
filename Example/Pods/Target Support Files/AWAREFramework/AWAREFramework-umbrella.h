@@ -97,6 +97,8 @@
 #import "EntityContact+CoreDataClass.h"
 #import "EntityContact+CoreDataProperties.h"
 #import "Conversation.h"
+#import "EntityConversation+CoreDataClass.h"
+#import "EntityConversation+CoreDataProperties.h"
 #import "DeviceUsage.h"
 #import "EntityDeviceUsage+CoreDataProperties.h"
 #import "EntityDeviceUsage.h"

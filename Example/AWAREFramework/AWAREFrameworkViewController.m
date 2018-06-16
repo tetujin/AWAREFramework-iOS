@@ -27,6 +27,7 @@
 @implementation AWAREFrameworkViewController{
     NSTimer * timer;
     SampleSensor * sensor;
+    Bluetooth * ble;
 }
 
 - (void)viewDidLoad {
@@ -138,20 +139,49 @@
 //    Fitbit * fitbit = [[Fitbit alloc] init];
 //    [fitbit startSensor];
 
-    Calls * call = [[Calls alloc] initWithDBType:AwareDBTypeSQLite];
-    [call setDebug:YES];
-    [call startSensor];
- 
-    AmbientNoise * noise = [[AmbientNoise alloc] initWithDBType:AwareDBTypeSQLite];
-    [noise setFrequencyMin:1];
-    [noise setSampleSize:30];
-    [noise setDebug:YES];
-    [noise startSensor];
+//    Calls * call = [[Calls alloc] initWithDBType:AwareDBTypeSQLite];
+//    [call setDebug:YES];
+//    [call startSensor];
+//
+//    AmbientNoise * noise = [[AmbientNoise alloc] initWithDBType:AwareDBTypeSQLite];
+//    [noise setFrequencyMin:1];
+//    [noise setSampleSize:30];
+//    [noise setDebug:YES];
+//    [noise startSensor];
+//
+//    Accelerometer * acc = [[Accelerometer alloc] initWithDBType:AwareDBTypeJSON];
+//    [acc setDebug:YES];
+//    [acc setSensingIntervalWithHz:1];
+//    [acc startSensor];
+
+
+
+//    Wifi * wifi = [[Wifi alloc] initWithDBType:AwareDBTypeSQLite];
+//    [wifi setDebug:YES];
+//    [wifi setSensingIntervalWithMinute:10];
+//    [wifi startSensor];
     
-    Accelerometer * acc = [[Accelerometer alloc] initWithDBType:AwareDBTypeJSON];
-    [acc setDebug:YES];
-    [acc setSensingIntervalWithHz:1];
-    [acc startSensor];
+//    Accelerometer * acc = [[Accelerometer alloc] initWithDBType:AwareDBTypeJSON];
+//    [acc setDebug:YES];
+//    [acc setSensingIntervalWithHz:5];
+//    [acc startSensor];
+    
+//    FusedLocations * location = [[FusedLocations alloc] initWithDBType:AwareDBTypeSQLite];
+//    [location setDebug:YES];
+//    [location setIntervalSec:600];
+//    [location startSensor];
+    
+//    _ble = [[Bluetooth alloc] initWithDBType:AwareDBTypeCSV];
+//    [_ble setDebug:YES];
+//    // [ble setCommonBLEServices];
+//    //    [ble addBleUUID:[CBUUID UUIDWithString:@"884EDA57-8CDB-4845-B104-35742E6C47F9"]];
+//    //    [ble setCommonBleUUIDs];
+//    //    [ble addBLEService:[CBUUID UUIDWithString:@"7B5D063C-AB75-1C53-4EB3-6F28EBEC9C6E"]];
+//    //    [ble addBLEService:[CBUUID UUIDWithString:@"55B2328E-BF11-7B76-408C-DA50DB978AF6"]];
+//    [_ble setScanInterval:30];
+//    [_ble setScanDuration:10];
+//    [_ble startSensor];
+    // [[AWARESensorManager sharedSensorManager] addSensor:_ble];
 }
 
 - (void) sendContextBasedESMNotification:(id)sender {

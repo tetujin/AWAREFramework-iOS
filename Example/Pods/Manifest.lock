@@ -1,8 +1,9 @@
 PODS:
-  - AWAREFramework (0.2.1):
+  - AWAREFramework (0.3.4):
     - EAIntroView (~> 2.9.0)
     - GoogleSignIn
     - ios-ntp
+    - MMLanScan
     - SCNetworkReachability
     - SVProgressHUD
     - TPCircularBuffer
@@ -33,6 +34,7 @@ PODS:
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
   - macros_blocks/core (0.0.4)
+  - MMLanScan (3.0.0)
   - SCNetworkReachability (2.0.6):
     - SCNetworkReachability/Core (= 2.0.6)
   - SCNetworkReachability/Core (2.0.6):
@@ -48,7 +50,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AWAREFramework: ece19f3470e86e5ba0aebb1511d70e28c4d2373a
+  AWAREFramework: 77afcd3648ada990309c2e2216de5d19e719a10a
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
@@ -57,6 +59,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   ios-ntp: f363fc8445fabcd0bc5b89cb5745dcde1387aeeb
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
+  MMLanScan: 86a0f77edbf163be30c1f58321469c7c8ce4c50e
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
