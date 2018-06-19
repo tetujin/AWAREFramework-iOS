@@ -8,14 +8,15 @@
 
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
-#import <MMLanScan/MMLANScanner.h>
+// #import <MMLanScan/MMLANScanner.h>
 
 extern NSString* const AWARE_PREFERENCES_STATUS_WIFI;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI;
 
-@interface Wifi : AWARESensor <AWARESensorDelegate,MMLANScannerDelegate>
+//@interface Wifi : AWARESensor <AWARESensorDelegate,MMLANScannerDelegate>
+@interface Wifi : AWARESensor <AWARESensorDelegate>
 
-@property(nonatomic,strong)MMLANScanner *lanScanner;
+// @property(nonatomic,strong)MMLANScanner *lanScanner;
 
 - (void) setSensingIntervalWithMinute:(double)minute;
 - (void) setSensingIntervalWithSecond:(double)second;

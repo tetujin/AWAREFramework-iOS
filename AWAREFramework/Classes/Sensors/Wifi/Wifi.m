@@ -56,7 +56,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                              storage:storage];
     if (self) {
         sensingInterval = 60.0f; // 60sec. = 1min.
-        self.lanScanner = [[MMLANScanner alloc] initWithDelegate:self];
+        // self.lanScanner = [[MMLANScanner alloc] initWithDelegate:self];
         sensorWifi = [[SensorWifi alloc] initWithAwareStudy:study dbType:dbType];
     }
     return self;
@@ -159,7 +159,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     [self broadcastRequestScan];
     [self broadcastScanStarted];
 
-    [self.lanScanner start];
+    // [self.lanScanner start];
     // [self.lanScanner performSelector:@selector(stop) withObject:nil afterDelay:10];
     
     // save current connected wifi information
@@ -268,24 +268,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     }
 }
 
-- (void)lanScanDidFinishScanningWithStatus:(MMLanScannerStatus)status {
-    switch (status) {
-        case MMLanScannerStatusFinished:
-            if ([self isDebug]) NSLog(@"wifi scan: finish");
-            [self.lanScanner stop];
-            [self broadcastScanEnded];
-            break;
-        case MMLanScannerStatusCancelled:
-            if ([self isDebug])  NSLog(@"wifi scan: canceled");
-            [self.lanScanner stop];
-            [self broadcastScanEnded];
-            break;
-        default:
-            // NSLog(@"other");
-            break;
-    }
-}
-    
+//- (void)lanScanDidFinishScanningWithStatus:(MMLanScannerStatus)status {
+//    switch (status) {
+//        case MMLanScannerStatusFinished:
+//            if ([self isDebug]) NSLog(@"wifi scan: finish");
+//            // [self.lanScanner stop];
+//            [self broadcastScanEnded];
+//            break;
+//        case MMLanScannerStatusCancelled:
+//            if ([self isDebug])  NSLog(@"wifi scan: canceled");
+//            // [self.lanScanner stop];
+//            [self broadcastScanEnded];
+//            break;
+//        default:
+//            // NSLog(@"other");
+//            break;
+//    }
+//}
+
 //- (void)lanScanProgressPinged:(float)pingedHosts from:(NSInteger)overallHosts{
 //    // NSLog(@"%f/%d = %f",pingedHosts, overallHosts, pingedHosts/overallHosts);
 //    // [self.progressView setProgress:(float)pingedHosts/overallHosts];

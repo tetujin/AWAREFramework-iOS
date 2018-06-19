@@ -74,7 +74,9 @@
     if (!self.isStore) {
         return NO;
     }
-    
+
+    [self.buffer addObjectsFromArray:dataArray];
+
     if (self.saveInterval > 0 ) {
         // time based operation
         NSDate * now = [NSDate new];
@@ -86,7 +88,6 @@
         }
     }else{
         // buffer size based operation
-        [self.buffer addObjectsFromArray:dataArray];
         if (self.buffer.count < [self getBufferSize]) {
             return YES;
         }else{
