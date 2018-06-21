@@ -15,6 +15,7 @@
 @protocol AWAREStorageDelegate <NSObject>
 
 typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
+typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSError * error);
 
 //////////////////// General //////////////////////
 
@@ -60,17 +61,23 @@ typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _
 - (BOOL) appendLine:(NSString *) line withFilePath:(NSString *)path;
 - (bool) clearLocalStorageWithName:(NSString*) fileName type:(NSString *)type;
 - (NSNumber * _Nullable)getFileSizeWithName:(NSString *)fileName type:(NSString *)type;
-///////////////////// Initializing Server DB //////////////////////////////
 
+///////////////////// create a remote DB table functions  //////////////////////////////
 - (void) createDBTableOnServerWithTCQMaker:(TCQMaker *_Nonnull)tcqMaker;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table;
 
-///////////////////// Syncing ////////////////////////////////
-
+///////////////////// sync a local-DB and remote-DB functions ////////////////////////////////
 - (void) startSyncStorage;
 - (void) startSyncStorageWithCallBack:(SyncProcessCallBack)callback;
 - (void) cancelSyncStorage;
+
+//////////////////// fetch data from the local-DB functions //////////////////
+- (NSArray *) fetchTodaysData;
+- (void) fetchTodaysDataWithHandler:(FetchDataHandler)handler;
+
+- (NSArray *) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end;
+- (void) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler;
 
 @end
 

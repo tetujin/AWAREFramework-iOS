@@ -553,4 +553,88 @@
     return [string stringByAddingPercentEncodingWithAllowedCharacters:allowed];
 }
 
+
+//////////////////
+
+-(NSArray *)fetchTodaysData{
+    NSDate * today = [self getToday];
+    return [self fetchDataBetweenStart:today andEnd:[today dateByAddingTimeInterval:60*60*24]];
+}
+
+- (NSArray *)fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end{
+    
+    NSNumber * startNum = [AWAREUtils getUnixTimestamp:start];
+    NSNumber * endNum   = [AWAREUtils getUnixTimestamp:end];
+    
+    NSManagedObjectContext *moc = coreDataHandler.managedObjectContext;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    [request  setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", startNum , endNum]];
+    [request setResultType:NSDictionaryResultType];
+    
+    NSError *error = nil;
+    NSArray *results = [moc executeFetchRequest:request error:&error];
+    
+    if (error!=nil) {
+        NSLog(@"%@", error.debugDescription);
+    }
+    return results;
+}
+
+
+- (void)fetchTodaysDataWithHandler:(FetchDataHandler)handler{
+    NSDate   * today = [self getToday];
+    [self fetchDataBetweenStart:today andEnd:[today dateByAddingTimeInterval:60*60*24] withHandler:handler];
+}
+
+- (void)fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler{
+    NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [private setParentContext:self.mainQueueManagedObjectContext];
+    [private performBlock:^{
+        
+        NSNumber * startNum = [AWAREUtils getUnixTimestamp:start];
+        NSNumber * endNum   = [AWAREUtils getUnixTimestamp:end];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->entityName];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
+        [fetchRequest setIncludesSubentities:NO];
+        [fetchRequest setResultType:NSDictionaryResultType];
+        if([self->entityName isEqualToString:@"EntityESMAnswer"] ){
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"double_esm_user_answer_timestamp >= %@ AND double_esm_user_answer_timestamp =< %@",
+                                        startNum, endNum]];
+        }else{
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", startNum, endNum]];
+        }
+        
+        //Set sort option
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        //Get NSManagedObject from managedObjectContext by using fetch setting
+        NSError * error = nil;
+        NSArray *results = [private executeFetchRequest:fetchRequest error:&error];
+        if (error!=nil) {
+            NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
+        }
+        if (handler != nil) {
+            handler(self.sensorName, results, error);
+        }
+    }];
+}
+
+
+
+- (NSDate *) getToday {
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents * components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate new]];
+    NSInteger year  =  components.year;
+    NSInteger month =  components.month;
+    NSInteger day   =  components.day;
+    
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy/MM/dd"];
+    NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%ld/%ld/%ld", (long)year, month, day]];
+    return today;
+}
+
 @end

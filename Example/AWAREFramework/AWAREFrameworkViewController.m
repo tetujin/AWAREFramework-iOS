@@ -392,6 +392,18 @@
         NSLog(@"[%@] %d", [sensor getSensorName], [sensor isSensing]);
     }
     
+//    NSArray * data = [accelerometer.storage fetchTodaysData];
+//    for (EntityAccelerometer * acc in data) {
+//        NSLog(@"%@",acc.double_values_0);
+//    }
+//
+    [accelerometer.storage fetchTodaysDataWithHandler:^(NSString *name, NSArray *results, NSError * error) {
+        NSLog(@"thread : %d", [NSThread isMainThread]);
+//        for (EntityAccelerometer * acc in results) {
+//            NSLog(@"%@",acc);
+//        }
+    }];
+    
 }
 
 - (void) testSQLite{

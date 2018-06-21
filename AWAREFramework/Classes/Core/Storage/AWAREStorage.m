@@ -284,6 +284,23 @@
     isStore = state;
 }
 
+/////
+- (NSArray *) fetchTodaysData{
+    return [self fetchTodaysData];
+}
+
+- (void) fetchTodaysDataWithHandler:(FetchDataHandler)handler{
+    NSLog(@"Please overwrite -fetchTodaysDataWithHandler method");
+}
+
+- (NSArray *) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end{
+    NSLog(@"Please overwrite -fetchTodaysData method");
+    return @[];
+}
+
+- (void) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler{
+    NSLog(@"Please overwrite -fetchDataBetweenStart:andEnd:withHandler method");
+}
 
 
 @end
