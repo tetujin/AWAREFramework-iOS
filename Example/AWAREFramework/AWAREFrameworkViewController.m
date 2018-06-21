@@ -27,11 +27,12 @@
 @implementation AWAREFrameworkViewController{
     NSTimer * timer;
     SampleSensor * sensor;
-    Bluetooth * ble;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
     
 //    Accelerometer * acc = [[Accelerometer alloc] init];
 //    [acc setSavingIntervalWithSecond:1];
@@ -298,124 +299,66 @@
 - (void) testSensingWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType sensorManager:(AWARESensorManager *)manager{
     
     Accelerometer * accelerometer = [[Accelerometer alloc] initWithAwareStudy:study dbType:dbType];
-    [accelerometer createTable];
-    [accelerometer startSensor];
     
     Barometer * barometer = [[Barometer alloc] initWithAwareStudy:study dbType:dbType];
-    [barometer startSensor];
-    [barometer createTable];
-
-//    Bluetooth * bluetooth = [[Bluetooth alloc] initWithAwareStudy:study dbType:dbType];
-//    [bluetooth createTable];
-//    [bluetooth startSensor];
+    
+    Bluetooth * bluetooth = [[Bluetooth alloc] initWithAwareStudy:study dbType:dbType];
 
     Battery * battery = [[Battery alloc] initWithAwareStudy:study dbType:dbType];
-    [battery createTable];
-    [battery startSensor];
 
     Calls * call = [[Calls alloc] initWithAwareStudy:study dbType:dbType];
-    [call createTable];
-    [call startSensor];
 
     Gravity * gravity = [[Gravity alloc] initWithAwareStudy:study dbType:dbType];
-    [gravity createTable];
-    [gravity startSensor];
 
     Gyroscope * gyroscope = [[Gyroscope alloc] initWithAwareStudy:study dbType:dbType];
-    [gyroscope createTable];
-    [gyroscope startSensor];
 
     LinearAccelerometer * linearAccelerometer = [[LinearAccelerometer alloc] initWithAwareStudy:study dbType:dbType];
-    [linearAccelerometer createTable];
-    [linearAccelerometer startSensor];
 
     Locations * location = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
-    [location createTable];
-    [location startSensor];
 
     Magnetometer * magnetometer = [[Magnetometer alloc] initWithAwareStudy:study dbType:dbType];
-    [magnetometer createTable];
-    [magnetometer startSensor];
 
     Network * network = [[Network alloc] initWithAwareStudy:study dbType:dbType];
-    [network createTable];
-    [network startSensor];
 
     Orientation * orientation = [[Orientation alloc] initWithAwareStudy:study dbType:dbType];
-    [orientation createTable];
-    [orientation startSensor];
 
     Pedometer * pedometer = [[Pedometer alloc] initWithAwareStudy:study dbType:dbType];
-    [pedometer createTable];
-    [pedometer startSensor];
 
     Processor * processor = [[Processor alloc] initWithAwareStudy:study dbType:dbType];
-    [processor createTable];
-    [processor startSensor];
 
     Proximity * proximity = [[Proximity alloc] initWithAwareStudy:study dbType:dbType];
-    [proximity createTable];
-    [proximity startSensor];
 
     Rotation * rotation = [[Rotation alloc] initWithAwareStudy:study dbType:dbType];
-    [rotation createTable];
-    [rotation startSensor];
 
     Screen * screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
-    [screen createTable];
-    [screen startSensor];
 
     Timezone * timezone = [[Timezone alloc] initWithAwareStudy:study dbType:dbType];
-    [timezone createTable];
-    [timezone startSensor];
 
     Wifi * wifi = [[Wifi alloc] initWithAwareStudy:study dbType:dbType];
-    [wifi createTable];
-    [wifi startSensor];
     
     //////////////////
     
     AmbientNoise * noise = [[AmbientNoise alloc] initWithAwareStudy:study dbType:dbType];
-    [noise createTable];
-    [noise startSensor];
     
     Calendar * cal = [[Calendar alloc] initWithAwareStudy:study dbType:dbType];
-    [cal createTable];
-    [cal startSensor];
     
     Contacts * contacts = [[Contacts alloc] initWithAwareStudy:study dbType:dbType];
-    [contacts createTable];
-    [contacts startSensor];
     
     DeviceUsage * usage = [[DeviceUsage alloc] initWithAwareStudy:study dbType:dbType];
-    [usage createTable];
-    [usage startSensor];
     
     FusedLocations * flocation = [[FusedLocations alloc] initWithAwareStudy:study dbType:dbType];
-    [flocation createTable];
-    [flocation startSensor];
     
     GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:study dbType:dbType];
-    [login createTable];
-    [login startSensor];
     
     IOSActivityRecognition * activity = [[IOSActivityRecognition alloc] initWithAwareStudy:study dbType:dbType];
-    [activity createTable];
-    [activity startSensor];
     
     Memory * memory = [[Memory alloc] initWithAwareStudy:study dbType:dbType];
-    [memory createTable];
-    [memory startSensor];
     
     NTPTime * ntp = [[NTPTime alloc] initWithAwareStudy:study dbType:dbType];
-    [ntp createTable];
-    [ntp startSensor];
     
     OpenWeather * weather = [[OpenWeather alloc] initWithAwareStudy:study dbType:dbType];
-    [weather createTable];
-    [weather startSensor];
     
-    [manager addSensors:@[accelerometer,barometer,battery,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi,
+    [manager addSensors:@[accelerometer,barometer,bluetooth,battery,call,gravity,gyroscope,linearAccelerometer,location,magnetometer,network,orientation,pedometer,processor,proximity,rotation,screen,timezone,wifi,
                           noise, cal, contacts, usage, flocation, login, activity, memory, ntp, weather]];
     
     // bluetooth,
@@ -432,10 +375,23 @@
 
     [manager setDebugToAllStorage:YES];
     [manager setDebugToAllSensors:YES];
-     [manager setSyncProcessCallbackToAllSensorStorages:callback];
+    [manager setSyncProcessCallbackToAllSensorStorages:callback];
     [NSTimer scheduledTimerWithTimeInterval:10 repeats:NO block:^(NSTimer * _Nonnull timer) {
         [manager syncAllSensorsForcefully];
     }];
+    
+    for (AWARESensor * sensor in [manager getAllSensors] ) {
+        NSLog(@"[%@] %d", [sensor getSensorName], [sensor isSensing]);
+    }
+    
+    [manager startAllSensors];
+    
+    NSLog(@"=====");
+    
+    for (AWARESensor * sensor in [manager getAllSensors] ) {
+        NSLog(@"[%@] %d", [sensor getSensorName], [sensor isSensing]);
+    }
+    
 }
 
 - (void) testSQLite{

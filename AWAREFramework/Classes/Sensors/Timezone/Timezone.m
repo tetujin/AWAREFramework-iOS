@@ -88,6 +88,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
                                                   selector:@selector(getTimezone)
                                                   userInfo:nil
                                                    repeats:YES];
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -98,6 +99,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [sensingTimer invalidate];
     sensingTimer = nil;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    [self setSensingState:NO];
     return YES;
 }
 

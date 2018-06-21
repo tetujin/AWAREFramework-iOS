@@ -99,6 +99,8 @@
         [defaults setDouble:nextFetch.timeIntervalSince1970 forKey:@"plugin_calendar_setting_next_fetch"];
     }
     
+    [self setSensingState:YES];
+    
     return YES;
 }
 
@@ -112,6 +114,8 @@
         [timer invalidate];
         timer = nil;
     }
+    
+    [self setSensingState:NO];
     return YES;
 }
 

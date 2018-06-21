@@ -163,6 +163,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                                                }
                                            }];
     }
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -170,6 +172,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 - (BOOL)stopSensor{
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
+    [self setSensingState:NO];
     return YES;
 }
 

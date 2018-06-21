@@ -71,6 +71,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
                                              selector:@selector(orientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -80,6 +81,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [NSNotificationCenter.defaultCenter removeObserver:self
                                                   name:UIDeviceOrientationDidChangeNotification
                                                 object:nil];
+    [self setSensingState:NO];
     return YES;
 }
 

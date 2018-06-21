@@ -39,6 +39,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 @implementation AWARESensor
 
+@synthesize isSensing = _isSensing;
 
 - (instancetype) init{
     return [self initWithAwareStudy:nil dbType:AwareDBTypeSQLite];
@@ -75,6 +76,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         latestSensorValue = @"";
         // latestData = [[NSDictionary alloc] init];
         _storage = localStorage;
+        _isSensing = NO;
         [_storage setDebug:debug];
     }
     return self;
@@ -135,6 +137,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
  @return AWARESensor is started or not
  */
 - (BOOL) startSensor {
+    _isSensing = YES;
     return NO;
 }
 
@@ -145,6 +148,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
  @return AWARESensor is stopped or not
  */
 - (BOOL)stopSensor{
+    _isSensing = NO;
     return NO;
 }
 
@@ -284,6 +288,11 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         NSLog(@"[%@] local-storage is null", sensorName);
         return NO;
     }
+}
+
+
+- (void) setSensingState:(BOOL)state{
+    _isSensing = state;
 }
 
 @end

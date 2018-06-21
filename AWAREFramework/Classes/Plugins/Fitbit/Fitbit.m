@@ -131,7 +131,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
                                                  userInfo:[[NSDictionary alloc] initWithObjects:@[@"all"] forKeys:@[@"type"]]
                                                   repeats:YES];
     [updateTimer fire];
-    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -154,6 +154,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         [updateTimer invalidate];
         updateTimer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 

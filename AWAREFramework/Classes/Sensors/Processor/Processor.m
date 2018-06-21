@@ -104,6 +104,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
                                                   selector:@selector(saveCPUUsage:)
                                                   userInfo:nil
                                                    repeats:YES];
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -138,6 +140,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
 
 - (BOOL)stopSensor{
     [sensingTimer invalidate];
+    [self setSensingState:NO];
     return YES;
 }
 

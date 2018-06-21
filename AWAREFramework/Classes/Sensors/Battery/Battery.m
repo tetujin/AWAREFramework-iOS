@@ -108,25 +108,13 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 
 - (void) createBatteryTable{
     TCQMaker * maker = [[TCQMaker alloc] init];
-//    NSString *query = [[NSString alloc] init];
-//    query = @"_id integer primary key autoincrement,"
-//    "timestamp real default 0,"
-//    "device_id text default '',"
-//    "battery_status integer default 0,"
     [maker addColumn:@"battery_status" type:TCQTypeInteger default:@"0"];
-//    "battery_level integer default 0,"
     [maker addColumn:@"battery_level" type:TCQTypeInteger default:@"0"];
-//    "battery_scale integer default 0,"
     [maker addColumn:@"battery_scale" type:TCQTypeInteger default:@"0"];
-//    "battery_voltage integer default 0,"
     [maker addColumn:@"battery_voltage" type:TCQTypeInteger default:@"0"];
-//    "battery_temperature integer default 0,"
     [maker addColumn:@"battery_temperature" type:TCQTypeInteger default:@"0"];
-//    "battery_adaptor integer default 0,"
     [maker addColumn:@"battery_adaptor" type:TCQTypeInteger default:@"0"];
-//    "battery_health integer default 0,"
     [maker addColumn:@"battery_health" type:TCQTypeInteger default:@"0"];
-//    "battery_technology text default ''";
     [maker addColumn:@"battery_technology" type:TCQTypeText default:@"''"];
     [self.storage createDBTableOnServerWithTCQMaker:maker];
 }
@@ -161,7 +149,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
                                            selector:@selector(batteryLevelChanged:)
                                            userInfo:nil
                                             repeats:YES];
-    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -175,6 +163,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
         [timer invalidate];
         timer = nil;
     }
+   [self setSensingState:NO];
     return YES;
 }
 
@@ -200,20 +189,46 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+- (int) convertBatteryStateValueToAndroidFromIOS:(int)state{
+    
+    // label       |  iOS | Android
+    // -----------------------------
+    // unknown     |   0  |    1
+    // not_charging|   1  |    4
+    // charging    |   2  |    2
+    // status_full |   3  |    5
+    // discharging |   -  |    3
+    
+    // https://developer.android.com/reference/android/os/BatteryManager#BATTERY_STATUS_CHARGING
+    int androidState = 1;
+    if  (state == 0) {       // ios = unknown
+        androidState = 1;
+    }else if (state == 1) {  // ios = unplegged
+        androidState = 4;
+    } else if (state == 2) { // ios = charging
+        androidState = 2;
+    } else if (state == 3) { // ios = full
+        androidState = 5;
+    }
+    
+    return androidState;
+}
+
 - (void)batteryLevelChanged:(NSNotification *)notification {
     
-    // 0 unknown, 1 unplegged, 2 charging, 3 full
     // NSLog(@"battery status: %d",state);
     UIDevice *myDevice = [UIDevice currentDevice];
     [myDevice setBatteryMonitoringEnabled:YES];
     int state = [myDevice batteryState];
     int batLeft = [myDevice batteryLevel] * 100;
     
+    int batteryStatusAndroid = [self convertBatteryStateValueToAndroidFromIOS:state];
+    
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:unixtime forKey:@"timestamp"];
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:@(state) forKey:@"battery_status"];
+    [dict setObject:@(batteryStatusAndroid) forKey:@"battery_status"];
     [dict setObject:@(batLeft) forKey:@"battery_level"];
     [dict setObject:@100 forKey:@"battery_scale"];
     [dict setObject:@0 forKey:@"battery_voltage"];

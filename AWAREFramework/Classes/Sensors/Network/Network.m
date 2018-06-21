@@ -120,6 +120,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                 break;
         }
     }];
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -127,6 +129,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
 - (BOOL)stopSensor{
     // stop a reachability timer
     reachability = nil;
+    
+    [self setSensingState:NO];
     
     return YES;
 }

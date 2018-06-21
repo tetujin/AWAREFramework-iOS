@@ -18,7 +18,7 @@ NSString * const AWARE_PREFERENCES_OPENWEATHER_API_KEY   = @"api_key_plugin_open
 
 @implementation OpenWeather{
     IBOutlet CLLocationManager *locationManager;
-    NSTimer* sensingTimer;
+    NSTimer* timer;
     NSDictionary* jsonWeatherData;
     NSDate* thisDate;
     double thisLat;
@@ -163,26 +163,28 @@ int ONE_HOUR = 60*60;
     }
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL) startSensor {
     
-    
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     AWARECore * core = [AWARECore sharedCore];
     locationManager = core.sharedLocationManager;
     
-    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:_frequencyMin * 60
+    timer = [NSTimer scheduledTimerWithTimeInterval:_frequencyMin * 60
                                                     target:self
                                                   selector:@selector(getNewWeatherData)
                                                   userInfo:nil
                                                    repeats:YES];
     [self getNewWeatherData];
+    [self setSensingState:YES];
     return YES;
 }
 
 - (BOOL)stopSensor{
     // stop a sensing timer
-    [sensingTimer invalidate];
-    sensingTimer = nil;
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    [self setSensingState:NO];
     
     return YES;
 }

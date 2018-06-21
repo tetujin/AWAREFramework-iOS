@@ -138,6 +138,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                      }
                                  }];
 
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -146,6 +147,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     // Stop a motion sensor
     [manager stopMagnetometerUpdates];
     manager = nil;
+    [self setSensingState:NO];
     return YES;
 }
 

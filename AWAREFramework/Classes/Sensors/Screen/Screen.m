@@ -79,6 +79,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     }
     [self registerAppforDetectLockState];
     [self registerAppforDetectDisplayStatus];
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -86,6 +87,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     // Stop a sync timer
     [self unregisterAppforDetectDisplayStatus];
     [self unregisterAppforDetectLockState];
+    [self setSensingState:NO];
     return YES;
 }
 

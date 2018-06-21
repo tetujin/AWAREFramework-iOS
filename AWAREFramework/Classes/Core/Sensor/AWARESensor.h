@@ -24,6 +24,10 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 @protocol AWARESensorDelegate <NSObject>
 
+@property (readonly) BOOL isSensing;
+
+- (void) setSensingState:(BOOL)state;
+
 - (void) setParameters:(NSArray *)parameters;
 - (BOOL) startSensor;
 - (BOOL) stopSensor;

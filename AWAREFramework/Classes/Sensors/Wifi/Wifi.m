@@ -12,7 +12,7 @@
 #import <ifaddrs.h>
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
-#import <MMLanScan/MMDevice.h>
+// #import <MMLanScan/MMDevice.h>
 #import "AWAREKeys.h"
 #import "SensorWifi.h"
 
@@ -127,6 +127,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
                                                   userInfo:nil
                                                    repeats:YES];
     [self getWifiInfo];
+    [self setSensingState:YES];
     
     return YES;
 }
@@ -138,6 +139,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         [sensingTimer invalidate];
         sensingTimer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 
@@ -226,47 +228,47 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     if ([self isDebug]) NSLog(@"lanScanDidFailedToScan");
 }
     
-- (void)lanScanDidFindNewDevice:(MMDevice *)device {
-    
-    [self broadcastDetectedNewDevice];
-    
-    NSString * hostname = @"";
-    if(device.hostname != nil){
-        hostname = device.hostname;
-    }
-    
-    NSString * macAddress = @"";
-    if(device.macAddress != nil){
-        macAddress = device.macAddress;
-    }
-    
-    NSString * brand = @"";
-    if(device.brand != nil){
-        brand = device.brand;
-    }
-    
-    // Save sensor data to the local database.
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:macAddress forKey:@"bssid"]; //text
-    [dict setObject:hostname forKey:@"ssid"]; //text
-    [dict setObject:@"" forKey:@"security"]; //text
-    [dict setObject:@0 forKey:@"frequency"];//int
-    [dict setObject:@0 forKey:@"rssi"]; //int
-    [dict setObject:brand forKey:@"label"]; //text
-    
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-    [self setLatestData:dict];
-    
-    if ([self isDebug])  NSLog(@"%@ (%@)", hostname, macAddress);
-    
-    SensorEventHandler handler = [self getSensorEventHandler];
-    if (handler!=nil) {
-        handler(self, dict);
-    }
-}
+//- (void)lanScanDidFindNewDevice:(MMDevice *)device {
+//    
+//    [self broadcastDetectedNewDevice];
+//    
+//    NSString * hostname = @"";
+//    if(device.hostname != nil){
+//        hostname = device.hostname;
+//    }
+//    
+//    NSString * macAddress = @"";
+//    if(device.macAddress != nil){
+//        macAddress = device.macAddress;
+//    }
+//    
+//    NSString * brand = @"";
+//    if(device.brand != nil){
+//        brand = device.brand;
+//    }
+//    
+//    // Save sensor data to the local database.
+//    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [dict setObject:unixtime forKey:@"timestamp"];
+//    [dict setObject:[self getDeviceId] forKey:@"device_id"];
+//    [dict setObject:macAddress forKey:@"bssid"]; //text
+//    [dict setObject:hostname forKey:@"ssid"]; //text
+//    [dict setObject:@"" forKey:@"security"]; //text
+//    [dict setObject:@0 forKey:@"frequency"];//int
+//    [dict setObject:@0 forKey:@"rssi"]; //int
+//    [dict setObject:brand forKey:@"label"]; //text
+//    
+//    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+//    [self setLatestData:dict];
+//    
+//    if ([self isDebug])  NSLog(@"%@ (%@)", hostname, macAddress);
+//    
+//    SensorEventHandler handler = [self getSensorEventHandler];
+//    if (handler!=nil) {
+//        handler(self, dict);
+//    }
+//}
 
 //- (void)lanScanDidFinishScanningWithStatus:(MMLanScannerStatus)status {
 //    switch (status) {

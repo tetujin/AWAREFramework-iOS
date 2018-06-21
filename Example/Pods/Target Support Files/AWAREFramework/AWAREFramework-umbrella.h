@@ -148,6 +148,7 @@
 #import "EntityBatteryCharge.h"
 #import "EntityBatteryDischarge+CoreDataProperties.h"
 #import "EntityBatteryDischarge.h"
+#import "BLEScanner.h"
 #import "Bluetooth.h"
 #import "EntityBluetooth+CoreDataProperties.h"
 #import "EntityBluetooth.h"
@@ -193,12 +194,15 @@
 #import "EntityTimezone+CoreDataProperties.h"
 #import "EntityTimezone.h"
 #import "Timezone.h"
+#import "EntitySensorWifi+CoreDataClass.h"
+#import "EntitySensorWifi+CoreDataProperties.h"
 #import "EntityWifi+CoreDataProperties.h"
 #import "EntityWifi.h"
 #import "MobileWiFi.h"
 #import "WiFiDeviceClient.h"
 #import "WiFiManager.h"
 #import "WiFiNetwork.h"
+#import "SensorWifi.h"
 #import "Wifi.h"
 
 FOUNDATION_EXPORT double AWAREFrameworkVersionNumber;

@@ -25,6 +25,8 @@
     AWAREHealthKitWorkout * awareHKWorkout;
     AWAREHealthKitCategory * awareHKCategory;
     AWAREHealthKitQuantity * awareHKQuantity;
+    
+    double frequency;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -42,7 +44,8 @@
         awareHKWorkout = [[AWAREHealthKitWorkout alloc] initWithAwareStudy:study dbType:dbType];
         awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
         awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];
-    
+        
+        frequency = 60 * 30; // 30min
     }
     return self;
 }
@@ -80,28 +83,35 @@
     [awareHKQuantity createTable];
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    frequency = [self getSensorSetting:parameters withKey:[NSString stringWithFormat:@"frequency_%@", SENSOR_HEALTH_KIT]];
+    if(frequency < 0){
+        frequency = 60 * 60; // 1 hour
+    }
+}
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+
+- (BOOL)startSensor{
     
     [self requestAuthorizationToAccessHealthKit];
     
     [self readAllDate];
     
-    double frequency = [self getSensorSetting:settings withKey:[NSString stringWithFormat:@"frequency_%@", SENSOR_HEALTH_KIT]];
-    if(frequency < 0){
-        frequency = 60 * 60; // 1 hour
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:frequency //1hour
+    timer = [NSTimer scheduledTimerWithTimeInterval:frequency
                                              target:self
                                            selector:@selector(readAllDate)
                                            userInfo:nil
                                             repeats:YES];
+    [self setSensingState:YES];
     return YES;
 }
 
 - (BOOL)stopSensor{
-    [timer invalidate];
-    timer = nil;
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    [self setSensingState:NO];
     // healthStore = nil;
     return YES;
 }

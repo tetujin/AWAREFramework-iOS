@@ -18,7 +18,6 @@
 + (AWARESensorManager *) sharedSensorManager;
 
 /** Initializer */
-- (instancetype)initWithAWAREStudy:(AWAREStudy *) study;
 
 - (void) addSensor:(AWARESensor *) sensor;
 - (void) addSensors:(NSArray *)sensors;
@@ -58,6 +57,5 @@
 
 - (void) resetAllMarkerPositionsInDB;
 - (void) removeAllFilesFromDocumentRoot;
-
 
 @end

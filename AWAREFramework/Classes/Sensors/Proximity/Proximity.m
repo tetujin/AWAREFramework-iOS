@@ -62,7 +62,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor{
     if([self isDebug]){
         NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
     }
@@ -73,6 +73,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
                                              selector:@selector(proximitySensorStateDidChange:)
                                                  name:UIDeviceProximityStateDidChangeNotification
                                                object:nil];
+    [self setSensingState:YES];
 
     return YES;
 }
@@ -84,6 +85,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
                                                     name:UIDeviceProximityStateDidChangeNotification
                                                   object:nil];
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    [self setSensingState:NO];
     return YES;
 }
 

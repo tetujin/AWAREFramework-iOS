@@ -86,6 +86,7 @@
                                                   selector:@selector(saveMemoryUsage)
                                                   userInfo:nil
                                                    repeats:YES];
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -94,6 +95,7 @@
         [sensingTimer invalidate];
         sensingTimer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 

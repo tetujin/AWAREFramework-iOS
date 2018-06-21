@@ -91,6 +91,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 
 ///////////////////////////////////////////////////////////////////
 - (BOOL)startSensor{
+    [self setSensingState:YES];
     return [self startSensorWithURL:_url tableName:_table];
 }
 
@@ -122,6 +123,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 
 - (BOOL) stopSensor{
     // remove the sensor
+    [self setSensingState:NO];
     return YES;
 }
 

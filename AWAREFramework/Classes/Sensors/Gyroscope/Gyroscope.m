@@ -140,12 +140,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          }
                                     }
                              }];
+    [self setSensingState:YES];
     return YES;
 }
 
 
 - (BOOL)stopSensor{
     [gyroManager stopGyroUpdates];
+    [self setSensingState:NO];
     return YES;
 }
 

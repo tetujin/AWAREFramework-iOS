@@ -220,6 +220,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         }
         
     }
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -233,6 +235,8 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     [locationManager stopUpdatingHeading];
     [locationManager stopUpdatingLocation];
     locationManager = nil;
+    
+    [self setSensingState:NO];
     
     return YES;
 }
@@ -290,18 +294,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         handler(self, dict);
     }
 }
-
-
-
-//- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
-//    if (newHeading.headingAccuracy < 0)
-//        return;
-////    CLLocationDirection  theHeading = ((newHeading.trueHeading > 0) ?
-////                                       newHeading.trueHeading : newHeading.magneticHeading);
-////    [sdManager addSensorDataMagx:newHeading.x magy:newHeading.y magz:newHeading.z];
-////    [sdManager addHeading: theHeading];
-//}
-
 
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status

@@ -143,7 +143,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                                     mode:(IOSActivityRecognitionMode)mode
                                 interval:(double) interval
                          disposableLimit:(int)limit{
-    
+    [self setSensingState:YES];
     // history mode
     if( mode == IOSActivityRecognitionModeHistory){
         [self getMotionActivity:nil];
@@ -217,6 +217,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
         [timer invalidate];
         timer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 

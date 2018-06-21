@@ -144,10 +144,13 @@
     // Set a buffer for reducing file access
     [self.storage setBufferSize:10];
     
+    [self setSensingState:YES];
+    
     return YES;
 }
 
 - (BOOL) stopSensor{
+    [self setSensingState:NO];
     return YES;
 }
 

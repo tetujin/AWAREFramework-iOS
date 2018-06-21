@@ -135,11 +135,13 @@ NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_student
     
     // [self.pipeline performSelector:@selector(startPipeline) withObject:nil afterDelay:3];
     [self.pipeline startPipeline];
+    [self setSensingState:YES];
     return YES;
 }
 
 - (BOOL) stopSensor {
     [self.pipeline stopPipeline];
+    [self setSensingState:NO];
     return YES;
 }
 

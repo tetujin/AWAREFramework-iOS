@@ -119,6 +119,8 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
     [calendar.storage setStore:NO];
     [calendar startSensor];
     
+    [self setSensingState:YES];
+    
     return YES;
 }
 
@@ -126,6 +128,7 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
     if (calendar!=nil) {
         [calendar stopSensor];
     }
+    [self setSensingState:NO];
     return YES;
 }
 

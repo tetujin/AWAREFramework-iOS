@@ -75,6 +75,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     }
 }
 
+- (BOOL)startSensor{
+    return [self startSensorWithSensingInterval:self.sensingInterval savingInterval:self.savingInterval];
+}
 
 - (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
@@ -131,6 +134,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                               }
                                           }];
     }
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -140,7 +144,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     [altitude stopRelativeAltitudeUpdates];
     altitude = nil;
     
-    [super stopSensor];
+    [self setSensingState:NO];
     
     return YES;
 }

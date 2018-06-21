@@ -35,11 +35,11 @@
 //    [super application:application didFinishLaunchingWithOptions:launchOptions];
     
     
-    _ble = [[Bluetooth alloc] initWithDBType:AwareDBTypeSQLite];
-    [_ble setDebug:YES];
-    [_ble setScanInterval:30];
-    [_ble setScanDuration:10];
-    [_ble startSensor];
+//    _ble = [[Bluetooth alloc] initWithDBType:AwareDBTypeSQLite];
+//    [_ble setDebug:YES];
+//    [_ble setScanInterval:30];
+//    [_ble setScanDuration:10];
+//    [_ble startSensor];
     
     return YES;
 }

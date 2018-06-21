@@ -171,6 +171,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
                                            userInfo:[NSDictionary dictionaryWithObject:@0 forKey:KEY_AUDIO_CLIP_NUMBER]
                                             repeats:YES];
     [mainTimer fire];
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -180,6 +182,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         [mainTimer invalidate];
         mainTimer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 

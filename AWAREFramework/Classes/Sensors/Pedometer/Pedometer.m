@@ -130,6 +130,8 @@
                                             repeats:YES];
     [timer fire];
     
+    [self setSensingState:YES];
+    
     return NO;
 }
 
@@ -140,6 +142,7 @@
         [timer invalidate];
         timer = nil;
     }
+    [self setSensingState:NO];
     return NO;
 }
 
@@ -304,6 +307,7 @@
     if (handler!=nil) {
         handler(self, dict);
     }
+    
 }
 
 

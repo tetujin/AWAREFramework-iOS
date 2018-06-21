@@ -88,7 +88,7 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
 }
 
 /** start sensor */
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (BOOL)startSensor{
 
     // This timer check the necessity of updating contact list by each 1 hour
     timer = [NSTimer scheduledTimerWithTimeInterval:_checkIntervalSec
@@ -111,6 +111,8 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
         // NSLog(@"%@",targetDate.debugDescription);
         [self setNextUpdateDateWithDate:targetDate];
     }
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -120,6 +122,7 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin
         [timer invalidate];
         timer = nil;
     }
+    [self setSensingState:NO];
     return YES;
 }
 

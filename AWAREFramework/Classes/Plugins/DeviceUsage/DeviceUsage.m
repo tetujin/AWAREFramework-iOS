@@ -72,11 +72,13 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
     lastTime = [[[NSDate alloc] init] timeIntervalSince1970];
     
     [self registerAppforDetectDisplayStatus];
+    [self setSensingState:YES];
     return YES;
 }
 
 - (BOOL)stopSensor{
     [self unregisterAppforDetectDisplayStatus];
+    [self setSensingState:NO];
     return YES;
 }
 

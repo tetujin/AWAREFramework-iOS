@@ -65,6 +65,7 @@
 
 - (BOOL)startSensor{
     [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
+    [self setSensingState:YES];
     return YES;
 }
 

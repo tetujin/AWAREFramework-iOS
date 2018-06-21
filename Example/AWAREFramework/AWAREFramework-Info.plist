@@ -43,6 +43,8 @@
 	<string>This application needs to access your calendar data for recording your daily activities.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This application needs to access your camera for recording a video.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This application needs to access contacts information</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -104,7 +104,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
                                                userInfo:nil
                                                 repeats:YES];
     
-    [super startSensor];
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -115,7 +115,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_BLUETOOTH = @"frequency_bluetooth";
         [mainTimer invalidate];
         mainTimer = nil;
     }
-    [super stopSensor];
+    [self setSensingState:NO];
     return YES;
 }
 

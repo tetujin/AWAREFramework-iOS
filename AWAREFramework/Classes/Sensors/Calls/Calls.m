@@ -169,6 +169,7 @@ NSString* const KEY_CALLS_TRACE = @"trace";
         }
         //});
     };
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -177,7 +178,7 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 -(BOOL) stopSensor{
     _callCenter.callEventHandler = nil;
     
-    [super stopSensor];
+    [self setSensingState:NO];
     
     return YES;
 }

@@ -160,6 +160,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
                                           [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                       }
                                   }];
+    [self setSensingState:YES];
 
     return YES;
 }
@@ -168,6 +169,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
 
 -(BOOL) stopSensor {
     [manager stopAccelerometerUpdates];
+    [self setSensingState:NO];
     return YES;
 }
 

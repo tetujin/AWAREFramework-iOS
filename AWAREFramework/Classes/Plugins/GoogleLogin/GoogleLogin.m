@@ -85,10 +85,15 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
         [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:1];
     }
     
+    [self setSensingState:YES];
+    
     return YES;
 }
 
 - (BOOL)stopSensor {
+    
+    [self setSensingState:NO];
+    
     return YES;
 }
 

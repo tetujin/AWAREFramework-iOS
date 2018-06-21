@@ -88,10 +88,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
                   [CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID],
                   [CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]
                   ];
-//        [self setTypeAsPlugin];
-//        [self addDefaultSettingWithBool:@NO   key:AWARE_PREFERENCES_STATUS_BLE_HR desc:@"true or false to activate or deactivate sensor."];
-//        [self addDefaultSettingWithNumber:@5  key:AWARE_PREFERENCES_PLUGIN_BLE_HR_INTERVAL_TIME_MIN desc:@"Sensing interval (default = 5) in minutes. NOTE: If you set '0' as a sensing interval, the plugin connects the heart-rate sensor always."];
-//        [self addDefaultSettingWithNumber:@30 key:AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC desc:@"Active time (default = 30) for a duty cycle in seconds. NOTE: If you set '0' as an active time, the plugin connects the heart-rate sensor always."];
    }
     return self;
 }
@@ -140,6 +136,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
                                                 repeats:YES];
         [timer fire];
     }
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -148,8 +145,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     // Stop a BLE central manager
     //[_myCentralManager stopScan];
     [self stopHeartRateSensor];
-    [timer invalidate];
-    timer = nil;
+    if(timer != nil){
+        [timer invalidate];
+        timer = nil;
+    }
+    [self setSensingState:NO];
     return YES;
 }
 

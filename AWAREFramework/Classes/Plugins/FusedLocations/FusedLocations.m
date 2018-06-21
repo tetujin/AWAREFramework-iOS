@@ -95,6 +95,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 }
 
 -(BOOL)startSensor{
+    [self setSensingState:YES];
     return [self startSensorWithInterval:_intervalSec accuracy:_accuracy distanceFilter:_accuracyMeter];
 }
 
@@ -162,6 +163,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     }
     
     locationManager = nil;
+    
+    [self setSensingState:NO];
     
     return YES;
 }

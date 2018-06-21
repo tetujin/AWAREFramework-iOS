@@ -13,7 +13,7 @@
 NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
 @implementation NTPTime  {
-    NSTimer * sensingTimer;
+    NSTimer * timer;
  }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -61,24 +61,32 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 }
 
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
+- (void)setParameters:(NSArray *)parameters{
+    
+}
+
+- (BOOL)startSensor{
     if ([self isDebug]){
         NSLog(@"[%@] Start Device Usage Sensor", [self getSensorName]);
     }
-    sensingTimer = [NSTimer scheduledTimerWithTimeInterval:_intervalSec
+    timer = [NSTimer scheduledTimerWithTimeInterval:_intervalSec
                                                     target:self
                                                   selector:@selector(getNTPTime)
                                                   userInfo:nil
                                                    repeats:YES];
     [self getNTPTime];
-    
+    [self setSensingState:YES];
     return YES;
 }
 
 
 
 - (BOOL)stopSensor{
-    [sensingTimer invalidate];
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    [self setSensingState:NO];
     return YES;
 }
 

@@ -325,7 +325,6 @@ static AWARESensorManager * sharedSensorManager;
         if ([sensor.getSensorName isEqualToString:sensorName]) {
             [sensor stopSensor];
         }
-        [sensor stopSensor];
     }
 }
 

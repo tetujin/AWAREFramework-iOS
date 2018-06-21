@@ -144,6 +144,8 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                                
                                            }];
     }
+    
+    [self setSensingState:YES];
     return YES;
 }
 
@@ -151,6 +153,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     // Stop a sync timer
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
+    [self setSensingState:NO];
     return YES;
 }
 
