@@ -29,7 +29,7 @@ NSString * const AWARE_PREFERENCES_OPENWEATHER_API_KEY   = @"api_key_plugin_open
 }
 
 /** api */
-NSString* OPEN_WEATHER_API_URL = @"http://api.openweathermap.org/data/2.5/weather?lat=%d&lon=%d&APPID=%@";
+NSString* OPEN_WEATHER_API_URL = @"https://api.openweathermap.org/data/2.5/weather?lat=%d&lon=%d&APPID=%@&units=%@";
 NSString* OPEN_WEATHER_API_DEFAULT_KEY = @"54e5dee2e6a2479e0cc963cf20f233cc";
 /** sys */
 NSString* KEY_SYS         = @"sys";
@@ -115,6 +115,7 @@ int ONE_HOUR = 60*60;
         [self updateWeatherData:[NSDate new] Lat:0 Lon:0];
         _apiKey = nil;
         _frequencyMin = 15;
+        _unit = @"metric"; // "units_plugin_openweather"
     }
     return self;
 }
@@ -158,6 +159,15 @@ int ONE_HOUR = 60*60;
         for (NSDictionary * param in parameters) {
             if ([[param objectForKey:@"setting"] isEqualToString:@"api_key_plugin_openweather"]) {
                 _apiKey = [param objectForKey:@"value"];
+            }
+        }
+        
+        for (NSDictionary * param in parameters) {
+            if ([[param objectForKey:@"setting"] isEqualToString:@"units_plugin_openweather"]) {
+                NSString * value = [param objectForKey:@"value"];
+                if (value!=nil) {
+                    _unit = value;
+                }
             }
         }
     }
@@ -230,13 +240,13 @@ int ONE_HOUR = 60*60;
     sessionConfig.timeoutIntervalForResource = 60.0;
     sessionConfig.HTTPMaximumConnectionsPerHost = 60;
     sessionConfig.allowsCellularAccess = YES;
-    sessionConfig.discretionary = YES;
+    // sessionConfig.discretionary = YES;
     
     NSString *url = @"";
     if(_apiKey == nil){
-        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, OPEN_WEATHER_API_DEFAULT_KEY];
+        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, OPEN_WEATHER_API_DEFAULT_KEY, _unit];
     }else{
-        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, _apiKey];
+        url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, _apiKey, _unit];
     }
 
     request = [[NSMutableURLRequest alloc] init];
@@ -316,7 +326,7 @@ didReceiveResponse:(NSURLResponse *)response
             [dict setObject:[self getTemp] forKey:@"temperature"];
             [dict setObject:[self getTempMax] forKey:@"temperature_max"];
             [dict setObject:[self getTempMax] forKey:@"temperature_min"];
-            [dict setObject:@"" forKey:@"unit"];
+            [dict setObject:self->_unit forKey:@"unit"];
             [dict setObject:[self getHumidity] forKey:@"humidity"];
             [dict setObject:[self getPressure] forKey:@"pressure"];
             [dict setObject:[self getWindSpeed] forKey:@"wind_speed"];

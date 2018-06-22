@@ -397,12 +397,12 @@
 //        NSLog(@"%@",acc.double_values_0);
 //    }
 //
-    [accelerometer.storage fetchTodaysDataWithHandler:^(NSString *name, NSArray *results, NSDate * start, NSDate * end, NSError * error) {
-        NSLog(@"thread : %d", [NSThread isMainThread]);
-//        for (EntityAccelerometer * acc in results) {
-//            NSLog(@"%@",acc);
-//        }
-    }];
+//    [accelerometer.storage fetchTodaysDataWithHandler:^(NSString *name, NSArray *results, NSDate * start, NSDate * end, NSError * error) {
+//        NSLog(@"thread : %d", [NSThread isMainThread]);
+////        for (EntityAccelerometer * acc in results) {
+////            NSLog(@"%@",acc);
+////        }
+//    }];
     
 }
 

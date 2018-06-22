@@ -17,6 +17,7 @@ extern NSString * const AWARE_PREFERENCES_OPENWEATHER_API_KEY;
 
 @interface OpenWeather : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
 
+@property NSString * unit;
 @property double frequencyMin;
 @property NSString * apiKey;
 
