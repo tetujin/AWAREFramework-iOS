@@ -617,7 +617,7 @@
             NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
         }
         if (handler != nil) {
-            handler(self.sensorName, results, error);
+            handler(self.sensorName, results, start, end, error);
         }
     }];
 }

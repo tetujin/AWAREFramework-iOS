@@ -15,7 +15,7 @@
 @protocol AWAREStorageDelegate <NSObject>
 
 typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
-typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSError * error);
+typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSDate * start, NSDate * end, NSError * _Nullable error);
 
 //////////////////// General //////////////////////
 
