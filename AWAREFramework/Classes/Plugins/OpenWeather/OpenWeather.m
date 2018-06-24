@@ -116,6 +116,7 @@ int ONE_HOUR = 60*60;
         _apiKey = nil;
         _frequencyMin = 15;
         _unit = @"metric"; // "units_plugin_openweather"
+        identificationForOpenWeather = [NSString stringWithFormat:@"%@", identificationForOpenWeather];
     }
     return self;
 }
@@ -146,7 +147,6 @@ int ONE_HOUR = 60*60;
     "sunset real default 0,"
     "weather_icon_id int default 0,"
     "weather_description text default ''";
-    //"UNIQUE (timestamp,device_id)";
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -156,6 +156,7 @@ int ONE_HOUR = 60*60;
         if (min > 0) {
             _frequencyMin = min;
         }
+        
         for (NSDictionary * param in parameters) {
             if ([[param objectForKey:@"setting"] isEqualToString:@"api_key_plugin_openweather"]) {
                 _apiKey = [param objectForKey:@"value"];
@@ -227,41 +228,40 @@ int ONE_HOUR = 60*60;
 
 - (void) getWeatherJSONStr:(double)lat
                              lon:(double)lon{
+    
+    receivedData = [[NSMutableData alloc] init];
+    
     NSMutableURLRequest *request = nil;
     __weak NSURLSession *session = nil;
     NSString *postLength = nil;
-    
-    // Set settion configu and HTTP/POST body.
     NSURLSessionConfiguration *sessionConfig = nil;
     
-    identificationForOpenWeather = [NSString stringWithFormat:@"%@", identificationForOpenWeather];//@%f", identificationForOpenWeather, [[NSDate new] timeIntervalSince1970]];
+    // init a session configuration
     sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identificationForOpenWeather];
     sessionConfig.timeoutIntervalForRequest = 180.0;
     sessionConfig.timeoutIntervalForResource = 60.0;
     sessionConfig.HTTPMaximumConnectionsPerHost = 60;
     sessionConfig.allowsCellularAccess = YES;
-    // sessionConfig.discretionary = YES;
-    
+    session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+
+    // generate a url with an API key and location data
     NSString *url = @"";
     if(_apiKey == nil){
         url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, OPEN_WEATHER_API_DEFAULT_KEY, _unit];
     }else{
         url = [NSString stringWithFormat:OPEN_WEATHER_API_URL, (int)lat, (int)lon, _apiKey, _unit];
     }
-
+    // set HTTP/POST request
     request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    // set HTTP/POST body information
-    if([self isDebug]){
-        NSLog(@"--- [%@] This is background task ----", [self getSensorName] );
-    }
-    session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
-    NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
-    [dataTask resume];
 
+    // make an instrance of NSURLSessionDataTask with URLRequest
+    NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
+    
+    // resume the SessionTask
+    [dataTask resume];
 }
 
 
@@ -311,11 +311,6 @@ didReceiveResponse:(NSURLResponse *)response
             return;
         }
         
-        if ([self isDebug]) {
-            // [self sendLocalNotificationForMessage:@"Get Weather Information" soundFlag:NO];
-        }
-        
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -349,28 +344,6 @@ didReceiveResponse:(NSURLResponse *)response
         });
     }
 }
-
-
-//
-//- (void)URLSession:(NSURLSession *)session
-//              task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-//    [session finishTasksAndInvalidate];
-//    [session invalidateAndCancel];
-//    
-//    
-//}
-//
-//- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error{
-//    if (error != nil) {
-//        if([self isDebug]){
-//            NSLog(@"[%@] the session did become invaild with error: %@", [self getSensorName], error.debugDescription);
-//        }
-//    }
-//    [session invalidateAndCancel];
-//    [session finishTasksAndInvalidate];
-//}
-
-
 
 - (NSString *) getCountry
 {
