@@ -61,19 +61,6 @@ static AWARECore * sharedCore;
             [study setDBType:AwareDBTypeSQLite];
             [userDefaults setBool:YES forKey:@"aware_inited"];
         }
-        
-        // locatino sensor
-        _sharedLocationManager  = [[CLLocationManager alloc] init];
-        _sharedLocationManager.delegate = self;
-        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
-        _sharedLocationManager.activityType = CLActivityTypeOther;
-        
-        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-            /// After iOS 9.0, we have to set "YES" for background sensing.
-            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
-        }
-        
     }
     return self;
 }
@@ -190,9 +177,22 @@ static AWARECore * sharedCore;
  * And also, this sensing interval is the most low level.
  */
 - (void) startBaseLocationSensor {
-    // CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    // if ( _sharedLocationManager == nil) {
+
     NSLog(@"called startBaseLocationSensor");
+
+    if ( _sharedLocationManager == nil) {
+        // locatino sensor
+        _sharedLocationManager  = [[CLLocationManager alloc] init];
+        _sharedLocationManager.delegate = self;
+        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
+        _sharedLocationManager.activityType = CLActivityTypeOther;
+        
+        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
+            /// After iOS 9.0, we have to set "YES" for background sensing.
+            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
+        }
+    }
 
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){

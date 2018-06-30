@@ -622,19 +622,4 @@
     }];
 }
 
-
-
-- (NSDate *) getToday {
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents * components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate new]];
-    NSInteger year  =  components.year;
-    NSInteger month =  components.month;
-    NSInteger day   =  components.day;
-    
-    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy/MM/dd"];
-    NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%ld/%ld/%ld", (long)year, month, day]];
-    return today;
-}
-
 @end

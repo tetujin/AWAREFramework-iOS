@@ -78,6 +78,7 @@ typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSDate * sta
 
 - (NSArray *) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end;
 - (void) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler;
+- (NSDate *) getToday;
 
 @end
 
