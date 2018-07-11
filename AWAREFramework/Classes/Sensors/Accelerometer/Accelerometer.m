@@ -114,9 +114,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
                                       if( error ) {
                                           NSLog(@"[accelerometer] %@:%ld", [error domain], [error code] );
                                       } else {
-                                          
-                                          NSLog(@"%d", [NSThread isMainThread]);
-                                          
+                                                                                    
                                           if (self.threshold > 0 && [self getLatestData] !=nil &&
                                              ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.x lastValueKey:@"double_values_0"] &&
                                              ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.y lastValueKey:@"double_values_1"] &&
