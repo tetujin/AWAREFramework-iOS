@@ -71,6 +71,9 @@ static AWARECore * sharedCore;
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     
+    // Error Tacking
+    NSSetUncaughtExceptionHandler(&exceptionHandler);
+    
     /**
      * Start a location sensor for background sensing.
      * On the iOS, we have to turn on the location sensor
@@ -167,6 +170,15 @@ static AWARECore * sharedCore;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object: [NSUbiquitousKeyValueStore defaultStore]];
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+void exceptionHandler(NSException *exception) {
+    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
+    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
+    [debugSensor startSyncDB];
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 

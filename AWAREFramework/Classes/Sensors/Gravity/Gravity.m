@@ -110,24 +110,25 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                                    return;
                                                }
                                                    
-                                                  NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-                                                  NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-                                                  [dict setObject:unixtime forKey:@"timestamp"];
-                                                  [dict setObject:[self getDeviceId] forKey:@"device_id"];
-                                                  [dict setObject:[NSNumber numberWithDouble:motion.gravity.x] forKey:@"double_values_0"]; //double
-                                                  [dict setObject:[NSNumber numberWithDouble:motion.gravity.y]  forKey:@"double_values_1"]; //double
-                                                  [dict setObject:[NSNumber numberWithDouble:motion.gravity.z]  forKey:@"double_values_2"]; //double
-                                                  [dict setObject:@3 forKey:@"accuracy"];//int
-                                                  [dict setObject:@"" forKey:@"label"]; //text
-                                                  [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];
-                                                  
-                                                  [self setLatestData:dict];
+                                              NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+                                              NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                                              [dict setObject:unixtime forKey:@"timestamp"];
+                                              [dict setObject:[self getDeviceId] forKey:@"device_id"];
+                                              [dict setObject:[NSNumber numberWithDouble:motion.gravity.x] forKey:@"double_values_0"]; //double
+                                              [dict setObject:[NSNumber numberWithDouble:motion.gravity.y]  forKey:@"double_values_1"]; //double
+                                              [dict setObject:[NSNumber numberWithDouble:motion.gravity.z]  forKey:@"double_values_2"]; //double
+                                              [dict setObject:@3 forKey:@"accuracy"];//int
+                                              [dict setObject:@"" forKey:@"label"]; //text
+                                              [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];
+                                              
+                                              [self setLatestData:dict];
+                                           
+                                               NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
+                                                                                                    forKey:EXTRA_DATA];
+                                               [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GRAVITY
+                                                                                                   object:nil
+                                                                                                 userInfo:userInfo];
                                                
-                                                   NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
-                                                                                                        forKey:EXTRA_DATA];
-                                                   [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GRAVITY
-                                                                                                       object:nil
-                                                                                                     userInfo:userInfo];
                                                [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                                
                                                SensorEventHandler handler = [self getSensorEventHandler];

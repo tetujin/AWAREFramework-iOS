@@ -32,20 +32,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
     
-//    Accelerometer * acc = [[Accelerometer alloc] init];
-//    [acc setSavingIntervalWithSecond:1];
-//    [acc setDebug:true];
-//    [acc.storage setDebug:true];
-//    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-//        // NSLog(@"%@",data);
-//    }];
-//    if ([acc startSensor]) {
-//        NSLog(@"start");
-//    }else{
-//
-//    }
+    
+    // [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
+    
+    Accelerometer * acc = [[Accelerometer alloc] init];
+    // [acc setSavingIntervalWithSecond:1];
+    [acc setDebug:true];
+    [acc.storage setDebug:true];
+    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+        // NSLog(@"%@",data);
+    }];
+    if ([acc startSensor]) {
+        NSLog(@"start");
+    }else{
+
+    }
     
 //    [acc performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
     

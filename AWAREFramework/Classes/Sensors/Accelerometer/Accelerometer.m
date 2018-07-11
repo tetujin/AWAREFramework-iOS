@@ -109,11 +109,13 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
     manager.accelerometerUpdateInterval = sensingInterval;
     
     // Set and start a motion sensor
-    [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+    [manager startAccelerometerUpdatesToQueue: [NSOperationQueue currentQueue]
                                   withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
                                       if( error ) {
                                           NSLog(@"[accelerometer] %@:%ld", [error domain], [error code] );
                                       } else {
+                                          
+                                          NSLog(@"%d", [NSThread isMainThread]);
                                           
                                           if (self.threshold > 0 && [self getLatestData] !=nil &&
                                              ![self isHigherThanThresholdWithTargetValue:accelerometerData.acceleration.x lastValueKey:@"double_values_0"] &&

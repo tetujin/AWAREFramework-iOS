@@ -102,7 +102,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;
         
-        [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue new]
+        [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database.
                                                if (self.threshold > 0 && [self getLatestData] !=nil &&
@@ -125,9 +125,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
                                               [dict setObject:@3 forKey:@"accuracy"];//int
                                               [dict setObject:@"" forKey:@"label"]; //text
                                                
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
-                                               });
+                                               [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                                
                                                [self setLatestData:dict];
                                                [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];

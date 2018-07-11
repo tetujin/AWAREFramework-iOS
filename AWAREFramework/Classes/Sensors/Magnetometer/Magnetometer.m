@@ -112,23 +112,23 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                              return;
                                          }
                                          
-                                             NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-                                             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-                                             [dict setObject:unixtime forKey:@"timestamp"];
-                                             [dict setObject:[self getDeviceId] forKey:@"device_id"];
-                                             [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.x] forKey:@"double_values_0"];
-                                             [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.y] forKey:@"double_values_1"];
-                                             [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.z] forKey:@"double_values_2"];
-                                             [dict setObject:@3 forKey:@"accuracy"];
-                                             [dict setObject:@"" forKey:@"label"];
-                                             [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",magnetometerData.magneticField.x, magnetometerData.magneticField.y, magnetometerData.magneticField.z]];
-                                             [self setLatestData:dict];
-                                         
-                                             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
-                                                                                                  forKey:EXTRA_DATA];
-                                             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MAGNETOMETER
-                                                                                                 object:nil
-                                                                                               userInfo:userInfo];
+                                         NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+                                         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                                         [dict setObject:unixtime forKey:@"timestamp"];
+                                         [dict setObject:[self getDeviceId] forKey:@"device_id"];
+                                         [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.x] forKey:@"double_values_0"];
+                                         [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.y] forKey:@"double_values_1"];
+                                         [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.z] forKey:@"double_values_2"];
+                                         [dict setObject:@3 forKey:@"accuracy"];
+                                         [dict setObject:@"" forKey:@"label"];
+                                         [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",magnetometerData.magneticField.x, magnetometerData.magneticField.y, magnetometerData.magneticField.z]];
+                                         [self setLatestData:dict];
+                                     
+                                         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
+                                                                                              forKey:EXTRA_DATA];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MAGNETOMETER
+                                                                                             object:nil
+                                                                                           userInfo:userInfo];
                                          [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                          
                                          SensorEventHandler handler = [self getSensorEventHandler];

@@ -6,14 +6,9 @@
 //  Copyright © 2016 Yuuki NISHIYAMA. All rights reserved.
 //
 
-#import <UserNotifications/UserNotifications.h>
-
 #import "AWAREDelegate.h"
-#import "AWAREKeys.h"
 #import "AWARECore.h"
 #import "Debug.h"
-#import "PushNotification.h"
-#import "IOSESM.h"
 #import "GoogleLogin.h"
 #import "Fitbit.h"
 #import "AWAREDebugMessageLogger.h"
@@ -22,17 +17,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Set background fetch for updating debug information
-    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-
+    
     [GIDSignIn sharedInstance].clientID = GOOGLE_LOGIN_CLIENT_ID;
     [GIDSignIn sharedInstance].delegate = self;
     
     // NSLog(@"Turn 'OFF' the auto sleep mode on this app");
     [UIApplication sharedApplication].idleTimerDisabled = YES;
-    
-    // Error Tacking
-    NSSetUncaughtExceptionHandler(&exceptionHandler);
     
     [[AWARECore sharedCore] activate];
     
@@ -80,22 +70,9 @@
  */
 - (void)applicationWillTerminate:(UIApplication *)application {
     
-    UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
-    content.title = @"Application is stopped! Please reboot this app for logging your acitivties.";
-    content.body = @"Reboot";
-    content.sound = [UNNotificationSound defaultSound];
-    content.badge = @1;
-    UNTimeIntervalNotificationTrigger * trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
-    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:@"ApplicationWillTerminate" content:content trigger:trigger];
-    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
-    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-        if (error != nil) {
-            NSLog(@"%@",error.localizedDescription);
-        }
-    }];
-    
+    NSString * errorMsg = @"Application is stopped! Please reboot this app for logging your acitivties.";
     Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-    [debugSensor saveDebugEventWithText:content.title type:DebugTypeWarn label:@"stop"];
+    [debugSensor saveDebugEventWithText:errorMsg type:DebugTypeWarn label:@"stop"];
     [debugSensor startSyncDB];
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -104,82 +81,6 @@
     NSLog(@"Stop background task of AWARE....");
     NSLog(@"Turn 'ON' the auto sleep mode on this app");
     [UIApplication sharedApplication].idleTimerDisabled = NO;
-}
-
-////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////
-// https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationShortcutIcon_Class/#//apple_ref/c/tdef/UIApplicationShortcutIconType
-// https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36
-// https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/
-
-- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
-    if([shortcutItem.type isEqualToString:@"com.awareframework.aware-client-ios.shortcut.manualupload"]){
-        [[AWARESensorManager sharedSensorManager] syncAllSensorsForcefully];
-    }
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////
-///   Backgroud Fetch
-/// https://mobiforge.com/design-development/using-background-fetch-ios
-///////////////////////////////////////////////////////////////////////////
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    /// NOTE: A background fetch method can work for 30 second. Also, the method is called randomly by OS.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Start a background fetch ...");
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-            // NSString *formattedDateString = [dateFormatter stringFromDate:[NSDate new]];
-            
-            completionHandler(UIBackgroundFetchResultNewData);
-
-            NSLog(@"... Finish a background fetch");
-        });
-    });
-}
-
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
-    NSString *token = deviceToken.description;
-    
-    if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_DEBUG_STATE]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // NSLog(@"deviceToken: %@", token);
-            // [AWAREUtils sendLocalNotificationForMessage:token soundFlag:YES];
-        });
-    }
-    
-    token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
-    token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
-    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-        
-    PushNotification * pushNotification = [[PushNotification alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-    [pushNotification savePushNotificationDeviceToken:token];
-}
-
-// Faile to get a DeviceToken
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"deviceToken error: %@", [error description]);
-    
-}
-
-// This method is called then iOS receieved data by BackgroundFetch
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    NSLog(@"pushInfo in Background: %@", [userInfo description]);
-    completionHandler(UIBackgroundFetchResultNoData);
-}
-
-
-void exceptionHandler(NSException *exception) {
-    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
-    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
-    [debugSensor startSyncDB];
 }
 
 

@@ -126,34 +126,32 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
                                            withHandler:^(CMDeviceMotion *motion, NSError *error){
                                                // Save sensor data to the local database
-                                               
-                                               
-                                                   if (self.threshold > 0 && [self getLatestData] !=nil &&
-                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.x lastValueKey:@"double_values_0"] &&
-                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.y lastValueKey:@"double_values_1"] &&
-                                                       ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.z lastValueKey:@"double_values_2"]
-                                                       ) {
-                                                       return;
-                                                   }
-                                               
-                                                   //////////////////////////////////////////////////
-                                                   NSNumber *unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-                                                   NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-                                                   [dict setObject:unixtime forKey:@"timestamp"];
-                                                   [dict setObject:[self getDeviceId] forKey:@"device_id"];
-                                                   [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.x] forKey:@"double_values_0"]; //double
-                                                   [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.y]  forKey:@"double_values_1"]; //double
-                                                   [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.z]  forKey:@"double_values_2"]; //double
-                                                   [dict setObject:@3 forKey:@"accuracy"];//int
-                                                   [dict setObject:@"" forKey:@"label"]; //text
-                                                   [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.userAcceleration.x, motion.userAcceleration.y,motion.userAcceleration.z]];
-                                                   [self setLatestData:dict];
-                                               
-                                                   NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
-                                                                                                        forKey:EXTRA_DATA];
-                                                   [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_LINEAR_ACCELEROMETER
-                                                                                                       object:nil
-                                                                                                     userInfo:userInfo];
+                                               if (self.threshold > 0 && [self getLatestData] !=nil &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.x lastValueKey:@"double_values_0"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.y lastValueKey:@"double_values_1"] &&
+                                                   ![self isHigherThanThresholdWithTargetValue:motion.userAcceleration.z lastValueKey:@"double_values_2"]
+                                                   ) {
+                                                   return;
+                                               }
+                                           
+                                               //////////////////////////////////////////////////
+                                               NSNumber *unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+                                               NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                                               [dict setObject:unixtime forKey:@"timestamp"];
+                                               [dict setObject:[self getDeviceId] forKey:@"device_id"];
+                                               [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.x] forKey:@"double_values_0"]; //double
+                                               [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.y]  forKey:@"double_values_1"]; //double
+                                               [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.z]  forKey:@"double_values_2"]; //double
+                                               [dict setObject:@3 forKey:@"accuracy"];//int
+                                               [dict setObject:@"" forKey:@"label"]; //text
+                                               [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.userAcceleration.x, motion.userAcceleration.y,motion.userAcceleration.z]];
+                                               [self setLatestData:dict];
+                                           
+                                               NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict
+                                                                                                    forKey:EXTRA_DATA];
+                                               [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_LINEAR_ACCELEROMETER
+                                                                                                   object:nil
+                                                                                                 userInfo:userInfo];
                                                
                                                [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                                

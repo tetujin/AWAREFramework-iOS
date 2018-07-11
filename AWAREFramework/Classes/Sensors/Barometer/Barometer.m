@@ -95,7 +95,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     } else {
         altitude = [[CMAltimeter alloc] init];
         
-        [altitude startRelativeAltitudeUpdatesToQueue:[NSOperationQueue mainQueue]
+        [altitude startRelativeAltitudeUpdatesToQueue:[NSOperationQueue currentQueue]
                                           withHandler:^(CMAltitudeData *altitudeData, NSError *error) {
                                               
                                               double currentTimestamp = [[NSDate new] timeIntervalSince1970];
