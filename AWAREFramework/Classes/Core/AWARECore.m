@@ -375,9 +375,9 @@ void exceptionHandler(NSException *exception) {
                                                                   handler:^(UIAlertAction * action) {
                                                                       // Send the user to the Settings for this app
                                                                       NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                          settingsURL = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
-                                                                      }
+                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
+                                                                      // }
                                                                       // [[UIApplication sharedApplication] openURL:settingsURL];
                                                                       [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
                                                                           
@@ -444,9 +444,9 @@ void exceptionHandler(NSException *exception) {
                                                                   handler:^(UIAlertAction * action) {
                                                                       // Send the user to the Settings for this app
                                                                       NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                          settingsURL = [NSURL URLWithString:@"prefs:root=General&path=AUTO_CONTENT_DOWNLOAD"];
-                                                                      }
+                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=General&path=AUTO_CONTENT_DOWNLOAD"];
+                                                                      // }
                                                                       [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
                                                                           
                                                                       }];
@@ -508,9 +508,9 @@ void exceptionHandler(NSException *exception) {
                                                                           handler:^(UIAlertAction * action) {
                                                                               // Send the user to the Settings for this app
                                                                               NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                              if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                                  settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
-                                                                              }
+                                                                              // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                              //    settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
+                                                                              // }
                                                                               [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
                                                                                   
                                                                               }];
@@ -610,9 +610,9 @@ void exceptionHandler(NSException *exception) {
                                                                           NSLog(@"%@", UIApplicationOpenSettingsURLString);
                                                                           // settingsURL = [NSURL URLWithString:@"prefs:"];
                                                                           
-                                                                          if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                              settingsURL = [NSURL URLWithString:@"prefs:root=BATTERY_USAGE"];
-                                                                          }
+                                                                          // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                          //    settingsURL = [NSURL URLWithString:@"prefs:root=BATTERY_USAGE"];
+                                                                          // }
                                                                           [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
                                                                               
                                                                           }];
@@ -664,9 +664,9 @@ void exceptionHandler(NSException *exception) {
                                                                   handler:^(UIAlertAction * action) {
 //                                                                       Send the user to the Settings for this app
                                                                       NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                          settingsURL = [NSURL URLWithString:@"prefs:root=WIFI"];
-                                                                      }
+                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
+                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=WIFI"];
+                                                                      // }
                                                                       [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
                                                                           
                                                                       }];

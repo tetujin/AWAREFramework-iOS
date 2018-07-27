@@ -61,6 +61,8 @@
     NSString * appIntegration;
     
     NSObject * quickBtnObserver;
+    
+    NSNumber * sessionTimestamp;
 }
 @end
 
@@ -94,6 +96,8 @@
     _mainScrollView = scrollView;
     
     study = [AWAREStudy sharedStudy];
+    
+    sessionTimestamp = [AWAREUtils getUnixTimestamp:[NSDate new]];
     
     _isSaveAnswer = YES;
     
@@ -415,8 +419,13 @@
             
             EntityESMAnswer * answer = (EntityESMAnswer *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
                                                                                          inManagedObjectContext:context];
-            answer.device_id = deviceId;
             answer.timestamp = esm.timestamp;
+            if (esm.timestamp = @0) {
+                answer.timestamp = sessionTimestamp;
+            }else{
+                answer.timestamp = esm.timestamp;
+            }
+            answer.device_id = deviceId;
             answer.esm_json = esm.esm_json;
             answer.esm_trigger = esm.esm_trigger;
             answer.esm_expiration_threshold = esm.esm_expiration_threshold;

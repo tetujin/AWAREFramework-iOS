@@ -37,7 +37,7 @@
     _freeTextView.layer.cornerRadius = 3.0f;
     _freeTextView.layer.borderColor = [UIColor grayColor].CGColor;
     _freeTextView.selectable = YES;
-    _freeTextView.keyboardType = UIKeyboardTypeNumberPad;
+    _freeTextView.keyboardType = UIKeyboardTypeDecimalPad; //UIKeyboardTypeNumberPad;
     _freeTextView.textAlignment = NSTextAlignmentCenter;
      _freeTextView.delegate = self;
     [_freeTextView setFont:[UIFont systemFontOfSize:23]];

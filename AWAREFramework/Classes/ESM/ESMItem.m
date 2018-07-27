@@ -269,11 +269,18 @@
 }
 
 - (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger{
+    return [self initAsDateTimeESMWithTrigger:trigger minutesGranularity:nil];
+}
+
+- (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger minutesGranularity:(NSNumber *)granularity{
     self = [self init];
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeDateTime
-                                                              trigger:trigger];
+                                        trigger:trigger];
     if (esmDict != nil) {
         _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        if (granularity != nil) {
+            _esm_minute_step = granularity;
+        }
     }
     return self;
 }
@@ -314,11 +321,18 @@
 }
 
 - (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger{
+    return [self initAsTimePickerESMWithTrigger:trigger minutesGranularity:nil];
+}
+
+- (instancetype)initAsTimePickerESMWithTrigger:(NSString *)trigger minutesGranularity:(NSNumber *)granularity{
     self = [self init];
     esmDict = [self setBasicElementsWithESMType:AwareESMTypeTime
                                         trigger:trigger];
     if (esmDict != nil) {
         _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+        if (granularity!=nil) {
+            _esm_minute_step = granularity;
+        }
     }
     return self;
 }

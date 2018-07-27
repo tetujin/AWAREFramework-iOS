@@ -29,6 +29,7 @@
     
     if(self != nil){
         [self addTimePickerElement:esm withFrame:frame uiMode:UIDatePickerModeDateAndTime version:1];
+        [self changedDatePickerValue:dateTimePicker];
     }
     return self;
 }

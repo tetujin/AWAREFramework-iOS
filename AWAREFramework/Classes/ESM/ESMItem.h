@@ -73,6 +73,7 @@
                                scaleStep:(int)step;
 
 - (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger;
+- (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger minutesGranularity:(NSNumber *) granularity;
 
 - (instancetype) initAsPAMESMWithTrigger:(NSString *) trigger;
 
@@ -82,6 +83,7 @@
                                    url:(NSString *) url;
 
 - (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger;
+- (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger minutesGranularity:(NSNumber *) granularity;
 - (instancetype) initAsDatePickerESMWithTrigger:(NSString *)trigger;
 - (instancetype) initAsClockDatePickerESMWithTrigger:(NSString *)trigger;
 - (instancetype) initAsPictureESMWithTrigger:(NSString *)trigger;
