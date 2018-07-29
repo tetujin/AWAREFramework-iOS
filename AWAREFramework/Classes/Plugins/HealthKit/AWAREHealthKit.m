@@ -78,7 +78,7 @@
 - (void) createTable{
     // Send a table create query
     // NSLog(@"[%@] create table!", [self getSensorName]);
-    [awareHKWorkout createTable];
+    [awareHKWorkout  createTable];
     [awareHKCategory createTable];
     [awareHKQuantity createTable];
 }

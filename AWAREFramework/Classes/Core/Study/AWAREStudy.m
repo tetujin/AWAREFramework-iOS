@@ -296,7 +296,7 @@ didCompleteWithError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         NSString * url =  [self getStudyURL];
-        NSString * uuid = [AWAREUtils getSystemUUID];
+        NSString * uuid = [self getDeviceId]; //[AWAREUtils getSystemUUID];
         
         bool isExistDeviceId = [self isExistDeviceId:uuid onAwareServer:url];
         if (!isExistDeviceId) {

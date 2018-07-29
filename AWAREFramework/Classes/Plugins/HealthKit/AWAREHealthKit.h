@@ -10,4 +10,6 @@
 
 @interface AWAREHealthKit : AWARESensor <AWARESensorDelegate>
 
+- (void) requestAuthorizationToAccessHealthKit;
+
 @end

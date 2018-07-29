@@ -88,8 +88,8 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
 
 - (void) registerAppforDetectDisplayStatus {
     
-    NSString * head = @"com.apple.iokit.hid.";
-    NSString * tail = @".displayStatus";
+    NSString * head = @"com.apple.springboard";
+    NSString * tail = @".lockstate";
     
     notify_register_dispatch((char *)[head stringByAppendingString:tail].UTF8String, &_notifyTokenForDidChangeLockStatus,dispatch_get_main_queue(), ^(int token) {
         

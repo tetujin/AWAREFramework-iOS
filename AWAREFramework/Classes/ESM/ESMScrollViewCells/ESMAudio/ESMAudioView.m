@@ -43,35 +43,6 @@
     // int widthSpace = 20;
     int previewHeight = 260;
     
-//    UIView * audioBaseLevelView = [[UIView alloc] initWithFrame:CGRectMake(0,0,
-//                                                              10,
-//                                                              10)];
-//    audioBaseLevelView.layer.cornerRadius = audioBaseLevelView.frame.size.width / 2.0;
-//    audioBaseLevelView.center = CGPointMake(self.mainView.center.x, previewHeight/2);
-//    audioBaseLevelView.clipsToBounds = YES;
-//    audioBaseLevelView.backgroundColor = [UIColor whiteColor];
-//    [self.mainView addSubview:audioBaseLevelView];
-    
-
-    
-    /////////////////////////////////////////////////////////////////////////////
-//    int previewHeight = (self.mainView.frame.size.width-(widthSpace*2))/3 * 4;
-//    AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
-//    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//    previewLayer.frame = CGRectMake(widthSpace,
-//                                    0, //self.mainView.frame.origin.y,
-//                                    self.mainView.frame.size.width-(widthSpace*2),
-//                                    previewHeight);
-//    [self.mainView.layer insertSublayer:previewLayer atIndex:0];
-    
-    ///////////////////////////////////////////////////////////////////////////////
-//    _playerViewController = [[AVPlayerViewController alloc] init];
-//    _playerViewController.view.frame = CGRectMake(0, 0, self.mainView.frame.size.width, 100);
-//    _playerViewController.showsPlaybackControls = YES;
-//    _playerViewController.view.hidden = YES;
-//    _playerViewController.view.contentMode = UIViewContentModeScaleToFill;
-//    [self.mainView addSubview:_playerViewController.view];
-    
     /////////////////////////////////////////////////////////////////////////////
     timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     timerLabel.center = CGPointMake(self.mainView.center.x,

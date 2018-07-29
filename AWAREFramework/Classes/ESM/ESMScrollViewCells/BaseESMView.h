@@ -30,14 +30,13 @@ typedef enum: NSInteger {
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 
 @property (nonatomic) IBOutlet EntityESM * esmEntity;
-
-@property (nonatomic) IBOutlet UILabel *titleLabel;
-@property (nonatomic) IBOutlet UILabel *instructionLabel;
-@property (nonatomic) IBOutlet UIView *mainView;
-@property (nonatomic) IBOutlet UIView *naView;
-@property (nonatomic) IBOutlet UIButton *naButton;
-@property (nonatomic) IBOutlet UIView *splitLineView;
-@property (nonatomic) IBOutlet UIView *spaceView;
+@property (nonatomic) IBOutlet UILabel   * titleLabel;
+@property (nonatomic) IBOutlet UILabel   * instructionLabel;
+@property (nonatomic) IBOutlet UIView    * mainView;
+@property (nonatomic) IBOutlet UIView    * naView;
+@property (nonatomic) IBOutlet UIButton  * naButton;
+@property (nonatomic) IBOutlet UIView    * splitLineView;
+@property (nonatomic) IBOutlet UIView    * spaceView;
 
 @property BOOL isDebug;
 

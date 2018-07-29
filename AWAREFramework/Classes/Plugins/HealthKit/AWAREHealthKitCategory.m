@@ -30,15 +30,15 @@
                             storage:storage];
     if(self){
         KEY_DEVICE_ID = @"device_id";
-        KEY_TIMESTAMP =@"timestamp";
+        KEY_TIMESTAMP = @"timestamp";
         KEY_DATA_TYPE_ID = @"type_id";
         KEY_DATA_TYPE = @"type";
-        KEY_VALUE = @"value";
-        KEY_UNIT = @"unit";
+        KEY_VALUE  = @"value";
+        KEY_UNIT   = @"unit";
         // KEY_START = @"start";
-        KEY_END = @"timestamp_end";
+        KEY_END    = @"timestamp_end";
         KEY_DEVICE = @"device";
-        KEY_LABLE = @"label";
+        KEY_LABLE  = @"label";
     }
     return self;
 }

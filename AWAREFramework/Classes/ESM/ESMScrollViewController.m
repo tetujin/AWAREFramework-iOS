@@ -45,8 +45,6 @@
     // int currentESMScheduleNumber;
     int totalHight;
     int esmNumber;
-     NSString * finalBtnLabel;
-     NSString * cancelBtnLabel;
     
     // for touch events
     NSMutableArray* freeTextViews;
@@ -101,9 +99,17 @@
     
     _isSaveAnswer = YES;
     
+    _submitButtonText = @"Submit";
+    _cancelButtonText = @"Cancel";
+    
+    _sendCompletionAlert = YES;
+    _completionAlertMessage = @"Thank you for your answer!";
+    _completionAlertCloseButton = @"close";
+    
+    _showUploadingAlert = YES;
+    _uploadingAlertMessage = @"uploading";
+    
     flowsFlag = NO;
-    finalBtnLabel = @"Submit";
-    cancelBtnLabel = @"Cancel";
     freeTextViews = [[NSMutableArray alloc] init];
     sliderViews   = [[NSMutableArray alloc] init];
     numberViews   = [[NSMutableArray alloc] init];
@@ -181,7 +187,8 @@
                 // [self setEsm:sortedEsms[currentESMNumber] withTag:0 button:YES];
                 EntityESM * esm = sortedEsms[currentESMNumber];
                 [self addAnESM:esm];
-                finalBtnLabel = esm.esm_submit;
+                // finalBtnLabel = esm.esm_submit;
+                _submitButtonText = esm.esm_submit;
                 self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%ld)",
                                              esmSchedule.schedule_id,
                                              currentESMNumber+1,
@@ -208,7 +215,8 @@
             for (EntityESM * esm in nextESMs) {
                 NSLog(@"%@",esm.esm_title);
                 [self addAnESM:esm];
-                finalBtnLabel = esm.esm_submit;
+                // finalBtnLabel = esm.esm_submit;
+                _submitButtonText = esm.esm_submit;
                 if([esm.esm_type isEqualToNumber:@5]){
                     isQuickAnswer = YES;
                 }
@@ -229,7 +237,7 @@
         [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         cancelBtn.layer.borderColor = [UIColor grayColor].CGColor;
         cancelBtn.layer.borderWidth = 2;
-        [cancelBtn setTitle:cancelBtnLabel forState:UIControlStateNormal];
+        [cancelBtn setTitle:_cancelButtonText forState:UIControlStateNormal];
         [cancelBtn.titleLabel setFont:[UIFont systemFontOfSize:20]];
         [cancelBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [cancelBtn addTarget:self action:@selector(pushedCancelButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -241,7 +249,7 @@
                                                                           self.view.frame.size.width/5*3-15,
                                                                           60)];
         [submitBtn setBackgroundColor:[UIColor darkGrayColor]];
-        [submitBtn setTitle:finalBtnLabel forState:UIControlStateNormal];
+        [submitBtn setTitle:_submitButtonText forState:UIControlStateNormal];
         [submitBtn.titleLabel setFont:[UIFont systemFontOfSize:20]];
         [submitBtn addTarget:self action:@selector(pushedSubmitButton:) forControlEvents:UIControlEventTouchUpInside];
         [_mainScrollView addSubview:submitBtn];
@@ -445,16 +453,16 @@
             NSLog(@"---------------------");
             
             //////////////////////////////////////////////////
-            entityESMSchedule.fire_hour = [esm.fire_hour copy];
+            entityESMSchedule.fire_hour   = [esm.fire_hour copy];
             entityESMSchedule.expiration_threshold = [esm.expiration_threshold copy];
-            entityESMSchedule.start_date = [esm.start_date copy];
-            entityESMSchedule.end_date = [esm.end_date copy];
-            entityESMSchedule.notification_title = [esm.notification_title copy];
-            entityESMSchedule.notification_body = [esm.notification_body copy];
-            entityESMSchedule.randomize_schedule = [esm.randomize_schedule copy];
+            entityESMSchedule.start_date  = [esm.start_date copy];
+            entityESMSchedule.end_date    = [esm.end_date copy];
+            entityESMSchedule.notification_title   = [esm.notification_title copy];
+            entityESMSchedule.notification_body    = [esm.notification_body copy];
+            entityESMSchedule.randomize_schedule   = [esm.randomize_schedule copy];
             entityESMSchedule.schedule_id = [esm.schedule_id copy];
-            entityESMSchedule.contexts = [esm.contexts copy];
-            entityESMSchedule.interface = [esm.interface copy];
+            entityESMSchedule.contexts    = [esm.contexts copy];
+            entityESMSchedule.interface   = [esm.interface copy];
             
             // NSLog(@"[esm_app_integration] %@", [esmView.esmEntity.esm_app_integration copy]);
             appIntegration = esm.esm_app_integration;
@@ -540,41 +548,57 @@
             if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""] || !_isSaveAnswer){
                 esmNumber = 0;
                 currentESMNumber = 0;
-                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (_sendCompletionAlert) {
+                    
+                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [alertController addAction:[UIAlertAction actionWithTitle:_completionAlertCloseButton style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            
+                        }];
+                    }]];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                    
+                }else{
                     [self.navigationController popToRootViewControllerAnimated:YES];
                     [self dismissViewControllerAnimated:YES completion:^{
                         
                     }];
-                }]];
-                
-                [self presentViewController:alertController animated:YES completion:^{
-                    
-                }];
-                
-                
+                }
+
             }else{
-                [SVProgressHUD showWithStatus:@"uploading"];
+                
+                if(_showUploadingAlert){
+                    [SVProgressHUD showWithStatus:_uploadingAlertMessage];
+                }
                 
                 ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
                 [esmManager refreshESMNotifications];
                 
-                __block typeof(self) blockSelf = self; // TODO
+                __block typeof(self) blockSelf = self;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    [SVProgressHUD dismiss];
-                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Thank you for your answer!" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    [alertController addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        self->esmNumber = 0;
-                        self->currentESMNumber = 0;
-                        [blockSelf.navigationController popToRootViewControllerAnimated:YES];
-                        [blockSelf dismissViewControllerAnimated:YES completion:^{
+                    if(_showUploadingAlert) [SVProgressHUD dismiss];
+                    
+                    // send alert and close
+                    if (_sendCompletionAlert) {
+                        UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
+                        [alertController addAction:[UIAlertAction actionWithTitle:_completionAlertCloseButton style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            self->esmNumber = 0;
+                            self->currentESMNumber = 0;
+                            [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                            [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                        }]];
+                        
+                        [blockSelf presentViewController:alertController animated:YES completion:^{
                             
                         }];
-                    }]];
+                    // close
+                    }else{
+                        [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                        [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                    }
                     
-                    [blockSelf presentViewController:alertController animated:YES completion:^{
-                        
-                    }];
                 }];
                 [esmSensor startSyncDB];
             }
