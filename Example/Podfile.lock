@@ -1,15 +1,16 @@
 PODS:
-  - AWAREFramework (1.0.0):
+  - AWAREFramework (1.1.5):
     - EAIntroView (~> 2.9.0)
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
     - SVProgressHUD
     - TPCircularBuffer
+  - CocoaAsyncSocket (7.6.3)
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
-  - GoogleSignIn (4.1.2):
+  - GoogleSignIn (4.2.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMOAuth2 (~> 1.0)
@@ -24,12 +25,13 @@ PODS:
   - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.15):
-    - GTMSessionFetcher/Full (= 1.1.15)
-  - GTMSessionFetcher/Core (1.1.15)
-  - GTMSessionFetcher/Full (1.1.15):
-    - GTMSessionFetcher/Core (= 1.1.15)
-  - ios-ntp (1.1.8)
+  - GTMSessionFetcher (1.2.0):
+    - GTMSessionFetcher/Full (= 1.2.0)
+  - GTMSessionFetcher/Core (1.2.0)
+  - GTMSessionFetcher/Full (1.2.0):
+    - GTMSessionFetcher/Core (= 1.2.0)
+  - ios-ntp (1.1.9):
+    - CocoaAsyncSocket
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
   - macros_blocks/core (0.0.4)
@@ -45,6 +47,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - CocoaAsyncSocket
     - EAIntroView
     - EARestrictedScrollView
     - GoogleSignIn
@@ -62,14 +65,15 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: bf2ee42d3d9af050400b7e8f23a4bc49617e4e79
+  AWAREFramework: a2f0742f1c9400c54843053fda05d3656130d172
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
-  GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
+  GoogleSignIn: 591e46382014e591269f862ba6e7bc0fbd793532
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  ios-ntp: f363fc8445fabcd0bc5b89cb5745dcde1387aeeb
+  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  ios-ntp: 49a4ef0866aee5343627710c1c7de71d7c064417
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6

@@ -112,6 +112,7 @@
 #import "EntityLocationVisit+CoreDataProperties.h"
 #import "EntityLocationVisit.h"
 #import "FusedLocations.h"
+#import "AWAREGoogleLoginViewController.h"
 #import "GoogleLogin.h"
 #import "AWAREHealthKit.h"
 #import "AWAREHealthKitCategory.h"

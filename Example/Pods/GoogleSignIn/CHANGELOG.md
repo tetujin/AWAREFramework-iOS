@@ -1,10 +1,17 @@
+# 2018-8-10 -- v4.2.0
+- Adds `grantedScopes` to `GIDGoogleUser`, allowing confirmation of which scopes
+  have been granted after a successful sign-in.
+- Deprecates `accessibleScopes` in `GIDGoogleUser`, use `grantedScopes` instead.
+- Localizes `GIDSignInButton` for hi (Hindi) and fr-CA (French (Canada)).
+- Adds dependency to the system `LocalAuthentication` framework.
+
 # 2018-1-8 -- v4.1.2
 - Add `pod try` support for the GoogleSignIn CocoaPod.
 
 # 2017-10-17 -- v4.1.1
 - Fixes an issue that `GIDSignInUIDelegate`'s `signInWillDispatch:error:` was
   not called on iOS 11. Please note that it is intended that neither
-  `signIn:presentViewController:` nor `signIn:dimissViewController:` is called
+  `signIn:presentViewController:` nor `signIn:dismissViewController:` is called
   on iOS 11 because SFAuthenticationSession is not presented by the app's view
   controller.
 

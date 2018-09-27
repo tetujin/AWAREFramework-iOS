@@ -11,78 +11,90 @@
 #import "AWAREUtils.h"
 #import "TCQMaker.h"
 
-NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com";
-
 @implementation GoogleLogin {
     NSString* KEY_GOOGLE_NAME;
     NSString* KEY_GOOGLE_EMAIL;
     NSString* KEY_GOOGLE_BLOB_PICTURE;
     NSString* KEY_GOOGLE_PHONENUMBER;
     NSString* KEY_GOOGLE_USER_ID;
-    
-    BOOL encryptionName;
-    BOOL encryptionEmail;
-    BOOL encryptionUserId;
+    NSString* GOOGLE_LOGIN_CLIENT_ID;
 }
 
-- (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                            dbType:(AwareDBType)dbType
+{
+    return [self initWithAwareStudy:study dbType:dbType clientId:nil];
+}
+
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                            dbType:(AwareDBType)dbType
+                          clientId:(NSString*) clientId
+{
     AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_PLUGIN_GOOGLE_LOGIN];
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_GOOGLE_LOGIN
                              storage:storage];
     if (self) {
-        KEY_GOOGLE_USER_ID = @"user_id";
-        KEY_GOOGLE_NAME = @"name";
-        KEY_GOOGLE_EMAIL = @"email";
+        GOOGLE_LOGIN_CLIENT_ID  = clientId;
+        if(clientId==nil){
+            GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com";
+        }
+        KEY_GOOGLE_USER_ID      = @"user_id";
+        KEY_GOOGLE_NAME         = @"name";
+        KEY_GOOGLE_EMAIL        = @"email";
         KEY_GOOGLE_BLOB_PICTURE = @"blob_picture";
-        KEY_GOOGLE_PHONENUMBER = @"phonenumber";
-        encryptionName = NO;
-        encryptionEmail = NO;
-        encryptionUserId = NO;
-//        [self.storage allowsCellularAccess];
-//        [self.storage allowsDateUploadWithoutBatteryCharging];
-        
-//        [self setCSVHeader:@[@"device_id",
-//                             @"timestamp",
-//                             KEY_GOOGLE_USER_ID,
-//                             KEY_GOOGLE_NAME,
-//                             KEY_GOOGLE_EMAIL]];
+        KEY_GOOGLE_PHONENUMBER  = @"phonenumber";
     }
     return self;
 }
 
-- (void) createTable {
+- (void) createTable
+{
     // Send a table create query
-    NSLog(@"[%@] Crate table.", [self getSensorName]);
-    
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
     [tcqMaker addColumn:KEY_GOOGLE_USER_ID type:TCQTypeText default:@"''"];
-    [tcqMaker addColumn:KEY_GOOGLE_NAME type:TCQTypeText default:@"''"];
-    [tcqMaker addColumn:KEY_GOOGLE_EMAIL type:TCQTypeText default:@"''"];
-
-    // [super createTable:[tcqMaker getDefaudltTableCreateQuery]];
+    [tcqMaker addColumn:KEY_GOOGLE_NAME    type:TCQTypeText default:@"''"];
+    [tcqMaker addColumn:KEY_GOOGLE_EMAIL   type:TCQTypeText default:@"''"];
     [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
-- (BOOL)startSensor{
-    
-//    encryptionName = [self getBoolFromSettings:settings withKey:@"encryption_name_sha1"];
-//    encryptionEmail = [self getBoolFromSettings:settings withKey:@"encryption_email_sha1"];
-//    encryptionUserId = [self getBoolFromSettings:settings withKey:@"encryption_user_id_sha1"];
-//    
-//    [defaults setBool:encryptionName    forKey:@"encryption_name_sha1"];
-//    [defaults setBool:encryptionEmail   forKey:@"encryption_email_sha1"];
-//    [defaults setBool:encryptionUserId  forKey:@"encryption_user_id_sha1"];
-//    
+- (void)setClientId:(NSString *)clientId
+{
+    GOOGLE_LOGIN_CLIENT_ID = clientId;
+}
 
++ (void) setNameEncryption:(BOOL)state{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:state forKey:@"encryption_name_sha1"];
+    [defaults synchronize];
+}
+
++ (void) setEmailEncryption:(BOOL)state{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:state forKey:@"encryption_email_sha1"];
+    [defaults synchronize];
+}
+
++ (void) setisUserIdEncryption:(BOOL)state{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:state forKey:@"encryption_user_id_sha1"];
+    [defaults synchronize];
+}
+
+- (BOOL)startSensor
+{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    if (GOOGLE_LOGIN_CLIENT_ID == nil) {
+        NSLog(@"[Error] Google Login ClientID is null. please ClientID.");
+        return NO;
+    }
+    [GIDSignIn sharedInstance].clientID = GOOGLE_LOGIN_CLIENT_ID;
+    
     NSString * userId = [defaults objectForKey:@"GOOGLE_ID"];
     if(userId == nil){
         [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GOOGLE_LOGIN_REQUEST
                                                             object:nil
                                                           userInfo:nil];
-    }else{
-        [self performSelector:@selector(startSyncDB) withObject:nil afterDelay:1];
     }
     
     [self setSensingState:YES];
@@ -90,29 +102,40 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     return YES;
 }
 
-- (BOOL)stopSensor {
-    
+- (BOOL)stopSensor
+{
     [self setSensingState:NO];
-    
     return YES;
+}
+
+/////////////////////////////////////////////////////
+
+- (BOOL)isNeedLogin{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSString * userId = [defaults objectForKey:@"GOOGLE_ID"];
+    if(userId == nil){
+        return YES;
+    }else{
+        return NO;
+    }
 }
 
 //////////////////////////////////////////////////////
 
 - (void) setGoogleAccountWithUserId:(NSString *)userId
                                name:(NSString* )name
-                              email:(NSString *)email {
-    
+                              email:(NSString *)email
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:userId  forKey:@"GOOGLE_ID"];
     [defaults setObject:name    forKey:@"GOOGLE_NAME"];
     [defaults setObject:email   forKey:@"GOOGLE_EMAIL"];
     [defaults synchronize];
-    
-    [self saveStoredGoogleAccount];
+    [self saveStoredGoogleUserInfo];
 }
 
-+ (void) deleteGoogleAccountFromLocalStorage {
++ (void) deleteGoogleAccountFromLocalStorage
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"GOOGLE_ID"];
     [defaults removeObjectForKey:@"GOOGLE_NAME"];
@@ -120,50 +143,53 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     [defaults synchronize];
 }
 
-+ (NSString *) getGoogleAccountId {
++ (NSString *) getGoogleUserId
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString * userId = [defaults objectForKey:@"GOOGLE_ID"];
     return userId;
 }
 
-+ (NSString *) getGoogleAccountName{
++ (NSString *) getGoogleUserName
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString * name = [defaults objectForKey:@"GOOGLE_NAME"];
     return name;
 }
 
-+ (NSString *) getGoogleAccountEmail{
++ (NSString *) getGoogleUserEmail
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString * email = [defaults objectForKey:@"GOOGLE_EMAIL"];
     return email;
 }
 
-- (BOOL) saveStoredGoogleAccount {
+- (BOOL) saveStoredGoogleUserInfo
+{
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString * userId = [defaults objectForKey:@"GOOGLE_ID"];
-    NSString * name = [defaults objectForKey:@"GOOGLE_NAME"];
-    NSString * email = [defaults objectForKey:@"GOOGLE_EMAIL"];
+    NSString * name   = [defaults objectForKey:@"GOOGLE_NAME"];
+    NSString * email  = [defaults objectForKey:@"GOOGLE_EMAIL"];
     
-    encryptionName   = [defaults boolForKey:@"encryption_name_sha1"];
-    encryptionEmail  = [defaults boolForKey:@"encryption_email_sha1"];
-    encryptionUserId = [defaults boolForKey:@"encryption_user_id_sha1"];
+    bool isNameEncryption   = [defaults boolForKey:@"encryption_name_sha1"];
+    bool isEmailEncryption  = [defaults boolForKey:@"encryption_email_sha1"];
+    bool isUserIdEncryption = [defaults boolForKey:@"encryption_user_id_sha1"];
     
     if(email == nil || userId == nil || name == nil){
         return NO;
     }
     
-    if(email != nil && encryptionEmail) {
+    if(email != nil  && isEmailEncryption) {
         email = [AWAREUtils sha1:email];
     }
     
-    if(name != nil && encryptionName){
+    if(name != nil   && isNameEncryption){
         name = [AWAREUtils sha1:name];
     }
     
-    if(userId != nil && encryptionUserId){
+    if(userId != nil && isUserIdEncryption){
         userId = [AWAREUtils sha1:userId];
     }
-    
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
@@ -173,23 +199,20 @@ NSString * const GOOGLE_LOGIN_CLIENT_ID = @"513561083200-em3srmsc40a2q6cuh8o2hgu
     [dict setObject:name               forKey:KEY_GOOGLE_NAME];
     [dict setObject:email              forKey:KEY_GOOGLE_EMAIL];
     // [dic setObject:[NSNull null]      forKey:KEY_GOOGLE_BLOB_PICTURE];
-    // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
-    [self performSelector:@selector(startSyncDB) withObject:0 afterDelay:3];
-    
-    SensorEventHandler handler = [self getSensorEventHandler];
-    if (handler!=nil) {
-        handler(self, dict);
-    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GOOGLE_LOGIN_SUCCESS
+                                                        object:nil
+                                                      userInfo:nil];
     
     return YES;
 }
 
 //////////////////////////////////////////////////////
-
--(BOOL) getBoolFromSettings:(NSArray *)settings withKey:(NSString * )key{
-    
+-(BOOL) getBoolFromSettings:(NSArray *)settings
+                    withKey:(NSString * )key
+{
     if (settings == nil) return NO;
     
     for (NSDictionary * setting in settings) {

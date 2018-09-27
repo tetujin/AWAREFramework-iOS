@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GoogleSignIn/GoogleSignIn.h>
 
 #import "AWARECore.h"
 #import "CoreDataHandler.h"
 
-@interface AWAREDelegate : UIResponder <UIApplicationDelegate, GIDSignInDelegate,  UIAlertViewDelegate>
+@interface AWAREDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

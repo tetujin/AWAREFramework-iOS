@@ -4,6 +4,7 @@ framework module GoogleSignIn {
   module * { export *}
   link framework "CoreGraphics"
   link framework "CoreText"
+  link framework "LocalAuthentication"
   link framework "SafariServices"
   link framework "Security"
   link framework "SystemConfiguration"}

@@ -18,9 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [GIDSignIn sharedInstance].clientID = GOOGLE_LOGIN_CLIENT_ID;
-    [GIDSignIn sharedInstance].delegate = self;
-    
     // NSLog(@"Turn 'OFF' the auto sleep mode on this app");
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
@@ -108,24 +105,6 @@
                                           annotation:annotation];
     }
     
-}
-
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    NSString *userId = user.userID;                  // For client-side use only!
-    // NSString *idToken = user.authentication.idToken; // Safe to send to the server
-    NSString *name = user.profile.name;
-    NSString *email = user.profile.email;
-    
-    if (name != nil ) {
-        GoogleLogin * googleLogin = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-        [googleLogin setGoogleAccountWithUserId:userId name:name email:email];
-    }
-}
-
-
-- (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    // Perform any operations when the user disconnects from app here.
-    NSLog(@"Google login error..");
 }
 
 @end

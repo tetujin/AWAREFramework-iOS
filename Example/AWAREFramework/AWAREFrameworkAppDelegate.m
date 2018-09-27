@@ -8,6 +8,8 @@
 
 #import "AWAREFrameworkAppDelegate.h"
 
+#import <GoogleSignIn/GoogleSignIn.h>
+
 @implementation AWAREFrameworkAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -18,9 +20,10 @@
     
     AWARECore * core = [AWARECore sharedCore];
     [core activate];
-    [core requestPermissionForBackgroundSensing];
+//    [core requestPermissionForBackgroundSensing];
     // core.isNeedBackgroundSensing = NO;
-    
+
+
     // Override point for customization after application launch.
     
 //    [AWAREStudy.sharedStudy joinStudyWithURL:@"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga" completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
@@ -32,7 +35,7 @@
 //    AWAREStudy * study = AWAREStudy.sharedStudy;
 //    [study setSetting:AWARE_PREFERENCES_STATUS_WIFI value:@"true"];
 //    
-//    [super application:application didFinishLaunchingWithOptions:launchOptions];
+//
     
     
 //    _ble = [[Bluetooth alloc] initWithDBType:AwareDBTypeSQLite];
@@ -41,7 +44,7 @@
 //    [_ble setScanDuration:10];
 //    [_ble startSensor];
     
-    return YES;
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -75,5 +78,13 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [super applicationWillResignActive:application];
 }
+
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+    return [[GIDSignIn sharedInstance] handleURL:url
+                               sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                      annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+}
+
 
 @end

@@ -16,6 +16,7 @@
 #import <AWAREFramework/CalendarESMScheduler.h>
 #import <AWAREFramework/AWAREKeys.h>
 #import <AWAREFramework/ExternalCoreDataHandler.h>
+#import <AWAREFRamework/GoogleLogin.h>
 
 #import "SampleSensor.h"
 
@@ -31,23 +32,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
-    // [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
-    
-    Accelerometer * acc = [[Accelerometer alloc] init];
-    // [acc setSavingIntervalWithSecond:1];
-    [acc setDebug:true];
-    [acc.storage setDebug:true];
-    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-        // NSLog(@"%@",data);
-    }];
-    if ([acc startSensor]) {
-        NSLog(@"start");
-    }else{
 
-    }
+        // [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
+//
+//    Accelerometer * acc = [[Accelerometer alloc] init];
+//    // [acc setSavingIntervalWithSecond:1];
+//    [acc setDebug:true];
+//    [acc.storage setDebug:true];
+//    [acc setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        // NSLog(@"%@",data);
+//    }];
+//    if ([acc startSensor]) {
+//        NSLog(@"start");
+//    }else{
+//
+//    }
     
 //    [acc performSelector:@selector(startSyncDB) withObject:nil afterDelay:3];
     
@@ -277,6 +276,22 @@
 
 
 - (void)viewDidAppear:(BOOL)animated{
+
+//    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy]
+//                                                           dbType:AwareDBTypeJSON
+//                                                         clientId:@"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com"];
+//
+//    [login startSensor];
+//
+//    //if([login isNeedLogin]){
+//        AWAREGoogleLoginViewController * loginViewController = [[AWAREGoogleLoginViewController alloc] init];
+//        loginViewController.googleLogin = login;
+//        [self presentViewController:loginViewController animated:YES completion:^{
+//            NSLog(@"done");
+//        }];
+//    //}
+
+    
     [super viewDidAppear:animated];
     ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
     NSArray * schdules = [esmManager getValidSchedules];
