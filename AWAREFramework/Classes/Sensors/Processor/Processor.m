@@ -135,7 +135,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
         handler(self, dict);
     }
     
-    malloc(cpuUsageFloat);
+    // malloc(cpuUsageFloat);
 }
 
 - (BOOL)stopSensor{

@@ -7,13 +7,14 @@
 //
 
 #import "AWARESensor.h"
+#import "AWAREMotionSensor.h"
 #import "AWAREKeys.h"
 #import <mach/mach.h>
 
 extern NSString* const AWARE_PREFERENCES_STATUS_PROCESSOR;
 extern NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR;
 
-@interface Processor : AWARESensor <AWARESensorDelegate>
+@interface Processor : AWAREMotionSensor <AWARESensorDelegate>
 
 + (float) getDeviceCpuUsage;
 + (float) getCpuUsage;
