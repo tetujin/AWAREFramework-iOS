@@ -20,10 +20,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     NSTimer *locationTimer;
     IBOutlet CLLocationManager *locationManager;
     
-    Locations * locationSensor;
-    VisitLocations * visitLocationSensor;
-    // AWAREStudy * awareStudy;
-    
     CLLocation * previousLocation;
 }
 
@@ -39,10 +35,10 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     // awareStudy = study;
     if (self) {
         // Make a fused location sensor
-        locationSensor = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
+        _locationSensor = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
         
         // Make a visit location sensor
-        visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:study dbType:dbType];
+        _visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:study dbType:dbType];
         _intervalSec = 180;
         _accuracyMeter = 100;
         
@@ -57,11 +53,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 
 - (void)createTable{
     // Send a table create query
-    [locationSensor createTable];
+    [_locationSensor createTable];
     
     //////////////////////////
     // Send a table create query
-    [visitLocationSensor createTable];
+    [_visitLocationSensor createTable];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -130,7 +126,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
         
         locationManager.distanceFilter = fiterMeter;
         
-        [locationSensor saveAuthorizationStatus:[CLLocationManager authorizationStatus]];
+        [_locationSensor saveAuthorizationStatus:[CLLocationManager authorizationStatus]];
         
         // Set a movement threshold for new events.
         [locationManager startMonitoringVisits]; // This method calls didVisit.
@@ -170,14 +166,14 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 }
 
 - (void) startSyncDB{
-    [visitLocationSensor startSyncDB];
-    [locationSensor startSyncDB];
+    [_visitLocationSensor startSyncDB];
+    [_locationSensor startSyncDB];
     [super startSyncDB];
 }
 
 - (void)stopSyncDB{
-    [visitLocationSensor stopSyncDB];
-    [locationSensor stopSyncDB];
+    [_visitLocationSensor stopSyncDB];
+    [_locationSensor stopSyncDB];
     [super stopSyncDB];
 }
 
@@ -226,8 +222,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     [dict setObject:@"fused" forKey:@"provider"];
     [dict setObject:[NSNumber numberWithInt:accuracy] forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
-    [locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
-    [locationSensor setLatestData:dict];
+    [_locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
+    [_locationSensor setLatestData:dict];
     
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
                           location.coordinate.latitude,
@@ -247,7 +243,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 - (void)locationManager:(CLLocationManager *)manager
                didVisit:(CLVisit *)visit {
 
-    [visitLocationSensor locationManager:manager didVisit:visit];
+    [_visitLocationSensor locationManager:manager didVisit:visit];
     
 }
 
@@ -263,7 +259,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
-    [locationSensor saveAuthorizationStatus:status];
+    [_locationSensor saveAuthorizationStatus:status];
 }
 
 

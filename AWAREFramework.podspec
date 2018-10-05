@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.1.7'
+  s.version          = '1.1.8'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -48,7 +48,7 @@ Pod::Spec.new do |s|
   s.dependency 'ios-ntp'
   # s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
   s.dependency 'SVProgressHUD'
-  s.dependency 'EAIntroView', '~> 2.9.0'
+  # s.dependency 'EAIntroView', '~> 2.9.0'
   s.dependency 'TPCircularBuffer'
   
   s.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
