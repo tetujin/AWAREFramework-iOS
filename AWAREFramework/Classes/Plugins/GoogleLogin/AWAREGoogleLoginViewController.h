@@ -6,8 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@import GoogleSignIn;
+#import <GoogleSignIn/GoogleSignIn.h>
 #import "GoogleLogin.h"
+
+// @import GoogleSignIn;
 
 NS_ASSUME_NONNULL_BEGIN
 
