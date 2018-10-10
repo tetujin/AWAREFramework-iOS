@@ -53,6 +53,8 @@
 	<string>This application needs to access your camera for recording a video.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>This application needs to access contacts information</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>This application needs to access your HealthKit app for recording your HealthKit information.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

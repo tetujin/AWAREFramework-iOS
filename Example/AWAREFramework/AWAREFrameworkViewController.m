@@ -17,6 +17,7 @@
 #import <AWAREFramework/AWAREKeys.h>
 #import <AWAREFramework/ExternalCoreDataHandler.h>
 #import <AWAREFRamework/GoogleLogin.h>
+#import <AWAREFramework/AWAREHealthKit.h>
 
 #import "SampleSensor.h"
 
@@ -28,17 +29,21 @@
 @implementation AWAREFrameworkViewController{
     NSTimer * timer;
     SampleSensor * sensor;
+    AWAREHealthKit * healthKit;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    Processor * processor = [[Processor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-    [processor startSensor];
-    [processor setDebug:YES];
-    [processor setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
-        NSLog(@"%@", data);
-    }];
+    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+    [healthKit startSensor];
+    
+//    Processor * processor = [[Processor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+//    [processor startSensor];
+//    [processor setDebug:YES];
+//    [processor setSensorEventHandler:^(AWARESensor *sensor, NSDictionary *data) {
+//        NSLog(@"%@", data);
+//    }];
         // [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
 //
 //    Accelerometer * acc = [[Accelerometer alloc] init];

@@ -7,7 +7,7 @@
 //
 
 #import "AWARESensor.h"
-// #import <HealthKit/HealthKit.h>
+#import <HealthKit/HealthKit.h>
 
 @interface AWAREHealthKitCategory : AWARESensor
 
