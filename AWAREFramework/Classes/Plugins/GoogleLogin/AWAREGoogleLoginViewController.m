@@ -25,24 +25,25 @@
     // Uncomment to automatically sign in the user.
     //[[GIDSignIn sharedInstance] signInSilently];
     
-    UIView * backscreen = [[UIView alloc] initWithFrame:self.view.frame];
-    [backscreen setBackgroundColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
-    [self.view addSubview:backscreen];
+    _backgroundView = [[UIView alloc] initWithFrame:self.view.frame];
+    [_backgroundView setBackgroundColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
+    [self.view addSubview:_backgroundView];
     
-    GIDSignInButton * button = [[GIDSignInButton alloc] initWithFrame:CGRectMake(0, 0, 230, 48)];
-    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSLayoutConstraint *loginButtonCenterConstraint = [NSLayoutConstraint constraintWithItem:button
+    _googleLoginButton = [[GIDSignInButton alloc] initWithFrame:CGRectMake(0, 0, 312, 48)];
+    [_googleLoginButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_googleLoginButton setStyle:kGIDSignInButtonStyleWide];
+    _googleLoginButtonCenterConstraint = [NSLayoutConstraint constraintWithItem:_googleLoginButton
                                                                    attribute:NSLayoutAttributeCenterX
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:self.view
                                                                    attribute:NSLayoutAttributeCenterX
                                                                   multiplier:1
                                                                     constant:0];
-    NSLayoutConstraint *loginButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                                   attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:-100];
-    [self.view addSubview:button];
-    [self.view addConstraint:loginButtonCenterConstraint];
-    [self.view addConstraint:loginButtonBottomConstraint];
+    _googleLoginButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:_googleLoginButton
+                                                                                   attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:-200];
+    [self.view addSubview:_googleLoginButton];
+    [self.view addConstraint:_googleLoginButtonCenterConstraint];
+    [self.view addConstraint:_googleLoginButtonBottomConstraint];
     
     ///////////////////////////
     
@@ -50,23 +51,23 @@
     [_nameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     _nameLabel.text = @"Name";
-    NSLayoutConstraint *nameLabelYConstraint = [NSLayoutConstraint constraintWithItem:_nameLabel
-                                                                   attribute:NSLayoutAttributeCenterY
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.view
-                                                                   attribute:NSLayoutAttributeCenterY
-                                                                  multiplier:1
-                                                                    constant:0];
-    NSLayoutConstraint *nameLabelXConstraint = [NSLayoutConstraint constraintWithItem:_nameLabel
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self.view
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                           multiplier:1
-                                                                             constant:0];
+    _nameLabelYConstraint = [NSLayoutConstraint constraintWithItem:_nameLabel
+                                                           attribute:NSLayoutAttributeCenterY
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.view
+                                                           attribute:NSLayoutAttributeCenterY
+                                                          multiplier:1
+                                                            constant:0];
+    _nameLabelXConstraint = [NSLayoutConstraint constraintWithItem:_nameLabel
+                                                            attribute:NSLayoutAttributeCenterX
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.view
+                                                            attribute:NSLayoutAttributeCenterX
+                                                           multiplier:1
+                                                             constant:0];
     [self.view addSubview:_nameLabel];
-    [self.view addConstraint:nameLabelYConstraint];
-    [self.view addConstraint:nameLabelXConstraint];
+    [self.view addConstraint:_nameLabelYConstraint];
+    [self.view addConstraint:_nameLabelXConstraint];
     
     ///////////////////////////
     
@@ -74,14 +75,14 @@
     [_accountIdLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     _accountIdLabel.textAlignment = NSTextAlignmentCenter;
     _accountIdLabel.text = @"Account ID";
-    NSLayoutConstraint *accountLabelBottomConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
+    _accountLabelYConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
                                                                             attribute:NSLayoutAttributeCenterY
                                                                             relatedBy:NSLayoutRelationEqual
                                                                                toItem:_nameLabel
                                                                             attribute:NSLayoutAttributeCenterY
                                                                            multiplier:1
                                                                              constant:-60];
-    NSLayoutConstraint *accountLabelXConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
+    _accountLabelXConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
                                                                             attribute:NSLayoutAttributeCenterX
                                                                             relatedBy:NSLayoutRelationEqual
                                                                                toItem:self.view
@@ -89,22 +90,22 @@
                                                                            multiplier:1
                                                                              constant:0];
     [self.view addSubview:_accountIdLabel];
-    [self.view addConstraint:accountLabelBottomConstraint];
-    [self.view addConstraint:accountLabelXConstraint];
+    [self.view addConstraint:_accountLabelYConstraint];
+    [self.view addConstraint:_accountLabelXConstraint];
     
     ////////////////////////////
     _emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
     [ _emailLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
      _emailLabel.textAlignment = NSTextAlignmentCenter;
      _emailLabel.text = @"Email";
-    NSLayoutConstraint * emailLabelBottomConstraint = [NSLayoutConstraint constraintWithItem: _emailLabel
-                                                                                    attribute:NSLayoutAttributeCenterY
-                                                                                    relatedBy:NSLayoutRelationEqual
-                                                                                       toItem:_nameLabel
-                                                                                    attribute:NSLayoutAttributeCenterY
-                                                                                   multiplier:1
-                                                                                     constant:60];
-    NSLayoutConstraint * emailLabelXConstraint = [NSLayoutConstraint constraintWithItem: _emailLabel
+    _emailLabelYConstraint = [NSLayoutConstraint constraintWithItem: _emailLabel
+                                                        attribute:NSLayoutAttributeCenterY
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:_nameLabel
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1
+                                                         constant:60];
+    _emailLabelXConstraint = [NSLayoutConstraint constraintWithItem: _emailLabel
                                                                                attribute:NSLayoutAttributeCenterX
                                                                                relatedBy:NSLayoutRelationEqual
                                                                                   toItem:self.view
@@ -112,8 +113,8 @@
                                                                               multiplier:1
                                                                                 constant:0];
     [self.view addSubview:_emailLabel];
-    [self.view addConstraint:emailLabelBottomConstraint];
-    [self.view addConstraint:emailLabelXConstraint];
+    [self.view addConstraint:_emailLabelYConstraint];
+    [self.view addConstraint:_emailLabelXConstraint];
     
     ///////////////////////////////
     _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 230, 48)];
@@ -122,43 +123,45 @@
     [_closeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_closeButton addTarget:self action:@selector(puhsedCloseButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSLayoutConstraint *closeButtonCenterConstraint = [NSLayoutConstraint constraintWithItem:_closeButton
+    _closeButtonCenterConstraint = [NSLayoutConstraint constraintWithItem:_closeButton
                                                                                    attribute:NSLayoutAttributeCenterX
                                                                                    relatedBy:NSLayoutRelationEqual
                                                                                       toItem:self.view
                                                                                    attribute:NSLayoutAttributeCenterX
                                                                                   multiplier:1
                                                                                     constant:0];
-    NSLayoutConstraint *closeButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:_closeButton
+    _closeButtonYConstraint = [NSLayoutConstraint constraintWithItem:_closeButton
                                                                                    attribute:NSLayoutAttributeBottom
                                                                                    relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:button
+                                                                                      toItem:_googleLoginButton
                                                                                    attribute:NSLayoutAttributeBottom multiplier:1 constant:50];
     [self.view addSubview:_closeButton];
-    [self.view addConstraint:closeButtonCenterConstraint];
-    [self.view addConstraint:closeButtonBottomConstraint];
+    [self.view addConstraint:_closeButtonCenterConstraint];
+    [self.view addConstraint:_closeButtonYConstraint];
 
     ///////////////////////////////
-    _logLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 230, 48)];
-    [_logLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_logLabel setText:@"Push 'Sign in' to Login Your Account!"];
-    [_logLabel setTextColor:[UIColor grayColor]];
+    _messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 230, 48)];
+    [_messageLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_messageLabel setNumberOfLines:2];
+    [_messageLabel setText:@" Push 'Sign in with Google' \n to Login Your Account! "];
+    [_messageLabel setTextColor:[UIColor grayColor]];
+    [_messageLabel setTextAlignment:NSTextAlignmentCenter];
     
-    NSLayoutConstraint *logLabelCenterConstraint = [NSLayoutConstraint constraintWithItem:_logLabel
-                                                                                   attribute:NSLayoutAttributeCenterX
-                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:self.view
-                                                                                   attribute:NSLayoutAttributeCenterX
-                                                                                  multiplier:1
-                                                                                    constant:0];
-    NSLayoutConstraint *logLabelBottomConstraint = [NSLayoutConstraint constraintWithItem:_logLabel
-                                                                                   attribute:NSLayoutAttributeBottom
-                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:self.accountIdLabel
-                                                                                   attribute:NSLayoutAttributeBottom multiplier:1 constant:-120];
-    [self.view addSubview:_logLabel];
-    [self.view addConstraint:logLabelCenterConstraint];
-    [self.view addConstraint:logLabelBottomConstraint];
+    _messageLabelCenterConstraint = [NSLayoutConstraint constraintWithItem:_messageLabel
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.view
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1
+                                                                constant:0];
+    _messageLabelYConstraint = [NSLayoutConstraint constraintWithItem:_messageLabel
+                                                               attribute:NSLayoutAttributeBottom
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.accountIdLabel
+                                                               attribute:NSLayoutAttributeBottom multiplier:1 constant:-120];
+    [self.view addSubview:_messageLabel];
+    [self.view addConstraint:_messageLabelCenterConstraint];
+    [self.view addConstraint:_messageLabelYConstraint];
     
     [self showUserInfo];
 }
@@ -204,7 +207,7 @@ presentViewController:(UIViewController *)viewController {
 // Dismiss the "Sign in with Google" view
 - (void)signIn:(GIDSignIn *)signIn
 dismissViewController:(UIViewController *)viewController {
-    _logLabel.text = @"Dismiss the 'Sign in with Google'";
+    _messageLabel.text = @"Dismiss the 'Sign in with Google'";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -213,12 +216,12 @@ dismissViewController:(UIViewController *)viewController {
      didSignInForUser:(GIDGoogleUser *)user
      withError:(NSError *)error {
     if (_googleLogin!=nil) {
-        _logLabel.text = @"Login Success!";
+        _messageLabel.text = @"Login Success!";
         [_googleLogin setGoogleAccountWithUserId:user.userID
                                             name:user.profile.name
                                            email:user.profile.email];
     }else{
-        _logLabel.text = @"Login Error";
+        _messageLabel.text = @"Login Error";
     }
     [self showUserInfo];
 }

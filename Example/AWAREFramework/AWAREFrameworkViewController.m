@@ -35,8 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-    [healthKit startSensor];
+//    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+//    [healthKit startSensor];
     
 //    Processor * processor = [[Processor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
 //    [processor startSensor];
@@ -288,19 +288,19 @@
 
 - (void)viewDidAppear:(BOOL)animated{
 
-//    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy]
-//                                                           dbType:AwareDBTypeJSON
-//                                                         clientId:@"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com"];
-//
-//    [login startSensor];
-//
-//    //if([login isNeedLogin]){
-//        AWAREGoogleLoginViewController * loginViewController = [[AWAREGoogleLoginViewController alloc] init];
-//        loginViewController.googleLogin = login;
-//        [self presentViewController:loginViewController animated:YES completion:^{
-//            NSLog(@"done");
-//        }];
-//    //}
+    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy]
+                                                           dbType:AwareDBTypeJSON
+                                                         clientId:@"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com"];
+
+    [login startSensor];
+
+    //if([login isNeedLogin]){
+        AWAREGoogleLoginViewController * loginViewController = [[AWAREGoogleLoginViewController alloc] init];
+        loginViewController.googleLogin = login;
+        [self presentViewController:loginViewController animated:YES completion:^{
+            NSLog(@"done");
+        }];
+    //}
 
     
     [super viewDidAppear:animated];
