@@ -301,7 +301,10 @@
             NSLog(@"done");
         }];
     //}
-
+    
+    NSLog(@"%@", [GoogleLogin getUserName]);
+    NSLog(@"%@", [GoogleLogin getEmail]);
+    NSLog(@"%@", [GoogleLogin getPhonenumber]);
     
     [super viewDidAppear:animated];
     ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];

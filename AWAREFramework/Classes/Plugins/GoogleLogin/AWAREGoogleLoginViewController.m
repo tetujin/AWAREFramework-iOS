@@ -69,29 +69,31 @@
     [self.view addConstraint:_nameLabelYConstraint];
     [self.view addConstraint:_nameLabelXConstraint];
     
+    ////////////
+    _phonenumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    [_phonenumberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    _phonenumberLabel.textAlignment = NSTextAlignmentCenter;
+    _phonenumberLabel.text = @"Phone Number";
+    _phonenumberLabelYConstraint = [NSLayoutConstraint constraintWithItem:_phonenumberLabel
+                                                                attribute:NSLayoutAttributeCenterY
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:_nameLabel
+                                                                attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1
+                                                                 constant:-40];
+    _phonenumberLabelXConstraint = [NSLayoutConstraint constraintWithItem:_phonenumberLabel
+                                                                attribute:NSLayoutAttributeCenterX
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.view
+                                                                attribute:NSLayoutAttributeCenterX
+                                                               multiplier:1
+                                                                 constant:0];
+    
     ///////////////////////////
     
-    _accountIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    [_accountIdLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    _accountIdLabel.textAlignment = NSTextAlignmentCenter;
-    _accountIdLabel.text = @"Account ID";
-    _accountLabelYConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
-                                                                            attribute:NSLayoutAttributeCenterY
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:_nameLabel
-                                                                            attribute:NSLayoutAttributeCenterY
-                                                                           multiplier:1
-                                                                             constant:-60];
-    _accountLabelXConstraint = [NSLayoutConstraint constraintWithItem:_accountIdLabel
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self.view
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                           multiplier:1
-                                                                             constant:0];
-    [self.view addSubview:_accountIdLabel];
-    [self.view addConstraint:_accountLabelYConstraint];
-    [self.view addConstraint:_accountLabelXConstraint];
+    [self.view addSubview:_phonenumberLabel];
+    [self.view addConstraint:_phonenumberLabelYConstraint];
+    [self.view addConstraint:_phonenumberLabelXConstraint];
     
     ////////////////////////////
     _emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
@@ -104,7 +106,7 @@
                                                            toItem:_nameLabel
                                                         attribute:NSLayoutAttributeCenterY
                                                        multiplier:1
-                                                         constant:60];
+                                                         constant:40];
     _emailLabelXConstraint = [NSLayoutConstraint constraintWithItem: _emailLabel
                                                                                attribute:NSLayoutAttributeCenterX
                                                                                relatedBy:NSLayoutRelationEqual
@@ -115,6 +117,7 @@
     [self.view addSubview:_emailLabel];
     [self.view addConstraint:_emailLabelYConstraint];
     [self.view addConstraint:_emailLabelXConstraint];
+    
     
     ///////////////////////////////
     _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 230, 48)];
@@ -157,7 +160,7 @@
     _messageLabelYConstraint = [NSLayoutConstraint constraintWithItem:_messageLabel
                                                                attribute:NSLayoutAttributeBottom
                                                                relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self.accountIdLabel
+                                                                  toItem:self.phonenumberLabel
                                                                attribute:NSLayoutAttributeBottom multiplier:1 constant:-120];
     [self.view addSubview:_messageLabel];
     [self.view addConstraint:_messageLabelCenterConstraint];
@@ -171,17 +174,18 @@
 }
 
 - (void) showUserInfo{
-    if ([GoogleLogin getGoogleUserId]!=nil) {
-        _accountIdLabel.text = [GoogleLogin getGoogleUserId];
+    if ([GoogleLogin getUserName]!=nil) {
+        _nameLabel.text = [GoogleLogin getUserName];
     }
 
-    if ([GoogleLogin getGoogleUserName]!=nil) {
-        _nameLabel.text = [GoogleLogin getGoogleUserName];
+    if ([GoogleLogin getEmail]!=nil) {
+        _emailLabel.text = [GoogleLogin getEmail];
+    }
+    
+    if ([GoogleLogin getPhonenumber]!=nil) {
+        _phonenumberLabel.text = [GoogleLogin getPhonenumber];
     }
 
-    if ([GoogleLogin getGoogleUserEmail]!=nil) {
-        _emailLabel.text = [GoogleLogin getGoogleUserEmail];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -217,9 +221,10 @@ dismissViewController:(UIViewController *)viewController {
      withError:(NSError *)error {
     if (_googleLogin!=nil) {
         _messageLabel.text = @"Login Success!";
-        [_googleLogin setGoogleAccountWithUserId:user.userID
-                                            name:user.profile.name
-                                           email:user.profile.email];
+        [_googleLogin setGoogleAccountWithUserName:user.profile.name
+                                             email:user.profile.email
+                                       phonenumber:@""
+                                           picture:nil];
     }else{
         _messageLabel.text = @"Login Error";
     }

@@ -53,16 +53,19 @@
 
 - (BOOL) isNeedLogin;
 
-- (void) setGoogleAccountWithUserId:(NSString *)userId
-                               name:(NSString* )name
-                              email:(NSString *)email;
-+ (void) deleteGoogleAccountFromLocalStorage;
-+ (NSString *) getGoogleUserId;
-+ (NSString *) getGoogleUserName;
-+ (NSString *) getGoogleUserEmail;
+- (void) setGoogleAccountWithUserName:(NSString* )name
+                                email:(NSString *)email
+                          phonenumber:(NSString *)phonenumber
+                              picture:(NSData * __nullable) picture;
 
-+ (void) setNameEncryption:(BOOL)state;
++ (void) deleteGoogleAccountFromLocalStorage;
++ (NSString *) getUserName;
++ (NSString *) getEmail;
++ (NSString *) getPhonenumber;
++ (NSData   *) getPicture;
+
++ (void) setUserNameEncryption:(BOOL)state;
 + (void) setEmailEncryption:(BOOL)state;
-+ (void) setisUserIdEncryption:(BOOL)state;
++ (void) setPhonenumberEncryption:(BOOL)state;
 
 @end

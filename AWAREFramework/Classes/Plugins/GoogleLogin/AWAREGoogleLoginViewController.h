@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSLayoutConstraint *messageLabelYConstraint;
 @property NSLayoutConstraint *messageLabelCenterConstraint;
 
-// Account ID Label (Account ID)
-@property UILabel  * accountIdLabel;
-@property NSLayoutConstraint *accountLabelYConstraint;
-@property NSLayoutConstraint *accountLabelXConstraint;
+// Phonenumber Label (Phonenumber)
+@property UILabel  * phonenumberLabel;
+@property NSLayoutConstraint *phonenumberLabelYConstraint;
+@property NSLayoutConstraint *phonenumberLabelXConstraint;
 
 // Name Label (Name)
 @property UILabel  * nameLabel;
