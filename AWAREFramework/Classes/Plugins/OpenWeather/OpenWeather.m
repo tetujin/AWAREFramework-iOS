@@ -336,6 +336,11 @@ didReceiveResponse:(NSURLResponse *)response
             
             [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
             [self setLatestData:dict];
+            [self setLatestValue:[NSString stringWithFormat:@"Temperature: %@ (Max: %@, Min: %@), Weather: %@",
+                                  [self getTemp],
+                                  [self getTempMax],
+                                  [self getTempMin],
+                                  [self getWeather]]];
             
             SensorEventHandler handler = [self getSensorEventHandler];
             if (handler!=nil) {

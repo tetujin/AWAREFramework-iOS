@@ -14,6 +14,7 @@
     NSString * FILE_EXTENSION;
     NSString * KEY_STORAGE_JSON_SYNC_POSITION;
     BRLineReader * brReader;
+    NSUInteger undoPosition;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -105,14 +106,14 @@
 
 - (void)startSyncStorage {
     NSString* formatedSensorData = [self getJSONFormatData];
-    NSLog(@"%@",formatedSensorData);
+    // NSLog(@"%@",formatedSensorData);
     SyncExecutor *executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
-    
     
     if (formatedSensorData!=nil) {
         [executor syncWithData:[formatedSensorData dataUsingEncoding:NSUTF8StringEncoding] callback:^(NSDictionary *result) {
             if (result!=nil) {
                 NSNumber * success = [result objectForKey:@"result"];
+                NSString * sensorName = [result objectForKey:@"name"];
                 if (success.intValue == 1) {
                     if( self->brReader == nil ){
                         [self resetPosition];
@@ -120,10 +121,19 @@
                         // if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
                         [self clearLocalStorageWithName:self.sensorName type:self->FILE_EXTENSION];
                         [self dataSyncIsFinishedCorrectly];
+                        if (self.syncProcessCallBack != nil) {
+                            // typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
+                            self.syncProcessCallBack(sensorName, 1, nil);
+                        }
                     }else{
                         [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                        if (self.syncProcessCallBack != nil) {
+                            // double progress = double([self getStoredDataSize])/double([self getPostion])
+                            self.syncProcessCallBack(sensorName, 0, nil); // TODO: replay to real data
+                        }
                     }
                 }else{
+                    [self setPosition:self->undoPosition];
                     if (self->retryCurrentCount < self.retryLimit) {
                         if (self.isDebug) NSLog(@"[%@] Retry (%d)",self.sensorName, self->retryCurrentCount);
                         self->retryCurrentCount++;
@@ -136,34 +146,6 @@
             }
         }];
     }
-    
-//    if (formatedSensorData!=nil) {
-//        [executor syncWithData:[formatedSensorData dataUsingEncoding:NSUTF8StringEncoding] callback:^(NSDictionary *result) {
-//            if (result!=nil) {
-//                NSNumber * success = [result objectForKey:@"result"];
-//                if (success.intValue == 1) {
-//                    [self remove];
-//                    if( self->brReader == nil ){
-//                        if (self.isDebug) NSLog(@"[%@] Done",self.sensorName);
-//                        // if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
-//                        [self dataSyncIsFinishedCorrectly];
-//                    }else{
-//                        [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-//                    }
-//                }else{
-//                    if (self->retryCurrentCount < self.retryLimit) {
-//                        if (self.isDebug) NSLog(@"[%@] Retry (%d)",self.sensorName, self->retryCurrentCount);
-//                        self->retryCurrentCount++;
-//                        [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-//                    }else{
-//                        if (self.isDebug) NSLog(@"[%@] End sync process doue to much error HTTP sessions.",self.sensorName);
-//                        [self dataSyncIsFinishedCorrectly];
-//                    }
-//                }
-//            }
-//        }];
-//    }
-//
     
 }
 
@@ -181,6 +163,7 @@
     if (brReader==nil) {
         brReader = [[BRLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
         [brReader setLineSearchPosition:[self getPosition]];
+        undoPosition = [self getPosition];
     }
     NSMutableString * jsonString = [[NSMutableString alloc] init];
     while (true) {
@@ -238,6 +221,14 @@
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:position forKey:KEY_STORAGE_JSON_SYNC_POSITION];
     [userDefaults synchronize];
+}
+
+- (NSUInteger) getStoredDataSize {
+    NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];
+    NSFileManager *man = [NSFileManager defaultManager];
+    NSDictionary *attrs = [man attributesOfItemAtPath: path error: NULL];
+    UInt64 result = [attrs fileSize];
+    return result;
 }
 
 - (NSUInteger) getPosition{

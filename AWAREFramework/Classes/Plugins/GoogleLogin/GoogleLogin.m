@@ -95,6 +95,12 @@
                                                           userInfo:nil];
     }
     
+    NSString * name = [GoogleLogin getUserName];
+    NSString * email = [GoogleLogin getEmail];
+    if (name != nil && email != nil) {
+        [self setLatestValue:[NSString stringWithFormat:@"%@ (%@)", name, email]];
+    }
+    
     [self setSensingState:YES];
     
     return YES;
@@ -216,6 +222,7 @@
     // [dic setObject:[NSNull null]      forKey:KEY_GOOGLE_BLOB_PICTURE];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
     [self setLatestData:dict];
+    [self setLatestValue:[NSString stringWithFormat:@"%@ (%@)", name, email]];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_GOOGLE_LOGIN_SUCCESS
                                                         object:nil
