@@ -98,6 +98,7 @@ typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState sta
 - (NSString *) getStudyConfigurationAsText;
 
 - (void) setDeviceName:(NSString *) deviceName;
+- (BOOL) updateDeviceName:(NSString *)deviceName completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
 - (NSString *) getDeviceName;
 
 /// Sensor and plugin infromation

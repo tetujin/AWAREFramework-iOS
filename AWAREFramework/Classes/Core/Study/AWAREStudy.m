@@ -284,7 +284,7 @@ didCompleteWithError:(NSError *)error {
             NSString * pluginName = [plugin objectForKey:@"plugin"];
             NSArray * settings = [plugin objectForKey:@"settings"];
             if (settings != nil) {
-                for (NSDictionary * setting in sensors) {
+                for (NSDictionary * setting in settings) {
                     NSString * key = [setting objectForKey:@"setting"];
                     NSObject * value = [setting objectForKey:@"value"];
                     [self setSetting:key value:value packageName:pluginName];
@@ -479,7 +479,33 @@ didCompleteWithError:(NSError *)error {
 
 - (BOOL) insertDeviceIdToAwareServerWithURL:(NSString *)url
                                    deviceId:(NSString *)uuid
-                                 deviceName:(NSString *)deviceName{
+                                 deviceName:(NSString *)deviceName {
+    return [self insertDeviceIdToAwareServerWithURL:url
+                                           deviceId:deviceId
+                                         deviceName:deviceName
+                                         completion:nil];
+}
+
+- (BOOL) updateDeviceName:(NSString *)deviceName
+               completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler{
+    [self setDeviceName:deviceName];
+    NSString * deviceId = [self getDeviceId];
+    NSString * url = [self getStudyURL];
+    if ([url isEqualToString:@""]) {
+        return NO;
+    }
+    
+    return [self insertDeviceIdToAwareServerWithURL:url
+                                            deviceId:deviceId
+                                          deviceName:deviceName
+                                          completion:completionHandler];
+}
+
+
+- (BOOL) insertDeviceIdToAwareServerWithURL:(NSString *)url
+                                   deviceId:(NSString *)uuid
+                                 deviceName:(NSString *)deviceName
+                                 completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler{
     
     // preparing for insert device information
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
@@ -573,6 +599,9 @@ didCompleteWithError:(NSError *)error {
         [session finishTasksAndInvalidate];
         [session invalidateAndCancel];
         dispatch_semaphore_signal(sem);
+        if ( completionHandler != nil ) {
+            completionHandler(data, response, error);
+        }
     }] resume];
     
     dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
@@ -586,9 +615,17 @@ didCompleteWithError:(NSError *)error {
 ////////////////////////////////////////////////////////////////////////
 
 - (void) setDeviceName:(NSString *) deviceName {
+    [self setDeviceName:deviceName sync:NO completion:nil];
+}
+
+- (void) setDeviceName:(NSString *)deviceName
+                  sync:(BOOL)sync
+            completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler{
+    // Set the given device name into local storage
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:deviceName forKey:KEY_AWARE_DEVICE_NAME];
     [userDefaults synchronize];
+    
 }
 
 - (NSString *) getDeviceName {
