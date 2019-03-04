@@ -11,6 +11,8 @@
 #import "FitbitDevice.h"
 #import "AWAREUtils.h"
 
+NSString* const AWARE_PREFERENCES_STATUS_FITBIT = @"status_plugin_fitbit";
+
 NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
 
 @implementation Fitbit{

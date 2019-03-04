@@ -20,11 +20,12 @@
 /** Initializer */
 
 - (void) addSensor:(AWARESensor *) sensor;
-- (void) addSensors:(NSArray *)sensors;
+- (void) addSensors:(NSArray<AWARESensor *> *)sensors;
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
 - (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
-- (BOOL) isExist :(NSString *) key;
-- (NSArray *) getAllSensors;
+- (BOOL) isExist :(NSString *) sensorName;
+- (NSArray<AWARESensor *> *) getAllSensors;
+- ( AWARESensor * _Nullable ) getSensor:(NSString *) sensorName;
 
 ///////////////////////////////////
 - (void) setSensorEventHandlerToAllSensors:(SensorEventHandler)handler;

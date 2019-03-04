@@ -8,6 +8,8 @@
 
 #import "AWARESensor.h"
 
+extern NSString * const AWARE_PREFERENCES_STATUS_FITBIT;
+
 extern NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE;
 
 @interface Fitbit : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, UIAlertViewDelegate>

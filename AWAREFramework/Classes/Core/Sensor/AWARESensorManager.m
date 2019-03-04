@@ -241,21 +241,23 @@ static AWARESensorManager * sharedSensorManager;
  * Check an existance of a sensor by a sensor name
  * You can find and edit the keys on AWAREKeys.h and AWAREKeys.m
  *
- * @param   key A NSString key for a sensor
+ * @param   sensorName A NSString key for a sensor
  * @return  An existance of the target sensor as a boolean value
  */
-- (BOOL) isExist :(NSString *) key {
-    if([key isEqualToString:@"location_gps"] || [key isEqualToString:@"location_network"]){
-        key = @"locations";
+- (BOOL) isExist :(NSString *) sensorName {
+    if([sensorName isEqualToString:@"location_gps"] || [sensorName isEqualToString:@"location_network"]){
+        sensorName = @"locations";
     }
     
-    if([key isEqualToString:@"esm"]){
-        key = @"esms";
+    if([sensorName isEqualToString:@"esm"]){
+        sensorName = @"esms";
     }
     
     for (AWARESensor* sensor in awareSensors) {
-        if([[sensor getSensorName] isEqualToString:key]){
-            return YES;
+        if ([sensor getSensorName] != nil ) {
+            if([[sensor getSensorName] isEqualToString:sensorName]){
+                return YES;
+            }
         }
     }
     return NO;
@@ -284,6 +286,19 @@ static AWARESensorManager * sharedSensorManager;
     [awareSensors addObject:sensor];
 }
 
+
+- (AWARESensor * _Nullable )getSensor:(NSString *)sensorName{
+    if (awareSensors != nil) {
+        for (AWARESensor * sensor in awareSensors){
+            if([sensor getSensorName] != nil){
+                if([[sensor getSensorName] isEqualToString:sensorName]){
+                    return sensor;
+                }
+            }
+        }
+    }
+    return nil;
+}
 
 
 /**

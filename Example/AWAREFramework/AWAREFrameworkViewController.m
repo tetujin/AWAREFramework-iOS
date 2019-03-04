@@ -45,7 +45,7 @@
 //        NSLog(@"%@", data);
 //    }];
         // [self testSensingWithStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite sensorManager:[AWARESensorManager sharedSensorManager]];
-//
+
 //    Accelerometer * acc = [[Accelerometer alloc] init];
 //    // [acc setSavingIntervalWithSecond:1];
 //    [acc setDebug:true];

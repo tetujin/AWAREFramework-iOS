@@ -18,32 +18,35 @@
 //    fileURL = [fileURL URLByAppendingPathComponent:@"aware.sqlite"];
 //    self.sqliteFileURL = fileURL;
     
-    AWARECore * core = [AWARECore sharedCore];
-    [core activate];
-    [core requestPermissionForBackgroundSensing];
-    core.isNeedBackgroundSensing = NO;
-
-
-    // Override point for customization after application launch.
-    NSString * url = @"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga";
-    [AWAREStudy.sharedStudy joinStudyWithURL:url completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
-        
-        AWARESensorManager * sensorManager = AWARESensorManager.sharedSensorManager;
-        AWAREStudy * awareStudy = AWAREStudy.sharedStudy;
-        
-        [sensorManager addSensorsWithStudy:awareStudy];
-        [sensorManager setDebugToAllSensors:YES];
-        [sensorManager startAllSensors];
-       
-        [awareStudy updateDeviceName:@"sample" completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if(data!=nil){
-                NSString * result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"%@",result);
-            }
-            NSLog(@"done");
-        }];
-    }];
+//    AWARECore * core = [AWARECore sharedCore];
+//    [core activate];
+//    [core requestPermissionForBackgroundSensing];
+//    core.isNeedBackgroundSensing = NO;
 //
+//
+//    // Override point for customization after application launch.
+//    NSString * url = @"https://api.awareframework.com/index.php/webservice/index/1839/XHHyAIM4aUga";
+//    [AWAREStudy.sharedStudy joinStudyWithURL:url completion:^(NSArray *result, AwareStudyState state, NSError * _Nullable error) {
+//
+//        AWARESensorManager * sensorManager = AWARESensorManager.sharedSensorManager;
+//        AWAREStudy * awareStudy = AWAREStudy.sharedStudy;
+//
+//        [sensorManager addSensorsWithStudy:awareStudy];
+//        [sensorManager setDebugToAllSensors:YES];
+//        [sensorManager startAllSensors];
+//
+//        [awareStudy updateDeviceName:@"sample" completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+//            if(data!=nil){
+//                NSString * result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//                NSLog(@"%@",result);
+//            }
+//            NSLog(@"done");
+//        }];
+//    }];
+//
+    
+    
+    
 //    AWAREStudy * study = AWAREStudy.sharedStudy;
 //    [study setSetting:AWARE_PREFERENCES_STATUS_WIFI value:@"true"];
 //    
