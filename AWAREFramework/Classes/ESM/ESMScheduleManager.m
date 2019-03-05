@@ -23,7 +23,7 @@ static ESMScheduleManager * sharedESMScheduleManager;
     NSMutableArray * contextObservers;
 }
 
-+ (ESMScheduleManager *)sharedESMScheduleManager{
++ (ESMScheduleManager * _Nonnull)sharedESMScheduleManager{
     @synchronized(self){
         if (!sharedESMScheduleManager){
             sharedESMScheduleManager = [[ESMScheduleManager alloc] init];

@@ -49,7 +49,7 @@ typedef void (^JoinStudyCompletionHandler)(NSArray * result, AwareStudyState sta
 @property (strong, nonatomic) NSString* makeDeviceTableIdentifier;
 @property (strong, nonatomic) NSString* addDeviceTableIdentifier;
 
-+ (AWAREStudy * )sharedStudy;
++ (AWAREStudy * _Nonnull)sharedStudy;
 
 - (instancetype) initWithReachability: (BOOL) reachabilityState;
 

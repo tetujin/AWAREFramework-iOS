@@ -12,7 +12,7 @@ static CoreDataHandler * sharedHandler;
 
 @implementation CoreDataHandler
 
-+ (CoreDataHandler * )sharedHandler {
++ (CoreDataHandler * _Nonnull)sharedHandler {
     @synchronized(self){
         if (!sharedHandler){
             sharedHandler = [[CoreDataHandler alloc] init];

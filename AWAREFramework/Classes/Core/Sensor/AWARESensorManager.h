@@ -15,17 +15,17 @@
 
 @interface AWARESensorManager : NSObject <UIAlertViewDelegate>
 
-+ (AWARESensorManager *) sharedSensorManager;
++ (AWARESensorManager * _Nonnull) sharedSensorManager;
 
 /** Initializer */
 
-- (void) addSensor:(AWARESensor *) sensor;
-- (void) addSensors:(NSArray<AWARESensor *> *)sensors;
-- (BOOL) addSensorsWithStudy:(AWAREStudy *) study;
-- (BOOL) addSensorsWithStudy:(AWAREStudy *) study dbType:(AwareDBType)dbType;
+- (void) addSensor:(AWARESensor *  _Nonnull) sensor;
+- (void) addSensors:(NSArray<AWARESensor *> * _Nonnull)sensors;
+- (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull) study;
+- (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull) study dbType:(AwareDBType)dbType;
 - (BOOL) isExist :(NSString *) sensorName;
-- (NSArray<AWARESensor *> *) getAllSensors;
-- ( AWARESensor * _Nullable ) getSensor:(NSString *) sensorName;
+- (NSArray<AWARESensor *> * _Nonnull) getAllSensors;
+- ( AWARESensor * _Nullable ) getSensor:(NSString * _Nonnull) sensorName;
 
 ///////////////////////////////////
 - (void) setSensorEventHandlerToAllSensors:(SensorEventHandler)handler;
@@ -53,8 +53,8 @@
 ////////////////////////////
 
 // get latest sensor data with sensor name
-- (NSString *) getLatestSensorValue:(NSString *)sensorName;
-- (NSDictionary *) getLatestSensorData:(NSString *) sensorName;
+- (NSString *) getLatestSensorValue:(NSString * _Nonnull) sensorName;
+- (NSDictionary *) getLatestSensorData:(NSString * _Nonnull) sensorName;
 
 - (void) resetAllMarkerPositionsInDB;
 - (void) removeAllFilesFromDocumentRoot;

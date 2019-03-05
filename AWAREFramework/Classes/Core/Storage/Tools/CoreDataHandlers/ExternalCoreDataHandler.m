@@ -11,7 +11,7 @@ static ExternalCoreDataHandler * sharedHandler;
 
 @implementation ExternalCoreDataHandler
 
-+ (ExternalCoreDataHandler * )sharedHandler {
++ (ExternalCoreDataHandler * _Nonnull)sharedHandler {
     @synchronized(self){
         if (!sharedHandler){
             sharedHandler = [[ExternalCoreDataHandler alloc] init];

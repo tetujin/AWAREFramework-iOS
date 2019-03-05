@@ -38,7 +38,7 @@ static AWARESensorManager * sharedSensorManager;
     NSDictionary * previousProgresses;
 }
 
-+ (AWARESensorManager *) sharedSensorManager {
++ (AWARESensorManager * _Nonnull) sharedSensorManager {
     @synchronized(self){
         if (!sharedSensorManager){
             sharedSensorManager = [[AWARESensorManager alloc] init];
@@ -105,14 +105,14 @@ static AWARESensorManager * sharedSensorManager;
     return YES;
 }
 
-- (BOOL) addSensorsWithStudy:(AWAREStudy *) study{
+- (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull) study{
     //return [self startAllSensorsWithStudy:study dbType:AwareDBTypeSQLite];
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger dbType = [userDefaults integerForKey:SETTING_DB_TYPE];
     return [self addSensorsWithStudy:study dbType:dbType];
 }
 
-- (BOOL) addSensorsWithStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
+- (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull)study dbType:(AwareDBType)dbType{
 
     if (study != nil){
         awareStudy = study;
@@ -214,9 +214,10 @@ static AWARESensorManager * sharedSensorManager;
                 // Start the sensor
                 if ([value isEqualToString:@"true"]) {
                     [awareSensor setParameters:settings];
+                    
+                    // Add the sensor to the sensor manager
+                    [self addSensor:awareSensor];
                 }
-                // Add the sensor to the sensor manager
-                [self addSensor:awareSensor];
             }
         }
     }
@@ -244,7 +245,7 @@ static AWARESensorManager * sharedSensorManager;
  * @param   sensorName A NSString key for a sensor
  * @return  An existance of the target sensor as a boolean value
  */
-- (BOOL) isExist :(NSString *) sensorName {
+- (BOOL) isExist :(NSString * _Nonnull) sensorName {
     if([sensorName isEqualToString:@"location_gps"] || [sensorName isEqualToString:@"location_network"]){
         sensorName = @"locations";
     }
@@ -263,7 +264,7 @@ static AWARESensorManager * sharedSensorManager;
     return NO;
 }
 
-- (void)addSensors:(NSArray<AWARESensor *> *)sensors{
+- (void)addSensors:(NSArray<AWARESensor *> * _Nonnull)sensors{
     if (sensors != nil) {
         for (AWARESensor * sensor in sensors){
             [self addSensor:sensor];
@@ -276,7 +277,7 @@ static AWARESensorManager * sharedSensorManager;
  *
  * @param sensor An AWARESensor object (A null value is not an acceptable)
  */
-- (void)addSensor:(AWARESensor *)sensor{
+- (void)addSensor:( AWARESensor * _Nonnull)sensor{
     if (sensor == nil) return;
     for(AWARESensor* storedSensor in awareSensors){
         if([storedSensor.getSensorName isEqualToString:sensor.getSensorName]){
@@ -320,7 +321,7 @@ static AWARESensorManager * sharedSensorManager;
     [self unlock];
 }
 
-- (AWARESensor *) getSensorWithKey:(NSString *)sensorName {
+- (AWARESensor * _Nullable) getSensorWithKey:(NSString * _Nonnull)sensorName {
     for (AWARESensor* sensor in awareSensors) {
         if([[sensor getSensorName] isEqualToString:sensorName]){
             return sensor;
@@ -335,7 +336,7 @@ static AWARESensorManager * sharedSensorManager;
  * 
  * @param sensorName A NSString sensor name (key)
  */
-- (void) stopSensor:(NSString *)sensorName{
+- (void) stopSensor:(NSString * _Nonnull)sensorName{
     for (AWARESensor* sensor in awareSensors) {
         if ([sensor.getSensorName isEqualToString:sensorName]) {
             [sensor stopSensor];
@@ -363,7 +364,7 @@ static AWARESensorManager * sharedSensorManager;
  * @param sensorName A NSString sensor name (key)
  * @return A latest sensor value as
  */
-- (NSString*) getLatestSensorValue:(NSString *) sensorName {
+- (NSString*) getLatestSensorValue:(NSString * _Nonnull) sensorName {
     if ([self isLocked]) return @"";
     
     if([sensorName isEqualToString:@"location_gps"] || [sensorName isEqualToString:@"location_network"]){
@@ -383,7 +384,7 @@ static AWARESensorManager * sharedSensorManager;
 }
 
 
-- (NSDictionary * ) getLatestSensorData:(NSString *) sensorName {
+- (NSDictionary *) getLatestSensorData:(NSString * _Nonnull) sensorName {
     if ([self isLocked])
         return [[NSDictionary alloc] init];
     

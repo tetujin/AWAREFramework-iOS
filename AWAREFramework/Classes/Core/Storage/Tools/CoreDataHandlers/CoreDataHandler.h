@@ -12,6 +12,6 @@
 //// Normal CoreData Handler
 @interface CoreDataHandler : BaseCoreDataHandler
 
-+ (CoreDataHandler * )sharedHandler;
++ (CoreDataHandler * _Nonnull)sharedHandler;
 
 @end

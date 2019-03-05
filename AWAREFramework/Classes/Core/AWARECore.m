@@ -20,7 +20,7 @@ static AWARECore * sharedCore;
 
 @implementation AWARECore
 
-+ (AWARECore *) sharedCore{
++ (AWARECore * _Nonnull) sharedCore{
     @synchronized(self){
         if (!sharedCore){
             sharedCore = [[AWARECore alloc] init];
@@ -354,7 +354,7 @@ void exceptionHandler(NSException *exception) {
 
 //////////////////////////////////////////////////////////////////
 
-- (bool) checkLocationSensorWithViewController:(UIViewController *) viewController showDetail:(BOOL)detail{
+- (bool)checkLocationSensorWithViewController:(UIViewController *) viewController showDetail:(BOOL)detail{
     bool state = NO;
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
@@ -535,6 +535,9 @@ void exceptionHandler(NSException *exception) {
                 [debugSensor startSyncDB];
                 break;
             }
+            case UNAuthorizationStatusProvisional:
+                
+                break;
         }
 //        switch (settings.lockScreenSetting) {
 //            case UNNotificationSettingEnabled:

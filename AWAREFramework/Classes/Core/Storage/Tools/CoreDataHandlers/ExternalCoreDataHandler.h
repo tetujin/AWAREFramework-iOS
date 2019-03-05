@@ -10,6 +10,6 @@
 
 @interface ExternalCoreDataHandler :BaseCoreDataHandler
 
-+ (ExternalCoreDataHandler * )sharedHandler;
++ (ExternalCoreDataHandler * _Nonnull)sharedHandler;
 
 @end

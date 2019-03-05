@@ -26,7 +26,7 @@
 
 @property BOOL isNeedBackgroundSensing;
 
-+ (AWARECore * )sharedCore;
++ (AWARECore * _Nonnull)sharedCore;
 
 - (void) activate;
 - (void) deactivate;

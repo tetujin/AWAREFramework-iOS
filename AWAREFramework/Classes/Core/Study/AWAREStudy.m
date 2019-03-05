@@ -32,7 +32,7 @@ static AWAREStudy * sharedStudy;
     NSString * deviceId;
 }
 
-+ (AWAREStudy * )sharedStudy{
++ (AWAREStudy * _Nonnull)sharedStudy{
     @synchronized(self){
         if (!sharedStudy){
             sharedStudy = [[AWAREStudy alloc] initWithReachability:YES];
