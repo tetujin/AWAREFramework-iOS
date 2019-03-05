@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 [![Platform](https://img.shields.io/cocoapods/p/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 
-[AWARE](http://www.awareframework.com/) is an OS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data (ESM). They transform data into information you can understand.
+[AWARE](http://www.awareframework.com/) is iOS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data (ESM). They transform data into information you can understand.
 
 ## Supported Sensors
 * Accelerometer
@@ -87,12 +87,12 @@ Accelerometer * accelerometer = [[Accelerometer alloc] initWithStudy:study];
 ```
 ```swift
 /// Example2 (Swift): Accelerometer + AWARE Server ///
-study?.setStudyURL("https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS")
+study.setStudyURL("https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS")
 let accelerometer = Accelerometer(awareStudy: study)
 accelerometer.startSensor()
 accelerometer.startSyncDB()
 // or
-manager?.add(accelerometer)
+manager.add(accelerometer)
 ```
 
 ### Example 3: Apply settings on AWARE Dashboard
@@ -112,9 +112,9 @@ NSString * url = @"https://api.awareframework.com/index.php/webservice/index/STU
 ```swift
 /// Example3 (Swift): AWARE Dashboard ////
 let url = "https://api.awareframework.com/index.php/webservice/index/STUDY_ID/PASS"
-study?.join(withURL: url, completion: { (settings, studyState, error) in
-    manager?.addSensors(with: study)
-    manager?.startAllSensors()
+study.join(withURL: url, completion: { (settings, studyState, error) in
+    manager.addSensors(with: study)
+    manager.startAllSensors()
 })
 ```
 
@@ -162,8 +162,6 @@ Objective-C
     return YES;
 }
 
-// ... Please call super classes (AWAREDelegate) methods when the application uses other methods on AppDelegate.
-
 @end
 ```
 
@@ -173,7 +171,7 @@ import UIKit
 import AWAREFramework
 
 @UIApplicationMain
-class AppDelegate: AWAREDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -181,8 +179,6 @@ class AppDelegate: AWAREDelegate {
         core.activate()
         return true
     }
-    
-    // ... Please call super classes (AWAREDelegate) methods when the application uses other methods on AppDelegate.
 }
 ```
 
@@ -304,7 +300,7 @@ This library supports 16 typs of ESMs.  You can see the screenshots from the [li
 
 ## Author
 
-tetujin, tetujin@ht.sfc.keio.ac.jp
+Yuuki Nishiyama <yuuki.nishiyama@oulu.fi>
 
 ## License
 
