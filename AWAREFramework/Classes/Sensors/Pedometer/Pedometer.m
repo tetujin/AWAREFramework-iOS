@@ -183,7 +183,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_pedometer";
                                            }
                                        });
                                    }];
-        
         [self setLastUpdateWithDate:toDate];
     }
     
@@ -294,6 +293,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_pedometer";
 //        [self saveData:dict];
         [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
         [self setLatestData:dict];
+        [self setLatestValue:[NSString stringWithFormat:@"%@: %@", pedometerData.startDate,numberOfSteps]];
     });
 //                                                    
 //    NSString * message = [NSString stringWithFormat:@"%@(%@) %@(%@) %@ %@ %@(%@) %@(%@)", numberOfSteps, totalSteps, distance, totalDistance, currentPace, currentCadence, floorsAscended,totalFloorsAscended, floorsDescended, totalFllorsDescended];

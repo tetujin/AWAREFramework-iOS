@@ -86,7 +86,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 - (void)setParameters:(NSArray *)parameters{
     _url = [self getStringFromSettings:parameters key:@"plugin_ios_esm_config_url"];
     _table = [self getStringFromSettings:parameters key:@"plugin_ios_esm_table_name"];
-
+    if (_table == nil){
+        _table = @"esms";
+    }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -1127,12 +1129,12 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 //////////////////////////////////////////////////
 
-+ (BOOL)isAppearedThisSection{
++ (BOOL) hasESMAppearedInThisSession{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults boolForKey:@"key_esm_appeared_section"];
 }
 
-+ (void)setAppearedState:(BOOL)state{
++ (void) setESMAppearedState:(BOOL)state{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:state forKey:@"key_esm_appeared_section"];
     [userDefaults synchronize];

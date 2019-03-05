@@ -41,9 +41,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 - (void) refreshNotifications;
 
 /////////////////////////////////
-+ (BOOL) isAppearedThisSection;
-+ (void) setAppearedState:(BOOL)state;
-// + (void) setTableVersion:(int)version;
-//  + (int)  getTabl eVersion;
 
++ (BOOL) hasESMAppearedInThisSession;
++ (void) setESMAppearedState:(BOOL)state;
 @end
