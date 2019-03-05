@@ -18,6 +18,8 @@
  
  */
 
+extern NSString* const AWARE_PREFERENCES_STATUS_CALENDAR;
+
 @interface Calendar : AWARESensor
 
 typedef void (^CalendarEventHandler)(AWARESensor *sensor, EKEvent *event);

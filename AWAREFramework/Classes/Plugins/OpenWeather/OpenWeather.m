@@ -12,7 +12,7 @@
 #import "AWAREDelegate.h"
 
 
-NSString * const AWARE_PREFERENCES_STATUS_OPENWEATHER    = @"status_plugin_openweather_frequency";
+NSString * const AWARE_PREFERENCES_STATUS_OPENWEATHER    = @"status_plugin_openweather";
 NSString * const AWARE_PREFERENCES_OPENWEATHER_FREQUENCY = @"plugin_openweather_frequency";
 NSString * const AWARE_PREFERENCES_OPENWEATHER_API_KEY   = @"api_key_plugin_openweather";
 

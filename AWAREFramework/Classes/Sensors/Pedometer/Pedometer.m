@@ -12,6 +12,9 @@
 #import "AWAREKeys.h"
 #import "TCQMaker.h"
 
+NSString * const AWARE_PREFERENCES_STATUS_PEDOMETER = @"status_pedometer";
+NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_pedometer";
+
 @implementation Pedometer {
     NSString* KEY_DEVICE_ID;
     NSString* KEY_TIMESTAMP; //begin

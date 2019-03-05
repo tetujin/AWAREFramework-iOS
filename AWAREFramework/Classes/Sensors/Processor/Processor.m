@@ -58,7 +58,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
                           sensorName:SENSOR_PROCESSOR
                              storage:storage];
     if (self) {
-        sensingInterval = 10.0f;
+        sensingInterval = 2000000;
         dbWriteInterval = MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
     }
     return self;

@@ -53,6 +53,7 @@
 #import "GoogleLogin.h"
 #import "Conversation.h"
 #import "CalendarESMScheduler.h"
+#import "Calendar.h"
 
 @interface AWARESensors : NSObject
 

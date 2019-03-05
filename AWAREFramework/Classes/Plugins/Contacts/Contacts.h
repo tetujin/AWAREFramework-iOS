@@ -13,6 +13,8 @@ extern NSString * const KEY_PLUGIN_SETTING_CONTACTS_LAST_UPDATE_NSDATE;
 extern NSString * const KEY_PLUGIN_SETTING_CONTACTS_NEXT_UPDATE_DATE;
 extern NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY;
 
+extern NSString* const AWARE_PREFERENCES_STATUS_CONTACTS;
+
 @interface Contacts : AWARESensor<AWARESensorDelegate>
 
 @property int checkIntervalSec;

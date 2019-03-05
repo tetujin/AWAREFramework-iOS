@@ -16,6 +16,8 @@ NSString * const KEY_PLUGIN_SETTING_CONTACTS_LAST_UPDATE_NSDATE = @"key_plugin_s
 NSString * const KEY_PLUGIN_SETTING_CONTACTS_NEXT_UPDATE_DATE = @"key_plugin_setting_contact_next_update_date";
 NSString * const KEY_PLUGIN_SETTING_CONTACTS_UPDATE_FREQUENCY_DAY = @"key_plugin_setting_contact_update_frequency_day";
 
+NSString* const AWARE_PREFERENCES_STATUS_CONTACTS = @"status_plugin_contacts";
+
 @implementation Contacts{
     NSTimer * timer;
     int aDaySec;

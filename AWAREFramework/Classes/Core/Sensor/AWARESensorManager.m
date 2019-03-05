@@ -208,6 +208,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[Conversation alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_CALENDAR_ESM]){
                 awareSensor = [[CalendarESMScheduler alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_CALENDAR]){
+                awareSensor = [[Calendar alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
 
             if (awareSensor != nil) {

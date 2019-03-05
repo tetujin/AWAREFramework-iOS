@@ -9,6 +9,8 @@
 #import "CalEvent.h"
 #import "EntityCalendar+CoreDataClass.h"
 
+NSString* const AWARE_PREFERENCES_STATUS_CALENDAR = @"status_plugin_calendar";
+
 @implementation Calendar{
     EKEventStore   * store;
     EKSource       * source;
