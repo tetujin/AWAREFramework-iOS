@@ -26,7 +26,7 @@ static AWAREStudy * sharedStudy;
     bool networkReachable;
     NSInteger networkState;
     bool isDebug;
-    __weak NSURLSession *session;
+    NSURLSession *session;
     NSURLSessionConfiguration *sessionConfig;
     NSMutableData * receivedData;
     NSString * deviceId;
@@ -86,7 +86,7 @@ static AWAREStudy * sharedStudy;
         sessionConfig.HTTPMaximumConnectionsPerHost = 60;
         sessionConfig.timeoutIntervalForResource = 60; //60*60*24; // 1 day
         sessionConfig.allowsCellularAccess = YES;
-        session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+        
         
         isDebug = [self isDebug];
         
@@ -148,7 +148,7 @@ static AWAREStudy * sharedStudy;
  * @param completionHandler A handler for the joining process
  */
 - (void)joinStudyWithURL:(NSString *)url completion:(JoinStudyCompletionHandler)completionHandler{
-
+    
     [self setStudyURL:url];
     
     joinStudyCompletionHandler = completionHandler;
@@ -163,6 +163,7 @@ static AWAREStudy * sharedStudy;
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:postData];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
     [dataTask resume];
 }
@@ -182,7 +183,7 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
     int responseCode = (int)[httpResponse statusCode];
-    // NSLog(@"%d",responseCode);
+    NSLog(@"%d",responseCode);
     if (responseCode == 200) {
         [session finishTasksAndInvalidate];
     }else{
@@ -292,7 +293,7 @@ didCompleteWithError:(NSError *)error {
             }
         }
     }
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         NSString * url =  [self getStudyURL];
@@ -302,7 +303,7 @@ didCompleteWithError:(NSError *)error {
         if (!isExistDeviceId) {
             [self addNewDeviceToAwareServer:url withDeviceId:uuid];
         }
-
+        
         [self setStudyState:YES];
         
         [NSNotificationCenter.defaultCenter postNotificationName:ACTION_AWARE_UPDATE_STUDY_CONFIG object:nil];
@@ -496,9 +497,9 @@ didCompleteWithError:(NSError *)error {
     }
     
     return [self insertDeviceIdToAwareServerWithURL:url
-                                            deviceId:deviceId
-                                          deviceName:deviceName
-                                          completion:completionHandler];
+                                           deviceId:deviceId
+                                         deviceName:deviceName
+                                         completion:completionHandler];
 }
 
 
@@ -517,7 +518,7 @@ didCompleteWithError:(NSError *)error {
     NSString* release =  [NSString stringWithCString:systemInfo.release  encoding:NSUTF8StringEncoding]; // ok
     // NSString* systemName = [NSString stringWithCString:systemInfo.sysname encoding:NSUTF8StringEncoding];// ok
     NSString* version = [NSString stringWithCString:systemInfo.version encoding:NSUTF8StringEncoding];
-
+    
     NSString *systemVersion = [[UIDevice currentDevice] systemVersion];//ok
     NSString *localizeModel = [[UIDevice currentDevice] localizedModel];//
     NSString *model = [[UIDevice currentDevice] model]; //ok
