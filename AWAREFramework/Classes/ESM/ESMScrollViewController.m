@@ -64,8 +64,12 @@
 }
 @end
 
+
 @implementation ESMScrollViewController
 
+@synthesize uploadStartHandler;
+@synthesize uploadCompletionHandler;
+@synthesize answerCompletionHandler;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     
@@ -105,9 +109,6 @@
     _sendCompletionAlert = YES;
     _completionAlertMessage = @"Thank you for your answer!";
     _completionAlertCloseButton = @"close";
-    
-    _showUploadingAlert = YES;
-    _uploadingAlertMessage = @"uploading";
     
     flowsFlag = NO;
     freeTextViews = [[NSMutableArray alloc] init];
@@ -428,7 +429,7 @@
             EntityESMAnswer * answer = (EntityESMAnswer *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
                                                                                          inManagedObjectContext:context];
             answer.timestamp = esm.timestamp;
-            if (esm.timestamp = @0) {
+            if ([esm.timestamp  isEqual:@0]) {
                 answer.timestamp = sessionTimestamp;
             }else{
                 answer.timestamp = esm.timestamp;
@@ -545,6 +546,10 @@
                                                                 object:self
                                                               userInfo:nil];
             
+            if (self->answerCompletionHandler != nil) {
+                self->answerCompletionHandler();
+            }
+            
             if([study getStudyURL] == nil || [[study getStudyURL] isEqualToString:@""] || !_isSaveAnswer){
                 esmNumber = 0;
                 currentESMNumber = 0;
@@ -554,23 +559,19 @@
                     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
                     [alertController addAction:[UIAlertAction actionWithTitle:_completionAlertCloseButton style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         [self.navigationController popToRootViewControllerAnimated:YES];
-                        [self dismissViewControllerAnimated:YES completion:^{
-                            
-                        }];
+                        [self dismissViewControllerAnimated:YES completion:^{}];
                     }]];
                     [self presentViewController:alertController animated:YES completion:nil];
                     
                 }else{
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        
-                    }];
+                    [self dismissViewControllerAnimated:YES completion:^{}];
                 }
 
             }else{
                 
-                if(_showUploadingAlert){
-                    [SVProgressHUD showWithStatus:_uploadingAlertMessage];
+                if (uploadStartHandler != nil) {
+                    uploadStartHandler();
                 }
                 
                 ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
@@ -578,27 +579,36 @@
                 
                 __block typeof(self) blockSelf = self;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    if(_showUploadingAlert) [SVProgressHUD dismiss];
-                    
-                    // send alert and close
-                    if (_sendCompletionAlert) {
-                        UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
-                        [alertController addAction:[UIAlertAction actionWithTitle:_completionAlertCloseButton style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                            self->esmNumber = 0;
-                            self->currentESMNumber = 0;
+                    NSLog(@"[%@] %d", name, progress);
+                    if (error != nil) {
+                        NSLog(@"%@", error.debugDescription);
+                        if (self->uploadCompletionHandler != nil) {
+                            self->uploadCompletionHandler(NO);
+                        }
+                    }else{
+                        // send alert and close
+                        if (_sendCompletionAlert) {
+                            UIAlertController * alertController = [UIAlertController alertControllerWithTitle:self->_completionAlertMessage
+                                                                                                      message:nil
+                                                                                               preferredStyle:UIAlertControllerStyleAlert];
+                            [alertController addAction:[UIAlertAction actionWithTitle:self->_completionAlertCloseButton
+                                                                                style:UIAlertActionStyleDefault
+                                                                              handler:^(UIAlertAction * _Nonnull action) {
+                                self->esmNumber = 0;
+                                self->currentESMNumber = 0;
+                                [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                                [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                            }]];
+                            [blockSelf presentViewController:alertController animated:YES completion:^{}];
+                        }else{
                             [blockSelf.navigationController popToRootViewControllerAnimated:YES];
                             [blockSelf dismissViewControllerAnimated:YES completion:^{}];
-                        }]];
+                        }
                         
-                        [blockSelf presentViewController:alertController animated:YES completion:^{
-                            
-                        }];
-                    // close
-                    }else{
-                        [blockSelf.navigationController popToRootViewControllerAnimated:YES];
-                        [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                        if (self->uploadCompletionHandler != nil) {
+                            self->uploadCompletionHandler(YES);
+                        }
                     }
-                    
                 }];
                 [esmSensor startSyncDB];
             }

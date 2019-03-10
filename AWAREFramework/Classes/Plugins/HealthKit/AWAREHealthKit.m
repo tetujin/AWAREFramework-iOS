@@ -18,10 +18,13 @@
 #import "AWAREHealthKitCategory.h"
 #import "AWAREHealthKitQuantity.h"
 
+NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT = @"status_health_kit";
+NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_health_kit";
+
 @implementation AWAREHealthKit{
     NSTimer * timer;
-    HKHealthStore *healthStore;
     
+    HKHealthStore *healthStore;
     AWAREHealthKitWorkout * awareHKWorkout;
     AWAREHealthKitCategory * awareHKCategory;
     AWAREHealthKitQuantity * awareHKQuantity;
@@ -33,14 +36,9 @@
     AWAREStorage * storage = [[AWAREStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
     self = [super initWithAwareStudy:study sensorName:SENSOR_HEALTH_KIT storage:storage];
     if(self!=nil){
-
+    
         // Add your HealthKit code here
         healthStore = [[HKHealthStore alloc] init];
-        
-//        [self setTypeAsPlugin];
-//        [self addDefaultSettingWithBool:@NO key:[NSString stringWithFormat:@"status_%@",SENSOR_HEALTH_KIT] desc:@"true or false to activate or deactivate accelerometer sensor."];
-//        [self addDefaultSettingWithNumber:@(60*60) key:[NSString stringWithFormat:@"frequency_%@",SENSOR_HEALTH_KIT] desc:@"Sensing Frequency (second) of HealthKit sensor. Defualt frequecy is 1hour(3600sec)"];
-//
         awareHKWorkout = [[AWAREHealthKitWorkout alloc] initWithAwareStudy:study dbType:dbType];
         awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
         awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];

@@ -1,9 +1,8 @@
 PODS:
-  - AWAREFramework (1.1.13):
+  - AWAREFramework (1.2.3):
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
-    - SVProgressHUD
     - TPCircularBuffer
   - CocoaAsyncSocket (7.6.3)
   - GoogleSignIn (4.4.0):
@@ -28,7 +27,6 @@ PODS:
     - SCNetworkReachability/Core (= 2.0.6)
   - SCNetworkReachability/Core (2.0.6):
     - macros_blocks (~> 0.0.1)
-  - SVProgressHUD (2.2.5)
   - TPCircularBuffer (1.6.1)
 
 DEPENDENCIES:
@@ -43,7 +41,6 @@ SPEC REPOS:
     - ios-ntp
     - macros_blocks
     - SCNetworkReachability
-    - SVProgressHUD
     - TPCircularBuffer
 
 EXTERNAL SOURCES:
@@ -51,7 +48,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: 1969596619e070964d4308e764b143c1a4af778f
+  AWAREFramework: a9626960cb879386d8c382f8a93c03cca09026c1
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
@@ -59,7 +56,6 @@ SPEC CHECKSUMS:
   ios-ntp: 49a4ef0866aee5343627710c1c7de71d7c064417
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
-  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
 PODFILE CHECKSUM: 7d0ae0b906ddc337226eb23f210b035e8069bbb7

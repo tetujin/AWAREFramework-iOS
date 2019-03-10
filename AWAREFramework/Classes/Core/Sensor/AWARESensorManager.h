@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SVProgressHUD/SVProgressHUD.h>
 #import <AudioToolbox/AudioServices.h>
 
 #import "AWARESensor.h"

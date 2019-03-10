@@ -8,6 +8,9 @@
 
 #import "AWARESensor.h"
 
+extern NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT;
+extern NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY;
+
 @interface AWAREHealthKit : AWARESensor <AWARESensorDelegate>
 
 - (void) requestAuthorizationToAccessHealthKit;

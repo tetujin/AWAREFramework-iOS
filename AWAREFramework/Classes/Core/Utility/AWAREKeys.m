@@ -147,6 +147,8 @@ NSString* const SENSOR_PLUGIN_STUDENTLIFE_AUDIO  = @"plugin_studentlife_audio";
 NSString* const SENSOR_PLUGIN_BLE_HR          = @"plugin_ble_heartrate";
 NSString* const SENSOR_PLUGIN_FITBIT          = @"plugin_fitbit";
 
+NSString* const SENSOR_PLUGIN_CALENDAR_ESM_SCHEDULER = @"plugin_calendar_esm_scheduler";
+
 NSString* const SENSOR_PLUGIN_MSBAND_SENSORS_CALORIES      = @"plugin_msband_sensors_calories";
 NSString* const SENSOR_PLUGIN_MSBAND_SENSORS_DEVICECONTACT = @"plugin_msband_sensors_devicecontact";
 NSString* const SENSOR_PLUGIN_MSBAND_SENSORS_DISTANCE      = @"plugin_msband_sensors_distance";
