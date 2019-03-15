@@ -11,42 +11,25 @@
 #import "EntityLocation.h"
 #import "EntityLocationVisit.h"
 
-
-NSString * const AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION  = @"status_google_fused_location";
+NSString * const AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION    = @"status_google_fused_location";
 NSString * const AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION  = @"accuracy_google_fused_location";
-NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequency_google_fused_location";
+NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency_google_fused_location";
 
 @implementation FusedLocations {
-    NSTimer *locationTimer;
-    IBOutlet CLLocationManager *locationManager;
-    
-    CLLocation * previousLocation;
+    NSTimer           * locationTimer;
+    CLLocationManager * locationManager;
+    CLLocation        * previousLocation;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    AWAREStorage * storage = nil;
-    if (dbType == AwareDBTypeJSON) {
-        storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_GOOGLE_FUSED_LOCATION];
-    }
+    _locationSensor = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_GOOGLE_FUSED_LOCATION
-                             storage:storage];
-            
-    // awareStudy = study;
+                             storage:_locationSensor.storage];
     if (self) {
-        // Make a fused location sensor
-        _locationSensor = [[Locations alloc] initWithAwareStudy:study dbType:dbType];
-        
-        // Make a visit location sensor
         _visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:study dbType:dbType];
-        _intervalSec = 180;
-        _accuracyMeter = 100;
-        
-//        [self setTypeAsPlugin];
-//
-//        [self addDefaultSettingWithBool:@NO key:AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION desc:@"true or false to activate or deactivate accelerometer sensor."];
-//        [self addDefaultSettingWithNumber:@0 key:AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION desc:@"How frequently to fetch user's location (in seconds.)"];
-//        [self addDefaultSettingWithNumber:@102 key:AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION desc:@"One of the following numbers: 100 (high power): uses GPS only - works best outdoors, highest accuracy 102 (balanced): uses GPS, Network and Wifi - works both indoors and outdoors, good accuracy 104 (low power): uses only Network and WiFi - poorest accuracy, medium accuracy 105 (no power) - scavenges location requests from other apps."];
+        _intervalSec         = 180;
+        _accuracyMeter       = 100;
     }
     return self;
 }
@@ -54,8 +37,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 - (void)createTable{
     // Send a table create query
     [_locationSensor createTable];
-    
-    //////////////////////////
     // Send a table create query
     [_visitLocationSensor createTable];
 }
@@ -64,11 +45,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     // Get a sensing frequency for a location sensor
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_google_fused_location"];
     if(frequency > 0){
-        NSLog(@"Location sensing requency is %f ", frequency);
+        // NSLog(@"Location sensing requency is %f ", frequency);
         _intervalSec = frequency;
     }
     int accuracyType = [self getSensorSetting:parameters withKey:@"accuracy_google_fused_location"];
-
+    
     if(accuracyType == 100){
         _accuracy = kCLLocationAccuracyBest;
         _accuracyMeter = 0;
@@ -100,10 +81,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
                   distanceFilter:(int)fiterMeter{
     // Initialize a location sensor
     if (locationManager == nil){
-        // AppDelegate *delegate=(AppDelegate*)[UIApplication sharedApplication].delegate;
         locationManager = [[CLLocationManager alloc] init];
         // Get a sensing accuracy for a location sensor
-        
         // One of the following numbers: 100 (High accuracy); 102 (balanced); 104 (low power); 105 (no power, listens to others location requests)
         // http://stackoverflow.com/questions/3411629/decoding-the-cllocationaccuracy-consts
         //    GPS - kCLLocationAccuracyBestForNavigation;
@@ -131,7 +110,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
         // Set a movement threshold for new events.
         [locationManager startMonitoringVisits]; // This method calls didVisit.
         [locationManager startMonitoringSignificantLocationChanges];
-        [locationManager startUpdatingLocation];
+        // [locationManager startUpdatingLocation];
         
         if(intervalSecond > 0){
             locationTimer = [NSTimer scheduledTimerWithTimeInterval:intervalSecond
@@ -177,11 +156,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     [super stopSyncDB];
 }
 
-/////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////
-
-
-
 - (void) getGpsData: (NSTimer *) theTimer {
     if([self isDebug]){
         NSLog(@"Get a location");
@@ -191,7 +165,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
     
     if(location == nil && previousLocation != nil){
         [self saveLocation:previousLocation];
-        // [AWAREUtils sendLocalNotificationForMessage:@"Location data is null!!" soundFlag:YES];
     }
     
     if(location != nil){
@@ -206,7 +179,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 }
 
 - (void) saveLocation:(CLLocation *)location{
-
+    
     // save location data by using location sensor
     int accuracy = (location.verticalAccuracy + location.horizontalAccuracy) / 2;
     
@@ -242,10 +215,17 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 
 - (void)locationManager:(CLLocationManager *)manager
                didVisit:(CLVisit *)visit {
-
+    
     [_visitLocationSensor locationManager:manager didVisit:visit];
     
 }
+
+- (void)locationManager:(CLLocationManager *)manager
+didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    [_locationSensor saveAuthorizationStatus:status];
+}
+
 
 //- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
 //    if (newHeading.headingAccuracy < 0)
@@ -256,14 +236,5 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION  = @"frequenc
 //    //    [sdManager addHeading: theHeading];
 //}
 
-
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    [_locationSensor saveAuthorizationStatus:status];
-}
-
-
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
 
 @end

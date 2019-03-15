@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17C88" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="EntityAccelerometer" representedClassName="EntityAccelerometer" syncable="YES">
         <attribute name="accuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -357,6 +357,18 @@
         <attribute name="unknown" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="walking" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
     </entity>
+    <entity name="EntityIOSPedometer" representedClassName="EntityIOSPedometer" syncable="YES">
+        <attribute name="current_cadence" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="current_pace" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="end_timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="floors_ascended" optional="YES" attributeType="Integer 32" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="floors_descended" optional="YES" attributeType="Integer 32" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="frequency_second" optional="YES" attributeType="Integer 32" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="number_of_steps" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
     <entity name="EntityLabel" representedClassName="EntityLabel" syncable="YES">
         <attribute name="answered_timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -617,8 +629,9 @@
         <element name="EntityPushNotification" positionX="198" positionY="162" width="128" height="30"/>
         <element name="EntityRotation" positionX="180" positionY="144" width="128" height="30"/>
         <element name="EntityScreen" positionX="189" positionY="153" width="128" height="30"/>
+        <element name="EntitySensorWifi" positionX="333" positionY="180" width="128" height="120"/>
         <element name="EntityTimezone" positionX="198" positionY="162" width="128" height="30"/>
         <element name="EntityWifi" positionX="207" positionY="171" width="128" height="30"/>
-        <element name="EntitySensorWifi" positionX="333" positionY="180" width="128" height="120"/>
+        <element name="EntityIOSPedometer" positionX="297" positionY="144" width="128" height="195"/>
     </elements>
 </model>

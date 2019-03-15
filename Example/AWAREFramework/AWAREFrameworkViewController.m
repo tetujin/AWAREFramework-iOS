@@ -35,6 +35,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    Pedometer * pedometer = [[Pedometer alloc] init];
+    [pedometer startSensor];
+    
 //    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
 //    [healthKit startSensor];
     

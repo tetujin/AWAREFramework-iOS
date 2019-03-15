@@ -179,6 +179,8 @@
 #import "EntityNetwork.h"
 #import "Network.h"
 #import "Orientation.h"
+#import "EntityIOSPedometer+CoreDataClass.h"
+#import "EntityIOSPedometer+CoreDataProperties.h"
 #import "Pedometer.h"
 #import "EntityProcessor+CoreDataProperties.h"
 #import "EntityProcessor.h"
