@@ -11,6 +11,6 @@
 
 @interface AWAREHealthKitCategory : AWARESensor
 
-- (void) saveCategoryData:(NSArray *) data;
+- (void)saveCategoryData:(NSArray <HKCategorySample *> *)data;
 
 @end

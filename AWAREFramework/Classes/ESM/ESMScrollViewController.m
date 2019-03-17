@@ -579,7 +579,7 @@
                 
                 __block typeof(self) blockSelf = self;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    NSLog(@"[%@] %d", name, progress);
+                    NSLog(@"[%@] %f", name, progress);
                     if (error != nil) {
                         NSLog(@"%@", error.debugDescription);
                         if (self->uploadCompletionHandler != nil) {

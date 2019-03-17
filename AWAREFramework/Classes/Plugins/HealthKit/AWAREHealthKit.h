@@ -7,11 +7,20 @@
 //
 
 #import "AWARESensor.h"
+#import "AWAREHealthKitWorkout.h"
+#import "AWAREHealthKitCategory.h"
+#import "AWAREHealthKitQuantity.h"
 
 extern NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT;
 extern NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY;
 
 @interface AWAREHealthKit : AWARESensor <AWARESensorDelegate>
+
+@property int fetchIntervalSecond; // default = 1800 second (= 30 min)
+
+@property (readonly) AWAREHealthKitWorkout  * awareHKWorkout;
+@property (readonly) AWAREHealthKitCategory * awareHKCategory;
+@property (readonly) AWAREHealthKitQuantity * awareHKQuantity;
 
 - (void) requestAuthorizationToAccessHealthKit;
 

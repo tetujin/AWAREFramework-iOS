@@ -22,28 +22,21 @@ NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT = @"status_health_kit";
 NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_health_kit";
 
 @implementation AWAREHealthKit{
-    NSTimer * timer;
-    
-    HKHealthStore *healthStore;
-    AWAREHealthKitWorkout * awareHKWorkout;
-    AWAREHealthKitCategory * awareHKCategory;
-    AWAREHealthKitQuantity * awareHKQuantity;
-    
-    double frequency;
+    NSTimer       * timer;
+    HKHealthStore * healthStore;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     AWAREStorage * storage = [[AWAREStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
     self = [super initWithAwareStudy:study sensorName:SENSOR_HEALTH_KIT storage:storage];
     if(self!=nil){
-    
         // Add your HealthKit code here
-        healthStore = [[HKHealthStore alloc] init];
-        awareHKWorkout = [[AWAREHealthKitWorkout alloc] initWithAwareStudy:study dbType:dbType];
-        awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
-        awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];
+        healthStore      = [[HKHealthStore alloc] init];
+        _awareHKWorkout  = [[AWAREHealthKitWorkout  alloc] initWithAwareStudy:study dbType:dbType];
+        _awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
+        _awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];
         
-        frequency = 60 * 30; // 30min
+        _fetchIntervalSecond = 60 * 30; // 30min
     }
     return self;
 }
@@ -56,18 +49,12 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         [healthStore requestAuthorizationToShareTypes:nil
                                             readTypes:[self dataTypesToRead]
                                            completion:^(BOOL success, NSError *error) {
-
-                                               if(success == YES)
-                                               {
-                                                   // ...
+                                               if (success == YES) {
                                                    [self readAllDate];
-                                               }
-                                               else
-                                               {
+                                               } else {
                                                    // Determine if it was an error or if the
                                                    // user just canceld the authorization request
                                                }
-
                                            }];
     }
 }
@@ -75,27 +62,24 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 
 - (void) createTable{
     // Send a table create query
-    // NSLog(@"[%@] create table!", [self getSensorName]);
-    [awareHKWorkout  createTable];
-    [awareHKCategory createTable];
-    [awareHKQuantity createTable];
+    if (self.isDebug) NSLog(@"[%@] create table!", [self getSensorName]);
+    [_awareHKWorkout  createTable];
+    [_awareHKCategory createTable];
+    [_awareHKQuantity createTable];
 }
 
 - (void)setParameters:(NSArray *)parameters{
-    frequency = [self getSensorSetting:parameters withKey:[NSString stringWithFormat:@"frequency_%@", SENSOR_HEALTH_KIT]];
-    if(frequency < 0){
-        frequency = 60 * 60; // 1 hour
-    }
+    _fetchIntervalSecond = [self getSensorSetting:parameters
+                               withKey:[NSString stringWithFormat:@"frequency_%@", SENSOR_HEALTH_KIT]];
 }
 
 
 - (BOOL)startSensor{
-    
+    if(_fetchIntervalSecond <= 0){
+        _fetchIntervalSecond = 60 * 30; // 30 min
+    }
     [self requestAuthorizationToAccessHealthKit];
-    
-    [self readAllDate];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:frequency
+    timer = [NSTimer scheduledTimerWithTimeInterval:_fetchIntervalSecond
                                              target:self
                                            selector:@selector(readAllDate)
                                            userInfo:nil
@@ -110,25 +94,21 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         timer = nil;
     }
     [self setSensingState:NO];
-    // healthStore = nil;
     return YES;
 }
 
-
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 - (void)startSyncDB{
-    [awareHKWorkout startSyncDB];
-    [awareHKCategory startSyncDB];
-    [awareHKQuantity startSyncDB];
+    [_awareHKQuantity.storage setSyncProcessCallBack:self.storage.syncProcessCallBack];
+    [_awareHKWorkout  startSyncDB];
+    [_awareHKCategory startSyncDB];
+    [_awareHKQuantity startSyncDB];
     [super startSyncDB];
 }
 
 - (void)stopSyncDB{
-    [awareHKWorkout stopSyncDB];
-    [awareHKCategory stopSyncDB];
-    [awareHKQuantity stopSyncDB];
+    [_awareHKWorkout  stopSyncDB];
+    [_awareHKCategory stopSyncDB];
+    [_awareHKQuantity stopSyncDB];
     [super stopSyncDB];
 }
 
@@ -138,10 +118,19 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 - (void) readAllDate {
     // Set your start and end date for your query of interest
     NSDate * startDate = [self getLastUpdate];
-    //NSDate * startDate =  [NSDate dateWithTimeIntervalSinceNow:-60*60*24]; // <- test
-    NSDate * endDate = [NSDate new];
-
-    NSLog(@"[%@] %@ <---> %@", [self getSensorName], startDate, endDate);
+    // NSDate * startDate = [NSDate dateWithTimeIntervalSinceNow:-60*60*24*7]; // <- test
+    NSDate * endDate   = [NSDate new];
+    
+    NSDateFormatter * format = [[NSDateFormatter alloc] init];
+    [format setTimeZone:NSTimeZone.systemTimeZone];
+    [format setDateFormat:@"yyyy/MM/dd HH:mm"];
+    NSString * message = [NSString stringWithFormat:@"Last Fetch: %@ <---> %@",
+                          [format stringFromDate:startDate],
+                          [format stringFromDate:endDate]];
+    [self setLatestValue:message];
+    if (self.isDebug) {
+        NSLog(@"[%@] %@", [self getSensorName], message);
+    }
 
     NSSet* quantities = [self dataTypesToRead];
     for (HKQuantityType * set in quantities) {
@@ -160,30 +149,24 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                sortDescriptors:@[sortDescriptor]
                                                                 resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
 
-                                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                                        [self setLatestValue:[NSString stringWithFormat:@"Last update: %@", [NSDate new]]];
-                                                                    });
-
                                                                     @try {
-                                                                        if(!error && results)
-                                                                        {
-                                                                            //////////////////////// Quantity //////////////////////////////
+                                                                        if(!error && results){
+                                                                            /// Quantity
                                                                             NSSet * quantityTypes = [self getDataQuantityTypes];
                                                                             if([quantityTypes containsObject:query.objectType]){
-                                                                                [self->awareHKQuantity saveQuantityData:results];
+                                                                                [self->_awareHKQuantity saveQuantityData:results];
                                                                             }
 
-                                                                            //////////////////////// Catogory //////////////////////////////////
-                                                                            NSSet * dataCatogoryTypes    = [self getDataCategoryTypes];
+                                                                            /// Catogory
+                                                                            NSSet * dataCatogoryTypes = [self getDataCategoryTypes];
                                                                             if([dataCatogoryTypes containsObject:query.objectType]){
-                                                                                [self->awareHKCategory saveCategoryData:results];
-
+                                                                                [self->_awareHKCategory saveCategoryData:results];
                                                                             }
 
-                                                                            ///////////////////////// Workout  /////////////////////////////////
-                                                                            NSSet * dataWorkoutTypes     = [self getDataWorkoutTypes];
+                                                                            /// Workout
+                                                                            NSSet * dataWorkoutTypes = [self getDataWorkoutTypes];
                                                                             if([dataWorkoutTypes containsObject:query.objectType]){
-                                                                                [self->awareHKWorkout saveWorkoutData:results];
+                                                                                [self->_awareHKWorkout saveWorkoutData:results];
                                                                             }
 
                                                                             //////////////////////// Correlation //////////////////////////////
@@ -196,8 +179,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                             //        NSLog(@"%@", sample.objects);
                                                                             //    }
                                                                             // }
-
-
                                                                             // https://developer.apple.com/reference/healthkit
 
 
@@ -207,17 +188,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                     } @catch (NSException *exception) {
                                                                         NSString * message = [NSString stringWithFormat:@"[%@] %@", [self getSensorName], exception.debugDescription];
                                                                         NSLog(@"%@", message);
-//                                                                        [self saveDebugEventWithText:message type:DebugTypeError label:@""];
                                                                     } @finally {
 
                                                                     }
 
                                                                 }];
         if(healthStore != nil){
-            // Execute the query
             [healthStore executeQuery:sampleQuery];
-        }else{
-//            [self saveDebugEventWithText:@"ERROR in HealthKit Sensor" type:DebugTypeInfo label:@"HealthKit object is nil."];
         }
 
         [self setLastUpdate:endDate];
@@ -228,8 +205,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 
 // Returns the types of data that Fit wishes to read from HealthKit.
 - (NSSet *)allDataTypesToRead {
-    NSSet* characteristicTypesSet = [self characteristicDataTypesToRead];
-    NSSet* otherTypesSet = [self dataTypesToRead];
+    NSSet * characteristicTypesSet = [self characteristicDataTypesToRead];
+    NSSet * otherTypesSet          = [self dataTypesToRead];
     
     return [otherTypesSet setByAddingObjectsFromSet: characteristicTypesSet];
 }

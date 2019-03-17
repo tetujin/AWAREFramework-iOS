@@ -9,98 +9,165 @@
 #import "AWAREHealthKitCategory.h"
 #import "AWAREUtils.h"
 #import "TCQMaker.h"
+#import "EntityHealthKitCategory+CoreDataClass.h"
 
 @implementation AWAREHealthKitCategory{
     NSString* KEY_DEVICE_ID;
     NSString* KEY_TIMESTAMP;
     NSString* KEY_DATA_TYPE;
-    NSString* KEY_DATA_TYPE_ID;
     NSString* KEY_VALUE;
     NSString* KEY_UNIT;
-    // NSString* KEY_START;
+    NSString* KEY_METADATA;
     NSString* KEY_END;
     NSString* KEY_DEVICE;
+    NSString* KEY_SOURCE;
     NSString* KEY_LABLE;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    AWAREStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:[NSString stringWithFormat:@"%@_category",SENSOR_HEALTH_KIT]];
-        self = [super initWithAwareStudy:study
-                              sensorName:[NSString stringWithFormat:@"%@_category",SENSOR_HEALTH_KIT]
-                            storage:storage];
+    NSString * sensorName = [NSString stringWithFormat:@"%@_category", SENSOR_HEALTH_KIT];
+    AWAREStorage * storage = nil;
+
+    if (dbType == AwareDBTypeJSON) {
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:sensorName];
+    }else{
+        storage = [[SQLiteStorage alloc] initWithStudy:study
+                                            sensorName:sensorName
+                                            entityName:NSStringFromClass([EntityHealthKitCategory class])
+                                        insertCallBack:^(NSDictionary *data,
+                                                         NSManagedObjectContext *childContext,
+                                                         NSString *entityName) {
+            EntityHealthKitCategory * entity = (EntityHealthKitCategory *)[NSEntityDescription insertNewObjectForEntityForName:entityName
+                inManagedObjectContext:childContext];
+            entity.timestamp = data[self->KEY_TIMESTAMP];
+            entity.device_id = data[self->KEY_DEVICE_ID];
+            entity.timestamp_end = data[self->KEY_END];
+            entity.type      = data[self->KEY_DATA_TYPE];
+            entity.value     = data[self->KEY_VALUE];
+            entity.device    = data[self->KEY_DEVICE];
+            entity.metadata  = data[self->KEY_METADATA];
+            entity.source    = data[self->KEY_SOURCE];
+            entity.label     = data[self->KEY_LABLE];            
+        }];
+    }
+    self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     if(self){
-        KEY_DEVICE_ID = @"device_id";
-        KEY_TIMESTAMP = @"timestamp";
-        KEY_DATA_TYPE_ID = @"type_id";
-        KEY_DATA_TYPE = @"type";
-        KEY_VALUE  = @"value";
-        KEY_UNIT   = @"unit";
-        // KEY_START = @"start";
-        KEY_END    = @"timestamp_end";
-        KEY_DEVICE = @"device";
-        KEY_LABLE  = @"label";
+        KEY_DEVICE_ID    = @"device_id";
+        KEY_TIMESTAMP    = @"timestamp";
+        KEY_DATA_TYPE    = @"type";
+        KEY_VALUE        = @"value";
+        KEY_END          = @"timestamp_end";
+        KEY_DEVICE       = @"device";
+        KEY_METADATA     = @"metadata";
+        KEY_SOURCE       = @"source";
+        KEY_LABLE        = @"label";
     }
     return self;
 }
 
-- (void) createTable{
-    // Send a table create query
-    NSLog(@"[%@] create table!", [self getSensorName]);
-    
+- (void) createTable {
+    if (self.isDebug) { NSLog(@"[%@] create table!", self.getSensorName); }
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
     [tcqMaker addColumn:KEY_END       type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_DATA_TYPE type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:KEY_VALUE     type:TCQTypeReal default:@"0"];
-    // [tcqMaker addColumn:KEY_UNIT      type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:KEY_DEVICE    type:TCQTypeText default:@"''"];
+    [tcqMaker addColumn:KEY_METADATA  type:TCQTypeText default:@"''"];
+    [tcqMaker addColumn:KEY_SOURCE    type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:KEY_LABLE     type:TCQTypeText default:@"''"];
-    
-    NSString *query = [tcqMaker getDefaudltTableCreateQuery];
-    // [super createTable:query];
-    [self.storage createDBTableOnServerWithQuery:query];
+    [self.storage createDBTableOnServerWithQuery:[tcqMaker getDefaudltTableCreateQuery]];
 }
 
-- (void)saveCategoryData:(NSArray *)data{
-//    for(HKCategorySample *sample in data)
-//    {
-//        // NSLog(@"%@", sample.debugDescription);
-////        NSLog(@"%@", sample.startDate);
-////        NSLog(@"%@", sample.endDate);
-////        NSLog(@"%@", sample.sampleType);
-////        NSLog(@"%@", sample.categoryType.identifier);
-////        NSLog(@"%ld", sample.value);
-//
-//        NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-//        [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
-//        [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate] forKey:KEY_END];
-//        [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
-//        if(sample.sampleType != nil){
-//            [dict setObject:sample.categoryType.identifier forKey:KEY_DATA_TYPE];
-//        }else{
-//            [dict setObject:@"" forKey:KEY_DATA_TYPE];
-//        }
-//        [dict setObject:@(sample.value) forKey:KEY_VALUE];
-//        // [dict setObject:unit forKey:KEY_UNIT];
-//        if(sample.device == nil){
-//            [dict setObject:@"unknown" forKey:KEY_DEVICE];
-//        }else{
-//            [dict setObject:sample.device.model forKey:KEY_DEVICE];
-//        }
-//        [dict setObject:@"" forKey:KEY_LABLE];
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            // [self saveData:dict];
-//            [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-//            [self setLatestData:dict];
-//            NSString * message = [NSString stringWithFormat:@"[date:%@][type:%@][value:%ld]",
-//                                  sample.startDate,
-//                                  sample.categoryType,
-//                                  sample.value];
-//            NSLog(@"%@", message);
-//            // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
-//            [self setLatestValue:message];
-//        });
-//    }
+- (void) saveCategoryData:(NSArray <HKCategorySample *> *)data {
+    NSMutableArray * buffer = [[NSMutableArray alloc] init];
+    
+    for(HKCategorySample * sample in data){
+        NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+        /// start
+        [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
+        /// end
+        [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
+        /// device_id
+        [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
+        
+        /// data type
+        if(sample.sampleType != nil){
+            [dict setObject:sample.categoryType.identifier forKey:KEY_DATA_TYPE];
+        }else{
+            [dict setObject:@"" forKey:KEY_DATA_TYPE];
+        }
+        
+        /// value
+        [dict setObject:@(sample.value) forKey:KEY_VALUE];
+        
+        /// device
+        if(sample.device == nil){
+            [dict setObject:@"unknown" forKey:KEY_DEVICE];
+        }else{
+            [dict setObject:sample.device.model forKey:KEY_DEVICE];
+        }
+        
+        /// metadata
+        [dict setObject:@"" forKey:KEY_METADATA];
+        if (sample.metadata != nil) {
+            NSError * e = nil;
+            NSData * md = [NSJSONSerialization dataWithJSONObject:sample.metadata
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:&e];
+            if(e!=nil){
+                if (self.isDebug) NSLog(@"%@", e.debugDescription);
+            }else{
+                NSString * medataStr = [[NSString alloc] initWithData:md
+                                                             encoding:NSUTF8StringEncoding];
+                if (medataStr != nil){
+                   [dict setObject:medataStr forKey:KEY_METADATA];
+                }
+            }
+        }
+        
+        /// source
+        [dict setObject:@"" forKey:KEY_SOURCE];
+        if (sample.sourceRevision != nil) {
+            NSMutableDictionary * sourceDict = [[NSMutableDictionary alloc] init];
+            // sample.sourceRevision.operatingSystemVersion.majorVersion
+            [sourceDict setObject:@"" forKey:@"productType"];
+            if (@available(iOS 11.0, *)) {
+                NSString * pt = sample.sourceRevision.productType;
+                if (pt != nil) {
+                    [sourceDict setObject:pt forKey:@"productType"];
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+            [sourceDict setObject:sample.sourceRevision.source.name forKey:@"name"];
+            [sourceDict setObject:sample.sourceRevision.source.bundleIdentifier forKey:@"bundleId"];
+            NSError * e  = nil;
+            NSData  * sd = [NSJSONSerialization dataWithJSONObject:sourceDict
+                                                          options:NSJSONWritingPrettyPrinted
+                                                            error:&e];
+            NSString * ss = [[NSString alloc] initWithData:sd encoding:NSUTF8StringEncoding];
+            [dict setObject:ss forKey:KEY_SOURCE];
+        }
+        
+        // label
+        [dict setObject:@"" forKey:KEY_LABLE];
+
+        [buffer addObject:dict];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.storage saveDataWithArray:buffer buffer:NO saveInMainThread:NO];
+        
+        if (buffer.count > 0) {
+            NSDictionary * sample = buffer.lastObject;
+            NSString * message = [NSString stringWithFormat:@"[date:%@][type:%@][value:%@]",
+                                  sample[self->KEY_TIMESTAMP],
+                                  sample[self->KEY_DATA_TYPE],
+                                  sample[self->KEY_VALUE]];
+            [self setLatestValue:message];
+            [self setLatestData:sample];
+        }
+    });
 }
 
 @end
