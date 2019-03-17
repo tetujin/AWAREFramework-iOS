@@ -332,7 +332,7 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <entity name="EntityHealthKitCategory" representedClassName="EntityHealthKitCategory" syncable="YES" codeGenerationType="class">
+    <entity name="EntityHealthKitCategory" representedClassName="EntityHealthKitCategory" syncable="YES">
         <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
