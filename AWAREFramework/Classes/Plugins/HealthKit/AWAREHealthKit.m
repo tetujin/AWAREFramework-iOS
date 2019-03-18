@@ -36,7 +36,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         _awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
         _awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];
         
-        _fetchIntervalSecond = 60 * 30; // 30min
+        _fetchIntervalSecond = 60 * 60; // 60min
     }
     return self;
 }
@@ -76,7 +76,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 
 - (BOOL)startSensor{
     if(_fetchIntervalSecond <= 0){
-        _fetchIntervalSecond = 60 * 30; // 30 min
+        _fetchIntervalSecond = 60 * 60; // 30 min
     }
     [self requestAuthorizationToAccessHealthKit];
     timer = [NSTimer scheduledTimerWithTimeInterval:_fetchIntervalSecond
@@ -117,14 +117,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 
 - (void) readAllDate {
     // Set your start and end date for your query of interest
-    NSDate * startDate = [self getLastUpdate];
-    // NSDate * startDate = [NSDate dateWithTimeIntervalSinceNow:-60*60*24*7]; // <- test
+    // NSDate * startDate = [self getLastUpdate];
+    NSDate * startDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24];
     NSDate * endDate   = [NSDate new];
     
     NSDateFormatter * format = [[NSDateFormatter alloc] init];
     [format setTimeZone:NSTimeZone.systemTimeZone];
     [format setDateFormat:@"yyyy/MM/dd HH:mm"];
-    NSString * message = [NSString stringWithFormat:@"Last Fetch: %@ <---> %@",
+    NSString * message = [NSString stringWithFormat:@"Last Fetch: %@ - %@",
                           [format stringFromDate:startDate],
                           [format stringFromDate:endDate]];
     [self setLatestValue:message];
@@ -138,7 +138,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
             continue;
         }
         // Create a predicate to set start/end date bounds of the query
-        NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:endDate options:HKQueryOptionStrictStartDate];
+        NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate
+                                                                   endDate:endDate
+                                                                   options:HKQueryOptionStrictStartDate];
 
         // Create a sort descriptor for sorting by start date
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:YES];
@@ -196,9 +198,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         if(healthStore != nil){
             [healthStore executeQuery:sampleQuery];
         }
-
-        [self setLastUpdate:endDate];
-
+        // [self setLastUpdate:endDate];
     }
 }
 
@@ -408,7 +408,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     corrType = [HKCorrelationType correlationTypeForIdentifier:HKCorrelationTypeIdentifierBloodPressure];
     [dataTypesSet addObject:corrType];
     corrType = [HKCorrelationType correlationTypeForIdentifier:HKCorrelationTypeIdentifierFood];
-    [dataTypesSet addObject:corrType];
+    [dataTypesSet addObject:corrType];w
 #endif
     
     return dataTypesSet;
@@ -456,19 +456,22 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
-- (NSDate *) getLastUpdate {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDate * lastUpdate =  [userDefaults objectForKey:@"plugin_health_kit_last_update_timestamp"];
-    if(lastUpdate == nil){
-        return [[NSDate new] dateByAddingTimeInterval:-1*60*60*24*7]; // 7 days before
-    }else{
-        return lastUpdate;
++ (NSDate * _Nullable) getLastFetchDataWithDataType:(NSString * _Nullable) dataType {
+    NSString * key = @"plugin_health_kit_last_update_timestamp";
+    if (dataType != nil) {
+        key = [NSString stringWithFormat:@"%@_%@", key, dataType];
     }
+    NSDate * lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    // NSLog(@"[%@] %@", dataType, lastUpdate);
+    return lastUpdate;
 }
 
-- (void) setLastUpdate :(NSDate *) date {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:date forKey:@"plugin_health_kit_last_update_timestamp"];
++ (void) setLastFetchData:(NSDate * _Nonnull)date withDataType:(NSString * _Nullable)dataType {
+    NSString * key = @"plugin_health_kit_last_update_timestamp";
+    if (dataType != nil) {
+        key = [NSString stringWithFormat:@"%@_%@", key, dataType];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:date forKey:key];
 }
 
 @end

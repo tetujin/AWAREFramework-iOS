@@ -7,21 +7,22 @@
 //
 
 #import "AWAREHealthKitCategory.h"
+#import "AWAREHealthKit.h"
 #import "AWAREUtils.h"
 #import "TCQMaker.h"
 #import "EntityHealthKitCategory+CoreDataClass.h"
 
 @implementation AWAREHealthKitCategory{
-    NSString* KEY_DEVICE_ID;
-    NSString* KEY_TIMESTAMP;
-    NSString* KEY_DATA_TYPE;
-    NSString* KEY_VALUE;
-    NSString* KEY_UNIT;
-    NSString* KEY_METADATA;
-    NSString* KEY_END;
-    NSString* KEY_DEVICE;
-    NSString* KEY_SOURCE;
-    NSString* KEY_LABLE;
+    NSString * KEY_DEVICE_ID;
+    NSString * KEY_TIMESTAMP;
+    NSString * KEY_DATA_TYPE;
+    NSString * KEY_VALUE;
+    NSString * KEY_UNIT;
+    NSString * KEY_METADATA;
+    NSString * KEY_END;
+    NSString * KEY_DEVICE;
+    NSString * KEY_SOURCE;
+    NSString * KEY_LABLE;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -52,15 +53,15 @@
     }
     self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     if(self){
-        KEY_DEVICE_ID    = @"device_id";
-        KEY_TIMESTAMP    = @"timestamp";
-        KEY_DATA_TYPE    = @"type";
-        KEY_VALUE        = @"value";
-        KEY_END          = @"timestamp_end";
-        KEY_DEVICE       = @"device";
-        KEY_METADATA     = @"metadata";
-        KEY_SOURCE       = @"source";
-        KEY_LABLE        = @"label";
+        KEY_DEVICE_ID = @"device_id";
+        KEY_TIMESTAMP = @"timestamp";
+        KEY_DATA_TYPE = @"type";
+        KEY_VALUE     = @"value";
+        KEY_END       = @"timestamp_end";
+        KEY_DEVICE    = @"device";
+        KEY_METADATA  = @"metadata";
+        KEY_SOURCE    = @"source";
+        KEY_LABLE     = @"label";
     }
     return self;
 }
@@ -82,77 +83,88 @@
     NSMutableArray * buffer = [[NSMutableArray alloc] init];
     
     for(HKCategorySample * sample in data){
-        NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-        /// start
-        [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
-        /// end
-        [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
-        /// device_id
-        [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
         
-        /// data type
-        if(sample.sampleType != nil){
-            [dict setObject:sample.categoryType.identifier forKey:KEY_DATA_TYPE];
-        }else{
-            [dict setObject:@"" forKey:KEY_DATA_TYPE];
+        NSDate * lastFetchDate = [AWAREHealthKit getLastFetchDataWithDataType:sample.sampleType.identifier];
+        if (lastFetchDate==nil) {
+            lastFetchDate = [NSDate new];
         }
         
-        /// value
-        [dict setObject:@(sample.value) forKey:KEY_VALUE];
-        
-        /// device
-        if(sample.device == nil){
-            [dict setObject:@"unknown" forKey:KEY_DEVICE];
-        }else{
-            [dict setObject:sample.device.model forKey:KEY_DEVICE];
-        }
-        
-        /// metadata
-        [dict setObject:@"" forKey:KEY_METADATA];
-        if (sample.metadata != nil) {
-            NSError * e = nil;
-            NSData * md = [NSJSONSerialization dataWithJSONObject:sample.metadata
-                                                          options:NSJSONWritingPrettyPrinted
-                                                            error:&e];
-            if(e!=nil){
-                if (self.isDebug) NSLog(@"%@", e.debugDescription);
+        if (sample.startDate.timeIntervalSince1970 > lastFetchDate.timeIntervalSince1970) {
+            NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+            /// start
+            [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
+            /// end
+            [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
+            /// device_id
+            [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
+            
+            /// data type
+            if(sample.sampleType != nil){
+                [dict setObject:sample.categoryType.identifier forKey:KEY_DATA_TYPE];
             }else{
-                NSString * medataStr = [[NSString alloc] initWithData:md
-                                                             encoding:NSUTF8StringEncoding];
-                if (medataStr != nil){
-                   [dict setObject:medataStr forKey:KEY_METADATA];
+                [dict setObject:@"" forKey:KEY_DATA_TYPE];
+            }
+            
+            /// value
+            [dict setObject:@(sample.value) forKey:KEY_VALUE];
+            
+            /// device
+            if(sample.device == nil){
+                [dict setObject:@"unknown" forKey:KEY_DEVICE];
+            }else{
+                [dict setObject:sample.device.model forKey:KEY_DEVICE];
+            }
+            
+            /// metadata
+            [dict setObject:@"" forKey:KEY_METADATA];
+            if (sample.metadata != nil) {
+                NSError * e = nil;
+                NSData * md = [NSJSONSerialization dataWithJSONObject:sample.metadata
+                                                              options:NSJSONWritingPrettyPrinted
+                                                                error:&e];
+                if(e != nil){
+                    if (self.isDebug) NSLog(@"%@", e.debugDescription);
+                }else{
+                    NSString * medataStr = [[NSString alloc] initWithData:md
+                                                                 encoding:NSUTF8StringEncoding];
+                    if (medataStr != nil){
+                        [dict setObject:medataStr forKey:KEY_METADATA];
+                    }
                 }
+            }
+            
+            /// source
+            [dict setObject:@"" forKey:KEY_SOURCE];
+            if (sample.sourceRevision != nil) {
+                NSMutableDictionary * sourceDict = [[NSMutableDictionary alloc] init];
+                // sample.sourceRevision.operatingSystemVersion.majorVersion
+                [sourceDict setObject:@"" forKey:@"productType"];
+                if (@available(iOS 11.0, *)) {
+                    NSString * pt = sample.sourceRevision.productType;
+                    if (pt != nil) [sourceDict setObject:pt forKey:@"productType"];
+                }
+                [sourceDict setObject:sample.sourceRevision.source.name forKey:@"name"];
+                [sourceDict setObject:sample.sourceRevision.source.bundleIdentifier forKey:@"bundleId"];
+                NSError * e  = nil;
+                NSData  * sd = [NSJSONSerialization dataWithJSONObject:sourceDict
+                                                               options:NSJSONWritingPrettyPrinted
+                                                                 error:&e];
+                NSString * ss = [[NSString alloc] initWithData:sd encoding:NSUTF8StringEncoding];
+                [dict setObject:ss forKey:KEY_SOURCE];
+            }
+            
+            // label
+            [dict setObject:@"" forKey:KEY_LABLE];
+            
+            [buffer addObject:dict];
+            
+            // save the last fetch timestamp with a identifier
+            if (sample.endDate != nil && sample.sampleType.identifier != nil) {
+                [AWAREHealthKit setLastFetchData:sample.endDate
+                                    withDataType:sample.sampleType.identifier];
             }
         }
         
-        /// source
-        [dict setObject:@"" forKey:KEY_SOURCE];
-        if (sample.sourceRevision != nil) {
-            NSMutableDictionary * sourceDict = [[NSMutableDictionary alloc] init];
-            // sample.sourceRevision.operatingSystemVersion.majorVersion
-            [sourceDict setObject:@"" forKey:@"productType"];
-            if (@available(iOS 11.0, *)) {
-                NSString * pt = sample.sourceRevision.productType;
-                if (pt != nil) {
-                    [sourceDict setObject:pt forKey:@"productType"];
-                }
-            } else {
-                // Fallback on earlier versions
-            }
-            [sourceDict setObject:sample.sourceRevision.source.name forKey:@"name"];
-            [sourceDict setObject:sample.sourceRevision.source.bundleIdentifier forKey:@"bundleId"];
-            NSError * e  = nil;
-            NSData  * sd = [NSJSONSerialization dataWithJSONObject:sourceDict
-                                                          options:NSJSONWritingPrettyPrinted
-                                                            error:&e];
-            NSString * ss = [[NSString alloc] initWithData:sd encoding:NSUTF8StringEncoding];
-            [dict setObject:ss forKey:KEY_SOURCE];
-        }
-        
-        // label
-        [dict setObject:@"" forKey:KEY_LABLE];
-
-        [buffer addObject:dict];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{

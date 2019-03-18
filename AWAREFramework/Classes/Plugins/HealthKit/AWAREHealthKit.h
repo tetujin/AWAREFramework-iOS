@@ -24,4 +24,13 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY;
 
 - (void) requestAuthorizationToAccessHealthKit;
 
+/**
+ * Get the last fetch data using a data type
+ */
++ (NSDate * _Nullable) getLastFetchDataWithDataType:(NSString * _Nullable) dataType;
+
+/**
+ * Set the latest fetch date with a data type.
+ */
++ (void) setLastFetchData:(NSDate * _Nonnull)date withDataType:(NSString * _Nullable)dataType;
 @end
