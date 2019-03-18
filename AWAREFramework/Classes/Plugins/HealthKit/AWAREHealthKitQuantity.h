@@ -11,6 +11,6 @@
 
 @interface AWAREHealthKitQuantity : AWARESensor
 
-- (void)saveQuantityData:(NSArray <HKQuantitySample *> *)data;
+- (void)saveQuantityData:(NSArray <HKQuantitySample *> * _Nonnull)data;
 
 @end

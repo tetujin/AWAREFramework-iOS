@@ -18,8 +18,8 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_ios_pedomet
 
 @implementation Pedometer {
     NSString* KEY_DEVICE_ID;
-    NSString* KEY_TIMESTAMP; //begin
-    NSString* KEY_END_TIMESTAMP; //end
+    NSString* KEY_TIMESTAMP;
+    NSString* KEY_END_TIMESTAMP;
     NSString* KEY_FREQUENCY_SECOND;
     NSString* KEY_NUMBER_OF_STEPS;
     NSString* KEY_DISTANCE;
@@ -178,9 +178,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_ios_pedomet
     NSDate * now = [NSDate new];
     NSDate * fromDate = [self getLastUpdate];
     
-    // TEST
-    // fromDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*60];
-    
     double gap = now.timeIntervalSince1970 - fromDate.timeIntervalSince1970;
     
     for(int i=1; i<gap/frequencySec; i++){
@@ -296,8 +293,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_ios_pedomet
         [self setLatestData:dict];
         [self setLatestValue:[NSString stringWithFormat:@"%@: %@", pedometerData.startDate,numberOfSteps]];
     });
+    NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm:ss"];
     NSString * message = [NSString stringWithFormat:@"[%@ - %@] Steps:%d, Distance:%f, Pace:%d, Floor Ascended:%d, Floor Descended:%d",
-                                                    pedometerData.startDate, pedometerData.endDate,
+                                                    [formatter stringFromDate:pedometerData.startDate],
+                                                    [formatter stringFromDate:pedometerData.endDate],
                                                     numberOfSteps.intValue,  distance.doubleValue,
                                                     currentPace.intValue,    floorsAscended.intValue,
                                                     floorsDescended.intValue];

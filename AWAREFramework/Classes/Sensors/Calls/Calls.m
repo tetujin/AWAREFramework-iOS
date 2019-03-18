@@ -73,9 +73,6 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 }
 
 -(BOOL)startSensor{
-    
-    /// [super startSensor];
-    
     // Set and start a call sensor
     _callCenter = [[CTCallCenter alloc] init];
     _callCenter.callEventHandler = ^(CTCall* call){

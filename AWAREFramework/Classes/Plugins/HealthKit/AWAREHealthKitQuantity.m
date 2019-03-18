@@ -79,64 +79,72 @@
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
-- (void)saveQuantityData:(NSArray <HKQuantitySample *> *)data{
-    NSMutableArray * buffer = [[NSMutableArray alloc] init];
-    for(HKQuantitySample * sample in data) {
-        HKSampleType     * type = sample.sampleType;
-        if([self isDebug]) NSLog(@"%@",type);
-
-        NSDate * lastFetchDate = [AWAREHealthKit getLastFetchDataWithDataType:type.identifier];
-        if ( lastFetchDate == nil ) {
-            lastFetchDate = [NSDate new];
+- (void)saveQuantityData:(NSArray <HKQuantitySample *> * _Nonnull) data {
+    
+    if (data.count == 0) {
+        return;
+    } else {
+        NSMutableArray * buffer = [[NSMutableArray alloc] init];
+        
+        HKCategorySample * sample = data.firstObject;
+        NSDate * lastFetchDate = [AWAREHealthKit getLastFetchDataWithDataType:sample.sampleType.identifier];
+        if (lastFetchDate==nil) {
+            lastFetchDate = [NSDate dateWithTimeIntervalSince1970:-1*60*60*24];
         }
         
-        if (sample.startDate.timeIntervalSince1970 > lastFetchDate.timeIntervalSince1970) {
-            NSMutableString * quantityStr = [[NSMutableString alloc] initWithString:[sample.quantity description]];
-            NSArray  * array = [quantityStr componentsSeparatedByString:@" "];
-            NSString * unit  = @"";
+        for(HKQuantitySample * sample in data) {
+            HKSampleType     * type = sample.sampleType;
+            if([self isDebug]) NSLog(@"%@",type);
             
-            NSNumber * value = @0;
-            if (array.count > 1) {
-                if(array[0] != nil) value = @([array[0] doubleValue]);
-                if(array[1] != nil) unit  = array[1];
-            }
-            
-            NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
-            [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
-            [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
-            [dict setObject:type.identifier    forKey:KEY_DATA_TYPE];
-            [dict setObject:value forKey:KEY_VALUE];
-            [dict setObject:unit  forKey:KEY_UNIT];
-            if(sample.device == nil){
-                [dict setObject:@"unknown" forKey:KEY_DEVICE];
-            }else{
-                [dict setObject:sample.device.model forKey:KEY_DEVICE];
-            }
-            [dict setObject:@"" forKey:KEY_LABLE];
-            [buffer addObject:dict];
-            
-            // save the last fetch timestamp with a identifier
-            if (sample.endDate != nil && type.identifier != nil) {
-                [AWAREHealthKit setLastFetchData:sample.endDate
-                                    withDataType:type.identifier];
+            if (sample.startDate.timeIntervalSince1970 > lastFetchDate.timeIntervalSince1970) {
+                NSMutableString * quantityStr = [[NSMutableString alloc] initWithString:[sample.quantity description]];
+                NSArray  * array = [quantityStr componentsSeparatedByString:@" "];
+                NSString * unit  = @"";
+                
+                NSNumber * value = @0;
+                if (array.count > 1) {
+                    if(array[0] != nil) value = @([array[0] doubleValue]);
+                    if(array[1] != nil) unit  = array[1];
+                }
+                
+                NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+                [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
+                [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
+                [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
+                [dict setObject:type.identifier    forKey:KEY_DATA_TYPE];
+                [dict setObject:value forKey:KEY_VALUE];
+                [dict setObject:unit  forKey:KEY_UNIT];
+                if(sample.device == nil){
+                    [dict setObject:@"unknown" forKey:KEY_DEVICE];
+                }else{
+                    [dict setObject:sample.device.model forKey:KEY_DEVICE];
+                }
+                [dict setObject:@"" forKey:KEY_LABLE];
+                [buffer addObject:dict];
+                
+                // save the last fetch timestamp with a identifier
+                if (sample.endDate != nil && type.identifier != nil) {
+                    [AWAREHealthKit setLastFetchData:sample.endDate
+                                        withDataType:type.identifier];
+                }
             }
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.storage saveDataWithArray:buffer buffer:NO saveInMainThread:NO];
+            if (buffer.count > 0) {
+                NSDictionary * lastObj = buffer.lastObject;
+                [self setLatestData:lastObj];
+                NSString * message = [NSString stringWithFormat:@"[date:%@][type:%@][value:%@][unit:%@]",
+                                      lastObj[self->KEY_TIMESTAMP],
+                                      lastObj[self->KEY_DATA_TYPE],
+                                      lastObj[self->KEY_VALUE],
+                                      lastObj[self->KEY_UNIT]];
+                [self setLatestValue:message];
+            }
+        });
+        
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.storage saveDataWithArray:buffer buffer:NO saveInMainThread:NO];
-        if (buffer.count > 0) {
-            NSDictionary * lastObj = buffer.lastObject;
-            [self setLatestData:lastObj];
-            NSString * message = [NSString stringWithFormat:@"[date:%@][type:%@][value:%@][unit:%@]",
-                                  lastObj[self->KEY_TIMESTAMP],
-                                  lastObj[self->KEY_DATA_TYPE],
-                                  lastObj[self->KEY_VALUE],
-                                  lastObj[self->KEY_UNIT]];
-            [self setLatestValue:message];
-        }
-    });
 }
 
 @end

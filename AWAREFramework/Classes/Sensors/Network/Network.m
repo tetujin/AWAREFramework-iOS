@@ -35,10 +35,10 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                                                                                              insertNewObjectForEntityForName:entity
                                                                                              inManagedObjectContext:childContext];
                                             
-                                            entityNetwork.device_id = [data objectForKey:@"device_id"];
-                                            entityNetwork.timestamp = [data objectForKey:@"timestamp"];
-                                            entityNetwork.network_type =    [data objectForKey:@"network_type"];
-                                            entityNetwork.network_state =   [data objectForKey:@"network_state"];
+                                            entityNetwork.device_id       = [data objectForKey:@"device_id"];
+                                            entityNetwork.timestamp       = [data objectForKey:@"timestamp"];
+                                            entityNetwork.network_type    = [data objectForKey:@"network_type"];
+                                            entityNetwork.network_state   = [data objectForKey:@"network_state"];
                                             entityNetwork.network_subtype = [data objectForKey:@"network_subtype"];
                                         }];
     }
@@ -46,8 +46,8 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                           sensorName:SENSOR_NETWORK
                              storage:storage];
     if (self) {
-        networkState= YES;
-        networkType = @0;
+        networkState   = YES;
+        networkType    = @0;
         networkSubtype = @"";
     }
     return self;
@@ -66,7 +66,6 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     "network_type integer default 0,"
     "network_subtype text default '',"
     "network_state integer default 0";
-    // "UNIQUE (timestamp,device_id)";
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
