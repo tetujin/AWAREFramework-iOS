@@ -299,7 +299,7 @@ didReceiveResponse:(NSURLResponse *)response
 -(void)URLSession:(NSURLSession *)session
          dataTask:(NSURLSessionDataTask *)dataTask
    didReceiveData:(NSData *)data {
-    NSLog(@"iOS ESM Plugin: Did received Data");
+    if (self.isDebug) NSLog(@"iOS ESM Plugin: Did received Data");
     // NSLog(@"%@", dataTask.currentRequest.URL);
     
     // NSString * log = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -318,7 +318,7 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
     
-    NSLog(@"iOS ESM Plugin: Did compleate");
+    if (self.isDebug) NSLog(@"iOS ESM Plugin: Did compleate");
     
     if(error != nil){
         NSLog(@"Error: %@", error.debugDescription);

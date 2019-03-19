@@ -21,6 +21,8 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY;
 @property (readonly) AWAREHealthKitWorkout  * awareHKWorkout;
 @property (readonly) AWAREHealthKitCategory * awareHKCategory;
 @property (readonly) AWAREHealthKitQuantity * awareHKQuantity;
+@property (readonly) AWAREHealthKitQuantity * awareHKHeartRate;
+@property (readonly) AWAREHealthKitCategory * awareHKSleep;
 
 - (void) requestAuthorizationToAccessHealthKit;
 

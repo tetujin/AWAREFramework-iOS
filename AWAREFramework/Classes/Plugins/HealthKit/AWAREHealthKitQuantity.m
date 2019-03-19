@@ -11,8 +11,9 @@
 #import "AWAREHealthKitQuantity.h"
 #import "AWAREUtils.h"
 #import "TCQMaker.h"
-#import "EntityHealthKitQuantity+CoreDataClass.h"
 #import "AWAREHealthKit.h"
+
+@import CoreData;
 
 @implementation AWAREHealthKitQuantity{
     NSString * KEY_DEVICE_ID;
@@ -26,30 +27,32 @@
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    AWAREStorage * storage = nil;
     NSString * sensorName = [NSString stringWithFormat:@"%@_quantity",SENSOR_HEALTH_KIT];
+    NSString * entityName = @"EntityHealthKitQuantity";
+    return [self initWithAwareStudy:study dbType:dbType
+                         sensorName:sensorName
+                         entityName:entityName];
+}
+
+-  (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                             dbType:(AwareDBType)dbType
+                         sensorName:(NSString *)sensorName
+                         entityName:(NSString *)entityName{
+    AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study
-                                          sensorName:sensorName ];
+                                          sensorName:sensorName];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study
                                             sensorName:sensorName
-                                            entityName:NSStringFromClass([EntityHealthKitQuantity class])
+                                            entityName:entityName
                                         insertCallBack:^(NSDictionary *data,
                                                          NSManagedObjectContext *childContext,
                                                          NSString *entityName) {
-                                            EntityHealthKitQuantity * entity = (EntityHealthKitQuantity *)[NSEntityDescription insertNewObjectForEntityForName:entityName
-                                                                                                        inManagedObjectContext:childContext];
-            
-                                                entity.device_id = data[self->KEY_DEVICE_ID];
-                                                entity.timestamp = data[self->KEY_TIMESTAMP];
-                                                entity.timestamp_end = data[self->KEY_END];
-                                                entity.type      = data[self->KEY_DATA_TYPE];
-                                                entity.value     = data[self->KEY_VALUE];
-                                                entity.unit      = data[self->KEY_UNIT];
-                                                entity.device    = data[self->KEY_DEVICE];
-                                                entity.label     = data[self->KEY_LABLE];
-                                            }];
+                                            NSManagedObject * entity = [NSEntityDescription insertNewObjectForEntityForName:entityName
+                                                                                                     inManagedObjectContext:childContext];
+                                            [entity setValuesForKeysWithDictionary:data];
+                                        }];
     }
     self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     
@@ -86,7 +89,7 @@
     } else {
         NSMutableArray * buffer = [[NSMutableArray alloc] init];
         
-        HKCategorySample * sample = data.firstObject;
+        HKQuantitySample * sample = data.firstObject;
         NSDate * lastFetchDate = [AWAREHealthKit getLastFetchDataWithDataType:sample.sampleType.identifier];
         if (lastFetchDate==nil) {
             lastFetchDate = [NSDate dateWithTimeIntervalSince1970:-1*60*60*24];

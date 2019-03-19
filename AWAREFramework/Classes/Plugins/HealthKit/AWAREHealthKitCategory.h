@@ -11,6 +11,11 @@
 
 @interface AWAREHealthKitCategory : AWARESensor
 
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                            dbType:(AwareDBType)dbType
+                        sensorName:(NSString *)sensorName
+                        entityName:(NSString *)entityName;
+
 - (void)saveCategoryData:(NSArray <HKCategorySample *> * _Nonnull)data;
 
 @end

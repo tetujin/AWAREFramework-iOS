@@ -332,7 +332,7 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <entity name="EntityHealthKitCategory" representedClassName="EntityHealthKitCategory" syncable="YES">
+    <entity name="EntityHealthKitCategory" representedClassName="EntityHealthKitCategory" syncable="YES" codeGenerationType="class">
         <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
@@ -343,7 +343,30 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <entity name="EntityHealthKitQuantity" representedClassName="EntityHealthKitQuantity" syncable="YES">
+    <entity name="EntityHealthKitCategorySleep" representedClassName="EntityHealthKitCategorySleep" syncable="YES" codeGenerationType="class">
+        <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadata" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timestamp_end" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="EntityHealthKitQuantity" representedClassName="EntityHealthKitQuantity" syncable="YES" codeGenerationType="class">
+        <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadata" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timestamp_end" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="EntityHealthKitQuantityHR" representedClassName="EntityHealthKitQuantityHR" syncable="YES" codeGenerationType="class">
         <attribute name="device" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
@@ -626,6 +649,8 @@
         <element name="EntityFitbitDevice" positionX="306" positionY="153" width="128" height="150"/>
         <element name="EntityGravity" positionX="180" positionY="144" width="128" height="30"/>
         <element name="EntityGyroscope" positionX="189" positionY="153" width="128" height="150"/>
+        <element name="EntityHealthKitCategory" positionX="315" positionY="162" width="128" height="180"/>
+        <element name="EntityHealthKitQuantity" positionX="324" positionY="171" width="128" height="195"/>
         <element name="EntityIBeacon" positionX="315" positionY="162" width="128" height="195"/>
         <element name="EntityIOSActivityRecognition" positionX="297" positionY="153" width="128" height="210"/>
         <element name="EntityIOSPedometer" positionX="297" positionY="144" width="128" height="195"/>
@@ -656,7 +681,7 @@
         <element name="EntitySensorWifi" positionX="333" positionY="180" width="128" height="120"/>
         <element name="EntityTimezone" positionX="198" positionY="162" width="128" height="30"/>
         <element name="EntityWifi" positionX="207" positionY="171" width="128" height="30"/>
-        <element name="EntityHealthKitCategory" positionX="315" positionY="162" width="128" height="180"/>
-        <element name="EntityHealthKitQuantity" positionX="324" positionY="171" width="128" height="195"/>
+        <element name="EntityHealthKitQuantityHR" positionX="324" positionY="171" width="128" height="195"/>
+        <element name="EntityHealthKitCategorySleep" positionX="333" positionY="180" width="128" height="180"/>
     </elements>
 </model>

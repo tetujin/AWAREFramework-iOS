@@ -42,24 +42,24 @@
     healthKit.fetchIntervalSecond = 60;
     [healthKit startSensor];
     
-//    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
-//        [self->healthKit.awareHKQuantity.storage fetchTodaysDataWithHandler:^(NSString * name,
-//                                                                              NSArray  * results,
-//                                                                              NSDate   * start,
-//                                                                              NSDate   * end,
-//                                                                              NSError  * _Nullable error) {
-//
-//            for (NSDictionary * dict in results) {
-//                if ([dict[@"type"] isEqualToString:@"HKQuantityTypeIdentifierHeartRate"]){
-//                    NSDate * start = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp"]).doubleValue/1000];
-//                    NSDate * end   = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp_end"]).doubleValue/1000];
-//                    NSNumber * value = dict[@"value"];
-//                    NSString * unit  = dict[@"unit"];
-//                    NSLog(@"[%@][%@][%@][%@]", start, end, value, unit);
-//                }
-//            }
-//        }];
-//    }];
+    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [self->healthKit.awareHKHeartRate.storage fetchTodaysDataWithHandler:^(NSString * name,
+                                                                              NSArray  * results,
+                                                                              NSDate   * start,
+                                                                              NSDate   * end,
+                                                                              NSError  * _Nullable error) {
+
+            for (NSDictionary * dict in results) {
+                if ([dict[@"type"] isEqualToString:@"HKQuantityTypeIdentifierHeartRate"]){
+                    NSDate * start = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp"]).doubleValue/1000];
+                    NSDate * end   = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp_end"]).doubleValue/1000];
+                    NSNumber * value = dict[@"value"];
+                    NSString * unit  = dict[@"unit"];
+                    NSLog(@"[%@][%@][%@][%@]", start, end, value, unit);
+                }
+            }
+        }];
+    }];
     
 //    Processor * processor = [[Processor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
 //    [processor startSensor];

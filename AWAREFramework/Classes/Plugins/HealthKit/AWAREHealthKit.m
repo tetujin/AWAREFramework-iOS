@@ -29,14 +29,20 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     AWAREStorage * storage = [[AWAREStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
     self = [super initWithAwareStudy:study sensorName:SENSOR_HEALTH_KIT storage:storage];
-    if(self!=nil){
-        // Add your HealthKit code here
+    if( self != nil ){
         healthStore      = [[HKHealthStore alloc] init];
         _awareHKWorkout  = [[AWAREHealthKitWorkout  alloc] initWithAwareStudy:study dbType:dbType];
-        _awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:dbType];
-        _awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:dbType];
-        
-        _fetchIntervalSecond = 60 * 60; // 60min
+        _awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:AwareDBTypeJSON];
+        _awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:AwareDBTypeJSON];
+        _awareHKHeartRate = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study
+                                                                       dbType:dbType
+                                                                   sensorName:[NSString stringWithFormat:@"%@_heartrate", SENSOR_HEALTH_KIT]
+                                                                   entityName:@"EntityHealthKitQuantityHR"];
+        _awareHKSleep = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study
+                                                                    dbType:dbType
+                                                                sensorName:[NSString stringWithFormat:@"%@_sleep", SENSOR_HEALTH_KIT]
+                                                                entityName:@"EntityHealthKitCategorySleep"];
+        _fetchIntervalSecond = 60 * 30; // 60min
     }
     return self;
 }
@@ -76,7 +82,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 
 - (BOOL)startSensor{
     if(_fetchIntervalSecond <= 0){
-        _fetchIntervalSecond = 60 * 60; // 30 min
+        _fetchIntervalSecond = 60 * 30; // 30 min
     }
     [self requestAuthorizationToAccessHealthKit];
     timer = [NSTimer scheduledTimerWithTimeInterval:_fetchIntervalSecond
@@ -98,17 +104,23 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 }
 
 - (void)startSyncDB{
-    [_awareHKQuantity.storage setSyncProcessCallBack:self.storage.syncProcessCallBack];
     [_awareHKWorkout  startSyncDB];
     [_awareHKCategory startSyncDB];
     [_awareHKQuantity startSyncDB];
+    
+    [_awareHKHeartRate.storage setSyncProcessCallBack:self.storage.syncProcessCallBack];
+    [_awareHKHeartRate startSyncDB];
+    [_awareHKSleep     startSyncDB];
     [super startSyncDB];
 }
 
 - (void)stopSyncDB{
-    [_awareHKWorkout  stopSyncDB];
-    [_awareHKCategory stopSyncDB];
-    [_awareHKQuantity stopSyncDB];
+    [_awareHKWorkout   stopSyncDB];
+    [_awareHKCategory  stopSyncDB];
+    [_awareHKQuantity  stopSyncDB];
+    
+    [_awareHKHeartRate startSyncDB];
+    [_awareHKSleep     startSyncDB];
     [super stopSyncDB];
 }
 
@@ -150,19 +162,29 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                          limit:HKObjectQueryNoLimit
                                                                sortDescriptors:@[sortDescriptor]
                                                                 resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
-
+                                                                    NSString * objectId = query.objectType.identifier;
+                                                                    if (objectId == nil) return;
                                                                     @try {
                                                                         if(!error && results){
                                                                             /// Quantity
                                                                             NSSet * quantityTypes = [self getDataQuantityTypes];
                                                                             if([quantityTypes containsObject:query.objectType]){
-                                                                                [self->_awareHKQuantity saveQuantityData:results];
+                                                                                // HKQuantityTypeIdentifierHeartRate
+                                                                                if ([objectId isEqualToString:HKQuantityTypeIdentifierHeartRate]){
+                                                                                    [self->_awareHKHeartRate saveQuantityData:results];
+                                                                                }else{
+                                                                                    [self->_awareHKQuantity saveQuantityData:results];
+                                                                                }
                                                                             }
 
                                                                             /// Catogory
                                                                             NSSet * dataCatogoryTypes = [self getDataCategoryTypes];
                                                                             if([dataCatogoryTypes containsObject:query.objectType]){
-                                                                                [self->_awareHKCategory saveCategoryData:results];
+                                                                                if ([objectId isEqualToString:HKCategoryTypeIdentifierSleepAnalysis]){
+                                                                                    [self->_awareHKSleep saveCategoryData:results];
+                                                                                }else{
+                                                                                    [self->_awareHKCategory saveCategoryData:results];
+                                                                                }
                                                                             }
 
                                                                             /// Workout
@@ -235,141 +257,141 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     
 //    // QuantityType
     HKQuantityType *quantityType;
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMassIndex];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyFatPercentage];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeight];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierLeanBodyMass];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceCycling];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalEnergyBurned];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierFlightsClimbed];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNikeFuel];
-    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMassIndex];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyFatPercentage];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeight];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierLeanBodyMass];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceCycling];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalEnergyBurned];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierFlightsClimbed];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNikeFuel];
+//    [dataTypesSet addObject:quantityType];
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
     [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyTemperature];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalBodyTemperature];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodPressureSystolic];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodPressureDiastolic];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierRespiratoryRate];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierOxygenSaturation];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeripheralPerfusionIndex];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfTimesFallen];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierElectrodermalActivity];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierInhalerUsage];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodAlcoholContent];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedExpiratoryVolume1];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeakExpiratoryFlowRate];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatTotal];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatPolyunsaturated];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatMonounsaturated];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatSaturated];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCholesterol];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySodium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCarbohydrates];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFiber];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySugar];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryProtein];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminA];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminB6];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminB12];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminC];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminD];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminE];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminK];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCalcium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryIron];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryThiamin];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryRiboflavin];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryNiacin];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFolate];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryBiotin];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPantothenicAcid];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPhosphorus];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryIodine];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryMagnesium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryZinc];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySelenium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCopper];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryManganese];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryChromium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryMolybdenum];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryChloride];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPotassium];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCaffeine];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryWater];
-    [dataTypesSet addObject:quantityType];
-    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyTemperature];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalBodyTemperature];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodPressureSystolic];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodPressureDiastolic];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierRespiratoryRate];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierOxygenSaturation];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeripheralPerfusionIndex];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfTimesFallen];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierElectrodermalActivity];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierInhalerUsage];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodAlcoholContent];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedExpiratoryVolume1];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeakExpiratoryFlowRate];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatTotal];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatPolyunsaturated];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatMonounsaturated];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFatSaturated];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCholesterol];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySodium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCarbohydrates];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFiber];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySugar];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryProtein];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminA];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminB6];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminB12];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminC];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminD];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminE];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryVitaminK];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCalcium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryIron];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryThiamin];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryRiboflavin];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryNiacin];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryFolate];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryBiotin];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPantothenicAcid];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPhosphorus];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryIodine];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryMagnesium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryZinc];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietarySelenium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCopper];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryManganese];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryChromium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryMolybdenum];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryChloride];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryPotassium];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryCaffeine];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryWater];
+//    [dataTypesSet addObject:quantityType];
+//    quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     [dataTypesSet addObject:quantityType];
     
     return dataTypesSet;
@@ -382,18 +404,18 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     HKCategoryType *categoryType;
     categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierSleepAnalysis];
     [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierAppleStandHour];
-    [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierCervicalMucusQuality];
-    [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierOvulationTestResult];
-    [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierMenstrualFlow];
-    [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierIntermenstrualBleeding];
-    [dataTypesSet addObject:categoryType];
-    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierSexualActivity];
-    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierAppleStandHour];
+//    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierCervicalMucusQuality];
+//    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierOvulationTestResult];
+//    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierMenstrualFlow];
+//    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierIntermenstrualBleeding];
+//    [dataTypesSet addObject:categoryType];
+//    categoryType = [HKCategoryType categoryTypeForIdentifier:HKCategoryTypeIdentifierSexualActivity];
+//    [dataTypesSet addObject:categoryType];
 
     return dataTypesSet;
 }

@@ -10,7 +10,7 @@
 #import "AWAREHealthKit.h"
 #import "AWAREUtils.h"
 #import "TCQMaker.h"
-#import "EntityHealthKitCategory+CoreDataClass.h"
+@import CoreData;
 
 @implementation AWAREHealthKitCategory{
     NSString * KEY_DEVICE_ID;
@@ -27,29 +27,32 @@
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     NSString * sensorName = [NSString stringWithFormat:@"%@_category", SENSOR_HEALTH_KIT];
-    AWAREStorage * storage = nil;
+    NSString * entityName = @"EntityHealthKitCategory";
+    return [self initWithAwareStudy:study
+                             dbType:dbType
+                         sensorName:sensorName entityName:entityName];
+}
 
+- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+                            dbType:(AwareDBType)dbType
+                        sensorName:(NSString *)sensorName
+                        entityName:(NSString *)entityName{
+    
+    AWAREStorage * storage = nil;
+    
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:sensorName];
     }else{
         storage = [[SQLiteStorage alloc] initWithStudy:study
                                             sensorName:sensorName
-                                            entityName:NSStringFromClass([EntityHealthKitCategory class])
+                                            entityName:entityName
                                         insertCallBack:^(NSDictionary *data,
                                                          NSManagedObjectContext *childContext,
                                                          NSString *entityName) {
-            EntityHealthKitCategory * entity = (EntityHealthKitCategory *)[NSEntityDescription insertNewObjectForEntityForName:entityName
-                inManagedObjectContext:childContext];
-            entity.timestamp = data[self->KEY_TIMESTAMP];
-            entity.device_id = data[self->KEY_DEVICE_ID];
-            entity.timestamp_end = data[self->KEY_END];
-            entity.type      = data[self->KEY_DATA_TYPE];
-            entity.value     = data[self->KEY_VALUE];
-            entity.device    = data[self->KEY_DEVICE];
-            entity.metadata  = data[self->KEY_METADATA];
-            entity.source    = data[self->KEY_SOURCE];
-            entity.label     = data[self->KEY_LABLE];            
-        }];
+                                            NSManagedObject * entity = [NSEntityDescription insertNewObjectForEntityForName:entityName
+                                                                                                     inManagedObjectContext:childContext];
+                                            [entity setValuesForKeysWithDictionary:data];
+                                        }];
     }
     self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     if(self){
