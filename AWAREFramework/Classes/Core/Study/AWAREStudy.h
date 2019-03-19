@@ -31,7 +31,8 @@ typedef enum: NSInteger {
 typedef enum: NSInteger{
     AwareUIModeNormal       = 0,
     AwareUIModeHideAll      = 1,
-    AwareUIModeHideSettings = 2
+    AwareUIModeHideSettings = 2,
+    AwareUIModeHideSensors  = 3,
 } AwareUIMode;
 
 typedef enum: NSInteger{

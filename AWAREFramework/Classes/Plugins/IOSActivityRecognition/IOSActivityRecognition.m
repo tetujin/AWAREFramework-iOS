@@ -175,7 +175,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     }else if(mode == IOSActivityRecognitionModeDisposable){
         /** motion activity */
         if([CMMotionActivityManager isActivityAvailable]){
-            NSLog(@"Start iOS Activity Recognition Plugin as disposable mode (limit=%d)",limit);
+            // NSLog(@"Start iOS Activity Recognition Plugin as disposable mode (limit=%d)",limit);
             motionActivityManager = [CMMotionActivityManager new];
             [motionActivityManager startActivityUpdatesToQueue:[NSOperationQueue new]
                                                    withHandler:^(CMMotionActivity *activity) {
@@ -252,7 +252,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                     self->latestActivity = activity;
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"[%@] %ld records", [self getSensorName], array.count);
+                    // NSLog(@"[%@] %ld records", [self getSensorName], array.count);
                     // [self saveDataWithArray:array];
                     [self.storage saveDataWithArray:array buffer:NO saveInMainThread:YES];
                     if (self->latestActivity != nil) {
