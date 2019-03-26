@@ -68,8 +68,8 @@ AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
 ```
 
 ```swift
-let core = AWARECore.shared()
-let study = AWAREStudy.shared()
+let core    = AWARECore.shared()
+let study   = AWAREStudy.shared()
 let manager = AWARESensorManager.shared()
 ```
 
@@ -205,13 +205,13 @@ This library supports ESM. The method allows us to make questions in your app at
 ```objective-c
 /// Objective-C: Initialize an ESMSchedule ///
 ESMSchedule * schedule = [[ESMSchedule alloc] init];
-schedule.notificationTitle = @"notification title";
-schedule.notificationBody = @"notification body";
-schedule.scheduleId = @"schedule_id";
+schedule.notificationTitle   = @"notification title";
+schedule.notificationBody    = @"notification body";
+schedule.scheduleId          = @"schedule_id";
 schedule.expirationThreshold = @60;
-schedule.startDate = [NSDate now];
-schedule.endDate = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*10];
-schedule.fireHours = @[@9,@12,@18,@21];
+schedule.startDate           = [NSDate now];
+schedule.endDate             = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*10];
+schedule.fireHours           = @[@9,@12,@18,@21];
 
 /// Make an ESMItem ///
 ESMItem * radio = [[ESMItem alloc] initAsRadioESMWithTrigger:@"1_radio"
@@ -229,16 +229,16 @@ ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
 
 ```swift
 /// Swift ///
-let schdule = ESMSchedule.init()
-schdule.notificationTitle = "notification title"
-schdule.notificationBody = "notification body"
-schdule.scheduleId = "schedule_id"
+let schdule = ESMSchedule()
+schdule.notificationTitle   = "notification title"
+schdule.notificationBody    = "notification body"
+schdule.scheduleId          = "schedule_id"
 schdule.expirationThreshold = 60
-schdule.startDate = Date.init()
-schdule.endDate = Date.init(timeIntervalSinceNow: 60*60*24*10)
-schdule.fireHours = [9,12,18,21]
+schdule.startDate           = Date.init()
+schdule.endDate             = Date.init(timeIntervalSinceNow: 60*60*24*10)
+schdule.fireHours           = [9,12,18,21]
 
-let radio = ESMItem.init(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
+let radio = ESMItem(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
 radio?.setTitle("ESM title")
 radio?.setInstructions("some instructions")
 schdule.addESM(radio)
@@ -267,13 +267,10 @@ if (schdules.count > 0) {
 ```
 ```swift
 /// Swift ///
-let esmManager = ESMScheduleManager.shared()
-let schedules = esmManager.getValidSchedules()
-if let unwrappedSchedules = schedules {
-    if(unwrappedSchedules.count > 0){
-        let esmViewController = ESMScrollViewController.init()
-        self.present(esmViewController, animated: true) {
-        }
+if let schedules = ESMScheduleManager.shared().getValidSchedules() {
+    if(schedules.count > 0){
+        let esmViewController = ESMScrollViewController()
+        self.present(esmViewController, animated: true){}
     }
 }
 ```
