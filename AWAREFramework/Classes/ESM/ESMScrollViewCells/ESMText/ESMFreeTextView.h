@@ -10,8 +10,6 @@
 
 @interface ESMFreeTextView : BaseESMView <UITextViewDelegate,UIGestureRecognizerDelegate>
 
-//@property(nonatomic, strong) UITapGestureRecognizer *singleTap;
-
 @property (nonatomic) IBOutlet UITextView * freeTextView;
 
 @end

@@ -14,6 +14,7 @@
 		4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */; };
 		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		4FC2FF4A216DD05800B840ED /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC2FF49216DD05800B840ED /* HealthKit.framework */; };
+		4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF69E3B224BD65100E40DAD /* SampleESMView.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -54,6 +55,8 @@
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		4FC2FF49216DD05800B840ED /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		4FF69E3A224BD65100E40DAD /* SampleESMView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleESMView.h; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.h"; sourceTree = "<absolute>"; };
+		4FF69E3B224BD65100E40DAD /* SampleESMView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleESMView.m; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.m"; sourceTree = "<absolute>"; };
 		6003F58A195388D20070C39A /* AWAREFramework_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAREFramework_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -133,6 +136,15 @@
 			path = AWAREFramework_Tests;
 			sourceTree = "<group>";
 		};
+		4FF69E39224BD60500E40DAD /* ESM */ = {
+			isa = PBXGroup;
+			children = (
+				4FF69E3A224BD65100E40DAD /* SampleESMView.h */,
+				4FF69E3B224BD65100E40DAD /* SampleESMView.m */,
+			);
+			name = ESM;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +190,7 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* AWAREFrameworkViewController.h */,
 				6003F5A6195388D20070C39A /* AWAREFrameworkViewController.m */,
+				4FF69E39224BD60500E40DAD /* ESM */,
 				4F00EBED20B310C7006EB9E6 /* Sensor */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */,
@@ -311,6 +324,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -460,6 +474,7 @@
 				4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */,
+				4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */,
 				4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

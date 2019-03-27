@@ -20,7 +20,7 @@
 #import <AWAREFramework/AWAREHealthKit.h>
 
 #import "SampleSensor.h"
-
+#import "SampleESMView.h"
 
 @interface AWAREFrameworkViewController ()
 
@@ -35,31 +35,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    Pedometer * pedometer = [[Pedometer alloc] init];
-    [pedometer startSensor];
+    ESMItem * originalESM = [[ESMItem alloc] init];
+    [originalESM setTrigger:@"a"];
+    [originalESM setTitle:@"This is a sample original ESM"];
+    [originalESM setType:99];
     
-    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-    healthKit.fetchIntervalSecond = 60;
-    [healthKit startSensor];
+    ESMItem * likertESM = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"b"
+                                                                 likertMax:5
+                                                            likertMinLabel:@"bad"
+                                                            likertMaxLabel:@"good"
+                                                                likertStep:1];
+    [likertESM setTitle:@"hello world"];
     
-    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
-        [self->healthKit.awareHKHeartRate.storage fetchTodaysDataWithHandler:^(NSString * name,
-                                                                              NSArray  * results,
-                                                                              NSDate   * start,
-                                                                              NSDate   * end,
-                                                                              NSError  * _Nullable error) {
-
-            for (NSDictionary * dict in results) {
-                if ([dict[@"type"] isEqualToString:@"HKQuantityTypeIdentifierHeartRate"]){
-                    NSDate * start = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp"]).doubleValue/1000];
-                    NSDate * end   = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp_end"]).doubleValue/1000];
-                    NSNumber * value = dict[@"value"];
-                    NSString * unit  = dict[@"unit"];
-                    NSLog(@"[%@][%@][%@][%@]", start, end, value, unit);
-                }
-            }
-        }];
-    }];
+    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+    schedule.startDate  = [NSDate new];
+    schedule.endDate    = [[NSDate new] dateByAddingTimeInterval:60*60*24];
+    schedule.scheduleId = @"sample_schedule";
+    [schedule addESM:originalESM];
+    [schedule addESM:likertESM];
+    
+    [[ESMScheduleManager sharedESMScheduleManager] addSchedule:schedule];
+    
+//    Pedometer * pedometer = [[Pedometer alloc] init];
+//    [pedometer startSensor];
+//
+//    healthKit = [[AWAREHealthKit alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+//    healthKit.fetchIntervalSecond = 60;
+//    [healthKit startSensor];
+//
+//    [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+//        [self->healthKit.awareHKHeartRate.storage fetchTodaysDataWithHandler:^(NSString * name,
+//                                                                              NSArray  * results,
+//                                                                              NSDate   * start,
+//                                                                              NSDate   * end,
+//                                                                              NSError  * _Nullable error) {
+//
+//            for (NSDictionary * dict in results) {
+//                if ([dict[@"type"] isEqualToString:@"HKQuantityTypeIdentifierHeartRate"]){
+//                    NSDate * start = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp"]).doubleValue/1000];
+//                    NSDate * end   = [NSDate dateWithTimeIntervalSince1970:((NSNumber *)dict[@"timestamp_end"]).doubleValue/1000];
+//                    NSNumber * value = dict[@"value"];
+//                    NSString * unit  = dict[@"unit"];
+//                    NSLog(@"[%@][%@][%@][%@]", start, end, value, unit);
+//                }
+//            }
+//        }];
+//    }];
     
 //    Processor * processor = [[Processor alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
 //    [processor startSensor];
@@ -311,32 +332,50 @@
 
 - (void)viewDidAppear:(BOOL)animated{
 
-    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy]
-                                                           dbType:AwareDBTypeJSON
-                                                         clientId:@"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com"];
-
-    [login startSensor];
-
-    //if([login isNeedLogin]){
-        AWAREGoogleLoginViewController * loginViewController = [[AWAREGoogleLoginViewController alloc] init];
-        loginViewController.googleLogin = login;
-        [self presentViewController:loginViewController animated:YES completion:^{
-            NSLog(@"done");
-        }];
-    //}
-    
-    NSLog(@"%@", [GoogleLogin getUserName]);
-    NSLog(@"%@", [GoogleLogin getEmail]);
-    NSLog(@"%@", [GoogleLogin getPhonenumber]);
+//    GoogleLogin * login = [[GoogleLogin alloc] initWithAwareStudy:[AWAREStudy sharedStudy]
+//                                                           dbType:AwareDBTypeJSON
+//                                                         clientId:@"513561083200-em3srmsc40a2q6cuh8o2hguvhd1umfll.apps.googleusercontent.com"];
+//
+//    [login startSensor];
+//
+//    if([login isNeedLogin]){
+//        AWAREGoogleLoginViewController * loginViewController = [[AWAREGoogleLoginViewController alloc] init];
+//        loginViewController.googleLogin = login;
+//        [self presentViewController:loginViewController animated:YES completion:^{
+//            NSLog(@"done");
+//        }];
+//    }
+//
+//    NSLog(@"%@", [GoogleLogin getUserName]);
+//    NSLog(@"%@", [GoogleLogin getEmail]);
+//    NSLog(@"%@", [GoogleLogin getPhonenumber]);
     
     [super viewDidAppear:animated];
-    ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
-    NSArray * schdules = [esmManager getValidSchedules];
+    
+    // get valid ESMs
+    NSArray * schdules = [[ESMScheduleManager sharedESMScheduleManager] getValidSchedules];
+    // check number of the valid ESMs
     if (schdules.count > 0) {
-        // UIColor *customColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.3 alpha:1.0];
-        ESMScrollViewController * esmView  = [[ESMScrollViewController alloc] init];
-        // esmView.view.backgroundColor = customColor;
-        [self presentViewController:esmView animated:YES completion:^{
+        ESMScrollViewController * esmScrollViewController  = [[ESMScrollViewController alloc] init];
+        // set a handler for generating the original ESM generation
+        [esmScrollViewController setOriginalESMViewGenerationHandler:^BaseESMView * _Nullable (EntityESM * _Nonnull esm,
+                                                                                               double bottomESMViewPositionY,
+                                                                                               UIViewController * viewController) {
+            if (esm.esm_type != nil && esm.esm_type.intValue == 99){
+                double height = 100;
+                double width  = viewController.view.frame.size.width;
+                return [[SampleESMView alloc] initWithFrame:CGRectMake(0, bottomESMViewPositionY, width, height)
+                                                        esm:esm
+                                             viewController:viewController];
+            }
+            return nil;
+        }];
+        // remove an ESM Schedule
+        [esmScrollViewController setAnswerCompletionHandler:^{
+            [[ESMScheduleManager sharedESMScheduleManager] deleteScheduleWithId:@"sample_schedule"];
+        }];
+        // show ESM scroll view
+        [self presentViewController:esmScrollViewController animated:YES completion:^{
             
         }];
         /** or, following code if your project using Navigation Controller */

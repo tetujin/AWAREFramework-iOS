@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseESMView.h"
 
 //@protocol ESMScrollViewControllerDelegate <NSObject>
 //@required
@@ -18,29 +19,31 @@
 typedef void (^ESMAnswerCompletionHandler)(void);
 typedef void (^ESMAnswerUploadStartHandler)(void);
 typedef void (^ESMAnswerUploadCompletionHandler)(bool state);
+typedef BaseESMView * _Nullable (^OriginalESMViewGenerationHandler)(EntityESM * _Nonnull esm, double bottomESMViewPositionY, UIViewController * _Nonnull viewController);
 
 // @property (nonatomic, weak) id<ESMScrollViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) IBOutlet UIScrollView *mainScrollView;
-@property(nonatomic, strong) UITapGestureRecognizer *singleTap;
-@property NSMutableArray * esms;
+@property (weak, nonatomic) IBOutlet UIScrollView * _Nullable mainScrollView;
+@property (nonatomic, strong) UITapGestureRecognizer * _Nullable singleTap;
+@property (nullable) NSMutableArray * esms;
 
 @property bool isSaveAnswer;
 
-@property NSString * submitButtonText;
-@property NSString * cancelButtonText;
+@property (nullable) NSString * submitButtonText;
+@property (nullable) NSString * cancelButtonText;
 
 /////// Completion Alert
 @property bool sendCompletionAlert;
-@property NSString * completionAlertMessage;
-@property NSString * completionAlertCloseButton;
+@property (nullable) NSString * completionAlertMessage;
+@property (nullable) NSString * completionAlertCloseButton;
 
 /////// Uploading Progress
 // @property bool showUploadingAlert;
 // @property NSString * uploadingAlertMessage;
 
-@property ESMAnswerUploadStartHandler uploadStartHandler;
-@property ESMAnswerUploadCompletionHandler uploadCompletionHandler;
-@property ESMAnswerCompletionHandler answerCompletionHandler;
+@property ESMAnswerUploadStartHandler      _Nullable uploadStartHandler;
+@property ESMAnswerUploadCompletionHandler _Nullable uploadCompletionHandler;
+@property ESMAnswerCompletionHandler       _Nullable answerCompletionHandler;
+@property OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
 
 @end

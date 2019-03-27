@@ -17,19 +17,19 @@
 
 typedef void (^NotificationRemoveCompleteHandler)(void);
 
-- (BOOL) addSchedule:(ESMSchedule *)schedule;
-- (BOOL) addSchedule:(ESMSchedule *)schedule withNotification:(BOOL)notification;
-- (BOOL) deleteScheduleWithId:(NSString *)scheduleId;
+- (BOOL) addSchedule:(ESMSchedule * _Nonnull)schedule;
+- (BOOL) addSchedule:(ESMSchedule * _Nonnull)schedule withNotification:(BOOL)notification;
+- (BOOL) deleteScheduleWithId:(NSString * _Nonnull)scheduleId;
 - (BOOL) deleteAllSchedules;
 - (BOOL) deleteAllSchedulesWithNotification:(BOOL)notification;
-- (NSArray *) getValidSchedules;
-- (NSArray *) getValidSchedulesWithDatetime:(NSDate *)datetime;
+- (NSArray * _Nonnull) getValidSchedules;
+- (NSArray * _Nonnull) getValidSchedulesWithDatetime:(NSDate * _Nonnull)datetime;
 
 - (BOOL) removeAllSchedulesFromDB;
 - (BOOL) removeAllESMHitoryFromDB;
 
 - (void) removeAllNotifications;
-- (void) removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler)handler;
+- (void) removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler _Nullable)handler;
 - (void) refreshESMNotifications;
 
 @end

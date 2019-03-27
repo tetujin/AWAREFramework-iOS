@@ -456,6 +456,22 @@
     }
 }
 
+- (void)setType:(int)type{
+    _esm_type = @(type);
+    if (esmDict!=nil) {
+        [esmDict setObject:@(type) forKey:@"esm_type"];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+}
+
+- (void)setTrigger:(NSString *)trigger{
+    _esm_trigger = trigger;
+    if (esmDict!=nil) {
+        [esmDict setObject:trigger forKey:@"esm_trigger"];
+        _esm_json = [self convertToJSONStringWithDictionary:esmDict];
+    }
+}
+
 - (BOOL) setFlowWithItems:(NSArray<ESMItem *>*)items answerKey:(NSArray <NSString *> *)keys{
     if (items == nil || keys == nil) {
         return NO;

@@ -177,9 +177,11 @@
                 // [self setSubmitButton];
                 self.navigationItem.title = [NSString stringWithFormat:@"%@",esmSchedule.schedule_id];
                 for (EntityESM * esm in _esms) {
-                    [self addAnESM:esm];
-                    if([esm.esm_type isEqualToNumber:@5]){
-                        isQuickAnswer = YES;
+                    if ( esm != nil ){
+                        [self addAnESM:esm];
+                        if([esm.esm_type isEqualToNumber:@5]){
+                            isQuickAnswer = YES;
+                        }
                     }
                 }
                 /////// interface 0 //////
@@ -187,15 +189,17 @@
                 previousInterfaceType = @0;
                 // [self setEsm:sortedEsms[currentESMNumber] withTag:0 button:YES];
                 EntityESM * esm = sortedEsms[currentESMNumber];
-                [self addAnESM:esm];
-                // finalBtnLabel = esm.esm_submit;
-                _submitButtonText = esm.esm_submit;
-                self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%ld)",
-                                             esmSchedule.schedule_id,
-                                             currentESMNumber+1,
-                                             sortedEsms.count];
-                if([esm.esm_type isEqualToNumber:@5]){
-                    isQuickAnswer = YES;
+                if (esm != nil) {
+                    [self addAnESM:esm];
+                    // finalBtnLabel = esm.esm_submit;
+                    _submitButtonText = esm.esm_submit;
+                    self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%ld)",
+                                                 esmSchedule.schedule_id,
+                                                 currentESMNumber+1,
+                                                 sortedEsms.count];
+                    if([esm.esm_type isEqualToNumber:@5]){
+                        isQuickAnswer = YES;
+                    }
                 }
             }
             
@@ -214,12 +218,14 @@
             NSArray * nextESMs = [self getNextESMsFromDB];
             
             for (EntityESM * esm in nextESMs) {
-                NSLog(@"%@",esm.esm_title);
-                [self addAnESM:esm];
-                // finalBtnLabel = esm.esm_submit;
-                _submitButtonText = esm.esm_submit;
-                if([esm.esm_type isEqualToNumber:@5]){
-                    isQuickAnswer = YES;
+                if (esm != nil) {
+                    NSLog(@"%@",esm.esm_title);
+                    [self addAnESM:esm];
+                    // finalBtnLabel = esm.esm_submit;
+                    _submitButtonText = esm.esm_submit;
+                    if([esm.esm_type isEqualToNumber:@5]){
+                        isQuickAnswer = YES;
+                    }
                 }
             }
         } @catch (NSException *exception) {
@@ -268,7 +274,7 @@
 
 //////////////////////////////////////////////////////////////
 
-- (void) addAnESM:(EntityESM *)esm {
+- (void) addAnESM:(EntityESM * _Nonnull) esm {
     
     int esmType = [esm.esm_type intValue];
     BaseESMView * esmView = nil;
@@ -318,16 +324,22 @@
         esmView = [[ESMAudioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
     } else if(esmType == AwareESMTypeVideo){ // video
         esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else {
+        if (_originalESMViewGenerationHandler != nil && self != nil) {
+            esmView = _originalESMViewGenerationHandler(esm, totalHight, self);
+        }
     }
-    
-    
+
     ////////////////
     
     if(esmView != nil){
         [_mainScrollView addSubview:esmView];
         [self setContentSizeWithAdditionalHeight:esmView.frame.size.height];
-        
         [esmCells addObject:esmView];
+    }else{
+        NSLog(@"BaseESMView is null. If you are using an original ESM View, \
+              please use `OriginalESMViewGenerationHandler` for generating the ESM view. \
+              ESM TYPE = %d", esmType);
     }
 }
 

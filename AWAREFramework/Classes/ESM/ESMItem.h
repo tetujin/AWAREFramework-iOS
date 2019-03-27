@@ -97,6 +97,8 @@
 - (void) setNARequirement:(BOOL)na;
 - (void) setNumber:(int)number;
 - (BOOL) setFlowWithItems:(NSArray<ESMItem *>*)items answerKey:(NSArray <NSString *>*)keys;
+- (void) setType:(int)type;
+- (void) setTrigger:(NSString * _Nonnull)trigger;
 
 @end
 
