@@ -61,6 +61,18 @@ static AWARECore * sharedCore;
             [study setDBType:AwareDBTypeSQLite];
             [userDefaults setBool:YES forKey:@"aware_inited"];
         }
+        
+        _sharedLocationManager  = [[CLLocationManager alloc] init];
+        _sharedLocationManager.delegate = self;
+        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
+        _sharedLocationManager.activityType = CLActivityTypeOther;
+        
+        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
+            /// After iOS 9.0, we have to set "YES" for background sensing.
+            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
+        }
+        
     }
     return self;
 }
@@ -146,7 +158,7 @@ static AWARECore * sharedCore;
 - (void)ubiquitousDataDidChange:(NSNotification *)notification
 {
     NSDictionary *dict = [notification userInfo];
-    NSLog(@"[iCloud] Update : %@", dict);
+//    NSLog(@"[iCloud] Update : %@", dict);
 //    NSArray *keys = [dict objectForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
 //    NSUbiquitousKeyValueStore *ukvs = [NSUbiquitousKeyValueStore defaultStore];
 //    for (NSString *key in keys) {
@@ -189,26 +201,8 @@ void exceptionHandler(NSException *exception) {
  * And also, this sensing interval is the most low level.
  */
 - (void) startBaseLocationSensor {
-
-    NSLog(@"called startBaseLocationSensor");
-
-    if ( _sharedLocationManager == nil) {
-        // locatino sensor
-        _sharedLocationManager  = [[CLLocationManager alloc] init];
-        _sharedLocationManager.delegate = self;
-        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
-        _sharedLocationManager.activityType = CLActivityTypeOther;
-        
-        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-            /// After iOS 9.0, we have to set "YES" for background sensing.
-            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
-        }
-    }
-
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
-        NSLog(@"Start Background Sensing");
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager startMonitoringSignificantLocationChanges];
     }else{
@@ -272,6 +266,7 @@ void exceptionHandler(NSException *exception) {
 }
 
 - (void) requestPermissionForBackgroundSensing{
+    
     if (_sharedLocationManager != nil){
         [_sharedLocationManager requestAlwaysAuthorization];
     }
@@ -290,6 +285,7 @@ void exceptionHandler(NSException *exception) {
     }else if (status == kCLAuthorizationStatusAuthorizedAlways){
         /////////////////// kCLAuthorizationStatusAuthorizedWhenInUse ///////////////////
         if(_isNeedBackgroundSensing){
+            // [self activate];
             [self startBaseLocationSensor];
         }
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
@@ -563,9 +559,9 @@ void exceptionHandler(NSException *exception) {
         int GiB = 1024*1024*1024;
         float free = [[dictionary objectForKey: NSFileSystemFreeSize] floatValue]/GiB;
         float total = [[dictionary objectForKey: NSFileSystemSize] floatValue]/GiB;
-        NSLog(@"Used: %.3f", total-free);
-        NSLog(@"Space: %.3f", free);
-        NSLog(@"Total: %.3f", total);
+//        NSLog(@"Used: %.3f", total-free);
+//        NSLog(@"Space: %.3f", free);
+//        NSLog(@"Total: %.3f", total);
         float percentage = free/total * 100.0f;
         NSString * event = [NSString stringWithFormat:@"[compliance] TOTAL:%.3fGB, USED:%.3fGB, FREE:%.3fGB", total, total-free, free];
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];

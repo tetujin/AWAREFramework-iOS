@@ -102,25 +102,29 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
         
         int awareScreenState = 0;
         double currentTime = [[NSDate date] timeIntervalSince1970];
-        double elapsedTime = currentTime - self->lastTime;
+        // https://github.com/denzilferreira/com.aware.plugin.device_usage
+        double elapsedTime = (currentTime - self->lastTime) * 1000.0; // to convert millisecond
         self->lastTime = currentTime;
         
         uint64_t state = UINT64_MAX;
         notify_get_state(token, &state);
         
-        // screen off
+        //  elapsed_device_off: (double) amount of time turned off (milliseconds)
+        //  elapsed_device_on: (double) amount of time turned on (milliseconds)
+        
+        // when screen is ON
         if(state == 0) {
             awareScreenState = 0;
-            [dict setObject:@(elapsedTime) forKey:@"elapsed_device_on"]; // real
-            [dict setObject:@0 forKey:@"elapsed_device_off"]; // real
+            [dict setObject:@(0)           forKey:@"elapsed_device_on"]; // real
+            [dict setObject:@(elapsedTime) forKey:@"elapsed_device_off"]; // real
             if ([self isDebug]) {
                 NSLog(@"screen off");
             }
-        // screen on
+        // when screen is OFF
         } else {
             awareScreenState = 1;
-            [dict setObject:@0 forKey:@"elapsed_device_on"]; // real
-            [dict setObject:[NSNumber numberWithDouble:elapsedTime] forKey:@"elapsed_device_off"]; // real
+            [dict setObject:@(elapsedTime) forKey:@"elapsed_device_on"]; // real
+            [dict setObject:@(0)           forKey:@"elapsed_device_off"]; // real
             if([self isDebug]){
                 NSLog(@"screen on");
             }

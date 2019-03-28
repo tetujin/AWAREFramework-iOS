@@ -61,7 +61,7 @@
 
     NSString * url = [self getWebserviceUrl];
     if (url == nil || [url isEqualToString:@""]) {
-        NSLog(@"[DBTableCreator:%@] Study URL is Empty", sensorName);
+        if (awareStudy.isDebug) NSLog(@"[DBTableCreator:%@] Study URL is Empty", sensorName);
         return;
     }
     
@@ -89,7 +89,7 @@
 - (NSString *)getWebserviceUrl{
     NSString* url = [awareStudy getStudyURL];
     if (url == NULL || [url isEqualToString:@""]) {
-        NSLog(@"[Error] You did not have a StudyID. Please check your study configuration.");
+        if (awareStudy.isDebug ) NSLog(@"[Error] You did not have a StudyID. Please check your study configuration.");
         return @"";
     }
     return url;

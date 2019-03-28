@@ -98,12 +98,12 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld"
-  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10/AWAREFramework.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld"
-  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10/AWAREFramework.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
 fi
 

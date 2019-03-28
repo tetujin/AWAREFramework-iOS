@@ -43,7 +43,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 @property AWAREStorage * storage;
 
-typedef void (^SensorEventHandler)(AWARESensor *sensor, NSDictionary *data);
+typedef void (^SensorEventHandler)(AWARESensor *sensor, NSDictionary<NSString *, id> * data);
 
 - (instancetype) initWithDBType:(AwareDBType)dbType;
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study;

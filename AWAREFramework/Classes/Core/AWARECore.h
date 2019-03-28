@@ -16,7 +16,7 @@
 @interface AWARECore : NSObject <CLLocationManagerDelegate>
 
 // Core Location Manager
-@property (strong, nonatomic) CLLocationManager *sharedLocationManager;
+@property (strong, nonatomic) CLLocationManager * sharedLocationManager;
 
 // Daily Update Timer
 @property (strong, nonatomic) NSTimer * dailyUpdateTimer;
@@ -49,7 +49,7 @@
 
 
 - (void) requestBackgroundSensing;
-- (void) requestNotification:(UIApplication *) application;
+// - (void) requestNotification:(UIApplication *) application;
 
 
 @end

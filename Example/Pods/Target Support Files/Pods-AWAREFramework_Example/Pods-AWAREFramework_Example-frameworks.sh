@@ -154,21 +154,21 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10/CocoaAsyncSocket.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10/GTMSessionFetcher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10/SCNetworkReachability.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10/TPCircularBuffer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10/ios_ntp.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10/CocoaAsyncSocket.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10/GTMSessionFetcher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10/SCNetworkReachability.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10/TPCircularBuffer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10/ios_ntp.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

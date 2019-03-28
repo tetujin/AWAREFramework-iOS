@@ -12,6 +12,12 @@
 		4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */; };
 		4F0BC999222D16EC006348E4 /* AWAREFramework_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0BC998222D16EC006348E4 /* AWAREFramework_Tests.swift */; };
 		4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */; };
+		4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DA224CE6B300CEE77E /* AppDelegate.swift */; };
+		4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DC224CE6B300CEE77E /* ViewController.swift */; };
+		4F3914E0224CE6B300CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914DE224CE6B300CEE77E /* Main.storyboard */; };
+		4F3914E3224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914E1224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld */; };
+		4F3914E5224CE6B500CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914E4224CE6B500CEE77E /* Assets.xcassets */; };
+		4F3914E8224CE6B500CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914E6224CE6B500CEE77E /* LaunchScreen.storyboard */; };
 		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		4FC2FF4A216DD05800B840ED /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC2FF49216DD05800B840ED /* HealthKit.framework */; };
 		4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF69E3B224BD65100E40DAD /* SampleESMView.m */; };
@@ -26,6 +32,7 @@
 		61364AFF98A956D31C7F2541 /* Pods_AWAREFramework_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */; };
 		CD72E4B6A02CA884F1278792 /* Pods_AWAREFramework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.release.xcconfig"; sourceTree = "<group>"; };
 		178752BE5C2A0BE069D29B76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +61,15 @@
 		4F0BC99A222D16EC006348E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-DynamicESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3914DA224CE6B300CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F3914DC224CE6B300CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F3914DF224CE6B300CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F3914E2224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_DynamicESM.xcdatamodel; sourceTree = "<group>"; };
+		4F3914E4224CE6B500CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F3914E7224CE6B500CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F3914E9224CE6B500CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F391509224CE8A700CEE77E /* AWARE-DynamicESM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-DynamicESM.entitlements"; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		4FC2FF49216DD05800B840ED /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		4FF69E3A224BD65100E40DAD /* SampleESMView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleESMView.h; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.h"; sourceTree = "<absolute>"; };
@@ -75,9 +92,11 @@
 		8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8BBEF4912FF45EC441F46733 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.debug.xcconfig"; sourceTree = "<group>"; };
 		A1819A44516594A9076ADDCF /* Pods-AWAREFramework_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CB79297507039BAFB2378CA6 /* Pods-AWAREFramework_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +105,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD72E4B6A02CA884F1278792 /* Pods_AWAREFramework_Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3914D5224CE6B300CEE77E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +139,8 @@
 				BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */,
 				A1819A44516594A9076ADDCF /* Pods-AWAREFramework_Tests.debug.xcconfig */,
 				22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */,
+				93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */,
+				00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -136,6 +165,21 @@
 			path = AWAREFramework_Tests;
 			sourceTree = "<group>";
 		};
+		4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */ = {
+			isa = PBXGroup;
+			children = (
+				4F391509224CE8A700CEE77E /* AWARE-DynamicESM.entitlements */,
+				4F3914DA224CE6B300CEE77E /* AppDelegate.swift */,
+				4F3914DC224CE6B300CEE77E /* ViewController.swift */,
+				4F3914DE224CE6B300CEE77E /* Main.storyboard */,
+				4F3914E4224CE6B500CEE77E /* Assets.xcassets */,
+				4F3914E6224CE6B500CEE77E /* LaunchScreen.storyboard */,
+				4F3914E9224CE6B500CEE77E /* Info.plist */,
+				4F3914E1224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld */,
+			);
+			path = "AWARE-DynamicESM";
+			sourceTree = "<group>";
+		};
 		4FF69E39224BD60500E40DAD /* ESM */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +196,7 @@
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for AWAREFramework */,
 				4F0BC997222D16EC006348E4 /* AWAREFramework_Tests */,
+				4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				210A732D411FD730250FC3D3 /* Pods */,
@@ -163,6 +208,7 @@
 			children = (
 				6003F58A195388D20070C39A /* AWAREFramework_Example.app */,
 				4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */,
+				4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,6 +224,7 @@
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */,
 				31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */,
+				D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -244,6 +291,26 @@
 			productReference = 4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */;
+			buildPhases = (
+				B34FCEC00BB94932AAC7D04F /* [CP] Check Pods Manifest.lock */,
+				4F3914D4224CE6B300CEE77E /* Sources */,
+				4F3914D5224CE6B300CEE77E /* Frameworks */,
+				4F3914D6224CE6B300CEE77E /* Resources */,
+				E59801123DB4B71C59B1C060 /* [CP] Embed Pods Frameworks */,
+				E4149DF1787C3C52D99BC226 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-DynamicESM";
+			productName = "AWARE-DynamicESM";
+			productReference = 4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6003F589195388D20070C39A /* AWAREFramework_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "AWAREFramework_Example" */;
@@ -272,7 +339,7 @@
 			attributes = {
 				CLASSPREFIX = AWAREFramework;
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = tetujin;
 				TargetAttributes = {
@@ -281,6 +348,22 @@
 						DevelopmentTeam = FH352PYMNC;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 6003F589195388D20070C39A;
+					};
+					4F3914D7224CE6B300CEE77E = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = FH352PYMNC;
@@ -335,6 +418,7 @@
 			targets = (
 				6003F589195388D20070C39A /* AWAREFramework_Example */,
 				4F0BC995222D16EC006348E4 /* AWAREFramework_Tests */,
+				4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */,
 			);
 		};
 /* End PBXProject section */
@@ -344,6 +428,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3914D6224CE6B300CEE77E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3914E8224CE6B500CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F3914E5224CE6B500CEE77E /* Assets.xcassets in Resources */,
+				4F3914E0224CE6B300CEE77E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +482,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -424,6 +518,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B34FCEC00BB94932AAC7D04F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-DynamicESM-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B4AA191B9D062F653AF923ED /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -432,12 +548,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10/ios_ntp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -454,6 +570,66 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E4149DF1787C3C52D99BC226 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E59801123DB4B71C59B1C060 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS12.2/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS12.2/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS12.2/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS12.2/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -462,6 +638,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F0BC999222D16EC006348E4 /* AWAREFramework_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3914D4224CE6B300CEE77E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3914E3224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld in Sources */,
+				4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */,
+				4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +676,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4F3914DE224CE6B300CEE77E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3914DF224CE6B300CEE77E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3914E6224CE6B500CEE77E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3914E7224CE6B500CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		6003F596195388D20070C39A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -594,6 +796,94 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AWAREFramework_Example.app/AWAREFramework_Example";
+			};
+			name = Release;
+		};
+		4F391500224CE6B500CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-DynamicESM/AWARE-DynamicESM.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-DynamicESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-DynamicESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F391501224CE6B500CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-DynamicESM/AWARE-DynamicESM.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-DynamicESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-DynamicESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -730,6 +1020,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F391500224CE6B500CEE77E /* Debug */,
+				4F391501224CE6B500CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "AWAREFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -758,6 +1057,16 @@
 			);
 			currentVersion = 4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */;
 			path = MyCoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F3914E1224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3914E2224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodel */,
+			);
+			currentVersion = 4F3914E2224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodel */;
+			path = AWARE_DynamicESM.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

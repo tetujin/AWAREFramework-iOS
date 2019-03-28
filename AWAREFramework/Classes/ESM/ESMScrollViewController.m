@@ -158,7 +158,7 @@
         
         if(esmSchedules != nil && esmSchedules.count > 0){
             EntityESMSchedule * esmSchedule = esmSchedules[0];
-            NSLog(@"[interface: %@]", esmSchedule.interface);
+            if (study.isDebug) NSLog(@"[interface: %@]", esmSchedule.interface);
             NSSet * childEsms = esmSchedule.esms;
             // NSNumber * interface = schedule.interface;
             NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"esm_number" ascending:YES];
@@ -166,7 +166,7 @@
             NSArray *sortedEsms = [childEsms sortedArrayUsingDescriptors:sortDescriptors];
             
             if(sortedEsms.count == 0){
-                NSLog(@"NO ESM Entity");
+                if (study.isDebug) NSLog(@"NO ESM Entity");
                 return;
             }
             _esms = [[NSMutableArray alloc] initWithArray:sortedEsms];
@@ -204,7 +204,7 @@
             }
             
         }else{
-            NSLog(@"[ESMScrollViewController] NO ESM");
+            if (study.isDebug) NSLog(@"[ESMScrollViewController] NO ESM");
             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_DONE
                                                                 object:self
                                                               userInfo:nil];
@@ -219,7 +219,7 @@
             
             for (EntityESM * esm in nextESMs) {
                 if (esm != nil) {
-                    NSLog(@"%@",esm.esm_title);
+                    if (study.isDebug) NSLog(@"%@",esm.esm_title);
                     [self addAnESM:esm];
                     // finalBtnLabel = esm.esm_submit;
                     _submitButtonText = esm.esm_submit;
@@ -454,16 +454,18 @@
             answer.esm_user_answer = esmUserAnswer;
             answer.esm_status = esmState;
             
-            NSLog(@"--------[%@]---------", esm.esm_trigger);
-            NSLog(@"device_id:        %@", answer.device_id);
-            NSLog(@"timestamp:        %@", answer.timestamp);
-            NSLog(@"esm_trigger:      %@", answer.esm_trigger);
-            NSLog(@"esm_json:         %@", answer.esm_json);
-            NSLog(@"threshold:        %@", answer.esm_expiration_threshold);
-            NSLog(@"answer_timestamp: %@", answer.double_esm_user_answer_timestamp);
-            NSLog(@"esm_status:       %@", answer.esm_status);
-            NSLog(@"user_answer:      %@", answer.esm_user_answer);
-            NSLog(@"---------------------");
+            if (study.isDebug) {
+                NSLog(@"--------[%@]---------", esm.esm_trigger);
+                NSLog(@"device_id:        %@", answer.device_id);
+                NSLog(@"timestamp:        %@", answer.timestamp);
+                NSLog(@"esm_trigger:      %@", answer.esm_trigger);
+                NSLog(@"esm_json:         %@", answer.esm_json);
+                NSLog(@"threshold:        %@", answer.esm_expiration_threshold);
+                NSLog(@"answer_timestamp: %@", answer.double_esm_user_answer_timestamp);
+                NSLog(@"esm_status:       %@", answer.esm_status);
+                NSLog(@"user_answer:      %@", answer.esm_user_answer);
+                NSLog(@"---------------------");
+            }
             
             //////////////////////////////////////////////////
             entityESMSchedule.fire_hour   = [esm.fire_hour copy];
@@ -552,7 +554,7 @@
         ///////////////////////
         
         if(isDone){
-            NSLog(@"%@",[study getStudyURL]);
+            if (study.isDebug) NSLog(@"%@",[study getStudyURL]);
             
             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_ESM_DONE
                                                                 object:self
@@ -591,7 +593,7 @@
                 
                 __block typeof(self) blockSelf = self;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    NSLog(@"[%@] %f", name, progress);
+                    if (self->study.isDebug) NSLog(@"[%@] %f", name, progress);
                     if (error != nil) {
                         NSLog(@"%@", error.debugDescription);
                         if (self->uploadCompletionHandler != nil) {
@@ -824,7 +826,9 @@
     if(!result && error != nil){
         NSLog(@"%@", error.debugDescription);
     }else{
-        NSLog(@"Success to save data");
+        if (study.isDebug){
+            NSLog(@"Success to save data");
+        }
     }
 }
 
