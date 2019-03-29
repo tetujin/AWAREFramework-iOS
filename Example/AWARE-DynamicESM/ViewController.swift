@@ -11,6 +11,11 @@ import AWAREFramework
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var accLabel: UILabel!
+    @IBOutlet weak var gyroLabel: UILabel!
+    @IBOutlet weak var batteryLabel: UILabel!
+    @IBOutlet weak var screenLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,16 +39,18 @@ class ViewController: UIViewController {
         let schedules = ESMScheduleManager.shared().getValidSchedules()
         if schedules.count > 0 {
             let esmViewController = ESMScrollViewController()
-            // set an original ESM generation handler
             
+            // set an original ESM generation handler
             esmViewController.originalESMViewGenerationHandler = {(esm, bottomESMViewPositionY, viewController) -> BaseESMView? in
                 return nil
             }
+            
             // set a answer completion handler
             esmViewController.answerCompletionHandler = {
                 // delete the schedule when the answer is completed
                 ESMScheduleManager.shared().deleteSchedule(withId: "sample_esm")
             }
+            
             self.present(esmViewController, animated: true){}
         }
     }

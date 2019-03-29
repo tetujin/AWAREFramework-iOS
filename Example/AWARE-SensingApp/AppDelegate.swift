@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  AWARE-DynamicESM
+//  AWARE-SensingApp
 //
 //  Created by Yuuki Nishiyama on 2019/03/28.
 //  Copyright © 2019 tetujin. All rights reserved.
@@ -14,67 +14,83 @@ import AWAREFramework
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    var sensingStatus = true
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        let core = AWARECore.shared()
-        core.requestPermissionForPushNotification()
-        core.requestPermissionForBackgroundSensing()
-        core.activate()
-
-        /// If user uses smartphone over 30 second,
-        /// this application makes a notification as an ESM
-        let deviceUsage = DeviceUsage()
-        deviceUsage.startSensor()
-        // set a sensor handler
-        deviceUsage.setSensorEventHandler { (sensor, data) in
-            if let data = data {
-                let time = data["elapsed_device_on"] as! Double
-                
-                if time > 60.0 * 1000.0 { // 60 second
-                    
-                    print("Over 60 second!")
-                    
-                    // generate a survey
-                    let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-                    pam?.setTitle("How do you feeling now?")
-                    pam?.setInstructions("Please select an image.")
-                    
-                    let schedule = ESMSchedule()
-                    schedule.startDate  = Date()
-                    schedule.endDate    = Date().addingTimeInterval(60*10) // This ESM valid 10 min
-                    schedule.scheduleId = "sample_esm"
-                    schedule.addESM(pam)
-                    
-                    let manager = ESMScheduleManager.shared()
-                    if manager.getValidSchedules().count == 0 {
-                        manager.add(schedule)
-                    }
-                    
-                    // send notification
-                    let content = UNMutableNotificationContent()
-                    content.title = "Hello, how do you feeling now?"
-                    content.body  = "Tap to answer the question."
-                    content.badge = 1
-                    
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                    
-                    let notifId = UUID().uuidString
-                    let request = UNNotificationRequest(identifier: notifId,
-                                                        content: content,
-                                                        trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                        
-                    });
-                }
-            }
-        }
         
+        // setup AWARECore
+        let core = AWARECore.shared()
+        core.requestPermissionForBackgroundSensing()
+        core.requestPermissionForPushNotification()
+        core.activate()
+        
+        //////////////////////
+        
+        // init sensors
+        let accelerometer = Accelerometer()
+        let gyroscope     = Gyroscope()
+        let battery       = Battery()
+        let screen        = Screen()
+        
+        // add the sensors into AWARESensorManager
         let manager = AWARESensorManager.shared()
-        manager.add(deviceUsage)
+        manager.add([accelerometer, gyroscope, battery, screen])
+        manager.startAllSensors()
+        
+        ///////////////////////
+        
+        // setup ESMs
+        // generate ESMItem
+        let pam = ESMItem(asPAMESMWithTrigger: "pam")
+        pam?.setTitle("How do you feeling now?")
+        pam?.setInstructions("Please select an image.")
+        
+        // generate ESMSchedule
+        let esm = ESMSchedule()
+        esm.scheduleId = "schedule_1"
+        esm.startDate  = Date()
+        esm.endDate    = Date().addingTimeInterval(60*60*24*31)
+        esm.fireHours  = [8,12,21]
+        esm.expirationThreshold = 60
+        esm.addESM(pam)
+        esm.notificationTitle = "Tap to answer the question."
+        
+        // add the ESMSchedules into ESMScheduleManager
+        let esmManager = ESMScheduleManager.shared()
+        esmManager.deleteAllSchedules(withNotification: true)
+        esmManager.add(esm, withNotification: true)
+        
+        //////////////////////////
+        
+        // monitoring battery consumption
+        let center = NotificationCenter.default
+        center.addObserver(forName: NSNotification.Name(rawValue: ACTION_AWARE_BATTERY_CHANGED),
+                           object: nil,
+                           queue: .main) { (notification) in
+                            if let userInfo = notification.userInfo{
+                                if let data = userInfo[EXTRA_DATA] as? Dictionary<String,Any>{
+                                    // get battery level data
+                                    if let level = data["battery_level"] as? Int {
+                                        // stop sensor if battery level is under 30%
+                                        if level <= 30 {
+                                            if self.sensingStatus {
+                                                manager.stopAllSensors()
+                                                self.sensingStatus = false
+                                            }
+                                        // restart sensor if bettery level is over 30%
+                                        }else{
+                                            if !self.sensingStatus {
+                                                manager.startAllSensors()
+                                                self.sensingStatus = true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+        }
         
         return true
     }
@@ -112,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "AWARE_DynamicESM")
+        let container = NSPersistentContainer(name: "AWARE_SensingApp")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

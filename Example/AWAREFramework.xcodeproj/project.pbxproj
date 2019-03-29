@@ -18,6 +18,12 @@
 		4F3914E3224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914E1224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld */; };
 		4F3914E5224CE6B500CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914E4224CE6B500CEE77E /* Assets.xcassets */; };
 		4F3914E8224CE6B500CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914E6224CE6B500CEE77E /* LaunchScreen.storyboard */; };
+		4F391511224D692500CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391510224D692500CEE77E /* AppDelegate.swift */; };
+		4F391513224D692500CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391512224D692500CEE77E /* ViewController.swift */; };
+		4F391516224D692500CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F391514224D692500CEE77E /* Main.storyboard */; };
+		4F391519224D692500CEE77E /* AWARE_SensingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F391517224D692500CEE77E /* AWARE_SensingApp.xcdatamodeld */; };
+		4F39151B224D692600CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F39151A224D692600CEE77E /* Assets.xcassets */; };
+		4F39151E224D692600CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F39151C224D692600CEE77E /* LaunchScreen.storyboard */; };
 		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
 		4FC2FF4A216DD05800B840ED /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC2FF49216DD05800B840ED /* HealthKit.framework */; };
 		4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF69E3B224BD65100E40DAD /* SampleESMView.m */; };
@@ -33,6 +39,7 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */; };
+		B5448C8350F9A3D94098F81C /* Pods_AWARE_SensingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */; };
 		CD72E4B6A02CA884F1278792 /* Pods_AWAREFramework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +56,8 @@
 /* Begin PBXFileReference section */
 		00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.release.xcconfig"; sourceTree = "<group>"; };
 		178752BE5C2A0BE069D29B76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		183973A5BCDE7AAAD2D9C11F /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
+		192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.release.xcconfig"; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -70,6 +79,15 @@
 		4F3914E7224CE6B500CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F3914E9224CE6B500CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F391509224CE8A700CEE77E /* AWARE-DynamicESM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-DynamicESM.entitlements"; sourceTree = "<group>"; };
+		4F39150E224D692500CEE77E /* AWARE-SensingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-SensingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F391510224D692500CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F391512224D692500CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F391515224D692500CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F391518224D692500CEE77E /* AWARE_SensingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_SensingApp.xcdatamodel; sourceTree = "<group>"; };
+		4F39151A224D692600CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F39151D224D692600CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F39151F224D692600CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F39153F224DB8AF00CEE77E /* AWARE-SensingApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-SensingApp.entitlements"; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		4FC2FF49216DD05800B840ED /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		4FF69E3A224BD65100E40DAD /* SampleESMView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleESMView.h; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.h"; sourceTree = "<absolute>"; };
@@ -97,6 +115,7 @@
 		BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CB79297507039BAFB2378CA6 /* Pods-AWAREFramework_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +132,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F39150B224D692500CEE77E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5448C8350F9A3D94098F81C /* Pods_AWARE_SensingApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +168,8 @@
 				22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */,
 				93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */,
 				00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */,
+				183973A5BCDE7AAAD2D9C11F /* Pods-AWARE-SensingApp.debug.xcconfig */,
+				192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -180,6 +209,21 @@
 			path = "AWARE-DynamicESM";
 			sourceTree = "<group>";
 		};
+		4F39150F224D692500CEE77E /* AWARE-SensingApp */ = {
+			isa = PBXGroup;
+			children = (
+				4F39153F224DB8AF00CEE77E /* AWARE-SensingApp.entitlements */,
+				4F391510224D692500CEE77E /* AppDelegate.swift */,
+				4F391512224D692500CEE77E /* ViewController.swift */,
+				4F391514224D692500CEE77E /* Main.storyboard */,
+				4F39151A224D692600CEE77E /* Assets.xcassets */,
+				4F39151C224D692600CEE77E /* LaunchScreen.storyboard */,
+				4F39151F224D692600CEE77E /* Info.plist */,
+				4F391517224D692500CEE77E /* AWARE_SensingApp.xcdatamodeld */,
+			);
+			path = "AWARE-SensingApp";
+			sourceTree = "<group>";
+		};
 		4FF69E39224BD60500E40DAD /* ESM */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +241,7 @@
 				6003F593195388D20070C39A /* Example for AWAREFramework */,
 				4F0BC997222D16EC006348E4 /* AWAREFramework_Tests */,
 				4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */,
+				4F39150F224D692500CEE77E /* AWARE-SensingApp */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				210A732D411FD730250FC3D3 /* Pods */,
@@ -209,6 +254,7 @@
 				6003F58A195388D20070C39A /* AWAREFramework_Example.app */,
 				4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */,
 				4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */,
+				4F39150E224D692500CEE77E /* AWARE-SensingApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,6 +271,7 @@
 				8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */,
 				31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */,
 				D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */,
+				E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,6 +358,26 @@
 			productReference = 4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4F39150D224D692500CEE77E /* AWARE-SensingApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F39153C224D692700CEE77E /* Build configuration list for PBXNativeTarget "AWARE-SensingApp" */;
+			buildPhases = (
+				9B25ABEBB5E551FF0BAB67B6 /* [CP] Check Pods Manifest.lock */,
+				4F39150A224D692500CEE77E /* Sources */,
+				4F39150B224D692500CEE77E /* Frameworks */,
+				4F39150C224D692500CEE77E /* Resources */,
+				1575FEFCBDD507276D270539 /* [CP] Embed Pods Frameworks */,
+				63F7E21A2171E9C1B348DAA8 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-SensingApp";
+			productName = "AWARE-SensingApp";
+			productReference = 4F39150E224D692500CEE77E /* AWARE-SensingApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6003F589195388D20070C39A /* AWAREFramework_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "AWAREFramework_Example" */;
@@ -357,6 +424,19 @@
 							com.apple.AccessWiFi = {
 								enabled = 1;
 							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					4F39150D224D692500CEE77E = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -419,6 +499,7 @@
 				6003F589195388D20070C39A /* AWAREFramework_Example */,
 				4F0BC995222D16EC006348E4 /* AWAREFramework_Tests */,
 				4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */,
+				4F39150D224D692500CEE77E /* AWARE-SensingApp */,
 			);
 		};
 /* End PBXProject section */
@@ -441,6 +522,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F39150C224D692500CEE77E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F39151E224D692600CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F39151B224D692600CEE77E /* Assets.xcassets in Resources */,
+				4F391516224D692500CEE77E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6003F588195388D20070C39A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -456,6 +547,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1575FEFCBDD507276D270539 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS12.2/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS12.2/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS12.2/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS12.2/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		240E257AC29DEC2CF5A85E68 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -512,6 +637,54 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-AWAREFramework_Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63F7E21A2171E9C1B348DAA8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B25ABEBB5E551FF0BAB67B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-SensingApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -580,7 +753,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10.0/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -606,12 +779,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS12.2/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS12.2/SCNetworkReachability.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS12.2/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS12.2/ios_ntp.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10.0/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10.0/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10.0/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10.0/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10.0/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10.0/ios_ntp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -648,6 +821,16 @@
 				4F3914E3224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld in Sources */,
 				4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */,
 				4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F39150A224D692500CEE77E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F391519224D692500CEE77E /* AWARE_SensingApp.xcdatamodeld in Sources */,
+				4F391513224D692500CEE77E /* ViewController.swift in Sources */,
+				4F391511224D692500CEE77E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +871,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				4F3914E7224CE6B500CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F391514224D692500CEE77E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F391515224D692500CEE77E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F39151C224D692600CEE77E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F39151D224D692600CEE77E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -887,6 +1086,94 @@
 			};
 			name = Release;
 		};
+		4F391536224D692700CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 183973A5BCDE7AAAD2D9C11F /* Pods-AWARE-SensingApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-SensingApp/AWARE-SensingApp.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-SensingApp/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-SensingApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F391537224D692700CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-SensingApp/AWARE-SensingApp.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-SensingApp/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-SensingApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6003F5BD195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1029,6 +1316,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4F39153C224D692700CEE77E /* Build configuration list for PBXNativeTarget "AWARE-SensingApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F391536224D692700CEE77E /* Debug */,
+				4F391537224D692700CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "AWAREFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1067,6 +1363,16 @@
 			);
 			currentVersion = 4F3914E2224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodel */;
 			path = AWARE_DynamicESM.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F391517224D692500CEE77E /* AWARE_SensingApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F391518224D692500CEE77E /* AWARE_SensingApp.xcdatamodel */,
+			);
+			currentVersion = 4F391518224D692500CEE77E /* AWARE_SensingApp.xcdatamodel */;
+			path = AWARE_SensingApp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

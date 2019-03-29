@@ -62,17 +62,8 @@ static AWARECore * sharedCore;
             [userDefaults setBool:YES forKey:@"aware_inited"];
         }
         
-        _sharedLocationManager  = [[CLLocationManager alloc] init];
+        _sharedLocationManager = [[CLLocationManager alloc] init];
         _sharedLocationManager.delegate = self;
-        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-        _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
-        _sharedLocationManager.activityType = CLActivityTypeOther;
-        
-        if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-            /// After iOS 9.0, we have to set "YES" for background sensing.
-            _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
-        }
-        
     }
     return self;
 }
@@ -203,6 +194,16 @@ void exceptionHandler(NSException *exception) {
 - (void) startBaseLocationSensor {
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
+        if (_sharedLocationManager == nil) {
+            _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+            _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
+            _sharedLocationManager.activityType = CLActivityTypeOther;
+            
+            if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
+                /// After iOS 9.0, we have to set "YES" for background sensing.
+                _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
+            }
+        }
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager startMonitoringSignificantLocationChanges];
     }else{
@@ -266,9 +267,11 @@ void exceptionHandler(NSException *exception) {
 }
 
 - (void) requestPermissionForBackgroundSensing{
-    
-    if (_sharedLocationManager != nil){
-        [_sharedLocationManager requestAlwaysAuthorization];
+    CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
+    if(state != kCLAuthorizationStatusAuthorizedAlways){
+        if (_sharedLocationManager != nil){
+            [_sharedLocationManager requestAlwaysAuthorization];
+        }
     }
 }
 
