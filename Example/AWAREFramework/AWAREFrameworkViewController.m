@@ -21,6 +21,7 @@
 
 #import "SampleSensor.h"
 #import "SampleESMView.h"
+#import <AWAREFramework/AWARESensorManager.h>
 
 @interface AWAREFrameworkViewController ()
 
@@ -28,33 +29,45 @@
 
 @implementation AWAREFrameworkViewController{
     NSTimer * timer;
-    SampleSensor * sensor;
+    // SampleSensor * sensor;
     AWAREHealthKit * healthKit;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    ESMItem * originalESM = [[ESMItem alloc] init];
-    [originalESM setTrigger:@"a"];
-    [originalESM setTitle:@"This is a sample original ESM"];
-    [originalESM setType:99];
-    
-    ESMItem * likertESM = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"b"
-                                                                 likertMax:5
-                                                            likertMinLabel:@"bad"
-                                                            likertMaxLabel:@"good"
-                                                                likertStep:1];
-    [likertESM setTitle:@"hello world"];
-    
-    ESMSchedule * schedule = [[ESMSchedule alloc] init];
-    schedule.startDate  = [NSDate new];
-    schedule.endDate    = [[NSDate new] dateByAddingTimeInterval:60*60*24];
-    schedule.scheduleId = @"sample_schedule";
-    [schedule addESM:originalESM];
-    [schedule addESM:likertESM];
-    
-    [[ESMScheduleManager sharedESMScheduleManager] addSchedule:schedule];
+    [AWARECore.sharedCore requestPermissionForBackgroundSensingWithCompletion:^{
+        [AWARECore.sharedCore activate];
+        Screen * sensor = [[Screen alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        Accelerometer * acc = [[Accelerometer alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        Locations * location = [[Locations alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        
+        AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
+        [manager addSensor:sensor];
+        [manager addSensor:acc];
+        [manager addSensor:location];
+        [manager setDebugToAllSensors:YES];
+        [manager startAllSensors];
+    }];
+//    ESMItem * originalESM = [[ESMItem alloc] init];
+//    [originalESM setTrigger:@"a"];
+//    [originalESM setTitle:@"This is a sample original ESM"];
+//    [originalESM setType:99];
+//
+//    ESMItem * likertESM = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"b"
+//                                                                 likertMax:5
+//                                                            likertMinLabel:@"bad"
+//                                                            likertMaxLabel:@"good"
+//                                                                likertStep:1];
+//    [likertESM setTitle:@"hello world"];
+//
+//    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+//    schedule.startDate  = [NSDate new];
+//    schedule.endDate    = [[NSDate new] dateByAddingTimeInterval:60*60*24];
+//    schedule.scheduleId = @"sample_schedule";
+//    [schedule addESM:originalESM];
+//    [schedule addESM:likertESM];
+//
+//    [[ESMScheduleManager sharedESMScheduleManager] addSchedule:schedule];
     
 //    Pedometer * pedometer = [[Pedometer alloc] init];
 //    [pedometer startSensor];
@@ -616,8 +629,8 @@
 
 
 - (IBAction)pushedSyncButton:(id)sender {
-    [sensor.storage setDebug:YES];
-    [sensor.storage startSyncStorage];
+//    [sensor.storage setDebug:YES];
+//    [sensor.storage startSyncStorage];
 }
 
 @end

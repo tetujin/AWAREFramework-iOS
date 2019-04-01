@@ -20,62 +20,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         let core = AWARECore.shared()
-        core.requestPermissionForPushNotification()
-        core.requestPermissionForBackgroundSensing()
-        core.activate()
-
-        /// If user uses smartphone over 30 second,
-        /// this application makes a notification as an ESM
-        let deviceUsage = DeviceUsage()
-        deviceUsage.startSensor()
-        // set a sensor handler
-        deviceUsage.setSensorEventHandler { (sensor, data) in
-            if let data = data {
-                let time = data["elapsed_device_on"] as! Double
-                
-                if time > 60.0 * 1000.0 { // 60 second
+        core.requestPermissionForBackgroundSensing {
+            core.requestPermissionForPushNotification()
+            core.activate()
+            
+            /// If user uses smartphone over 30 second,
+            /// this application makes a notification as an ESM
+            let deviceUsage = DeviceUsage()
+            deviceUsage.startSensor()
+            // set a sensor handler
+            deviceUsage.setSensorEventHandler { (sensor, data) in
+                if let data = data {
+                    let time = data["elapsed_device_on"] as! Double
                     
-                    print("Over 60 second!")
-                    
-                    // generate a survey
-                    let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-                    pam?.setTitle("How do you feeling now?")
-                    pam?.setInstructions("Please select an image.")
-                    
-                    let schedule = ESMSchedule()
-                    schedule.startDate  = Date()
-                    schedule.endDate    = Date().addingTimeInterval(60*10) // This ESM valid 10 min
-                    schedule.scheduleId = "sample_esm"
-                    schedule.addESM(pam)
-                    
-                    let manager = ESMScheduleManager.shared()
-                    if manager.getValidSchedules().count == 0 {
-                        manager.add(schedule)
-                    }
-                    
-                    // send notification
-                    let content = UNMutableNotificationContent()
-                    content.title = "Hello, how do you feeling now?"
-                    content.body  = "Tap to answer the question."
-                    content.badge = 1
-                    content.sound = .default
-                    
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                    
-                    let notifId = UUID().uuidString
-                    let request = UNNotificationRequest(identifier: notifId,
-                                                        content: content,
-                                                        trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                    if time > 60.0 * 1000.0 { // 60 second
                         
-                    });
+                        print("Over 60 second!")
+                        
+                        // generate a survey
+                        let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
+                        pam?.setTitle("How do you feeling now?")
+                        pam?.setInstructions("Please select an image.")
+                        
+                        let schedule = ESMSchedule()
+                        schedule.startDate  = Date()
+                        schedule.endDate    = Date().addingTimeInterval(60*10) // This ESM valid 10 min
+                        schedule.scheduleId = "sample_esm"
+                        schedule.addESM(pam)
+                        
+                        let manager = ESMScheduleManager.shared()
+                        if manager.getValidSchedules().count == 0 {
+                            manager.add(schedule)
+                        }
+                        
+                        // send notification
+                        let content = UNMutableNotificationContent()
+                        content.title = "Hello, how do you feeling now?"
+                        content.body  = "Tap to answer the question."
+                        content.badge = 1
+                        content.sound = .default
+                        
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                        
+                        let notifId = UUID().uuidString
+                        let request = UNNotificationRequest(identifier: notifId,
+                                                            content: content,
+                                                            trigger: trigger)
+                        
+                        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                            
+                        });
+                    }
                 }
             }
+            
+            let screen = Screen()
+            screen.startSensor()
+            
+            let manager = AWARESensorManager.shared()
+            manager.add(deviceUsage)
+            manager.add(screen)
         }
         
-        let manager = AWARESensorManager.shared()
-        manager.add(deviceUsage)
         
         return true
     }

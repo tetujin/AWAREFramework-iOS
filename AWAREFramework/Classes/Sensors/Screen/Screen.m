@@ -80,6 +80,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     [self registerAppforDetectLockState];
     [self registerAppforDetectDisplayStatus];
     [self setSensingState:YES];
+    [self registerforDeviceLockNotif];
     return YES;
 }
 
@@ -222,6 +223,72 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm:ss"];
     return [formatter stringFromDate:date];
+}
+
+
+// call back
+void displayStatusChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
+{
+    // notification comes in order of
+    // "com.apple.springboard.hasBlankedScreen" notification
+    // "com.apple.springboard.lockcomplete" notification only if locked
+    // "com.apple.springboard.lockstate" notification
+    
+    // AppDelegate *appDelegate = CFBridgingRelease(observer);
+    
+    NSString *eventName = (__bridge NSString*)name;
+    NSLog(@"Darwin notification NAME = %@",name);
+    
+    if([eventName isEqualToString:@"com.apple.springboard.hasBlankedScreen"])
+    {
+        NSLog(@"SCREEN BLANK");
+        
+        // appDelegate.bDeviceLocked = false; // clear
+    }
+    else if([eventName isEqualToString:@"com.apple.springboard.lockcomplete"])
+    {
+        NSLog(@"DEVICE LOCK");
+        
+        // appDelegate.bDeviceLocked = true; // set
+    }
+    else if([eventName isEqualToString:@"com.apple.springboard.lockstate"])
+    {
+        NSLog(@"LOCK STATUS CHANGE");
+        
+//        if(appDelegate.bDeviceLocked) // if a lock, is set
+//        {
+//            NSLog(@"DEVICE IS LOCKED");
+//        }
+//        else
+//        {
+//            NSLog(@"DEVICE IS UNLOCKED");
+//        }
+    }
+}
+
+-(void)registerforDeviceLockNotif
+{
+    // screen and lock notifications
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), //center
+                                    CFBridgingRetain(self), // observer
+                                    displayStatusChanged, // callback
+                                    CFSTR("com.apple.springboard.hasBlankedScreen"), // event name
+                                    NULL, // object
+                                    CFNotificationSuspensionBehaviorDeliverImmediately);
+    
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), //center
+                                    CFBridgingRetain(self), // observer
+                                    displayStatusChanged, // callback
+                                    CFSTR("com.apple.springboard.lockcomplete"), // event name
+                                    NULL, // object
+                                    CFNotificationSuspensionBehaviorDeliverImmediately);
+    
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), //center
+                                    CFBridgingRetain(self), // observer
+                                    displayStatusChanged, // callback
+                                    CFSTR("com.apple.springboard.lockstate"), // event name
+                                    NULL, // object
+                                    CFNotificationSuspensionBehaviorDeliverImmediately);
 }
 
 @end
