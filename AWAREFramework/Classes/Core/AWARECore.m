@@ -18,7 +18,9 @@
 
 static AWARECore * sharedCore;
 
-@implementation AWARECore
+@implementation AWARECore{
+    LocationAPIAuthorizationCompletionHandler completionHandler;
+}
 
 + (AWARECore * _Nonnull) sharedCore{
     @synchronized(self){
@@ -266,7 +268,13 @@ void exceptionHandler(NSException *exception) {
                           }];
 }
 
+
 - (void) requestPermissionForBackgroundSensing{
+    [self requestPermissionForBackgroundSensingWithCompletion:nil];
+}
+                                                              
+- (void) requestPermissionForBackgroundSensingWithCompletion:(LocationAPIAuthorizationCompletionHandler)completionHandler{
+    self->completionHandler = completionHandler;
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state != kCLAuthorizationStatusAuthorizedAlways){
         if (_sharedLocationManager != nil){
@@ -291,6 +299,10 @@ void exceptionHandler(NSException *exception) {
             // [self activate];
             [self startBaseLocationSensor];
         }
+        if (self->completionHandler) {
+            self->completionHandler();
+        }
+        
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
         //////////////////// Unknown ///////////////////////////////
     }else {

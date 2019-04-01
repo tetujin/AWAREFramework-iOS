@@ -159,7 +159,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
             locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
         }
 
-        
         locationManager.pausesLocationUpdatesAutomatically = NO;
         CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
         // NSLog(@"OS:%f", currentVersion);

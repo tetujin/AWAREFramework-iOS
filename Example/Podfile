@@ -17,3 +17,7 @@ end
 target 'AWARE-SensingApp' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-SimpleClient' do
+  pod 'AWAREFramework', :path => '../'
+end

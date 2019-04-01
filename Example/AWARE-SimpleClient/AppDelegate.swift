@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  AWARE-DynamicESM
+//  AWARE-SimpleClient
 //
-//  Created by Yuuki Nishiyama on 2019/03/28.
+//  Created by Yuuki Nishiyama on 2019/03/30.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
 
@@ -18,64 +18,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
+        
         let core = AWARECore.shared()
-        core.requestPermissionForPushNotification()
-        core.requestPermissionForBackgroundSensing()
-        core.activate()
-
-        /// If user uses smartphone over 30 second,
-        /// this application makes a notification as an ESM
-        let deviceUsage = DeviceUsage()
-        deviceUsage.startSensor()
-        // set a sensor handler
-        deviceUsage.setSensorEventHandler { (sensor, data) in
-            if let data = data {
-                let time = data["elapsed_device_on"] as! Double
-                
-                if time > 60.0 * 1000.0 { // 60 second
-                    
-                    print("Over 60 second!")
-                    
-                    // generate a survey
-                    let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-                    pam?.setTitle("How do you feeling now?")
-                    pam?.setInstructions("Please select an image.")
-                    
-                    let schedule = ESMSchedule()
-                    schedule.startDate  = Date()
-                    schedule.endDate    = Date().addingTimeInterval(60*10) // This ESM valid 10 min
-                    schedule.scheduleId = "sample_esm"
-                    schedule.addESM(pam)
-                    
-                    let manager = ESMScheduleManager.shared()
-                    if manager.getValidSchedules().count == 0 {
-                        manager.add(schedule)
-                    }
-                    
-                    // send notification
-                    let content = UNMutableNotificationContent()
-                    content.title = "Hello, how do you feeling now?"
-                    content.body  = "Tap to answer the question."
-                    content.badge = 1
-                    content.sound = .default
-                    
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                    
-                    let notifId = UUID().uuidString
-                    let request = UNNotificationRequest(identifier: notifId,
-                                                        content: content,
-                                                        trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                        
-                    });
-                }
+        core.requestPermissionForBackgroundSensing {
+            core.requestPermissionForPushNotification()
+            core.activate()
+            let study = AWAREStudy.shared()
+            /// Connect AWARE Dashboard
+            let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+            study.join(withURL: studyURL) { (settings, status, error) in
+                /// Start sensors
+                let manager = AWARESensorManager.shared()
+                /// Init sensors based on the setting on AWARE Dashboard.
+                manager.addSensors(with: study)
+                /// [Option] Add additional sensors if you want
+                // let location = Locations()
+                // manager.add(location)
+                /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
+                manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
+                /// Start all sensors
+                manager.startAllSensors()
             }
         }
-        
-        let manager = AWARESensorManager.shared()
-        manager.add(deviceUsage)
         
         return true
     }
@@ -113,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "AWARE_DynamicESM")
+        let container = NSPersistentContainer(name: "AWARE_SimpleClient")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

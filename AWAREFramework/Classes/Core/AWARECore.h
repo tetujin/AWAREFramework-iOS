@@ -16,7 +16,7 @@
 @interface AWARECore : NSObject <CLLocationManagerDelegate>
 
 // Core Location Manager
-@property (strong, nonatomic) CLLocationManager * sharedLocationManager;
+@property (strong, nonatomic, nonnull) CLLocationManager * sharedLocationManager;
 
 // Daily Update Timer
 @property (strong, nonatomic) NSTimer * dailyUpdateTimer;
@@ -27,6 +27,8 @@
 @property BOOL isNeedBackgroundSensing;
 
 + (AWARECore * _Nonnull)sharedCore;
+
+typedef void (^LocationAPIAuthorizationCompletionHandler)(void);
 
 - (void) activate;
 - (void) deactivate;
@@ -46,7 +48,7 @@
 //
 - (void) requestPermissionForPushNotification;
 - (void) requestPermissionForBackgroundSensing;
-
+- (void) requestPermissionForBackgroundSensingWithCompletion:(LocationAPIAuthorizationCompletionHandler)completionHandler;
 
 - (void) requestBackgroundSensing;
 // - (void) requestNotification:(UIApplication *) application;
