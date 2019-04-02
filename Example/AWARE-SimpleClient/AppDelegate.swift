@@ -27,15 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             /// Connect AWARE Dashboard
             let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
             study.join(withURL: studyURL) { (settings, status, error) in
+                
                 /// Start sensors
                 let manager = AWARESensorManager.shared()
+                
                 /// Init sensors based on the setting on AWARE Dashboard.
                 manager.addSensors(with: study)
+                
                 /// [Option] Add additional sensors if you want
                 // let location = Locations()
                 // manager.add(location)
+                
                 /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
                 manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
+                
                 /// Start all sensors
                 manager.startAllSensors()
             }

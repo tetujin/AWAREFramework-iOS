@@ -5,6 +5,10 @@
 //  Created by Yuuki Nishiyama on 2019/03/28.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
+//  This is a sample application (DynamicESM) using ESM with sensor data.
+//  In this example, this application sends a notification based on device usage.
+//  If a user uses the phone more than 10 min in a session, this application sends
+//  a push notification and survey on the phone. The survey is valid only 30 minutes.
 
 import UIKit
 import CoreData
@@ -33,18 +37,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let data = data {
                     let time = data["elapsed_device_on"] as! Double
                     
+                    if time == 0 {
+                        print("elapsed_device_off")
+                        return
+                    }else{
+                        print("elapsed_device_on")
+                    }
+                    
                     if time > 60.0 * 1000.0 { // 60 second
                         
-                        print("Over 60 second!")
+                        print("More than 60 seconds")
                         
                         // generate a survey
                         let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
                         pam?.setTitle("How do you feeling now?")
                         pam?.setInstructions("Please select an image.")
                         
+                        let expireSec = TimeInterval(60*30)
+                        
                         let schedule = ESMSchedule()
                         schedule.startDate  = Date()
-                        schedule.endDate    = Date().addingTimeInterval(60*10) // This ESM valid 10 min
+                        schedule.endDate    = Date().addingTimeInterval(expireSec) // This ESM valid 30 min
                         schedule.scheduleId = "sample_esm"
                         schedule.addESM(pam)
                         
@@ -60,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         content.badge = 1
                         content.sound = .default
                         
-                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                         
                         let notifId = UUID().uuidString
                         let request = UNNotificationRequest(identifier: notifId,
@@ -70,6 +83,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
                             
                         });
+                        
+                        // Remove the delivered notification if the time is over the expiration time
+                        Timer.scheduledTimer(withTimeInterval: expireSec, repeats: false, block: { (timer) in
+                            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notifId])
+                        })
+                        
+                    } else {
+                        print("Less than 60 seconds")
                     }
                 }
             }

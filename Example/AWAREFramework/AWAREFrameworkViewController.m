@@ -35,30 +35,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [AWARECore.sharedCore requestPermissionForBackgroundSensingWithCompletion:^{
-        [AWARECore.sharedCore activate];
-        Screen * sensor = [[Screen alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-        Accelerometer * acc = [[Accelerometer alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-        Locations * location = [[Locations alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
-        
-        AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
-        [manager addSensor:sensor];
-        [manager addSensor:acc];
-        [manager addSensor:location];
-        [manager setDebugToAllSensors:YES];
-        [manager startAllSensors];
-    }];
+    
 //    ESMItem * originalESM = [[ESMItem alloc] init];
 //    [originalESM setTrigger:@"a"];
 //    [originalESM setTitle:@"This is a sample original ESM"];
 //    [originalESM setType:99];
-//
-//    ESMItem * likertESM = [[ESMItem alloc] initAsLikertScaleESMWithTrigger:@"b"
-//                                                                 likertMax:5
-//                                                            likertMinLabel:@"bad"
-//                                                            likertMaxLabel:@"good"
-//                                                                likertStep:1];
-//    [likertESM setTitle:@"hello world"];
 //
 //    ESMSchedule * schedule = [[ESMSchedule alloc] init];
 //    schedule.startDate  = [NSDate new];

@@ -14,6 +14,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [AWARECore.sharedCore requestPermissionForBackgroundSensingWithCompletion:^{
+        [AWARECore.sharedCore activate];
+        Screen * sensor = [[Screen alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        Accelerometer * acc = [[Accelerometer alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        Locations * location = [[Locations alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeSQLite];
+        
+        AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
+        [manager addSensor:sensor];
+        [manager addSensor:acc];
+        [manager addSensor:location];
+        [manager setDebugToAllSensors:YES];
+        [manager startAllSensors];
+    }];
+    
 //    NSURL *fileURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.aware.ios"];
 //    fileURL = [fileURL URLByAppendingPathComponent:@"aware.sqlite"];
 //    self.sqliteFileURL = fileURL;

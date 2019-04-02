@@ -42,6 +42,13 @@ class ViewController: UIViewController {
             
             // set an original ESM generation handler
             esmViewController.originalESMViewGenerationHandler = {(esm, bottomESMViewPositionY, viewController) -> BaseESMView? in
+//                if esm.esm_type?.intValue == 99 {
+//                    let height = 100.0
+//                    let width  = Double(viewController.view.frame.size.width);
+//                    return BaseESMView.init(frame: CGRect(x:0.0, y:bottomESMViewPositionY, width:width, height:height),
+//                                            esm: esm,
+//                                            viewController: viewController)
+//                }
                 return nil
             }
             

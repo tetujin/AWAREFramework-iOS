@@ -23,45 +23,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // setup AWARECore
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing()
-        core.requestPermissionForPushNotification()
-        core.activate()
-        
-        //////////////////////
-        
-        // init sensors
-        let accelerometer = Accelerometer()
-        let gyroscope     = Gyroscope()
-        let battery       = Battery()
-        let screen        = Screen()
-        
-        // add the sensors into AWARESensorManager
-        let manager = AWARESensorManager.shared()
-        manager.add([accelerometer, gyroscope, battery, screen])
-        manager.startAllSensors()
-        
-        ///////////////////////
-        
-        // setup ESMs
-        // generate ESMItem
-        let pam = ESMItem(asPAMESMWithTrigger: "pam")
-        pam?.setTitle("How do you feeling now?")
-        pam?.setInstructions("Please select an image.")
-        
-        // generate ESMSchedule
-        let esm = ESMSchedule()
-        esm.scheduleId = "schedule_1"
-        esm.startDate  = Date()
-        esm.endDate    = Date().addingTimeInterval(60*60*24*31)
-        esm.fireHours  = [8,12,21]
-        esm.expirationThreshold = 60
-        esm.addESM(pam)
-        esm.notificationTitle = "Tap to answer the question."
-        
-        // add the ESMSchedules into ESMScheduleManager
-        let esmManager = ESMScheduleManager.shared()
-        esmManager.deleteAllSchedules(withNotification: true)
-        esmManager.add(esm, withNotification: true)
+        core.requestPermissionForBackgroundSensing {
+            core.requestPermissionForPushNotification()
+            core.activate()
+            
+            //////////////////////
+            
+            // init sensors
+            let accelerometer = Accelerometer()
+            let gyroscope     = Gyroscope()
+            let battery       = Battery()
+            let screen        = Screen()
+            
+            // add the sensors into AWARESensorManager
+            let manager = AWARESensorManager.shared()
+            manager.add([accelerometer, gyroscope, battery, screen])
+            manager.startAllSensors()
+            
+            ///////////////////////
+            
+            // setup ESMs
+            // generate ESMItem
+            let pam = ESMItem(asPAMESMWithTrigger: "pam")
+            pam?.setTitle("How do you feeling now?")
+            pam?.setInstructions("Please select an image.")
+            
+            // generate ESMSchedule
+            let esm = ESMSchedule()
+            esm.scheduleId = "schedule_1"
+            esm.startDate  = Date()
+            esm.endDate    = Date().addingTimeInterval(60*60*24*31)
+            esm.fireHours  = [8,12,21]
+            esm.expirationThreshold = 60
+            esm.addESM(pam)
+            esm.notificationTitle = "Tap to answer the question."
+            
+            // add the ESMSchedules into ESMScheduleManager
+            let esmManager = ESMScheduleManager.shared()
+            esmManager.deleteAllSchedules(withNotification: true)
+            esmManager.add(esm, withNotification: true)
+        }
         
         //////////////////////////
         
@@ -80,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                 manager.stopAllSensors()
                                                 self.sensingStatus = false
                                             }
-                                        // restart sensor if bettery level is over 30%
+                                            // restart sensor if bettery level is over 30%
                                         }else{
                                             if !self.sensingStatus {
                                                 manager.startAllSensors()

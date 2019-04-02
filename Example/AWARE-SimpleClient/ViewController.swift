@@ -35,10 +35,15 @@ class ViewController: UIViewController {
     
     @IBAction func pushedResetButton(_ sender: UIButton) {
         study.join(withURL: study.getURL()) { (settings, status, error) in
+            
             self.manager.stopAndRemoveAllSensors()
+            
             self.manager.addSensors(with: self.study)
-            let location = Locations()
-            self.manager.add(location)
+            
+            /// [Option]
+            // let location = Locations()
+            // self.manager.add(location)
+            
             self.manager.startAllSensors()
             self.manager.startAutoSyncTimer(withIntervalSecond: 15)
         }
