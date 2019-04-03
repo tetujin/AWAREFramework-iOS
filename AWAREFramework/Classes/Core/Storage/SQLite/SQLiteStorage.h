@@ -28,4 +28,13 @@ typedef void (^InsertEntityCallBack)(NSDictionary *dataDict, NSManagedObjectCont
                    dbHandler:(BaseCoreDataHandler *) dbHandler
                insertCallBack:(InsertEntityCallBack)insertCallBack;
 
+- (instancetype)initWithStudy:(AWAREStudy *) study
+                   sensorName:(NSString *) name
+                   entityName:(NSString *) entity;
+
+- (instancetype)initWithStudy:(AWAREStudy *) study
+                   sensorName:(NSString *) name
+                   entityName:(NSString *) entity
+                    dbHandler:(BaseCoreDataHandler *) dbHandler;
+
 @end

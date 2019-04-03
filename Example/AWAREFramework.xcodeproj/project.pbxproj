@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */; };
-		4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */; };
-		4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */; };
-		4F0BC999222D16EC006348E4 /* AWAREFramework_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0BC998222D16EC006348E4 /* AWAREFramework_Tests.swift */; };
-		4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */; };
+		0D665A94C1F63BB4CCBC840C /* Pods_AWARE_CustomESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */; };
+		1D1A0F5AD9D07AC808A2E31B /* Pods_AWARE_CustomSensor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */; };
 		4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DA224CE6B300CEE77E /* AppDelegate.swift */; };
 		4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DC224CE6B300CEE77E /* ViewController.swift */; };
 		4F3914E0224CE6B300CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914DE224CE6B300CEE77E /* Main.storyboard */; };
@@ -30,51 +27,49 @@
 		4F39154F224FE45D00CEE77E /* AWARE_SimpleClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F39154D224FE45D00CEE77E /* AWARE_SimpleClient.xcdatamodeld */; };
 		4F391551224FE45F00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F391550224FE45F00CEE77E /* Assets.xcassets */; };
 		4F391554224FE46000CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F391552224FE45F00CEE77E /* LaunchScreen.storyboard */; };
-		4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3B188220718E4800364E9B /* ExternalAccessory.framework */; };
-		4FC2FF4A216DD05800B840ED /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC2FF49216DD05800B840ED /* HealthKit.framework */; };
-		4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF69E3B224BD65100E40DAD /* SampleESMView.m */; };
-		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
-		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
-		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
-		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
-		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
-		6003F59E195388D20070C39A /* AWAREFrameworkAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* AWAREFrameworkAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* AWAREFrameworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* AWAREFrameworkViewController.m */; };
-		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
-		61364AFF98A956D31C7F2541 /* Pods_AWAREFramework_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */; };
-		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		4F3915612253ACF000CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915602253ACF000CEE77E /* AppDelegate.swift */; };
+		4F3915632253ACF000CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915622253ACF000CEE77E /* ViewController.swift */; };
+		4F3915662253ACF000CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915642253ACF000CEE77E /* Main.storyboard */; };
+		4F3915692253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915672253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodeld */; };
+		4F39156B2253ACF100CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F39156A2253ACF100CEE77E /* Assets.xcassets */; };
+		4F39156E2253ACF100CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F39156C2253ACF100CEE77E /* LaunchScreen.storyboard */; };
+		4F39157A2253B28D00CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915792253B28D00CEE77E /* AppDelegate.swift */; };
+		4F39157C2253B28D00CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F39157B2253B28D00CEE77E /* ViewController.swift */; };
+		4F39157F2253B28D00CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F39157D2253B28D00CEE77E /* Main.storyboard */; };
+		4F3915822253B28D00CEE77E /* AWARE_Fitbit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915802253B28D00CEE77E /* AWARE_Fitbit.xcdatamodeld */; };
+		4F3915842253B28E00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915832253B28E00CEE77E /* Assets.xcassets */; };
+		4F3915872253B28E00CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915852253B28E00CEE77E /* LaunchScreen.storyboard */; };
+		4F3915AC2253E57C00CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915AB2253E57C00CEE77E /* AppDelegate.swift */; };
+		4F3915AE2253E57C00CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915AD2253E57C00CEE77E /* ViewController.swift */; };
+		4F3915B12253E57C00CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915AF2253E57C00CEE77E /* Main.storyboard */; };
+		4F3915B42253E57C00CEE77E /* AWARE_CustomESM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915B22253E57C00CEE77E /* AWARE_CustomESM.xcdatamodeld */; };
+		4F3915B62253E57D00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915B52253E57D00CEE77E /* Assets.xcassets */; };
+		4F3915B92253E57D00CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915B72253E57D00CEE77E /* LaunchScreen.storyboard */; };
+		4F3915BF2253E67B00CEE77E /* CustomESM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915BE2253E67B00CEE77E /* CustomESM.swift */; };
+		4F3915C7225403CB00CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915C6225403CB00CEE77E /* AppDelegate.swift */; };
+		4F3915C9225403CB00CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915C8225403CB00CEE77E /* ViewController.swift */; };
+		4F3915CC225403CB00CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915CA225403CB00CEE77E /* Main.storyboard */; };
+		4F3915CF225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915CD225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodeld */; };
+		4F3915D1225403CC00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D0225403CC00CEE77E /* Assets.xcassets */; };
+		4F3915D4225403CC00CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D2225403CC00CEE77E /* LaunchScreen.storyboard */; };
+		4F3915DA2254C4E400CEE77E /* CustomSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915D92254C4E300CEE77E /* CustomSensor.swift */; };
+		6B9019798E919D1CFD9E1CC8 /* Pods_AWARE_GoogleLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */; };
 		B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */; };
 		B5448C8350F9A3D94098F81C /* Pods_AWARE_SensingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */; };
-		CD72E4B6A02CA884F1278792 /* Pods_AWAREFramework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */; };
+		CAF71978C3B5D50D5B5AF8EC /* Pods_AWARE_Fitbit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */; };
 		DA35293E322785F8888401CD /* Pods_AWARE_SimpleClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1A5A0C915BD4102D3F2B241 /* Pods_AWARE_SimpleClient.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		4F0BC99B222D16EC006348E4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6003F582195388D10070C39A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6003F589195388D20070C39A;
-			remoteInfo = AWAREFramework_Example;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		00D5AFD49B034316168D6945 /* Pods-AWARE-DynamicESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.release.xcconfig"; sourceTree = "<group>"; };
+		0A05C8E1AAF2A2E7285944BF /* Pods-AWARE-GoogleLogin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-GoogleLogin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin.debug.xcconfig"; sourceTree = "<group>"; };
 		178752BE5C2A0BE069D29B76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		1787F567733C56E3CEBD3E22 /* Pods-AWARE-GoogleLogin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-GoogleLogin.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin.release.xcconfig"; sourceTree = "<group>"; };
 		183973A5BCDE7AAAD2D9C11F /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.release.xcconfig"; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		4F00EBEE20B310F3006EB9E6 /* SampleSensor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleSensor.h; sourceTree = "<group>"; };
-		4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleSensor.m; sourceTree = "<group>"; };
-		4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "EntitySample+CoreDataProperties.m"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.m"; sourceTree = "<absolute>"; };
-		4F00EBF220B33A3E006EB9E6 /* EntitySample+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "EntitySample+CoreDataProperties.h"; path = "/Users/yuuki/Dropbox/oulu/development/AWAREFramework/Example/AWAREFramework/EntitySample+CoreDataProperties.h"; sourceTree = "<absolute>"; };
-		4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWAREFramework_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F0BC998222D16EC006348E4 /* AWAREFramework_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWAREFramework_Tests.swift; sourceTree = "<group>"; };
-		4F0BC99A222D16EC006348E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-DynamicESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,48 +99,69 @@
 		4F391553224FE46000CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F391555224FE46000CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F391559224FE74400CEE77E /* AWARE-SimpleClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-SimpleClient.entitlements"; sourceTree = "<group>"; };
+		4F39155E2253ACEF00CEE77E /* AWARE-GoogleLogin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-GoogleLogin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3915602253ACF000CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F3915622253ACF000CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F3915652253ACF000CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F3915682253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_GoogleLogin.xcdatamodel; sourceTree = "<group>"; };
+		4F39156A2253ACF100CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F39156D2253ACF100CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F39156F2253ACF100CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F3915772253B28D00CEE77E /* AWARE-Fitbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Fitbit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3915792253B28D00CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F39157B2253B28D00CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F39157E2253B28D00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F3915812253B28D00CEE77E /* AWARE_Fitbit.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_Fitbit.xcdatamodel; sourceTree = "<group>"; };
+		4F3915832253B28E00CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F3915862253B28E00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F3915882253B28E00CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F3915A92253E57C00CEE77E /* AWARE-CustomESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-CustomESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3915AB2253E57C00CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F3915AD2253E57C00CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F3915B02253E57C00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F3915B32253E57C00CEE77E /* AWARE_CustomESM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_CustomESM.xcdatamodel; sourceTree = "<group>"; };
+		4F3915B52253E57D00CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F3915B82253E57D00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F3915BA2253E57D00CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F3915BE2253E67B00CEE77E /* CustomESM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomESM.swift; sourceTree = "<group>"; };
+		4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-CustomSensor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F3915C6225403CB00CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F3915C8225403CB00CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F3915CB225403CB00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F3915CE225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_CustomSensor.xcdatamodel; sourceTree = "<group>"; };
+		4F3915D0225403CC00CEE77E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F3915D3225403CC00CEE77E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F3915D5225403CC00CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F3915D92254C4E300CEE77E /* CustomSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSensor.swift; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		4FC2FF49216DD05800B840ED /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		4FF69E3A224BD65100E40DAD /* SampleESMView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleESMView.h; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.h"; sourceTree = "<absolute>"; };
-		4FF69E3B224BD65100E40DAD /* SampleESMView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleESMView.m; path = "/Users/yuuki/Documents/GitHub/AWAREFramework-iOS/Example/AWAREFramework/SampleESMView.m"; sourceTree = "<absolute>"; };
-		6003F58A195388D20070C39A /* AWAREFramework_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWAREFramework_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_GoogleLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6003F595195388D20070C39A /* AWAREFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AWAREFramework-Info.plist"; sourceTree = "<group>"; };
-		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6003F59B195388D20070C39A /* AWAREFramework-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AWAREFramework-Prefix.pch"; sourceTree = "<group>"; };
-		6003F59C195388D20070C39A /* AWAREFrameworkAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWAREFrameworkAppDelegate.h; sourceTree = "<group>"; };
-		6003F59D195388D20070C39A /* AWAREFrameworkAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWAREFrameworkAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* AWAREFrameworkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWAREFrameworkViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* AWAREFrameworkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWAREFrameworkViewController.m; sourceTree = "<group>"; };
-		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
+		695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF85D6A887145557D4A32E4 /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
 		8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		884B4A2AA4E026FF88C8E663 /* Pods-AWARE-CustomESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.release.xcconfig"; sourceTree = "<group>"; };
 		8BBEF4912FF45EC441F46733 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.debug.xcconfig"; sourceTree = "<group>"; };
 		A1819A44516594A9076ADDCF /* Pods-AWAREFramework_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		A1A5A0C915BD4102D3F2B241 /* Pods_AWARE_SimpleClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SimpleClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA54FA71B25EA4E69D7BC69E /* Pods-AWARE-CustomSensor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.release.xcconfig"; sourceTree = "<group>"; };
+		B0E1AC42B4C409B5773611A9 /* Pods-AWARE-CustomESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.release.xcconfig"; sourceTree = "<group>"; };
+		C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB79297507039BAFB2378CA6 /* Pods-AWAREFramework_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		D8EDB106B36562A0F7C25F8B /* Pods-AWARE-Fitbit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.release.xcconfig"; sourceTree = "<group>"; };
 		D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB9AB8420F6D67962E0E01B /* Pods-AWARE-SimpleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4F0BC993222D16EC006348E4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CD72E4B6A02CA884F1278792 /* Pods_AWAREFramework_Tests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F3914D5224CE6B300CEE77E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -170,16 +186,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6003F587195388D20070C39A /* Frameworks */ = {
+		4F39155B2253ACEF00CEE77E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
-				4F3B188320718E4800364E9B /* ExternalAccessory.framework in Frameworks */,
-				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
-				4FC2FF4A216DD05800B840ED /* HealthKit.framework in Frameworks */,
-				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				61364AFF98A956D31C7F2541 /* Pods_AWAREFramework_Example.framework in Frameworks */,
+				6B9019798E919D1CFD9E1CC8 /* Pods_AWARE_GoogleLogin.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915742253B28D00CEE77E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAF71978C3B5D50D5B5AF8EC /* Pods_AWARE_Fitbit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915A62253E57C00CEE77E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D665A94C1F63BB4CCBC840C /* Pods_AWARE_CustomESM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915C1225403CA00CEE77E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1A0F5AD9D07AC808A2E31B /* Pods_AWARE_CustomSensor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,28 +234,16 @@
 				192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */,
 				DFB9AB8420F6D67962E0E01B /* Pods-AWARE-SimpleClient.debug.xcconfig */,
 				7CF85D6A887145557D4A32E4 /* Pods-AWARE-SimpleClient.release.xcconfig */,
+				0A05C8E1AAF2A2E7285944BF /* Pods-AWARE-GoogleLogin.debug.xcconfig */,
+				1787F567733C56E3CEBD3E22 /* Pods-AWARE-GoogleLogin.release.xcconfig */,
+				66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */,
+				D8EDB106B36562A0F7C25F8B /* Pods-AWARE-Fitbit.release.xcconfig */,
+				B0E1AC42B4C409B5773611A9 /* Pods-AWARE-CustomESM.debug.xcconfig */,
+				884B4A2AA4E026FF88C8E663 /* Pods-AWARE-CustomESM.release.xcconfig */,
+				FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */,
+				AA54FA71B25EA4E69D7BC69E /* Pods-AWARE-CustomSensor.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		4F00EBED20B310C7006EB9E6 /* Sensor */ = {
-			isa = PBXGroup;
-			children = (
-				4F00EBEE20B310F3006EB9E6 /* SampleSensor.h */,
-				4F00EBEF20B310F3006EB9E6 /* SampleSensor.m */,
-				4F00EBF220B33A3E006EB9E6 /* EntitySample+CoreDataProperties.h */,
-				4F00EBF120B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m */,
-			);
-			name = Sensor;
-			sourceTree = "<group>";
-		};
-		4F0BC997222D16EC006348E4 /* AWAREFramework_Tests */ = {
-			isa = PBXGroup;
-			children = (
-				4F0BC998222D16EC006348E4 /* AWAREFramework_Tests.swift */,
-				4F0BC99A222D16EC006348E4 /* Info.plist */,
-			);
-			path = AWAREFramework_Tests;
 			sourceTree = "<group>";
 		};
 		4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */ = {
@@ -268,13 +291,62 @@
 			path = "AWARE-SimpleClient";
 			sourceTree = "<group>";
 		};
-		4FF69E39224BD60500E40DAD /* ESM */ = {
+		4F39155F2253ACF000CEE77E /* AWARE-GoogleLogin */ = {
 			isa = PBXGroup;
 			children = (
-				4FF69E3A224BD65100E40DAD /* SampleESMView.h */,
-				4FF69E3B224BD65100E40DAD /* SampleESMView.m */,
+				4F3915602253ACF000CEE77E /* AppDelegate.swift */,
+				4F3915622253ACF000CEE77E /* ViewController.swift */,
+				4F3915642253ACF000CEE77E /* Main.storyboard */,
+				4F39156A2253ACF100CEE77E /* Assets.xcassets */,
+				4F39156C2253ACF100CEE77E /* LaunchScreen.storyboard */,
+				4F39156F2253ACF100CEE77E /* Info.plist */,
+				4F3915672253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodeld */,
 			);
-			name = ESM;
+			path = "AWARE-GoogleLogin";
+			sourceTree = "<group>";
+		};
+		4F3915782253B28D00CEE77E /* AWARE-Fitbit */ = {
+			isa = PBXGroup;
+			children = (
+				4F3915792253B28D00CEE77E /* AppDelegate.swift */,
+				4F39157B2253B28D00CEE77E /* ViewController.swift */,
+				4F39157D2253B28D00CEE77E /* Main.storyboard */,
+				4F3915832253B28E00CEE77E /* Assets.xcassets */,
+				4F3915852253B28E00CEE77E /* LaunchScreen.storyboard */,
+				4F3915882253B28E00CEE77E /* Info.plist */,
+				4F3915802253B28D00CEE77E /* AWARE_Fitbit.xcdatamodeld */,
+			);
+			path = "AWARE-Fitbit";
+			sourceTree = "<group>";
+		};
+		4F3915AA2253E57C00CEE77E /* AWARE-CustomESM */ = {
+			isa = PBXGroup;
+			children = (
+				4F3915AB2253E57C00CEE77E /* AppDelegate.swift */,
+				4F3915AD2253E57C00CEE77E /* ViewController.swift */,
+				4F3915BE2253E67B00CEE77E /* CustomESM.swift */,
+				4F3915AF2253E57C00CEE77E /* Main.storyboard */,
+				4F3915B52253E57D00CEE77E /* Assets.xcassets */,
+				4F3915B72253E57D00CEE77E /* LaunchScreen.storyboard */,
+				4F3915BA2253E57D00CEE77E /* Info.plist */,
+				4F3915B22253E57C00CEE77E /* AWARE_CustomESM.xcdatamodeld */,
+			);
+			path = "AWARE-CustomESM";
+			sourceTree = "<group>";
+		};
+		4F3915C5225403CB00CEE77E /* AWARE-CustomSensor */ = {
+			isa = PBXGroup;
+			children = (
+				4F3915C6225403CB00CEE77E /* AppDelegate.swift */,
+				4F3915C8225403CB00CEE77E /* ViewController.swift */,
+				4F3915D92254C4E300CEE77E /* CustomSensor.swift */,
+				4F3915CA225403CB00CEE77E /* Main.storyboard */,
+				4F3915D0225403CC00CEE77E /* Assets.xcassets */,
+				4F3915D2225403CC00CEE77E /* LaunchScreen.storyboard */,
+				4F3915D5225403CC00CEE77E /* Info.plist */,
+				4F3915CD225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodeld */,
+			);
+			path = "AWARE-CustomSensor";
 			sourceTree = "<group>";
 		};
 		6003F581195388D10070C39A = {
@@ -282,11 +354,13 @@
 			children = (
 				4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
-				6003F593195388D20070C39A /* Example for AWAREFramework */,
-				4F0BC997222D16EC006348E4 /* AWAREFramework_Tests */,
 				4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */,
 				4F39150F224D692500CEE77E /* AWARE-SensingApp */,
 				4F391545224FE45D00CEE77E /* AWARE-SimpleClient */,
+				4F39155F2253ACF000CEE77E /* AWARE-GoogleLogin */,
+				4F3915782253B28D00CEE77E /* AWARE-Fitbit */,
+				4F3915AA2253E57C00CEE77E /* AWARE-CustomESM */,
+				4F3915C5225403CB00CEE77E /* AWARE-CustomSensor */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				210A732D411FD730250FC3D3 /* Pods */,
@@ -296,11 +370,13 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* AWAREFramework_Example.app */,
-				4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */,
 				4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */,
 				4F39150E224D692500CEE77E /* AWARE-SensingApp.app */,
 				4F391544224FE45D00CEE77E /* AWARE-SimpleClient.app */,
+				4F39155E2253ACEF00CEE77E /* AWARE-GoogleLogin.app */,
+				4F3915772253B28D00CEE77E /* AWARE-Fitbit.app */,
+				4F3915A92253E57C00CEE77E /* AWARE-CustomESM.app */,
+				4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -319,38 +395,12 @@
 				D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */,
 				E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */,
 				A1A5A0C915BD4102D3F2B241 /* Pods_AWARE_SimpleClient.framework */,
+				542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */,
+				C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */,
+				2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */,
+				695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6003F593195388D20070C39A /* Example for AWAREFramework */ = {
-			isa = PBXGroup;
-			children = (
-				6003F59C195388D20070C39A /* AWAREFrameworkAppDelegate.h */,
-				6003F59D195388D20070C39A /* AWAREFrameworkAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				6003F5A5195388D20070C39A /* AWAREFrameworkViewController.h */,
-				6003F5A6195388D20070C39A /* AWAREFrameworkViewController.m */,
-				4FF69E39224BD60500E40DAD /* ESM */,
-				4F00EBED20B310C7006EB9E6 /* Sensor */,
-				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
-				4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */,
-				6003F5A8195388D20070C39A /* Images.xcassets */,
-				6003F594195388D20070C39A /* Supporting Files */,
-			);
-			name = "Example for AWAREFramework";
-			path = AWAREFramework;
-			sourceTree = "<group>";
-		};
-		6003F594195388D20070C39A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6003F595195388D20070C39A /* AWAREFramework-Info.plist */,
-				6003F596195388D20070C39A /* InfoPlist.strings */,
-				6003F599195388D20070C39A /* main.m */,
-				6003F59B195388D20070C39A /* AWAREFramework-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
@@ -366,25 +416,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F0BC995222D16EC006348E4 /* AWAREFramework_Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4F0BC99D222D16EC006348E4 /* Build configuration list for PBXNativeTarget "AWAREFramework_Tests" */;
-			buildPhases = (
-				462FF5C9B88EE3A254FDC6C4 /* [CP] Check Pods Manifest.lock */,
-				4F0BC992222D16EC006348E4 /* Sources */,
-				4F0BC993222D16EC006348E4 /* Frameworks */,
-				4F0BC994222D16EC006348E4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4F0BC99C222D16EC006348E4 /* PBXTargetDependency */,
-			);
-			name = AWAREFramework_Tests;
-			productName = AWAREFramework_Tests;
-			productReference = 4F0BC996222D16EC006348E4 /* AWAREFramework_Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */;
@@ -445,24 +476,84 @@
 			productReference = 4F391544224FE45D00CEE77E /* AWARE-SimpleClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6003F589195388D20070C39A /* AWAREFramework_Example */ = {
+		4F39155D2253ACEF00CEE77E /* AWARE-GoogleLogin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "AWAREFramework_Example" */;
+			buildConfigurationList = 4F3915722253ACF100CEE77E /* Build configuration list for PBXNativeTarget "AWARE-GoogleLogin" */;
 			buildPhases = (
-				240E257AC29DEC2CF5A85E68 /* [CP] Check Pods Manifest.lock */,
-				6003F586195388D20070C39A /* Sources */,
-				6003F587195388D20070C39A /* Frameworks */,
-				6003F588195388D20070C39A /* Resources */,
-				B4AA191B9D062F653AF923ED /* [CP] Embed Pods Frameworks */,
-				3CC508ED5C2E2EDD8C061BE6 /* [CP] Copy Pods Resources */,
+				BB4FBADA13C460128697E71B /* [CP] Check Pods Manifest.lock */,
+				4F39155A2253ACEF00CEE77E /* Sources */,
+				4F39155B2253ACEF00CEE77E /* Frameworks */,
+				4F39155C2253ACEF00CEE77E /* Resources */,
+				E32A5597299CE4A494BD97FB /* [CP] Embed Pods Frameworks */,
+				5F1F36E6605D084CDA7842E5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = AWAREFramework_Example;
-			productName = AWAREFramework;
-			productReference = 6003F58A195388D20070C39A /* AWAREFramework_Example.app */;
+			name = "AWARE-GoogleLogin";
+			productName = "AWARE-GoogleLogin";
+			productReference = 4F39155E2253ACEF00CEE77E /* AWARE-GoogleLogin.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F3915762253B28D00CEE77E /* AWARE-Fitbit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F39158B2253B28E00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-Fitbit" */;
+			buildPhases = (
+				2DCB37DD925BC0A61B112F82 /* [CP] Check Pods Manifest.lock */,
+				4F3915732253B28D00CEE77E /* Sources */,
+				4F3915742253B28D00CEE77E /* Frameworks */,
+				4F3915752253B28D00CEE77E /* Resources */,
+				6DAC77E9B0668EBE04AF6D9E /* [CP] Embed Pods Frameworks */,
+				40B9C4BC624DADE8FB557147 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-Fitbit";
+			productName = "AWARE-Fitbit";
+			productReference = 4F3915772253B28D00CEE77E /* AWARE-Fitbit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F3915A82253E57C00CEE77E /* AWARE-CustomESM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F3915BB2253E57D00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-CustomESM" */;
+			buildPhases = (
+				2C60360890AB3C0E41E9F1EA /* [CP] Check Pods Manifest.lock */,
+				4F3915A52253E57C00CEE77E /* Sources */,
+				4F3915A62253E57C00CEE77E /* Frameworks */,
+				4F3915A72253E57C00CEE77E /* Resources */,
+				3871B5576A4C4215E74D989D /* [CP] Embed Pods Frameworks */,
+				A7E66219F7FDA193536E64A3 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-CustomESM";
+			productName = "AWARE-CustomESM";
+			productReference = 4F3915A92253E57C00CEE77E /* AWARE-CustomESM.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F3915C3225403CA00CEE77E /* AWARE-CustomSensor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F3915D6225403CC00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-CustomSensor" */;
+			buildPhases = (
+				9FF351E061FED860194631F7 /* [CP] Check Pods Manifest.lock */,
+				4F3915C0225403CA00CEE77E /* Sources */,
+				4F3915C1225403CA00CEE77E /* Frameworks */,
+				4F3915C2225403CA00CEE77E /* Resources */,
+				8289ABD8AFC262987BABE166 /* [CP] Embed Pods Frameworks */,
+				AFF906C8E0EDC12F43C7ED98 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-CustomSensor";
+			productName = "AWARE-CustomSensor";
+			productReference = 4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -477,12 +568,6 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = tetujin;
 				TargetAttributes = {
-					4F0BC995222D16EC006348E4 = {
-						CreatedOnToolsVersion = 10.1;
-						DevelopmentTeam = FH352PYMNC;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 6003F589195388D20070C39A;
-					};
 					4F3914D7224CE6B300CEE77E = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
@@ -528,37 +613,37 @@
 							};
 						};
 					};
-					6003F589195388D20070C39A = {
+					4F39155D2253ACEF00CEE77E = {
+						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
+					4F3915762253B28D00CEE77E = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
-							com.apple.DataProtection = {
-								enabled = 0;
-							};
-							com.apple.HealthKit = {
+						};
+					};
+					4F3915A82253E57C00CEE77E = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
-							com.apple.Keychain = {
-								enabled = 0;
-							};
-							com.apple.NetworkExtensions.iOS = {
-								enabled = 0;
-							};
-							com.apple.Push = {
-								enabled = 1;
-							};
-							com.apple.SafariKeychain = {
-								enabled = 0;
-							};
-							com.apple.WAC = {
-								enabled = 1;
-							};
-							com.apple.iCloud = {
+						};
+					};
+					4F3915C3225403CA00CEE77E = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 						};
@@ -579,23 +664,18 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6003F589195388D20070C39A /* AWAREFramework_Example */,
-				4F0BC995222D16EC006348E4 /* AWAREFramework_Tests */,
-				4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */,
 				4F39150D224D692500CEE77E /* AWARE-SensingApp */,
 				4F391543224FE45D00CEE77E /* AWARE-SimpleClient */,
+				4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */,
+				4F39155D2253ACEF00CEE77E /* AWARE-GoogleLogin */,
+				4F3915762253B28D00CEE77E /* AWARE-Fitbit */,
+				4F3915C3225403CA00CEE77E /* AWARE-CustomSensor */,
+				4F3915A82253E57C00CEE77E /* AWARE-CustomESM */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4F0BC994222D16EC006348E4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F3914D6224CE6B300CEE77E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -626,15 +706,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6003F588195388D20070C39A /* Resources */ = {
+		4F39155C2253ACEF00CEE77E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
-				4F251D8320CAB8A7006443FC /* AWAREFramework.podspec in Resources */,
-				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				4F39156E2253ACF100CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F39156B2253ACF100CEE77E /* Assets.xcassets in Resources */,
+				4F3915662253ACF000CEE77E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915752253B28D00CEE77E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3915872253B28E00CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F3915842253B28E00CEE77E /* Assets.xcassets in Resources */,
+				4F39157F2253B28D00CEE77E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915A72253E57C00CEE77E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3915B92253E57D00CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F3915B62253E57D00CEE77E /* Assets.xcassets in Resources */,
+				4F3915B12253E57C00CEE77E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915C2225403CA00CEE77E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3915D4225403CC00CEE77E /* LaunchScreen.storyboard in Resources */,
+				4F3915D1225403CC00CEE77E /* Assets.xcassets in Resources */,
+				4F3915CC225403CB00CEE77E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,47 +805,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		240E257AC29DEC2CF5A85E68 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AWAREFramework_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3CC508ED5C2E2EDD8C061BE6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-resources.sh",
-				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10/AWAREFramework.bundle",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		462FF5C9B88EE3A254FDC6C4 /* [CP] Check Pods Manifest.lock */ = {
+		2C60360890AB3C0E41E9F1EA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -752,11 +820,93 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AWAREFramework_Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-CustomESM-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2DCB37DD925BC0A61B112F82 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-Fitbit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3871B5576A4C4215E74D989D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS12.2/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS12.2/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS12.2/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS12.2/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		40B9C4BC624DADE8FB557147 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10.0/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5E730C82B51034958F7EB515 /* [CP] Copy Pods Resources */ = {
@@ -768,6 +918,32 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS10/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5F1F36E6605D084CDA7842E5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
@@ -782,7 +958,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		63F7E21A2171E9C1B348DAA8 /* [CP] Copy Pods Resources */ = {
@@ -811,6 +987,40 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6DAC77E9B0668EBE04AF6D9E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10.0/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10.0/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10.0/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10.0/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10.0/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10.0/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		70571FA26F28BDAFD3BE023B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -820,6 +1030,40 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8289ABD8AFC262987BABE166 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
@@ -842,7 +1086,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B25ABEBB5E551FF0BAB67B6 /* [CP] Check Pods Manifest.lock */ = {
@@ -867,6 +1111,80 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9FF351E061FED860194631F7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-CustomSensor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7E66219F7FDA193536E64A3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AFF906C8E0EDC12F43C7ED98 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-iOS12.2/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B34FCEC00BB94932AAC7D04F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -889,22 +1207,48 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B4AA191B9D062F653AF923ED /* [CP] Embed Pods Frameworks */ = {
+		BB4FBADA13C460128697E71B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-frameworks.sh",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-GoogleLogin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E32A5597299CE4A494BD97FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS10/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS10/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS10/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS10/SCNetworkReachability.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS10/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS10/ios_ntp.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket-iOS12.2/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-iOS12.2/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-iOS12.2/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability-iOS12.2/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer-iOS12.2/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp-iOS12.2/ios_ntp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
@@ -916,7 +1260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E4149DF1787C3C52D99BC226 /* [CP] Copy Pods Resources */ = {
@@ -982,14 +1326,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4F0BC992222D16EC006348E4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4F0BC999222D16EC006348E4 /* AWAREFramework_Tests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F3914D4224CE6B300CEE77E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1020,29 +1356,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6003F586195388D20070C39A /* Sources */ = {
+		4F39155A2253ACEF00CEE77E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6003F59E195388D20070C39A /* AWAREFrameworkAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* AWAREFrameworkViewController.m in Sources */,
-				4F00EBD320B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld in Sources */,
-				6003F59A195388D20070C39A /* main.m in Sources */,
-				4F00EBF320B33A3E006EB9E6 /* EntitySample+CoreDataProperties.m in Sources */,
-				4FF69E3C224BD65100E40DAD /* SampleESMView.m in Sources */,
-				4F00EBF020B310F3006EB9E6 /* SampleSensor.m in Sources */,
+				4F3915692253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodeld in Sources */,
+				4F3915632253ACF000CEE77E /* ViewController.swift in Sources */,
+				4F3915612253ACF000CEE77E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915732253B28D00CEE77E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F39157C2253B28D00CEE77E /* ViewController.swift in Sources */,
+				4F3915822253B28D00CEE77E /* AWARE_Fitbit.xcdatamodeld in Sources */,
+				4F39157A2253B28D00CEE77E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915A52253E57C00CEE77E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3915AE2253E57C00CEE77E /* ViewController.swift in Sources */,
+				4F3915B42253E57C00CEE77E /* AWARE_CustomESM.xcdatamodeld in Sources */,
+				4F3915BF2253E67B00CEE77E /* CustomESM.swift in Sources */,
+				4F3915AC2253E57C00CEE77E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F3915C0225403CA00CEE77E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F3915C9225403CB00CEE77E /* ViewController.swift in Sources */,
+				4F3915C7225403CB00CEE77E /* AppDelegate.swift in Sources */,
+				4F3915DA2254C4E400CEE77E /* CustomSensor.swift in Sources */,
+				4F3915CF225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		4F0BC99C222D16EC006348E4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6003F589195388D20070C39A /* AWAREFramework_Example */;
-			targetProxy = 4F0BC99B222D16EC006348E4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4F3914DE224CE6B300CEE77E /* Main.storyboard */ = {
@@ -1093,18 +1449,66 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		6003F596195388D20070C39A /* InfoPlist.strings */ = {
+		4F3915642253ACF000CEE77E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6003F597195388D20070C39A /* en */,
+				4F3915652253ACF000CEE77E /* Base */,
 			);
-			name = InfoPlist.strings;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */ = {
+		4F39156C2253ACF100CEE77E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				71719F9E1E33DC2100824A3D /* Base */,
+				4F39156D2253ACF100CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F39157D2253B28D00CEE77E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F39157E2253B28D00CEE77E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3915852253B28E00CEE77E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3915862253B28E00CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3915AF2253E57C00CEE77E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3915B02253E57C00CEE77E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3915B72253E57D00CEE77E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3915B82253E57D00CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3915CA225403CB00CEE77E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3915CB225403CB00CEE77E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F3915D2225403CC00CEE77E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3915D3225403CC00CEE77E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1112,94 +1516,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		4F0BC99E222D16EC006348E4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1819A44516594A9076ADDCF /* Pods-AWAREFramework_Tests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = AWAREFramework_Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.AWAREFramework-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AWAREFramework_Example.app/AWAREFramework_Example";
-			};
-			name = Debug;
-		};
-		4F0BC99F222D16EC006348E4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = AWAREFramework_Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.AWAREFramework-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AWAREFramework_Example.app/AWAREFramework_Example";
-			};
-			name = Release;
-		};
 		4F391500224CE6B500CEE77E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */;
@@ -1464,6 +1780,350 @@
 			};
 			name = Release;
 		};
+		4F3915702253ACF100CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A05C8E1AAF2A2E7285944BF /* Pods-AWARE-GoogleLogin.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-GoogleLogin/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-GoogleLogin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F3915712253ACF100CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1787F567733C56E3CEBD3E22 /* Pods-AWARE-GoogleLogin.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-GoogleLogin/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-GoogleLogin";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F3915892253B28E00CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-Fitbit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-Fitbit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F39158A2253B28E00CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8EDB106B36562A0F7C25F8B /* Pods-AWARE-Fitbit.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-Fitbit/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-Fitbit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F3915BC2253E57D00CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0E1AC42B4C409B5773611A9 /* Pods-AWARE-CustomESM.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-CustomESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-CustomESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F3915BD2253E57D00CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 884B4A2AA4E026FF88C8E663 /* Pods-AWARE-CustomESM.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-CustomESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-CustomESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F3915D7225403CC00CEE77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-CustomSensor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-CustomSensor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F3915D8225403CC00CEE77E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA54FA71B25EA4E69D7BC69E /* Pods-AWARE-CustomSensor.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "AWARE-CustomSensor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-CustomSensor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6003F5BD195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1537,66 +2197,9 @@
 			};
 			name = Release;
 		};
-		6003F5C0195388D20070C39A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB79297507039BAFB2378CA6 /* Pods-AWAREFramework_Example.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AWAREFramework_Example.entitlements;
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AWAREFramework/AWAREFramework-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"HEALTHKIT=1",
-				);
-				INFOPLIST_FILE = "AWAREFramework/AWAREFramework-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				MODULE_NAME = ExampleApp;
-				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		6003F5C1195388D20070C39A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AWAREFramework_Example.entitlements;
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AWAREFramework/AWAREFramework-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"HEALTHKIT=1",
-				);
-				INFOPLIST_FILE = "AWAREFramework/AWAREFramework-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				MODULE_NAME = ExampleApp;
-				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F0BC99D222D16EC006348E4 /* Build configuration list for PBXNativeTarget "AWAREFramework_Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4F0BC99E222D16EC006348E4 /* Debug */,
-				4F0BC99F222D16EC006348E4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1624,6 +2227,42 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4F3915722253ACF100CEE77E /* Build configuration list for PBXNativeTarget "AWARE-GoogleLogin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3915702253ACF100CEE77E /* Debug */,
+				4F3915712253ACF100CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F39158B2253B28E00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-Fitbit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3915892253B28E00CEE77E /* Debug */,
+				4F39158A2253B28E00CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F3915BB2253E57D00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-CustomESM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3915BC2253E57D00CEE77E /* Debug */,
+				4F3915BD2253E57D00CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F3915D6225403CC00CEE77E /* Build configuration list for PBXNativeTarget "AWARE-CustomSensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3915D7225403CC00CEE77E /* Debug */,
+				4F3915D8225403CC00CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "AWAREFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1633,28 +2272,9 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "AWAREFramework_Example" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6003F5C0195388D20070C39A /* Debug */,
-				6003F5C1195388D20070C39A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		4F00EBD120B2E616006EB9E6 /* MyCoreDataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */,
-			);
-			currentVersion = 4F00EBD220B2E616006EB9E6 /* MyCoreDataModel.xcdatamodel */;
-			path = MyCoreDataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		4F3914E1224CE6B300CEE77E /* AWARE_DynamicESM.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
@@ -1682,6 +2302,46 @@
 			);
 			currentVersion = 4F39154E224FE45D00CEE77E /* AWARE_SimpleClient.xcdatamodel */;
 			path = AWARE_SimpleClient.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F3915672253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3915682253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodel */,
+			);
+			currentVersion = 4F3915682253ACF000CEE77E /* AWARE_GoogleLogin.xcdatamodel */;
+			path = AWARE_GoogleLogin.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F3915802253B28D00CEE77E /* AWARE_Fitbit.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3915812253B28D00CEE77E /* AWARE_Fitbit.xcdatamodel */,
+			);
+			currentVersion = 4F3915812253B28D00CEE77E /* AWARE_Fitbit.xcdatamodel */;
+			path = AWARE_Fitbit.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F3915B22253E57C00CEE77E /* AWARE_CustomESM.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3915B32253E57C00CEE77E /* AWARE_CustomESM.xcdatamodel */,
+			);
+			currentVersion = 4F3915B32253E57C00CEE77E /* AWARE_CustomESM.xcdatamodel */;
+			path = AWARE_CustomESM.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F3915CD225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3915CE225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodel */,
+			);
+			currentVersion = 4F3915CE225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodel */;
+			path = AWARE_CustomSensor.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

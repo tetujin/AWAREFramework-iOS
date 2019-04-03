@@ -1,14 +1,14 @@
 use_frameworks!
 
-target 'AWAREFramework_Example' do
-  pod 'AWAREFramework', :path => '../'
-
-  target 'AWAREFramework_Tests' do
-    inherit! :search_paths
-
-    
-  end
-end
+#target 'AWAREFramework_Example' do
+#  pod 'AWAREFramework', :path => '../'
+#
+#  target 'AWAREFramework_Tests' do
+#    inherit! :search_paths
+#
+#    
+#  end
+#end
 
 target 'AWARE-DynamicESM' do
   pod 'AWAREFramework', :path => '../'
@@ -19,5 +19,21 @@ target 'AWARE-SensingApp' do
 end
 
 target 'AWARE-SimpleClient' do
+  pod 'AWAREFramework', :path => '../'
+end
+
+target 'AWARE-GoogleLogin' do
+  pod 'AWAREFramework', :path => '../'
+end
+
+target 'AWARE-Fitbit' do
+  pod 'AWAREFramework', :path => '../'
+end
+
+target 'AWARE-CustomESM' do
+  pod 'AWAREFramework', :path => '../'
+end
+
+target 'AWARE-CustomSensor' do
   pod 'AWAREFramework', :path => '../'
 end

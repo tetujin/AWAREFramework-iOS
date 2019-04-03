@@ -194,8 +194,9 @@ AWARECore * core = [AWARECore sharedCore];
 Swift    
 ```swift
 let core = AWARECore.shared()
-core.requestPermissionForBackgroundSensing()
-core.requestPermissionForPushNotification()
+core.requestPermissionForBackgroundSensing{
+    core.requestPermissionForPushNotification()
+}
 ```
 
 ## Experience Sampling Method (ESM)
@@ -267,12 +268,12 @@ if (schdules.count > 0) {
 ```
 ```swift
 /// Swift ///
-if let schedules = ESMScheduleManager.shared().getValidSchedules() {
-    if(schedules.count > 0){
-        let esmViewController = ESMScrollViewController()
-        self.present(esmViewController, animated: true){}
-    }
+let schedules = ESMScheduleManager.shared().getValidSchedules() {
+if(schedules.count > 0){
+    let esmViewController = ESMScrollViewController()
+    self.present(esmViewController, animated: true){}
 }
+
 ```
 
 ### Supported ESM Types

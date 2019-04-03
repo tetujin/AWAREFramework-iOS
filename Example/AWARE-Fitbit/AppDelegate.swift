@@ -1,14 +1,10 @@
 //
 //  AppDelegate.swift
-//  AWARE-DynamicESM
+//  AWARE-Fitbit
 //
-//  Created by Yuuki Nishiyama on 2019/03/28.
+//  Created by Yuuki Nishiyama on 2019/04/02.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
-//  This is a sample application (DynamicESM) using ESM with sensor data.
-//  In this example, this application sends a notification based on device usage.
-//  If a user uses the phone more than 10 min in a session, this application sends
-//  a push notification and survey on the phone. The survey is valid only 30 minutes.
 
 import UIKit
 import CoreData
@@ -19,89 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
+        
         let core = AWARECore.shared()
         core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
-            core.activate()
-            
-            /// If user uses smartphone over 60 second,
-            /// this application makes a notification as an ESM
-            let deviceUsage = DeviceUsage()
-            deviceUsage.startSensor()
-            // set a sensor handler
-            deviceUsage.setSensorEventHandler { (sensor, data) in
-                if let data = data {
-                    let time = data["elapsed_device_on"] as! Double
-                    if time > 60.0 * 1000.0 { // 60 second
-                        print("More than 60 seconds")
-                        self.setSurvey()
-                        self.setNotification()
-                    } else {
-                        print("Less than 60 seconds")
-                    }
-                }
-            }
-            
-            let manager = AWARESensorManager.shared()
-            manager.add(deviceUsage)
+            let fitbit = Fitbit()
+            fitbit.startSensor()
         }
-        
         
         return true
-    }
-    
-    
-    func setSurvey(){
-        // generate a survey
-        let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-        pam?.setTitle("How do you feeling now?")
-        pam?.setInstructions("Please select an image.")
-        
-        let expireSec = TimeInterval(60*30)
-        
-        let schedule = ESMSchedule()
-        schedule.startDate  = Date()
-        schedule.endDate    = Date().addingTimeInterval(expireSec) // This ESM valid 30 min
-        schedule.scheduleId = "sample_esm"
-        schedule.addESM(pam)
-        
-        let manager = ESMScheduleManager.shared()
-        if manager.getValidSchedules().count == 0 {
-            manager.add(schedule)
-        }
-    }
-    
-    func setNotification(){
-        // send notification
-        let content = UNMutableNotificationContent()
-        content.title = "Hello, how do you feeling now?"
-        content.body  = "Tap to answer the question."
-        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
-        content.sound = .default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-        
-        let notifId = UUID().uuidString
-        let request = UNNotificationRequest(identifier: notifId,
-                                            content: content,
-                                            trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-            
-        });
-        
-        // Remove the delivered notification if the time is over the expiration time
-        Timer.scheduledTimer(withTimeInterval: 60.0 * 30.0, repeats: false, block: { (timer) in
-            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notifId])
-            let iconNum = UIApplication.shared.applicationIconBadgeNumber
-            if iconNum > 0 {
-                UIApplication.shared.applicationIconBadgeNumber =  iconNum - 1
-            }
-        })
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -128,6 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        Fitbit().handle(url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        
+        return true
+    }
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
@@ -137,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "AWARE_DynamicESM")
+        let container = NSPersistentContainer(name: "AWARE_Fitbit")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

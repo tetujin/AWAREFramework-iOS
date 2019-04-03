@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6003F5AD195388D20070C39A"
+               BlueprintIdentifier = "4F0BC995222D16EC006348E4"
                BuildableName = "AWAREFramework_Tests.xctest"
                BlueprintName = "AWAREFramework_Tests"
                ReferencedContainer = "container:AWAREFramework.xcodeproj">
