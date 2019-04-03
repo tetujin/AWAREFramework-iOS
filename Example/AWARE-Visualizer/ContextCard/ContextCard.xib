@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContextCardView" customModule="TeamOS" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicatorView" destination="vZz-rh-PQW" id="R6C-gx-vwi"/>
+                <outlet property="baseStackView" destination="UzV-s6-h43" id="F9x-Ot-CJB"/>
+                <outlet property="indicatorHeightLayoutConstraint" destination="oD4-hC-s24" id="DGT-00-9iW"/>
+                <outlet property="indicatorView" destination="2Rb-F7-aYB" id="vsx-t2-Hcw"/>
+                <outlet property="spaceView" destination="ICQ-YP-nnj" id="rgi-Ds-4xw"/>
+                <outlet property="titleLabel" destination="j1F-YJ-yz4" id="k1h-VN-1lX"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="405" height="303"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UzV-s6-h43">
+                    <rect key="frame" x="0.0" y="0.0" width="405" height="303"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1F-YJ-yz4">
+                            <rect key="frame" x="0.0" y="0.0" width="405" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="cat-J1-ihc"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Rb-F7-aYB">
+                            <rect key="frame" x="0.0" y="40" width="405" height="253"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vZz-rh-PQW">
+                                    <rect key="frame" x="177" y="101.5" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="nQY-lZ-IIG"/>
+                                        <constraint firstAttribute="height" constant="50" id="teC-bC-dlt"/>
+                                    </constraints>
+                                </activityIndicatorView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="vZz-rh-PQW" firstAttribute="centerY" secondItem="2Rb-F7-aYB" secondAttribute="centerY" id="fyl-iV-Qp3"/>
+                                <constraint firstItem="vZz-rh-PQW" firstAttribute="centerX" secondItem="2Rb-F7-aYB" secondAttribute="centerX" id="m1x-6s-K4C"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="oD4-hC-s24"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ICQ-YP-nnj">
+                            <rect key="frame" x="0.0" y="293" width="405" height="10"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="10" id="Hwz-FL-gzB"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="UzV-s6-h43" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="D9e-bS-0gs"/>
+                <constraint firstItem="UzV-s6-h43" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="N6C-ID-alW"/>
+                <constraint firstItem="UzV-s6-h43" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Nvh-1d-UYi"/>
+                <constraint firstItem="UzV-s6-h43" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="n0v-Mb-t2G"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="48.5" y="-98.5"/>
+        </view>
+    </objects>
+</document>

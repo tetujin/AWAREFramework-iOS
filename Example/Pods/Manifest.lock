@@ -1,9 +1,12 @@
 PODS:
-  - AWAREFramework (1.3.3):
+  - AWAREFramework (1.3.4):
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
     - TPCircularBuffer
+  - Charts (3.2.2):
+    - Charts/Core (= 3.2.2)
+  - Charts/Core (3.2.2)
   - CocoaAsyncSocket (7.6.3)
   - GoogleSignIn (4.4.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
@@ -31,9 +34,11 @@ PODS:
 
 DEPENDENCIES:
   - AWAREFramework (from `../`)
+  - Charts
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Charts
     - CocoaAsyncSocket
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -48,7 +53,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: 4e3ea6870de0c5526c73000f898b9b2587f9de42
+  AWAREFramework: 462d70deb7614e7b5677f602cbf65ef4b879501f
+  Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
@@ -58,6 +64,6 @@ SPEC CHECKSUMS:
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
-PODFILE CHECKSUM: 5e2432b2dc2065508d1a3601b135c19a3fd38854
+PODFILE CHECKSUM: e3db2bb00b1fc9eb6c57c2ca4f9ab74f011f30ab
 
 COCOAPODS: 1.6.0.beta.2

@@ -37,3 +37,8 @@ end
 target 'AWARE-CustomSensor' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-Visualizer' do
+  pod 'AWAREFramework', :path => '../'
+  pod 'Charts'
+end
