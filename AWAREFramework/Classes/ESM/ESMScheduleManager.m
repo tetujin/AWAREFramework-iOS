@@ -460,7 +460,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         return YES;
     }
     
-    NSLog(@"[id:%@][hour:%@][randomize:%@][expiration:%@]",scheduleId,fireHour,randomize,expiration);
+    if (_debug) NSLog(@"[id:%@][hour:%@][randomize:%@][expiration:%@]",scheduleId,fireHour,randomize,expiration);
     return YES;
 }
 
@@ -551,7 +551,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
                 for (UNNotificationRequest * request in requests) {
-                    NSLog(@"%@",request.identifier);
+                    if(self->_debug) NSLog(@"%@",request.identifier);
                 }
             }];
         }

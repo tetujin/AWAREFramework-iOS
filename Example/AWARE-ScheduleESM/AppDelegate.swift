@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  AWARE-SensingApp
+//  AWARE-ScheduleESM
 //
-//  Created by Yuuki Nishiyama on 2019/03/28.
+//  Created by Yuuki Nishiyama on 2019/04/03.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
 
@@ -14,86 +14,66 @@ import AWAREFramework
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    var sensingStatus = true
-
-    let sensorManager = AWARESensorManager.shared()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        // setup AWARECore
         let core = AWARECore.shared()
         core.requestPermissionForBackgroundSensing {
             core.requestPermissionForPushNotification()
             core.activate()
             
-            //////////////////////
+            let schedule = ESMSchedule()
+            schedule.startDate  = Date()
+            schedule.endDate    = Date().addingTimeInterval(60*60*24*30) // This schedule is valid 30 days
+            schedule.scheduleId = "sample_esm"
+            schedule.notificationBody = "Tap to answer."
+            schedule.notificationTitle = "This is a scheduled ESM"
+            schedule.addHours([8,12,15,18,21])
+            schedule.addESMs(self.generateESMItems())
+            schedule.expirationThreshold = 60 as NSNumber
             
-            // init sensors
-            let accelerometer = Accelerometer()
-            let gyroscope     = Gyroscope()
-            let battery       = Battery()
-            let screen        = Screen()
-            
-            // add the sensors into AWARESensorManager
-            self.sensorManager.add([accelerometer, gyroscope, battery, screen])
-            self.sensorManager.startAllSensors()
-            
-            ///////////////////////
-            
-            // setup ESMs
-            // generate ESMItem
-            let pam = ESMItem(asPAMESMWithTrigger: "pam")
-            pam?.setTitle("How do you feeling now?")
-            pam?.setInstructions("Please select an image.")
-            
-            // generate ESMSchedule
-            let esm = ESMSchedule()
-            esm.scheduleId = "schedule_1"
-            esm.startDate  = Date()
-            esm.endDate    = Date().addingTimeInterval(60*60*24*31)
-            esm.fireHours  = [8,12,21]
-            esm.expirationThreshold = 60
-            esm.addESM(pam)
-            esm.notificationTitle = "Tap to answer the question."
-            
-            // add the ESMSchedules into ESMScheduleManager
-            let esmManager = ESMScheduleManager.shared()
-            esmManager.deleteAllSchedules(withNotification: true)
-            esmManager.add(esm, withNotification: true)
+            let manager = ESMScheduleManager.shared()
+            manager.debug = true
+            manager.removeAllNotifications()
+            manager.removeAllSchedulesFromDB()
+            manager.add(schedule)
         }
-        
-        //////////////////////////
-        
-        // monitoring battery consumption
-        let center = NotificationCenter.default
-        center.addObserver(forName: NSNotification.Name(rawValue: ACTION_AWARE_BATTERY_CHANGED),
-                           object: nil,
-                           queue: .main) { (notification) in
-                            if let userInfo = notification.userInfo{
-                                if let data = userInfo[EXTRA_DATA] as? Dictionary<String,Any>{
-                                    // get battery level data
-                                    if let level = data["battery_level"] as? Int {
-                                        // stop sensor if battery level is under 30%
-                                        if level <= 30 {
-                                            if self.sensingStatus {
-                                                self.sensorManager.stopAllSensors()
-                                                self.sensingStatus = false
-                                            }
-                                            // restart sensor if bettery level is over 30%
-                                        }else{
-                                            if !self.sensingStatus {
-                                                self.sensorManager.startAllSensors()
-                                                self.sensingStatus = true
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-        }
-        
+
         return true
+    }
+    
+    func generateESMItems() -> Array<ESMItem>{
+        /// Likert Scale
+        let likert = ESMItem.init(asLikertScaleESMWithTrigger: "likert",
+                                  likertMax: 5,
+                                  likertMinLabel: "Good",
+                                  likertMaxLabel: "Bad",
+                                  likertStep: 1)
+        likert?.setTitle("How do you feeling now?")
+        likert?.setInstructions("Please select an item.")
+        likert?.setSubmitButtonName("Next")
+        
+        /// PAM
+        let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
+        pam?.setTitle("How do you feeling now?")
+        pam?.setInstructions("Please select an image.")
+        pam?.setSubmitButtonName("Next")
+        
+        /// Picture
+        let picture = ESMItem.init(asPictureESMWithTrigger: "picture")
+        picture?.setTitle("What is happen around you now?")
+        picture?.setInstructions("Please take a picture")
+        picture?.setSubmitButtonName("Submit")
+        
+        /// Quick Answer (If the user selects `YES`, the Picture ESMItem will appear.)
+        let quick = ESMItem.init(asQuickAnawerESMWithTrigger: "quick", quickAnswers: ["Yes","No"])
+        quick?.setTitle("Are you have time to take a picture now?")
+        quick?.setInstructions("Please select a button.")
+        /// Set an interactive ESM which is changed flow based on a user answer if you want.
+        /// This `-setFlowWith(items:answerKey:)` is applicable for all of ESMItems.
+        quick?.setFlowWith([picture!], answerKey: ["Yes"])
+        
+        return [pam!, likert!, quick!]
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -129,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "AWARE_SensingApp")
+        let container = NSPersistentContainer(name: "AWARE_ScheduleESM")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

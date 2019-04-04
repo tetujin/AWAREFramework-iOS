@@ -36,10 +36,12 @@
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
 
-## Example Application
+## Example Apps
 * [SensingApp](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-SensingApp)
 * [SimpleClient](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-SimpleClient)
+* [RichClient (aware-client-ios-v2)](https://github.com/tetujin/aware-client-ios-v2)
 * [DynamicESM](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-DynamicESM)
+* [ScheduleESM](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-ScheduleESM)
 * [CustomESM](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-CustomESM)
 * [CustomSensor](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-CustomSensor)
 * [Visualizer](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-Visualizer)
