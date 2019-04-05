@@ -15,18 +15,19 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <AddressBookUI/AddressBookUI.h>
 
-extern NSString* const AWARE_PREFERENCES_STATUS_CALLS;
+@import CallKit;
 
-extern NSString* const KEY_CALLS_TIMESTAMP;
-extern NSString* const KEY_CALLS_DEVICEID;
-extern NSString* const KEY_CALLS_CALL_TYPE;
-extern NSString* const KEY_CALLS_CALL_DURATION;
-extern NSString* const KEY_CALLS_TRACE;
+extern NSString* _Nonnull const AWARE_PREFERENCES_STATUS_CALLS;
 
+extern NSString* _Nonnull const KEY_CALLS_TIMESTAMP;
+extern NSString* _Nonnull const KEY_CALLS_DEVICEID;
+extern NSString* _Nonnull const KEY_CALLS_CALL_TYPE;
+extern NSString* _Nonnull const KEY_CALLS_CALL_DURATION;
+extern NSString* _Nonnull const KEY_CALLS_TRACE;
 
-@interface Calls : AWARESensor <AWARESensorDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface Calls : AWARESensor <AWARESensorDelegate, ABPeoplePickerNavigationControllerDelegate, CXCallObserverDelegate>
 
-@property (strong, nonatomic) CTCallCenter *callCenter;
+@property (strong, nonatomic, nullable) CXCallObserver *callObserver;
 
 -(BOOL)startSensor;
 

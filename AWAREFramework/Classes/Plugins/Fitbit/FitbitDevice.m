@@ -99,10 +99,10 @@
     // identificationForFitbitDevice = [NSString stringWithFormat:@"fitbit.query.device"];
     
     sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identificationForFitbitDevice];
-    sessionConfig.timeoutIntervalForRequest = 60.0;
-    sessionConfig.timeoutIntervalForResource = 60.0;
+    sessionConfig.timeoutIntervalForRequest     = 60.0;
+    sessionConfig.timeoutIntervalForResource    = 60.0;
     sessionConfig.HTTPMaximumConnectionsPerHost = 60;
-    sessionConfig.allowsCellularAccess = YES;
+    sessionConfig.allowsCellularAccess          = YES;
     session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:Nil];
     NSURLSessionDataTask* dataTask = [session dataTaskWithRequest:request];
     [dataTask resume];

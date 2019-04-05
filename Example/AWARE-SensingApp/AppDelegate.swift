@@ -35,9 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let gyroscope     = Gyroscope()
             let battery       = Battery()
             let screen        = Screen()
+            let call          = Calls()
+            call.setDebug(true)
             
             // add the sensors into AWARESensorManager
-            self.sensorManager.add([accelerometer, gyroscope, battery, screen])
+            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call])
             self.sensorManager.startAllSensors()
             
             ///////////////////////

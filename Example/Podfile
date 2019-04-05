@@ -1,5 +1,6 @@
 use_frameworks!
 platform :ios, '10.0'
+
 #target 'AWAREFramework_Example' do
 #  pod 'AWAREFramework', :path => '../'
 #

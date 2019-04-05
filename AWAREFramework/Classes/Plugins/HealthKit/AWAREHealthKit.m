@@ -143,7 +143,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     if (self.isDebug) {
         NSLog(@"[%@] %@", [self getSensorName], message);
     }
-
+    
     NSSet* quantities = [self dataTypesToRead];
     for (HKQuantityType * set in quantities) {
         if(set.identifier == nil){

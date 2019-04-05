@@ -649,7 +649,7 @@
         <element name="EntityFitbitDevice" positionX="306" positionY="153" width="128" height="150"/>
         <element name="EntityGravity" positionX="180" positionY="144" width="128" height="30"/>
         <element name="EntityGyroscope" positionX="189" positionY="153" width="128" height="150"/>
-        <element name="EntityHealthKitCategory" positionX="315" positionY="162" width="128" height="180"/>
+        <element name="EntityHealthKitCategory" positionX="315" positionY="162" width="128" height="178"/>
         <element name="EntityHealthKitCategorySleep" positionX="333" positionY="180" width="128" height="180"/>
         <element name="EntityHealthKitQuantity" positionX="324" positionY="171" width="128" height="195"/>
         <element name="EntityHealthKitQuantityHR" positionX="324" positionY="171" width="128" height="195"/>

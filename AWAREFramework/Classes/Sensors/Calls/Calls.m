@@ -73,99 +73,10 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 }
 
 -(BOOL)startSensor{
-    // Set and start a call sensor
-    _callCenter = [[CTCallCenter alloc] init];
-    _callCenter.callEventHandler = ^(CTCall* call){
-        NSString * callId = call.callID;
-        if (callId == nil) callId = @"";
-        NSNumber * callType = @0;
-        NSString * callTypeStr = @"Unknown";
-        int duration = 0;
-        if (self->start == nil) self->start = [NSDate new];
-        
-        // one of the Android’s call types (1 – incoming, 2 – outgoing, 3 – missed)
-        if (call.callState == CTCallStateIncoming) {
-            // start
-            callType = @1;
-            self->start = [NSDate new];
-            callTypeStr = @"Incoming";
-        } else if (call.callState == CTCallStateConnected){
-            callType = @2;
-            duration = [[NSDate new] timeIntervalSinceDate:self->start];
-            self->start = [NSDate new];
-            callTypeStr = @"Connected";
-        } else if (call.callState == CTCallStateDialing){
-            // start
-            callType = @3;
-            self->start = [NSDate new];
-            callTypeStr = @"Dialing";
-        } else if (call.callState == CTCallStateDisconnected){
-            // fin
-            callType = @4;
-            callTypeStr = @"Disconnected";
-            duration = [[NSDate new] timeIntervalSinceDate:self->start];
-            self->start = [NSDate new];
-        }
-        
-        if ([self isDebug]) {
-            NSLog(@"[%@] Call Duration is %d seconds @ [%@]", [super getSensorName], duration, callTypeStr);
-        }
-        
-        // dispatch_async(dispatch_get_main_queue(), ^{
-            
-        NSNumber *durationValue = [NSNumber numberWithInt:duration];
-        NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-        [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_CALLS_TIMESTAMP];
-        [dict setObject:[super getDeviceId] forKey:KEY_CALLS_DEVICEID];
-        [dict setObject:callType forKey:KEY_CALLS_CALL_TYPE];
-        [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
-        [dict setObject:callId forKey:KEY_CALLS_TRACE];
-            
-            // [super saveData:dict];
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-        [super setLatestData:dict];
-        
-        // Set latest sensor data
-        NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-        [timeFormat setDateFormat:@"YYYY-MM-dd HH:mm"];
-        NSString * dateStr = [timeFormat stringFromDate:[NSDate new]];
-        NSString * latestData = [NSString stringWithFormat:@"%@ [%@] %d seconds",dateStr, callTypeStr, duration];
-        [super setLatestValue: latestData];
-        
-        SensorEventHandler handler = [self getSensorEventHandler];
-        if (handler!=nil) {
-            handler(self, dict);
-        }
-        
-        // Broadcast a notification
-        // http://www.awareframework.com/communication/
-        // [NOTE] On the Andoind AWARE client, when the ACTION_AWARE_USER_NOT_IN_CALL and ACTION_AWARE_USER_IN_CALL are called?
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict forKey:EXTRA_DATA];
-        if (call.callState == CTCallStateIncoming) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_RINGING
-                                                                object:nil
-                                                              userInfo:userInfo];
-        } else if (call.callState == CTCallStateConnected){
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_ACCEPTED
-                                                                object:nil
-                                                              userInfo:userInfo];
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_IN_CALL
-                                                                object:nil
-                                                              userInfo:userInfo];
-        } else if (call.callState == CTCallStateDialing){
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MADE
-                                                                object:nil
-                                                              userInfo:userInfo];
-        } else if (call.callState == CTCallStateDisconnected){
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MISSED
-                                                                object:nil
-                                                              userInfo:userInfo];
-            [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_NOT_IN_CALL
-                                                                object:nil
-                                                              userInfo:userInfo];
-        }
-        //});
-    };
+    if (_callObserver == nil) {
+        _callObserver = [[CXCallObserver alloc] init];
+        [_callObserver setDelegate:self queue:nil];
+    }
     [self setSensingState:YES];
     return YES;
 }
@@ -173,38 +84,118 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 
 
 -(BOOL) stopSensor{
-    _callCenter.callEventHandler = nil;
-    
+    _callObserver = nil;
     [self setSensingState:NO];
     
     return YES;
 }
 
+- (void)callObserver:(nonnull CXCallObserver *)callObserver callChanged:(nonnull CXCall *)call {
+    
+    if (self->start == nil) self->start = [NSDate new];
 
-////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-
-
-- (void) sendLocalNotificationWithCallId : (NSString *) callId
-                                 soundFlag : (BOOL) soundFlag {
-    UILocalNotification *localNotification = [UILocalNotification new];
-    CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-    // NSLog(@"OS:%f", currentVersion);
-    if (currentVersion >= 9.0){
-        localNotification.alertBody = @"Call from/to who?";
-    } else {
-        localNotification.alertBody = @"Call from/to who?";
+    // one of the Android’s call types (1 – incoming, 2 – outgoing, 3 – missed)
+    if ( (call.hasEnded   == true && call.isOutgoing == false) || // incoming end
+         (call.hasEnded   == true && call.isOutgoing == true) )
+    {   // outgoing end
+        if (self.isDebug) NSLog(@"Disconnected");
+        [self saveCallEventWithType:@4 callChanged:call];
     }
-    localNotification.fireDate = [NSDate new];
-    localNotification.timeZone = [NSTimeZone localTimeZone];
-    localNotification.category = callId;
-    if(soundFlag) {
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    if (call.isOutgoing == true && call.hasConnected == false && call.hasEnded == false) {
+        if (self.isDebug) NSLog(@"Dialing");
+        [self saveCallEventWithType:@3 callChanged:call];
     }
-    localNotification.applicationIconBadgeNumber = 1;
-    localNotification.hasAction = YES;
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    if (call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false) {
+        if (self.isDebug) NSLog(@"Incoming");
+        [self saveCallEventWithType:@1 callChanged:call];
+    }
+    
+    if (call.hasConnected == true && call.hasEnded == false) {
+        if (self.isDebug) NSLog(@"Connected");
+        [self saveCallEventWithType:@2 callChanged:call];
+    }
+}
+
+- (void) saveCallEventWithType:(nonnull NSNumber *)callType callChanged:(nonnull CXCall *)call{
+    
+    NSString * callId = [call.UUID UUIDString];
+    NSString * callTypeStr = @"Unknown";
+    int duration = 0;
+    
+    if ([callType isEqual:@1]) {
+        // start
+        self->start = [NSDate new];
+        callTypeStr = @"Incoming";
+    } else if ([callType isEqual:@2]){
+        duration = [[NSDate new] timeIntervalSinceDate:self->start];
+        self->start = [NSDate new];
+        callTypeStr = @"Connected";
+    } else if ([callType isEqual:@3]){
+        self->start = [NSDate new];
+        callTypeStr = @"Dialing";
+    } else if ([callType isEqual:@4]){
+        callTypeStr = @"Disconnected";
+        duration = [[NSDate new] timeIntervalSinceDate:self->start];
+        self->start = [NSDate new];
+    }
+
+    if ([self isDebug]) {
+        NSLog(@"[%@] Call Duration is %d seconds @ [%@]", [super getSensorName], duration, callTypeStr);
+    }
+    
+    NSNumber *durationValue = [NSNumber numberWithInt:duration];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_CALLS_TIMESTAMP];
+    [dict setObject:[super getDeviceId] forKey:KEY_CALLS_DEVICEID];
+    [dict setObject:callType forKey:KEY_CALLS_CALL_TYPE];
+    [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
+    [dict setObject:callId forKey:KEY_CALLS_TRACE];
+
+    // [super saveData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+    [super setLatestData:dict];
+
+    // Set latest sensor data
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"YYYY-MM-dd HH:mm"];
+    NSString * dateStr = [timeFormat stringFromDate:[NSDate new]];
+    NSString * latestData = [NSString stringWithFormat:@"%@ [%@] %d seconds",dateStr, callTypeStr, duration];
+    [super setLatestValue: latestData];
+
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
+    }
+
+    // Broadcast a notification
+    // http://www.awareframework.com/communication/
+    // [NOTE] On the Andoind AWARE client, when the ACTION_AWARE_USER_NOT_IN_CALL and ACTION_AWARE_USER_IN_CALL are called?
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:dict forKey:EXTRA_DATA];
+    if ([callType isEqual:@1]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_RINGING
+                                                            object:nil
+                                                          userInfo:userInfo];
+    } else if ([callType isEqual:@2]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_ACCEPTED
+                                                            object:nil
+                                                          userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_IN_CALL
+                                                            object:nil
+                                                          userInfo:userInfo];
+    } else if ([callType isEqual:@3]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MADE
+                                                            object:nil
+                                                          userInfo:userInfo];
+    } else if ([callType isEqual:@4]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_CALL_MISSED
+                                                            object:nil
+                                                          userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_USER_NOT_IN_CALL
+                                                            object:nil
+                                                          userInfo:userInfo];
+    }
 }
 
 @end
