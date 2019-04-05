@@ -40,7 +40,7 @@
             type = @"blob";
             break;
         default:
-            NSLog(@"Coulumn Type Error: Your selected type (%ld) is not valid.", columnType);
+            NSLog(@"Coulumn Type Error: Your selected type (%zd) is not valid.", columnType);
             return NO;
             break;
     }

@@ -274,7 +274,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
                 
                 if ([self isDebug]) {
                     NSInteger count = activities.count;
-                    NSString * message = [NSString stringWithFormat:@"iOS Activity Recognition Sensor is called by a timer (%ld activites)" ,count];
+                    NSString * message = [NSString stringWithFormat:@"iOS Activity Recognition Sensor is called by a timer (%zd activites)" ,count];
                     NSLog(@"%@",message);
                 }
             }
@@ -362,7 +362,7 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
     }
     
     if ([self isDebug]) {
-        NSLog(@"[%@] %@ %ld", motionActivity.startDate, activitiesStr, motionActivity.confidence);
+        NSLog(@"[%@] %@ %zd", motionActivity.startDate, activitiesStr, motionActivity.confidence);
     }
     
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:motionActivity.startDate];

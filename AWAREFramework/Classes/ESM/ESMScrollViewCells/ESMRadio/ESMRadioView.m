@@ -47,7 +47,7 @@
     for (int i=0; i<radios.count ; i++) {
         //////////////////////////////////////
         
-        UIButton *s = [[UIButton alloc] initWithFrame:CGRectMake(  margin, totalHeight, objHeight, objHeight)];
+        UIButton *s = [[UIButton alloc] initWithFrame:CGRectMake(margin, totalHeight, objHeight, objHeight)];
         [s setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
         s.tag = i;
         [s addTarget:self action:@selector(selectedRadioButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -83,7 +83,7 @@
 
 -(void)selectedRadioButton:(UIButton *)sender{
     if([self isDebug]){
-        NSLog(@"sender:%ld",sender.tag);
+        NSLog(@"sender:%zd",sender.tag);
     }
     for (UIButton * button in options) {
         [button setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];

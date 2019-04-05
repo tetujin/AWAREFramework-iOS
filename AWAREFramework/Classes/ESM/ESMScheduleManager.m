@@ -549,7 +549,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
         if (error!=nil) {
             NSLog(@"[ESMScheduleManager:HourBasedNotification] %@", error.debugDescription);
         }else{
-            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification: %ld:%ld",trigger.dateComponents.hour,trigger.dateComponents.minute);
+            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification: %zd:%zd",trigger.dateComponents.hour,trigger.dateComponents.minute);
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
                 for (UNNotificationRequest * request in requests) {
@@ -600,7 +600,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     NSDateComponents * components = (NSDateComponents *)schedule.timer;
     if (components !=nil) {
         UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:repeat];
-        NSString * requestId = [NSString stringWithFormat:@"%@_%ld_%ld_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,components.hour,components.minute, schedule.schedule_id];
+        NSString * requestId = [NSString stringWithFormat:@"%@_%zd_%zd_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,components.hour,components.minute, schedule.schedule_id];
         UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:requestId content:content trigger:trigger];
         
         UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];

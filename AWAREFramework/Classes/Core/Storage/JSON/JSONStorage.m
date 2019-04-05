@@ -225,8 +225,8 @@
 
 - (NSUInteger) getStoredDataSize {
     NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];
-    NSFileManager *man = [NSFileManager defaultManager];
-    NSDictionary *attrs = [man attributesOfItemAtPath: path error: NULL];
+    NSFileManager * man = [NSFileManager defaultManager];
+    NSDictionary  * attrs = [man attributesOfItemAtPath: path error: NULL];
     UInt64 result = [attrs fileSize];
     return result;
 }

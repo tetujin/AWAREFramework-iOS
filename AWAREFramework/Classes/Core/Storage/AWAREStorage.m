@@ -312,7 +312,7 @@
     
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy/MM/dd"];
-    NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%ld/%ld/%ld", (long)year, month, day]];
+    NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%zd/%zd/%zd", year, month, day]];
     return today;
 }
 

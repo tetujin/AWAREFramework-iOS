@@ -85,7 +85,7 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
                         notificationContent.categoryIdentifier = PLUGIN_CALENDAR_ESM_SCHEDULER_NOTIFICATION_CATEGORY;
                         
                         // NOTE: Notification ID should use an unified ID
-                        NSString * notificationId = [NSString stringWithFormat:@"%@_%ld_%ld_%@",PLUGIN_CALENDAR_ESM_SCHEDULER_NOTIFICATION_ID, componetns.hour, componetns.minute, trigger];
+                        NSString * notificationId = [NSString stringWithFormat:@"%@_%zd_%zd_%@",PLUGIN_CALENDAR_ESM_SCHEDULER_NOTIFICATION_ID, componetns.hour, componetns.minute, trigger];
                         UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:notificationId content:notificationContent trigger:notificationTrigger];
                         
                         UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
@@ -145,7 +145,7 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
 
     [notificationCenter getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
         if (requests!=nil) {
-            NSLog(@"pending: %ld", requests.count);
+            NSLog(@"pending: %tu", requests.count);
             for (UNNotificationRequest * request in requests) {
                 NSLog(@"[%@] %@",request.identifier, request.trigger);
             }
@@ -157,7 +157,7 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
     UNUserNotificationCenter * notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
     [notificationCenter getDeliveredNotificationsWithCompletionHandler:^(NSArray<UNNotification *> * _Nonnull notifications) {
         if (notificationCenter!=nil) {
-            NSLog(@"delivered: %ld", notifications.count);
+            NSLog(@"delivered: %tu", notifications.count);
             for (UNNotification * notification in notifications) {
                 NSLog(@"[%@] %@", notification.request.identifier, notification.request.trigger);
             }

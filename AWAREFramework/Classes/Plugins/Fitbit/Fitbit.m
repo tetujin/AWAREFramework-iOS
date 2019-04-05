@@ -550,9 +550,9 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     [session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         if (dataTasks != nil){
             for (NSURLSessionDataTask * task in dataTasks) {
-                if (self.isDebug) NSLog(@"[%ld] %@", task.taskIdentifier, sessionConfig.identifier);
+                if (self.isDebug) NSLog(@"[%tu] %@", task.taskIdentifier, sessionConfig.identifier);
             }
-            [self sendBroadcastNotification:[NSString stringWithFormat:@"data tasks: %ld",dataTasks.count]];
+            [self sendBroadcastNotification:[NSString stringWithFormat:@"data tasks: %tu",dataTasks.count]];
 
         }
     }];

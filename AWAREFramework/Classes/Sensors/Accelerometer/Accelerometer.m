@@ -112,7 +112,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
     [manager startAccelerometerUpdatesToQueue: [NSOperationQueue currentQueue]
                                   withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
                                       if( error ) {
-                                          NSLog(@"[accelerometer] %@:%ld", [error domain], [error code] );
+                                          NSLog(@"[accelerometer] %@:%zd", [error domain], [error code] );
                                       } else {
                                                                                     
                                           if (self.threshold > 0 && [self getLatestData] !=nil &&

@@ -65,8 +65,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     "double_values_2 real default 0,"
     "accuracy integer default 0,"
     "label text default ''";
-    // "UNIQUE (timestamp,device_id)";
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -101,7 +99,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                  withHandler:^(CMMagnetometerData * _Nullable magnetometerData,
                                                NSError * _Nullable error) {
                                      if( error ) {
-                                         NSLog(@"%@:%ld", [error domain], [error code] );
+                                         NSLog(@"%@:%zd", [error domain], [error code] );
                                      } else {
                                          
                                          if (self.threshold > 0 && [self getLatestData] !=nil &&

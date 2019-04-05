@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.4.3'
+  s.version          = '1.4.4'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 
-  s.source_files = ['AWAREFramework/Classes/**/*']
+  s.source_files = ['AWAREFramework/Classes/**/*.m','AWAREFramework/Classes/**/*.h','AWAREFramework/Classes/**/*.swift']
   
   s.resource_bundles = {
      'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld', 'AWAREFramework/Assets/**/*.xcassets']

@@ -251,15 +251,15 @@
             
             if (mode == 0) {
                 if (button.tag < 10) {
-                    [hourBtn setTitle:[NSString stringWithFormat:@"0%ld",button.tag] forState:UIControlStateNormal];
+                    [hourBtn setTitle:[NSString stringWithFormat:@"0%zd",button.tag] forState:UIControlStateNormal];
                 }else{
-                    [hourBtn setTitle:[NSString stringWithFormat:@"%ld",button.tag] forState:UIControlStateNormal];
+                    [hourBtn setTitle:[NSString stringWithFormat:@"%zd",button.tag] forState:UIControlStateNormal];
                 }
             } else if ( mode == 1){
                 if (button.tag < 10){
-                    [minBtn  setTitle:[NSString stringWithFormat:@"0%ld",button.tag] forState:UIControlStateNormal];
+                    [minBtn  setTitle:[NSString stringWithFormat:@"0%zd",button.tag] forState:UIControlStateNormal];
                 }else{
-                    [minBtn  setTitle:[NSString stringWithFormat:@"%ld",button.tag] forState:UIControlStateNormal];
+                    [minBtn  setTitle:[NSString stringWithFormat:@"%zd",button.tag] forState:UIControlStateNormal];
                 }
             }
             isNoSelectedBtn = NO;

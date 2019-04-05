@@ -192,7 +192,7 @@
                     [self addAnESM:esm];
                     // finalBtnLabel = esm.esm_submit;
                     _submitButtonText = esm.esm_submit;
-                    self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%ld)",
+                    self.navigationItem.title = [NSString stringWithFormat:@"%@ (%d/%tu)",
                                                  esmSchedule.schedule_id,
                                                  currentESMNumber+1,
                                                  sortedEsms.count];

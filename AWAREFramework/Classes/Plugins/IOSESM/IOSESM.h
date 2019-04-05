@@ -11,6 +11,8 @@
 
 @interface IOSESM : AWARESensor <AWARESensorDelegate>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM;
 extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME;
 extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
@@ -19,6 +21,8 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 @property NSString * table;
 
 // - (BOOL) setScheduledESM:(EntityESMSchedule *)esmSchedule;
+
+- (void) setViewController:(UIViewController *) vc;
 
 - (BOOL) startSensorWithURL:(NSString *)urlStr tableName:(NSString *)table;
 
@@ -44,4 +48,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 
 + (BOOL) hasESMAppearedInThisSession;
 + (void) setESMAppearedState:(BOOL)state;
+
+NS_ASSUME_NONNULL_END
+
 @end

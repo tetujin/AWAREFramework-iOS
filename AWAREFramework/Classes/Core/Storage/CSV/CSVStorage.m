@@ -35,7 +35,7 @@
         }
         if (headerTypes!=nil && headerLabels!=nil) {
             if (headerTypes.count != headerLabels.count) {
-                NSLog(@"[%@] A length of header(%ld) and type(%ld) are different.",self.sensorName,headerLabels.count, headerTypes.count);
+                NSLog(@"[%@] A length of header(%tu) and type(%tu) are different.", self.sensorName, headerLabels.count, headerTypes.count);
             }
         }
     }

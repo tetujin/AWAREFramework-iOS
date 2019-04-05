@@ -103,7 +103,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                            NSError * _Nullable error) {
                                  
                                      if( error ) {
-                                         NSLog(@"%@:%ld", [error domain], [error code] );
+                                         NSLog(@"%@:%zd", [error domain], [error code] );
                                      } else {
                                          
                                          if (self.threshold > 0 && [self getLatestData] !=nil &&

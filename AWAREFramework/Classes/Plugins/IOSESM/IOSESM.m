@@ -30,6 +30,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     NSArray * pluginSettings;
     // int responseCode;
     AWAREStudy * awareStudy;
+    UIViewController * viewController;
 }
 
 -(instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -516,14 +517,21 @@ didReceiveResponse:(NSURLResponse *)response
     
 }
 
+- (void)setViewController:(UIViewController *)vc{
+    viewController = vc;
+}
 
 - (void) sendAlertMessageWithTitle:(NSString*)title message:(NSString *) message cancelButton:(NSString *)closeButtonTitle{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:closeButtonTitle
-                                          otherButtonTitles:nil];
-    [alert show];
+    
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:title
+                                                                    message:message
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:closeButtonTitle
+                                              style:UIAlertActionStyleDefault
+                                            handler:nil]];
+    if(viewController != nil){
+        [viewController presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void) refreshNotifications {
@@ -725,7 +733,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSArray *results = [fetchedResultsController fetchedObjects];
     if ([self isDebug]){
         if(results != nil){
-            NSLog(@"Stored ESM Schedules are %ld", results.count);
+            NSLog(@"Stored ESM Schedules are %tu", results.count);
         }else{
             NSLog(@"Stored ESM Schedule is Null.");
         }
@@ -833,7 +841,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     
     if([self isDebug]){
-        NSLog(@"esm schedule: %ld", esmSchedules.count);
+        NSLog(@"esm schedule: %tu", esmSchedules.count);
     }
     
     return esmSchedules;
