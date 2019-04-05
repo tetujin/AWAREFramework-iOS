@@ -87,7 +87,6 @@
 		192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.release.xcconfig"; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4059B633DB39E76C033AF630 /* Pods-AWARE-Visualization.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualization.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualization/Pods-AWARE-Visualization.release.xcconfig"; sourceTree = "<group>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -182,12 +181,10 @@
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
 		695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ScheduleESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF85D6A887145557D4A32E4 /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
-		8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWAREFramework_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		884B4A2AA4E026FF88C8E663 /* Pods-AWARE-CustomESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.release.xcconfig"; sourceTree = "<group>"; };
 		8BBEF4912FF45EC441F46733 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		8FAA6C1DC7275608F735C9C1 /* Pods-AWARE-ScheduleESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ScheduleESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM.release.xcconfig"; sourceTree = "<group>"; };
@@ -196,7 +193,6 @@
 		A1A5A0C915BD4102D3F2B241 /* Pods_AWARE_SimpleClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SimpleClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA54FA71B25EA4E69D7BC69E /* Pods-AWARE-CustomSensor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.release.xcconfig"; sourceTree = "<group>"; };
 		B0E1AC42B4C409B5773611A9 /* Pods-AWARE-CustomESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.debug.xcconfig"; sourceTree = "<group>"; };
-		B975389F0E68F6A057EA943F /* Pods_AWARE_Visualization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Visualization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1DCE8E8810B00FF8617126 /* Pods-AWAREFramework_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.release.xcconfig"; sourceTree = "<group>"; };
 		BDA058C445DE7C7C60250FDE /* Pods-AWARE-Visualization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualization.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualization/Pods-AWARE-Visualization.debug.xcconfig"; sourceTree = "<group>"; };
 		C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -523,9 +519,6 @@
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
-				6003F5AF195388D20070C39A /* XCTest.framework */,
-				8031F9355D32DDE28E8937B5 /* Pods_AWAREFramework_Example.framework */,
-				31D864DE397C06715D79D794 /* Pods_AWAREFramework_Tests.framework */,
 				D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */,
 				E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */,
 				A1A5A0C915BD4102D3F2B241 /* Pods_AWARE_SimpleClient.framework */,
@@ -533,7 +526,6 @@
 				C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */,
 				2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */,
 				695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */,
-				B975389F0E68F6A057EA943F /* Pods_AWARE_Visualization.framework */,
 				58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */,
 				772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */,
 			);
