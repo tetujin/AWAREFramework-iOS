@@ -8,7 +8,6 @@
 
 #import "AmbientNoise.h"
 #import "AudioAnalysis.h"
-#import "AWAREDelegate.h"
 #import "EntityAmbientNoise+CoreDataClass.h"
 
 static vDSP_Length const FFTViewControllerFFTWindowSize = 4096;

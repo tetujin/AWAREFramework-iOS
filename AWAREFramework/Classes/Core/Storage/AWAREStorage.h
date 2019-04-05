@@ -12,10 +12,14 @@
 /**
  * This delegate should be implemented by storages such as SQLite, JSON, and CSV.
  */
+
+
 @protocol AWAREStorageDelegate <NSObject>
 
-typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
-typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSDate * start, NSDate * end, NSError * _Nullable error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^SyncProcessCallBack)(NSString * _Nonnull name, double progress, NSError * _Nullable  error);
+typedef void (^FetchDataHandler)(NSString * _Nonnull name, NSArray * results, NSDate * start, NSDate * end, NSError * _Nullable error);
 
 //////////////////// General //////////////////////
 
@@ -79,6 +83,8 @@ typedef void (^FetchDataHandler)(NSString* name, NSArray * results, NSDate * sta
 - (NSArray *) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end;
 - (void) fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler;
 - (NSDate *) getToday;
+
+NS_ASSUME_NONNULL_END
 
 @end
 

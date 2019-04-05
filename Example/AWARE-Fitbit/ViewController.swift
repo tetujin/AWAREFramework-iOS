@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWAREFramework
 
 class ViewController: UIViewController {
 
@@ -14,7 +15,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if Fitbit.isNeedLogin() {
+            let fitbit = Fitbit()
+            fitbit.setDebug(true)
+            
+            AWARESensorManager.shared().add(fitbit)
+            fitbit.requestLogin(with: self) { (tokens) in
+                fitbit.startSensor()
+            }
+        }        
+    }
 }
 

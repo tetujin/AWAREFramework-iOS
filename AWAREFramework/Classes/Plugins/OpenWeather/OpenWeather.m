@@ -7,10 +7,10 @@
 //
 
 #import "OpenWeather.h"
-#import "AWAREKeys.h"
 #import "EntityOpenWeather.h"
-#import "AWAREDelegate.h"
 
+#import "AWAREKeys.h"
+#import "AWARECore.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_OPENWEATHER    = @"status_plugin_openweather";
 NSString * const AWARE_PREFERENCES_OPENWEATHER_FREQUENCY = @"plugin_openweather_frequency";

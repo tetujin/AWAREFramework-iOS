@@ -33,7 +33,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     
     NSDateFormatter * hourFormat;
     
-    bool isAlertingFitbitLogin;
+    FitbitLoginCompletionHandler loginCompletionHandler;
     
     double intervalMin;
 }
@@ -47,7 +47,6 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
                           sensorName:SENSOR_PLUGIN_FITBIT
                              storage:storage];
     if(self != nil){
-        isAlertingFitbitLogin = false;
         fitbitData = [[FitbitData alloc] initWithAwareStudy:study dbType:dbType];
         fitbitDevice = [[FitbitDevice alloc] initWithAwareStudy:study dbType:dbType];
         baseOAuth2URL = @"https://www.fitbit.com/oauth2/authorize";
@@ -97,34 +96,12 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     if(interval>0){
         intervalMin = interval;
     }
-    
-    if([Fitbit getFitbitAccessToken] == nil || [[Fitbit getFitbitAccessToken] isEqualToString:@""]) {
-        if(!isAlertingFitbitLogin){
-            isAlertingFitbitLogin = true;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Move to Fitbit Login Page"
-                                                            message:@"You need to login and connect to your Fitbit account."
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Move to Fitbit", @"Dismiss", nil];
-            [alert setTag:AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE];
-            [alert show];
-        }
-    }
 }
 
 - (BOOL)startSensor{
     
     if([Fitbit getFitbitAccessToken] == nil || [[Fitbit getFitbitAccessToken] isEqualToString:@""]) {
-        if(!isAlertingFitbitLogin){
-            isAlertingFitbitLogin = true;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Move to Fitbit Login Page"
-                                                            message:@"You need to login and connect to your Fitbit account."
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Move to Fitbit", @"Dismiss", nil];
-            [alert setTag:AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE];
-            [alert show];
-        }
+        [self requestLoginWithUIViewController:self.viewController completion:nil];
     }
     
     updateTimer = [NSTimer scheduledTimerWithTimeInterval:intervalMin*60
@@ -137,17 +114,34 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
     return YES;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (self.isDebug) NSLog(@"%ld",buttonIndex);
-    if (alertView.tag == AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE) {
-        if(buttonIndex == 0){ // move to fitbit
-            NSString * clientId = [Fitbit getFitbitClientIdForUI:NO];
-            NSString * apiSecret = [Fitbit getFitbitApiSecretForUI:NO];
-            [self loginWithOAuth2WithClientId:clientId apiSecret:apiSecret];
-        }else if (buttonIndex == 1){ // dismiss
-            
-        }
-        isAlertingFitbitLogin = false;
++ (bool)isNeedLogin {
+    NSString * token = [Fitbit getFitbitAccessToken];
+    if (token == nil || [token isEqualToString:@""]) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+- (void)requestLoginWithUIViewController:(UIViewController *)viewController completion:(FitbitLoginCompletionHandler)handler{
+    loginCompletionHandler = handler;
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"[Fitbit] Login Required"
+                                                                    message:@"For using Fitbit sensor, you need to login and connect your Fitbit account with this sensor."
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * dissmiss = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * moveToLoginPage = [UIAlertAction actionWithTitle:@"Move to Login Page" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString * clientId = [Fitbit getFitbitClientIdForUI:NO];
+        NSString * apiSecret = [Fitbit getFitbitApiSecretForUI:NO];
+        [self loginWithOAuth2WithClientId:clientId apiSecret:apiSecret];
+    }];
+    
+    [alert addAction:dissmiss];
+    [alert addAction:moveToLoginPage];
+    
+    _viewController = viewController;
+    if (_viewController != nil) {
+        [_viewController presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -435,12 +429,13 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         [dataTask resume];
         
     }else{
-        UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Fitbit Login Error"
-                                                    message:@"The Fitbit code is Null."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles:nil];
-        [av show];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Fitbit Login Error"
+                                                                        message:@"The Fitbit code is Null." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * close = [UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:close];
+        if (_viewController) {
+            [_viewController presentViewController:alert animated:YES completion:nil];
+        }
         if (self.isDebug) NSLog(@"Fitbit Login Error: The Fitbit code is Null");
     }
 }
@@ -463,13 +458,13 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
             [self downloadTokensFromFitbitServer];
         }
     }else{
-        UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Fitbit Login Error"
-                                                    message:url.absoluteString
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles:nil];
-        [av show];
-        if (self.isDebug) NSLog(@"Fitbit Login Error: %@", url.absoluteString);
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"Fitbit Login Error"
+                                                                        message:url.absoluteString preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * close = [UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:close];
+        if (_viewController) {
+            [_viewController presentViewController:alert animated:YES completion:nil];
+        }
     }
     return YES;
 }
@@ -644,81 +639,72 @@ didReceiveResponse:(NSURLResponse *)response
                                                                        options:NSJSONReadingAllowFragments error:&error];
                 if (error != nil) {
                     if (self.isDebug) NSLog(@"failed to parse JSON: %@", error.debugDescription);
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit] Refresh Token: JSON Parsing Error"
-                                                                    message:responseString
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Close"
-                                                          otherButtonTitles:nil];
-                    [alert show];
+                    [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token: JSON Parsing Error"
+                                          message:responseString
+                                          buttons:@[@"close"]];
                     return;
                 }
                 
                 if(values == nil){
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit] Refresh Token: The value is empty"
-                                                                    message:responseString
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Close"
-                                                          otherButtonTitles:nil];
-                    [alert show];
+                    [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token: The value is empty"
+                                          message:responseString
+                                          buttons:@[@"close"]];
                     return;
                 }
                 
                 // if([self isDebug]){
                 if([values objectForKey:@"access_token"] == nil){
                     if([AWAREUtils isForeground]){
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit] Refresh Token ERROR: access_tokne is empty"
-                                                                        message:responseString
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Close"
-                                                              otherButtonTitles:nil];
-                        [alert show];
+                        [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token ERROR: access_tokne is empty"
+                                              message:responseString
+                                              buttons:@[@"close"]];
                     }else{
                         [self sendBroadcastNotification:@"[Fitbit] Refresh Token: access_tokne is empty" ];
                     }
                     return;
                 }else{
                     if([AWAREUtils isForeground]){
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit] Refresh Token: Success"
-                                                                        message:@"Fitbit Plugin updates its access token using a refresh token."
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Close"
-                                                              otherButtonTitles:nil];
-                        [alert show];
+                        [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token: Success"
+                                              message:@"Fitbit Plugin updates its access token using a refresh token."
+                                              buttons:@[@"close"]];
                     }else{
                         [self sendBroadcastNotification:@"[Fitbit] Refresh Token: Success to update tokens"];
                     }
                 }
                 
-                if([values objectForKey:@"access_token"] != nil){
-                    [Fitbit setFitbitAccessToken:[values objectForKey:@"access_token"]];
+                NSString * accessToken = [values objectForKey:@"access_token"];
+                if(accessToken != nil){
+                    [Fitbit setFitbitAccessToken:accessToken];
                 }
-                if([values objectForKey:@"user_id"] != nil){
-                    [Fitbit setFitbitUserId:[values objectForKey:@"user_id"]];
+                
+                NSString * userId = [values objectForKey:@"user_id"];
+                if(userId != nil){
+                    [Fitbit setFitbitUserId:userId];
                 }
-                if([values objectForKey:@"refresh_token"] != nil){
-                    [Fitbit setFitbitRefreshToken:[values objectForKey:@"refresh_token"]];
+                
+                NSString * refreshToken = [values objectForKey:@"refresh_token"];
+                if(refreshToken != nil){
+                    [Fitbit setFitbitRefreshToken:refreshToken];
                 }
-                if([values objectForKey:@"token_type"] != nil){
-                    [Fitbit setFitbitTokenType:[values objectForKey:@"token_type"]];
+                
+                NSString * tokenType = [values objectForKey:@"token_type"];
+                if(tokenType != nil){
+                    [Fitbit setFitbitTokenType:tokenType];
                 }
+                
+                
             }else{
-                UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"[Fitbit] Refresh Token: Fitbit Login Error"
-                                                            message:@"No access token and user_id"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
-                [av show];
+                [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token: Fitbit Login Error"
+                                      message:@"No access token and user_id"
+                                      buttons:@[@"close"]];
             }
         });
         
     } @catch (NSException *exception) {
         if (self.isDebug) NSLog(@"%@",exception.debugDescription);
-        UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"[Fitbit] Refresh Token: Unknown Error occured"
-                                                    message:exception.debugDescription
-                                                   delegate:self
-                                          cancelButtonTitle:@"Close"
-                                          otherButtonTitles:nil];
-        [av show];
+        [self sendDebugAlertWithTitle:@"[Fitbit] Refresh Token: Unknown Error occured"
+                              message:exception.debugDescription
+                              buttons:@[@"close"]];
     } @finally {
         
     }
@@ -745,65 +731,61 @@ didReceiveResponse:(NSURLResponse *)response
                                                                    options:NSJSONReadingAllowFragments error:&error];
             if (error != nil) {
                 if (self.isDebug) NSLog(@"failed to parse JSON: %@", error.debugDescription);
-                UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"[Fitbit Login] Error: JSON parsing error"
-                                                            message:[NSString stringWithFormat:@"failed to parse JSON: %@",error.debugDescription]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
-                [av show];
+                [self sendDebugAlertWithTitle:@"[Fitbit Login] Error: JSON parsing error"
+                                      message:[NSString stringWithFormat:@"failed to parse JSON: %@",error.debugDescription]
+                                      buttons:@[@"close"]];
                 return;
             }
             
             if(values == nil){
-                UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"[Fitbit Login] Error: value is empty"
-                                                            message:@"The value is null..."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
-                [av show];
+                [self sendDebugAlertWithTitle:@"[Fitbit Login] Error: value is empty"
+                                      message:@"The value is null..."
+                                      buttons:@[@"close"]];
                 return;
             }
             
             
             if(![values objectForKey:@"access_token"]){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit Login] Error: access_token is empty"
-                                                                message:responseString
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Close"
-                                                      otherButtonTitles:nil];
-                [alert show];
+                [self sendDebugAlertWithTitle:@"[Fitbit Login] Error: access_token is empty"
+                                      message:responseString
+                                      buttons:@[@"close"]];
                 if (self.isDebug) NSLog(@"Fitbit Login Error: %@", responseString);
                 return;
             }else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit Login] Success"
-                                                                message:@"Fitbit Plugin obtained an access token, refresh token, and user_id from Fitbit API."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Close"
-                                                      otherButtonTitles:nil];
-                [alert show];
+                [self sendDebugAlertWithTitle:@"[Fitbit Login] Success"
+                                      message:@"Fitbit Plugin obtained an access token, refresh token, and user_id from Fitbit API."
+                                      buttons:@[@"close"]];
+            }
+            
+            NSString * accessToken = [values objectForKey:@"access_token"];
+            if(accessToken != nil){
+                [Fitbit setFitbitAccessToken:accessToken];
+            }
+            
+            NSString * userId = [values objectForKey:@"user_id"];
+            if(userId != nil){
+                [Fitbit setFitbitUserId:userId];
+            }
+            
+            NSString * refreshToken = [values objectForKey:@"refresh_token"];
+            if(refreshToken != nil){
+                [Fitbit setFitbitRefreshToken:refreshToken];
+            }
+            
+            NSString * tokenType = [values objectForKey:@"token_type"];
+            if(tokenType != nil){
+                [Fitbit setFitbitTokenType:tokenType];
             }
             
             
-            if([values objectForKey:@"access_token"] != nil){
-                [Fitbit setFitbitAccessToken:[values objectForKey:@"access_token"]];
-            }
-            if([values objectForKey:@"user_id"] != nil){
-                [Fitbit setFitbitUserId:[values objectForKey:@"user_id"]];
-            }
-            if([values objectForKey:@"refresh_token"] != nil){
-                [Fitbit setFitbitRefreshToken:[values objectForKey:@"refresh_token"]];
-            }
-            if([values objectForKey:@"token_type"] != nil){
-                [Fitbit setFitbitTokenType:[values objectForKey:@"token_type"]];
+            if (self->loginCompletionHandler != nil) {
+                self->loginCompletionHandler(values);
             }
             
         }else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"[Fitbit Login] Error: Unknown error occured"
-                                                            message:@"The response from Fitbit server is Null."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Close"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            [self sendDebugAlertWithTitle:@"[Fitbit Login] Error: Unknown error occured"
+                                  message:@"The response from Fitbit server is Null."
+                                  buttons:@[@"close"]];
             if (self.isDebug) NSLog(@"Fitbit Login Error: %@", @"The response from Fitbit server is Null");
         }
         
@@ -940,6 +922,21 @@ didReceiveResponse:(NSURLResponse *)response
     [userDefualt removeObjectForKey:@"fitbit.setting.client_id"];
     [userDefualt removeObjectForKey:@"fitbit.setting.api_secret"];
     [userDefualt synchronize];
+}
+
+- (void) sendDebugAlertWithTitle:(NSString *) title message:(NSString *)message buttons:(NSArray<NSString *> *)buttons{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:message
+                                                                    message:message
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+    if (buttons!=nil) {
+        for (NSString * buttonName in buttons) {
+            UIAlertAction * close = [UIAlertAction actionWithTitle:buttonName style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:close];
+        }
+    }
+    if (_viewController) {
+        [_viewController presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 @end

@@ -6,8 +6,11 @@
 //
 
 #import "SQLiteStorage.h"
-#import "AWAREDelegate.h"
 #import "SyncExecutor.h"
+#import "CoreDataHandler.h"
+#import "AWAREUtils.h"
+
+@import CoreData;
 
 @implementation SQLiteStorage{
     NSString * entityName;
@@ -61,7 +64,7 @@
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@", name];
         timeMarkerIdentifier = [NSString stringWithFormat:@"uploader_coredata_timestamp_marker_%@", name];
         tempLastUnixTimestamp = @0;
-        // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
+        
         self.mainQueueManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:dbHandler.persistentStoreCoordinator];
         previousUploadingProcessFinishUnixTime = [self getTimeMark];
@@ -120,7 +123,7 @@
             if(self->insertEntityCallBack != nil){
                 self->insertEntityCallBack(bufferedData,parentContext,self->entityName);
             }else{
-                NSEntityDescription * entitySample = [NSEntityDescription
+                NSManagedObject * entitySample = [NSEntityDescription
                                                       insertNewObjectForEntityForName:self->entityName
                                                       inManagedObjectContext:parentContext];
                 [entitySample setValuesForKeysWithDictionary:bufferedData];
@@ -147,7 +150,7 @@
                 if(self->insertEntityCallBack != nil){
                     self->insertEntityCallBack(bufferedData,childContext,self->entityName);
                 }else{
-                    NSEntityDescription * entitySample = [NSEntityDescription
+                    NSManagedObject * entitySample = [NSEntityDescription
                                                                    insertNewObjectForEntityForName:self->entityName
                                                                    inManagedObjectContext:childContext];
                     [entitySample setValuesForKeysWithDictionary:bufferedData];

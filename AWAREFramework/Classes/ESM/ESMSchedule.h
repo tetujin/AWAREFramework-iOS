@@ -25,6 +25,8 @@ typedef enum: NSInteger {
 
 @interface ESMSchedule : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 @property (nonatomic) NSString *scheduleId;
 @property (nonatomic) NSNumber *expirationThreshold;
 @property (nonatomic) NSDate   *startDate;
@@ -54,6 +56,8 @@ typedef enum: NSInteger {
 - (void) addWeekday:(AwareESMWeekday)weekday;
 
 - (void) setInterfaceType:(AwareESMInterfaceType)interfaceType;
+
+NS_ASSUME_NONNULL_END
 
 @end
 ///////////////////

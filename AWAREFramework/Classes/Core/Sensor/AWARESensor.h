@@ -28,7 +28,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 - (void) setSensingState:(BOOL)state;
 
-- (void) setParameters:(NSArray *)parameters;
+- (void) setParameters:(NSArray * _Nonnull)parameters;
 - (BOOL) startSensor;
 - (BOOL) stopSensor;
 - (void) startSyncDB;
@@ -39,36 +39,40 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 
 @end
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface AWARESensor : NSObject <AWARESensorDelegate, UIAlertViewDelegate>
 
-@property AWAREStorage * storage;
+@property AWAREStorage * _Nullable storage;
 
-typedef void (^SensorEventHandler)(AWARESensor *sensor, NSDictionary<NSString *, id> * data);
+typedef void (^SensorEventHandler)(AWARESensor * _Nonnull sensor, NSDictionary<NSString *, id> * _Nullable data);
 
 - (instancetype) initWithDBType:(AwareDBType)dbType;
-- (instancetype) initWithAwareStudy:(AWAREStudy *)study;
-- (instancetype) initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType;
-- (instancetype) initWithAwareStudy:(AWAREStudy *) study sensorName:(NSString *)name storage:(AWAREStorage *)localStorage;
+- (instancetype) initWithAwareStudy:(AWAREStudy * _Nullable) study;
+- (instancetype) initWithAwareStudy:(AWAREStudy * _Nullable) study dbType:(AwareDBType)dbType;
+- (instancetype) initWithAwareStudy:(AWAREStudy * _Nullable) study sensorName:(NSString * _Nullable)name storage:(AWAREStorage * _Nullable)localStorage;
 
-- (void) setSensorEventHandler:(SensorEventHandler)handler;
-- (SensorEventHandler)getSensorEventHandler;
-- (NSString *) getSensorName;
+- (void) setSensorEventHandler:(SensorEventHandler _Nonnull)handler;
+- (SensorEventHandler _Nullable )getSensorEventHandler;
+- (NSString * _Nullable) getSensorName;
 
-- (void) setParameters:(NSArray *) parameters;
+- (void) setParameters:(NSArray * _Nonnull) parameters;
 
-- (void) setLatestValue:(NSString *) valueStr;
-- (NSString *) getLatestValue;
-- (void) setLatestData:(NSDictionary *)dict;
+- (void) setLatestValue:(NSString * _Nonnull) valueStr;
+- (NSString * _Nullable) getLatestValue;
+- (void) setLatestData:(NSDictionary * _Nonnull)dict;
 - (NSDictionary * _Nullable) getLatestData;
 
-- (NSString *) getDeviceId;
-- (double) getSensorSetting:(NSArray *)settings withKey:(NSString *)key;
-- (NSString *)getSettingAsStringFromSttings:(NSArray *)settings withKey:(NSString *)key;
+- (NSString * _Nullable) getDeviceId;
+- (double) getSensorSetting:(NSArray * _Nonnull)settings withKey:(NSString * _Nonnull)key;
+- (NSString *)getSettingAsStringFromSttings:(NSArray * _Nonnull)settings withKey:(NSString * _Nonnull)key;
 
 - (void) setStore:(BOOL)state;
 - (BOOL) isStore;
 
 // Utils
 - (double) convertMotionSensorFrequecyFromAndroid:(double)intervalMicroSecond;
+
+NS_ASSUME_NONNULL_END
 
 @end

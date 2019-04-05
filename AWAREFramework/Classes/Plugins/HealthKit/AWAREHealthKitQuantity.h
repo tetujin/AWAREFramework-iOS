@@ -11,11 +11,15 @@
 
 @interface AWAREHealthKitQuantity : AWARESensor
 
-- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+NS_ASSUME_NONNULL_BEGIN
+
+- (instancetype)initWithAwareStudy:(AWAREStudy * _Nullable)study
                             dbType:(AwareDBType)dbType
-                        sensorName:(NSString *)sensorName
-                        entityName:(NSString *)entityName;
+                        sensorName:(NSString * _Nullable)sensorName
+                        entityName:(NSString * _Nullable)entityName;
 
 - (void)saveQuantityData:(NSArray <HKQuantitySample *> * _Nonnull)data;
+
+NS_ASSUME_NONNULL_END
 
 @end

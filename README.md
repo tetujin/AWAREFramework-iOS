@@ -250,8 +250,8 @@ schdule.endDate             = Date.init(timeIntervalSinceNow: 60*60*24*10)
 schdule.fireHours           = [9,12,18,21]
 
 let radio = ESMItem(asRadioESMWithTrigger: "1_radio", radioItems: ["A","B","C","D","E"])
-radio?.setTitle("ESM title")
-radio?.setInstructions("some instructions")
+radio.setTitle("ESM title")
+radio.setInstructions("some instructions")
 schdule.addESM(radio)
 
 let esmManager = ESMScheduleManager.shared()

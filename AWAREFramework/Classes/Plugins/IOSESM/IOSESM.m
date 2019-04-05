@@ -8,13 +8,13 @@
 
 #import "IOSESM.h"
 #import "TCQMaker.h"
-#import "AWAREDelegate.h"
 #import "EntityESM+CoreDataClass.h"
 #import "EntityESMSchedule+CoreDataClass.h"
 #import "EntityESMAnswerHistory+CoreDataClass.h"
 #import "EntityESMAnswer.h"
 #import "AWAREUtils.h"
 #import "AWAREKeys.h"
+#import "CoreDataHandler.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_PLUGIN_IOS_ESM     = @"status_plugin_ios_esm";
 NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_TABLE_NAME = @"plugin_ios_esm_table_name";
@@ -329,7 +329,7 @@ didReceiveResponse:(NSURLResponse *)response
                                         message:error.debugDescription
                                    cancelButton:@"Close"];
             }
-            NSString * message = [NSString stringWithFormat:@"[iOS ESM] Configuration File Download Error: %@", error.debugDescription];
+            // NSString * message = [NSString stringWithFormat:@"[iOS ESM] Configuration File Download Error: %@", error.debugDescription];
             // [self saveDebugEventWithText:message type:DebugTypeWarn label:@"iOS ESM"];
         });
         return;
@@ -369,10 +369,8 @@ didReceiveResponse:(NSURLResponse *)response
     
     @try {
         dispatch_async( dispatch_get_main_queue() , ^{
-            AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
             NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
             context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
-            // context.persistentStoreCoordinator =  delegate.sharedCoreDataHandler.persistentStoreCoordinator;
             
             int number = 0;
             
@@ -699,24 +697,13 @@ didReceiveResponse:(NSURLResponse *)response
 - (NSArray *) getValidESMSchedulesWithDatetime:(NSDate *) datetime {
     
     NSMutableArray * esmSchedules = [[NSMutableArray alloc] init];
-    AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    
-    
-    // NSNumber * interface = @0;
-    // NSArray * notifications = [UIApplication sharedApplication].scheduledLocalNotifications;
-    // NSLog(@"Registered Notifications: %ld", notifications.count);
-    // NSMutableArray * validSchedules = [[NSMutableArray alloc] init];
-    
     
     /////////////////////////////////////////////////////////
     // get fixed esm schedules
-//    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class])
                     inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext]];
-//                               inManagedObjectContext:delegate.sharedCoreDataHandler.managedObjectContext]];
-    // [req setFetchLimit:1];
-    
+
     //[req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) AND (fire_hour=-1)", datetime, datetime]];
     // OR (expiration=0)
     [req setPredicate:[NSPredicate predicateWithFormat:@"(start_date <= %@) AND (end_date >= %@) OR (expiration_threshold=0)", datetime, datetime]];
@@ -1080,7 +1067,6 @@ didReceiveResponse:(NSURLResponse *)response
                           esmStatus:(NSNumber *) esmStatus {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        AWAREDelegate * delegate = (AWAREDelegate *)[UIApplication sharedApplication].delegate;
         NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
         EntityESMAnswer * answer = (EntityESMAnswer *)

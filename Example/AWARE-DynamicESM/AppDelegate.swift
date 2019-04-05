@@ -58,8 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setSurvey(){
         // generate a survey
         let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-        pam?.setTitle("How do you feeling now?")
-        pam?.setInstructions("Please select an image.")
+        pam.setTitle("How do you feeling now?")
+        pam.setInstructions("Please select an image.")
         
         let expireSec = TimeInterval(60*30)
         

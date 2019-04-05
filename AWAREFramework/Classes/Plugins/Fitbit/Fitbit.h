@@ -8,17 +8,25 @@
 
 #import "AWARESensor.h"
 
-extern NSString * const AWARE_PREFERENCES_STATUS_FITBIT;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_FITBIT;
 
 extern NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE;
 
-@interface Fitbit : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, UIAlertViewDelegate>
+@interface Fitbit : AWARESensor <AWARESensorDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@property (nullable) UIViewController * viewController;
 
 - (void) loginWithOAuth2WithClientId:(NSString *)clientId apiSecret:(NSString *)apiSecret;
 - (void) refreshToken;
 - (void) getData:(id)sender;
 - (void) downloadTokensFromFitbitServer;
-- (BOOL) handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
+- (BOOL) handleURL:(NSURL * _Nullable)url sourceApplication:(NSString * _Nullable)sourceApplication annotation:(id _Nullable)annotation;
+
+typedef void (^FitbitLoginCompletionHandler) (NSDictionary <NSString * , id > * _Nonnull tokens);
+- (void) requestLoginWithUIViewController:(UIViewController * _Nullable) viewController completion:(FitbitLoginCompletionHandler _Nullable)handler;
++ (bool) isNeedLogin;
 
 + (void) setFitbitAccessToken:(NSString *)accessToken;
 + (void) setFitbitRefreshToken:(NSString *)refreshToken;
@@ -40,5 +48,7 @@ extern NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE;
 + (NSString *) getFitbitClientIdForUI:(bool)forUI;
 
 + (void)clearAllSettings;
+
+NS_ASSUME_NONNULL_END
 
 @end

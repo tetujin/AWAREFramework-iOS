@@ -20,8 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let core = AWARECore.shared()
         core.requestPermissionForBackgroundSensing {
-            let fitbit = Fitbit()
-            fitbit.startSensor()
+            if !Fitbit.isNeedLogin(){
+                let fitbit = Fitbit()
+                fitbit.startSensor()
+                AWARESensorManager.shared().add(fitbit)
+            }
         }
         
         return true
@@ -53,7 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        Fitbit().handle(url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        let sensorManager = AWARESensorManager.shared()
+        if let fitbit = sensorManager.getSensor(SENSOR_PLUGIN_FITBIT) as? Fitbit{
+            let sourceApp = options[.sourceApplication] as? String
+            fitbit.handle(url, sourceApplication:sourceApp , annotation: options[.annotation])
+        }
         
         return true
     }

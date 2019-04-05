@@ -18,10 +18,12 @@ typedef enum : NSInteger {
 } NetworkStatus;
 
 
-extern NSString *kReachabilityChangedNotification;
+extern NSString * _Nonnull kReachabilityChangedNotification;
 
 
 @interface Reachability : NSObject
+
+NS_ASSUME_NONNULL_BEGIN
 
 /*!
  * Use to check the reachability of a given host name.
@@ -55,6 +57,8 @@ extern NSString *kReachabilityChangedNotification;
  * WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.
  */
 - (BOOL)connectionRequired;
+
+NS_ASSUME_NONNULL_END
 
 @end
 

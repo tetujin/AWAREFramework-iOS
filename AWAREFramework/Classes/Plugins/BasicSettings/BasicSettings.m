@@ -7,7 +7,6 @@
 //
 
 #import "BasicSettings.h"
-#import "AWAREDelegate.h"
 
 @implementation BasicSettings {
     AWAREStudy  * coreStudy;
@@ -26,7 +25,6 @@
                           sensorName:@"basic_settings"
                              storage:storage];
     if (self) {
-        AWAREDelegate * delegate = (AWAREDelegate *)[[UIApplication sharedApplication] delegate];
         coreStudy = [AWAREStudy sharedStudy];
     }
     return self;

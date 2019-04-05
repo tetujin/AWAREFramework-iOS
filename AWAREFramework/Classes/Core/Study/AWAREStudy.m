@@ -6,7 +6,6 @@
 //  Copyright © 2015 Yuuki NISHIYAMA. All rights reserved.
 //
 
-#import "AWAREDelegate.h"
 #import "AWAREStudy.h"
 #import "AWAREKeys.h"
 #import "AWARESensorManager.h"

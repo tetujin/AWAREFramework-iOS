@@ -69,12 +69,11 @@ class ScatterChartCard: ContextCard {
         self.titleLabel.text = sensor.getName()
         
         DispatchQueue.global().async {
-            sensor.storage.fetchTodaysData(handler: { (name, results, start, end, error) in
-                if let unwrappedResults = results as? Array<Dictionary<String, Any>>,
-                    let unwrappedName = name{
+            sensor.storage?.fetchTodaysData(handler: { (name, results, start, end, error) in
+                if let unwrappedResults = results as? Array<Dictionary<String, Any>>{
                     self.setChart(sensor,
                                   keys: keys,
-                                  name: unwrappedName,
+                                  name: name,
                                   results: unwrappedResults,
                                   start:   start, end: end, error: error)
                 }
@@ -88,10 +87,9 @@ class ScatterChartCard: ContextCard {
         let now = Date()
         let weekAgo = now.addingTimeInterval(-1*60*60*24*7)
         //DispatchQueue.global().async {
-        sensor.storage.fetchDataBetweenStart(weekAgo, andEnd: now) { (name, results, start, end, error) in
-            if let unwrappedResults = results as? Array<Dictionary<String, Any>>,
-                let unwrappedName = name{
-                self.setChart(sensor, keys: keys, name: unwrappedName, results: unwrappedResults, start: start, end: end, error: error)
+        sensor.storage?.fetchDataBetweenStart(weekAgo, andEnd: now) { (name, results, start, end, error) in
+            if let unwrappedResults = results as? Array<Dictionary<String, Any>>{
+                self.setChart(sensor, keys: keys, name: name, results: unwrappedResults, start: start, end: end, error: error)
             }
         }
         //}

@@ -12,42 +12,44 @@
 
 @interface AWAREUtils : NSObject
 
-// Application state (foreground or background)
+NS_ASSUME_NONNULL_BEGIN
+
 + (BOOL) getAppState;
 + (BOOL) isForeground;
 + (BOOL) isBackground;
 
 // Device information
 + (float) getCurrentOSVersionAsFloat;
-+ (NSString *) getSystemUUID;
-+ (NSString*) deviceName;
++ (NSString * _Nullable) getSystemUUID;
++ (NSString *) deviceName;
 
 // Date Controller
-+ (NSNumber *) getUnixTimestamp:(NSDate *)nsdate;
-+ (NSDate *) getTargetNSDate:(NSDate *) nsDate
++ (NSNumber *) getUnixTimestamp:(NSDate * _Nullable)nsdate;
++ (NSDate *) getTargetNSDate:(NSDate * _Nullable) nsDate
                         hour:(int)hour
                      nextDay:(BOOL)nextDay;
-+ (NSDate *)getTargetNSDate:(NSDate *)nsDate
++ (NSDate *) getTargetNSDate:(NSDate * _Nullable)nsDate
                        hour:(int)hour
                      minute:(int)minute
                      second:(int)second
                     nextDay:(BOOL)nextDay;
 
 // Hash Methods
-+ (NSString*) sha1:(NSString*)input;
-+ (NSString*) sha1:(NSString*)input debug:(BOOL)debug;
++ (NSString *) sha1:(NSString*)input;
++ (NSString *) sha1:(NSString*)input debug:(BOOL)debug;
 
-+ (NSString*) md5:(NSString*)input;
++ (NSString *) md5:(NSString*)input;
 
 // Format checker
-+ (BOOL)validateEmailWithString:(NSString *)str;
++ (BOOL) validateEmailWithString:(NSString * _Nullable)str;
 
-+ (BOOL) checkURLFormat:(NSString *)urlStr;
++ (BOOL) checkURLFormat:(NSString * _Nullable)urlStr;
 
-+ (NSDictionary*) getDictionaryFromURLParameter:(NSURL *)url;
++ (NSDictionary * _Nullable) getDictionaryFromURLParameter:(NSURL *)url;
 
 + (NSString *)stringByAddingPercentEncoding:(NSString *)string;
 + (NSString *)stringByAddingPercentEncoding:(NSString *)string unreserved:(NSString*)unreserved;
 
+NS_ASSUME_NONNULL_END
 
 @end

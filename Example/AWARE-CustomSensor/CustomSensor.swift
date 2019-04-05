@@ -58,7 +58,7 @@ class CustomSensor: AWARESensor {
         maker.addColumn("str_value",  type: TCQTypeText,    default: "''")
         maker.addColumn("int_value",  type: TCQTypeInteger, default: "0")
         maker.addColumn("real_value", type: TCQTypeReal,    default: "0")
-        self.storage.createDBTableOnServer(with: maker)
+        self.storage?.createDBTableOnServer(with: maker)
     }
     
     override func startSensor() -> Bool {
@@ -75,7 +75,7 @@ class CustomSensor: AWARESensor {
                 dict["timestamp"]  = now * 1000.0
                 dict["device_id"]  = AWAREStudy.shared().getDeviceId()
                 
-                self.storage.saveData(with: dict, buffer: false, saveInMainThread: true)
+                self.storage?.saveData(with: dict, buffer: false, saveInMainThread: true)
                 
                 if let handler = self.getEventHandler(){
                     handler(self, dict)

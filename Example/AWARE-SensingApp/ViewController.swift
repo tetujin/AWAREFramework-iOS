@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         let manager = AWARESensorManager.shared()
         manager.setSensorEventHandlerToAllSensors { (sensor, data) in
             
-            if let sensor = sensor, let data = data {
+            if let data = data {
                 let sensorName = sensor.getName()
                 // show accelerometer data
                 if SENSOR_ACCELEROMETER == sensorName {

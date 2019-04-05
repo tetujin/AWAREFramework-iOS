@@ -7,9 +7,8 @@
 
 #import "ESMScrollViewController.h"
 #import "AWAREStudy.h"
-#import "AWAREDelegate.h"
 #import "ESMScheduleManager.h"
-
+#import "CoreDataHandler.h"
 /////////
 #import "EntityESMAnswer.h"
 #import "EntityESMAnswerHistory+CoreDataClass.h"
@@ -593,23 +592,23 @@
                 
                 __block typeof(self) blockSelf = self;
                 [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
-                    if (self->study.isDebug) NSLog(@"[%@] %f", name, progress);
+                    if (blockSelf->study.isDebug) NSLog(@"[%@] %f", name, progress);
                     if (error != nil) {
                         NSLog(@"%@", error.debugDescription);
-                        if (self->uploadCompletionHandler != nil) {
-                            self->uploadCompletionHandler(NO);
+                        if (blockSelf->uploadCompletionHandler != nil) {
+                            blockSelf->uploadCompletionHandler(NO);
                         }
                     }else{
                         // send alert and close
-                        if (_sendCompletionAlert) {
-                            UIAlertController * alertController = [UIAlertController alertControllerWithTitle:self->_completionAlertMessage
+                        if (blockSelf->_sendCompletionAlert) {
+                            UIAlertController * alertController = [UIAlertController alertControllerWithTitle:blockSelf->_completionAlertMessage
                                                                                                       message:nil
                                                                                                preferredStyle:UIAlertControllerStyleAlert];
-                            [alertController addAction:[UIAlertAction actionWithTitle:self->_completionAlertCloseButton
+                            [alertController addAction:[UIAlertAction actionWithTitle:blockSelf->_completionAlertCloseButton
                                                                                 style:UIAlertActionStyleDefault
                                                                               handler:^(UIAlertAction * _Nonnull action) {
-                                self->esmNumber = 0;
-                                self->currentESMNumber = 0;
+                                blockSelf->esmNumber = 0;
+                                blockSelf->currentESMNumber = 0;
                                 [blockSelf.navigationController popToRootViewControllerAnimated:YES];
                                 [blockSelf dismissViewControllerAnimated:YES completion:^{}];
                             }]];
@@ -619,8 +618,8 @@
                             [blockSelf dismissViewControllerAnimated:YES completion:^{}];
                         }
                         
-                        if (self->uploadCompletionHandler != nil) {
-                            self->uploadCompletionHandler(YES);
+                        if (blockSelf->uploadCompletionHandler != nil) {
+                            blockSelf->uploadCompletionHandler(YES);
                         }
                     }
                 }];

@@ -490,6 +490,10 @@ Provides a system UUID.
 
 + (NSDictionary*)getDictionaryFromURLParameter:(NSURL *)url{
     
+    if (url == nil) {
+        return nil;
+    }
+    
     NSString * query = [url query];
     
     if (query){

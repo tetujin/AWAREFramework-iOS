@@ -11,7 +11,6 @@
 #endif
 
 #import "AWARECore.h"
-#import "AWAREDelegate.h"
 #import "AWAREMotionSensor.h"
 #import "AWARESensor.h"
 #import "AWARESensorManager.h"

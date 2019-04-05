@@ -49,31 +49,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                   likertMinLabel: "Good",
                                   likertMaxLabel: "Bad",
                                   likertStep: 1)
-        likert?.setTitle("How do you feeling now?")
-        likert?.setInstructions("Please select an item.")
-        likert?.setSubmitButtonName("Next")
+        likert.setTitle("How do you feeling now?")
+        likert.setInstructions("Please select an item.")
+        likert.setSubmitButtonName("Next")
         
         /// PAM
         let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
-        pam?.setTitle("How do you feeling now?")
-        pam?.setInstructions("Please select an image.")
-        pam?.setSubmitButtonName("Next")
+        pam.setTitle("How do you feeling now?")
+        pam.setInstructions("Please select an image.")
+        pam.setSubmitButtonName("Next")
         
         /// Picture
         let picture = ESMItem.init(asPictureESMWithTrigger: "picture")
-        picture?.setTitle("What is happen around you now?")
-        picture?.setInstructions("Please take a picture")
-        picture?.setSubmitButtonName("Submit")
+        picture.setTitle("What is happen around you now?")
+        picture.setInstructions("Please take a picture")
+        picture.setSubmitButtonName("Submit")
         
         /// Quick Answer (If the user selects `YES`, the Picture ESMItem will appear.)
         let quick = ESMItem.init(asQuickAnawerESMWithTrigger: "quick", quickAnswers: ["Yes","No"])
-        quick?.setTitle("Are you have time to take a picture now?")
-        quick?.setInstructions("Please select a button.")
+        quick.setTitle("Are you have time to take a picture now?")
+        quick.setInstructions("Please select a button.")
         /// Set an interactive ESM which is changed flow based on a user answer if you want.
         /// This `-setFlowWith(items:answerKey:)` is applicable for all of ESMItems.
-        quick?.setFlowWith([picture!], answerKey: ["Yes"])
+        quick.setFlowWith([picture], answerKey: ["Yes"])
         
-        return [pam!, likert!, quick!]
+        return [pam, likert, quick]
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -20,6 +20,8 @@ typedef enum: NSInteger {
 
 @interface AWAREDebugMessageLogger : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 @property (strong, nonatomic, readonly) NSString * KEY_DEBUG_TIMESTAMP;
 @property (strong, nonatomic, readonly) NSString * KEY_DEBUG_DEVICE_ID;
 @property (strong, nonatomic, readonly) NSString * KEY_DEBUG_EVENT;
@@ -39,5 +41,7 @@ typedef enum: NSInteger {
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *) study;
 - (void) saveDebugEventWithText:(NSString *)eventText type:(NSInteger)type label:(NSString *) label;
+
+NS_ASSUME_NONNULL_END
 
 @end

@@ -150,7 +150,7 @@ static AWARECore * sharedCore;
 
 - (void)ubiquitousDataDidChange:(NSNotification *)notification
 {
-    NSDictionary *dict = [notification userInfo];
+//     NSDictionary *dict = [notification userInfo];
 //    NSLog(@"[iCloud] Update : %@", dict);
 //    NSArray *keys = [dict objectForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
 //    NSUbiquitousKeyValueStore *ukvs = [NSUbiquitousKeyValueStore defaultStore];

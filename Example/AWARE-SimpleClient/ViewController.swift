@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         manager.setSensorEventHandlerToAllSensors { (sensor, data) in
-            if let sensor = sensor, let data = data {
+            if let data = data {
                 print(sensor.getName()!, data)
             }
         }
@@ -28,28 +28,27 @@ class ViewController: UIViewController {
     
     @IBAction func pushedManualUploadButton(_ sender: UIButton) {
         manager.setSyncProcessCallbackToAllSensorStorages { (sensorName, process, error) in
-            print(sensorName!, process)
+            print(sensorName, process)
         }
         manager.syncAllSensorsForcefully()
     }
     
     @IBAction func pushedResetButton(_ sender: UIButton) {
-        study.join(withURL: study.getURL()) { (settings, status, error) in
-            
-            self.manager.stopAndRemoveAllSensors()
-            
-            self.manager.addSensors(with: self.study)
-            
-            /// [Option]
-            // let location = Locations()
-            // self.manager.add(location)
-            
-            self.manager.startAllSensors()
-            self.manager.startAutoSyncTimer(withIntervalSecond: 15)
+        if let studyURL = study.getURL(){
+            study.join(withURL: studyURL) { (settings, status, error) in
+                
+                self.manager.stopAndRemoveAllSensors()
+                
+                self.manager.addSensors(with: self.study)
+                
+                /// [Option]
+                // let location = Locations()
+                // self.manager.add(location)
+                
+                self.manager.startAllSensors()
+                self.manager.startAutoSyncTimer(withIntervalSecond: 15)
+            }
         }
-        
     }
-    
-    
 }
 

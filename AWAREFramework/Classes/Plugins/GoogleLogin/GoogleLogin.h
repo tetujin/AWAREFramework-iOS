@@ -44,16 +44,17 @@
 
 @interface GoogleLogin : AWARESensor <AWARESensorDelegate>
 
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithAwareStudy:(AWAREStudy *)study
+- (instancetype)initWithAwareStudy:(AWAREStudy * _Nullable)study
                             dbType:(AwareDBType)dbType
-                          clientId:(NSString*) clientId;
+                          clientId:(NSString * _Nullable) clientId;
 
 - (void) setClientId:(NSString *) clientId;
 
 - (BOOL) isNeedLogin;
 
-- (void) setGoogleAccountWithUserName:(NSString* )name
+- (void) setGoogleAccountWithUserName:(NSString *)name
                                 email:(NSString *)email
                           phonenumber:(NSString *)phonenumber
                               picture:(NSData * __nullable) picture;
@@ -67,5 +68,7 @@
 + (void) setUserNameEncryption:(BOOL)state;
 + (void) setEmailEncryption:(BOOL)state;
 + (void) setPhonenumberEncryption:(BOOL)state;
+
+NS_ASSUME_NONNULL_END
 
 @end

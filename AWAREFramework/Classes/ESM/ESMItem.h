@@ -10,6 +10,8 @@
 
 @interface ESMItem : NSObject
 
+NS_ASSUME_NONNULL_BEGIN
+
 @property (nonatomic, readonly) NSString *device_id;
 @property (nonatomic, readonly) NSNumber *double_esm_user_answer_timestamp;
 @property (nonatomic, readonly) NSString *esm_checkboxes;
@@ -73,7 +75,7 @@
                                scaleStep:(int)step;
 
 - (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger;
-- (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger minutesGranularity:(NSNumber *) granularity;
+- (instancetype) initAsDateTimeESMWithTrigger:(NSString *) trigger minutesGranularity:(NSNumber * _Nullable) granularity;
 
 - (instancetype) initAsPAMESMWithTrigger:(NSString *) trigger;
 
@@ -83,7 +85,7 @@
                                    url:(NSString *) url;
 
 - (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger;
-- (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger minutesGranularity:(NSNumber *) granularity;
+- (instancetype) initAsTimePickerESMWithTrigger:(NSString *)trigger minutesGranularity:(NSNumber * _Nullable) granularity;
 - (instancetype) initAsDatePickerESMWithTrigger:(NSString *)trigger;
 - (instancetype) initAsClockDatePickerESMWithTrigger:(NSString *)trigger;
 - (instancetype) initAsPictureESMWithTrigger:(NSString *)trigger;
@@ -98,7 +100,9 @@
 - (void) setNumber:(int)number;
 - (BOOL) setFlowWithItems:(NSArray<ESMItem *>*)items answerKey:(NSArray <NSString *>*)keys;
 - (void) setType:(int)type;
-- (void) setTrigger:(NSString * _Nonnull)trigger;
+- (void) setTrigger:(NSString *)trigger;
+
+NS_ASSUME_NONNULL_END
 
 @end
 

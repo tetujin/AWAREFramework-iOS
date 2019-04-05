@@ -6,7 +6,6 @@
 //
 
 #import "ESM.h"
-#import "AWAREDelegate.h"
 #import "EntityESMAnswer.h"
 
 @implementation ESM

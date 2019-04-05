@@ -10,7 +10,6 @@
 #import "AWAREKeys.h"
 #import "AWAREStudy.h"
 #import "AWAREDebugMessageLogger.h"
-#import "AWAREDelegate.h"
 #import "SCNetworkReachability.h"
 #import "AWAREStorage.h"
 

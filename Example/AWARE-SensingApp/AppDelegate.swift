@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // setup ESMs
             // generate ESMItem
             let pam = ESMItem(asPAMESMWithTrigger: "pam")
-            pam?.setTitle("How do you feeling now?")
-            pam?.setInstructions("Please select an image.")
+            pam.setTitle("How do you feeling now?")
+            pam.setInstructions("Please select an image.")
             
             // generate ESMSchedule
             let esm = ESMSchedule()

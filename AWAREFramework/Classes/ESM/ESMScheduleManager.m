@@ -12,9 +12,11 @@
 
 #import "ESMScheduleManager.h"
 #import "EntityESMAnswerHistory+CoreDataClass.h"
-#import "AWAREDelegate.h"
 #import <UserNotifications/UserNotifications.h>
 #import "EntityESMAnswer.h"
+#import "CoreDataHandler.h"
+#import "AWAREUtils.h"
+#import "AWAREKeys.h"
 
 static ESMScheduleManager * sharedESMScheduleManager;
 
@@ -751,7 +753,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 
             NSNumber * hour = schedule.fire_hour;
             NSDateComponents * timer = (NSDateComponents *)schedule.timer;
-            NSString * contexts = schedule.contexts;
+            // NSString * contexts = schedule.contexts;
             
             /**  Hours Based ESM */
             if (hour.intValue != -1) {
