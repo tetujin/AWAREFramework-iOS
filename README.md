@@ -1,6 +1,6 @@
 # AWAREFramework
 
-[![CI Status](http://img.shields.io/travis/tetujin/AWAREFramework.svg?style=flat)](https://travis-ci.org/tetujin/AWAREFramework)
+[![CI Status](https://travis-ci.com/tetujin/AWAREFramework-iOS.svg?branch=master)](https://travis-ci.com/tetujin/AWAREFramework-iOS)
 [![Version](https://img.shields.io/cocoapods/v/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 [![License](https://img.shields.io/cocoapods/l/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 [![Platform](https://img.shields.io/cocoapods/p/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
