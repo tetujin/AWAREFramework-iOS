@@ -19,24 +19,24 @@
 - (instancetype)init{
     self = [super init];
     if (self != nil) {
-        esmNumber = 0;
+        esmNumber   = 0;
         _scheduleId = [NSUUID new].UUIDString;
         _expirationThreshold = @0;
-        _startDate = [[NSDate alloc] init];
-        _endDate   = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*365]; // 1 Year
-        _timers   = [[NSArray alloc] init]; // NSDateComponents
-        _notificationBody = @"";
+        _startDate  = [[NSDate alloc] init];
+        _endDate    = [[NSDate alloc] initWithTimeIntervalSinceNow:60*60*24*365]; // 1 Year
+        _timers     = [[NSArray alloc] init]; // NSDateComponents
+        _notificationBody  = @"";
         _notificationTitle = @"";
-        _fireHours = [[NSArray alloc] init]; // NSNumber 0-23
-        _contexts =  [[NSArray alloc] init]; // NSString
-        _weekdays =  [[NSArray alloc] init]; //
+        _fireHours  = [[NSArray alloc] init]; // NSNumber 0-23
+        _contexts   = [[NSArray alloc] init]; // NSString
+        _weekdays   = [[NSArray alloc] init]; //
         // _months =  [[NSMutableArray alloc] init];
-        _interface = @0;
-        _randomizeEsm = @0;
+        _interface  = @0;
+        _randomizeEsm      = @0;
         _randomizeSchedule = @0;
-        _temporary = @0;
-        _repeat = YES;
-        _esms = [[NSMutableArray alloc] init];
+        _temporary  = @0;
+        _repeat     = YES;
+        _esms       = [[NSMutableArray alloc] init];
     }
     return self;
 }

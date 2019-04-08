@@ -17,6 +17,7 @@
 
 typedef void (^NotificationRemoveCompleteHandler)(void);
 
+- (BOOL) setScheduleByConfig:(NSArray <NSDictionary * > * _Nonnull) config;
 - (BOOL) addSchedule:(ESMSchedule * _Nonnull)schedule;
 - (BOOL) addSchedule:(ESMSchedule * _Nonnull)schedule withNotification:(BOOL)notification;
 - (BOOL) deleteScheduleWithId:(NSString * _Nonnull)scheduleId;
@@ -31,5 +32,14 @@ typedef void (^NotificationRemoveCompleteHandler)(void);
 - (void) removeAllNotifications;
 - (void) removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler _Nullable)handler;
 - (void) refreshESMNotifications;
+
+- (BOOL) saveESMAnswerWithTimestamp:(NSNumber * _Nonnull) timestamp
+                           deviceId:(NSString * _Nonnull) deviceId
+                            esmJson:(NSString * _Nonnull) esmJson
+                         esmTrigger:(NSString * _Nonnull) esmTrigger
+             esmExpirationThreshold:(NSNumber * _Nonnull) esmExpirationThreshold
+             esmUserAnswerTimestamp:(NSNumber * _Nonnull) esmUserAnswerTimestamp
+                      esmUserAnswer:(NSString * _Nonnull) esmUserAnswer
+                          esmStatus:(NSNumber * _Nonnull) esmStatus;
 
 @end

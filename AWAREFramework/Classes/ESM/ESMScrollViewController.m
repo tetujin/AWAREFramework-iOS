@@ -445,13 +445,13 @@
             }else{
                 answer.timestamp = esm.timestamp;
             }
-            answer.device_id = deviceId;
-            answer.esm_json = esm.esm_json;
+            answer.device_id   = deviceId;
+            answer.esm_json    = esm.esm_json;
             answer.esm_trigger = esm.esm_trigger;
-            answer.esm_expiration_threshold = esm.esm_expiration_threshold;
+            answer.esm_expiration_threshold         = esm.esm_expiration_threshold;
             answer.double_esm_user_answer_timestamp = unixtime;
             answer.esm_user_answer = esmUserAnswer;
-            answer.esm_status = esmState;
+            answer.esm_status      = esmState;
             
             if (study.isDebug) {
                 NSLog(@"--------[%@]---------", esm.esm_trigger);
@@ -766,7 +766,7 @@
 }
 
 
-- (bool) removeTempESMsFromDB{
+- (bool) removeTempESMsFromDB {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"temporary==1"];
@@ -783,7 +783,7 @@
     if (error!= nil) {
         return YES;
     }else{
-        NSLog(@"%@",error.debugDescription);
+        if(study.isDebug) NSLog(@"%@",error.debugDescription);
         return NO;
     }
 }
@@ -829,6 +829,22 @@
             NSLog(@"Success to save data");
         }
     }
+}
+
+- (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler)handler{
+    self.uploadStartHandler = handler;
+}
+
+- (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler)handler{
+    self.uploadCompletionHandler = handler;
+}
+
+- (void) setESMAnswerCompletionHandler:(ESMAnswerCompletionHandler)handler{
+    self.answerCompletionHandler = handler;
+}
+
+- (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler)handler{
+    self.originalESMViewGenerationHandler = handler;
 }
 
 @end

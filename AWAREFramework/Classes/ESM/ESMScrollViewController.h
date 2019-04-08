@@ -46,4 +46,9 @@ typedef BaseESMView * _Nullable (^OriginalESMViewGenerationHandler)(EntityESM * 
 @property ESMAnswerCompletionHandler       _Nullable answerCompletionHandler;
 @property OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
 
+- (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler _Nonnull)handler;
+- (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler _Nonnull)handler;
+- (void) setESMAnswerCompletionHandler:(ESMAnswerCompletionHandler _Nonnull)handler;
+- (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler _Nonnull)handler;
+
 @end

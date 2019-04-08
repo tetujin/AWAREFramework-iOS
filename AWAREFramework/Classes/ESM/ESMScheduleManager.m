@@ -55,11 +55,128 @@ static ESMScheduleManager * sharedESMScheduleManager;
     return self;
 }
 
-//////////////// ESM Schdule /////////////
+
+- (BOOL) setScheduleByConfig:(NSArray <NSDictionary * > * _Nonnull) config {
+    NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
+    
+    int number = 0;
+    
+    for (NSDictionary * schedule in config ) {
+        NSArray * hours = [schedule objectForKey:@"hours"];
+        // NSArray * weekdays = [schedule objectForKey:@"weekdays"];
+        // NSArray * months = [schedule objectForKey:@"months"];
+        NSArray * esms = [schedule objectForKey:@"esms"];
+        
+        NSNumber * randomize_schedule = [schedule objectForKey:@"randomize"];
+        NSNumber * expiration = [schedule objectForKey:@"expiration"];
+        
+        NSString * startDateStr = [schedule objectForKey:@"start_date"];
+        NSString *   endDateStr = [schedule objectForKey:@"end_date"];
+        
+        
+        NSString * notificationTitle = [schedule objectForKey:@"notification_title"];
+        NSString * notificationBody = [schedule objectForKey:@"notification_body"];
+        NSString * scheduleId = [schedule objectForKey:@"schedule_id"];
+        NSString * eventContext = [self convertToJSONStringWithArray:[schedule objectForKey:@"context"]];
+        if(eventContext == nil) {
+            eventContext = @"[]";
+        }
+        
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MM-dd-yyyy"];
+        // [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        
+        NSDate *startDate = [formatter dateFromString:startDateStr];
+        NSDate *endDate   = [formatter dateFromString:endDateStr];
+        
+        if(startDate == nil){
+            startDate = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+        }
+        
+        if(endDate == nil){
+            endDate = [[NSDate alloc] initWithTimeIntervalSince1970:2147483647];
+        }
+        
+        if(expiration == nil) expiration = @0;
+        
+        NSNumber * interface = [schedule objectForKey:@"interface"];
+        if(interface == nil) interface = @0;
+        // NSLog(@"interface: %@", interface);
+        
+        for (NSNumber * hour in hours) {
+            EntityESMSchedule * entityESMSchedule = (EntityESMSchedule *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class])
+                                                                                                        inManagedObjectContext:context];
+            entityESMSchedule.fire_hour = hour;
+            entityESMSchedule.expiration_threshold = expiration;
+            entityESMSchedule.start_date = startDate;
+            entityESMSchedule.end_date = endDate;
+            entityESMSchedule.notification_title = notificationTitle;
+            entityESMSchedule.notification_body = notificationBody;
+            entityESMSchedule.randomize_schedule = randomize_schedule;
+            entityESMSchedule.schedule_id = scheduleId;
+            entityESMSchedule.contexts = eventContext;
+            entityESMSchedule.interface = interface;
+            
+            for (NSDictionary * esmDict in esms) {
+                NSDictionary * esm = [esmDict objectForKey:@"esm"];
+                EntityESM * entityEsm = (EntityESM *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESM class])
+                                                                                    inManagedObjectContext:context];
+                entityEsm.esm_type   = [esm objectForKey:@"esm_type"];
+                entityEsm.esm_title  = [esm objectForKey:@"esm_title"];
+                entityEsm.esm_submit = [esm objectForKey:@"esm_submit"];
+                entityEsm.esm_instructions = [esm objectForKey:@"esm_instructions"];
+                entityEsm.esm_radios     = [self convertToJSONStringWithArray:[esm objectForKey:@"esm_radios"]];
+                entityEsm.esm_checkboxes = [self convertToJSONStringWithArray:[esm objectForKey:@"esm_checkboxes"]];
+                entityEsm.esm_likert_max = [esm objectForKey:@"esm_likert_max"];
+                entityEsm.esm_likert_max_label = [esm objectForKey:@"esm_likert_max_label"];
+                entityEsm.esm_likert_min_label = [esm objectForKey:@"esm_likert_min_label"];
+                entityEsm.esm_likert_step = [esm objectForKey:@"esm_likert_step"];
+                entityEsm.esm_quick_answers = [self convertToJSONStringWithArray:[esm objectForKey:@"esm_quick_answers"]];
+                entityEsm.esm_expiration_threshold = [esm objectForKey:@"esm_expiration_threshold"];
+                // entityEsm.esm_status    = [esm objectForKey:@"esm_status"];
+                entityEsm.esm_status = @0;
+                entityEsm.esm_trigger   = [esm objectForKey:@"esm_trigger"];
+                entityEsm.esm_scale_min = [esm objectForKey:@"esm_scale_min"];
+                entityEsm.esm_scale_max = [esm objectForKey:@"esm_scale_max"];
+                entityEsm.esm_scale_start = [esm objectForKey:@"esm_scale_start"];
+                entityEsm.esm_scale_max_label = [esm objectForKey:@"esm_scale_max_label"];
+                entityEsm.esm_scale_min_label = [esm objectForKey:@"esm_scale_min_label"];
+                entityEsm.esm_scale_step = [esm objectForKey:@"esm_scale_step"];
+                entityEsm.esm_json = [self convertToJSONStringWithArray:@[esm]];
+                entityEsm.esm_number = @(number);
+                // for date&time picker
+                entityEsm.esm_start_time = [esm objectForKey:@"esm_start_time"];
+                entityEsm.esm_start_date = [esm objectForKey:@"esm_start_date"];
+                entityEsm.esm_time_format = [esm objectForKey:@"esm_time_format"];
+                entityEsm.esm_minute_step = [esm objectForKey:@"esm_minute_step"];
+                // for web ESM url
+                entityEsm.esm_url = [esm objectForKey:@"esm_url"];
+                // for na
+                entityEsm.esm_na = @([[esm objectForKey:@"esm_na"] boolValue]);
+                entityEsm.esm_flows = [self convertToJSONStringWithArray:[esm objectForKey:@"esm_flows"]];
+                // NSLog(@"[%d][integration] %@",number, [esm objectForKey:@"esm_app_integration"]);
+                entityEsm.esm_app_integration = [esm objectForKey:@"esm_app_integration"];
+                // entityEsm.esm_schedule = entityESMSchedule;
+                
+                [entityESMSchedule addEsmsObject:entityEsm];
+                
+                number ++;
+            }
+        }
+    }
+    
+    NSError * error = nil;
+    if([context save:&error]){
+        return YES;
+    }else{
+        if(error != nil) NSLog(@"%@", error.debugDescription);
+        return NO;
+    }
+}
 
 /**
  Add ESMSchdule to this ESMScheduleManager. The ESMSchduleManager **saves a schdule to the database** and ** set a UNNotification**.
-
  @param schedule ESMSchdule
  @return A status of data saving operation
  */
@@ -68,8 +185,6 @@ static ESMScheduleManager * sharedESMScheduleManager;
 }
 
 - (BOOL) addSchedule:(ESMSchedule * _Nonnull) schedule withNotification:(BOOL)notification{
-    // AWAREDelegate * delegate = (AWAREDelegate *) [UIApplication sharedApplication].delegate;
-    
     NSManagedObjectContext * manageContext = [CoreDataHandler sharedHandler].managedObjectContext;
     manageContext.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
     
@@ -290,9 +405,6 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return Valid ESM schedules as an NSArray from a paricular time
  */
 - (NSArray * _Nonnull) getValidSchedulesWithDatetime:(NSDate * _Nonnull)datetime{
-    
-    // NSMutableArray * fetchedESMSchedules = [[NSMutableArray alloc] init];
-    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
     
     // Fetch vaild schedules by date and expiration
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
@@ -831,14 +943,50 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 
 
 
+- (BOOL) saveESMAnswerWithTimestamp:(NSNumber * )timestamp
+                           deviceId:(NSString *) deviceId
+                            esmJson:(NSString *) esmJson
+                         esmTrigger:(NSString *) esmTrigger
+             esmExpirationThreshold:(NSNumber *) esmExpirationThreshold
+             esmUserAnswerTimestamp:(NSNumber *) esmUserAnswerTimestamp
+                      esmUserAnswer:(NSString *) esmUserAnswer
+                          esmStatus:(NSNumber *) esmStatus {
+    NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
+    EntityESMAnswer * answer = (EntityESMAnswer *)
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
+                                  inManagedObjectContext:context];
+    // add special data to dic from each uielements
+    answer.device_id = deviceId;
+    answer.timestamp = timestamp;
+    answer.esm_json = esmJson;
+    answer.esm_trigger = esmTrigger;
+    answer.esm_user_answer = esmUserAnswer;
+    answer.esm_expiration_threshold = esmExpirationThreshold;
+    answer.double_esm_user_answer_timestamp = esmUserAnswerTimestamp;
+    answer.esm_status = esmStatus;
+    
+    NSError * error = nil;
+    [context save:&error];
+    if(error != nil){
+        NSLog(@"%@", error.debugDescription);
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+
 ////////////////////////////////
 - (NSInteger)randomNumberBetween:(int)min maxNumber:(int)max {
     return min + arc4random_uniform(max - min + 1);
 }
 
-- (NSString *) convertToJSONStringWithArray:(NSArray *) array{
+- (NSString *) convertToJSONStringWithArray:(NSArray *) array {
+    if (array == nil) return @"";
+    
     NSError * error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
+    NSData  * jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
     if (error != nil) {
         NSLog(@"[EntityESM] Convert Error to JSON-String from NSArray: %@", error.debugDescription);
         return @"";
@@ -852,8 +1000,10 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 }
 
 - (NSString *) convertToJSONStringWithDictionary:(NSDictionary *) dictionary{
+    if (dictionary == nil) return @"";
+    
     NSError * error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSData  * jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (error != nil) {
         NSLog(@"[EntityESM] Convert Error to JSON-String from NSDictionary: %@", error.debugDescription);
         return @"";

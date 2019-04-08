@@ -65,29 +65,14 @@
    UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
     switch (appState) {
         case UIApplicationStateActive:
-            // NSLog(@"Application is in the foreground!(active)");
             return YES;
         case UIApplicationStateInactive:
-//            NSLog(@"Application is in the foreground!");
-//            return YES;
-//            [AWAREUtils sendLocalNotificationForMessage:@"Application is inactive." soundFlag:NO];
-            // NSLog(@"Application is in the background!(inactive)");
             return NO;
         case UIApplicationStateBackground:
-            // NSLog(@"Application is in the background!(background)");
             return NO;
         default:
             return NO;
     }
-//    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-//    bool state = [defaults boolForKey:@"APP_STATE"];
-//    if (state) {
-//        NSLog(@"Application is in the foreground!");
-//        return YES;
-//    }else{
-//        NSLog(@"Application is in the background!");
-//        return NO;
-//    }
 }
 
 /**
@@ -99,92 +84,15 @@
     UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
     switch (appState) {
         case UIApplicationStateActive:
-            // NSLog(@"Application is in the foreground!");
             return NO;
         case UIApplicationStateInactive:
-            // NSLog(@"Application is in the foreground!");
             return NO;
         case UIApplicationStateBackground:
-            // NSLog(@"Application is in the background!");
             return YES;
         default:
             return NO;
     }
-//    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-//    bool state = [defaults boolForKey:@"APP_STATE"];
-//    if (state) {
-//        NSLog(@"Application is in the foreground!");
-//        return NO;
-//    }else{
-//        NSLog(@"Application is in the background!");
-//        return YES;
-//    }
 }
-
-
-/**
- Local push notification method
- @param message A message for the notification
- @param soundFlag A necessity of a sound for the notification
- */
-//+ (void) sendLocalNotificationForMessage:(NSString *)message soundFlag:(BOOL)soundFlag {
-//    [self sendLocalNotificationForMessage:message
-//                                           title:nil
-//                                       soundFlag:soundFlag
-//                                        category:nil
-//                                        fireDate:[NSDate new]
-//                                  repeatInterval:0
-//                                        userInfo:nil
-//                                 iconBadgeNumber:0
-//                                      identifier:KEY_AWARE_NOTIFICATION_DEFAULT_IDENTIFIER];
-//}
-//
-//
-//+ (void) sendLocalNotificationForMessage:(NSString *)message
-//                                               title:(NSString *)title
-//                                           soundFlag:(BOOL)soundFlag
-//                                            category:(NSString *) category
-//                                            fireDate:(NSDate*)fireDate
-//                                      repeatInterval:(NSCalendarUnit)repeatInterval
-//                                            userInfo:(NSDictionary *) userInfo
-//                                     iconBadgeNumber:(NSInteger)iconBadgeNumber
-//                                          identifier:(NSString *) identifier{
-//    UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
-//    content.title = title;
-//    content.body = message;
-//    content.categoryIdentifier = category;
-//    content.badge = @(iconBadgeNumber);
-//    content.userInfo = userInfo;
-//    if (soundFlag) {
-//        content.sound = [UNNotificationSound defaultSound];
-//    }
-//    
-//    NSUInteger units = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-//    NSDateComponents* triggerDate = [[NSCalendar currentCalendar] components:units fromDate:fireDate];
-//    UNNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate  repeats:NO];
-//    
-//    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
-//    
-//    [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-//        if (error!=nil) {
-//            NSLog(@"%@",error.debugDescription);
-//        }
-//    }];
-//    // return request;
-//}
-
-
-
-//+ (bool) cancelLocalNotification:(UNNotification *) notification {
-//    if (notification == nil) {
-//        return NO;
-//    } else{
-//        // [[UIApplication sharedApplication] cancelLocalNotification:notification];
-//        [[UNUserNotificationCenter currentNotificationCenter] remote
-//        return YES;
-//    }
-//}
-
 
 /**
  Provides current OS version such as iOS8.2, iOS9 or iOS9.1 with float value.
@@ -339,7 +247,7 @@ Provides a system UUID.
     
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
     
-    CC_SHA1(data.bytes, data.length, digest);
+    CC_SHA1(data.bytes, (CC_LONG)data.length, digest);
     
     NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
     
@@ -365,7 +273,7 @@ Provides a system UUID.
 {
     const char *cStr = [input UTF8String];
     unsigned char digest[16];
-    CC_MD5( cStr, strlen(cStr), digest ); // This is the md5 call
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), digest ); // This is the md5 call
     
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     

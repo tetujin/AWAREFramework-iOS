@@ -69,9 +69,16 @@
 		4FC7EF46225522A800136D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF45225522A800136D05 /* Assets.xcassets */; };
 		4FC7EF49225522A800136D05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF47225522A800136D05 /* LaunchScreen.storyboard */; };
 		4FC7EF5622560B8400136D05 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF5522560B8400136D05 /* Tests.swift */; };
+		4FC7EF73225B6DD100136D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF72225B6DD100136D05 /* AppDelegate.swift */; };
+		4FC7EF75225B6DD100136D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF74225B6DD100136D05 /* ViewController.swift */; };
+		4FC7EF78225B6DD100136D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF76225B6DD100136D05 /* Main.storyboard */; };
+		4FC7EF7B225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF79225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodeld */; };
+		4FC7EF7D225B6DD200136D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF7C225B6DD200136D05 /* Assets.xcassets */; };
+		4FC7EF80225B6DD200136D05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF7E225B6DD200136D05 /* LaunchScreen.storyboard */; };
 		61686D840CEF72F7B9B5B8C9 /* Pods_AWARE_ScheduleESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */; };
 		6B9019798E919D1CFD9E1CC8 /* Pods_AWARE_GoogleLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */; };
 		739B22AE142C82AA666ACE15 /* Pods_AWARE_Visualizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */; };
+		8D1B55ED55BAC911349148E2 /* Pods_AWARE_ConfigURLESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40F670952C3669962E867F3 /* Pods_AWARE_ConfigURLESM.framework */; };
 		B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */; };
 		B5448C8350F9A3D94098F81C /* Pods_AWARE_SensingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */; };
 		CAF71978C3B5D50D5B5AF8EC /* Pods_AWARE_Fitbit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */; };
@@ -86,6 +93,7 @@
 		183973A5BCDE7AAAD2D9C11F /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		192C18A45184EE9ABB84099C /* Pods-AWARE-SensingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.release.xcconfig"; sourceTree = "<group>"; };
 		22C0E2CC8D63A2ED97EBF101 /* Pods-AWAREFramework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Tests/Pods-AWAREFramework_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		29D477EE22E199489CB11EF5 /* Pods-AWARE-ConfigURLESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.debug.xcconfig"; sourceTree = "<group>"; };
 		2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4059B633DB39E76C033AF630 /* Pods-AWARE-Visualization.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualization.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualization/Pods-AWARE-Visualization.release.xcconfig"; sourceTree = "<group>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
@@ -176,6 +184,14 @@
 		4FC7EF5322560B8400136D05 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FC7EF5522560B8400136D05 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		4FC7EF5722560B8400136D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4FC7EF70225B6DD100136D05 /* AWARE-ConfigURLESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-ConfigURLESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FC7EF72225B6DD100136D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4FC7EF74225B6DD100136D05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4FC7EF77225B6DD100136D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4FC7EF7A225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_ConfigURLESM.xcdatamodel; sourceTree = "<group>"; };
+		4FC7EF7C225B6DD200136D05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4FC7EF7F225B6DD200136D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4FC7EF81225B6DD200136D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_GoogleLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Visualizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -197,6 +213,7 @@
 		BDA058C445DE7C7C60250FDE /* Pods-AWARE-Visualization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualization.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualization/Pods-AWARE-Visualization.debug.xcconfig"; sourceTree = "<group>"; };
 		C0701F89C013A919BCC7475C /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3BCB5B9627CB9DC6FE64706 /* Pods-AWARE-Visualizer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualizer.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer.release.xcconfig"; sourceTree = "<group>"; };
+		C40F670952C3669962E867F3 /* Pods_AWARE_ConfigURLESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ConfigURLESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79938A0F23FE81835DD66C3 /* Pods-AWARE-Visualizer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualizer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer.debug.xcconfig"; sourceTree = "<group>"; };
 		CB79297507039BAFB2378CA6 /* Pods-AWAREFramework_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWAREFramework_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWAREFramework_Example/Pods-AWAREFramework_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D59D65277471997CDC300B99 /* Pods-AWARE-ScheduleESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ScheduleESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM.debug.xcconfig"; sourceTree = "<group>"; };
@@ -204,6 +221,7 @@
 		D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB9AB8420F6D67962E0E01B /* Pods-AWARE-SimpleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.release.xcconfig"; sourceTree = "<group>"; };
 		FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,6 +305,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FC7EF6D225B6DD100136D05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1B55ED55BAC911349148E2 /* Pods_AWARE_ConfigURLESM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -317,6 +343,8 @@
 				C3BCB5B9627CB9DC6FE64706 /* Pods-AWARE-Visualizer.release.xcconfig */,
 				D59D65277471997CDC300B99 /* Pods-AWARE-ScheduleESM.debug.xcconfig */,
 				8FAA6C1DC7275608F735C9C1 /* Pods-AWARE-ScheduleESM.release.xcconfig */,
+				29D477EE22E199489CB11EF5 /* Pods-AWARE-ConfigURLESM.debug.xcconfig */,
+				F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -473,6 +501,20 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		4FC7EF71225B6DD100136D05 /* AWARE-ConfigURLESM */ = {
+			isa = PBXGroup;
+			children = (
+				4FC7EF72225B6DD100136D05 /* AppDelegate.swift */,
+				4FC7EF74225B6DD100136D05 /* ViewController.swift */,
+				4FC7EF76225B6DD100136D05 /* Main.storyboard */,
+				4FC7EF7C225B6DD200136D05 /* Assets.xcassets */,
+				4FC7EF7E225B6DD200136D05 /* LaunchScreen.storyboard */,
+				4FC7EF81225B6DD200136D05 /* Info.plist */,
+				4FC7EF79225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodeld */,
+			);
+			path = "AWARE-ConfigURLESM";
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +529,7 @@
 				4F3915C5225403CB00CEE77E /* AWARE-CustomSensor */,
 				4FC7EF1A22550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF3A225522A500136D05 /* AWARE-ScheduleESM */,
+				4FC7EF71225B6DD100136D05 /* AWARE-ConfigURLESM */,
 				4FC7EF5422560B8400136D05 /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -507,6 +550,7 @@
 				4FC7EF1922550E9800136D05 /* AWARE-Visualizer.app */,
 				4FC7EF39225522A500136D05 /* AWARE-ScheduleESM.app */,
 				4FC7EF5322560B8400136D05 /* Tests.xctest */,
+				4FC7EF70225B6DD100136D05 /* AWARE-ConfigURLESM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -528,6 +572,7 @@
 				695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */,
 				58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */,
 				772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */,
+				C40F670952C3669962E867F3 /* Pods_AWARE_ConfigURLESM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -742,6 +787,26 @@
 			productReference = 4FC7EF5322560B8400136D05 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4FC7EF6F225B6DD100136D05 /* AWARE-ConfigURLESM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FC7EF84225B6DD200136D05 /* Build configuration list for PBXNativeTarget "AWARE-ConfigURLESM" */;
+			buildPhases = (
+				BEDA59ADEDA238863BD8639F /* [CP] Check Pods Manifest.lock */,
+				4FC7EF6C225B6DD100136D05 /* Sources */,
+				4FC7EF6D225B6DD100136D05 /* Frameworks */,
+				4FC7EF6E225B6DD100136D05 /* Resources */,
+				E097CE558B19FF9701599004 /* [CP] Embed Pods Frameworks */,
+				D7567266BF5D632A3E20D413 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-ConfigURLESM";
+			productName = "AWARE-ConfigURLESM";
+			productReference = 4FC7EF70225B6DD100136D05 /* AWARE-ConfigURLESM.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -862,6 +927,11 @@
 						DevelopmentTeam = FH352PYMNC;
 						ProvisioningStyle = Automatic;
 					};
+					4FC7EF6F225B6DD100136D05 = {
+						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "AWAREFramework" */;
@@ -886,6 +956,7 @@
 				4F3915A82253E57C00CEE77E /* AWARE-CustomESM */,
 				4FC7EF1822550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF38225522A500136D05 /* AWARE-ScheduleESM */,
+				4FC7EF6F225B6DD100136D05 /* AWARE-ConfigURLESM */,
 				4FC7EF5222560B8400136D05 /* Tests */,
 			);
 		};
@@ -987,6 +1058,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FC7EF6E225B6DD100136D05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FC7EF80225B6DD200136D05 /* LaunchScreen.storyboard in Resources */,
+				4FC7EF7D225B6DD200136D05 /* Assets.xcassets in Resources */,
+				4FC7EF78225B6DD100136D05 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1557,6 +1638,50 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BEDA59ADEDA238863BD8639F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-ConfigURLESM-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D7567266BF5D632A3E20D413 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E03D5B36E87C12875FEA9E87 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1577,6 +1702,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E097CE558B19FF9701599004 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E32A5597299CE4A494BD97FB /* [CP] Embed Pods Frameworks */ = {
@@ -1766,6 +1921,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FC7EF6C225B6DD100136D05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FC7EF75225B6DD100136D05 /* ViewController.swift in Sources */,
+				4FC7EF7B225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodeld in Sources */,
+				4FC7EF73225B6DD100136D05 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -1909,6 +2074,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				4FC7EF48225522A800136D05 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4FC7EF76225B6DD100136D05 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FC7EF77225B6DD100136D05 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4FC7EF7E225B6DD200136D05 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FC7EF7F225B6DD200136D05 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -2778,6 +2959,66 @@
 			};
 			name = Release;
 		};
+		4FC7EF82225B6DD200136D05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29D477EE22E199489CB11EF5 /* Pods-AWARE-ConfigURLESM.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-ConfigURLESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.awareframework.AWARE-ConfigURLESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4FC7EF83225B6DD200136D05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-ConfigURLESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.awareframework.AWARE-ConfigURLESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6003F5BD195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2972,6 +3213,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4FC7EF84225B6DD200136D05 /* Build configuration list for PBXNativeTarget "AWARE-ConfigURLESM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FC7EF82225B6DD200136D05 /* Debug */,
+				4FC7EF83225B6DD200136D05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6003F585195388D10070C39A /* Build configuration list for PBXProject "AWAREFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3071,6 +3321,16 @@
 			);
 			currentVersion = 4FC7EF43225522A600136D05 /* AWARE_ScheduleESM.xcdatamodel */;
 			path = AWARE_ScheduleESM.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4FC7EF79225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4FC7EF7A225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodel */,
+			);
+			currentVersion = 4FC7EF7A225B6DD100136D05 /* AWARE_ConfigURLESM.xcdatamodel */;
+			path = AWARE_ConfigURLESM.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -9,7 +9,7 @@
 #import "AWARESensor.h"
 #import "EntityESMSchedule+CoreDataClass.h"
 
-@interface IOSESM : AWARESensor <AWARESensorDelegate>
+@interface IOSESM : AWARESensor <AWARESensorDelegate, NSURLSessionDelegate>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,31 +20,14 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL;
 @property NSString * url;
 @property NSString * table;
 
-// - (BOOL) setScheduledESM:(EntityESMSchedule *)esmSchedule;
-
 - (void) setViewController:(UIViewController *) vc;
 
-- (BOOL) startSensorWithURL:(NSString *)urlStr tableName:(NSString *)table;
+typedef void (^ESMConfigurationSetupCompleteHandler)(void);
+typedef void (^ESMConfigurationSetupErrorHandler)(NSError *  _Nullable error);
 
-/////////////////////////////////////////////////////////
-- (NSArray *) getValidESMSchedulesWithDatetime:(NSDate *) datetime;
-- (NSArray *) getScheduledESMs;
-- (void) saveESMAnswerWithTimestamp:(NSNumber * )timestamp
-                           deviceId:(NSString *) deviceId
-                            esmJson:(NSString *) esmJson
-                         esmTrigger:(NSString *) esmTrigger
-             esmExpirationThreshold:(NSNumber *) esmExpirationThreshold
-             esmUserAnswerTimestamp:(NSNumber *) esmUserAnswerTimestamp
-                      esmUserAnswer:(NSString *) esmUserAnswer
-                          esmStatus:(NSNumber *) esmStatus;
-- (NSString *) convertNSArraytoJsonStr:(NSArray *)array;
-- (void) setNotificationSchedules;
-- (void) setScheduledESMs:(NSArray *)ESMArray;
-
-- (void) removeNotificationSchedules;
-- (void) refreshNotifications;
-
-/////////////////////////////////
+- (BOOL) startSensorWithURL:(NSString *)urlStr;
+- (BOOL) startSensorWithURL:(NSString *)urlStr completionHandler:(ESMConfigurationSetupCompleteHandler _Nullable)handler;
+- (void) setErrorHandler:(ESMConfigurationSetupErrorHandler _Nullable)handler;
 
 + (BOOL) hasESMAppearedInThisSession;
 + (void) setESMAppearedState:(BOOL)state;

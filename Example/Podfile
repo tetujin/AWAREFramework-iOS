@@ -47,3 +47,7 @@ end
 target 'AWARE-ScheduleESM' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-ConfigURLESM' do
+  pod 'AWAREFramework', :path => '../'
+end
