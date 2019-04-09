@@ -20,10 +20,14 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This application needs to access your camera for taking pictures.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>For detecting converstation events, this application needs to access your microphone.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

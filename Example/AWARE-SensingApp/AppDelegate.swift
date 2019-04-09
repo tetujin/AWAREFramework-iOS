@@ -36,13 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let battery       = Battery()
             let screen        = Screen()
             let call          = Calls()
-            call.setDebug(true)
+            let ambientNoise  = AmbientNoise()
             
             // add the sensors into AWARESensorManager
-            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call])
+            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise])
             self.sensorManager.startAllSensors()
-            
-            ///////////////////////
             
             // setup ESMs
             // generate ESMItem

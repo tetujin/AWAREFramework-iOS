@@ -133,8 +133,22 @@
     if(_ownerAccount == nil) _ownerAccount = @"";
     
 //    @property (nonatomic, strong) IBOutlet NSString* calendarColor;
-    CGFloat *components = CGColorGetComponents(event.calendar.CGColor);
-    _calendarColor = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+    // CGFloat * components = CGColorGetComponents(event.calendar.CGColor);
+    const size_t numComponents = CGColorGetNumberOfComponents(event.calendar.CGColor);
+    const CGFloat *components = CGColorGetComponents(event.calendar.CGColor);
+    if (numComponents == 4) {
+        CGFloat r = components[0];
+        CGFloat g = components[1];
+        CGFloat b = components[2];
+        CGFloat a = components[3];
+        _calendarColor = [NSString stringWithFormat:@"%f,%f,%f,%f", r, g, b, a];
+    } else {
+        CGFloat r = components[0];
+        CGFloat g = components[0];
+        CGFloat b = components[0];
+        CGFloat a = components[1];
+        _calendarColor = [NSString stringWithFormat:@"%f,%f,%f,%f", r, g, b, a];
+    }
     if (components  == nil) {
         _calendarColor = @"";
     }

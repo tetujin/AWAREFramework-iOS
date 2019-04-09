@@ -7,14 +7,14 @@
 //
 
 #import "ESMPictureView.h"
-#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
 
 @implementation ESMPictureView
 {
-    AVCaptureDevice *captureDevice;
-    AVCaptureInput *videoInput;
-    UIButton *shutterBtn;
-    UIImageView * imageView;
+    AVCaptureDevice * captureDevice;
+    AVCaptureInput  * videoInput;
+    UIButton        * shutterBtn;
+    UIImageView     * imageView;
 }
 
 /*
@@ -43,7 +43,6 @@
     int widthSpace = 20;
     // int previewHeight = 400;
     
-    
     captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 
 //    captureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera
@@ -58,7 +57,6 @@
         AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
         [captureSession addInput:videoInput];
         [captureSession beginConfiguration];
-        //captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
         captureSession.sessionPreset = AVCaptureSessionPreset640x480;
         [captureSession commitConfiguration];
         
@@ -75,7 +73,7 @@
         //////////////////////////////////
         imageView = [[UIImageView alloc] initWithFrame:previewLayer.frame];
         [imageView setBackgroundColor:[UIColor grayColor]];
-        UIImage * img = nil; // [self getImageFromLibAssetsWithImageName:@"bg1"];
+        UIImage * img = nil;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [imageView setImage:img];
         [imageView setHidden:YES];
@@ -96,9 +94,8 @@
                                          self.mainView.frame.size.width,
                                          previewHeight);
         
-        //////////////////////////////
-        _imageOutput = [[AVCaptureStillImageOutput alloc] init];
-        [captureSession addOutput:_imageOutput];
+        _photoOutput = [[AVCapturePhotoOutput alloc] init];
+        [captureSession addOutput:_photoOutput];
         
         [captureSession startRunning];
     }else {
@@ -115,26 +112,8 @@
     NSInteger tag = sender.tag;
     
     if(tag==0){
-        AVCaptureConnection *connection = [[self.imageOutput connections] lastObject];
-        [self.imageOutput captureStillImageAsynchronouslyFromConnection:connection
-                                                      completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                                                          
-                                                          NSData *data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                                                          UIImage *image = [UIImage imageWithData:data];
-                                                          
-                                                        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-                                                        [library writeImageToSavedPhotosAlbum:image.CGImage
-                                                                                  orientation:image.imageOrientation
-                                                                              completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                                              }];
-                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                              [self->shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
-                                                              self->shutterBtn.tag = 1;
-                                                              self->imageView.image = image;
-                                                              self->imageView.hidden = NO;
-                                                          });
-                                                      }];
-        
+        AVCapturePhotoSettings * photoSettings = [AVCapturePhotoSettings photoSettings];
+        [_photoOutput capturePhotoWithSettings:photoSettings delegate:self];
     }else{
         imageView.hidden = YES;
         [shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_normal"] forState:UIControlStateNormal];
@@ -143,9 +122,32 @@
 }
 
 
+- (void)captureOutput:(AVCapturePhotoOutput *)output
+didFinishProcessingPhotoSampleBuffer:(CMSampleBufferRef)photoSampleBuffer
+previewPhotoSampleBuffer:(CMSampleBufferRef)previewPhotoSampleBuffer
+     resolvedSettings:(AVCaptureResolvedPhotoSettings *)resolvedSettings
+      bracketSettings:(AVCaptureBracketedStillImageSettings *)bracketSettings
+                error:(NSError *)error{
+    if (error) {
+        NSLog(@"error : %@", error.localizedDescription);
+    }
+    
+    if (photoSampleBuffer) {
+        
+        NSData * data = [AVCapturePhotoOutput JPEGPhotoDataRepresentationForJPEGSampleBuffer:photoSampleBuffer previewPhotoSampleBuffer:previewPhotoSampleBuffer];
+        UIImage * image = [UIImage imageWithData:data];
 
-////////////////////////////////////////////////
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->shutterBtn setImage:[self getImageFromLibAssetsWithImageName:@"camera_button_cancel"] forState:UIControlStateNormal];
+            self->shutterBtn.tag = 1;
+            self->imageView.image = image;
+            self->imageView.hidden = NO;
+        });
 
+    }   
+}
 
 - (NSNumber *)getESMState{
     if(imageView.image == nil){
@@ -163,8 +165,6 @@
     if([self isNA]){
         return @"NA";
     }else{
-        
-        // Create NSData object
         if(imageView.image != nil){
             NSString * base64Encoded = [UIImagePNGRepresentation(imageView.image) base64EncodedStringWithOptions:0];
             // SString *base64Encoded = [musicData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];

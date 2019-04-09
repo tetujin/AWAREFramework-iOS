@@ -410,8 +410,10 @@ Provides a system UUID.
         for (NSString* parameter in parameters){
             if (parameter.length > 0){
                 NSArray* elements = [parameter componentsSeparatedByString:@"="];
-                id key = [elements[0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                id value = (elements.count == 1 ? @YES : [elements[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+                id key = [elements[0] stringByRemovingPercentEncoding];
+                id value = (elements.count == 1 ? @YES : [elements[1] stringByRemovingPercentEncoding]);
+                // stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                // id key = [elements[0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 [result setObject:value forKey:key];
             }
         }

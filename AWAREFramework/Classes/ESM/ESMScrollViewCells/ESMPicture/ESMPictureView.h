@@ -10,9 +10,9 @@
 #import "BaseESMView.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface ESMPictureView : BaseESMView 
+@interface ESMPictureView : BaseESMView<AVCapturePhotoCaptureDelegate>
 
-@property (nonatomic, strong) AVCaptureStillImageOutput *imageOutput;
-
+// @property (nonatomic, strong) AVCaptureStillImageOutput *imageOutput;
+@property (nonatomic, strong) AVCapturePhotoOutput * photoOutput;
 
 @end

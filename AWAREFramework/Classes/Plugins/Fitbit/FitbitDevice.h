@@ -8,7 +8,7 @@
 
 #import "AWARESensor.h"
 
-@interface FitbitDevice : AWARESensor
+@interface FitbitDevice : AWARESensor <NSURLSessionDelegate>
 
 typedef void (^FitbitDeviceInfoCallback)( NSString * fitbitId, NSString * fitbitVersion, NSString * fitbitBattery, NSString * fitbitMac, NSString * fitbitLastSync);
 

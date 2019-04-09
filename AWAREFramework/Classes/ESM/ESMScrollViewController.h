@@ -41,11 +41,6 @@ typedef BaseESMView * _Nullable (^OriginalESMViewGenerationHandler)(EntityESM * 
 // @property bool showUploadingAlert;
 // @property NSString * uploadingAlertMessage;
 
-@property ESMAnswerUploadStartHandler      _Nullable uploadStartHandler;
-@property ESMAnswerUploadCompletionHandler _Nullable uploadCompletionHandler;
-@property ESMAnswerCompletionHandler       _Nullable answerCompletionHandler;
-@property OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
-
 - (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler _Nonnull)handler;
 - (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler _Nonnull)handler;
 - (void) setESMAnswerCompletionHandler:(ESMAnswerCompletionHandler _Nonnull)handler;

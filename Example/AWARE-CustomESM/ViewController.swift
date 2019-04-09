@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         if(schedules.count > 0){
             let esmViewController = ESMScrollViewController()
             /// Generate Original ESM
-            esmViewController.originalESMViewGenerationHandler = {(esm, positionY, viewController) -> BaseESMView? in
+            esmViewController.setOriginalESMViewGenerationHandler { (esm, positionY, viewController) -> BaseESMView? in
                 if esm.esm_type?.intValue == 99 {
                     let height = 100.0
                     let width  = Double(viewController.view.frame.size.width)
@@ -47,10 +47,10 @@ class ViewController: UIViewController {
                 return nil
             }
             /// Handle the survey completion
-            esmViewController.answerCompletionHandler = {
+            esmViewController.setESMAnswerCompletionHandler {
                 self.esmAppeared = true
             }
-            
+
             if !esmAppeared {
                 self.present(esmViewController, animated: true){}
             }

@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = macros_blocks;
+			productName = macros_blocks;
 		};
 		CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */ = {
 			isa = PBXAggregateTarget;
@@ -26,6 +27,7 @@
 				2DDADB7F17C6052D2FB3FD6CC98AAAE2 /* PBXTargetDependency */,
 			);
 			name = GoogleSignIn;
+			productName = GoogleSignIn;
 		};
 /* End PBXAggregateTarget section */
 
@@ -1437,7 +1439,7 @@
 		02A3D15FC9BA637123BE6F6790A80CBC /* Contacts.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Contacts.h; sourceTree = "<group>"; };
 		031FEE3FDB03DB94B0C65BD880E69F05 /* EntityBatteryCharge+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityBatteryCharge+CoreDataProperties.m"; sourceTree = "<group>"; };
 		0369912383927BE794D66394E53A3C8C /* EntityMemory+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityMemory+CoreDataProperties.m"; sourceTree = "<group>"; };
-		03835EC4B7A9234C71D45660DE69BE80 /* 16_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 16_2.jpg; sourceTree = "<group>"; };
+		03835EC4B7A9234C71D45660DE69BE80 /* 16_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 16_2.jpg; sourceTree = "<group>"; };
 		03A0027FA4D78494ED569957732C0644 /* ios-ntp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ios-ntp.h"; path = "ios-ntp-lib/ios-ntp.h"; sourceTree = "<group>"; };
 		03AB2F98FCC66DF98985B6655ABCB1BB /* Pods-AWARE-CustomSensor-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-CustomSensor-acknowledgements.plist"; sourceTree = "<group>"; };
 		045686542029B5194AFEC0198A890D15 /* Pods-AWARE-ConfigURLESM-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AWARE-ConfigURLESM-dummy.m"; sourceTree = "<group>"; };
@@ -1519,7 +1521,7 @@
 		1FDAA18A64E7D26184110E9FB2E02BBD /* Locations.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Locations.m; sourceTree = "<group>"; };
 		209FA294F59F1E169AD4610BAC07B482 /* EntityNTPTime.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityNTPTime.h; sourceTree = "<group>"; };
 		20B0DDA48D0D72D44CAEEBF7A16C85D1 /* Pods-AWARE-ScheduleESM-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AWARE-ScheduleESM-dummy.m"; sourceTree = "<group>"; };
-		20B71FBF67A7589EE603EDAB7523AA6B /* 7_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 7_3.jpg; sourceTree = "<group>"; };
+		20B71FBF67A7589EE603EDAB7523AA6B /* 7_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 7_3.jpg; sourceTree = "<group>"; };
 		20B7856671DB1DB68193539A713AA43D /* GoogleToolboxForMac-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GoogleToolboxForMac-dummy.m"; sourceTree = "<group>"; };
 		2107676EB3FB6AB0DAAF5A1E8ECF5320 /* BubbleChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartData.swift; path = Source/Charts/Data/Implementations/Standard/BubbleChartData.swift; sourceTree = "<group>"; };
 		22427DCE0AC50DB644A848F0AA1A6A4C /* BarChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/BarChartDataEntry.swift; sourceTree = "<group>"; };
@@ -1531,7 +1533,7 @@
 		237CF618EB3327377D4C5223A3B5248F /* EntityCalendar+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityCalendar+CoreDataProperties.h"; sourceTree = "<group>"; };
 		23D993EBF782629EDB4757D4C60C6DF9 /* Pods-AWARE-Fitbit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-Fitbit-resources.sh"; sourceTree = "<group>"; };
 		2405C4ACB41141C9736E29277E983021 /* Conversation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Conversation.h; sourceTree = "<group>"; };
-		2426376D72387CA7155AE8B61685004A /* 12_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 12_1.jpg; sourceTree = "<group>"; };
+		2426376D72387CA7155AE8B61685004A /* 12_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 12_1.jpg; sourceTree = "<group>"; };
 		244315D69E9575EAF0ECD1F1958F757D /* Pods-AWARE-GoogleLogin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-GoogleLogin.release.xcconfig"; sourceTree = "<group>"; };
 		2448FFF2612B676255D4204E1C58583C /* BarChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartData.swift; path = Source/Charts/Data/Implementations/Standard/BarChartData.swift; sourceTree = "<group>"; };
 		24B3EF991B20E4E35C83115D635AEB3F /* EntityLocation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityLocation.h; sourceTree = "<group>"; };
@@ -1541,7 +1543,7 @@
 		267D44A649616CD788BE17E4637D8A55 /* ESMPictureView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMPictureView.m; sourceTree = "<group>"; };
 		27A6509D0B220CCD2352252000069EEF /* SQLiteStorage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = SQLiteStorage.m; sourceTree = "<group>"; };
 		27DFC1DBCEC2E4901343A3EF6F04481C /* EZAudioDisplayLink.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioDisplayLink.m; sourceTree = "<group>"; };
-		2869D9D059BDEC4170C4134481065F05 /* 11_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 11_1.jpg; sourceTree = "<group>"; };
+		2869D9D059BDEC4170C4134481065F05 /* 11_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 11_1.jpg; sourceTree = "<group>"; };
 		289837FFEF51B481EF93C747FBB8A836 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
 		293AA76001FED60780BFC6EA43B2A56C /* BaseCoreDataHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = BaseCoreDataHandler.h; sourceTree = "<group>"; };
 		29AF366AA50535D6E45292B31A227337 /* EntityFitbitDevice+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityFitbitDevice+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -1560,14 +1562,14 @@
 		2F4A038C1005B5DAE095870143888B3F /* ESMScheduleManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMScheduleManager.m; sourceTree = "<group>"; };
 		2F5E6323D895BD002396C4F52F3E1990 /* CombinedChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedChartRenderer.swift; path = Source/Charts/Renderers/CombinedChartRenderer.swift; sourceTree = "<group>"; };
 		2FA54AC5005C228C24E00E18849D044F /* Pods-AWARE-ScheduleESM.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AWARE-ScheduleESM.modulemap"; sourceTree = "<group>"; };
-		2FB30647C8DFC395BA4561735A410A59 /* 4_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 4_1.jpg; sourceTree = "<group>"; };
+		2FB30647C8DFC395BA4561735A410A59 /* 4_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 4_1.jpg; sourceTree = "<group>"; };
 		30060EB4C7274C536E59AAE8A9D6B49F /* CSVStorage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CSVStorage.m; sourceTree = "<group>"; };
 		302B04A27D12B3323BFD312B2E7E5B27 /* Pods-AWARE-GoogleLogin-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AWARE-GoogleLogin-acknowledgements.markdown"; sourceTree = "<group>"; };
 		308CFAFC21DD5DAC56DDF6AAE261551E /* EntityNTPTime.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityNTPTime.m; sourceTree = "<group>"; };
 		30DDFA0179556EEA360282DDCFC91E68 /* EntityConversation+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityConversation+CoreDataClass.m"; sourceTree = "<group>"; };
 		31717F306BB0E525BED3FBAD59D495E2 /* ESMRadioView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMRadioView.h; sourceTree = "<group>"; };
 		318C1FFC237F9E5354A2A6F0B0B3224E /* Pods-AWARE-CustomESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-CustomESM.release.xcconfig"; sourceTree = "<group>"; };
-		319A2463010376C1C392FC4229E15B0B /* 10_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 10_2.jpg; sourceTree = "<group>"; };
+		319A2463010376C1C392FC4229E15B0B /* 10_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 10_2.jpg; sourceTree = "<group>"; };
 		31DA0939C99CC0DE00F36E580558F454 /* EntityBarometer+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityBarometer+CoreDataProperties.h"; sourceTree = "<group>"; };
 		31F3E25423C8D96C7C4B2E129DF2C0D2 /* EntityNTPTime+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityNTPTime+CoreDataProperties.h"; sourceTree = "<group>"; };
 		327D4D7760189E1E0BFF51F975B08EF9 /* VisitLocations.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VisitLocations.m; sourceTree = "<group>"; };
@@ -1591,14 +1593,14 @@
 		385AA972D1287EDBB4D6E4EC0722EFE8 /* AWARECore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWARECore.m; sourceTree = "<group>"; };
 		3884E322D67510423ADAC60D65CDB7E1 /* EntityHealthKitCategorySleep+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityHealthKitCategorySleep+CoreDataClass.m"; sourceTree = "<group>"; };
 		38A4B66F536517FA952D9AC85BEA949B /* IChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IChartDataSet.swift; path = Source/Charts/Data/Interfaces/IChartDataSet.swift; sourceTree = "<group>"; };
-		397142DBAB5920816F35FA6346B8C3E8 /* Pods_AWARE_SimpleClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_SimpleClient.framework; path = "Pods-AWARE-SimpleClient.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		397142DBAB5920816F35FA6346B8C3E8 /* Pods_AWARE_SimpleClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SimpleClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D9EEC5B86303D590E7D67199C7E51D /* AWAREFramework.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AWAREFramework.modulemap; sourceTree = "<group>"; };
 		39E0CDA8E06CDE24B276A3A0CA059EF1 /* IBarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IBarChartDataSet.swift; path = Source/Charts/Data/Interfaces/IBarChartDataSet.swift; sourceTree = "<group>"; };
 		3A1654F24CA305A8215195B0A363CAD5 /* Platform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Platform.swift; path = Source/Charts/Utils/Platform.swift; sourceTree = "<group>"; };
-		3AFD5912E04496766ECBF9C2B9247CB7 /* 10_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 10_1.jpg; sourceTree = "<group>"; };
+		3AFD5912E04496766ECBF9C2B9247CB7 /* 10_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 10_1.jpg; sourceTree = "<group>"; };
 		3B2058D0F746C4A3CE8DC728B2863FDB /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IndexAxisValueFormatter.swift; path = Source/Charts/Formatters/IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
 		3B2B6CC4F57B045B5BEE14364AF32AC8 /* TPCircularBuffer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer-prefix.pch"; sourceTree = "<group>"; };
-		3B89E4C37A459BFC5A17B3AA0859572F /* Pods_AWARE_Visualizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_Visualizer.framework; path = "Pods-AWARE-Visualizer.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B89E4C37A459BFC5A17B3AA0859572F /* Pods_AWARE_Visualizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Visualizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CBA866A394FA36AEBB87C9EED27605B /* PamSchema.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = PamSchema.m; sourceTree = "<group>"; };
 		3CDE867CE677958D9DE281B19A9A5F7A /* Description.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Description.swift; path = Source/Charts/Components/Description.swift; sourceTree = "<group>"; };
 		3D12180658423FED7FD9635625203913 /* AWAREHealthKitQuantity.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREHealthKitQuantity.m; sourceTree = "<group>"; };
@@ -1612,10 +1614,10 @@
 		412458263C435030B780413BC866253E /* YAxis.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxis.swift; path = Source/Charts/Components/YAxis.swift; sourceTree = "<group>"; };
 		4125AB0160F5E887F0DE9BCC1754773B /* ScatterChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartData.swift; path = Source/Charts/Data/Implementations/Standard/ScatterChartData.swift; sourceTree = "<group>"; };
 		412DCD89A7EBD4ED2CE6C2A2859785EF /* EntityTimezone+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityTimezone+CoreDataProperties.m"; sourceTree = "<group>"; };
-		41FFAFD7EF7A160367E307F4D1D7AAE0 /* 14_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 14_3.jpg; sourceTree = "<group>"; };
+		41FFAFD7EF7A160367E307F4D1D7AAE0 /* 14_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 14_3.jpg; sourceTree = "<group>"; };
 		426F721CEF0C17B6A4F40824E0F3CE0B /* EntityESMAnswerHistory+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityESMAnswerHistory+CoreDataClass.m"; sourceTree = "<group>"; };
 		42E41DF8FEE7DABA40CF256D7F57DC8A /* EntityMagnetometer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityMagnetometer.m; sourceTree = "<group>"; };
-		430DF55A676B40000A53A82F78C722B1 /* AWAREFramework.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = AWAREFramework.bundle; path = "AWAREFramework-AWAREFramework.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		430DF55A676B40000A53A82F78C722B1 /* AWAREFramework.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWAREFramework.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		437602FB4695B6B31AC49D32A60D0C1F /* Pods-AWARE-SimpleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-SimpleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		439CC43FB5BBF38B2E2214CC0D48FF4D /* ESMFreeTextView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMFreeTextView.h; sourceTree = "<group>"; };
 		447074C0663BDCB0BEFB2AD6158D913F /* EntityBattery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBattery.m; sourceTree = "<group>"; };
@@ -1635,7 +1637,7 @@
 		49804F30B645D19C6C247B96C43E1182 /* ESMSchedule.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMSchedule.m; sourceTree = "<group>"; };
 		499F1E2ABD565714358C20BD4C9B2675 /* EntityFitbitData+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityFitbitData+CoreDataProperties.m"; sourceTree = "<group>"; };
 		49F55C4F6919F3891DB068CFC0A999C9 /* EZAudioPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudioPlayer.h; sourceTree = "<group>"; };
-		4A005B8EDA6112D68294B2C501587CCE /* 16_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 16_3.jpg; sourceTree = "<group>"; };
+		4A005B8EDA6112D68294B2C501587CCE /* 16_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 16_3.jpg; sourceTree = "<group>"; };
 		4A1D02BEADA37FA25967171E6935963F /* EntityHealthKitQuantityHR+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityHealthKitQuantityHR+CoreDataClass.m"; sourceTree = "<group>"; };
 		4A8AFC46CEA0F622207B45678A81939D /* Memory.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Memory.m; sourceTree = "<group>"; };
 		4AA0674BFCD54B28A1F3658D2C245F32 /* ESMPAMView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMPAMView.h; sourceTree = "<group>"; };
@@ -1653,11 +1655,11 @@
 		4E625128955B912FC7869290EFB66EC6 /* SCNetworkReachability-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SCNetworkReachability-umbrella.h"; sourceTree = "<group>"; };
 		4E779475899CE167B7047F779796CF90 /* EntityBluetooth.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBluetooth.m; sourceTree = "<group>"; };
 		4E954E7FCBB6D23690C94B253D11B463 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Source/GCD/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		4EA1AA231C703BF6559085129493AAF8 /* ios_ntp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ios_ntp.framework; path = "ios-ntp.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EA1AA231C703BF6559085129493AAF8 /* ios_ntp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ios_ntp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1087C3CB93051CE41F94B09429A6D8 /* Animator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Animator.swift; path = Source/Charts/Animation/Animator.swift; sourceTree = "<group>"; };
 		4F167191A6D27376E5F7428F440BD3F3 /* PieChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieChartData.swift; path = Source/Charts/Data/Implementations/Standard/PieChartData.swift; sourceTree = "<group>"; };
 		4FDFDA5FA5B05F658BAC3688EF6E4C49 /* EntityHealthKitCategorySleep+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityHealthKitCategorySleep+CoreDataClass.h"; sourceTree = "<group>"; };
-		505A2A2D9B6DB1F261CC0D0E6951815D /* 2_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 2_1.jpg; sourceTree = "<group>"; };
+		505A2A2D9B6DB1F261CC0D0E6951815D /* 2_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 2_1.jpg; sourceTree = "<group>"; };
 		507D0BC97FDCC82E15461934BC2C338A /* EntityESMAnswer+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityESMAnswer+CoreDataProperties.m"; sourceTree = "<group>"; };
 		5082C10BB085EA516216A6F156D83C6A /* Pods-AWARE-GoogleLogin-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-GoogleLogin-umbrella.h"; sourceTree = "<group>"; };
 		510AFC0EE44719D1B554B8CDC365D922 /* EntityLocation+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityLocation+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -1665,7 +1667,7 @@
 		5288F31664A78D54CB0B28F1625F2962 /* ESMAudioView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMAudioView.h; sourceTree = "<group>"; };
 		52ADE3E0BDFE78C1AB7F8A5FD15E7DB6 /* EZAudioFloatConverter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioFloatConverter.m; sourceTree = "<group>"; };
 		52AEFD68C96D0075C7D117E5CB5905CA /* WiFiDeviceClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = WiFiDeviceClient.h; sourceTree = "<group>"; };
-		52B8BB8D1AB5A87CD0BF3956342228A9 /* 5_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 5_1.jpg; sourceTree = "<group>"; };
+		52B8BB8D1AB5A87CD0BF3956342228A9 /* 5_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 5_1.jpg; sourceTree = "<group>"; };
 		52F84F1C0193DAAAEDB9F4A118E33EB5 /* AWAREFramework-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AWAREFramework-dummy.m"; sourceTree = "<group>"; };
 		531431F14C104193423609E1BF77CB2B /* EntityHealthKitQuantityHR+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityHealthKitQuantityHR+CoreDataClass.h"; sourceTree = "<group>"; };
 		5373E8536262FAB8F52FAD7156C4764C /* GCDAsyncSocket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = Source/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
@@ -1680,8 +1682,8 @@
 		5609215BA44E01F2C8567308834E75B5 /* Wifi.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Wifi.m; sourceTree = "<group>"; };
 		5706643F215EB71668CFE506159BFB23 /* AWAREKeys.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREKeys.m; sourceTree = "<group>"; };
 		57617001DA0696A676BC40A9CB28D630 /* EntityMemory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityMemory.h; sourceTree = "<group>"; };
-		579A199FB3445F261364A6EC930FCFBA /* 6_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 6_3.jpg; sourceTree = "<group>"; };
-		57B21FA9365EBE9DBAC50005DF210829 /* 6_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 6_1.jpg; sourceTree = "<group>"; };
+		579A199FB3445F261364A6EC930FCFBA /* 6_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 6_3.jpg; sourceTree = "<group>"; };
+		57B21FA9365EBE9DBAC50005DF210829 /* 6_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 6_1.jpg; sourceTree = "<group>"; };
 		580BFCF5908F345B3E4A571368DD235A /* HorizontalBarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalBarHighlighter.swift; path = Source/Charts/Highlight/HorizontalBarHighlighter.swift; sourceTree = "<group>"; };
 		598FD330AD7760878B9B8D50F165BFB2 /* ESMWebView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMWebView.m; sourceTree = "<group>"; };
 		5995E7CAA3A4900B6559B17CB7000044 /* BaseCoreDataHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = BaseCoreDataHandler.m; sourceTree = "<group>"; };
@@ -1696,7 +1698,7 @@
 		5B83747B6869E35674CD49627FA63504 /* Timezone.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Timezone.m; sourceTree = "<group>"; };
 		5BA898330C77B7DC754CA8E5D67CCC10 /* GTMSessionFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcher.h; path = Source/GTMSessionFetcher.h; sourceTree = "<group>"; };
 		5BE1A46A2EF169B54A8E5FDEB92EF286 /* Highlight.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Highlight.swift; path = Source/Charts/Highlight/Highlight.swift; sourceTree = "<group>"; };
-		5C148A3C0DBFAA2CCB735D8DA9280949 /* 15_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 15_1.jpg; sourceTree = "<group>"; };
+		5C148A3C0DBFAA2CCB735D8DA9280949 /* 15_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 15_1.jpg; sourceTree = "<group>"; };
 		5C4DBF3F9DCFA6CCA944F67746ABB569 /* GTMSessionFetcher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GTMSessionFetcher-dummy.m"; sourceTree = "<group>"; };
 		5C59F85538BE53F345E4258B738880EF /* IMarker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMarker.swift; path = Source/Charts/Components/IMarker.swift; sourceTree = "<group>"; };
 		5CA466F6F3AA66C47059736D1AB8556D /* ESMClockLineView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMClockLineView.m; sourceTree = "<group>"; };
@@ -1717,11 +1719,11 @@
 		626008DC81459E225391EA0B03FC438C /* AWAREMotionSensor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREMotionSensor.m; sourceTree = "<group>"; };
 		6269DAE989E63E0BB29FF9265C2C33E8 /* EntitySensorWifi+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntitySensorWifi+CoreDataClass.m"; sourceTree = "<group>"; };
 		62EDFFF1EE88B937A21D0C1E11F9C22D /* EntityBattery+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityBattery+CoreDataProperties.m"; sourceTree = "<group>"; };
-		62F5EE34FF4CE3ED7B1D9FD38AB87222 /* Pods_AWARE_ScheduleESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_ScheduleESM.framework; path = "Pods-AWARE-ScheduleESM.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		62F5EE34FF4CE3ED7B1D9FD38AB87222 /* Pods_AWARE_ScheduleESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ScheduleESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6307EBF3E6424F615E805AB8DFECEA71 /* EntityESMSchedule+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityESMSchedule+CoreDataClass.m"; sourceTree = "<group>"; };
 		6319B9E35AD494265E633C1E0C29983A /* Pods-AWARE-ConfigURLESM-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-ConfigURLESM-resources.sh"; sourceTree = "<group>"; };
 		633C5AD42FF9562749423DC68FB83F53 /* EZAudioUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioUtilities.m; sourceTree = "<group>"; };
-		644A708A97FA94173C847F039FBAB76C /* TPCircularBuffer.c */ = {isa = PBXFileReference; includeInIndex = 1; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		644A708A97FA94173C847F039FBAB76C /* TPCircularBuffer.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
 		6489591AF3057DB56C71FE58170E0CF2 /* EntityOpenWeather.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityOpenWeather.h; sourceTree = "<group>"; };
 		6604CD715D1A32F13D1BF86541BFAC8A /* LineChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartRenderer.swift; path = Source/Charts/Renderers/LineChartRenderer.swift; sourceTree = "<group>"; };
 		66713E400990322478565A099C35A172 /* EntityFitbitDevice+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityFitbitDevice+CoreDataClass.h"; sourceTree = "<group>"; };
@@ -1731,8 +1733,8 @@
 		67F75933D317C38F89440072C0D65935 /* Contacts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Contacts.m; sourceTree = "<group>"; };
 		690A6092B86D5AB450A49C8C31ED2F87 /* ESMItem.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMItem.m; sourceTree = "<group>"; };
 		6972617757013C06649B85ED449E928B /* Charts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Charts-prefix.pch"; sourceTree = "<group>"; };
-		698C46AE62013D56C91290DC75CB1B09 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		69FEFA083089179F8A55A010740C3C9D /* 13_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 13_2.jpg; sourceTree = "<group>"; };
+		698C46AE62013D56C91290DC75CB1B09 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		69FEFA083089179F8A55A010740C3C9D /* 13_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 13_2.jpg; sourceTree = "<group>"; };
 		6ABF7FB1783F36D663B6EA3DAABB0700 /* YAxisRendererRadarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxisRendererRadarChart.swift; path = Source/Charts/Renderers/YAxisRendererRadarChart.swift; sourceTree = "<group>"; };
 		6AC77359F8EF912827F96DF7801D3073 /* EntityConversation+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityConversation+CoreDataClass.h"; sourceTree = "<group>"; };
 		6B1F9D6E57F80C22B51A06F7B5C8B1F8 /* FitbitData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = FitbitData.m; sourceTree = "<group>"; };
@@ -1746,7 +1748,7 @@
 		6E9263B106700A860B12260CA7488B88 /* CandleStickChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = Source/Charts/Charts/CandleStickChartView.swift; sourceTree = "<group>"; };
 		6EBA5982ECDF0BA270E912CDB4D1AFB2 /* AWAREFramework-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AWAREFramework-prefix.pch"; sourceTree = "<group>"; };
 		6EC5B8D8166B2C587A16C234D6BDA777 /* AWAREFramework-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AWAREFramework-Info.plist"; sourceTree = "<group>"; };
-		6ED82EA27A1E61D4AB6E62DAB70FD8A6 /* 1_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 1_1.jpg; sourceTree = "<group>"; };
+		6ED82EA27A1E61D4AB6E62DAB70FD8A6 /* 1_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 1_1.jpg; sourceTree = "<group>"; };
 		6EF427960847FB442378F5D3C59170C1 /* MobileWiFi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MobileWiFi.h; sourceTree = "<group>"; };
 		6F099299C0E11AA7D0CB5DADF88343E4 /* EZAudio.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudio.h; sourceTree = "<group>"; };
 		6FDD72499025BD2DB1AC1FE33E7FA4DB /* EntityProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityProcessor.h; sourceTree = "<group>"; };
@@ -1754,7 +1756,7 @@
 		708BD4F338D77AAB903B8EA76FE336DA /* Network.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		71FBE9F3A45F3F23D5F032A60E53BFDB /* Debug.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
 		724E5C8E9B07FB07C4B1B15707C0EDA7 /* AWARESensorManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWARESensorManager.m; sourceTree = "<group>"; };
-		7256F75806E3EDEF00C27699CFC7FDBC /* 3_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 3_2.jpg; sourceTree = "<group>"; };
+		7256F75806E3EDEF00C27699CFC7FDBC /* 3_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 3_2.jpg; sourceTree = "<group>"; };
 		732D70CA31C3D7B4488B8CA22DFD160D /* EntityAmbientNoise+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityAmbientNoise+CoreDataProperties.h"; sourceTree = "<group>"; };
 		733760106F72C6D15C113B1CD5F78E83 /* GoogleLogin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = GoogleLogin.m; sourceTree = "<group>"; };
 		73915DA2DC5F4E6C644A9EBEE7E34092 /* CoreDataHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CoreDataHandler.m; sourceTree = "<group>"; };
@@ -1767,7 +1769,7 @@
 		767151670B634AFC3B2FD58C7942C3D0 /* EntityLocation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityLocation.m; sourceTree = "<group>"; };
 		767CA1D0AF394C262C5877FB5D29B36F /* BLEScanner.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = BLEScanner.m; sourceTree = "<group>"; };
 		7727E9912A34DA8F60DE3DC4B07DFC02 /* EntityBatteryDischarge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBatteryDischarge.m; sourceTree = "<group>"; };
-		7764068BBF8CAB2637D0A0C61C5A7E7C /* 11_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 11_2.jpg; sourceTree = "<group>"; };
+		7764068BBF8CAB2637D0A0C61C5A7E7C /* 11_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 11_2.jpg; sourceTree = "<group>"; };
 		776DA71A2DFA5C3453854CF0E3D997B6 /* Calls.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Calls.m; sourceTree = "<group>"; };
 		778BF9552502D6CA4833D1AC8CD90D6A /* GTMSessionUploadFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionUploadFetcher.h; path = Source/GTMSessionUploadFetcher.h; sourceTree = "<group>"; };
 		779B9D2C00F3FA810E47DBE8ADFA9F62 /* IOSESM.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = IOSESM.m; sourceTree = "<group>"; };
@@ -1775,11 +1777,11 @@
 		77D16A272C8702A63DF9F26F08610E7C /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
 		77F129298B3536EBE2E9D0EE4E81AF13 /* EZPlot.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZPlot.m; sourceTree = "<group>"; };
 		77FD5667F32F304FFB8569C246D9F21A /* ChartColorTemplates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartColorTemplates.swift; path = Source/Charts/Utils/ChartColorTemplates.swift; sourceTree = "<group>"; };
-		788D61D86A2D26056E70FAD0E97F3A56 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Charts.framework; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		788D61D86A2D26056E70FAD0E97F3A56 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7949F3ADE2F78E95FC18A121AA821FCF /* TransformerHorizontalBarChart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformerHorizontalBarChart.swift; path = Source/Charts/Utils/TransformerHorizontalBarChart.swift; sourceTree = "<group>"; };
 		7989EBF35A16C53DB742722BEEA9E8C2 /* ESMCheckBoxView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMCheckBoxView.h; sourceTree = "<group>"; };
 		7A197D37A6B5BA1CB589595F988909E4 /* Rotation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Rotation.m; sourceTree = "<group>"; };
-		7A84F09D92607C2D5C1394273EE89A56 /* 6_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 6_2.jpg; sourceTree = "<group>"; };
+		7A84F09D92607C2D5C1394273EE89A56 /* 6_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 6_2.jpg; sourceTree = "<group>"; };
 		7ABC00782BBA71DC6830EDD742107FED /* EntityPushNotification.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityPushNotification.h; sourceTree = "<group>"; };
 		7ADAC5C5B6866063AFDA63040C30DD76 /* Bluetooth.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Bluetooth.h; sourceTree = "<group>"; };
 		7B191DFD46DB24CF34BBE46346BF9AF6 /* EntityMemory+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityMemory+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -1792,14 +1794,14 @@
 		7DE9585911F1543CFE368FE4CF42F024 /* EntityESM+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityESM+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7EBC1EABC802D22CF8D04B745E433A2E /* GTMDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		7EF6854057944D07C521B7BFE81A9306 /* ESMDateTimePickerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMDateTimePickerView.m; sourceTree = "<group>"; };
-		7F4241B40334F71AB001A785B5D35A20 /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_Fitbit.framework; path = "Pods-AWARE-Fitbit.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F4241B40334F71AB001A785B5D35A20 /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FD2FE12A10CD562CED1E52D497F0773 /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/BubbleChartDataEntry.swift; sourceTree = "<group>"; };
 		800E1C4E865B44A9F863877FE3899F27 /* EntityBarometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityBarometer.h; sourceTree = "<group>"; };
 		80246E0C7439EE87A02B255AFEE9831B /* Pods-AWARE-Fitbit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-Fitbit-umbrella.h"; sourceTree = "<group>"; };
 		804F4465F9F8D56532F2A27E0E522FD9 /* ios-ntp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "ios-ntp.modulemap"; sourceTree = "<group>"; };
 		80EC73F0CEA4A7397ECA52CA7F6AEA02 /* ILineChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineChartDataSet.swift; sourceTree = "<group>"; };
-		8102515CE74057B21ADF37099A329EC7 /* AWAREFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AWAREFramework.framework; path = AWAREFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		816B97F5441A060700D0FC6D970BE19F /* 5_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 5_3.jpg; sourceTree = "<group>"; };
+		8102515CE74057B21ADF37099A329EC7 /* AWAREFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AWAREFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		816B97F5441A060700D0FC6D970BE19F /* 5_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 5_3.jpg; sourceTree = "<group>"; };
 		81834DAC428DFE8FE7D936489338E41C /* Gravity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Gravity.h; sourceTree = "<group>"; };
 		81B79A74EA7F671B934F14289CD2B396 /* CocoaAsyncSocket.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CocoaAsyncSocket.modulemap; sourceTree = "<group>"; };
 		81F099CED24F0C32B9F322ECEBA6F241 /* ILineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineScatterCandleRadarChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
@@ -1812,10 +1814,10 @@
 		849CD05C264ED8CD954BA467211D006E /* EntityContact+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityContact+CoreDataClass.h"; sourceTree = "<group>"; };
 		8544D2E69A4E022D43E520EDF1B5C8BA /* ChartDataEntryBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataEntryBase.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataEntryBase.swift; sourceTree = "<group>"; };
 		8582111591674E2D52622742756DC505 /* EntityConversation+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityConversation+CoreDataProperties.m"; sourceTree = "<group>"; };
-		858C04B39989AEF08A98D888A4B77CF4 /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_CustomESM.framework; path = "Pods-AWARE-CustomESM.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		86669664F900A413D4176A4F23D5E21C /* 8_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 8_2.jpg; sourceTree = "<group>"; };
+		858C04B39989AEF08A98D888A4B77CF4 /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86669664F900A413D4176A4F23D5E21C /* 8_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 8_2.jpg; sourceTree = "<group>"; };
 		86912FD326CE21C4653738FC28281801 /* YAxisRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = YAxisRenderer.swift; path = Source/Charts/Renderers/YAxisRenderer.swift; sourceTree = "<group>"; };
-		86D5054B2C10095D9BC6CDA2AC67C8A4 /* 2_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 2_2.jpg; sourceTree = "<group>"; };
+		86D5054B2C10095D9BC6CDA2AC67C8A4 /* 2_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 2_2.jpg; sourceTree = "<group>"; };
 		871EC264B3334A7FFFD9AA5034AD32D7 /* GTMNSString+URLArguments.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+URLArguments.m"; path = "Foundation/GTMNSString+URLArguments.m"; sourceTree = "<group>"; };
 		87DD0C36195BFF4ACE4AE7B1DFC9E762 /* EntityDebug.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityDebug.m; sourceTree = "<group>"; };
 		87EDFA12E98ED9951FA0F310EC6495FB /* EntityContact+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityContact+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -1823,7 +1825,7 @@
 		88E9311BBA1D85F0DADBD4BA85B3E189 /* EntityConversation+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityConversation+CoreDataProperties.h"; sourceTree = "<group>"; };
 		8988036BEF79F3A4C6EE2CF1FF713E92 /* EZAudioFloatConverter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudioFloatConverter.h; sourceTree = "<group>"; };
 		89ABBA1D57D58E7A17F8AA758BEFF77C /* EntityHealthKitQuantity+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityHealthKitQuantity+CoreDataClass.m"; sourceTree = "<group>"; };
-		89C71823537A0072BE9717B5E6253261 /* 15_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 15_2.jpg; sourceTree = "<group>"; };
+		89C71823537A0072BE9717B5E6253261 /* 15_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 15_2.jpg; sourceTree = "<group>"; };
 		8A4973B1E4928FAE0510C3B0D0A695F0 /* EntityGravity.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityGravity.m; sourceTree = "<group>"; };
 		8A7526A49A98441C704140D32C396AA9 /* Pods-AWARE-Visualizer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-Visualizer.release.xcconfig"; sourceTree = "<group>"; };
 		8A75EB2DB3B73521379BC460D14EE61A /* Pods-AWARE-DynamicESM-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AWARE-DynamicESM-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -1833,13 +1835,13 @@
 		8B92F7CB5D19169F7470D95F951FDD25 /* Pods-AWARE-CustomSensor.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AWARE-CustomSensor.modulemap"; sourceTree = "<group>"; };
 		8BA9FE5AF7FED9C7FC8FB630A1FB3C82 /* IOSESM.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IOSESM.h; sourceTree = "<group>"; };
 		8C1117A6E46425D2BF4C8CF3D1A84022 /* ESMScaleView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMScaleView.m; sourceTree = "<group>"; };
-		8C1A06252B12528229F3C93FB4AF1A04 /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_GoogleLogin.framework; path = "Pods-AWARE-GoogleLogin.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C1A06252B12528229F3C93FB4AF1A04 /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_GoogleLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CAC1708095C78F745CF20D12B2C3D96 /* EntityHealthKitCategorySleep+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityHealthKitCategorySleep+CoreDataProperties.m"; sourceTree = "<group>"; };
 		8CC8E95F7CAE64AA94B34C826CFBF3F9 /* EntityRotation+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityRotation+CoreDataProperties.m"; sourceTree = "<group>"; };
 		8CD66F886A7EFD0183F863020A029619 /* EntityBLEHeartRate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBLEHeartRate.m; sourceTree = "<group>"; };
 		8CEC1887388214E60F92EF65E848EE4D /* NetworkClock.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NetworkClock.m; path = "ios-ntp-lib/NetworkClock.m"; sourceTree = "<group>"; };
 		8D101D19C774E000DB6192BE60135B06 /* EntityLocationVisit.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityLocationVisit.m; sourceTree = "<group>"; };
-		8D16B53F630A68C850BEA5F41A084DB3 /* Pods_AWARE_ConfigURLESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_ConfigURLESM.framework; path = "Pods-AWARE-ConfigURLESM.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D16B53F630A68C850BEA5F41A084DB3 /* Pods_AWARE_ConfigURLESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ConfigURLESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D38652DB2D55A5091A03FB18EEF5BDA /* CalendarESMScheduler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CalendarESMScheduler.m; sourceTree = "<group>"; };
 		8D55FE69D4AEBEB3E4D56E9A51B05A7E /* BubbleChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartView.swift; path = Source/Charts/Charts/BubbleChartView.swift; sourceTree = "<group>"; };
 		8DB74C1AB2264A1B2504E230B6003B5C /* EntityProcessor+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityProcessor+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -1850,7 +1852,7 @@
 		8FA297DAD09EF4AF485D44E77AF39ED5 /* Pods-AWARE-DynamicESM-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-DynamicESM-Info.plist"; sourceTree = "<group>"; };
 		8FA4FFBBD9118788ADE4AA0E0EDF1511 /* TriangleShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TriangleShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/TriangleShapeRenderer.swift; sourceTree = "<group>"; };
 		8FADAF05F75DBA3CA0E408E04250336C /* Transformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transformer.swift; path = Source/Charts/Utils/Transformer.swift; sourceTree = "<group>"; };
-		8FE1FE310AF5DA63AAE86DF87A0718E5 /* 7_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 7_2.jpg; sourceTree = "<group>"; };
+		8FE1FE310AF5DA63AAE86DF87A0718E5 /* 7_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 7_2.jpg; sourceTree = "<group>"; };
 		8FF2475C335C21D05B06631184EB332F /* EntityESMSchedule+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityESMSchedule+CoreDataClass.h"; sourceTree = "<group>"; };
 		9187B20E47DD63E87B8118898FB1A0ED /* ESMLikertScaleView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMLikertScaleView.h; sourceTree = "<group>"; };
 		91EE4B2B1A677F20BC629F4BCD3CD570 /* EntityContact+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityContact+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -1858,7 +1860,7 @@
 		9226B57D2A35FA91256726286A9A2003 /* GTMNSDictionary+URLArguments.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSDictionary+URLArguments.m"; path = "Foundation/GTMNSDictionary+URLArguments.m"; sourceTree = "<group>"; };
 		922BA467733414BD037A5FCF59D58D76 /* Debug.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		92C13E9C4E4ACC1D68FDCD1D2F6B8B00 /* ios-ntp-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ios-ntp-Info.plist"; sourceTree = "<group>"; };
-		92F235BD46DD4D91DF3A1B3F66138F68 /* 15_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 15_3.jpg; sourceTree = "<group>"; };
+		92F235BD46DD4D91DF3A1B3F66138F68 /* 15_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 15_3.jpg; sourceTree = "<group>"; };
 		92F92E323F799C7555EA5D4B982BB7B2 /* BarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarHighlighter.swift; path = Source/Charts/Highlight/BarHighlighter.swift; sourceTree = "<group>"; };
 		930035807F82F06B4A50BA4F210B5038 /* LinearAccelerometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = LinearAccelerometer.h; sourceTree = "<group>"; };
 		933D00E86ED036EFAA8A02E6478ED836 /* Pods-AWARE-Visualizer-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-Visualizer-resources.sh"; sourceTree = "<group>"; };
@@ -1904,13 +1906,13 @@
 		9D2015265F6287CA7876CC40E6B3B6BF /* Pods-AWARE-ScheduleESM-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-ScheduleESM-resources.sh"; sourceTree = "<group>"; };
 		9D3293DEA6C227427618354BA7A819E3 /* GTMMethodCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMMethodCheck.h; path = DebugUtils/GTMMethodCheck.h; sourceTree = "<group>"; };
 		9D73C2C570BA3F932CDF5303C6588BCE /* BarChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataProvider.swift; path = Source/Charts/Interfaces/BarChartDataProvider.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E2E7D122FB6B64C72F3C42E3018C75D /* EntityAccelerometer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityAccelerometer.m; sourceTree = "<group>"; };
 		9E6B88F79AE08182878F0E9BF0589827 /* AWAREGoogleLoginViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AWAREGoogleLoginViewController.h; sourceTree = "<group>"; };
-		9ED7AA38F9C534E3F459771834F355CB /* 5_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 5_2.jpg; sourceTree = "<group>"; };
-		9EE28D2CA38BCDF75ED0C5A37FB90634 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		9ED7AA38F9C534E3F459771834F355CB /* 5_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 5_2.jpg; sourceTree = "<group>"; };
+		9EE28D2CA38BCDF75ED0C5A37FB90634 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F3A374B804E72768CBBFC3B3C23E021 /* SyncExecutor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SyncExecutor.h; sourceTree = "<group>"; };
-		9F3BC12E13338780397405F113E1B4DD /* 3_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 3_1.jpg; sourceTree = "<group>"; };
+		9F3BC12E13338780397405F113E1B4DD /* 3_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 3_1.jpg; sourceTree = "<group>"; };
 		9F5594EA7199E3EB458F7AF175ABE5FB /* EntityHealthKitCategory+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityHealthKitCategory+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A0E0B28EC95025AB96E018851F286CF6 /* IPieChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IPieChartDataSet.swift; path = Source/Charts/Data/Interfaces/IPieChartDataSet.swift; sourceTree = "<group>"; };
 		A143921D60CA9260769E0EEB7FC3AEAA /* AWAREFramework.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AWAREFramework.xcconfig; sourceTree = "<group>"; };
@@ -1938,14 +1940,14 @@
 		A7BBC90FB847804C5C6C9C6AC428FE71 /* Pods-AWARE-Fitbit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AWARE-Fitbit.modulemap"; sourceTree = "<group>"; };
 		A8AA14E626A233B10AD1E74519679FC9 /* GTMSessionFetcher-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GTMSessionFetcher-Info.plist"; sourceTree = "<group>"; };
 		A8B558D82B1D3D48B4618C3F9A355958 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
-		A9738DBAD137E21138AE5D903891CE66 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GoogleToolboxForMac.framework; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9738DBAD137E21138AE5D903891CE66 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9BFFB497061295F47729A4E2987F3C9 /* BarChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartRenderer.swift; path = Source/Charts/Renderers/BarChartRenderer.swift; sourceTree = "<group>"; };
 		AA04B9CB2DCEBA744F59FD36776FD5F9 /* Magnetometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Magnetometer.h; sourceTree = "<group>"; };
 		AA0A08C788F9ACC89DFAF44A03C83718 /* EntityBluetooth+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityBluetooth+CoreDataProperties.h"; sourceTree = "<group>"; };
 		AA169245496F869F22E4515207EBA83A /* Pods-AWARE-GoogleLogin-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-GoogleLogin-acknowledgements.plist"; sourceTree = "<group>"; };
 		AA4188FDF3A34451A9ACDA10075F5701 /* IRadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IRadarChartDataSet.swift; path = Source/Charts/Data/Interfaces/IRadarChartDataSet.swift; sourceTree = "<group>"; };
 		AA63CD58A9AC72B7ADA0E90858AFC2F3 /* EntityWifi.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityWifi.m; sourceTree = "<group>"; };
-		AA87912E7AC252C80EA2CC8A4815D7DD /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_SensingApp.framework; path = "Pods-AWARE-SensingApp.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA87912E7AC252C80EA2CC8A4815D7DD /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAA7727CDD6AE1F4B71E14EAF5E7CED6 /* Pedometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Pedometer.h; sourceTree = "<group>"; };
 		AB45A953D255AE26F619E359E4E1C278 /* EntityIOSPedometer+CoreDataClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityIOSPedometer+CoreDataClass.h"; sourceTree = "<group>"; };
 		ABBD35A13CB70CE837949E8AA0C0F8AD /* Pods-AWARE-ScheduleESM-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AWARE-ScheduleESM-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -1957,21 +1959,21 @@
 		AE63E277692EBFB24F457270BC83B488 /* BRLineReader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = BRLineReader.h; sourceTree = "<group>"; };
 		AE84145ACEDC33E59EFAAD05401F698F /* EZAudioFFT.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudioFFT.h; sourceTree = "<group>"; };
 		AEEB6835019AD977AEAB6CAE0EFBC900 /* Pods-AWARE-GoogleLogin-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-GoogleLogin-Info.plist"; sourceTree = "<group>"; };
-		AF0CAEF859C9DE7EDCA248E84CE6B014 /* 8_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 8_1.jpg; sourceTree = "<group>"; };
+		AF0CAEF859C9DE7EDCA248E84CE6B014 /* 8_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 8_1.jpg; sourceTree = "<group>"; };
 		AF1A07D0E616FE513E049090C17FC06E /* EntityCall.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityCall.h; sourceTree = "<group>"; };
 		AF1A5E0F29BB9C84D092B3963F3E28AB /* EntityGyroscope.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityGyroscope.m; sourceTree = "<group>"; };
 		AF3D5676A5A172F32D39AED234FFA002 /* XAxis.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XAxis.swift; path = Source/Charts/Components/XAxis.swift; sourceTree = "<group>"; };
 		AF746C515B791D586C1DDFA6C8E4336C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
-		AFA30FF600A494A85A1667B8646F7F0C /* 9_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 9_3.jpg; sourceTree = "<group>"; };
-		B0368D8870B330B1B9A4888609484BB0 /* 9_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 9_2.jpg; sourceTree = "<group>"; };
+		AFA30FF600A494A85A1667B8646F7F0C /* 9_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 9_3.jpg; sourceTree = "<group>"; };
+		B0368D8870B330B1B9A4888609484BB0 /* 9_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 9_2.jpg; sourceTree = "<group>"; };
 		B0382B1074F316B1804CF3B1744C9B5D /* EntityMagnetometer+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityMagnetometer+CoreDataProperties.m"; sourceTree = "<group>"; };
 		B0499DE2345E12BE17CAAA93BBDB48DD /* EZAudioUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EZAudioUtilities.h; sourceTree = "<group>"; };
-		B096C2F3D56CABC02E4583B6C4846808 /* 2_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 2_3.jpg; sourceTree = "<group>"; };
+		B096C2F3D56CABC02E4583B6C4846808 /* 2_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 2_3.jpg; sourceTree = "<group>"; };
 		B0CD459995D1C02B372222CCE2869C9F /* FusedLocations.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = FusedLocations.m; sourceTree = "<group>"; };
-		B12A27422EF5AEE587F3E44E9CCF7391 /* 4_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 4_2.jpg; sourceTree = "<group>"; };
+		B12A27422EF5AEE587F3E44E9CCF7391 /* 4_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 4_2.jpg; sourceTree = "<group>"; };
 		B1A283A1884F46596A9AE836CAB5D7C5 /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
-		B1D544CBB2BF10FCE604C264A1ED39E6 /* 9_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 9_1.jpg; sourceTree = "<group>"; };
-		B1E28270A2EB2616DF0973E30B332737 /* TPCircularBuffer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TPCircularBuffer.framework; path = TPCircularBuffer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1D544CBB2BF10FCE604C264A1ED39E6 /* 9_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 9_1.jpg; sourceTree = "<group>"; };
+		B1E28270A2EB2616DF0973E30B332737 /* TPCircularBuffer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPCircularBuffer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B273F86F07249A4ADB600A9D032BF853 /* EntityLinearAccelerometer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityLinearAccelerometer.h; sourceTree = "<group>"; };
 		B2A51630AEF7B90DF902E2502053400A /* AWAREHealthKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AWAREHealthKit.h; sourceTree = "<group>"; };
 		B37A2692C90C8BD7075C950AD058D395 /* CalendarESMScheduler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = CalendarESMScheduler.h; sourceTree = "<group>"; };
@@ -1979,13 +1981,13 @@
 		B455F93CD190A2AB982078D67E8C9B46 /* EntityESMAnswerHistory+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityESMAnswerHistory+CoreDataProperties.h"; sourceTree = "<group>"; };
 		B496BE593939933791092AD0E2101C2D /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = AWAREFramework/Assets/Assets.xcassets; sourceTree = "<group>"; };
 		B49D7C77EDA7C263A79EDB8A75F69551 /* ChevronUpShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChevronUpShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/ChevronUpShapeRenderer.swift; sourceTree = "<group>"; };
-		B525B90D657C706439F981AFEF05D5D2 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; includeInIndex = 1; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
-		B5A6E68D654D4640B123E4AB93255B23 /* 13_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 13_3.jpg; sourceTree = "<group>"; };
+		B525B90D657C706439F981AFEF05D5D2 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
+		B5A6E68D654D4640B123E4AB93255B23 /* 13_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 13_3.jpg; sourceTree = "<group>"; };
 		B5B59311CCE1DD158C8A935BA1FB114A /* EntityBarometer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBarometer.m; sourceTree = "<group>"; };
 		B60736B509F3854B0F0629C515E5231A /* ESMNumberView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMNumberView.h; sourceTree = "<group>"; };
 		B61BDE0A419C7330492CC53B64BC48FB /* ChartUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartUtils.swift; path = Source/Charts/Utils/ChartUtils.swift; sourceTree = "<group>"; };
 		B75F41378DDD1E1CE0C2BB98DFA49FC4 /* BatteryCharge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = BatteryCharge.m; sourceTree = "<group>"; };
-		B7CC3E2906F7A5FAF14EFBDE537CF3B8 /* 8_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 8_3.jpg; sourceTree = "<group>"; };
+		B7CC3E2906F7A5FAF14EFBDE537CF3B8 /* 8_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 8_3.jpg; sourceTree = "<group>"; };
 		B8466CA9447383DAF602F34190777702 /* SQLiteStorage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SQLiteStorage.h; sourceTree = "<group>"; };
 		B8792E5FBE97EE1C2FFA2377BB698B98 /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimatedViewPortJob.swift; path = Source/Charts/Jobs/AnimatedViewPortJob.swift; sourceTree = "<group>"; };
 		B8B2D4374CCCAB92C230A0244A9973E7 /* BatteryCharge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = BatteryCharge.h; sourceTree = "<group>"; };
@@ -2002,10 +2004,10 @@
 		BB3355DC4FFE0F6C8064F9EE17E4919D /* SyncExecutor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = SyncExecutor.m; sourceTree = "<group>"; };
 		BB9195C3424E85E959249ECAD38D32D0 /* FitbitDevice.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = FitbitDevice.h; sourceTree = "<group>"; };
 		BBC3100D2FFAEE5A8D3346C238FAB7AE /* AWAREFramework-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AWAREFramework-umbrella.h"; sourceTree = "<group>"; };
-		BBD0B507C521BFE08237E33946F90705 /* AWAREFramework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = AWAREFramework.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BC333927BDBE470540198DD91ACD4972 /* 4_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 4_3.jpg; sourceTree = "<group>"; };
+		BBD0B507C521BFE08237E33946F90705 /* AWAREFramework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = AWAREFramework.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BC333927BDBE470540198DD91ACD4972 /* 4_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 4_3.jpg; sourceTree = "<group>"; };
 		BC949B5CBE5E0199314B3446CF0CA182 /* Orientation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Orientation.m; sourceTree = "<group>"; };
-		BD149665F9414FD0982558469EFE492B /* SCNetworkReachability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SCNetworkReachability.framework; path = SCNetworkReachability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD149665F9414FD0982558469EFE492B /* SCNetworkReachability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SCNetworkReachability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD5C89EF86A5649EE487589047029F6B /* CocoaAsyncSocket-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaAsyncSocket-umbrella.h"; sourceTree = "<group>"; };
 		BE36F96E67F214179AB02BB2B2B4DA26 /* CrossShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CrossShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/CrossShapeRenderer.swift; sourceTree = "<group>"; };
 		BE730E3DA1FF028A85597D7CB8B11652 /* ChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataProvider.swift; path = Source/Charts/Interfaces/ChartDataProvider.swift; sourceTree = "<group>"; };
@@ -2015,7 +2017,7 @@
 		BF044BDD200CCAAC9F074AD7483F3864 /* OpenWeather.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = OpenWeather.h; sourceTree = "<group>"; };
 		BF45B27247E4BD80E11ED89430F19852 /* EZAudioPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlayer.m; sourceTree = "<group>"; };
 		BF5CFDF39304776473FB46F4795525B9 /* SCReachabilityFlagsParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCReachabilityFlagsParser.m; path = Classes/Private/SCReachabilityFlagsParser.m; sourceTree = "<group>"; };
-		BF8811A8401F42972C105349D9059606 /* 10_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 10_3.jpg; sourceTree = "<group>"; };
+		BF8811A8401F42972C105349D9059606 /* 10_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 10_3.jpg; sourceTree = "<group>"; };
 		C003A3CE4A8A65707F1651929A1D01A8 /* EntityFitbitDevice+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityFitbitDevice+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C0138AFA5EED6B235A626F72433D9575 /* GoogleToolboxForMac-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GoogleToolboxForMac-umbrella.h"; sourceTree = "<group>"; };
 		C03765A84D290375B23D5369F7FD1DAD /* EntityRotation+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityRotation+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -2023,9 +2025,9 @@
 		C0B3976406AB7A354E8C3016A5F9A847 /* Wifi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Wifi.h; sourceTree = "<group>"; };
 		C16474E91B55F9146048490B2923ABA7 /* Pods-AWARE-SensingApp-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-SensingApp-Info.plist"; sourceTree = "<group>"; };
 		C1704BB62AB625699EB5C5DE72FC5D8D /* Orientation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Orientation.h; sourceTree = "<group>"; };
-		C1A06190F921B08B8E21B7FB4F41BB83 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CocoaAsyncSocket.framework; path = CocoaAsyncSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1A06190F921B08B8E21B7FB4F41BB83 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaAsyncSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C6B5E30C438DA0944B454E331CDC62 /* BarLineScatterCandleBubbleChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleChartDataProvider.swift; path = Source/Charts/Interfaces/BarLineScatterCandleBubbleChartDataProvider.swift; sourceTree = "<group>"; };
-		C2B30A087B212E2CD425DDE62E3FFFD0 /* 14_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 14_1.jpg; sourceTree = "<group>"; };
+		C2B30A087B212E2CD425DDE62E3FFFD0 /* 14_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 14_1.jpg; sourceTree = "<group>"; };
 		C38D9B073751FF30201C91FCCB77427B /* EntityProximity+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityProximity+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C3CCE8A650D187D8C2F9657B8369EA16 /* LineScatterCandleRadarRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineScatterCandleRadarRenderer.swift; path = Source/Charts/Renderers/LineScatterCandleRadarRenderer.swift; sourceTree = "<group>"; };
 		C3E24F0407881A10F464970A4DC7760A /* CombinedChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedChartView.swift; path = Source/Charts/Charts/CombinedChartView.swift; sourceTree = "<group>"; };
@@ -2055,7 +2057,7 @@
 		C9BA5B3F51062B0BCC8D356F2FC6CC9B /* EntityESMAnswer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityESMAnswer.m; sourceTree = "<group>"; };
 		C9BD4AEFC96E7C665F67FABE306C65D7 /* Pods-AWARE-GoogleLogin-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AWARE-GoogleLogin-dummy.m"; sourceTree = "<group>"; };
 		C9D7CDF964D1AE79F9389F3037B2F916 /* Accelerometer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Accelerometer.m; sourceTree = "<group>"; };
-		C9FBC3CBF8A62D084DD1AFC3965A5675 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_DynamicESM.framework; path = "Pods-AWARE-DynamicESM.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9FBC3CBF8A62D084DD1AFC3965A5675 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA773E4FC4AF3458E557E26885146AE7 /* NSDate+NetworkClock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDate+NetworkClock.h"; path = "ios-ntp-lib/NSDate+NetworkClock.h"; sourceTree = "<group>"; };
 		CAA314868A40A31C4023E037040DE494 /* CocoaAsyncSocket-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CocoaAsyncSocket-dummy.m"; sourceTree = "<group>"; };
 		CAE9574118094443EBB2A2FE23672CF9 /* EntityScreen+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityScreen+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -2063,7 +2065,7 @@
 		CB4C65CDA0B30CEB5953670B32EAA9DF /* Rotation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Rotation.h; sourceTree = "<group>"; };
 		CB9334D6778F0B1440AADFCFDEB2F135 /* ios-ntp.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ios-ntp.xcconfig"; sourceTree = "<group>"; };
 		CBF11335697FA15586E6A53E0748C112 /* AWAREStudy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AWAREStudy.h; sourceTree = "<group>"; };
-		CC18D1916A7D6193F98E3BD15FEE9D97 /* 1_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 1_3.jpg; sourceTree = "<group>"; };
+		CC18D1916A7D6193F98E3BD15FEE9D97 /* 1_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 1_3.jpg; sourceTree = "<group>"; };
 		CC8952EC8ECF2FB1A455AA06E1C4DFBC /* PieChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/PieChartDataSet.swift; sourceTree = "<group>"; };
 		CCC9AF149CE5C2F2DCAB16E6D8119B51 /* TCQMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = TCQMaker.m; sourceTree = "<group>"; };
 		CCCAF9C8F5276E07932FA3CA26FAD93A /* PamSchema.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PamSchema.h; sourceTree = "<group>"; };
@@ -2074,13 +2076,13 @@
 		CEAFBA85140AB429775F1B9D6737C383 /* EntityFitbitData+CoreDataClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityFitbitData+CoreDataClass.m"; sourceTree = "<group>"; };
 		CF0E7552817C3E976DDCC84565690C36 /* AWAREHealthKitWorkout.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AWAREHealthKitWorkout.h; sourceTree = "<group>"; };
 		CF493C0035B81047299B8287935CD52D /* StudentLifeAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StudentLifeAudio.framework; path = AWAREFramework/Frameworks/StudentLifeAudio.framework; sourceTree = "<group>"; };
-		CF96EA859918A38F0588708F04B9A04D /* 7_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 7_1.jpg; sourceTree = "<group>"; };
+		CF96EA859918A38F0588708F04B9A04D /* 7_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 7_1.jpg; sourceTree = "<group>"; };
 		CF97DDD1C0DBD25BF57906DD0803574E /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/ScatterChartDataSet.swift; sourceTree = "<group>"; };
 		CFE209680DBAEBA51F53685268B7BD64 /* EntityOpenWeather+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityOpenWeather+CoreDataProperties.m"; sourceTree = "<group>"; };
 		D09D8E5059121E0527494AC31D760C28 /* ESMVideoView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ESMVideoView.h; sourceTree = "<group>"; };
 		D158F0602F72CF0151F57AA620211CA0 /* EntityFitbitData+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityFitbitData+CoreDataProperties.h"; sourceTree = "<group>"; };
 		D1931CEA5DE3543B1C3F47919C561AA1 /* Pods-AWARE-ScheduleESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-ScheduleESM.debug.xcconfig"; sourceTree = "<group>"; };
-		D20316A8A9D71AAACBA869D247C50811 /* 12_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 12_2.jpg; sourceTree = "<group>"; };
+		D20316A8A9D71AAACBA869D247C50811 /* 12_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 12_2.jpg; sourceTree = "<group>"; };
 		D20731276B2DBE9C199A7740742AA076 /* TCQMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TCQMaker.h; sourceTree = "<group>"; };
 		D2091D053FB056069311D9D1C4F9E996 /* RadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/RadarChartDataSet.swift; sourceTree = "<group>"; };
 		D209A42DF04D0354E953BBEC8C8704B3 /* EntityLinearAccelerometer+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityLinearAccelerometer+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -2114,7 +2116,7 @@
 		D99D2D45F7FABED7ACFD07622F3A0B33 /* ICandleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ICandleChartDataSet.swift; path = Source/Charts/Data/Interfaces/ICandleChartDataSet.swift; sourceTree = "<group>"; };
 		D9C79AD7C90E6A966CF6F611ADDA83F3 /* IBubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IBubbleChartDataSet.swift; path = Source/Charts/Data/Interfaces/IBubbleChartDataSet.swift; sourceTree = "<group>"; };
 		DA15383469AC55B47728010B48E45D4B /* GoogleSignIn.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleSignIn.xcconfig; sourceTree = "<group>"; };
-		DAAD5685C5D893A7714A3314E5AB6E90 /* 13_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 13_1.jpg; sourceTree = "<group>"; };
+		DAAD5685C5D893A7714A3314E5AB6E90 /* 13_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 13_1.jpg; sourceTree = "<group>"; };
 		DB20AE51ACFA904A206E1740728B914B /* Charts.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Charts.xcconfig; sourceTree = "<group>"; };
 		DB78705730C38B9688F721B1FA56F5FD /* LineRadarRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineRadarRenderer.swift; path = Source/Charts/Renderers/LineRadarRenderer.swift; sourceTree = "<group>"; };
 		DC2CE2CA41A04AC5CC0240E1D5FBDC4E /* BLEHeartRate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = BLEHeartRate.m; sourceTree = "<group>"; };
@@ -2139,13 +2141,13 @@
 		E46C888033A3D87B39C39B0B3F22AFA8 /* Pods-AWARE-DynamicESM-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-DynamicESM-umbrella.h"; sourceTree = "<group>"; };
 		E482E4A46DDA6421C55015B7C4FD51F8 /* AWARESensor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AWARESensor.h; sourceTree = "<group>"; };
 		E5674AAA45DE4653B5737F9A93960D99 /* SensorWifi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = SensorWifi.h; sourceTree = "<group>"; };
-		E587ECD02F2317806F963C72F4CF6ED3 /* 12_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 12_3.jpg; sourceTree = "<group>"; };
+		E587ECD02F2317806F963C72F4CF6ED3 /* 12_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 12_3.jpg; sourceTree = "<group>"; };
 		E59B1FA3A6C6FBCA424C172D52675A57 /* EZAudioPlot.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlot.m; sourceTree = "<group>"; };
 		E62CC3DA9CAF2DE7901CFA5A9CD1B204 /* DeviceUsage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DeviceUsage.h; sourceTree = "<group>"; };
 		E62F05692116D573337A962C7D545B3B /* CombinedChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinedChartDataProvider.swift; path = Source/Charts/Interfaces/CombinedChartDataProvider.swift; sourceTree = "<group>"; };
 		E6509BBDC4F6D960294F6826AC9659ED /* EntityBatteryDischarge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityBatteryDischarge.h; sourceTree = "<group>"; };
 		E67C5585F9B3BBA6236B405A10C0F327 /* Pods-AWARE-Visualizer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AWARE-Visualizer.debug.xcconfig"; sourceTree = "<group>"; };
-		E776D8632D66448F0B20F349903A5848 /* 16_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 16_1.jpg; sourceTree = "<group>"; };
+		E776D8632D66448F0B20F349903A5848 /* 16_1.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 16_1.jpg; sourceTree = "<group>"; };
 		E82177336D53A882F6342A103108E8F6 /* AWAREDebugMessageLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREDebugMessageLogger.m; sourceTree = "<group>"; };
 		E860BAAF3EC9E8D5FCF4714FC30C27C2 /* SCReachabilityRefBuilder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCReachabilityRefBuilder.h; path = Classes/Private/SCReachabilityRefBuilder.h; sourceTree = "<group>"; };
 		E880DA85A702D8C4F6B18B47288EADDF /* HorizontalBarChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalBarChartRenderer.swift; path = Source/Charts/Renderers/HorizontalBarChartRenderer.swift; sourceTree = "<group>"; };
@@ -2164,7 +2166,7 @@
 		EB6A8B06500A9047E2CE95377B7D7847 /* Pods-AWARE-CustomSensor-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-CustomSensor-umbrella.h"; sourceTree = "<group>"; };
 		EB9E9A8A8FF70A89B81DBF3ECD37DFEB /* GTMSessionFetcher-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMSessionFetcher-umbrella.h"; sourceTree = "<group>"; };
 		EBAC0663D580BFB3F942C32C8139C7C6 /* EntityBarometer+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityBarometer+CoreDataProperties.m"; sourceTree = "<group>"; };
-		EBD5057839041A74CF88870D25281DE0 /* 11_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 11_3.jpg; sourceTree = "<group>"; };
+		EBD5057839041A74CF88870D25281DE0 /* 11_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 11_3.jpg; sourceTree = "<group>"; };
 		EC1E9B109FA298A966215B9220B5AB8C /* LegendRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LegendRenderer.swift; path = Source/Charts/Renderers/LegendRenderer.swift; sourceTree = "<group>"; };
 		ECB3045A416688AF5838FC97D8F47503 /* Pods-AWARE-ScheduleESM-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-ScheduleESM-umbrella.h"; sourceTree = "<group>"; };
 		ECF2AAE35F880CA096B690A332985019 /* EntityESMSchedule+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityESMSchedule+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -2185,7 +2187,7 @@
 		F0D2754D41275C009978B4DEC5A542B4 /* FitbitDevice.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = FitbitDevice.m; sourceTree = "<group>"; };
 		F0EB4AA30A3BDAFEFBDB4ADA9461CBF9 /* AWAREGoogleLoginViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWAREGoogleLoginViewController.m; sourceTree = "<group>"; };
 		F17AD9EA5BCDE1FA33BC10F5C1938429 /* BRLineReader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = BRLineReader.m; sourceTree = "<group>"; };
-		F1AF51EF345BA3EE282C9E4020294ECD /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AWARE_CustomSensor.framework; path = "Pods-AWARE-CustomSensor.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1AF51EF345BA3EE282C9E4020294ECD /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1CF31E899D69EC363F0F1E19BA763EF /* Platform+Accessibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Platform+Accessibility.swift"; path = "Source/Charts/Utils/Platform+Accessibility.swift"; sourceTree = "<group>"; };
 		F202AB60DA2B687113BDD14AD9F6534F /* Pods-AWARE-CustomESM-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-CustomESM-acknowledgements.plist"; sourceTree = "<group>"; };
 		F2230239D6A235D866A63445EB7AA1CD /* EntityIOSPedometer+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityIOSPedometer+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -2205,11 +2207,11 @@
 		F799C51CDDD572224C5B24FCEECAAD36 /* Pods-AWARE-DynamicESM-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-DynamicESM-frameworks.sh"; sourceTree = "<group>"; };
 		F7A74A9BBF9222C70246F66DBAA1CDFA /* DBTableCreator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = DBTableCreator.m; sourceTree = "<group>"; };
 		F7B4C92E4364003BB4791A1A8F0F8251 /* EntityLinearAccelerometer+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityLinearAccelerometer+CoreDataProperties.h"; sourceTree = "<group>"; };
-		F7E6A3F45FEC935EDC539077E060E2E3 /* 1_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 1_2.jpg; sourceTree = "<group>"; };
+		F7E6A3F45FEC935EDC539077E060E2E3 /* 1_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 1_2.jpg; sourceTree = "<group>"; };
 		F8B07C10292F9C6F045990F2ABC53B0E /* Pods-AWARE-SimpleClient.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AWARE-SimpleClient.modulemap"; sourceTree = "<group>"; };
 		F8DD5B430BCB220F346A15BDCB4070FE /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Source/GCD/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		F912717578694EA30EF0EF9EEF4C80E1 /* EntityDebug+CoreDataProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EntityDebug+CoreDataProperties.h"; sourceTree = "<group>"; };
-		F94DFD7E458BFC57E98E7F4E3FF9DC0F /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GTMSessionFetcher.framework; path = GTMSessionFetcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F94DFD7E458BFC57E98E7F4E3FF9DC0F /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GTMSessionFetcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9B5B6C5D73B0A318CC48BD12C26CEBA /* CandleChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleChartDataProvider.swift; path = Source/Charts/Interfaces/CandleChartDataProvider.swift; sourceTree = "<group>"; };
 		F9BC1BDDEACC60A47FDDB508A7944DD7 /* EZAudioPlotGL.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EZAudioPlotGL.m; sourceTree = "<group>"; };
 		F9F62FE2303F9395106DC6A1D31C2196 /* Pods-AWARE-ConfigURLESM-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-ConfigURLESM-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -2234,11 +2236,11 @@
 		FD15A2DD53B8776C0EA8B263166E5B54 /* macros_blocks.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = macros_blocks.h; sourceTree = "<group>"; };
 		FD3DE896A4EE710C49CBF8DBD3C25283 /* Pods-AWARE-ConfigURLESM-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AWARE-ConfigURLESM-umbrella.h"; sourceTree = "<group>"; };
 		FD523F781D8903712DEA13F6AC22EBC0 /* ChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/ChartDataEntry.swift; sourceTree = "<group>"; };
-		FD71FFF3306CA09B65E72ECDE6850444 /* 3_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 3_3.jpg; sourceTree = "<group>"; };
+		FD71FFF3306CA09B65E72ECDE6850444 /* 3_3.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 3_3.jpg; sourceTree = "<group>"; };
 		FDC2DDB163FA9CFDD88787ED5D5A8AC6 /* IValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IValueFormatter.swift; path = Source/Charts/Formatters/IValueFormatter.swift; sourceTree = "<group>"; };
 		FE21156F8FB64D625CB7655B6C23A948 /* ESMRadioView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMRadioView.m; sourceTree = "<group>"; };
 		FE8E16FD99E8F7F4D9FABA38F1F86752 /* Pods-AWARE-SimpleClient-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-SimpleClient-acknowledgements.plist"; sourceTree = "<group>"; };
-		FEE5E2A39772C8E9C9C594F661795B48 /* 14_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; path = 14_2.jpg; sourceTree = "<group>"; };
+		FEE5E2A39772C8E9C9C594F661795B48 /* 14_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 14_2.jpg; sourceTree = "<group>"; };
 		FF0D7A65A4B88B7D7463465E930E0AB1 /* Pods-AWARE-SimpleClient-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-SimpleClient-frameworks.sh"; sourceTree = "<group>"; };
 		FFA2E3C11C2BCEAEFC5F8DF14631E495 /* BarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BarChartDataSet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2413,7 +2415,6 @@
 				289837FFEF51B481EF93C747FBB8A836 /* TPCircularBuffer+AudioBufferList.h */,
 				6EF78BAC0AC543210B1601282D92490F /* Support Files */,
 			);
-			name = TPCircularBuffer;
 			path = TPCircularBuffer;
 			sourceTree = "<group>";
 		};
@@ -2424,7 +2425,6 @@
 				86669664F900A413D4176A4F23D5E21C /* 8_2.jpg */,
 				B7CC3E2906F7A5FAF14EFBDE537CF3B8 /* 8_3.jpg */,
 			);
-			name = 8_glad;
 			path = 8_glad;
 			sourceTree = "<group>";
 		};
@@ -2437,7 +2437,6 @@
 				F8DD5B430BCB220F346A15BDCB4070FE /* GCDAsyncUdpSocket.m */,
 				38EB019264C2AAE82EEA7E13F2D3C452 /* Support Files */,
 			);
-			name = CocoaAsyncSocket;
 			path = CocoaAsyncSocket;
 			sourceTree = "<group>";
 		};
@@ -2475,7 +2474,6 @@
 				5B363A18DC6C5D45E0AE4D5BC4193BD1 /* PushNotification.h */,
 				9A85050B09BB293AEAD991AA6338F344 /* PushNotification.m */,
 			);
-			name = PushNotification;
 			path = PushNotification;
 			sourceTree = "<group>";
 		};
@@ -2485,7 +2483,6 @@
 				6BA7BD2C3B38B4716F6A7D62D82AD4CF /* ESMWebView.h */,
 				598FD330AD7760878B9B8D50F165BFB2 /* ESMWebView.m */,
 			);
-			name = ESMWebView;
 			path = ESMWebView;
 			sourceTree = "<group>";
 		};
@@ -2509,7 +2506,6 @@
 				6E9067B1E5A9E86A5A59EFD301B95748 /* ESMVideo */,
 				04EDD7073F43886169BE9C068BD96CF1 /* ESMWebView */,
 			);
-			name = ESMScrollViewCells;
 			path = ESMScrollViewCells;
 			sourceTree = "<group>";
 		};
@@ -2519,7 +2515,6 @@
 				AAE7C9DCB1A84E17FAF23A8C14138C17 /* core */,
 				5D80758122B01E34E5E9A82C9216A374 /* Support Files */,
 			);
-			name = macros_blocks;
 			path = macros_blocks;
 			sourceTree = "<group>";
 		};
@@ -2541,7 +2536,6 @@
 				1B1635D6665CAEE4D778F38BB151F59C /* ESMDateTimePickerView.h */,
 				7EF6854057944D07C521B7BFE81A9306 /* ESMDateTimePickerView.m */,
 			);
-			name = ESMDateTimePicker;
 			path = ESMDateTimePicker;
 			sourceTree = "<group>";
 		};
@@ -2551,7 +2545,6 @@
 				5288F31664A78D54CB0B28F1625F2962 /* ESMAudioView.h */,
 				FAD4705493A7B345F5F4690FF7051B0E /* ESMAudioView.m */,
 			);
-			name = ESMAudio;
 			path = ESMAudio;
 			sourceTree = "<group>";
 		};
@@ -2565,7 +2558,6 @@
 				3747A46D0ECB6BFCE745084786BDB0A2 /* Screen.h */,
 				59B6E676E1FBEACB2106E8CFD2C77904 /* Screen.m */,
 			);
-			name = Screen;
 			path = Screen;
 			sourceTree = "<group>";
 		};
@@ -2586,7 +2578,6 @@
 				5609215BA44E01F2C8567308834E75B5 /* Wifi.m */,
 				52859E27C4EFAD79EFA296D5ED09435D /* MobileWiFi */,
 			);
-			name = Wifi;
 			path = Wifi;
 			sourceTree = "<group>";
 		};
@@ -2596,7 +2587,6 @@
 				8BA9FE5AF7FED9C7FC8FB630A1FB3C82 /* IOSESM.h */,
 				779B9D2C00F3FA810E47DBE8ADFA9F62 /* IOSESM.m */,
 			);
-			name = IOSESM;
 			path = IOSESM;
 			sourceTree = "<group>";
 		};
@@ -2625,7 +2615,6 @@
 				93AE207F3D3E88FEF0436723D34911C9 /* EntityAccelerometer+CoreDataProperties.h */,
 				94E94D201374C6F67764BEE25A801A5A /* EntityAccelerometer+CoreDataProperties.m */,
 			);
-			name = Accelerometer;
 			path = Accelerometer;
 			sourceTree = "<group>";
 		};
@@ -2653,7 +2642,6 @@
 				538CC0BA07338E421DE86BFA319E4EBB /* EntityBLEHeartRate+CoreDataProperties.h */,
 				A6AA304754D7E6D853CDEF9923329D50 /* EntityBLEHeartRate+CoreDataProperties.m */,
 			);
-			name = BLEHeartRate;
 			path = BLEHeartRate;
 			sourceTree = "<group>";
 		};
@@ -2675,7 +2663,6 @@
 				9934EB8A9A94701FD6768BA8FAC0DBF1 /* Timezone.h */,
 				5B83747B6869E35674CD49627FA63504 /* Timezone.m */,
 			);
-			name = Timezone;
 			path = Timezone;
 			sourceTree = "<group>";
 		};
@@ -2717,7 +2704,6 @@
 				439CC43FB5BBF38B2E2214CC0D48FF4D /* ESMFreeTextView.h */,
 				110B5416F41CB6BB88EF63F437FD9358 /* ESMFreeTextView.m */,
 			);
-			name = ESMText;
 			path = ESMText;
 			sourceTree = "<group>";
 		};
@@ -2749,7 +2735,6 @@
 				FB776F2C2F11A0D4637AB85E92706199 /* EntityHealthKitQuantityHR+CoreDataProperties.h */,
 				5EBB7E5DE6916F15605E6AA18575853E /* EntityHealthKitQuantityHR+CoreDataProperties.m */,
 			);
-			name = HealthKit;
 			path = HealthKit;
 			sourceTree = "<group>";
 		};
@@ -2759,7 +2744,6 @@
 				6BDCA1E5E01F8E965D4F148B08727796 /* BasicSettings.h */,
 				9CC3803DAFD68F792E8F6594996EBCA9 /* BasicSettings.m */,
 			);
-			name = BasicSettings;
 			path = BasicSettings;
 			sourceTree = "<group>";
 		};
@@ -2775,7 +2759,6 @@
 				C8CF7786B9DA05A7815FE63EEBDB8219 /* Reachability.h */,
 				ACCE0EFE931AA706FEC04BE54AA12C07 /* Reachability.m */,
 			);
-			name = Utility;
 			path = Utility;
 			sourceTree = "<group>";
 		};
@@ -2811,7 +2794,6 @@
 				CE964B91918969BAEBF783F28D5AA9BE /* Core */,
 				BD2AF8E2B1F216CB972546CE405683F5 /* Support Files */,
 			);
-			name = Charts;
 			path = Charts;
 			sourceTree = "<group>";
 		};
@@ -2828,7 +2810,6 @@
 				CCC9AF149CE5C2F2DCAB16E6D8119B51 /* TCQMaker.m */,
 				F7A4DEF11A00EBFC48EA9F99DE396727 /* CoreDataHandlers */,
 			);
-			name = Tools;
 			path = Tools;
 			sourceTree = "<group>";
 		};
@@ -2839,7 +2820,6 @@
 				B12A27422EF5AEE587F3E44E9CCF7391 /* 4_2.jpg */,
 				BC333927BDBE470540198DD91ACD4972 /* 4_3.jpg */,
 			);
-			name = 4_delighted;
 			path = 4_delighted;
 			sourceTree = "<group>";
 		};
@@ -2864,7 +2844,6 @@
 				B0368D8870B330B1B9A4888609484BB0 /* 9_2.jpg */,
 				AFA30FF600A494A85A1667B8646F7F0C /* 9_3.jpg */,
 			);
-			name = 9_miserable;
 			path = 9_miserable;
 			sourceTree = "<group>";
 		};
@@ -2876,7 +2855,6 @@
 				18D94D095E4B1890EBEF294981550E18 /* GoogleLogin.h */,
 				733760106F72C6D15C113B1CD5F78E83 /* GoogleLogin.m */,
 			);
-			name = GoogleLogin;
 			path = GoogleLogin;
 			sourceTree = "<group>";
 		};
@@ -2886,7 +2864,6 @@
 				CBF11335697FA15586E6A53E0748C112 /* AWAREStudy.h */,
 				962324CA271B39F3D97DF1E17A4B92AF /* AWAREStudy.m */,
 			);
-			name = Study;
 			path = Study;
 			sourceTree = "<group>";
 		};
@@ -2911,7 +2888,6 @@
 				319A2463010376C1C392FC4229E15B0B /* 10_2.jpg */,
 				BF8811A8401F42972C105349D9059606 /* 10_3.jpg */,
 			);
-			name = 10_sad;
 			path = 10_sad;
 			sourceTree = "<group>";
 		};
@@ -2925,7 +2901,6 @@
 				823DFEE0C95BE4788395213E764B5B76 /* EntityDeviceUsage+CoreDataProperties.h */,
 				47B0EB31ED102F1BF714215AA08A7042 /* EntityDeviceUsage+CoreDataProperties.m */,
 			);
-			name = DeviceUsage;
 			path = DeviceUsage;
 			sourceTree = "<group>";
 		};
@@ -2953,7 +2928,6 @@
 				6140BECF711C5F6292046CF7F46A03DC /* CSVStorage.h */,
 				30060EB4C7274C536E59AAE8A9D6B49F /* CSVStorage.m */,
 			);
-			name = CSV;
 			path = CSV;
 			sourceTree = "<group>";
 		};
@@ -2967,7 +2941,6 @@
 				BF044BDD200CCAAC9F074AD7483F3864 /* OpenWeather.h */,
 				77AAA8BFD382CF7090DD0502904C12AF /* OpenWeather.m */,
 			);
-			name = OpenWeather;
 			path = OpenWeather;
 			sourceTree = "<group>";
 		};
@@ -2981,7 +2954,6 @@
 				31DA0939C99CC0DE00F36E580558F454 /* EntityBarometer+CoreDataProperties.h */,
 				EBAC0663D580BFB3F942C32C8139C7C6 /* EntityBarometer+CoreDataProperties.m */,
 			);
-			name = Barometer;
 			path = Barometer;
 			sourceTree = "<group>";
 		};
@@ -2992,7 +2964,6 @@
 				8FE1FE310AF5DA63AAE86DF87A0718E5 /* 7_2.jpg */,
 				20B71FBF67A7589EE603EDAB7523AA6B /* 7_3.jpg */,
 			);
-			name = 7_happy;
 			path = 7_happy;
 			sourceTree = "<group>";
 		};
@@ -3004,7 +2975,6 @@
 				76497FDB8E2814BC4C79E539FDF9AB46 /* WiFiManager.h */,
 				E07941EB629088F21F11C82B86ACB900 /* WiFiNetwork.h */,
 			);
-			name = MobileWiFi;
 			path = MobileWiFi;
 			sourceTree = "<group>";
 		};
@@ -3020,7 +2990,6 @@
 				F5431DE2052A9E835D2F6D2868D02430 /* AWARESensors.h */,
 				5593E1A08B19C094666F9B3307820D56 /* AWARESensors.m */,
 			);
-			name = Sensor;
 			path = Sensor;
 			sourceTree = "<group>";
 		};
@@ -3031,7 +3000,6 @@
 				69FEFA083089179F8A55A010740C3C9D /* 13_2.jpg */,
 				B5A6E68D654D4640B123E4AB93255B23 /* 13_3.jpg */,
 			);
-			name = 13_gloomy;
 			path = 13_gloomy;
 			sourceTree = "<group>";
 		};
@@ -3054,7 +3022,6 @@
 				DFE65AC017C515F33A238F026BD1644E /* Network.h */,
 				708BD4F338D77AAB903B8EA76FE336DA /* Network.m */,
 			);
-			name = Network;
 			path = Network;
 			sourceTree = "<group>";
 		};
@@ -3085,7 +3052,6 @@
 				930035807F82F06B4A50BA4F210B5038 /* LinearAccelerometer.h */,
 				6D8BB5168516B0CF6253B1166597772D /* LinearAccelerometer.m */,
 			);
-			name = LinearAccelerometer;
 			path = LinearAccelerometer;
 			sourceTree = "<group>";
 		};
@@ -3095,7 +3061,6 @@
 				B37A2692C90C8BD7075C950AD058D395 /* CalendarESMScheduler.h */,
 				8D38652DB2D55A5091A03FB18EEF5BDA /* CalendarESMScheduler.m */,
 			);
-			name = CalendarESMScheduler;
 			path = CalendarESMScheduler;
 			sourceTree = "<group>";
 		};
@@ -3111,7 +3076,6 @@
 				237CF618EB3327377D4C5223A3B5248F /* EntityCalendar+CoreDataProperties.h */,
 				F66F20C3076DC74E47386D84F9600F27 /* EntityCalendar+CoreDataProperties.m */,
 			);
-			name = Calendar;
 			path = Calendar;
 			sourceTree = "<group>";
 		};
@@ -3153,7 +3117,6 @@
 				ECF2AAE35F880CA096B690A332985019 /* EntityESMSchedule+CoreDataProperties.h */,
 				4608D672E8BD2E3D034187A4CCA8972D /* EntityESMSchedule+CoreDataProperties.m */,
 			);
-			name = ESMEntities;
 			path = ESMEntities;
 			sourceTree = "<group>";
 		};
@@ -3163,7 +3126,6 @@
 				ADF470BCE524729B5B9A8B9DE2E60CF8 /* ESMScaleView.h */,
 				8C1117A6E46425D2BF4C8CF3D1A84022 /* ESMScaleView.m */,
 			);
-			name = ESMScale;
 			path = ESMScale;
 			sourceTree = "<group>";
 		};
@@ -3182,7 +3144,6 @@
 				D09D8E5059121E0527494AC31D760C28 /* ESMVideoView.h */,
 				748820EA41C119145AF2D4DEB8EE9A4E /* ESMVideoView.m */,
 			);
-			name = ESMVideo;
 			path = ESMVideo;
 			sourceTree = "<group>";
 		};
@@ -3207,7 +3168,6 @@
 				7256F75806E3EDEF00C27699CFC7FDBC /* 3_2.jpg */,
 				FD71FFF3306CA09B65E72ECDE6850444 /* 3_3.jpg */,
 			);
-			name = 3_excited;
 			path = 3_excited;
 			sourceTree = "<group>";
 		};
@@ -3217,7 +3177,6 @@
 				CCCAF9C8F5276E07932FA3CA26FAD93A /* PamSchema.h */,
 				3CBA866A394FA36AEBB87C9EED27605B /* PamSchema.m */,
 			);
-			name = PAM;
 			path = PAM;
 			sourceTree = "<group>";
 		};
@@ -3236,7 +3195,6 @@
 				D952BA593768C88672DA30323BC1C43E /* ESMQuickAnswerView.h */,
 				D8EAB898BE184E2842D113D7BE8F4C68 /* ESMQuickAnswerView.m */,
 			);
-			name = ESMQuickAnswer;
 			path = ESMQuickAnswer;
 			sourceTree = "<group>";
 		};
@@ -3262,7 +3220,6 @@
 				830F9A04F08C714E9BC9C457CB7FB853 /* EntityBatteryDischarge+CoreDataProperties.h */,
 				A19794D18510C449A2ECE4F0DA107AB4 /* EntityBatteryDischarge+CoreDataProperties.m */,
 			);
-			name = Battery;
 			path = Battery;
 			sourceTree = "<group>";
 		};
@@ -3276,7 +3233,6 @@
 				81834DAC428DFE8FE7D936489338E41C /* Gravity.h */,
 				61ADF8356521B822C394B6E02D7DA85A /* Gravity.m */,
 			);
-			name = Gravity;
 			path = Gravity;
 			sourceTree = "<group>";
 		};
@@ -3287,7 +3243,6 @@
 				86D5054B2C10095D9BC6CDA2AC67C8A4 /* 2_2.jpg */,
 				B096C2F3D56CABC02E4583B6C4846808 /* 2_3.jpg */,
 			);
-			name = 2_tense;
 			path = 2_tense;
 			sourceTree = "<group>";
 		};
@@ -3306,7 +3261,6 @@
 				D20316A8A9D71AAACBA869D247C50811 /* 12_2.jpg */,
 				E587ECD02F2317806F963C72F4CF6ED3 /* 12_3.jpg */,
 			);
-			name = 12_satisfied;
 			path = 12_satisfied;
 			sourceTree = "<group>";
 		};
@@ -3325,7 +3279,6 @@
 				7A84F09D92607C2D5C1394273EE89A56 /* 6_2.jpg */,
 				579A199FB3445F261364A6EC930FCFBA /* 6_3.jpg */,
 			);
-			name = 6_angry;
 			path = 6_angry;
 			sourceTree = "<group>";
 		};
@@ -3375,7 +3328,6 @@
 				0BB27FA3D7B9B76AD7FF90A0FAE219F4 /* NTPTime.h */,
 				B9723D19E3EC632CD1E995972A6B7855 /* NTPTime.m */,
 			);
-			name = NTPTime;
 			path = NTPTime;
 			sourceTree = "<group>";
 		};
@@ -3400,7 +3352,6 @@
 				C73124C260C5FEB9B4487FF10C569378 /* ESMClockLineView.h */,
 				5CA466F6F3AA66C47059736D1AB8556D /* ESMClockLineView.m */,
 			);
-			name = ClockLineView;
 			path = ClockLineView;
 			sourceTree = "<group>";
 		};
@@ -3422,7 +3373,6 @@
 				BB9195C3424E85E959249ECAD38D32D0 /* FitbitDevice.h */,
 				F0D2754D41275C009978B4DEC5A542B4 /* FitbitDevice.m */,
 			);
-			name = Fitbit;
 			path = Fitbit;
 			sourceTree = "<group>";
 		};
@@ -3432,7 +3382,6 @@
 				9187B20E47DD63E87B8118898FB1A0ED /* ESMLikertScaleView.h */,
 				FB7745DC6F91DBEDCF02F4D8BC7ACC14 /* ESMLikertScaleView.m */,
 			);
-			name = ESMLikertScale;
 			path = ESMLikertScale;
 			sourceTree = "<group>";
 		};
@@ -3507,7 +3456,6 @@
 				AA0A08C788F9ACC89DFAF44A03C83718 /* EntityBluetooth+CoreDataProperties.h */,
 				123ACA4E0722247C1CD6F0BBCF2DF480 /* EntityBluetooth+CoreDataProperties.m */,
 			);
-			name = Bluetooth;
 			path = Bluetooth;
 			sourceTree = "<group>";
 		};
@@ -3524,7 +3472,6 @@
 				0BFF93B31CC7AADCB09B71CBA36BD986 /* EntityAmbientNoise+CoreDataProperties.m */,
 				AA2020B64AEA9E8E9764225C1455AEAB /* EZAudio */,
 			);
-			name = AmbientNoise;
 			path = AmbientNoise;
 			sourceTree = "<group>";
 		};
@@ -3534,7 +3481,6 @@
 				894C7E4E2A48A87F10E46DE998DD7111 /* Core */,
 				A072FA4D904654107169F0BB68AA3C2A /* Support Files */,
 			);
-			name = GTMSessionFetcher;
 			path = GTMSessionFetcher;
 			sourceTree = "<group>";
 		};
@@ -3545,7 +3491,6 @@
 				89C71823537A0072BE9717B5E6253261 /* 15_2.jpg */,
 				92F235BD46DD4D91DF3A1B3F66138F68 /* 15_3.jpg */,
 			);
-			name = 15_sleepy;
 			path = 15_sleepy;
 			sourceTree = "<group>";
 		};
@@ -3579,7 +3524,6 @@
 				E373059F5037B094267F4ECBABD6CDA4 /* ESMPictureView.h */,
 				267D44A649616CD788BE17E4637D8A55 /* ESMPictureView.m */,
 			);
-			name = ESMPicture;
 			path = ESMPicture;
 			sourceTree = "<group>";
 		};
@@ -3589,7 +3533,6 @@
 				B60736B509F3854B0F0629C515E5231A /* ESMNumberView.h */,
 				5EB2B25B82E63CB5E542842D86A0BFBF /* ESMNumberView.m */,
 			);
-			name = ESMNumber;
 			path = ESMNumber;
 			sourceTree = "<group>";
 		};
@@ -3630,7 +3573,6 @@
 				E902497F99B822872D03619311FB0234 /* EZRecorder.m */,
 				674C1D51173FE60DDBE10A5021C11484 /* TPCircularBuffer.h */,
 			);
-			name = EZAudio;
 			path = EZAudio;
 			sourceTree = "<group>";
 		};
@@ -3654,7 +3596,6 @@
 				5A74579490D1E615CA36696E82B16176 /* VisitLocations.h */,
 				327D4D7760189E1E0BFF51F975B08EF9 /* VisitLocations.m */,
 			);
-			name = Location;
 			path = Location;
 			sourceTree = "<group>";
 		};
@@ -3664,7 +3605,6 @@
 				8EBE9F520C84C482037A9264B31AEF33 /* JSONStorage.h */,
 				14F986A4B07327156A9BAA4959134B72 /* JSONStorage.m */,
 			);
-			name = JSON;
 			path = JSON;
 			sourceTree = "<group>";
 		};
@@ -3678,7 +3618,6 @@
 				B7C0CA49F7B435AD2E8B324DDD633CDD /* SQLite */,
 				2E192032A4E8A18B49465DBDC3DA24A8 /* Tools */,
 			);
-			name = Storage;
 			path = Storage;
 			sourceTree = "<group>";
 		};
@@ -3706,7 +3645,6 @@
 				B8466CA9447383DAF602F34190777702 /* SQLiteStorage.h */,
 				27A6509D0B220CCD2352252000069EEF /* SQLiteStorage.m */,
 			);
-			name = SQLite;
 			path = SQLite;
 			sourceTree = "<group>";
 		};
@@ -3717,7 +3655,6 @@
 				F7538DE22224A8263F572CE3604A550A /* ESMClockTimePickerView.m */,
 				8A77CD58297DDB9D03CEA842729C3132 /* ClockLineView */,
 			);
-			name = ESMClockTimePicker;
 			path = ESMClockTimePicker;
 			sourceTree = "<group>";
 		};
@@ -3742,7 +3679,6 @@
 				7764068BBF8CAB2637D0A0C61C5A7E7C /* 11_2.jpg */,
 				EBD5057839041A74CF88870D25281DE0 /* 11_3.jpg */,
 			);
-			name = 11_calm;
 			path = 11_calm;
 			sourceTree = "<group>";
 		};
@@ -3770,7 +3706,6 @@
 				03835EC4B7A9234C71D45660DE69BE80 /* 16_2.jpg */,
 				4A005B8EDA6112D68294B2C501587CCE /* 16_3.jpg */,
 			);
-			name = 16_serene;
 			path = 16_serene;
 			sourceTree = "<group>";
 		};
@@ -3781,7 +3716,6 @@
 				837DD0D6B3C622375AC8BFC92E425EFF /* Resources */,
 				5480E1A2EE393D8FA88ED7B238493E75 /* Support Files */,
 			);
-			name = GoogleSignIn;
 			path = GoogleSignIn;
 			sourceTree = "<group>";
 		};
@@ -3791,7 +3725,6 @@
 				9CD25A9730CC8FDBEEC7523245CAFDBC /* Core */,
 				309590D1D7FA40DEBCCC1A0C6B556AA0 /* Support Files */,
 			);
-			name = SCNetworkReachability;
 			path = SCNetworkReachability;
 			sourceTree = "<group>";
 		};
@@ -3805,7 +3738,6 @@
 				C89B0378DF29694A649F4C041A34D4A9 /* Gyroscope.h */,
 				C06B14EB1B48B12A40F18028748CD00C /* Gyroscope.m */,
 			);
-			name = Gyroscope;
 			path = Gyroscope;
 			sourceTree = "<group>";
 		};
@@ -3819,7 +3751,6 @@
 				F912717578694EA30EF0EF9EEF4C80E1 /* EntityDebug+CoreDataProperties.h */,
 				F742700819FE031AF3800D17F506A01D /* EntityDebug+CoreDataProperties.m */,
 			);
-			name = Debug;
 			path = Debug;
 			sourceTree = "<group>";
 		};
@@ -3829,7 +3760,6 @@
 				7989EBF35A16C53DB742722BEEA9E8C2 /* ESMCheckBoxView.h */,
 				EF61EA533A97D70E95D08AC79332D701 /* ESMCheckBoxView.m */,
 			);
-			name = ESMCheckBox;
 			path = ESMCheckBox;
 			sourceTree = "<group>";
 		};
@@ -3842,7 +3772,6 @@
 				6DCE395286315E4A6176215719BA6596 /* NSString+URLArguments */,
 				C9714CF23A6BDF9E3D6375F7B7B89531 /* Support Files */,
 			);
-			name = GoogleToolboxForMac;
 			path = GoogleToolboxForMac;
 			sourceTree = "<group>";
 		};
@@ -3886,7 +3815,6 @@
 				AA04B9CB2DCEBA744F59FD36776FD5F9 /* Magnetometer.h */,
 				5E36FDA72121217DA6A42CFA1B259BD2 /* Magnetometer.m */,
 			);
-			name = Magnetometer;
 			path = Magnetometer;
 			sourceTree = "<group>";
 		};
@@ -4126,7 +4054,6 @@
 				17ACDBAEE41EB547A117F0C7EAEC78FD /* ESMPAMView.m */,
 				70A998597C6941DE8A4272BA4C1253D8 /* PAM */,
 			);
-			name = ESMPAM;
 			path = ESMPAM;
 			sourceTree = "<group>";
 		};
@@ -4137,7 +4064,6 @@
 				F7E6A3F45FEC935EDC539077E060E2E3 /* 1_2.jpg */,
 				CC18D1916A7D6193F98E3BD15FEE9D97 /* 1_3.jpg */,
 			);
-			name = 1_afraid;
 			path = 1_afraid;
 			sourceTree = "<group>";
 		};
@@ -4147,7 +4073,6 @@
 				31717F306BB0E525BED3FBAD59D495E2 /* ESMRadioView.h */,
 				FE21156F8FB64D625CB7655B6C23A948 /* ESMRadioView.m */,
 			);
-			name = ESMRadio;
 			path = ESMRadio;
 			sourceTree = "<group>";
 		};
@@ -4158,7 +4083,6 @@
 				9ED7AA38F9C534E3F459771834F355CB /* 5_2.jpg */,
 				816B97F5441A060700D0FC6D970BE19F /* 5_3.jpg */,
 			);
-			name = 5_frustrated;
 			path = 5_frustrated;
 			sourceTree = "<group>";
 		};
@@ -4189,7 +4113,6 @@
 				FEE5E2A39772C8E9C9C594F661795B48 /* 14_2.jpg */,
 				41FFAFD7EF7A160367E307F4D1D7AAE0 /* 14_3.jpg */,
 			);
-			name = 14_tired;
 			path = 14_tired;
 			sourceTree = "<group>";
 		};
@@ -4199,7 +4122,6 @@
 				C1704BB62AB625699EB5C5DE72FC5D8D /* Orientation.h */,
 				BC949B5CBE5E0199314B3446CF0CA182 /* Orientation.m */,
 			);
-			name = Orientation;
 			path = Orientation;
 			sourceTree = "<group>";
 		};
@@ -4213,7 +4135,6 @@
 				48E6B98DDE338781B8F04DC4925FF913 /* Memory.h */,
 				4A8AFC46CEA0F622207B45678A81939D /* Memory.m */,
 			);
-			name = Memory;
 			path = Memory;
 			sourceTree = "<group>";
 		};
@@ -4227,7 +4148,6 @@
 				E1983D18CD34378F518CCE8441A8BB05 /* Proximity.h */,
 				4799C46AF7FFB6F804A255A7FCE991A0 /* Proximity.m */,
 			);
-			name = Proximity;
 			path = Proximity;
 			sourceTree = "<group>";
 		};
@@ -4244,7 +4164,6 @@
 				32C0725F7D11B2D68CC87BD8C10827A2 /* ntp-log.h */,
 				226188B025EB2912B783F61E297ECC8D /* Support Files */,
 			);
-			name = "ios-ntp";
 			path = "ios-ntp";
 			sourceTree = "<group>";
 		};
@@ -4258,7 +4177,6 @@
 				C8E5183248A93FF82B1AAA3E5D872AF1 /* IOSActivityRecognition.h */,
 				16CF65B5EAFF83DF7164CC47DBD6F62D /* IOSActivityRecognition.m */,
 			);
-			name = IOSActivityRecognition;
 			path = IOSActivityRecognition;
 			sourceTree = "<group>";
 		};
@@ -4288,7 +4206,6 @@
 				0922FEB55647F11DCCBD8D824EC5142F /* EntityContact+CoreDataProperties.h */,
 				87EDFA12E98ED9951FA0F310EC6495FB /* EntityContact+CoreDataProperties.m */,
 			);
-			name = Contacts;
 			path = Contacts;
 			sourceTree = "<group>";
 		};
@@ -4320,7 +4237,6 @@
 				6257B938303A3C4116357057A194E68E /* Processor.h */,
 				0717A748E35D1A5D58AFD0FE81BC2A60 /* Processor.m */,
 			);
-			name = Processor;
 			path = Processor;
 			sourceTree = "<group>";
 		};
@@ -4334,7 +4250,6 @@
 				882D3003A5ADE0D5ADC3D8942ED1CEB9 /* ExternalCoreDataHandler.h */,
 				98F760198631B63B3C38D7EA5E688C0F /* ExternalCoreDataHandler.m */,
 			);
-			name = CoreDataHandlers;
 			path = CoreDataHandlers;
 			sourceTree = "<group>";
 		};
@@ -4348,7 +4263,6 @@
 				CDC2C40B9E9221AE7CD1BE535F99EF61 /* EntityCall+CoreDataProperties.h */,
 				C74BDC72FBAE0236D000DFF68AEB7256 /* EntityCall+CoreDataProperties.m */,
 			);
-			name = Calls;
 			path = Calls;
 			sourceTree = "<group>";
 		};
@@ -4390,7 +4304,6 @@
 				F6CFF4071388DC65E71ABD4A5511F152 /* FusedLocations.h */,
 				B0CD459995D1C02B372222CCE2869C9F /* FusedLocations.m */,
 			);
-			name = FusedLocations;
 			path = FusedLocations;
 			sourceTree = "<group>";
 		};
@@ -4404,7 +4317,6 @@
 				CB4C65CDA0B30CEB5953670B32EAA9DF /* Rotation.h */,
 				7A197D37A6B5BA1CB589595F988909E4 /* Rotation.m */,
 			);
-			name = Rotation;
 			path = Rotation;
 			sourceTree = "<group>";
 		};
@@ -4418,7 +4330,6 @@
 				AAA7727CDD6AE1F4B71E14EAF5E7CED6 /* Pedometer.h */,
 				14E16C69141A49C8CE9ECEE70A82EFE2 /* Pedometer.m */,
 			);
-			name = Pedometer;
 			path = Pedometer;
 			sourceTree = "<group>";
 		};
@@ -4432,7 +4343,6 @@
 				88E9311BBA1D85F0DADBD4BA85B3E189 /* EntityConversation+CoreDataProperties.h */,
 				8582111591674E2D52622742756DC505 /* EntityConversation+CoreDataProperties.m */,
 			);
-			name = Conversation;
 			path = Conversation;
 			sourceTree = "<group>";
 		};
@@ -5260,14 +5170,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			productRefGroup = 2D89133A58D101B448F501AF224D171C /* Products */;
@@ -6776,6 +6687,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6825,8 +6737,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -6997,6 +6908,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

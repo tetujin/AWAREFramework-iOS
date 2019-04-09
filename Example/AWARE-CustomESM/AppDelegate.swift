@@ -28,12 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             item.setTitle("Custom ESM")
             item.setTrigger("custom_esm")
             
+            let picture = ESMItem(asPictureESMWithTrigger: "picture")
+            
+            let audio = ESMItem(asAudioESMWithTrigger: "audio")
+            
             let schedule = ESMSchedule()
             schedule.scheduleId = "schedule_1"
             schedule.startDate  = Date()
             schedule.endDate    = Date().addingTimeInterval(60*60*24*7) // 7 days
             schedule.expirationThreshold = 0
             schedule.addESM(item)
+            schedule.addESM(picture)
+            schedule.addESM(audio)
             
             let manager = ESMScheduleManager.shared()
             manager.removeAllSchedulesFromDB()

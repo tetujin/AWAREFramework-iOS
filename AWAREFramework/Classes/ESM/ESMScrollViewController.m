@@ -60,15 +60,18 @@
     NSObject * quickBtnObserver;
     
     NSNumber * sessionTimestamp;
+    
+    
+    ESMAnswerUploadStartHandler      _Nullable uploadStartHandler;
+    ESMAnswerUploadCompletionHandler _Nullable uploadCompletionHandler;
+    ESMAnswerCompletionHandler       _Nullable answerCompletionHandler;
+    OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
+
 }
 @end
 
 
 @implementation ESMScrollViewController
-
-@synthesize uploadStartHandler;
-@synthesize uploadCompletionHandler;
-@synthesize answerCompletionHandler;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     
@@ -324,8 +327,8 @@
     } else if(esmType == AwareESMTypeVideo){ // video
         esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
     } else {
-        if (_originalESMViewGenerationHandler != nil && self != nil) {
-            esmView = _originalESMViewGenerationHandler(esm, totalHight, self);
+        if (originalESMViewGenerationHandler != nil && self != nil) {
+            esmView = originalESMViewGenerationHandler(esm, totalHight, self);
         }
     }
 
@@ -832,19 +835,19 @@
 }
 
 - (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler)handler{
-    self.uploadStartHandler = handler;
+    uploadStartHandler = handler;
 }
 
 - (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler)handler{
-    self.uploadCompletionHandler = handler;
+    uploadCompletionHandler = handler;
 }
 
 - (void) setESMAnswerCompletionHandler:(ESMAnswerCompletionHandler)handler{
-    self.answerCompletionHandler = handler;
+    answerCompletionHandler = handler;
 }
 
 - (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler)handler{
-    self.originalESMViewGenerationHandler = handler;
+    originalESMViewGenerationHandler = handler;
 }
 
 @end

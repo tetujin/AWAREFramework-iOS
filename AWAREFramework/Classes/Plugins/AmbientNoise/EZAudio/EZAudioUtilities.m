@@ -687,7 +687,7 @@ BOOL __shouldExitOnCheckResultFail = YES;
     //
     TPCircularBufferProduceBytes(&historyInfo->circularBuffer, buffer, bufferSize * sizeof(float));
     int32_t targetBytes = historyInfo->bufferSize * sizeof(float);
-    int32_t availableBytes = 0;
+    uint32_t availableBytes = 0;
     float *historyBuffer = TPCircularBufferTail(&historyInfo->circularBuffer, &availableBytes);
     int32_t bytes = MIN(targetBytes, availableBytes);
     memmove(historyInfo->buffer, historyBuffer, bytes);

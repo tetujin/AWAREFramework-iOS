@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 
-@interface ESMAudioView : BaseESMView <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AVCaptureFileOutputRecordingDelegate>
+@interface ESMAudioView : BaseESMView <AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 
 @property (nonatomic, strong) AVAudioRecorder *recorder;
 @property (nonatomic, strong) AVAudioPlayer * player;
