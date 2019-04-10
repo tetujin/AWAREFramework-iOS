@@ -6641,6 +6641,38 @@
 			};
 			name = Release;
 		};
+		18C078486800450F95A0953481B4F7F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A143921D60CA9260769E0EEB7FC3AEAA /* AWAREFramework.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AWAREFramework/AWAREFramework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AWAREFramework/AWAREFramework-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/AWAREFramework/AWAREFramework.modulemap";
+				PRODUCT_MODULE_NAME = AWAREFramework;
+				PRODUCT_NAME = AWAREFramework;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		195EDB396F1A2431445493EAA4770395 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6D6FBD0F5B0833699D22E9251F76F5AA /* GoogleToolboxForMac.xcconfig */;
@@ -6898,39 +6930,6 @@
 			};
 			name = Release;
 		};
-		3EC4B03A9357ED2D372E25F1396CB20A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A143921D60CA9260769E0EEB7FC3AEAA /* AWAREFramework.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/AWAREFramework/AWAREFramework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/AWAREFramework/AWAREFramework-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/AWAREFramework/AWAREFramework.modulemap";
-				PRODUCT_MODULE_NAME = AWAREFramework;
-				PRODUCT_NAME = AWAREFramework;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		4DA5312F445E1740EBE6A621FBDC820A /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C978BE3F2E89BC70F708DFCCA8F8EE63 /* CocoaAsyncSocket.xcconfig */;
@@ -7169,6 +7168,39 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
+		};
+		6CD1DFA1808464880F98F49859343D18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A143921D60CA9260769E0EEB7FC3AEAA /* AWAREFramework.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AWAREFramework/AWAREFramework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AWAREFramework/AWAREFramework-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/AWAREFramework/AWAREFramework.modulemap";
+				PRODUCT_MODULE_NAME = AWAREFramework;
+				PRODUCT_NAME = AWAREFramework;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		767200D10D6734DAB533BE1CF2A0A07F /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -7502,40 +7534,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		BD6F361563253FCEE25498D9F0850FA1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A143921D60CA9260769E0EEB7FC3AEAA /* AWAREFramework.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/AWAREFramework/AWAREFramework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/AWAREFramework/AWAREFramework-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/AWAREFramework/AWAREFramework.modulemap";
-				PRODUCT_MODULE_NAME = AWAREFramework;
-				PRODUCT_NAME = AWAREFramework;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		BFCD1E213A60CD505AB1C9C65A6E9B1F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -8142,8 +8140,8 @@
 		C0A86BBAF2D798E831B734A0428A858B /* Build configuration list for PBXNativeTarget "AWAREFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3EC4B03A9357ED2D372E25F1396CB20A /* Debug */,
-				BD6F361563253FCEE25498D9F0850FA1 /* Release */,
+				18C078486800450F95A0953481B4F7F4 /* Debug */,
+				6CD1DFA1808464880F98F49859343D18 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -18,7 +18,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(willEnterForegroundNotification(notification:)),
@@ -27,6 +26,7 @@ class ViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        
         checkESMSchedules()
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer) in
@@ -68,8 +68,6 @@ class ViewController: UIViewController {
     @objc func willEnterForegroundNotification(notification: NSNotification) {
         UIApplication.shared.applicationIconBadgeNumber = 0
         checkESMSchedules()
-        
-
     }
     
     func checkESMSchedules(){

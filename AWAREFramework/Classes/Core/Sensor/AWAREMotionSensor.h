@@ -25,6 +25,6 @@
 - (BOOL) startSensorWithSensingInterval:(double)interval;
 - (BOOL) startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval;
 
-- (BOOL) isHigherThanThresholdWithTargetValue:(double)value lastValueKey:(NSString *)key;
+- (BOOL) isHigherThanThresholdWithTargetValue:(double)value lastValueKey:(NSString * _Nonnull)key;
 
 @end

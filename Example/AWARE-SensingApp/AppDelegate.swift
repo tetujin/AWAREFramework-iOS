@@ -24,11 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // setup AWARECore
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
+        core.requestPermissionForBackgroundSensing{
             core.requestPermissionForPushNotification()
             core.activate()
-            
-            //////////////////////
             
             // init sensors
             let accelerometer = Accelerometer()
@@ -37,17 +35,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let screen        = Screen()
             let call          = Calls()
             let ambientNoise  = AmbientNoise()
-            
+
             // add the sensors into AWARESensorManager
             self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise])
             self.sensorManager.startAllSensors()
-            
+
             // setup ESMs
             // generate ESMItem
             let pam = ESMItem(asPAMESMWithTrigger: "pam")
             pam.setTitle("How do you feeling now?")
             pam.setInstructions("Please select an image.")
-            
+
             // generate ESMSchedule
             let esm = ESMSchedule()
             esm.scheduleId = "schedule_1"
@@ -57,14 +55,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             esm.expirationThreshold = 60
             esm.addESM(pam)
             esm.notificationTitle = "Tap to answer the question."
-            
+
             // add the ESMSchedules into ESMScheduleManager
             let esmManager = ESMScheduleManager.shared()
             esmManager.deleteAllSchedules(withNotification: true)
             esmManager.add(esm, withNotification: true)
         }
         
-        //////////////////////////
+//        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
+//            DispatchQueue.main.async {
+//                core.requestPermissionForBackgroundSensing{
+//                    print(Date().timeIntervalSince1970)
+//                }
+//            }
+//        }
         
         // monitoring battery consumption
         let center = NotificationCenter.default

@@ -51,5 +51,4 @@ typedef void (^LocationAPIAuthorizationCompletionHandler)(void);
 
 - (void) requestBackgroundSensing;
 
-
 @end

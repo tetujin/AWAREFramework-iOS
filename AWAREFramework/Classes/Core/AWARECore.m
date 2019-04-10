@@ -282,6 +282,9 @@ void exceptionHandler(NSException *exception) {
         if (_sharedLocationManager != nil){
             [_sharedLocationManager requestAlwaysAuthorization];
         }
+    }else{
+        self->completionHandler = nil;
+        completionHandler();
     }
 }
 
@@ -289,6 +292,7 @@ void exceptionHandler(NSException *exception) {
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
+    
     if(status == kCLAuthorizationStatusNotDetermined ){
         ////////////////// kCLAuthorizationStatusRestricted ///////////////////////
     }else if (status == kCLAuthorizationStatusRestricted ){
@@ -298,13 +302,12 @@ void exceptionHandler(NSException *exception) {
     }else if (status == kCLAuthorizationStatusAuthorizedAlways){
         /////////////////// kCLAuthorizationStatusAuthorizedWhenInUse ///////////////////
         if(_isNeedBackgroundSensing){
-            // [self activate];
             [self startBaseLocationSensor];
         }
         if (self->completionHandler) {
             self->completionHandler();
+            self->completionHandler = nil;
         }
-        
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
         //////////////////// Unknown ///////////////////////////////
     }else {
@@ -702,7 +705,6 @@ void exceptionHandler(NSException *exception) {
         }else{
             // [AWAREUtils sendLocalNotificationForMessage:@"Please turn on WiFi! AWARE client needs WiFi for data uploading." soundFlag:NO];
         }
-        
         
         Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
         [debugSensor saveDebugEventWithText:@"[compliance] WiFi is OFF" type:DebugTypeWarn label:@""];
