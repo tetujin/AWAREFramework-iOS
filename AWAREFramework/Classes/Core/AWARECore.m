@@ -316,26 +316,6 @@ void exceptionHandler(NSException *exception) {
 }
 
 
-
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-
-/**
- * Start data sync with all sensors in the background when the device is started a battery charging.
- */
-//- (void) changedBatteryState:(id) sender {
-
-//}
-
-
-
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-
 - (void) checkCompliance {
     [self checkComplianceWithViewController:nil];
 }
@@ -367,8 +347,6 @@ void exceptionHandler(NSException *exception) {
         }
     }
 }
-
-//////////////////////////////////////////////////////////////////
 
 - (bool)checkLocationSensorWithViewController:(UIViewController *) viewController showDetail:(BOOL)detail{
     bool state = NO;
@@ -409,17 +387,6 @@ void exceptionHandler(NSException *exception) {
             if (detail) {
                 [viewController presentViewController:alert animated:YES completion:nil];
             }
-        }else{
-            /*
-            [AWAREUtils sendLocalNotificationForMessage:message
-                                                  title:title
-                                              soundFlag:NO
-                                               category:nil
-                                               fireDate:[NSDate new]
-                                         repeatInterval:0
-                                               userInfo:nil
-                                        iconBadgeNumber:1];
-             */
         }
         
 //        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4

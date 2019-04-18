@@ -10,7 +10,6 @@
 #import "ESMScheduleManager.h"
 #import "CoreDataHandler.h"
 /////////
-#import "EntityESMAnswer.h"
 #import "EntityESMAnswerHistory+CoreDataClass.h"
 
 ///////// views ////////
@@ -64,8 +63,9 @@
     
     ESMAnswerUploadStartHandler      _Nullable uploadStartHandler;
     ESMAnswerUploadCompletionHandler _Nullable uploadCompletionHandler;
-    ESMAnswerCompletionHandler       _Nullable answerCompletionHandler;
+    AllESMCompletionHandler          _Nullable answerCompletionHandler;
     OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
+    ESMCompletionHandler             _Nullable esmCompletionHandler;
 
 }
 @end
@@ -490,6 +490,10 @@
                     flowsFlag = YES;
                 }
             }
+            
+            if(self->esmCompletionHandler){
+                esmCompletionHandler(answer);
+            }
         }
         
     } @catch (NSException *exception) {
@@ -500,7 +504,7 @@
     
     // Save all data to SQLite
     bool success = false;
-    if (_isSaveAnswer) { // is save
+    if (_isSaveAnswer) {
         NSError * error = nil;
         success = [context save:&error];
         context.mergePolicy = originalMergePolicy;
@@ -645,7 +649,7 @@
         return NO;
     }
     
-    NSError *e = nil;
+    NSError * e = nil;
     NSArray * flowsArray = [NSJSONSerialization JSONObjectWithData:[flowsStr dataUsingEncoding:NSUTF8StringEncoding]
                                                            options:NSJSONReadingAllowFragments
                                                              error:&e];
@@ -662,9 +666,23 @@
     int number = 0;
     // NSMutableArray * tempESMs = [[NSMutableArray alloc] init];
     for (NSDictionary * aFlow in flowsArray) {
-        NSDictionary * nextESM   = [aFlow objectForKey:@"next_esm"];
-        NSString * triggerAnswer = [aFlow objectForKey:@"user_answer"];
+        NSDictionary * nextESM       = [aFlow objectForKey:@"next_esm"];
+        NSString     * triggerAnswer = [aFlow objectForKey:@"user_answer"];
         if (triggerAnswer != nil && answer.esm_user_answer != nil) {
+            
+            /// Regular Expression /////
+//            NSError* err = nil;
+//            NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:triggerAnswer
+//                                                              options:NSRegularExpressionCaseInsensitive
+//                                                                error:&err];
+//            if (err!=nil) {
+//                NSLog(@"%@", err.description);
+//                return NO;
+//            }
+//            NSTextCheckingResult *match = [regex firstMatchInString:answer.esm_user_answer
+//                                                            options:0
+//                                                              range:NSMakeRange(0, answer.esm_user_answer.length)];
+
             ////////// if the user_answer and key is the same, an esm in the flows is stored ///////////
             if([triggerAnswer isEqualToString:answer.esm_user_answer] || [triggerAnswer isEqualToString:@"*"]){
                 
@@ -722,6 +740,16 @@
 }
 
 ///////////////////////////////////////////
+- (void) insertNextESM:(ESMItem * _Nonnull) esm {
+    ESMScheduleManager * manager = [ESMScheduleManager sharedESMScheduleManager];
+    ESMSchedule * schedule = [[ESMSchedule alloc] init];
+    [schedule setTemporary:@(YES)];
+    [schedule addESM:esm];
+    [schedule setStartDate:[NSDate new]];
+    [schedule setExpirationThreshold:@0];
+    [manager addSchedule:schedule];
+    flowsFlag = YES;
+}
 
 - (NSArray *) getNextESMsFromDB {
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
@@ -842,12 +870,20 @@
     uploadCompletionHandler = handler;
 }
 
-- (void) setESMAnswerCompletionHandler:(ESMAnswerCompletionHandler)handler{
+- (void) setESMAnswerCompletionHandler:(AllESMCompletionHandler)handler{
+    answerCompletionHandler = handler;
+}
+
+- (void) setAllESMCompletionHandler:(AllESMCompletionHandler)handler{
     answerCompletionHandler = handler;
 }
 
 - (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler)handler{
     originalESMViewGenerationHandler = handler;
+}
+
+- (void) setESMCompletionHandler:(ESMCompletionHandler)handler{
+    esmCompletionHandler = handler;
 }
 
 @end

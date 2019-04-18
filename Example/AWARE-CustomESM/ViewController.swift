@@ -47,7 +47,7 @@ class ViewController: UIViewController {
                 return nil
             }
             /// Handle the survey completion
-            esmViewController.setESMAnswerCompletionHandler {
+            esmViewController.setAllESMCompletionHandler {
                 self.esmAppeared = true
             }
 

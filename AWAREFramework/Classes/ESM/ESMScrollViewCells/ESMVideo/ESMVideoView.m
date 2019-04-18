@@ -10,16 +10,16 @@
 
 @implementation ESMVideoView
 {
-    AVCaptureDevice *captureDevice;
-    AVCaptureDevice *audioDevice;
-    AVCaptureInput *videoInput;
-    AVCaptureInput *audioInput;
-    UIButton *shutterBtn;
+    AVCaptureDevice * captureDevice;
+    AVCaptureDevice * audioDevice;
+    AVCaptureInput  * videoInput;
+    AVCaptureInput  * audioInput;
+    UIButton    * shutterBtn;
     UIImageView * imageView;
-    NSString * videoFileName;
-    NSTimer * baseTimer;
-    UILabel * timerLabel;
-    UIView * timerBGView;
+    NSString    * videoFileName;
+    NSTimer     * baseTimer;
+    UILabel     * timerLabel;
+    UIView      * timerBGView;
     int totalTime;
 }
 
@@ -216,19 +216,16 @@
 didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error{
-    NSLog(@"%@",outputFileURL);
     _playerViewController.player = [AVPlayer playerWithURL:outputFileURL];
-    // [_playerViewController.player play];
 }
 
 
 
-- (NSString *)getUserAnswer{
-    NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:videoFileName];
+- (NSString *) getUserAnswer{
+    NSString * outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:videoFileName];
     if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputPath)){
         UISaveVideoAtPathToSavedPhotosAlbum (outputPath,self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
     }
-    
     return @"answered";
 }
 
@@ -242,13 +239,10 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 }
 
     
-- (void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
+- (void) video:(NSString *)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error){
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Photo/Video Saving Failed"  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil, nil];
-//        [alert show];
+        
     } else {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Photo/Video Saved" message:@"Saved To Photo Album"  delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-//        [alert show];
         NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:videoFileName];
         NSFileManager *manager = [[NSFileManager alloc] init];
         if ([manager fileExistsAtPath:outputPath]) {

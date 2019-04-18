@@ -53,6 +53,11 @@
 		4F3915D1225403CC00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D0225403CC00CEE77E /* Assets.xcassets */; };
 		4F3915D4225403CC00CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D2225403CC00CEE77E /* LaunchScreen.storyboard */; };
 		4F3915DA2254C4E400CEE77E /* CustomSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915D92254C4E300CEE77E /* CustomSensor.swift */; };
+		4FBC0FCF2268F9A90047EC48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC0FCE2268F9A90047EC48 /* AppDelegate.swift */; };
+		4FBC0FD12268F9A90047EC48 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD02268F9A90047EC48 /* ViewController.swift */; };
+		4FBC0FD42268F9A90047EC48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD22268F9A90047EC48 /* Main.storyboard */; };
+		4FBC0FD62268F9AB0047EC48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD52268F9AB0047EC48 /* Assets.xcassets */; };
+		4FBC0FD92268F9AB0047EC48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD72268F9AB0047EC48 /* LaunchScreen.storyboard */; };
 		4FC7EF1C22550E9800136D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1B22550E9800136D05 /* AppDelegate.swift */; };
 		4FC7EF1E22550E9800136D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1D22550E9800136D05 /* ViewController.swift */; };
 		4FC7EF2122550E9800136D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1F22550E9800136D05 /* Main.storyboard */; };
@@ -78,6 +83,7 @@
 		61686D840CEF72F7B9B5B8C9 /* Pods_AWARE_ScheduleESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */; };
 		6B9019798E919D1CFD9E1CC8 /* Pods_AWARE_GoogleLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */; };
 		739B22AE142C82AA666ACE15 /* Pods_AWARE_Visualizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */; };
+		8C30D65FD085087EDEEF80FC /* Pods_AWARE_InteractiveESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76BBA1A68D2ADA1B9175FB09 /* Pods_AWARE_InteractiveESM.framework */; };
 		8D1B55ED55BAC911349148E2 /* Pods_AWARE_ConfigURLESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40F670952C3669962E867F3 /* Pods_AWARE_ConfigURLESM.framework */; };
 		B1C1C293F52B1CE707AE27D1 /* Pods_AWARE_DynamicESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */; };
 		B5448C8350F9A3D94098F81C /* Pods_AWARE_SensingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */; };
@@ -160,6 +166,13 @@
 		4F3915D5225403CC00CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F3915D92254C4E300CEE77E /* CustomSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSensor.swift; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		4FBC0FCC2268F9A80047EC48 /* AWARE-InteractiveESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-InteractiveESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FBC0FCE2268F9A90047EC48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4FBC0FD02268F9A90047EC48 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4FBC0FD32268F9A90047EC48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4FBC0FD52268F9AB0047EC48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4FBC0FD82268F9AB0047EC48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4FBC0FDA2268F9AB0047EC48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FC2FF49216DD05800B840ED /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		4FC7EF1922550E9800136D05 /* AWARE-Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FC7EF1B22550E9800136D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +212,7 @@
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
 		695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		76BBA1A68D2ADA1B9175FB09 /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ScheduleESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF85D6A887145557D4A32E4 /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
 		884B4A2AA4E026FF88C8E663 /* Pods-AWARE-CustomESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +235,8 @@
 		D9533D5A7EDF9DE0276BD522 /* Pods_AWARE_DynamicESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_DynamicESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB9AB8420F6D67962E0E01B /* Pods-AWARE-SimpleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7C0494F6EFC63584B88AC2C /* Pods-AWARE-InteractiveESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.debug.xcconfig"; sourceTree = "<group>"; };
+		ECC14885264A6A2F1C735787 /* Pods-AWARE-InteractiveESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.release.xcconfig"; sourceTree = "<group>"; };
 		F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.release.xcconfig"; sourceTree = "<group>"; };
 		FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -279,6 +295,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D1A0F5AD9D07AC808A2E31B /* Pods_AWARE_CustomSensor.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FBC0FC92268F9A80047EC48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C30D65FD085087EDEEF80FC /* Pods_AWARE_InteractiveESM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +369,8 @@
 				8FAA6C1DC7275608F735C9C1 /* Pods-AWARE-ScheduleESM.release.xcconfig */,
 				29D477EE22E199489CB11EF5 /* Pods-AWARE-ConfigURLESM.debug.xcconfig */,
 				F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */,
+				E7C0494F6EFC63584B88AC2C /* Pods-AWARE-InteractiveESM.debug.xcconfig */,
+				ECC14885264A6A2F1C735787 /* Pods-AWARE-InteractiveESM.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -452,6 +478,19 @@
 			path = "AWARE-CustomSensor";
 			sourceTree = "<group>";
 		};
+		4FBC0FCD2268F9A90047EC48 /* AWARE-InteractiveESM */ = {
+			isa = PBXGroup;
+			children = (
+				4FBC0FCE2268F9A90047EC48 /* AppDelegate.swift */,
+				4FBC0FD02268F9A90047EC48 /* ViewController.swift */,
+				4FBC0FD22268F9A90047EC48 /* Main.storyboard */,
+				4FBC0FD52268F9AB0047EC48 /* Assets.xcassets */,
+				4FBC0FD72268F9AB0047EC48 /* LaunchScreen.storyboard */,
+				4FBC0FDA2268F9AB0047EC48 /* Info.plist */,
+			);
+			path = "AWARE-InteractiveESM";
+			sourceTree = "<group>";
+		};
 		4FC7EF1A22550E9800136D05 /* AWARE-Visualizer */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +569,7 @@
 				4FC7EF1A22550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF3A225522A500136D05 /* AWARE-ScheduleESM */,
 				4FC7EF71225B6DD100136D05 /* AWARE-ConfigURLESM */,
+				4FBC0FCD2268F9A90047EC48 /* AWARE-InteractiveESM */,
 				4FC7EF5422560B8400136D05 /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -551,6 +591,7 @@
 				4FC7EF39225522A500136D05 /* AWARE-ScheduleESM.app */,
 				4FC7EF5322560B8400136D05 /* Tests.xctest */,
 				4FC7EF70225B6DD100136D05 /* AWARE-ConfigURLESM.app */,
+				4FBC0FCC2268F9A80047EC48 /* AWARE-InteractiveESM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -573,6 +614,7 @@
 				58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */,
 				772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */,
 				C40F670952C3669962E867F3 /* Pods_AWARE_ConfigURLESM.framework */,
+				76BBA1A68D2ADA1B9175FB09 /* Pods_AWARE_InteractiveESM.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -728,6 +770,26 @@
 			name = "AWARE-CustomSensor";
 			productName = "AWARE-CustomSensor";
 			productReference = 4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4FBC0FCB2268F9A80047EC48 /* AWARE-InteractiveESM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FBC0FDD2268F9AB0047EC48 /* Build configuration list for PBXNativeTarget "AWARE-InteractiveESM" */;
+			buildPhases = (
+				160CB0292185FD2C97285861 /* [CP] Check Pods Manifest.lock */,
+				4FBC0FC82268F9A80047EC48 /* Sources */,
+				4FBC0FC92268F9A80047EC48 /* Frameworks */,
+				4FBC0FCA2268F9A80047EC48 /* Resources */,
+				680864B18BF0C389E8D67370 /* [CP] Embed Pods Frameworks */,
+				1478447CC98A176D20F86F20 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-InteractiveESM";
+			productName = "AWARE-InteractiveESM";
+			productReference = 4FBC0FCC2268F9A80047EC48 /* AWARE-InteractiveESM.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4FC7EF1822550E9800136D05 /* AWARE-Visualizer */ = {
@@ -899,9 +961,20 @@
 							};
 						};
 					};
+					4FBC0FCB2268F9A80047EC48 = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					4FC7EF1822550E9800136D05 = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -957,6 +1030,7 @@
 				4FC7EF1822550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF38225522A500136D05 /* AWARE-ScheduleESM */,
 				4FC7EF6F225B6DD100136D05 /* AWARE-ConfigURLESM */,
+				4FBC0FCB2268F9A80047EC48 /* AWARE-InteractiveESM */,
 				4FC7EF5222560B8400136D05 /* Tests */,
 			);
 		};
@@ -1033,6 +1107,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FBC0FCA2268F9A80047EC48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FBC0FD92268F9AB0047EC48 /* LaunchScreen.storyboard in Resources */,
+				4FBC0FD62268F9AB0047EC48 /* Assets.xcassets in Resources */,
+				4FBC0FD42268F9A90047EC48 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FC7EF1722550E9800136D05 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1074,6 +1158,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1478447CC98A176D20F86F20 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1575FEFCBDD507276D270539 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1102,6 +1208,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		160CB0292185FD2C97285861 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-InteractiveESM-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1B214E1DE561F8695F86021A /* [CP] Copy Pods Resources */ = {
@@ -1362,6 +1490,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		680864B18BF0C389E8D67370 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6DAC77E9B0668EBE04AF6D9E /* [CP] Embed Pods Frameworks */ = {
@@ -1891,6 +2049,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4FBC0FC82268F9A80047EC48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FBC0FD12268F9A90047EC48 /* ViewController.swift in Sources */,
+				4FBC0FCF2268F9A90047EC48 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FC7EF1522550E9800136D05 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2042,6 +2209,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				4F3915D3225403CC00CEE77E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4FBC0FD22268F9A90047EC48 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FBC0FD32268F9A90047EC48 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4FBC0FD72268F9AB0047EC48 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FBC0FD82268F9AB0047EC48 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -2703,6 +2886,66 @@
 			};
 			name = Release;
 		};
+		4FBC0FDB2268F9AB0047EC48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7C0494F6EFC63584B88AC2C /* Pods-AWARE-InteractiveESM.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-InteractiveESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.saple.AWARE-InteractiveESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4FBC0FDC2268F9AB0047EC48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECC14885264A6A2F1C735787 /* Pods-AWARE-InteractiveESM.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-InteractiveESM/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.saple.AWARE-InteractiveESM";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4FC7EF2C22550E9900136D05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C79938A0F23FE81835DD66C3 /* Pods-AWARE-Visualizer.debug.xcconfig */;
@@ -2741,7 +2984,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2784,7 +3027,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-Visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -3182,6 +3425,15 @@
 			buildConfigurations = (
 				4F3915D7225403CC00CEE77E /* Debug */,
 				4F3915D8225403CC00CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FBC0FDD2268F9AB0047EC48 /* Build configuration list for PBXNativeTarget "AWARE-InteractiveESM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FBC0FDB2268F9AB0047EC48 /* Debug */,
+				4FBC0FDC2268F9AB0047EC48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

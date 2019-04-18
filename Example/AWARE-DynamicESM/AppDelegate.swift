@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let pam = ESMItem.init(asPAMESMWithTrigger: "pam")
         pam.setTitle("How do you feeling now?")
         pam.setInstructions("Please select an image.")
-        
+
         let expireSec = TimeInterval(60*30)
         
         let schedule = ESMSchedule()

@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  AWARE-DynamicESM
+//  AWARE-InteractiveESM
 //
-//  Created by Yuuki Nishiyama on 2019/03/28.
+//  Created by Yuuki Nishiyama on 2019/04/18.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
 
@@ -11,11 +11,6 @@ import AWAREFramework
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var accLabel: UILabel!
-    @IBOutlet weak var gyroLabel: UILabel!
-    @IBOutlet weak var batteryLabel: UILabel!
-    @IBOutlet weak var screenLabel: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,7 +19,7 @@ class ViewController: UIViewController {
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         checkESMSchedules()
     }
@@ -35,24 +30,24 @@ class ViewController: UIViewController {
     }
     
     func checkESMSchedules(){
-        // check valid ESMs
+        // Check valid ESMs
         let schedules = ESMScheduleManager.shared().getValidSchedules()
         if schedules.count > 0 {
+            // Generate a ViewController
             let esmViewController = ESMScrollViewController()
-            
-            // set an original ESM generation handler
-            esmViewController.setOriginalESMViewGenerationHandler { (esm, bottomESMViewPositionY, viewController) -> BaseESMView? in
-                return nil
+            // Set an ESM completion handler
+            esmViewController.setESMCompletionHandler { (answer) in
+                if answer.esm_trigger     == "likert" &&
+                   answer.esm_user_answer == "3"{
+                    let item = ESMItem.init(asTextESMWithTrigger: "text")
+                    item.setTitle("Why did you select the number?")
+                    esmViewController.insertNextESM(item)
+                }
             }
-            
-            // set a answer completion handler
-            esmViewController.setAllESMCompletionHandler {
-                // delete the schedule when the answer is completed
-                ESMScheduleManager.shared().deleteSchedule(withId: "sample_esm")
-            }
-            
+            // Move to the ViewController
             self.present(esmViewController, animated: true){}
         }
     }
+
 }
 

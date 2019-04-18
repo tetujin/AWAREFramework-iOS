@@ -31,6 +31,7 @@ class ViewController: UIViewController {
             c.removeFromSuperview()
             self.card = nil
         }
+        
         let manager = AWARESensorManager.shared()
         if let sensor = manager.getSensor(SENSOR_AMBIENT_NOISE) {
             self.card = ScatterChartCard(frame: CGRect(x:0,

@@ -51,3 +51,7 @@ end
 target 'AWARE-ConfigURLESM' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-InteractiveESM' do
+  pod 'AWAREFramework', :path => '../'
+end

@@ -62,14 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             esmManager.add(esm, withNotification: true)
         }
         
-//        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
-//            DispatchQueue.main.async {
-//                core.requestPermissionForBackgroundSensing{
-//                    print(Date().timeIntervalSince1970)
-//                }
-//            }
-//        }
-        
         // monitoring battery consumption
         let center = NotificationCenter.default
         center.addObserver(forName: NSNotification.Name(rawValue: ACTION_AWARE_BATTERY_CHANGED),

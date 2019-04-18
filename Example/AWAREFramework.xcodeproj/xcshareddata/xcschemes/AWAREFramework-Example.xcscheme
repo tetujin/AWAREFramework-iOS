@@ -132,6 +132,34 @@
                ReferencedContainer = "container:AWAREFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FBC0FCB2268F9A80047EC48"
+               BuildableName = "AWARE-InteractiveESM.app"
+               BlueprintName = "AWARE-InteractiveESM"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FC7EF6F225B6DD100136D05"
+               BuildableName = "AWARE-ConfigURLESM.app"
+               BlueprintName = "AWARE-ConfigURLESM"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
