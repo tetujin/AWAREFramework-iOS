@@ -101,7 +101,7 @@ study.join(withURL: url, completion: { (settings, studyState, error) in
 AWAREFramework is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', :git=>'https://github.com/tetujin/AWAREFramework-iOS.git'
+pod 'AWAREFramework', '~> 1.4'
 ```
 
 First, add permissions on Xcode for the background sensing (NOTE: the following permissions are minimum requirements)

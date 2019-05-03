@@ -137,12 +137,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
     sessionConfig.timeoutIntervalForResource    = 60.0;
     sessionConfig.HTTPMaximumConnectionsPerHost = 20;
     sessionConfig.allowsCellularAccess = YES;
+    // sessionConfig.requestCachePolicy = NSURLCacheStorageAllowedInMemoryOnly;
     
     request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"GET"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
+    // request.cachePolicy = NSURLRequestReturnCacheDataDontLoad;
     // set HTTP/POST body information
     if(self.isDebug) NSLog(@"--- [%@] This is background task ----", [self getSensorName] );
     session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
