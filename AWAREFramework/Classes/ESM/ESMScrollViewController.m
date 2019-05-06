@@ -66,6 +66,7 @@
     AllESMCompletionHandler          _Nullable answerCompletionHandler;
     OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
     ESMCompletionHandler             _Nullable esmCompletionHandler;
+    ESMScrollViewUIComponentReadyHandler _Nullable uiComponentReadyHandler;
 
 }
 @end
@@ -264,6 +265,10 @@
         [_mainScrollView addSubview:submitBtn];
         
         [self setContentSizeWithAdditionalHeight: 15 + 60 + 20];
+    }
+    
+    if (uiComponentReadyHandler) {
+        uiComponentReadyHandler();
     }
 }
 
@@ -884,6 +889,10 @@
 
 - (void) setESMCompletionHandler:(ESMCompletionHandler)handler{
     esmCompletionHandler = handler;
+}
+
+- (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler)handler{
+    uiComponentReadyHandler = handler;
 }
 
 @end

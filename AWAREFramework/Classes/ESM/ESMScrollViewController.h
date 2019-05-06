@@ -22,6 +22,7 @@ typedef void (^ESMAnswerUploadStartHandler)(void);
 typedef void (^ESMAnswerUploadCompletionHandler)(bool state);
 typedef BaseESMView * _Nullable (^OriginalESMViewGenerationHandler)(EntityESM * _Nonnull esm, double bottomESMViewPositionY, UIViewController * _Nonnull viewController);
 typedef void (^ESMCompletionHandler)(EntityESMAnswer * _Nonnull answer);
+typedef void (^ESMScrollViewUIComponentReadyHandler)(void);
 
 // @property (nonatomic, weak) id<ESMScrollViewControllerDelegate> delegate;
 
@@ -51,6 +52,8 @@ typedef void (^ESMCompletionHandler)(EntityESMAnswer * _Nonnull answer);
 
 - (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler _Nonnull)handler;
 - (void) setESMCompletionHandler:(ESMCompletionHandler _Nonnull)handler;
+
+- (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler _Nonnull)handler;
 
 - (void) insertNextESM:(ESMItem * _Nonnull) esm;
 
