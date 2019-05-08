@@ -26,6 +26,9 @@ typedef enum: NSInteger {
     int esmType;
 }
 
+extern NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT;
+extern NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT_DATA;
+
 @property UIViewController * viewController;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 

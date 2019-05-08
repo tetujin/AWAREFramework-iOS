@@ -54,7 +54,13 @@
 ////////////////
 - (void)textViewDidChange:(UITextView *)textView{
     [_freeTextView.font fontWithSize:25];
+    if(textView.text != nil){
+        [NSNotificationCenter.defaultCenter postNotificationName:AWARE_ESM_SELECTION_UPDATE_EVENT
+                                                          object:self
+                                                        userInfo:@{AWARE_ESM_SELECTION_UPDATE_EVENT_DATA:textView.text}];
+    }
 }
+
 
 //////////////////////////
 

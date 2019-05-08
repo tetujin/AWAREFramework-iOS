@@ -135,6 +135,9 @@
             option.selected = YES;
             selectedOption = i+1;
             AudioServicesPlaySystemSound(1104);
+            [NSNotificationCenter.defaultCenter postNotificationName:AWARE_ESM_SELECTION_UPDATE_EVENT
+                                                              object:self
+                                                            userInfo:@{AWARE_ESM_SELECTION_UPDATE_EVENT_DATA:@(selectedOption)}];
         }else{
             [option setImage:[self getImageFromLibAssetsWithImageName:@"unselected_circle"] forState:UIControlStateNormal];
             option.selected = NO;

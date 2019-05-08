@@ -124,6 +124,9 @@
         [_valueLabel setText:[NSString stringWithFormat:@"%d", (int)value]];
     }
     
+    [NSNotificationCenter.defaultCenter postNotificationName:AWARE_ESM_SELECTION_UPDATE_EVENT
+                                                      object:self
+                                                    userInfo:@{AWARE_ESM_SELECTION_UPDATE_EVENT_DATA:@(value)}];
 }
 
 

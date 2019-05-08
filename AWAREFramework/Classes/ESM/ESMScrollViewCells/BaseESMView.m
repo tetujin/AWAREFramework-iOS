@@ -10,6 +10,9 @@
 #import "EntityESM+CoreDataClass.h"
 #import "ESM.h"
 
+NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT = @"AWARE_ESM_SELECTION_UPDATE_EVENT";
+NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT_DATA = @"DATA";
+
 @implementation BaseESMView{
     bool naState;
     

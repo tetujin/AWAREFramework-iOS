@@ -103,6 +103,12 @@
     UILabel * label = [labels objectAtIndex:tag];
     // UIButton * option = [options objectAtIndex:tag];
     
+    if(label.text != nil){
+        [NSNotificationCenter.defaultCenter postNotificationName:AWARE_ESM_SELECTION_UPDATE_EVENT
+                                                          object:self
+                                                        userInfo:@{AWARE_ESM_SELECTION_UPDATE_EVENT_DATA:label.text}];
+    }
+    
     if ([sender isSelected]) {
     
         NSError *error = nil;

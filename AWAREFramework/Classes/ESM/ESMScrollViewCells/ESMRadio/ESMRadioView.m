@@ -91,6 +91,11 @@
     [[options objectAtIndex:sender.tag] setImage:[self getImageFromLibAssetsWithImageName:@"selected_circle"] forState:UIControlStateNormal];
     AudioServicesPlaySystemSound(1105);
     selectedLabelName = [labels objectAtIndex:sender.tag];
+    if (selectedLabelName != nil) {
+        [NSNotificationCenter.defaultCenter postNotificationName:AWARE_ESM_SELECTION_UPDATE_EVENT
+                                                          object:self
+                                                        userInfo:@{AWARE_ESM_SELECTION_UPDATE_EVENT_DATA:selectedLabelName}];
+    }
 }
 
 //////////////////////////////////
