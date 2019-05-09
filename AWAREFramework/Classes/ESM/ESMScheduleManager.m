@@ -107,20 +107,24 @@ static ESMScheduleManager * sharedESMScheduleManager;
         for (NSNumber * hour in hours) {
             EntityESMSchedule * entityESMSchedule = (EntityESMSchedule *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMSchedule class])
                                                                                                         inManagedObjectContext:context];
-            entityESMSchedule.fire_hour = hour;
+            entityESMSchedule.fire_hour  = hour;
             entityESMSchedule.expiration_threshold = expiration;
             entityESMSchedule.start_date = startDate;
-            entityESMSchedule.end_date = endDate;
+            entityESMSchedule.end_date   = endDate;
             entityESMSchedule.notification_title = notificationTitle;
-            entityESMSchedule.notification_body = notificationBody;
+            entityESMSchedule.notification_body  = notificationBody;
             entityESMSchedule.randomize_schedule = randomize_schedule;
             entityESMSchedule.schedule_id = scheduleId;
-            entityESMSchedule.contexts = eventContext;
-            entityESMSchedule.interface = interface;
+            entityESMSchedule.contexts    = eventContext;
+            entityESMSchedule.interface   = interface;
+            
+            if (![hour isEqualToNumber:@(-1)]) {
+                [self setHourBasedNotification:entityESMSchedule datetime:[NSDate new]];
+            }
             
             for (NSDictionary * esmDict in esms) {
-                NSDictionary * esm = [esmDict objectForKey:@"esm"];
-                EntityESM * entityEsm = (EntityESM *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESM class])
+                NSDictionary  * esm = [esmDict objectForKey:@"esm"];
+                EntityESM     * entityEsm = (EntityESM *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESM class])
                                                                                     inManagedObjectContext:context];
                 entityEsm.esm_type   = [esm objectForKey:@"esm_type"];
                 entityEsm.esm_title  = [esm objectForKey:@"esm_title"];
