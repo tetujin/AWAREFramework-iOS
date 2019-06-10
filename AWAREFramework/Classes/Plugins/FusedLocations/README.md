@@ -1,7 +1,7 @@
 AWARE Plugin: Fused Location
 ===================================
 
-This is the 
+This is a wrapper plugin of Google Fused Location plugin on Android. This plugin allows us to collect location data using the same settings of Google Fused Location plugin. This plugin collects location data using iOS CoreLocation.
 
 # Settings
 Parameters adjusted on the dashboard and client:
