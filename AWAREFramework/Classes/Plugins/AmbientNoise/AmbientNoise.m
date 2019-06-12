@@ -399,7 +399,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     }
 }
 
-- (void)setAudioFileGenerationhHandler:(__autoreleasing AudioFileGenerationHandler )handler{
+- (void) setAudioFileGenerationHandler:(AudioFileGenerationHandler)handler{
     audioFileGenerationHandler = handler;
 }
 
