@@ -55,3 +55,7 @@ end
 target 'AWARE-InteractiveESM' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-AmbientNoise' do
+  pod 'AWAREFramework', :path => '../'
+end

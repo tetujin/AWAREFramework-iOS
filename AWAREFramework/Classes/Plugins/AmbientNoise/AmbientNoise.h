@@ -56,11 +56,16 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 
 @property int frequencyMin;
 @property int sampleSize;
+@property double sampleDuration;
 @property int silenceThreshold;
 
- - (BOOL) isSaveRawData;
- - (void) saveRawData:(BOOL)state;
+- (BOOL) isSaveRawData;
+- (void) saveRawData:(BOOL)state;
 
 - (BOOL) startSensor;
+
+typedef void (^AudioFileGenerationHandler)(NSURL * fileURL);
+
+- (void) setAudioFileGenerationHandler:(AudioFileGenerationHandler __nullable)handler;
 
 @end

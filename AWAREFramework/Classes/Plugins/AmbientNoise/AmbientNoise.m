@@ -49,6 +49,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     NSString * KEY_AUDIO_CLIP_NUMBER;
     
     CXCallObserver * callObserver;
+    
+    AudioFileGenerationHandler audioFileGenerationHandler;
 }
 
 - (BOOL)isSaveRawData{
@@ -105,6 +107,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         _frequencyMin     = 5;
         _sampleSize       = 30;
         _silenceThreshold = 50;
+        _sampleDuration   = 1;
         // isSaveRawData = NO;
         
         recordingSampleRate = 44100;
@@ -292,7 +295,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     _isRecording = YES;
     [self performSelector:@selector(stopRecording:)
                withObject:[NSDictionary dictionaryWithObject:number forKey:KEY_AUDIO_CLIP_NUMBER]
-               afterDelay:1];
+               afterDelay:_sampleDuration];
     
 }
 
@@ -318,6 +321,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
             
             self.recorder = nil;
             
+            [self.recorder closeAudioFile];
+            if (self->audioFileGenerationHandler != nil) {
+                self->audioFileGenerationHandler([self getAudioFilePathWithNumber:number]);
+            }
+            
             // check a dutyCycle
             if( self->_sampleSize > number ){
                 number++;
@@ -328,7 +336,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
                 self.microphone.delegate = nil;
                 self.microphone = nil;
                 // stop recording audio
-                [self.recorder closeAudioFile];
+                // [self.recorder closeAudioFile];
                 self.recorder.delegate = nil;
                 // stop fft
                 self.fft.delegate = nil;
@@ -389,6 +397,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.debugDescription);
     }
+}
+
+- (void)setAudioFileGenerationhHandler:(__autoreleasing AudioFileGenerationHandler )handler{
+    audioFileGenerationHandler = handler;
 }
 
 //////////////////////////////////////////////////////////////////////
