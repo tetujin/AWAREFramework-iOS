@@ -38,16 +38,12 @@ class ViewController: UIViewController {
         noise.sampleDuration = 10
         noise.sampleSize     = 60
         noise.startSensor()
-//        noise.setSensorEventHandler { (sensor, data) in
-//            if let d = data {
-//                print(d)
-//            }
-//        }
         noise.setAudioFileGenerationHandler { (url) in
             if let url = url {
                 self.recognizeFile(url: url)
             }
         }
+        noise.fftDelegate = self
     }
 
     func recognizeFile(url:URL) {
@@ -75,5 +71,17 @@ class ViewController: UIViewController {
         }
     }
 
+}
+
+extension ViewController: AWAREAmbientNoiseFFTDelegate {
+    func fft(_ fft: EZAudioFFT!, updatedWithFFTData fftData: UnsafeMutablePointer<Float>!, bufferSize: vDSP_Length) {
+        if let data = fftData {
+            for i in 0..<Int(bufferSize){
+                if data[i] > 0.01 {
+                    print(i,data[i])
+                }
+            }
+        }
+    }
 }
 

@@ -33,6 +33,31 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE;
 /** Silence threshold (default = 50) in dB */
 extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD;
 
+/**
+ The EZAudioFFTDelegate provides event callbacks for the EZAudioFFT (and subclasses such as the EZAudioFFTRolling) whenvever the FFT is computed.
+ */
+@protocol AWAREAmbientNoiseFFTDelegate <NSObject>
+
+@optional
+
+///-----------------------------------------------------------
+/// @name Getting FFT Output Data
+///-----------------------------------------------------------
+
+/**
+ Triggered when the EZAudioFFT computes an FFT from a buffer of input data. Provides an array of float data representing the computed FFT.
+ @param fft        The EZAudioFFT instance that triggered the event.
+ @param fftData    A float pointer representing the float array of FFT data.
+ @param bufferSize A vDSP_Length (unsigned long) representing the length of the float array.
+ */
+- (void)        fft:(EZAudioFFT *)fft
+ updatedWithFFTData:(float *)fftData
+         bufferSize:(vDSP_Length)bufferSize;
+
+@end
+
+
+
 @interface AmbientNoise : AWARESensor <AWARESensorDelegate, EZMicrophoneDelegate, EZRecorderDelegate, EZAudioFFTDelegate, CXCallObserverDelegate>
 //
 // The microphone component
@@ -54,6 +79,8 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 //
 @property (nonatomic, assign, readonly) BOOL isRecording;
 
+@property (nonatomic, weak) id<AWAREAmbientNoiseFFTDelegate> fftDelegate;
+
 @property int frequencyMin;
 @property int sampleSize;
 @property double sampleDuration;
@@ -64,7 +91,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 
 - (BOOL) startSensor;
 
-typedef void (^AudioFileGenerationHandler)(NSURL * fileURL);
+typedef void (^AudioFileGenerationHandler)(NSURL * _Nullable fileURL);
 
 - (void) setAudioFileGenerationHandler:(AudioFileGenerationHandler __nullable)handler;
 

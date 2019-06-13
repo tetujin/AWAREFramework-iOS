@@ -621,7 +621,16 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
          bufferSize:(vDSP_Length)bufferSize
 {
     maxFrequency = [fft maxFrequency];
-    //    NSLog(@"%f", maxFrequency);
+    
+    if ([self.fftDelegate respondsToSelector:@selector(fft:updatedWithFFTData:bufferSize:)]) {
+        [self.fftDelegate fft:fft updatedWithFFTData:fftData bufferSize:bufferSize];
+    }
+    
+//    for (int i = 0; i<bufferSize; i++) {
+//        if (fftData[i] > 0.01) {
+//            NSLog(@"fft val [%d] %f", i, fftData[i]);
+//        }
+//    }
     //    [self setLatestValue:[NSString stringWithFormat:@"dB:%f, RMS:%f, Frequency:%f", db, rms, maxFrequency]];
 }
 
