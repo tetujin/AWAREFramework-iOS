@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Make the authorization request
+        
         SFSpeechRecognizer.requestAuthorization { authStatus in
             
             // The authorization status results in changes to the
@@ -44,6 +44,7 @@ class ViewController: UIViewController {
             }
         }
         noise.fftDelegate = self
+        
     }
 
     func recognizeFile(url:URL) {

@@ -119,7 +119,7 @@ class ScatterChartCard: ContextCard {
                 composedValue = sqrt(composedValue)
                 data.append(ChartDataEntry(x:result[xAxisKey] as! Double, y:composedValue))
             }
-            let set = ScatterChartDataSet(entries: data, label: keyName)
+            let set = ScatterChartDataSet(values: data, label: keyName)
 
             set.setScatterShape(scatterShape) //.square
             set.scatterShapeSize = scatterSize
@@ -162,7 +162,7 @@ class ScatterChartCard: ContextCard {
                     }
                 }
                 
-                let set = ScatterChartDataSet(entries: data, label: key)
+                let set = ScatterChartDataSet(values: data, label: key)
                 set.setScatterShape(scatterShape) //.square
                 set.scatterShapeSize = scatterSize
                 if let color = scatterColor{

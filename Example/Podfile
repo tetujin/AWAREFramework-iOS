@@ -41,7 +41,7 @@ end
 
 target 'AWARE-Visualizer' do
   pod 'AWAREFramework', :path => '../'
-  pod 'Charts'
+  pod 'Charts','3.2'
 end
 
 target 'AWARE-ScheduleESM' do
