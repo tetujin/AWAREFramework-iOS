@@ -294,4 +294,8 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     _isSensing = state;
 }
 
+- (void)setLabel:(NSString * _Nullable)label {
+    self.label = label;
+}
+
 @end

@@ -25,6 +25,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 @protocol AWARESensorDelegate <NSObject>
 
 @property (readonly) BOOL isSensing;
+@property NSString * _Nullable label;
 
 - (void) setSensingState:(BOOL)state;
 
@@ -36,6 +37,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 - (void) createTable;
 - (BOOL) isDebug;
 - (void) setDebug:(BOOL)state;
+- (void) setLabel:(NSString * _Nullable)label;
 
 @end
 
