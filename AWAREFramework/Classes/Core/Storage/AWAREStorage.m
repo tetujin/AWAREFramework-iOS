@@ -302,6 +302,18 @@
     NSLog(@"Please overwrite -fetchDataBetweenStart:andEnd:withHandler method");
 }
 
+- (NSArray *)fetchDataFrom:(NSDate *)from to:(NSDate *)to{
+    NSLog(@"Please overwrite -fetchDataFrom:to method");
+    return @[];
+}
+
+- (void) fetchDataFrom:(NSDate *)from to:(NSDate *)to handler:(FetchDataHandler)handler{
+    NSLog(@"This storage which you are using does not support this method. Please overwrite -fetchDataFrom:to:handler method");
+}
+
+- (void)fetchDataFrom:(NSDate *)from to:(NSDate *)to limit:(int)limit all:(bool)all handler:(LimitedDataFetchHandler)handler{
+    NSLog(@"This storage which you are using does not support this method. Please overwrite -fetchDataFrom:to:limit:all:handler method");
+}
 
 - (NSDate *) getToday {
     NSCalendar* calendar = [NSCalendar currentCalendar];

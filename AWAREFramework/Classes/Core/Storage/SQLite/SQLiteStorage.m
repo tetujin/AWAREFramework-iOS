@@ -588,9 +588,12 @@
 }
 
 - (NSArray *)fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end{
-    
-    NSNumber * startNum = [AWAREUtils getUnixTimestamp:start];
-    NSNumber * endNum   = [AWAREUtils getUnixTimestamp:end];
+    return [self fetchDataFrom:start to:end];
+}
+
+- (NSArray *)fetchDataFrom:(NSDate *)from to:(NSDate *)to{
+    NSNumber * startNum = [AWAREUtils getUnixTimestamp:from];
+    NSNumber * endNum   = [AWAREUtils getUnixTimestamp:to];
     
     NSManagedObjectContext *moc = coreDataHandler.managedObjectContext;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
@@ -606,19 +609,22 @@
     return results;
 }
 
-
 - (void)fetchTodaysDataWithHandler:(FetchDataHandler)handler{
     NSDate   * today = [self getToday];
-    [self fetchDataBetweenStart:today andEnd:[today dateByAddingTimeInterval:60*60*24] withHandler:handler];
+    [self fetchDataFrom:today to:[today dateByAddingTimeInterval:60*60*24]  handler:handler];
 }
 
 - (void)fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler{
+    [self fetchDataFrom:start to:end handler:handler];
+}
+
+- (void)fetchDataFrom:(NSDate *)from to:(NSDate *)to handler:(FetchDataHandler)handler{
     NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [private setParentContext:self.mainQueueManagedObjectContext];
     [private performBlock:^{
         
-        NSNumber * startNum = [AWAREUtils getUnixTimestamp:start];
-        NSNumber * endNum   = [AWAREUtils getUnixTimestamp:end];
+        NSNumber * startNum = [AWAREUtils getUnixTimestamp:from];
+        NSNumber * endNum   = [AWAREUtils getUnixTimestamp:to];
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->entityName];
         [fetchRequest setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
@@ -643,7 +649,62 @@
             NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
         }
         if (handler != nil) {
-            handler(self.sensorName, results, start, end, error);
+            handler(self.sensorName, results, from, to, error);
+        }
+    }];
+}
+
+- (void)fetchDataFrom:(NSDate *)from to:(NSDate *)to limit:(int)limit all:(bool)all handler:(LimitedDataFetchHandler)handler{
+    NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [private setParentContext:self.mainQueueManagedObjectContext];
+    [private performBlock:^{
+        
+        NSNumber * startNum = [AWAREUtils getUnixTimestamp:from];
+        NSNumber * endNum   = [AWAREUtils getUnixTimestamp:to];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->entityName];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
+        [fetchRequest setIncludesSubentities:NO];
+        [fetchRequest setResultType:NSDictionaryResultType];
+        if([self->entityName isEqualToString:@"EntityESMAnswer"] ){
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"double_esm_user_answer_timestamp >= %@ AND double_esm_user_answer_timestamp =< %@",
+                                        startNum, endNum]];
+        }else{
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", startNum, endNum]];
+        }
+        
+        [fetchRequest setFetchLimit:limit];
+
+        //Set sort option
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        //Get NSManagedObject from managedObjectContext by using fetch setting
+        NSError * error = nil;
+        NSArray *results = [private executeFetchRequest:fetchRequest error:&error];
+        
+        if (error!=nil) {
+            NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
+        }
+        if (handler != nil) {
+            if (results.count < limit || all) {
+                handler(self.sensorName, results, from, to, true, error);
+            }else{
+                handler(self.sensorName, results, from, to, false, error);
+                NSDictionary * dict = results.lastObject;
+                if (dict != nil) {
+                    NSNumber * timestamp = dict[@"timestamp"];
+                    if (timestamp != nil) {
+                        NSDate * date = [NSDate dateWithTimeIntervalSince1970:timestamp.doubleValue/1000];
+                        [self fetchDataFrom:date to:to limit:limit all:all handler:handler];
+                    }else{
+                        handler(self.sensorName, results, from, to, true, error);
+                    }
+                }else{
+                    handler(self.sensorName, results, from, to, true, error);
+                }
+            }
         }
     }];
 }

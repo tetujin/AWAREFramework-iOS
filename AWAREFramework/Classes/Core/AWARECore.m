@@ -283,8 +283,10 @@ void exceptionHandler(NSException *exception) {
             [_sharedLocationManager requestAlwaysAuthorization];
         }
     }else{
+        if (self->completionHandler != nil) {
+            self->completionHandler();
+        }
         self->completionHandler = nil;
-        completionHandler();
     }
 }
 

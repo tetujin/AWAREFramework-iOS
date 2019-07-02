@@ -11,6 +11,10 @@ platform :ios, '10.0'
 #  end
 #end
 
+target 'Tests' do
+  pod 'AWAREFramework', :path => '../'
+end
+
 target 'AWARE-DynamicESM' do
   pod 'AWAREFramework', :path => '../'
 end

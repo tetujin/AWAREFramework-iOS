@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.4.15'
+  s.version          = '1.4.16'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.

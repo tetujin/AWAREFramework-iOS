@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (1.4.15):
+  - AWAREFramework (1.4.16):
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
@@ -12,15 +12,15 @@ PODS:
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.0):
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-  - GoogleToolboxForMac/Defines (2.2.0)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.0)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.0)
-    - GoogleToolboxForMac/Defines (= 2.2.0)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.0)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.0)"
-  - GTMSessionFetcher/Core (1.2.1)
+  - GoogleToolboxForMac/DebugUtils (2.2.1):
+    - GoogleToolboxForMac/Defines (= 2.2.1)
+  - GoogleToolboxForMac/Defines (2.2.1)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.1)":
+    - GoogleToolboxForMac/DebugUtils (= 2.2.1)
+    - GoogleToolboxForMac/Defines (= 2.2.1)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.1)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.2.1)"
+  - GTMSessionFetcher/Core (1.2.2)
   - ios-ntp (1.1.9):
     - CocoaAsyncSocket
   - macros_blocks (0.0.4):
@@ -53,17 +53,17 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: 4247dd4238891afd63079a659ade2f876047466f
+  AWAREFramework: 2ce6dc798382079c5e6e112640717a770a59a9fe
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
-  GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
-  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   ios-ntp: 49a4ef0866aee5343627710c1c7de71d7c064417
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
-PODFILE CHECKSUM: 808d5f2de37da62eeb68a876969a73ee22f2ecaf
+PODFILE CHECKSUM: 8a866f04e51459587cd14294f9b40f753013e1b6
 
 COCOAPODS: 1.7.0.beta.3
