@@ -15,6 +15,10 @@ target 'Tests' do
   pod 'AWAREFramework', :path => '../'
 end
 
+target 'AWARE-UnitTest' do
+  pod 'AWAREFramework', :path => '../'
+end
+
 target 'AWARE-DynamicESM' do
   pod 'AWAREFramework', :path => '../'
 end

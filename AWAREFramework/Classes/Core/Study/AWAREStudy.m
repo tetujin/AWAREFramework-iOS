@@ -340,7 +340,7 @@ didCompleteWithError:(NSError *)error {
 
 - (bool) isExistDeviceId:(NSString *)deviceId onAwareServer:(NSString *)url{
     NSString * result = [self getLatestStoredDataInAwareServerWithUrl:url deviceId:deviceId];
-    if([result isEqualToString:@"[]"] ){
+    if([result isEqualToString:@"[]"] || [result isEqualToString:@"\n\n[]"]){
         if (isDebug) NSLog(@"[AWAREStudy] Your device_id (%@) is not stored.", deviceId);
         return NO;
     }else{
