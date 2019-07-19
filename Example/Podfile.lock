@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (1.4.16):
+  - AWAREFramework (1.4.17):
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
@@ -53,7 +53,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: 2ce6dc798382079c5e6e112640717a770a59a9fe
+  AWAREFramework: 5d9a912553cd53dc5324a670d207c9541d735ed1
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
