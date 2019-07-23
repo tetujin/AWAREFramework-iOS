@@ -56,18 +56,18 @@
 
 - (void) saveWorkoutData:(NSArray *)data{
     // https://developer.apple.com/reference/healthkit/hkworkout
-    for(HKWorkout *sample in data) {
-        NSLog(@"%@", sample.debugDescription);
-        NSLog(@"%@", sample.startDate);
-        NSLog(@"%@", sample.endDate);
-        NSLog(@"%f", sample.duration);
-        NSLog(@"%@", sample.totalDistance);
-        NSLog(@"%@", sample.totalEnergyBurned);
-        NSLog(@"%ld", sample.workoutActivityType);
-        for(HKWorkoutEvent * event in sample.workoutEvents){
-            NSLog(@"%@", event);
-        }
-    }
+//    for(HKWorkout *sample in data) {
+//        NSLog(@"%@", sample.debugDescription);
+//        NSLog(@"%@", sample.startDate);
+//        NSLog(@"%@", sample.endDate);
+//        NSLog(@"%f", sample.duration);
+//        NSLog(@"%@", sample.totalDistance);
+//        NSLog(@"%@", sample.totalEnergyBurned);
+//        NSLog(@"%ld", sample.workoutActivityType);
+//        for(HKWorkoutEvent * event in sample.workoutEvents){
+//            NSLog(@"%@", event);
+//        }
+//    }
 }
 
 @end

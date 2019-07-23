@@ -18,10 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var sensingStatus = true
 
     let sensorManager = AWARESensorManager.shared()
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
+        // Override point for customization after applicatio
         // setup AWARECore
         let core = AWARECore.shared()
         core.requestPermissionForBackgroundSensing{
