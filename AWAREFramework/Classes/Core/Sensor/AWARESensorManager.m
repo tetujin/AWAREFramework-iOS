@@ -212,6 +212,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[Calendar alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_HEALTHKIT]){
                 awareSensor = [[AWAREHealthKit alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION]){
+                awareSensor = [[SignificantMotion alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
 
             if (awareSensor != nil) {

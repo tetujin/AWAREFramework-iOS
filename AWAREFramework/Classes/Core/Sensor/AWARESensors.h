@@ -34,6 +34,7 @@
 #import "Timezone.h"
 #import "Wifi.h"
 #import "ESM.h"
+#import "SignificantMotion.h"
 
 /// Plugins
 #import "BLEHeartRate.h"

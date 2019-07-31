@@ -101,6 +101,7 @@ extern NSString* const SENSOR_CALLS;
 extern NSString* const SENSOR_LABELS;
 extern NSString* const SENSOR_ORIENTATION;
 extern NSString* const SENSOR_HEALTH_KIT;
+extern NSString* const SENSOR_SIGNIFICANT_MOTION;
 extern NSString* const SENSOR_IOS_ESM;
 
 extern NSString* const STATUS_SENSOR_ACCELEROMETER;//accelerometer

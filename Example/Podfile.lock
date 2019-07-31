@@ -1,5 +1,5 @@
 PODS:
-  - AWAREFramework (1.4.17):
+  - AWAREFramework (1.4.19):
     - GoogleSignIn
     - ios-ntp
     - SCNetworkReachability
@@ -53,7 +53,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: 5d9a912553cd53dc5324a670d207c9541d735ed1
+  AWAREFramework: 948ce6db50a4a4a827ffd377145dc303c1f5d61b
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
@@ -64,6 +64,6 @@ SPEC CHECKSUMS:
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
-PODFILE CHECKSUM: 7fe02bb1da312af7b83572c96875ca7cce3cdffa
+PODFILE CHECKSUM: c9d1dbabffe736cb165d5a1de753c51d99ba56b6
 
 COCOAPODS: 1.7.0.beta.3

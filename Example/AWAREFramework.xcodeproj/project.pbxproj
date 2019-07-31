@@ -11,6 +11,12 @@
 		0D665A94C1F63BB4CCBC840C /* Pods_AWARE_CustomESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */; };
 		1D1A0F5AD9D07AC808A2E31B /* Pods_AWARE_CustomSensor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */; };
 		1F63734132F96B962E39F14D /* Pods_AWARE_HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59BC782BF49A30545D3E2356 /* Pods_AWARE_HealthKit.framework */; };
+		2BB894F868789E099CD91F6F /* Pods_AWARE_SignificantMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEB2053AF5EA18D8A2E93E8 /* Pods_AWARE_SignificantMotion.framework */; };
+		4F32203522F130B8006FDBAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F32203422F130B8006FDBAC /* AppDelegate.swift */; };
+		4F32203722F130B8006FDBAC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F32203622F130B8006FDBAC /* ViewController.swift */; };
+		4F32203A22F130B8006FDBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203822F130B8006FDBAC /* Main.storyboard */; };
+		4F32203C22F130B8006FDBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203B22F130B8006FDBAC /* Assets.xcassets */; };
+		4F32203F22F130B8006FDBAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203D22F130B8006FDBAC /* LaunchScreen.storyboard */; };
 		4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DA224CE6B300CEE77E /* AppDelegate.swift */; };
 		4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DC224CE6B300CEE77E /* ViewController.swift */; };
 		4F3914E0224CE6B300CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914DE224CE6B300CEE77E /* Main.storyboard */; };
@@ -169,6 +175,13 @@
 		49CD74AD8474E5B939B11A01 /* Pods_AWARE_AmbientNoise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_AmbientNoise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4F32203222F130B8006FDBAC /* AWARE-SignificantMotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-SignificantMotion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F32203422F130B8006FDBAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F32203622F130B8006FDBAC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F32203922F130B8006FDBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F32203B22F130B8006FDBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F32203E22F130B8006FDBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F32204022F130B8006FDBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-DynamicESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3914DA224CE6B300CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F3914DC224CE6B300CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -295,12 +308,15 @@
 		4FC7EF7C225B6DD200136D05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FC7EF7F225B6DD200136D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FC7EF81225B6DD200136D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50126C17CBEB8D68F182E5EB /* Pods-AWARE-SignificantMotion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SignificantMotion.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion.release.xcconfig"; sourceTree = "<group>"; };
 		542E693AE490829A61DFEB7A /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_GoogleLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		58EDF92DF867F407F96542E6 /* Pods_AWARE_Visualizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Visualizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		59BC782BF49A30545D3E2356 /* Pods_AWARE_HealthKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_HealthKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AEB2053AF5EA18D8A2E93E8 /* Pods_AWARE_SignificantMotion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SignificantMotion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		61BEB9893B1446DACAF74946 /* Pods-AWARE-SignificantMotion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SignificantMotion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion.debug.xcconfig"; sourceTree = "<group>"; };
 		66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
 		695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76BBA1A68D2ADA1B9175FB09 /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +354,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F32202F22F130B8006FDBAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB894F868789E099CD91F6F /* Pods_AWARE_SignificantMotion.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F3914D5224CE6B300CEE77E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -501,8 +525,23 @@
 				48F59A6B8D45C0C883FC83C4 /* Pods-AWARE-UnitTest.release.xcconfig */,
 				B0204D16E59A7D2A11B5D1AA /* Pods-AWARE-HealthKit.debug.xcconfig */,
 				8F58EC76D53ED4C746A72004 /* Pods-AWARE-HealthKit.release.xcconfig */,
+				61BEB9893B1446DACAF74946 /* Pods-AWARE-SignificantMotion.debug.xcconfig */,
+				50126C17CBEB8D68F182E5EB /* Pods-AWARE-SignificantMotion.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		4F32203322F130B8006FDBAC /* AWARE-SignificantMotion */ = {
+			isa = PBXGroup;
+			children = (
+				4F32203422F130B8006FDBAC /* AppDelegate.swift */,
+				4F32203622F130B8006FDBAC /* ViewController.swift */,
+				4F32203822F130B8006FDBAC /* Main.storyboard */,
+				4F32203B22F130B8006FDBAC /* Assets.xcassets */,
+				4F32203D22F130B8006FDBAC /* LaunchScreen.storyboard */,
+				4F32204022F130B8006FDBAC /* Info.plist */,
+			);
+			path = "AWARE-SignificantMotion";
 			sourceTree = "<group>";
 		};
 		4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */ = {
@@ -732,6 +771,7 @@
 			children = (
 				4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
+				4F32203322F130B8006FDBAC /* AWARE-SignificantMotion */,
 				4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */,
 				4F39150F224D692500CEE77E /* AWARE-SensingApp */,
 				4F391545224FE45D00CEE77E /* AWARE-SimpleClient */,
@@ -771,6 +811,7 @@
 				4F5C401922B12C1E00B981DC /* AWARE-AmbientNoise.app */,
 				4F76BE9C22CC34E60022F060 /* AWARE-UnitTest.app */,
 				4F6C4B3722E7060D00DC7C9B /* AWARE-HealthKit.app */,
+				4F32203222F130B8006FDBAC /* AWARE-SignificantMotion.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -798,6 +839,7 @@
 				9CFA0EC3E39ACC1F91EE00C1 /* Pods_Tests.framework */,
 				37BB96F258193F6DE1D43566 /* Pods_AWARE_UnitTest.framework */,
 				59BC782BF49A30545D3E2356 /* Pods_AWARE_HealthKit.framework */,
+				5AEB2053AF5EA18D8A2E93E8 /* Pods_AWARE_SignificantMotion.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -815,6 +857,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F32203122F130B8006FDBAC /* AWARE-SignificantMotion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F32204122F130B8006FDBAC /* Build configuration list for PBXNativeTarget "AWARE-SignificantMotion" */;
+			buildPhases = (
+				66A1711A04433876D2C8C3D6 /* [CP] Check Pods Manifest.lock */,
+				4F32202E22F130B8006FDBAC /* Sources */,
+				4F32202F22F130B8006FDBAC /* Frameworks */,
+				4F32203022F130B8006FDBAC /* Resources */,
+				3ADBDBE69C6BAA93F783A6D4 /* [CP] Embed Pods Frameworks */,
+				2276C47281602B147925870A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-SignificantMotion";
+			productName = "AWARE-SignificantMotion";
+			productReference = 4F32203222F130B8006FDBAC /* AWARE-SignificantMotion.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */;
@@ -1128,10 +1190,15 @@
 			attributes = {
 				CLASSPREFIX = AWAREFramework;
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = tetujin;
 				TargetAttributes = {
+					4F32203122F130B8006FDBAC = {
+						CreatedOnToolsVersion = 10.3;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
 					4F3914D7224CE6B300CEE77E = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
@@ -1322,12 +1389,23 @@
 				4F5C401822B12C1E00B981DC /* AWARE-AmbientNoise */,
 				4F76BE9B22CC34E60022F060 /* AWARE-UnitTest */,
 				4F6C4B3622E7060D00DC7C9B /* AWARE-HealthKit */,
+				4F32203122F130B8006FDBAC /* AWARE-SignificantMotion */,
 				4FC7EF5222560B8400136D05 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F32203022F130B8006FDBAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F32203F22F130B8006FDBAC /* LaunchScreen.storyboard in Resources */,
+				4F32203C22F130B8006FDBAC /* Assets.xcassets in Resources */,
+				4F32203A22F130B8006FDBAC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F3914D6224CE6B300CEE77E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1619,6 +1697,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-AmbientNoise/Pods-AWARE-AmbientNoise-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2276C47281602B147925870A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		24A57CB847E6D9BA8EB14CA3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1735,6 +1835,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3ADBDBE69C6BAA93F783A6D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3C4D38B3447E743272DB98D7 /* [CP] Embed Pods Frameworks */ = {
@@ -1981,6 +2111,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66A1711A04433876D2C8C3D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-SignificantMotion-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		680864B18BF0C389E8D67370 /* [CP] Embed Pods Frameworks */ = {
@@ -2594,6 +2746,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F32202E22F130B8006FDBAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F32203722F130B8006FDBAC /* ViewController.swift in Sources */,
+				4F32203522F130B8006FDBAC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F3914D4224CE6B300CEE77E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2774,6 +2935,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4F32203822F130B8006FDBAC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F32203922F130B8006FDBAC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F32203D22F130B8006FDBAC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F32203E22F130B8006FDBAC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		4F3914DE224CE6B300CEE77E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3001,6 +3178,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F32204222F130B8006FDBAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61BEB9893B1446DACAF74946 /* Pods-AWARE-SignificantMotion.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SignificantMotion/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-SignificantMotion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F32204322F130B8006FDBAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50126C17CBEB8D68F182E5EB /* Pods-AWARE-SignificantMotion.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SignificantMotion/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-SignificantMotion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4F391500224CE6B500CEE77E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93B4080391ED0C1999C702F8 /* Pods-AWARE-DynamicESM.debug.xcconfig */;
@@ -4275,6 +4512,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F32204122F130B8006FDBAC /* Build configuration list for PBXNativeTarget "AWARE-SignificantMotion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F32204222F130B8006FDBAC /* Debug */,
+				4F32204322F130B8006FDBAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4F391506224CE6B500CEE77E /* Build configuration list for PBXNativeTarget "AWARE-DynamicESM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
