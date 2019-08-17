@@ -157,8 +157,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[Gravity alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_LINEAR_ACCELEROMETER]]){
                 awareSensor = [[LinearAccelerometer alloc] initWithAwareStudy:awareStudy dbType:dbType];
-            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_BLUETOOTH]]){
-                awareSensor = [[Bluetooth alloc] initWithAwareStudy:awareStudy dbType:dbType];
+//            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_BLUETOOTH]]){
+//                awareSensor = [[Bluetooth alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_SCREEN]]){
                 awareSensor = [[Screen alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PROXIMITY]]){
@@ -192,8 +192,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[FusedLocations alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_AMBIENT_NOISE]]){
                 awareSensor = [[AmbientNoise alloc] initWithAwareStudy:awareStudy dbType:dbType];
-            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_BLE_HR]]){
-                awareSensor = [[BLEHeartRate alloc] initWithAwareStudy:awareStudy dbType:dbType];
+//            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_BLE_HR]]){
+//                awareSensor = [[BLEHeartRate alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_IOS_ESM]]){
                 awareSensor = [[IOSESM alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@", SENSOR_PLUGIN_FITBIT]]){
@@ -210,8 +210,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[CalendarESMScheduler alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_CALENDAR]){
                 awareSensor = [[Calendar alloc] initWithAwareStudy:awareStudy dbType:dbType];
-            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_HEALTHKIT]){
-                awareSensor = [[AWAREHealthKit alloc] initWithAwareStudy:awareStudy dbType:dbType];
+//            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_HEALTHKIT]){
+//                awareSensor = [[AWAREHealthKit alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION]){
                 awareSensor = [[SignificantMotion alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }

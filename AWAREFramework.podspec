@@ -41,10 +41,10 @@ Pod::Spec.new do |s|
   s.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI', 'UserNotifications', 'EventKit', 'EventKitUI','Accelerate', 'AudioToolbox','AVFoundation','GLKit'
+  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'EventKit', 'EventKitUI', 'UserNotifications',  'EventKitUI','Accelerate', 'AudioToolbox','AVFoundation','GLKit'
   s.static_framework = true
   s.dependency 'SCNetworkReachability'
-  s.dependency 'GoogleSignIn'
+  s.dependency 'GoogleSignIn', '4.4.0'
   s.dependency 'ios-ntp'
   # s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
   s.dependency 'TPCircularBuffer'

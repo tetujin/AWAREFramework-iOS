@@ -14,7 +14,7 @@
 #import "Battery.h"
 #import "BatteryCharge.h"
 #import "BatteryDischarge.h"
-#import "Bluetooth.h"
+// #import "Bluetooth.h"
 #import "Calls.h"
 #import "Gravity.h"
 #import "Debug.h"
@@ -37,10 +37,10 @@
 #import "SignificantMotion.h"
 
 /// Plugins
-#import "BLEHeartRate.h"
+// #import "BLEHeartRate.h"
 #import "DeviceUsage.h"
 #import "FusedLocations.h"
-#import "AWAREHealthKit.h"
+// #import "AWAREHealthKit.h"
 #import "Memory.h"
 #import "NTPTime.h"
 #import "OpenWeather.h"
