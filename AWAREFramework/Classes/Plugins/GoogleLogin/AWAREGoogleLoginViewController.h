@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AWAREGoogleLoginViewController : UIViewController <GIDSignInUIDelegate, GIDSignInDelegate>
+@interface AWAREGoogleLoginViewController : UIViewController <GIDSignInDelegate>
 
 // Google Login Instance
 @property GoogleLogin * googleLogin;

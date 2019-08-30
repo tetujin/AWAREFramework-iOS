@@ -43,11 +43,11 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI', 'UserNotifications', 'EventKit', 'EventKitUI','Accelerate', 'AudioToolbox','AVFoundation','GLKit'
   s.static_framework = true
-  s.dependency 'SCNetworkReachability'
-  s.dependency 'GoogleSignIn'
-  s.dependency 'ios-ntp'
+  s.dependency 'SCNetworkReachability', '~> 2.0'
+  s.dependency 'GoogleSignIn', '~> 5.0'
+  s.dependency 'ios-ntp', '~> 1.1'
   # s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
-  s.dependency 'TPCircularBuffer'
+  s.dependency 'TPCircularBuffer', '~> 1.6'
   
   s.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
   
