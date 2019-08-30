@@ -132,14 +132,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 - (void)createTable {
     NSMutableString * query = [[NSMutableString alloc] init];
     [query appendFormat:@"_id integer primary key autoincrement,"];
-    [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_TIMESTAMP];
-    [query appendFormat:@"%@ text default '',", KEY_AMBIENT_NOISE_DEVICE_ID];
-    [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_FREQUENCY];
-    [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_DECIDELS];
-    [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_RMS];
+    [query appendFormat:@"%@ real default 0,",    KEY_AMBIENT_NOISE_TIMESTAMP];
+    [query appendFormat:@"%@ text default '',",   KEY_AMBIENT_NOISE_DEVICE_ID];
+    [query appendFormat:@"%@ real default 0,",    KEY_AMBIENT_NOISE_FREQUENCY];
+    [query appendFormat:@"%@ real default 0,",    KEY_AMBIENT_NOISE_DECIDELS];
+    [query appendFormat:@"%@ real default 0,",    KEY_AMBIENT_NOISE_RMS];
     [query appendFormat:@"%@ integer default 0,", KEY_AMBIENT_NOISE_SILENT];
-    [query appendFormat:@"%@ real default 0,", KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
-    [query appendFormat:@"%@ text default ''", KEY_AMBIENT_NOISE_RAW];
+    [query appendFormat:@"%@ real default 0,",    KEY_AMBIENT_NOISE_SILENT_THRESHOLD];
+    [query appendFormat:@"%@ text default ''",    KEY_AMBIENT_NOISE_RAW];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -167,10 +167,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     [self setupMicrophone];
 
     mainTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f*_frequencyMin
-                                             target:self
-                                           selector:@selector(startRecording:)
-                                           userInfo:[NSDictionary dictionaryWithObject:@0 forKey:KEY_AUDIO_CLIP_NUMBER]
-                                            repeats:YES];
+                                                 target:self
+                                               selector:@selector(startRecording:)
+                                               userInfo:[NSDictionary dictionaryWithObject:@0 forKey:KEY_AUDIO_CLIP_NUMBER]
+                                                repeats:YES];
     [mainTimer fire];
     
     [self setSensingState:YES];
@@ -196,12 +196,12 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     
     if(!call.hasConnected && !call.hasEnded && !call.isOutgoing && !call.isOnHold){
         if (self.isDebug) NSLog(@"[%@] phone call is comming", [self getSensorName] );
-        if(_isRecording) [self stopRecording:[NSDictionary dictionaryWithObject:@(self->_sampleSize) forKey:self->KEY_AUDIO_CLIP_NUMBER]];
+        if(_isRecording) [self stopRecording:@{@(self->_sampleSize):self->KEY_AUDIO_CLIP_NUMBER}];
     }else if(call.hasEnded){
         if (self.isDebug) NSLog(@"[%@] phone call is end", [self getSensorName]);
     }else if(call.outgoing){
         if (self.isDebug) NSLog(@"[%@] outgoing call", [self getSensorName]);
-        if(_isRecording) [self stopRecording:[NSDictionary dictionaryWithObject:@(self->_sampleSize) forKey:self->KEY_AUDIO_CLIP_NUMBER]];
+        if(_isRecording) [self stopRecording:@{@(self->_sampleSize):self->KEY_AUDIO_CLIP_NUMBER}];
     }
 }
 
@@ -357,7 +357,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 - (void) saveAudioDataWithNumber:(int)number {
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
     
-    [self setLatestValue:[NSString stringWithFormat:@"[%d] dB:%f, RMS:%f, Frequency:%f",number, db, rms, maxFrequency]];
+    [self setLatestValue:[NSString stringWithFormat:@"[%d] dB:%f, RMS:%f, Frequency:%f", number, db, rms, maxFrequency]];
     
     if ([self isDebug]) {
         NSString * message = [NSString stringWithFormat:@"[%d] dB:%f, RMS:%f, Frequency:%f", number, db, rms, maxFrequency];
@@ -382,6 +382,16 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
         [dict setObject:[data base64EncodedStringWithOptions:0] forKey:KEY_AMBIENT_NOISE_RAW];
     }else{
         [dict setObject:@"" forKey:KEY_AMBIENT_NOISE_RAW];
+
+        NSURL * url = [self getAudioFilePathWithNumber:number];
+        NSError * error = nil;
+        if (url != nil) {
+            if ([NSFileManager.defaultManager removeItemAtURL:url error:&error] ){
+                if (self.isDebug) NSLog(@"[%@] Remove an audio file -> Success: %@", self.getSensorName, url.debugDescription);
+            }else{
+                if (self.isDebug) NSLog(@"[%@] Remove an audio file -> Error: %@",   self.getSensorName, url.debugDescription);
+            }
+        }
     }
     
     [self setLatestData:dict];
@@ -483,13 +493,13 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
     // Decibel Calculation.
     // https://github.com/syedhali/EZAudio/issues/50
     //
-    float one       = 1.0;
+    float one     = 1.0;
     float meanVal = 0.0;
-    float tiny = 0.1;
+    float tiny    = 0.1;
     
-    vDSP_vsq(buffer[0], 1, buffer[0], 1, bufferSize);
-    vDSP_meanv(buffer[0], 1, &meanVal, bufferSize);
-    vDSP_vdbcon(&meanVal, 1, &one, &meanVal, 1, 1, 0);
+    vDSP_vsq(buffer[0],   1, buffer[0], 1, bufferSize);
+    vDSP_meanv(buffer[0], 1, &meanVal,  bufferSize);
+    vDSP_vdbcon(&meanVal, 1, &one,      &meanVal, 1, 1, 0);
     
     float currentdb = 1.0 - (fabs(meanVal)/100);
     
@@ -524,7 +534,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
             // Visualize this data brah, buffer[0] = left channel, buffer[1] = right channel
             //        [weakSelf.audioPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
             NSString * value = [NSString stringWithFormat:@"dB:%f, RMS:%f, Frequency:%f", self->db, self->rms, self->maxFrequency];
-            [self setLatestValue:value ];
+            [self setLatestValue:value];
         });
     }
 }

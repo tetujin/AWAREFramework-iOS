@@ -29,14 +29,17 @@ class ViewController: UIViewController {
                 case .denied: break
                 case .restricted: break
                 case .notDetermined: break
+                @unknown default:
+                    // fatalError()
+                    break
                 }
             }
         }
         
-        // Do any additional setup after loading the view.
         noise.frequencyMin   = 10
-        noise.sampleDuration = 10
-        noise.sampleSize     = 60
+        noise.sampleDuration = 1
+        noise.sampleSize     = 10
+        noise.setDebug(true)
         noise.startSensor()
         noise.setAudioFileGenerationHandler { (url) in
             if let url = url {
@@ -79,7 +82,7 @@ extension ViewController: AWAREAmbientNoiseFFTDelegate {
         if let data = fftData {
             for i in 0..<Int(bufferSize){
                 if data[i] > 0.01 {
-                    print(i,data[i])
+                    // print(i,data[i])
                 }
             }
         }
