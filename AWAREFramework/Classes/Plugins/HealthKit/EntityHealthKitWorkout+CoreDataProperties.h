@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, copy) NSString *device_id;
 @property (nonatomic) double timestamp;
+@property (nonatomic) double timestamp_start;
 @property (nonatomic) double timestamp_end;
 @property (nonatomic) int64_t activity_type;
 @property (nullable, nonatomic, copy) NSString *activity_type_name;

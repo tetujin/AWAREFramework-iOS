@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *metadata;
 @property (nullable, nonatomic, copy) NSString *source;
 @property (nullable, nonatomic, copy) NSNumber *timestamp;
+@property (nullable, nonatomic, copy) NSNumber *timestamp_start;
 @property (nullable, nonatomic, copy) NSNumber *timestamp_end;
 @property (nullable, nonatomic, copy) NSString *type;
 @property (nullable, nonatomic, copy) NSString *unit;

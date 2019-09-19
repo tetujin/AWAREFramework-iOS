@@ -20,6 +20,7 @@
 @dynamic metadata;
 @dynamic source;
 @dynamic timestamp;
+@dynamic timestamp_start;
 @dynamic timestamp_end;
 @dynamic type;
 @dynamic value;

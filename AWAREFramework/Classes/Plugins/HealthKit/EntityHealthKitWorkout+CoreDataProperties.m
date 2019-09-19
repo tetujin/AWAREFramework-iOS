@@ -16,6 +16,7 @@
 
 @dynamic device_id;
 @dynamic timestamp;
+@dynamic timestamp_start;
 @dynamic timestamp_end;
 @dynamic activity_type;
 @dynamic activity_type_name;

@@ -21,6 +21,7 @@
     NSString * KEY_DATA_TYPE;
     NSString * KEY_VALUE;
     NSString * KEY_UNIT;
+    NSString * KEY_START;
     NSString * KEY_END;
     NSString * KEY_DEVICE;
     NSString * KEY_LABLE;
@@ -62,6 +63,7 @@
         KEY_DATA_TYPE = @"type";
         KEY_VALUE     = @"value";
         KEY_UNIT      = @"unit";
+        KEY_START     = @"timestamp_start";
         KEY_END       = @"timestamp_end";
         KEY_DEVICE    = @"device";
         KEY_LABLE     = @"label";
@@ -72,6 +74,7 @@
 - (void) createTable{
     if (self.isDebug) NSLog(@"[%@] create table!", [self getSensorName]);
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
+    [tcqMaker addColumn:KEY_START     type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_END       type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_DATA_TYPE type:TCQTypeText default:@"''"];
     [tcqMaker addColumn:KEY_VALUE     type:TCQTypeReal default:@"0"];
@@ -106,7 +109,8 @@
             }
             
             NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-            [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_TIMESTAMP];
+            [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_TIMESTAMP];
+            [dict setObject:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_START];
             [dict setObject:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
             [dict setObject:[self getDeviceId] forKey:KEY_DEVICE_ID];
             [dict setObject:type.identifier    forKey:KEY_DATA_TYPE];

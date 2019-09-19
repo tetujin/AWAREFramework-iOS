@@ -16,6 +16,7 @@
 @implementation AWAREHealthKitWorkout{
     NSString* KEY_DEVICE_ID;
     NSString* KEY_TIMESTAMP;
+    NSString* KEY_START;
     NSString* KEY_END;
     NSString* KEY_DEVICE;
     NSString* KEY_LABLE;
@@ -52,6 +53,7 @@
     if(self){
         KEY_DEVICE_ID     = @"device_id";
         KEY_TIMESTAMP     = @"timestamp";
+        KEY_START         = @"timestamp_start";
         KEY_END           = @"timestamp_end";
         
         KEY_WORKOUT_ACTIVITY_TYPE   = @"activity_type";
@@ -71,6 +73,7 @@
 - (void) createTable{
     if( self.isDebug ) NSLog(@"[%@] create table!", [self getSensorName]);
     TCQMaker * tcqMaker = [[TCQMaker alloc] init];
+    [tcqMaker addColumn:KEY_START       type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_END         type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:KEY_WORKOUT_ACTIVITY_TYPE      type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:KEY_WORKOUT_ACTIVITY_TYPE_NAME type:TCQTypeText default:@"''"];
@@ -92,8 +95,9 @@
         NSMutableDictionary * data = [[NSMutableDictionary alloc] init];
         
         [data setValue:[self getDeviceId] forKey:KEY_DEVICE_ID];
-        [data setValue:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:@"timestamp"];
-        [data setValue:[AWAREUtils getUnixTimestamp:sample.endDate] forKey:KEY_END];
+        [data setValue:[AWAREUtils getUnixTimestamp:[NSDate new]]     forKey:KEY_TIMESTAMP];
+        [data setValue:[AWAREUtils getUnixTimestamp:sample.startDate] forKey:KEY_START];
+        [data setValue:[AWAREUtils getUnixTimestamp:sample.endDate]   forKey:KEY_END];
         if (sample.device != nil && sample.device.model != nil) {
             [data setValue:sample.device.description forKey:KEY_DEVICE];
         }
