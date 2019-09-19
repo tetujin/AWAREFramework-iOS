@@ -125,6 +125,8 @@
 #import "EntityHealthKitQuantity+CoreDataProperties.h"
 #import "EntityHealthKitQuantityHR+CoreDataClass.h"
 #import "EntityHealthKitQuantityHR+CoreDataProperties.h"
+#import "EntityHealthKitWorkout+CoreDataClass.h"
+#import "EntityHealthKitWorkout+CoreDataProperties.h"
 #import "EntityIOSActivityRecognition+CoreDataClass.h"
 #import "EntityIOSActivityRecognition+CoreDataProperties.h"
 #import "IOSActivityRecognition.h"

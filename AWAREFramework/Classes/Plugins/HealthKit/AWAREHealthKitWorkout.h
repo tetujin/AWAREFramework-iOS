@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-- (void) saveWorkoutData:(NSArray *)data;
+- (void) saveWorkoutData:(NSArray <HKWorkout * > * _Nonnull)data;
 
 NS_ASSUME_NONNULL_END
 

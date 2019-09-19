@@ -32,12 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get the last fetch data using a data type
  */
-// + (NSDate * _Nullable) getLastFetchDataWithDataType:(NSString * _Nullable) dataType;
+// - (NSDate * _Nullable) getLastRecordTimeWithHKDataType:(NSString * _Nonnull)type;
 
 /**
  * Set the latest fetch date with a data type.
  */
-// + (void) setLastFetchData:(NSDate * _Nonnull)date withDataType:(NSString * _Nullable)dataType;
+// - (void) setLastRecordTime:(NSDate * _Nonnull)date withHKDataType:(NSString * _Nonnull)type;
+
+- (void) setLastFetchTimeForAll:(NSDate * _Nonnull) date;
 
 NS_ASSUME_NONNULL_END
 

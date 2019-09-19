@@ -115,7 +115,7 @@
             if(sample.device == nil){
                 [dict setObject:@"unknown" forKey:KEY_DEVICE];
             }else{
-                [dict setObject:sample.device.model forKey:KEY_DEVICE];
+                [dict setObject:sample.device.description forKey:KEY_DEVICE];
             }
             [dict setObject:@"" forKey:KEY_LABLE];
             [buffer addObject:dict];

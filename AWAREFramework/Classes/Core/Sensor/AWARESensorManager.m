@@ -450,10 +450,10 @@ static AWARESensorManager * sharedSensorManager;
 
 - (void)syncAllSensorsForcefully{
     
-    if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
+    if (awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
     
     for (AWARESensor * sensor in awareSensors ) {
-        NSLog(@"%@",sensor.getSensorName);
+        if (awareStudy.isDebug) NSLog(@"%@",sensor.getSensorName);
         [sensor startSyncDB];
     }
 }

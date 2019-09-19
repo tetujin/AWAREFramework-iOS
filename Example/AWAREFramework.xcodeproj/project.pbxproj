@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02866B2467A1F673E613A75D /* Pods_AWARE_Barometer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6579A84EEB59A72709AEF0 /* Pods_AWARE_Barometer.framework */; };
 		0D303B0B61C3F9C3EB90F027 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA0EC3E39ACC1F91EE00C1 /* Pods_Tests.framework */; };
 		0D665A94C1F63BB4CCBC840C /* Pods_AWARE_CustomESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */; };
 		1D1A0F5AD9D07AC808A2E31B /* Pods_AWARE_CustomSensor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */; };
@@ -17,6 +18,11 @@
 		4F32203A22F130B8006FDBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203822F130B8006FDBAC /* Main.storyboard */; };
 		4F32203C22F130B8006FDBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203B22F130B8006FDBAC /* Assets.xcassets */; };
 		4F32203F22F130B8006FDBAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F32203D22F130B8006FDBAC /* LaunchScreen.storyboard */; };
+		4F36A5B82320C48E00399D7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36A5B72320C48E00399D7F /* AppDelegate.swift */; };
+		4F36A5BA2320C48E00399D7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36A5B92320C48E00399D7F /* ViewController.swift */; };
+		4F36A5BD2320C48E00399D7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F36A5BB2320C48E00399D7F /* Main.storyboard */; };
+		4F36A5BF2320C48E00399D7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F36A5BE2320C48E00399D7F /* Assets.xcassets */; };
+		4F36A5C22320C48E00399D7F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F36A5C02320C48E00399D7F /* LaunchScreen.storyboard */; };
 		4F3914DB224CE6B300CEE77E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DA224CE6B300CEE77E /* AppDelegate.swift */; };
 		4F3914DD224CE6B300CEE77E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3914DC224CE6B300CEE77E /* ViewController.swift */; };
 		4F3914E0224CE6B300CEE77E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3914DE224CE6B300CEE77E /* Main.storyboard */; };
@@ -169,6 +175,7 @@
 		29D477EE22E199489CB11EF5 /* Pods-AWARE-ConfigURLESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.debug.xcconfig"; sourceTree = "<group>"; };
 		2C525406897B2E8A519DEA8A /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37BB96F258193F6DE1D43566 /* Pods_AWARE_UnitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_UnitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8EFBB4A416C8BBBFBDBAA2 /* Pods-AWARE-Barometer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Barometer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer.debug.xcconfig"; sourceTree = "<group>"; };
 		4059B633DB39E76C033AF630 /* Pods-AWARE-Visualization.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Visualization.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Visualization/Pods-AWARE-Visualization.release.xcconfig"; sourceTree = "<group>"; };
 		4120DE55A05DF8E38F841DE7 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		48F59A6B8D45C0C883FC83C4 /* Pods-AWARE-UnitTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-UnitTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +189,13 @@
 		4F32203B22F130B8006FDBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F32203E22F130B8006FDBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F32204022F130B8006FDBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F36A5B52320C48D00399D7F /* AWARE-Barometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Barometer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F36A5B72320C48E00399D7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F36A5B92320C48E00399D7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F36A5BC2320C48E00399D7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F36A5BE2320C48E00399D7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F36A5C12320C48E00399D7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F36A5C32320C48E00399D7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F3914D8224CE6B300CEE77E /* AWARE-DynamicESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-DynamicESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F3914DA224CE6B300CEE77E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F3914DC224CE6B300CEE77E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -319,6 +333,7 @@
 		61BEB9893B1446DACAF74946 /* Pods-AWARE-SignificantMotion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SignificantMotion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion.debug.xcconfig"; sourceTree = "<group>"; };
 		66EA132C91247DC54DAA063D /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
 		695D0CD2E062C0A3F8B9B833 /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6579A84EEB59A72709AEF0 /* Pods_AWARE_Barometer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Barometer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76BBA1A68D2ADA1B9175FB09 /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		772DB3D5C2EB7D8D59D78628 /* Pods_AWARE_ScheduleESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ScheduleESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF85D6A887145557D4A32E4 /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -349,6 +364,7 @@
 		E69D2AE1AEA37EC06799EB95 /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C0494F6EFC63584B88AC2C /* Pods-AWARE-InteractiveESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.debug.xcconfig"; sourceTree = "<group>"; };
 		ECC14885264A6A2F1C735787 /* Pods-AWARE-InteractiveESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.release.xcconfig"; sourceTree = "<group>"; };
+		F25E18B2B15E4E1D418C133B /* Pods-AWARE-Barometer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Barometer.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer.release.xcconfig"; sourceTree = "<group>"; };
 		F51066106ABBFA00AB4247B6 /* Pods-AWARE-ConfigURLESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.release.xcconfig"; sourceTree = "<group>"; };
 		FE762E2FBB42ACA446EA9654 /* Pods-AWARE-CustomSensor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -359,6 +375,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BB894F868789E099CD91F6F /* Pods_AWARE_SignificantMotion.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F36A5B22320C48D00399D7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02866B2467A1F673E613A75D /* Pods_AWARE_Barometer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +551,8 @@
 				8F58EC76D53ED4C746A72004 /* Pods-AWARE-HealthKit.release.xcconfig */,
 				61BEB9893B1446DACAF74946 /* Pods-AWARE-SignificantMotion.debug.xcconfig */,
 				50126C17CBEB8D68F182E5EB /* Pods-AWARE-SignificantMotion.release.xcconfig */,
+				3D8EFBB4A416C8BBBFBDBAA2 /* Pods-AWARE-Barometer.debug.xcconfig */,
+				F25E18B2B15E4E1D418C133B /* Pods-AWARE-Barometer.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -542,6 +568,19 @@
 				4F32204022F130B8006FDBAC /* Info.plist */,
 			);
 			path = "AWARE-SignificantMotion";
+			sourceTree = "<group>";
+		};
+		4F36A5B62320C48D00399D7F /* AWARE-Barometer */ = {
+			isa = PBXGroup;
+			children = (
+				4F36A5B72320C48E00399D7F /* AppDelegate.swift */,
+				4F36A5B92320C48E00399D7F /* ViewController.swift */,
+				4F36A5BB2320C48E00399D7F /* Main.storyboard */,
+				4F36A5BE2320C48E00399D7F /* Assets.xcassets */,
+				4F36A5C02320C48E00399D7F /* LaunchScreen.storyboard */,
+				4F36A5C32320C48E00399D7F /* Info.plist */,
+			);
+			path = "AWARE-Barometer";
 			sourceTree = "<group>";
 		};
 		4F3914D9224CE6B300CEE77E /* AWARE-DynamicESM */ = {
@@ -787,6 +826,7 @@
 				4F76BE9D22CC34E60022F060 /* AWARE-UnitTest */,
 				4F6C4B3822E7060D00DC7C9B /* AWARE-HealthKit */,
 				4FC7EF5422560B8400136D05 /* Tests */,
+				4F36A5B62320C48D00399D7F /* AWARE-Barometer */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				210A732D411FD730250FC3D3 /* Pods */,
@@ -812,6 +852,7 @@
 				4F76BE9C22CC34E60022F060 /* AWARE-UnitTest.app */,
 				4F6C4B3722E7060D00DC7C9B /* AWARE-HealthKit.app */,
 				4F32203222F130B8006FDBAC /* AWARE-SignificantMotion.app */,
+				4F36A5B52320C48D00399D7F /* AWARE-Barometer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -840,6 +881,7 @@
 				37BB96F258193F6DE1D43566 /* Pods_AWARE_UnitTest.framework */,
 				59BC782BF49A30545D3E2356 /* Pods_AWARE_HealthKit.framework */,
 				5AEB2053AF5EA18D8A2E93E8 /* Pods_AWARE_SignificantMotion.framework */,
+				6A6579A84EEB59A72709AEF0 /* Pods_AWARE_Barometer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -875,6 +917,26 @@
 			name = "AWARE-SignificantMotion";
 			productName = "AWARE-SignificantMotion";
 			productReference = 4F32203222F130B8006FDBAC /* AWARE-SignificantMotion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F36A5B42320C48D00399D7F /* AWARE-Barometer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F36A5C62320C48E00399D7F /* Build configuration list for PBXNativeTarget "AWARE-Barometer" */;
+			buildPhases = (
+				2A6B2984858FD637858BB5F3 /* [CP] Check Pods Manifest.lock */,
+				4F36A5B12320C48D00399D7F /* Sources */,
+				4F36A5B22320C48D00399D7F /* Frameworks */,
+				4F36A5B32320C48D00399D7F /* Resources */,
+				C1A9537460626F5C5169E3B3 /* [CP] Embed Pods Frameworks */,
+				C768C6CB248E50CE40AFD7D7 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-Barometer";
+			productName = "AWARE-Barometer";
+			productReference = 4F36A5B52320C48D00399D7F /* AWARE-Barometer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4F3914D7224CE6B300CEE77E /* AWARE-DynamicESM */ = {
@@ -1199,6 +1261,11 @@
 						DevelopmentTeam = FH352PYMNC;
 						ProvisioningStyle = Automatic;
 					};
+					4F36A5B42320C48D00399D7F = {
+						CreatedOnToolsVersion = 10.3;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
 					4F3914D7224CE6B300CEE77E = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
@@ -1390,6 +1457,7 @@
 				4F76BE9B22CC34E60022F060 /* AWARE-UnitTest */,
 				4F6C4B3622E7060D00DC7C9B /* AWARE-HealthKit */,
 				4F32203122F130B8006FDBAC /* AWARE-SignificantMotion */,
+				4F36A5B42320C48D00399D7F /* AWARE-Barometer */,
 				4FC7EF5222560B8400136D05 /* Tests */,
 			);
 		};
@@ -1403,6 +1471,16 @@
 				4F32203F22F130B8006FDBAC /* LaunchScreen.storyboard in Resources */,
 				4F32203C22F130B8006FDBAC /* Assets.xcassets in Resources */,
 				4F32203A22F130B8006FDBAC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F36A5B32320C48D00399D7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F36A5C22320C48E00399D7F /* LaunchScreen.storyboard in Resources */,
+				4F36A5BF2320C48E00399D7F /* Assets.xcassets in Resources */,
+				4F36A5BD2320C48E00399D7F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1737,6 +1815,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-AWARE-UnitTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2A6B2984858FD637858BB5F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-Barometer-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2537,6 +2637,60 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C1A9537460626F5C5169E3B3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C768C6CB248E50CE40AFD7D7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D7567266BF5D632A3E20D413 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2787,6 +2941,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F36A5B12320C48D00399D7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F36A5BA2320C48E00399D7F /* ViewController.swift in Sources */,
+				4F36A5B82320C48E00399D7F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F3914D4224CE6B300CEE77E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2979,6 +3142,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				4F32203E22F130B8006FDBAC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F36A5BB2320C48E00399D7F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F36A5BC2320C48E00399D7F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F36A5C02320C48E00399D7F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F36A5C12320C48E00399D7F /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -3263,6 +3442,66 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-SignificantMotion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F36A5C42320C48E00399D7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D8EFBB4A416C8BBBFBDBAA2 /* Pods-AWARE-Barometer.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-Barometer/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.AWARE-Barometer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F36A5C52320C48E00399D7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F25E18B2B15E4E1D418C133B /* Pods-AWARE-Barometer.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-Barometer/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.AWARE-Barometer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -4549,6 +4788,15 @@
 			buildConfigurations = (
 				4F32204222F130B8006FDBAC /* Debug */,
 				4F32204322F130B8006FDBAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F36A5C62320C48E00399D7F /* Build configuration list for PBXNativeTarget "AWARE-Barometer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F36A5C42320C48E00399D7F /* Debug */,
+				4F36A5C52320C48E00399D7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -20,18 +20,6 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSHealthShareUsageDescription</key>
-	<string>This application needs to access your HealthKit information;</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This application needs to access your location data for recording your activities.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This application needs to access your location data for recording your activities.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

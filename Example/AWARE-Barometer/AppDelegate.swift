@@ -1,46 +1,21 @@
 //
 //  AppDelegate.swift
-//  AWARE-HealthKit
+//  AWARE-Barometer
 //
-//  Created by Yuuki Nishiyama on 2019/07/23.
+//  Created by Yuuki Nishiyama on 2019/09/05.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
 
 import UIKit
-import AWAREFramework
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        let manager = AWARESensorManager.shared()
-        let study = AWAREStudy.shared()
-        study.join(withURL: "https://api.awareframework.com/index.php/webservice/index/2560/mvmt1hQgGqb2", completion: { (settings, status, error) in
-            
-            let healthKit = AWAREHealthKit(awareStudy: study)
-            healthKit.fetchIntervalSecond = 180;
-            
-            let tenDaysAge = Date().addingTimeInterval(-1*60*60*24*10)
-            healthKit.setLastFetchTimeForAll(tenDaysAge)
-            
-            manager.add(healthKit)
-            manager.createDBTablesOnAwareServer()
-            manager.startAllSensors()
-            healthKit.setDebug(true)
-        })
-        
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (timer) in
-            let manager = AWARESensorManager.shared()
-            manager.setSyncProcessCallbackToAllSensorStorages({ (sensorName, progress, error) in
-                NSLog(sensorName, progress);
-            })
-            manager.syncAllSensorsForcefully()
-        }
-
         return true
     }
 

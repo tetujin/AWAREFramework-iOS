@@ -13,7 +13,7 @@
 #import "TCQMaker.h"
 #import "EntityIOSPedometer+CoreDataClass.h"
 
-NSString * const AWARE_PREFERENCES_STATUS_PEDOMETER    = @"status_ios_pedometer";
+NSString * const AWARE_PREFERENCES_STATUS_PEDOMETER    = @"status_plugin_ios_pedometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_ios_pedometer";
 
 @implementation Pedometer {
