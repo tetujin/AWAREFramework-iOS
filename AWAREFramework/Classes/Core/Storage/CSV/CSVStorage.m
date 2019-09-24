@@ -78,26 +78,26 @@
         // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
     
-    if (isRequiredBuffer) {
+    if(self.buffer == nil){
+        if (self.isDebug) { NSLog(@"[%@] The buffer object is null", self.sensorName);}
+        self.buffer = [[NSMutableArray alloc] init];
+    }
+    
+    if (dataArray != nil) {
         [self.buffer addObjectsFromArray:dataArray];
-        if (self.buffer.count < self.getBufferSize) {
-            return YES;
-        }
-        if (self.buffer == 0) {
-            NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
-            return YES;
-        }
+    }
+    
+    if (self.buffer.count < self.getBufferSize) {
+        return YES;
+    }
+    if (self.buffer.count == 0) {
+        NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
+        return YES;
     }
     
     NSMutableString * lines = [[NSMutableString alloc] init];
-    if (!isRequiredBuffer) {
-        for (NSDictionary * dict in dataArray) {
-            [lines appendFormat:@"%@\n",[self convertDictionaryToCSVLine:dict withHeader:headerLabels]];
-        }
-    } else {
-        for (NSDictionary * dict in self.buffer) {
-            [lines appendFormat:@"%@\n",[self convertDictionaryToCSVLine:dict withHeader:headerLabels]];
-        }
+    for (NSDictionary * dict in self.buffer) {
+        [lines appendFormat:@"%@\n",[self convertDictionaryToCSVLine:dict withHeader:headerLabels]];
     }
     
     [self.buffer removeAllObjects];

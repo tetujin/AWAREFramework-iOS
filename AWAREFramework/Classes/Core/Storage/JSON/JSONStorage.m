@@ -29,11 +29,11 @@
     return self;
 }
 
-- (BOOL)saveDataWithDictionary:(NSDictionary *)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
+- (BOOL)saveDataWithDictionary:(NSDictionary * _Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
     return [self saveDataWithArray:@[dataDict] buffer:isRequiredBuffer saveInMainThread:saveInMainThread];
 }
 
-- (BOOL)saveDataWithArray:(NSArray *)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
+- (BOOL)saveDataWithArray:(NSArray * _Nullable)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread{
 
     if (!self.isStore) {
         return NO;
@@ -43,20 +43,34 @@
         // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
     
+    if(self.buffer == nil){
+        if (self.isDebug) { NSLog(@"[%@] The buffer object is null", self.sensorName);}
+        self.buffer = [[NSMutableArray alloc] init];
+    }
+    
+    if(dataArray != nil){
+        [self.buffer addObjectsFromArray:dataArray];
+    }else{
+        if ([self isDebug]) { NSLog(@"[%@] The data object is nil.", self.sensorName); }
+        return YES;
+    }
+    
     if (self.saveInterval > 0 ) {
         // time based operation
         NSDate * now = [NSDate new];
         if (now.timeIntervalSince1970 < self.lastSaveTimestamp + self.saveInterval) {
+            return YES;
+        }else if ([self.buffer count] == 0) {
+            NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
             return YES;
         }else{
             if ([self isDebug]) { NSLog(@"[JSONStorage] %@: Save data by time-base trigger", self.sensorName); }
             self.lastSaveTimestamp = now.timeIntervalSince1970;
         }
     }else{
-        [self.buffer addObjectsFromArray:dataArray];
         if (self.buffer.count < self.getBufferSize) {
             return YES;
-        }else if (self.buffer == 0) {
+        }else if ([self.buffer count] == 0) {
             NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
             return YES;
         }else{
@@ -65,14 +79,9 @@
     }
     
     NSMutableString * lines = nil;
-    NSError*error=nil;
-    NSData*d=nil;
-    if (isRequiredBuffer) {
-        d = [NSJSONSerialization dataWithJSONObject:self.buffer options:2 error:&error];
-    }else{
-        d = [NSJSONSerialization dataWithJSONObject:dataArray options:2 error:&error];
-    }
-    
+    NSError * error=nil;
+    NSData * d = [NSJSONSerialization dataWithJSONObject:self.buffer  options:2 error:&error];
+
     [self.buffer removeAllObjects];
     
     if (!error) {

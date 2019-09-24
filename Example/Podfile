@@ -79,3 +79,7 @@ end
 target 'AWARE-Barometer' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-JSONStorage' do
+  pod 'AWAREFramework', :path => '../'
+end
