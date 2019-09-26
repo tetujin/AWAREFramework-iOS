@@ -11,7 +11,7 @@
 
 @interface AudioPipeline : NSObject
 
-- (id) init;
+- (id _Nonnull) init;
 - (void) uninit;
 
 - (void) startPipeline;
@@ -20,10 +20,10 @@
 - (void) setTimeOfDutyCycleOffInConversationBySecond:(double)second;
 - (void) setTimeOfDutyCycleOffBySecond:(double)second;
 
-- (void) setAudioInterfaceEventHandler:(AudioInterfaceEventHandler) handler;
-- (void) setAudioFeatureEventHandler:(AudioFeatureEventHandler) handler;
-- (void) setConversationEventHandler:(ConversationEventHandler) handler;
-- (void) setConversationEndEventHandler:(ConversationEndEventHandler) handler;
-- (void) setConversationStartEventHandler:(ConversationStartEventHandler) handler;
+- (void) setAudioInterfaceEventHandler:(AudioInterfaceEventHandler _Nonnull) handler;
+- (void) setAudioFeatureEventHandler:(AudioFeatureEventHandler _Nonnull)     handler;
+- (void) setConversationEventHandler:(ConversationEventHandler _Nonnull)     handler;
+- (void) setConversationEndEventHandler:(ConversationEndEventHandler _Nonnull) handler;
+- (void) setConversationStartEventHandler:(ConversationStartEventHandler _Nonnull) handler;
     
 @end

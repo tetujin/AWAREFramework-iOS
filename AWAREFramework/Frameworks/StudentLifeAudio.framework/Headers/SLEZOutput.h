@@ -171,7 +171,7 @@ FOUNDATION_EXPORT Float64 const SLEZOutputDefaultSampleRate;
 /**
  Class method to create a new instance of the SLEZOutput and allows the caller to specify an SLEZOutputDataSource.
  @param dataSource The SLEZOutputDataSource that will be used to pull the audio data for the output callback.
- @param audioStreamBasicDescription The AudioStreamBasicDescription of the SLEZOutput.
+ @param inputFormat The AudioStreamBasicDescription of the SLEZOutput.
  @warning AudioStreamBasicDescriptions that are invalid will cause the SLEZOutput to fail to initialize
  @return A newly created instance of the SLEZOutput class.
  */

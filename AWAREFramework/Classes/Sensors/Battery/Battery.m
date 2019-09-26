@@ -219,7 +219,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     // NSLog(@"battery status: %d",state);
     UIDevice *myDevice = [UIDevice currentDevice];
     [myDevice setBatteryMonitoringEnabled:YES];
-    int state = [myDevice batteryState];
+    int state = (int)[myDevice batteryState];
     int batLeft = [myDevice batteryLevel] * 100;
     
     int batteryStatusAndroid = [self convertBatteryStateValueToAndroidFromIOS:state];

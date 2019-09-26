@@ -298,4 +298,6 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     self.label = label;
 }
 
+@synthesize label;
+
 @end

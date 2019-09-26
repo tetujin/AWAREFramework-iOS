@@ -22,16 +22,16 @@
 #define kAudioFilePath @"rawAudio.m4a"
 #define kRawAudioDirectory @"rawAudioData"
 
-extern NSString * const AWARE_PREFERENCES_STATUS_PLUGIN_AMBIENT_NOISE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_PLUGIN_AMBIENT_NOISE;
 
 /** How frequently do we sample the microphone (default = 5) in minutes */
-extern NSString * const AWARE_PREFERENCES_FREQUENCY_PLUGIN_AMBIENT_NOISE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_PLUGIN_AMBIENT_NOISE;
 
 /** For how long we listen (default = 30) in seconds */
-extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE;
 
 /** Silence threshold (default = 50) in dB */
-extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD;
+extern NSString * _Nonnull const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD;
 
 /**
  The EZAudioFFTDelegate provides event callbacks for the EZAudioFFT (and subclasses such as the EZAudioFFTRolling) whenvever the FFT is computed.
@@ -50,8 +50,8 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
  @param fftData    A float pointer representing the float array of FFT data.
  @param bufferSize A vDSP_Length (unsigned long) representing the length of the float array.
  */
-- (void)        fft:(EZAudioFFT *)fft
- updatedWithFFTData:(float *)fftData
+- (void)        fft:(EZAudioFFT * _Nullable)fft
+ updatedWithFFTData:(float * _Nullable)fftData
          bufferSize:(vDSP_Length)bufferSize;
 
 @end
@@ -62,24 +62,24 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD
 //
 // The microphone component
 //
-@property (nonatomic, strong) EZMicrophone *microphone;
+@property (nonatomic, strong, nullable) EZMicrophone *microphone;
 
 //
 // The recorder component
 //
-@property (nonatomic, strong) EZRecorder *recorder;
+@property (nonatomic, strong, nullable) EZRecorder *recorder;
 
 //
 // Used to calculate a rolling FFT of the incoming audio data.
 //
-@property (nonatomic, strong) EZAudioFFTRolling *fft;
+@property (nonatomic, strong, nullable) EZAudioFFTRolling *fft;
 
 //
 // A flag indicating whether we are recording or not
 //
 @property (nonatomic, assign, readonly) BOOL isRecording;
 
-@property (nonatomic, weak) id<AWAREAmbientNoiseFFTDelegate> fftDelegate;
+@property (nonatomic, weak, nullable) id<AWAREAmbientNoiseFFTDelegate> fftDelegate;
 
 @property int frequencyMin;
 @property int sampleSize;

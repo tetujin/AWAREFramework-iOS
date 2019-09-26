@@ -12,16 +12,16 @@
 
 static vDSP_Length const FFTViewControllerFFTWindowSize = 4096;
 
-NSString * const AWARE_PREFERENCES_STATUS_PLUGIN_AMBIENT_NOISE = @"status_plugin_ambient_noise";
+NSString * const _Nonnull AWARE_PREFERENCES_STATUS_PLUGIN_AMBIENT_NOISE = @"status_plugin_ambient_noise";
 
 /** How frequently do we sample the microphone (default = 5) in minutes */
-NSString * const AWARE_PREFERENCES_FREQUENCY_PLUGIN_AMBIENT_NOISE = @"frequency_plugin_ambient_noise";
+NSString * const _Nonnull AWARE_PREFERENCES_FREQUENCY_PLUGIN_AMBIENT_NOISE = @"frequency_plugin_ambient_noise";
 
 /** For how long we listen (default = 30) in seconds */
-NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE = @"plugin_ambient_noise_sample_size";
+NSString * const _Nonnull AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SAMPLE_SIZE = @"plugin_ambient_noise_sample_size";
 
 /** Silence threshold (default = 50) in dB */
-NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"plugin_ambient_noise_silence_threshold";
+NSString * const _Nonnull AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"plugin_ambient_noise_silence_threshold";
 
 @implementation AmbientNoise{
     NSString * KEY_AMBIENT_NOISE_TIMESTAMP;
@@ -632,8 +632,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHOLD = @"pl
 {
     maxFrequency = [fft maxFrequency];
     
-    if ([self.fftDelegate respondsToSelector:@selector(fft:updatedWithFFTData:bufferSize:)]) {
-        [self.fftDelegate fft:fft updatedWithFFTData:fftData bufferSize:bufferSize];
+    if(self.fftDelegate != nil){
+        if ([self.fftDelegate respondsToSelector:@selector(fft:updatedWithFFTData:bufferSize:)]) {
+            [self.fftDelegate fft:fft updatedWithFFTData:fftData bufferSize:bufferSize];
+        }
     }
     
 //    for (int i = 0; i<bufferSize; i++) {
