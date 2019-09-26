@@ -72,9 +72,9 @@ target 'AWARE-HealthKit' do
   pod 'AWAREFramework', :path => '../'
 end
 
-target 'AWARE-SignificantMotion' do
-  pod 'AWAREFramework', :path => '../'
-end
+#target 'AWARE-SignificantMotion' do
+#  pod 'AWAREFramework', :path => '../'
+#end
 
 target 'AWARE-Barometer' do
   pod 'AWAREFramework', :path => '../'
