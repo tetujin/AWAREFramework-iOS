@@ -160,6 +160,104 @@
                ReferencedContainer = "container:AWAREFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F76BE9B22CC34E60022F060"
+               BuildableName = "AWARE-UnitTest.app"
+               BlueprintName = "AWARE-UnitTest"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F5C401822B12C1E00B981DC"
+               BuildableName = "AWARE-AmbientNoise.app"
+               BlueprintName = "AWARE-AmbientNoise"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F36A5B42320C48D00399D7F"
+               BuildableName = "AWARE-Barometer.app"
+               BlueprintName = "AWARE-Barometer"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FDB55F8233CA5290095E7D7"
+               BuildableName = "AWARE-Conversation.app"
+               BlueprintName = "AWARE-Conversation"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F32203122F130B8006FDBAC"
+               BuildableName = "AWARE-SignificantMotion.app"
+               BlueprintName = "AWARE-SignificantMotion"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FDB55DE233A06730095E7D7"
+               BuildableName = "AWARE-JSONStorage.app"
+               BlueprintName = "AWARE-JSONStorage"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FC7EF5222560B8400136D05"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -199,15 +297,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4F3915A82253E57C00CEE77E"
-            BuildableName = "AWARE-CustomESM.app"
-            BlueprintName = "AWARE-CustomESM"
-            ReferencedContainer = "container:AWAREFramework.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
          <AdditionalOption
             key = "NSZombieEnabled"
