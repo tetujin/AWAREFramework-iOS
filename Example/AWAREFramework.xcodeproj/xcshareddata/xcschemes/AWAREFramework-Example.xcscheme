@@ -224,20 +224,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4F32203122F130B8006FDBAC"
-               BuildableName = "AWARE-SignificantMotion.app"
-               BlueprintName = "AWARE-SignificantMotion"
-               ReferencedContainer = "container:AWAREFramework.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4FDB55DE233A06730095E7D7"
                BuildableName = "AWARE-JSONStorage.app"
                BlueprintName = "AWARE-JSONStorage"
