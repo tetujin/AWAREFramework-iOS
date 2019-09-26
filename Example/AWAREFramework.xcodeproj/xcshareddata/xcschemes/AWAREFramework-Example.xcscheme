@@ -244,6 +244,20 @@
                ReferencedContainer = "container:AWAREFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FDB5610233CDFF10095E7D7"
+               BuildableName = "AWARE-ForTest.app"
+               BlueprintName = "AWARE-ForTest"
+               ReferencedContainer = "container:AWAREFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

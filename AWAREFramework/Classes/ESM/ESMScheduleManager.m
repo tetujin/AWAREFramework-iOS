@@ -172,6 +172,7 @@ static ESMScheduleManager * sharedESMScheduleManager;
     
     NSError * error = nil;
     if([context save:&error]){
+        [self refreshESMNotifications];
         return YES;
     }else{
         if(error != nil) NSLog(@"%@", error.debugDescription);

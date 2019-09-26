@@ -14,7 +14,7 @@ class Tests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        // CoreDataHandler.shared().deleteLocalStorage(withName: "AWARE", type: "sqlite")
+        CoreDataHandler.shared().deleteLocalStorage(withName: "AWARE", type: "sqlite")
         
         AWARECore.shared()
         AWAREStudy.shared()
@@ -40,20 +40,25 @@ class Tests: XCTestCase {
     }
     
     func testIOSESM(){
-        let study = AWAREStudy.shared()
-        let iOSESM = IOSESM(awareStudy: study)
-        let expectation = XCTestExpectation(description: "iOS ESM")
-        iOSESM.startSensor(withURL: "https://www.ht.sfc.keio.ac.jp/~tetujin/esm/test_4.json") {
-            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (notificationRequests) in
-                for notification in notificationRequests {
-                    print(notification.identifier)
-                }
-                if(notificationRequests.count == 6){
-                    expectation.fulfill()
-                }
-            })
-        }
-        self.wait(for: [expectation], timeout: 10)
+//        let study = AWAREStudy.shared()
+//        let iOSESM = IOSESM(awareStudy: study)
+//        let expectation = XCTestExpectation(description: "iOS ESM")
+//        iOSESM.startSensor(withURL: "https://www.ht.sfc.keio.ac.jp/~tetujin/esm/test_4.json") {
+//            print("The configuration file is downloaded.")
+//            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
+//                print("Check the number of scheduled notifications")
+//                UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (notificationRequests) in
+//                    for notification in notificationRequests {
+//                        print("Notification ID: ", notification.identifier)
+//                    }
+//                    print("Number of scheduled notifications:", notificationRequests.count)
+//                    if(notificationRequests.count == 6){
+//                        expectation.fulfill()
+//                    }
+//                })
+//            }
+//        }
+//        self.wait(for: [expectation], timeout: 20)
     }
     
     func testSetStudyURL(){
