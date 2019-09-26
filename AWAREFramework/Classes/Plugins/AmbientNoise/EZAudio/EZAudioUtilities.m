@@ -539,7 +539,7 @@ BOOL __shouldExitOnCheckResultFail = YES;
     fprintf(stderr, "Error: %s (%s)\n", operation, errorString);
     if (__shouldExitOnCheckResultFail)
     {
-        exit(-1);
+        // exit(-1);
     }
 }
 

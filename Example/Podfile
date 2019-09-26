@@ -83,3 +83,7 @@ end
 target 'AWARE-JSONStorage' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-Conversation' do
+  pod 'AWAREFramework', :path => '../'
+end

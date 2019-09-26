@@ -210,6 +210,8 @@ OSStatus EZAudioFloatConverterCallback(AudioConverterRef             inAudioConv
             audioBufferList->mBuffers[i].mDataByteSize = frames * self.info->inputFormat.mBytesPerFrame;
         }
         
+        NSLog(@"%u, %lu, %ul",(unsigned int)audioBufferList->mNumberBuffers, sizeof(buffers), (unsigned int)frames);
+        
         //
         // Fill out the audio converter with the source buffer
         //
@@ -220,6 +222,7 @@ OSStatus EZAudioFloatConverterCallback(AudioConverterRef             inAudioConv
                                                                       self.info->floatAudioBufferList,
                                                                       packetDescriptions ? packetDescriptions : self.info->packetDescriptions)
                             operation:"Failed to fill complex buffer in float converter"];
+
         
         //
         // Copy the converted buffers into the float buffer array stored

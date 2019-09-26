@@ -4,7 +4,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.2.0)
   - AppAuth/Core (1.2.0)
   - AppAuth/ExternalUserAgent (1.2.0)
-  - AWAREFramework (1.5.1):
+  - AWAREFramework (1.5.2):
     - GoogleSignIn (~> 5.0)
     - ios-ntp (~> 1.1)
     - SCNetworkReachability (~> 2.0)
@@ -41,7 +41,7 @@ DEPENDENCIES:
   - Charts (= 3.2)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AppAuth
     - Charts
     - CocoaAsyncSocket
@@ -59,7 +59,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: bce82c76043657c99d91e7882e8a9e1a93650cd4
-  AWAREFramework: 2986ee267e916df6b3262e042f3ce32eb4cadf59
+  AWAREFramework: 74c047b369acf37751d509ab4cafcb441f87baad
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   GoogleSignIn: a62edd0516721d2a3db1259a5681b91f9b41c06a
@@ -70,6 +70,6 @@ SPEC CHECKSUMS:
   SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
 
-PODFILE CHECKSUM: 92991df1f1f63b6cc07b01909472a58aaa6aa5f7
+PODFILE CHECKSUM: c831f139c4eff245cdd0542322b733a5a1fc980e
 
-COCOAPODS: 1.7.0.beta.3
+COCOAPODS: 1.8.0

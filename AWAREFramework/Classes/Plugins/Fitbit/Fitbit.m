@@ -63,7 +63,7 @@ NSInteger const AWARE_ALERT_FITBIT_MOVE_TO_LOGIN_PAGE = 2;
         
         hourFormat = [[NSDateFormatter alloc] init];
         [hourFormat setDateFormat:@"yyyy-MM-dd HH"];
-        
+        _viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
         intervalMin = 15;
     }
     

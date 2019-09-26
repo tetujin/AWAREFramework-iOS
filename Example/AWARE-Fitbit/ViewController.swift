@@ -23,9 +23,10 @@ class ViewController: UIViewController {
             fitbit.setDebug(true)
             
             AWARESensorManager.shared().add(fitbit)
-            fitbit.requestLogin(with: self) { (tokens) in
-                fitbit.startSensor()
-            }
+            fitbit.startSensor()
+//            fitbit.requestLogin(with: self) { (tokens) in
+//                fitbit.startSensor()
+//            }
         }        
     }
 }

@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  AWARE-JSONStorage
+//  AWARE-Conversation
 //
-//  Created by Yuuki Nishiyama on 2019/09/24.
+//  Created by Yuuki Nishiyama on 2019/09/26.
 //  Copyright © 2019 tetujin. All rights reserved.
 //
 
@@ -14,22 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
 
-        AWARECore.shared().requestPermissionForBackgroundSensing {
-            AWARECore.shared().activate()
+        let core = AWARECore.shared()
+        core.requestPermissionForBackgroundSensing {
+            core.startBaseLocationSensor()
+            let conversation = Conversation(awareStudy: AWAREStudy.shared())
             
-            AWAREStudy.shared().setStudyURL("https://api.awareframework.com/index.php/webservice/index/1947/Op1dc3cTy41y")
-            
-            // let acc = Accelerometer(awareStudy: AWAREStudy.shared(), dbType: AwareDBTypeJSON)
-            let acc = Accelerometer(awareStudy: AWAREStudy.shared(), dbType: AwareDBTypeCSV)            
-            acc.startSensor()
-            acc.storage?.setDebug(true)
-            
-            acc.storage?.startSyncStorage(callBack: { (name, progress, error) in
-                print(name,progress,error)
-            })
-            
-            
+            let manager = AWARESensorManager.shared()
+            manager.add(conversation)
+            manager.startAllSensors()
         }
         
         return true

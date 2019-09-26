@@ -127,7 +127,7 @@
                     if( self->brReader == nil ){
                         [self resetPosition];
                         if (self.isDebug) NSLog(@"[%@] Done",self.sensorName);
-                        // if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
+                        if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
                         [self clearLocalStorageWithName:self.sensorName type:self->FILE_EXTENSION];
                         [self dataSyncIsFinishedCorrectly];
                         if (self.syncProcessCallBack != nil) {
