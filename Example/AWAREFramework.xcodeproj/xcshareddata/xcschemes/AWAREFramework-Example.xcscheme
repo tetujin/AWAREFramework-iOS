@@ -167,6 +167,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4F3915A82253E57C00CEE77E"
+            BuildableName = "AWARE-CustomESM.app"
+            BlueprintName = "AWARE-CustomESM"
+            ReferencedContainer = "container:AWAREFramework.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -179,17 +188,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4F3915A82253E57C00CEE77E"
-            BuildableName = "AWARE-CustomESM.app"
-            BlueprintName = "AWARE-CustomESM"
-            ReferencedContainer = "container:AWAREFramework.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

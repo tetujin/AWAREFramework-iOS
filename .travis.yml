@@ -11,5 +11,5 @@ before_install:
 - (cd Example && pod update)
 - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/AWAREFramework.xcworkspace -scheme AWAREFramework-Example -sdk iphonesimulator12.2 ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/AWAREFramework.xcworkspace -scheme AWAREFramework-Example -sdk iphonesimulator13.0 ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint --allow-warnings
