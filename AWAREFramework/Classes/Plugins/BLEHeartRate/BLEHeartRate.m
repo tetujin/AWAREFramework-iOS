@@ -28,6 +28,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     NSString * KEY_HR_TIMESTAMP;
     NSString * KEY_HR_DEVICE_ID;
     NSString * KEY_HR_HEARTRATE;
+    NSString * KEY_HR_RR;
     NSString * KEY_HR_LOCATION;
     NSString * KEY_HR_MANUFACTURER;
     NSString * KEY_HR_RSSI;
@@ -43,6 +44,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     KEY_HR_TIMESTAMP = @"timestamp";
     KEY_HR_DEVICE_ID = @"device_id";
     KEY_HR_HEARTRATE = @"heartrate";
+    KEY_HR_RR = @"rr";
     KEY_HR_LOCATION = @"location";
     KEY_HR_MANUFACTURER = @"manufacturer";
     KEY_HR_RSSI = @"rssi";
@@ -64,6 +66,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
                                             heartRateEntity.device_id = [data objectForKey:@"device_id"];
                                             heartRateEntity.timestamp = [data objectForKey:@"timestamp"];
                                             heartRateEntity.heartrate = [data objectForKey:@"heartrate"];
+                                            heartRateEntity.rr = [data objectForKey:@"rr"]; // R-R intervals
                                             heartRateEntity.location = [data objectForKey:@"location"];
                                             heartRateEntity.manufacturer = [data objectForKey:@"manufacturer"];
                                             heartRateEntity.rssi = [data objectForKey:@"rssi"];
@@ -82,6 +85,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
         _bodyLocation = @-1;
         _manufacturer = @"";
         _heartRate = 0;
+        _rr = 0;
         _deviceRssi = @0;
         
         services = @[
@@ -98,6 +102,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     [query appendString:[NSString stringWithFormat:@"%@ real default 0,", KEY_HR_TIMESTAMP]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_HR_DEVICE_ID]];
     [query appendString:[NSString stringWithFormat:@"%@ int default 0,", KEY_HR_HEARTRATE]];
+    [query appendString:[NSString stringWithFormat:@"%@ int default 0,", KEY_HR_RR]];
     [query appendString:[NSString stringWithFormat:@"%@ int default 0,", KEY_HR_LOCATION]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_HR_MANUFACTURER]];
     [query appendString:[NSString stringWithFormat:@"%@ double default 0,", KEY_HR_RSSI]];
@@ -333,29 +338,35 @@ NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC = @"plugin_ble_
     NSData *data = [characteristic value];      // 1
     const uint8_t *reportData = [data bytes];
     uint16_t bpm = 0;
+    uint16_t rr = 0;
     
     if ((reportData[0] & 0x01) == 0) {          // 2
         // Retrieve the BPM value for the Heart Rate Monitor
         bpm = reportData[1];
+        rr = reportData[2];
     } else {
         bpm = CFSwapInt16LittleToHost(*(uint16_t *)(&reportData[1]));  // 3
+        rr = CFSwapInt16LittleToHost(*(uint16_t *)(&reportData[2]));  // R-R
     }
     // Display the heart rate value to the UI if no error occurred
     if( (characteristic.value)  || !error ) {   // 4
         self.heartRate = bpm;
+        self.rr = rr;
     }
     
     if([self isDebug]){
         NSLog(@"%hu", self.heartRate);
+        NSLog(@"%hu", self.rr);
     }
     
-    [self setLatestValue:[NSString stringWithFormat:@"[%@] %d bps (RSSI:%f)",_manufacturer,_heartRate, _deviceRssi.doubleValue]];
+    [self setLatestValue:[NSString stringWithFormat:@"%@ %d bps %d (RSSI:%f)",_manufacturer,_heartRate, _rr, _deviceRssi.doubleValue]];
 
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
     [dict setObject:unixtime forKey:KEY_HR_TIMESTAMP];
     [dict setObject:[self getDeviceId] forKey:KEY_HR_DEVICE_ID];
     [dict setObject:[NSNumber numberWithInt:_heartRate] forKey:KEY_HR_HEARTRATE]; //varchar
+    [dict setObject:[NSNumber numberWithInt:_rr] forKey:KEY_HR_RR]; //varchar
     [dict setObject:_bodyLocation forKey:KEY_HR_LOCATION]; //1=chest, 2=wrist
     [dict setObject:_manufacturer forKey:KEY_HR_MANUFACTURER];
     [dict setObject:_deviceRssi forKey:KEY_HR_RSSI];

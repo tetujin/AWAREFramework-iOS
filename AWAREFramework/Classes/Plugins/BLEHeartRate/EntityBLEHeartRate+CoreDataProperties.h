@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *label;
 @property (nullable, nonatomic, retain) NSNumber *timestamp;
 @property (nullable, nonatomic, retain) NSNumber *heartrate;
+@property (nullable, nonatomic, retain) NSNumber *rr;
 @property (nullable, nonatomic, retain) NSNumber *location;
 @property (nullable, nonatomic, retain) NSString *manufacturer;
 @property (nullable, nonatomic, retain) NSNumber *rssi;

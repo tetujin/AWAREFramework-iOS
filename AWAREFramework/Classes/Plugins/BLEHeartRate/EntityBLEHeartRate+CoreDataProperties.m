@@ -17,6 +17,7 @@
 @dynamic label;
 @dynamic timestamp;
 @dynamic heartrate;
+@dynamic rr;
 @dynamic location;
 @dynamic manufacturer;
 @dynamic rssi;

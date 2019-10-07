@@ -38,6 +38,7 @@ extern NSString * const AWARE_PREFERENCES_PLUGIN_BLE_HR_ACTIVE_TIME_SEC;
 @property (nonatomic, strong) NSString *bodyData;
 @property (nonatomic, strong) NSString *manufacturer;
 @property (assign) uint16_t heartRate;
+@property (assign) uint16_t rr;
 @property (nonatomic, strong) NSNumber *bodyLocation;
 @property (nonatomic, strong) NSNumber *deviceRssi;
 
