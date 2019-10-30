@@ -16,4 +16,19 @@ extern NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION;
 
 @property (nonatomic, strong) AudioPipeline *pipeline;
 
+/**
+Plugin conversations delay: How long we wait until we start classification (in minutes)
+ */
+@property int conversationsDelay;
+
+/**
+Plugin conversations off duty: How long we wait until we sample again (in minutes)
+*/
+@property int conversationsOffDudy;
+
+/**
+Plugin conversations length: For how long we collect data for (in minutes, >= delay period)
+*/
+@property int conversationsLength;
+
 @end
