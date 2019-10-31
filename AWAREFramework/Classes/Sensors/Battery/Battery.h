@@ -13,6 +13,7 @@ extern NSString* const AWARE_PREFERENCES_STATUS_BATTERY;
 
 @interface Battery : AWARESensor <AWARESensorDelegate>
 
-@property double intervalSecond;
+- (BOOL) startSensorWithIntervalMinutes:(double)intervalMin;
+- (BOOL) startSensorWithIntervalSeconds:(double)intervalSec;
 
 @end

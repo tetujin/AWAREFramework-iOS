@@ -69,8 +69,7 @@ class Tests: XCTestCase {
         
         // init sensor
         let battery = Battery(awareStudy: study)
-        battery.intervalSecond = 1
-        battery.startSensor()
+        battery.startSensor(withIntervalSeconds: 1)
         
         // sensing
         let expectation = XCTestExpectation(description: "battery expectation")

@@ -74,8 +74,6 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
         KEY_LAST_BATTERY_EVENT_TIMESTAMP = @"key_last_battery_event_timestamp";
         KEY_LAST_BATTERY_LEVEL = @"key_last_battery_level";
         
-        _intervalSecond = 60.0;
-        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if (![userDefaults integerForKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP]) {
             [userDefaults setInteger:UIDeviceBatteryStateUnknown forKey:KEY_LAST_BATTERY_EVENT];
@@ -84,12 +82,8 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
         }
         
         // Get default information from local storage
-        batteryChargeSensor = [[BatteryCharge alloc] initWithAwareStudy:study dbType:dbType];
-//        [batteryChargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
-        
+        batteryChargeSensor    = [[BatteryCharge alloc] initWithAwareStudy:study dbType:dbType];
         batteryDischargeSensor = [[BatteryDischarge alloc] initWithAwareStudy:study dbType:dbType];
-        
-//        [batteryDischargeSensor setCSVHeader:@[@"timestamp",@"device_id",@"battery_start",@"battery_end",@"double_end_timestamp"]];
         
         previousBatteryLevel = [UIDevice currentDevice].batteryLevel*100;
         
@@ -108,30 +102,34 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 
 - (void) createBatteryTable{
     TCQMaker * maker = [[TCQMaker alloc] init];
-    [maker addColumn:@"battery_status" type:TCQTypeInteger default:@"0"];
-    [maker addColumn:@"battery_level" type:TCQTypeInteger default:@"0"];
-    [maker addColumn:@"battery_scale" type:TCQTypeInteger default:@"0"];
-    [maker addColumn:@"battery_voltage" type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_status"     type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_level"      type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_scale"      type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_voltage"    type:TCQTypeInteger default:@"0"];
     [maker addColumn:@"battery_temperature" type:TCQTypeInteger default:@"0"];
-    [maker addColumn:@"battery_adaptor" type:TCQTypeInteger default:@"0"];
-    [maker addColumn:@"battery_health" type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_adaptor"    type:TCQTypeInteger default:@"0"];
+    [maker addColumn:@"battery_health"     type:TCQTypeInteger default:@"0"];
     [maker addColumn:@"battery_technology" type:TCQTypeText default:@"''"];
     [self.storage createDBTableOnServerWithTCQMaker:maker];
 }
 
-- (void)setParameters:(NSArray *)parameters{
+- (void) setParameters:(NSArray *)parameters{
     
 }
 
-- (BOOL)startSensor{
-    return [self startSensorWithIntervalSecond:_intervalSecond];
+- (BOOL) startSensor{
+    return [self startSensorWithIntervalSeconds:0];
 }
 
-- (BOOL)startSensorWithSettings:(NSArray *)settings{
-    return [self startSensorWithIntervalSecond:_intervalSecond];
+- (BOOL) startSensorWithSettings:(NSArray *)settings{
+    return [self startSensorWithIntervalSeconds:0];
 }
 
-- (BOOL) startSensorWithIntervalSecond:(double)intervalSecond{
+- (BOOL) startSensorWithIntervalMinutes:(double)intervalMin{
+    return [self startSensorWithIntervalSeconds:intervalMin * 60.0];
+}
+
+- (BOOL) startSensorWithIntervalSeconds:(double)intervalSec{
     
     // Set a battery level change event to a notification center
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
@@ -144,11 +142,13 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
                                              selector:@selector(batteryStateChanged:)
                                                  name:UIDeviceBatteryStateDidChangeNotification object:nil];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval:intervalSecond
-                                             target:self
-                                           selector:@selector(batteryLevelChanged:)
-                                           userInfo:nil
-                                            repeats:YES];
+    if (intervalSec > 0) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:intervalSec
+                                                 target:self
+                                               selector:@selector(batteryLevelChanged:)
+                                               userInfo:nil
+                                                repeats:YES];
+    }
     [self setSensingState:YES];
     return YES;
 }
@@ -156,9 +156,12 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 
 
 - (BOOL)stopSensor{
-    [NSNotificationCenter.defaultCenter removeObserver:self name:UIDeviceBatteryLevelDidChangeNotification object:nil];
-    [NSNotificationCenter.defaultCenter removeObserver:self name:UIDeviceBatteryStateDidChangeNotification object:nil];
-//    [UIDevice currentDevice].batteryMonitoringEnabled = NO;
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:UIDeviceBatteryLevelDidChangeNotification
+                                                object:nil];
+    [NSNotificationCenter.defaultCenter removeObserver:self
+                                                  name:UIDeviceBatteryStateDidChangeNotification
+                                                object:nil];
     if(timer != nil){
         [timer invalidate];
         timer = nil;
@@ -176,18 +179,11 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 }
 
 
-//////////////////////////////
-//////////////////////////////
-
 - (void)startSyncDB {
     [self.storage startSyncStorage];
     [batteryChargeSensor.storage startSyncStorage];
     [batteryDischargeSensor.storage startSyncStorage];
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 - (int) convertBatteryStateValueToAndroidFromIOS:(int)state{
     
