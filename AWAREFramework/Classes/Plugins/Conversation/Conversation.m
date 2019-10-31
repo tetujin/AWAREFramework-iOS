@@ -68,8 +68,10 @@ NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_student
     }
     
     self = [super initWithAwareStudy:study sensorName:SENSOR_PLUGIN_STUDENTLIFE_AUDIO storage:storage];
-    if (self) {
+    if (self != nil) {
         [self initKeys];
+        _conversationsDelay = 3;
+        _conversationsOffDudy = 1;
     }
     return self;
 }
@@ -147,17 +149,16 @@ NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_student
                                                           userInfo:nil];
     }];
     
-//    if (_conversationsDelay>0) {
-//        [self.pipeline setTimeOfDutyCycleOffBySecond:_conversationsDelay * 60];
-//    }
-//
-//    if (_conversationsOffDudy > 0) {
-//        [self.pipeline setTimeOfDutyCycleOffInConversationBySecond:_conversationsOffDudy * 60];
-//    }
+    if (_conversationsDelay>0) {
+        [self.pipeline setTimeOfDutyCycleOffBySecond:_conversationsDelay * 60];
+    }
+
+    if (_conversationsOffDudy > 0) {
+        [self.pipeline setTimeOfDutyCycleOffInConversationBySecond:_conversationsOffDudy * 60];
+    }
     
-    // [self.pipeline performSelector:@selector(startPipeline) withObject:nil afterDelay:3];
-    [self.pipeline startPipeline];
     [self setSensingState:YES];
+    [self.pipeline startPipeline];
     return YES;
 }
 
