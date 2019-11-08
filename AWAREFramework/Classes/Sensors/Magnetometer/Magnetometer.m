@@ -56,8 +56,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     if ([self isDebug]) {
         NSLog(@"[%@] Create table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
+    NSString *query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"
     "double_values_0 real default 0,"

@@ -75,6 +75,9 @@ typedef void (^SensorEventHandler)(AWARESensor * _Nonnull sensor, NSDictionary<N
 // Utils
 - (double) convertMotionSensorFrequecyFromAndroid:(double)intervalMicroSecond;
 
+- (void) setNotificationNames:(NSArray <NSNotification *> *) names;
+- (NSArray <NSNotification *> *) getNotificationNames;
+
 NS_ASSUME_NONNULL_END
 
 @end

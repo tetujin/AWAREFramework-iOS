@@ -61,8 +61,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     if([self isDebug]){
         NSLog(@"[%@] Create Table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
+    NSString *query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"
     "screen_status integer default 0";

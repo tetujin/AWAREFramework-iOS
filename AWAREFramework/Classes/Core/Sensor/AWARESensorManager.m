@@ -14,6 +14,8 @@
 #import "AWAREStudy.h"
 #import "AWAREKeys.h"
 #import "AWARESensors.h"
+#import "AWAREEventLogger.h"
+#import "AWAREStatusMonitor.h"
 
 static AWARESensorManager * sharedSensorManager;
 
@@ -99,7 +101,10 @@ static AWARESensorManager * sharedSensorManager;
 - (BOOL) startAllSensors{
     if(awareSensors != nil){
         for (AWARESensor * sensor in awareSensors) {
-            [sensor startSensor];
+            bool state = [sensor startSensor];
+            [AWAREEventLogger.shared logEvent:@{@"AWARESensorManager":@"start sensor",
+                                                @"sensor":sensor.getSensorName,
+                                                @"state":@(state)}];
         }
     }
     return YES;
@@ -230,7 +235,7 @@ static AWARESensorManager * sharedSensorManager;
     
     // Push Notification
     AWARESensor * pushNotification = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
-    [self addSensor:pushNotification];;
+    [self addSensor:pushNotification];
     
     return YES;
 }
@@ -313,14 +318,16 @@ static AWARESensorManager * sharedSensorManager;
  */
 - (void) stopAndRemoveAllSensors {
     [self lock];
-    NSString * message = nil;
     @autoreleasepool {
         for (AWARESensor* sensor in awareSensors) {
-            message = [NSString stringWithFormat:@"[%@] Stop %@ sensor",[sensor getSensorName], [sensor getSensorName]];
-            NSLog(@"%@", message);
-            // [sensor saveDebugEventWithText:message type:DebugTypeInfo label:@"stop"];
-            [sensor stopSensor];
+            // message = [NSString stringWithFormat:@"[%@] Stop %@ sensor",[sensor getSensorName], [sensor getSensorName]];
+            // NSLog(@"%@", message);
+            bool state = [sensor stopSensor];
             [sensor.storage cancelSyncStorage];
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",
+                                                @"event":@"stop and remove sensor",
+                                                @"sensor":sensor.getSensorName,
+                                                @"state":@(state)}];
         }
         [awareSensors removeAllObjects];
     }
@@ -346,6 +353,9 @@ static AWARESensorManager * sharedSensorManager;
     for (AWARESensor* sensor in awareSensors) {
         if ([sensor.getSensorName isEqualToString:sensorName]) {
             [sensor stopSensor];
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",
+                                                @"event":@"stop sensor",
+                                                @"sensor":sensorName}];
         }
     }
 }
@@ -359,6 +369,11 @@ static AWARESensorManager * sharedSensorManager;
     if(awareSensors == nil) return;
     for (AWARESensor* sensor in awareSensors) {
         [sensor stopSensor];
+        if(sensor.getSensorName != nil){
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",
+                                                @"event":@"stop sensor",
+                                                @"sensor":sensor.getSensorName}];
+        }
     }
 }
 
@@ -376,7 +391,6 @@ static AWARESensorManager * sharedSensorManager;
     if([sensorName isEqualToString:@"location_gps"] || [sensorName isEqualToString:@"location_network"]){
         sensorName = @"locations";
     }
-    
     
     for (AWARESensor* sensor in awareSensors) {
         if (sensor.getSensorName != nil) {
@@ -419,11 +433,15 @@ static AWARESensorManager * sharedSensorManager;
 
 - (void)syncAllSensors {
     
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: start syncAllSensor"}];
+    
     if ([awareStudy isAutoDBSyncOnlyWifi]) {
         if (![awareStudy isWifiReachable]) {
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: No Wifi Reachable"}];
             if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] No Wifi Reachable");
             return;
         }else{
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: Wifi Reachable"}];
             if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Wifi Reachable");
         }
     }
@@ -432,15 +450,18 @@ static AWARESensorManager * sharedSensorManager;
         switch ([UIDevice currentDevice].batteryState) {
             case UIDeviceBatteryStateFull:
             case UIDeviceBatteryStateCharging:
+                [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: Battery Charging Condition"}];
                 if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Battery Charging Condition");
                 break;
             case UIDeviceBatteryStateUnknown:
             case UIDeviceBatteryStateUnplugged:
+                [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: Not Battery Charging Condition"}];
                 if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Not Battery Charging Condition");
                 return;
         }
     }
     
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: pass all flags"}];
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
 
     for (AWARESensor * sensor in awareSensors ) {
@@ -450,10 +471,15 @@ static AWARESensorManager * sharedSensorManager;
 
 - (void)syncAllSensorsForcefully{
     
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: syncAllSensorsForcefully"}];
     if (awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
     
     for (AWARESensor * sensor in awareSensors ) {
         if (awareStudy.isDebug) NSLog(@"%@",sensor.getSensorName);
+        NSString * name = sensor.getSensorName;
+        if (name != nil){
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager", @"event":@"sync", @"sensor":name}];
+        }
         [sensor startSyncDB];
     }
 }

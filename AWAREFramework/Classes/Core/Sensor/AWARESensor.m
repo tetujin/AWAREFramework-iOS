@@ -9,7 +9,6 @@
 #import "AWARESensor.h"
 #import "AWAREKeys.h"
 #import "AWAREStudy.h"
-#import "AWAREDebugMessageLogger.h"
 #import "SCNetworkReachability.h"
 #import "AWAREStorage.h"
 
@@ -25,13 +24,13 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     bool debug;
     /** network state */
     NSInteger networkState;
-    /** debug sensor*/
-    AWAREDebugMessageLogger * dmLogger;
     /** aware study*/
     AWAREStudy * awareStudy;
     NSDictionary * latestData;
     
     SensorEventHandler eventHandler;
+
+    NSArray <NSNotification *> * notificationNames;
 }
 
 @end
@@ -77,6 +76,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         _storage = localStorage;
         _isSensing = NO;
         [_storage setDebug:debug];
+        self.notificationNames = @[];
     }
     return self;
 }
@@ -296,6 +296,14 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 
 - (void)setLabel:(NSString * _Nullable)label {
     self.label = label;
+}
+
+- (void)setNotificationNames:(NSArray<NSNotification *> *)names{
+    notificationNames = names;
+}
+
+- (NSArray<NSNotification *> *)getNotificationNames{
+    return notificationNames;
 }
 
 @synthesize label;

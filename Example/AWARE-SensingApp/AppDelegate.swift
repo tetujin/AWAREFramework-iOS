@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after applicatio
         // setup AWARECore
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing{
-            core.requestPermissionForPushNotification()
+        core.requestPermissionForBackgroundSensing { (status) in
+            core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
             // init sensors

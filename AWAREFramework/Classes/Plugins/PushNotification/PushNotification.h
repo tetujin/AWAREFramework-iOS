@@ -10,7 +10,7 @@
 
 @interface PushNotification : AWARESensor
 
-- (void) savePushNotificationDeviceToken:(NSString*) token;
-- (BOOL) saveStoredPushNotificationDeviceToken;
-- (NSString *) getPushNotificationToken;
+// - (void) savePushNotificationDeviceToken:(NSString * _Nonnull) token;
+- (void) savePushNotificationDeviceTokenWithData:(NSData * _Nonnull) data;
+- (NSString * _Nullable) getPushNotificationToken;
 @end

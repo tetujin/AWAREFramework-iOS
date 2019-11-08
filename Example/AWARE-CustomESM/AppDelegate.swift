@@ -19,32 +19,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
-            core.activate()
+        core.requestPermissionForPushNotification { (notificationStatus, error) in
             
-            let item = ESMItem()
-            item.setType(99)
-            item.setTitle("Custom ESM")
-            item.setTrigger("custom_esm")
-            
-            let picture = ESMItem(asPictureESMWithTrigger: "picture")
-            
-            let audio = ESMItem(asAudioESMWithTrigger: "audio")
-            
-            let schedule = ESMSchedule()
-            schedule.scheduleId = "schedule_1"
-            schedule.startDate  = Date()
-            schedule.endDate    = Date().addingTimeInterval(60*60*24*7) // 7 days
-            schedule.expirationThreshold = 0
-            schedule.addESM(item)
-            schedule.addESM(picture)
-            schedule.addESM(audio)
-            
-            let manager = ESMScheduleManager.shared()
-            manager.removeAllSchedulesFromDB()
-            manager.removeAllNotifications()
-            manager.add(schedule)
+            core.requestPermissionForBackgroundSensing { (status) in
+                
+                core.requestPermissionForPushNotification()
+                core.activate()
+                
+                let item = ESMItem()
+                item.setType(99)
+                item.setTitle("Custom ESM")
+                item.setTrigger("custom_esm")
+                
+                let picture = ESMItem(asPictureESMWithTrigger: "picture")
+                
+                let audio = ESMItem(asAudioESMWithTrigger: "audio")
+                
+                let schedule = ESMSchedule()
+                schedule.scheduleId = "schedule_1"
+                schedule.startDate  = Date()
+                schedule.endDate    = Date().addingTimeInterval(60*60*24*7) // 7 days
+                schedule.expirationThreshold = 0
+                schedule.addESM(item)
+                schedule.addESM(picture)
+                schedule.addESM(audio)
+                
+                let manager = ESMScheduleManager.shared()
+                manager.removeAllSchedulesFromDB()
+                manager.removeAllNotifications()
+                manager.add(schedule)
+            }
         }
         
         return true

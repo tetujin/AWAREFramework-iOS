@@ -73,10 +73,11 @@
 
     // Generate an unique identifier for background HTTP/POST on iOS
     [session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
-        if (dataTasks.count == 0) {
+        // NSLog(@"tasks: %lu", (unsigned long)dataTasks.count);
+        // if (dataTasks.count == 0) {
             NSURLSessionDataTask* dataTask = [self->session dataTaskWithRequest:request];
             [dataTask resume];
-        }
+        // }
     }];
 }
 
@@ -122,11 +123,12 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
     if(error==nil){
         NSString * result = [[NSString alloc] initWithData:recievedData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",result);
+        if (awareStudy.isDebug) NSLog(@"[DBTableCreator|%@][sucess] %@", sensorName, result);
         if (httpCallback!=nil) {
             httpCallback(YES, recievedData, error);
         }
     }else{
+        if (awareStudy.isDebug) NSLog(@"[DBTableCreator|%@][error] %@", sensorName, error.debugDescription);
         if (httpCallback!=nil) {
             httpCallback(NO, recievedData, error);
         }

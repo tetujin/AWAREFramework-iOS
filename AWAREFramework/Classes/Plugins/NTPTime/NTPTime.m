@@ -49,8 +49,7 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     if ([self isDebug]) {
         NSLog(@"[%@] Create Table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
+    NSString *query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"
     "drift real default 0," //clocks drift from ntp time
@@ -71,10 +70,10 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     }
     timer = [NSTimer scheduledTimerWithTimeInterval:_intervalSec
                                                     target:self
-                                                  selector:@selector(getNTPTime)
+                                                  selector:@selector(saveNTPTime)
                                                   userInfo:nil
                                                    repeats:YES];
-    [self getNTPTime];
+    [self saveNTPTime];
     [self setSensingState:YES];
     return YES;
 }
@@ -90,11 +89,7 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     return YES;
 }
 
-
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
-- (void) getNTPTime {
+- (void) saveNTPTime {
     NetworkClock * nc = [NetworkClock sharedNetworkClock];
     NSDate * nt = nc.networkTime;
     double offset = nc.networkOffset * 1000;
@@ -119,7 +114,7 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
 
 - (void)saveDummyData{
-    [self getNTPTime];
+    [self saveNTPTime];
 }
 
 

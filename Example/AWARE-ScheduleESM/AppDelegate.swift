@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
+        core.requestPermissionForBackgroundSensing { (status) in
+            core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
             let schedule = ESMSchedule()
@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             manager.removeAllSchedulesFromDB()
             manager.add(schedule)
         }
-
         return true
     }
     

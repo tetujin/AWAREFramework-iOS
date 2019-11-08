@@ -28,7 +28,8 @@
 
 + (AWARECore * _Nonnull) sharedCore;
 
-typedef void (^LocationAPIAuthorizationCompletionHandler)(void);
+typedef void (^CoreLocationAuthCompletionHandler)(CLAuthorizationStatus status);
+typedef void (^UNNotificationAuthCompletionHandler)(BOOL granted, NSError * _Nullable error);
 
 - (void) activate;
 - (void) deactivate;
@@ -37,18 +38,18 @@ typedef void (^LocationAPIAuthorizationCompletionHandler)(void);
 - (void) checkCompliance;
 - (void) checkComplianceWithViewController:(UIViewController * _Nullable)viewController;
 - (void) checkComplianceWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
+- (void) checkComplianceWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail showSummary:(BOOL)summary;
 
 - (bool) checkLocationSensorWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
 - (bool) checkBackgroundAppRefreshWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
 - (bool) checkStorageUsageWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
 - (bool) checkWifiStateWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
 - (bool) checkLowPowerModeWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
-- (bool) checkNotificationSettingWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail;
+- (void) checkNotificationSettingWithViewController:(UIViewController * _Nullable)viewController showDetail:(BOOL)detail completion:(void(^_Nullable)(BOOL))completion;
 
-- (void) requestPermissionForPushNotification;
-- (void) requestPermissionForBackgroundSensing;
-- (void) requestPermissionForBackgroundSensingWithCompletion:(LocationAPIAuthorizationCompletionHandler _Nullable)completionHandler;
+- (void) requestPermissionForBackgroundSensingWithCompletion:(CoreLocationAuthCompletionHandler _Nullable)completionHandler;
+- (void) requestPermissionForPushNotificationWithCompletion:(UNNotificationAuthCompletionHandler _Nullable)completionHandler;
 
-- (void) requestBackgroundSensing;
-
+- (void) openSettingsApp:(UIViewController * _Nonnull)vc title:(NSString * _Nullable)title message:(NSString * _Nullable)message;
+- (BOOL) isWiFiEnabled;
 @end

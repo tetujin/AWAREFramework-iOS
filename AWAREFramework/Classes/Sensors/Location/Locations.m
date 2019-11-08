@@ -66,8 +66,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     if([self isDebug]){
         NSLog(@"[%@] Create Table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query =
+    NSString *query =
         @"_id integer primary key autoincrement,"
         "timestamp real default 0,"
         "device_id text default '',"

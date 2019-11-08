@@ -126,8 +126,7 @@ int ONE_HOUR = 60*60;
     if ([self isDebug]) {
         NSLog(@"Create a table of OpenWeather Map Plugin");
     }
-    NSString *query = [[NSString alloc] init];
-    query =
+    NSString *query =
     @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"

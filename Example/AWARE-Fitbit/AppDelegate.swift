@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
+        core.requestPermissionForBackgroundSensing { (status) in
             if !Fitbit.isNeedLogin(){
                 let fitbit = Fitbit()
                 fitbit.startSensor()

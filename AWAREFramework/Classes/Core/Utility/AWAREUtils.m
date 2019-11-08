@@ -62,17 +62,23 @@
  * @return state 'YES' is foreground. 'NO' is background.
  */
 + (BOOL)isForeground{
-   UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
-    switch (appState) {
-        case UIApplicationStateActive:
-            return YES;
-        case UIApplicationStateInactive:
-            return NO;
-        case UIApplicationStateBackground:
-            return NO;
-        default:
-            return NO;
+    if (!NSThread.isMainThread) {
+        NSLog(@"[AWAREUtils] Error: Please call `-isForeground` in the main-thread.");
+        return NO;
     }
+    
+    UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
+     switch (appState) {
+         case UIApplicationStateActive:
+             return YES;
+         case UIApplicationStateInactive:
+             return NO;
+         case UIApplicationStateBackground:
+             return NO;
+         default:
+             return NO;
+     }
+
 }
 
 /**
@@ -81,6 +87,10 @@
  * @return state 'YES' is background, on the other hand 'NO' is foreground.
  */
 + (BOOL)isBackground{
+    if (!NSThread.isMainThread) {
+        NSLog(@"[AWAREUtils] Error: Please call `-isBackground` method in the main-thread.");
+        return NO;
+    }
     UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
     switch (appState) {
         case UIApplicationStateActive:
@@ -351,6 +361,19 @@ Provides a system UUID.
                               @"iPhone9,3" :@"iPhone 7",
                               @"iPhone9,2" :@"iPhone 7 Plus",
                               @"iPhone9,4" :@"iPhone 7 Plus",
+                              @"iPhone10,1":@"iPhone 8 (CDMA)",
+                              @"iPhone10,4":@"iPhone 8 (GSM)",
+                              @"iPhone10,2":@"iPhone 8 Plus (CDMA)",
+                              @"iPhone10,5":@"iPhone 8 Plus (GSM)",
+                              @"iPhone10,3":@"iPhone X (CDMA)",
+                              @"iPhone10,6":@"iPhone X (GSM)",
+                              @"iPhone11,2":@"iPhone XS",
+                              @"iPhone11,4":@"iPhone XS Max",
+                              @"iPhone11,6":@"iPhone XS Max China",
+                              @"iPhone11,8":@"iPhone XR",
+                              @"iPhone12,1":@"iPhone 11",
+                              @"iPhone12,3":@"iPhone 11 Pro",
+                              @"iPhone12,5":@"iPhone 11 Pro Max",
                               @"iPad4,1"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Wifi
                               @"iPad4,2"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Cellular
                               @"iPad4,4"   :@"iPad Mini",       // (2nd Generation iPad Mini - Wifi)
@@ -438,7 +461,36 @@ Provides a system UUID.
     return [string stringByAddingPercentEncodingWithAllowedCharacters:allowed];
 }
 
-
++ (void)sendLocalPushNotificationWithTitle:(NSString *)title
+                                   body:(NSString *)body
+                              timeInterval:(double)timeInterval
+                                   repeats:(BOOL)repeats{
+    
+    // time interval must be at least 60 if repeating
+    if (repeats) {
+        if (timeInterval < 60) {
+            NSLog(@"[AWAREUtils|Notification] Error: time interval must be at least 60 if repeating");
+            return;
+        }
+    }
+    UNNotificationTrigger * trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:timeInterval repeats:repeats];
+    
+    UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
+    content.title = title;
+    content.body = body;
+//    content.sound = [UNNotificationSound defaultSound];
+    
+    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:NSUUID.UUID.UUIDString
+                                                                           content:content
+                                                                           trigger:trigger];
+    
+    UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+        if(error != nil){
+            NSLog(@"[AWAREUtils|Notification] Error: %@", error.debugDescription);
+        }
+    }];
+}
 
 @end
 

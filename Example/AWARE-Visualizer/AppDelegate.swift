@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
+        core.requestPermissionForBackgroundSensing { (status) in
             core.activate()
             
             let noise = AmbientNoise()

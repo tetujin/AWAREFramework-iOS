@@ -7,9 +7,8 @@
 //
 
 #import "AWARECore.h"
-#import "Debug.h"
-#import "AWAREDebugMessageLogger.h"
 #import "AWAREStudy.h"
+#import "AWAREEventLogger.h"
 #import <ifaddrs.h>
 #import <net/if.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
@@ -19,7 +18,7 @@
 static AWARECore * sharedCore;
 
 @implementation AWARECore{
-    LocationAPIAuthorizationCompletionHandler completionHandler;
+    CoreLocationAuthCompletionHandler coreLocationAuthCompletionHandler;
 }
 
 + (AWARECore * _Nonnull) sharedCore{
@@ -76,9 +75,6 @@ static AWARECore * sharedCore;
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     
-    // Error Tacking
-    NSSetUncaughtExceptionHandler(&exceptionHandler);
-    
     /**
      * Start a location sensor for background sensing.
      * On the iOS, we have to turn on the location sensor
@@ -101,7 +97,7 @@ static AWARECore * sharedCore;
     // Compliance checker
     NSDate* dailyCheckComplianceTime = [AWAREUtils getTargetNSDate:[NSDate new] hour:0 minute:0 second:0 nextDay:YES];
     _complianceTimer = [[NSTimer alloc] initWithFireDate:dailyCheckComplianceTime
-                                                interval:60*60*6 //1 hour
+                                                interval:60*60
                                                   target:self
                                                 selector:@selector(checkCompliance)
                                                 userInfo:nil
@@ -134,14 +130,16 @@ static AWARECore * sharedCore;
                                                object: [NSUbiquitousKeyValueStore defaultStore]];
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
 
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"activate"}];
 }
 
 - (void) changedBatteryState:(id) sender{
     if ([[AWAREStudy sharedStudy] isAutoDBSync]){
         NSInteger batteryState = [UIDevice currentDevice].batteryState;
         if (batteryState == UIDeviceBatteryStateCharging || batteryState == UIDeviceBatteryStateFull) {
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-            [debugSensor saveDebugEventWithText:@"[Uploader] The battery is charging. AWARE iOS start to upload sensor data." type:DebugTypeInfo label:@""];
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                                @"event":@"start sync",
+                                                @"reason":@"battery state is changed"}];
             [[AWARESensorManager sharedSensorManager] syncAllSensors];
             [[AWARESensorManager sharedSensorManager] runBatteryStateChangeEvents];
         }
@@ -173,17 +171,9 @@ static AWARECore * sharedCore;
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceBatteryStateDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object: [NSUbiquitousKeyValueStore defaultStore]];
-
+    
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore", @"event":@"deactivate"}];
 }
-
-///////////////////////////////////////////////////////////////////////////////////
-
-void exceptionHandler(NSException *exception) {
-    Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[[AWAREStudy alloc] initWithReachability:YES] dbType:AwareDBTypeJSON];
-    [debugSensor saveDebugEventWithText:exception.debugDescription type:DebugTypeCrash label:exception.name];
-    [debugSensor startSyncDB];
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -205,13 +195,14 @@ void exceptionHandler(NSException *exception) {
         _sharedLocationManager.activityType = CLActivityTypeOther;
         
         if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
-            /// After iOS 9.0, we have to set "YES" for background sensing.
             _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
         }
         [_sharedLocationManager startUpdatingLocation];
-        [_sharedLocationManager startMonitoringSignificantLocationChanges];
+        // [_sharedLocationManager startMonitoringSignificantLocationChanges];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"base-location-sensor is started"}];
     }else{
         NSLog(@"[NOTE] Background location sensing is not allowed. Please call sendBackgroundSensingRequest first if you need to collect activities in the background.");
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"base-location-sensor is not started", @"reason":@"not authronized"}];
     }
 }
 
@@ -219,82 +210,72 @@ void exceptionHandler(NSException *exception) {
  * The method is called by location sensor when the device location is changed.
  */
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    bool appTerminated = [userDefaults boolForKey:KEY_APP_TERMINATED];
-    if (appTerminated) {
-        NSString * message = @"AWARE client iOS is rebooted";
-        
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        bool debugMode = [userDefaults boolForKey:SETTING_DEBUG_STATE];
-        if(debugMode){
-            // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:YES];
-        }
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:message type:DebugTypeInfo label:@""];
-        [userDefaults setBool:NO forKey:KEY_APP_TERMINATED];
-    }else{
-        // [AWAREUtils sendLocalNotificationForMessage:@"" soundFlag:YES];
-        //NSLog(@"Base Location Sensor.");
-//        if ([userDefaults boolForKey: SETTING_DEBUG_STATE]) {
-//            for (CLLocation * location in locations) {
-//                NSLog(@"%@",location.description);
-//                
-//            }
-//        }
+    
+    #ifdef LOG_BASE_LOCATION_EVENTS
+    if (locations.count > 0) {
+        CLLocation * location = [locations lastObject];
+
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"didUpdateLocations",
+                                            @"info":@{@"latitude":@(location.coordinate.latitude),
+                                                      @"longitude":@(location.coordinate.longitude)}
+                                            }];
     }
+    #endif
+    
+    #ifdef SHOW_BASE_LOCATION_EVENTS
+    if (locations.count > 0) {
+        if (AWAREStudy.sharedStudy.isDebug) {
+            CLLocation * location = [locations lastObject];
+            NSLog(@"[AWARECore] didUpdateBaseLocation: %@",location.description);
+            [AWAREUtils sendLocalPushNotificationWithTitle:nil body:location.description timeInterval:0.1 repeats:NO];
+        }
+    }
+    #endif
+    
 }
 
-- (void) requestBackgroundSensing{
-    NSLog(@"Please use -requestPermissionForBackgroundSensing instead of -requestBackgroundSensing");
-    [self requestPermissionForBackgroundSensing];
-}
 
-- (void) requestNotification:(UIApplication *) application{
-    NSLog(@"Please use -requestPermissionForPushNotification instead of requestNotification:");
-    [self requestPermissionForPushNotification:application];
-}
-
-/////////////
 - (void) requestPermissionForPushNotification {
-    [self requestPermissionForPushNotification:[UIApplication sharedApplication]];
+    [self requestPermissionForPushNotificationWithCompletion:nil];
 }
 
-- (void) requestPermissionForPushNotification:(UIApplication*)application{
+- (void)requestPermissionForPushNotificationWithCompletion:(UNNotificationAuthCompletionHandler)completionHandler{
+    UIApplication * application = UIApplication.sharedApplication;
     [application registerForRemoteNotifications];
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge)
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {
                               // Enable or disable features based on authorization.
-                              
-                          }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completionHandler != nil) {
+                completionHandler(granted, error);
+            }
+        });
+    }];
 }
 
-
-- (void) requestPermissionForBackgroundSensing{
-    [self requestPermissionForBackgroundSensingWithCompletion:nil];
-}
-                                                              
-- (void) requestPermissionForBackgroundSensingWithCompletion:(LocationAPIAuthorizationCompletionHandler)completionHandler{
-    self->completionHandler = completionHandler;
+- (void)requestPermissionForBackgroundSensingWithCompletion:(CoreLocationAuthCompletionHandler)completionHandler{
+    self->coreLocationAuthCompletionHandler = completionHandler;
+    NSLog(@"%d",NSThread.isMainThread);
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
-    if(state != kCLAuthorizationStatusAuthorizedAlways){
+    if(state == kCLAuthorizationStatusNotDetermined){
         if (_sharedLocationManager != nil){
             [_sharedLocationManager requestAlwaysAuthorization];
         }
     }else{
-        if (self->completionHandler != nil) {
-            self->completionHandler();
+        if (self->coreLocationAuthCompletionHandler != nil) {
+            self->coreLocationAuthCompletionHandler(state);
         }
-        self->completionHandler = nil;
+        self->coreLocationAuthCompletionHandler = nil;
     }
 }
 
 
-
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
-    
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"didChangeAuthorizationStatus",@"status":@(status)}];
     if(status == kCLAuthorizationStatusNotDetermined ){
         ////////////////// kCLAuthorizationStatusRestricted ///////////////////////
     }else if (status == kCLAuthorizationStatusRestricted ){
@@ -306,14 +287,14 @@ void exceptionHandler(NSException *exception) {
         if(_isNeedBackgroundSensing){
             [self startBaseLocationSensor];
         }
-        if (self->completionHandler) {
-            self->completionHandler();
-            self->completionHandler = nil;
-        }
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
-        //////////////////// Unknown ///////////////////////////////
-    }else {
-        
+     
+    }
+    
+    if (self->coreLocationAuthCompletionHandler) {
+        NSLog(@"%d",NSThread.isMainThread);
+        self->coreLocationAuthCompletionHandler(status);
+        self->coreLocationAuthCompletionHandler = nil;
     }
 }
 
@@ -327,27 +308,35 @@ void exceptionHandler(NSException *exception) {
 }
 
 - (void) checkComplianceWithViewController:(UIViewController *)viewController showDetail:(BOOL)detail{
-    if(![self checkLocationSensorWithViewController:viewController showDetail:detail]) return;
-    if(![self checkBackgroundAppRefreshWithViewController:viewController showDetail:detail]) return;
-    if(![self checkStorageUsageWithViewController:viewController showDetail:detail]) return;
-    if(![self checkWifiStateWithViewController:viewController showDetail:detail]) return;
-    if(![self checkLowPowerModeWithViewController:viewController showDetail:detail]) return;
-    if(![self checkNotificationSettingWithViewController:viewController showDetail:detail]) return;
-    
-    if (viewController!=nil && detail) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Your settings are correct"
-                                                                       message:@"Thank you for your copperation."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Close"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction * _Nonnull action) {
-                                                                  
-                                                              }];
-        [alert addAction:cancelAction];
-        if (detail) {
-            [viewController presentViewController:alert animated:YES completion:nil];
-        }
-    }
+    [self checkComplianceWithViewController:viewController showDetail:detail showSummary:NO];
+}
+
+- (void) checkComplianceWithViewController:(UIViewController *)viewController showDetail:(BOOL)detail showSummary:(BOOL)summary{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(![self checkLocationSensorWithViewController:viewController showDetail:detail]) return;
+        if(![self checkBackgroundAppRefreshWithViewController:viewController showDetail:detail]) return;
+        if(![self checkStorageUsageWithViewController:viewController showDetail:detail]) return;
+        if(![self checkWifiStateWithViewController:viewController showDetail:detail]) return;
+        if(![self checkLowPowerModeWithViewController:viewController showDetail:detail]) return;
+        [self checkNotificationSettingWithViewController:viewController showDetail:detail completion:^(BOOL status){
+            if (status) {
+                if (viewController!=nil && summary) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"AWARE is ready for data collection"
+                                                                                       message:@"Thank you for your copperation.\nWiFi->On\nLow Power Mode->Off\nStorage Space->Enough\nNotification->On\nLocation->On\nBackground Refresh->On"
+                                                                                preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Close"
+                                                                                style:UIAlertActionStyleCancel
+                                                                              handler:^(UIAlertAction * _Nonnull action) {
+                                                                                  
+                                                                              }];
+                        [alert addAction:cancelAction];
+                        [viewController presentViewController:alert animated:YES completion:nil];
+                    });
+                }
+            }
+        }];
+    });
 }
 
 - (bool)checkLocationSensorWithViewController:(UIViewController *) viewController showDetail:(BOOL)detail{
@@ -355,56 +344,40 @@ void exceptionHandler(NSException *exception) {
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
         
-        NSString *title;
-        title = (status == kCLAuthorizationStatusDenied) ? @"Location services are off" : @"Background location is not enabled";
-        NSString *message = @"To track your daily activity, you have to turn on 'Always' in the Location Services Settings.";
-
-        
         if([AWAREUtils isForeground]  && viewController != nil ){
             // To track your daily activity, AWARE client iOS needs access to your location in the background.
             // To use background location you must turn on 'Always' in the Location Services Settings
-            
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                           message:message
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      // Send the user to the Settings for this app
-                                                                      NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"];
-                                                                      // }
-                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-                                                                          
-                                                                      }];
-                                                                  }];
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * _Nonnull action) {
-                                                                      
-                                                                  }];
-            [alert addAction:defaultAction];
-            [alert addAction:cancelAction];
-            if (detail) {
-                [viewController presentViewController:alert animated:YES completion:nil];
-            }
+            NSString *title = (status == kCLAuthorizationStatusDenied) ? @"Location services are off" : @"Background location sensing is not allowed";
+            NSString *message = @"To track your daily activity, you have to turn on 'Always' in the Location Services Settings.";
+            if (detail) [self openSettingsApp:viewController title:title message:message];
         }
         
-//        DebugTypeUnknown = 0, DebugTypeInfo = 1, DebugTypeError = 2, DebugTypeWarn = 3, DebugTypeCrash = 4
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] Location Services are OFF or Background Location is NOT enabled" type:DebugTypeWarn label:title];
-        [debugSensor startSyncDB];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"error",
+                                            @"reason":@"kCLAuthorizationStatusAuthorizedWhenInUse,kCLAuthorizationStatusDenied, or kCLAuthorizationStatusRestricted"}];
     }
     // The user has not enabled any location services. Request background authorization.
     else if (status == kCLAuthorizationStatusNotDetermined) {
-        // [self startBaseLocationSensor];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"error",
+                                            @"reason":@"kCLAuthorizationStatusNotDetermined"}];
+        NSString * url = [AWAREStudy.sharedStudy getStudyURL];
+        if ( url != nil && ![url isEqualToString:@""]) {
+            if([AWAREUtils isForeground]  && viewController != nil ){
+                NSString *title = @"Location service is not permitted";
+                NSString *message = @"To track your daily activity, the application needs to access your location `Always`. Please permit the location sensor from Settings.";
+                if (detail) [self openSettingsApp:viewController title:title message:message];
+            }
+        }
     }else{
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] Location Services is enabled" type:DebugTypeInfo label:@""];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"pass",
+                                            @"reason":@"kCLAuthorizationStatusAuthorizedAlways"}];
         state = YES;
     }
-    // status == kCLAuthorizationStatusAuthorizedAlways
     return state;
 }
 
@@ -412,7 +385,6 @@ void exceptionHandler(NSException *exception) {
 
 - (bool) checkBackgroundAppRefreshWithViewController:(UIViewController *) viewController  showDetail:(BOOL)detail{
     bool state = NO;
-    
     //    UIBackgroundRefreshStatusRestricted, //< unavailable on this system due to device configuration; the user cannot enable the feature
     //    UIBackgroundRefreshStatusDenied,     //< explicitly disabled by the user for this application
     //    UIBackgroundRefreshStatusAvailable   //< enabled for this application
@@ -422,120 +394,59 @@ void exceptionHandler(NSException *exception) {
         NSString *title = @"Background App Refresh service is Restricted or Denied"; // : @"Background location is not enabled";
         NSString *message = @"To track your daily activity, you have to allow the 'Background App Refresh' service in the General Settings.";
         if([AWAREUtils isForeground]  && viewController!=nil ){
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                           message:message
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      // Send the user to the Settings for this app
-                                                                      NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=General&path=AUTO_CONTENT_DOWNLOAD"];
-                                                                      // }
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-                                                                          
-                                                                      }];
-                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                  }];
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * _Nonnull action) {
-                
-                                                                }];
-                                            
-            [alert addAction:cancelAction];
-            [alert addAction:defaultAction];
-            if(detail){
-                 [viewController presentViewController:alert animated:YES completion:nil];
-            }
+            [self openSettingsApp:viewController title:title message:message];
         }else{
             // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Background App Refresh' service in the Settings->General." soundFlag:NO];
         }
         
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] Background App Refresh service is Restricted or Denied" type:DebugTypeWarn label:@""];
-//        [debugSensor.storage allowsDateUploadWithoutBatteryCharging];
-//        [debugSensor.storage allowsCellularAccess];
-        // [debugSensor syncAwareDBInBackground];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"error",
+                                            @"reason":@"background app refresh service is restricted or denied"}];
     } else if(backgroundRefreshStatus == UIBackgroundRefreshStatusAvailable){
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] Background App Refresh service is Allowed" type:DebugTypeInfo label:@""];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"pass",
+                                            @"reason":@"UIBackgroundRefreshStatusDenied or UIBackgroundRefreshStatusRestricted"}];
         state = YES;
     }
     return state;
 }
 
-- (bool) checkNotificationSettingWithViewController:(UIViewController *) viewController  showDetail:(BOOL)detail{
-    bool state = NO;
-    // authorizationStatus;
-    // soundSetting __TVOS_PROHIBITED;
-    // badgeSetting __WATCHOS_PROHIBITED;
-    // alertSetting __TVOS_PROHIBITED;
-    // notificationCenterSetting __TVOS_PROHIBITED;
-    // lockScreenSetting __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
-    // carPlaySetting __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
-    // alertStyle __TVOS_PROHIBITED __WATCHOS_PROHIBITED;
-    // showPreviewsSetting  __IOS_AVAILABLE(11.0)
+- (void) checkNotificationSettingWithViewController:(UIViewController *) viewController  showDetail:(BOOL)detail completion:(void(^)(BOOL))completion{
     [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        NSString * reason = @"unknown";
         switch (settings.authorizationStatus) {
             case UNAuthorizationStatusAuthorized:
+                [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                                    @"event":@"compliance check",
+                                                    @"state":@"pass",
+                                                    @"reason":@"UNAuthorizationStatusAuthorized"}];
+                if (completion!=nil) {completion(true);}
                 break;
-            case UNAuthorizationStatusDenied:
-            case UNAuthorizationStatusNotDetermined:{
-                NSString * title = @"Notification service is not permitted.";
-                NSString * message = @"To send important notifications, please allow the 'Notification' service in the General Settings.";
-                
-                if([AWAREUtils isForeground]  && viewController!=nil ){
-                    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                                   message:message
-                                                                            preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                          handler:^(UIAlertAction * action) {
-                                                                              // Send the user to the Settings for this app
-                                                                              NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                              // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                              //    settingsURL = [NSURL URLWithString:@"prefs:root=Notifications"];
-                                                                              // }
-                                                                              [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-                                                                                  
-                                                                              }];
-                                                                              
-                                                                              // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                          }];
-                    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                            style:UIAlertActionStyleCancel
-                                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                                              
-                                                                          }];
-                    [alert addAction:defaultAction];
-                    [alert addAction:cancelAction];
-                    if(detail){
-                        [viewController presentViewController:alert animated:YES completion:nil];
-                    }
-                }else{
-                    // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Notification' service in the Settings.app->Notification->Allow Notifications." soundFlag:NO];
-                }
-                Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-                [debugSensor saveDebugEventWithText:@"[compliance] Notification Service is NOT permitted" type:DebugTypeWarn label:@""];
-                [debugSensor startSyncDB];
-                break;
-            }
+            case UNAuthorizationStatusNotDetermined:
+                reason = @"UNAuthorizationStatusNotDetermined";
             case UNAuthorizationStatusProvisional:
-                
-                break;
+                reason = @"UNAuthorizationStatusProvisional";
+            case UNAuthorizationStatusDenied:
+                reason = @"UNAuthorizationStatusDenied";
+                dispatch_async(dispatch_get_main_queue(), ^{
+                   if([AWAREUtils isForeground]  && viewController!=nil ){
+                       NSString * title = @"Notification service is not permitted.";
+                       NSString * message = @"To send important notifications, please allow the `Notification` service in the General Settings.";
+                       [self openSettingsApp:viewController title:title message:message];
+                   }else{
+                       // [AWAREUtils sendLocalNotificationForMessage:@"Please allow the 'Notification' service in the Settings.app->Notification->Allow Notifications." soundFlag:NO];
+                   }
+                    if (completion!=nil) { completion(false); }
+                    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                                        @"event":@"compliance check",
+                                                        @"state":@"error",
+                                                        @"reason":reason}];
+            });
+            break;
         }
-//        switch (settings.lockScreenSetting) {
-//            case UNNotificationSettingEnabled:
-//                break;
-//            case UNNotificationSettingDisabled:
-//                break;
-//            case UNNotificationSettingNotSupported:
-//                break;
-//            default:
-//                break;
-//        }
     }];
-    return state;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -548,14 +459,13 @@ void exceptionHandler(NSException *exception) {
         int GiB = 1024*1024*1024;
         float free = [[dictionary objectForKey: NSFileSystemFreeSize] floatValue]/GiB;
         float total = [[dictionary objectForKey: NSFileSystemSize] floatValue]/GiB;
-//        NSLog(@"Used: %.3f", total-free);
-//        NSLog(@"Space: %.3f", free);
-//        NSLog(@"Total: %.3f", total);
         float percentage = free/total * 100.0f;
-        NSString * event = [NSString stringWithFormat:@"[compliance] TOTAL:%.3fGB, USED:%.3fGB, FREE:%.3fGB", total, total-free, free];
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:event type:DebugTypeInfo label:@""];
-        // [debugSensor syncAwareDBInBackground];
+        
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"total":@(total), @"free":@(free),
+                                            @"used":@(total-free), @"percentage":@(percentage)}];
+        
         if(percentage < 5 && detail){ // %
             state = NO;
             NSString * title = @"Please sync your local database manually!";
@@ -568,6 +478,7 @@ void exceptionHandler(NSException *exception) {
                 }]];
                 [alertContoller addAction:[UIAlertAction actionWithTitle:@"close" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 }]];
+                [viewController presentViewController:alertContoller animated:YES completion:nil];
             }else{
                 // [AWAREUtils sendLocalNotificationForMessage:message soundFlag:NO];
             }
@@ -586,50 +497,21 @@ void exceptionHandler(NSException *exception) {
         NSString * title = @"Please turn off the **Low Power Mode** for tracking your daily activites.";
         NSString * message = @"";
         if ([NSProcessInfo processInfo].lowPowerModeEnabled ) {
-            
-            // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=BATTERY_USAGE"]];
             if([AWAREUtils isForeground]){
-                UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                               message:message
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                      handler:^(UIAlertAction * action) {
-                                                                          NSURL * settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                          NSLog(@"%@", UIApplicationOpenSettingsURLString);
-                                                                          // settingsURL = [NSURL URLWithString:@"prefs:"];
-                                                                          
-                                                                          // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                          //    settingsURL = [NSURL URLWithString:@"prefs:root=BATTERY_USAGE"];
-                                                                          // }
-                                                                          [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-                                                                              
-                                                                          }];
-
-                                                                          // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                          
-                                                                      }];
-                UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                        style:UIAlertActionStyleCancel
-                                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                                          
-                                                                      }];
-                [alert addAction:defaultAction];
-                [alert addAction:cancelAction];
-                if(detail){
-                    [viewController presentViewController:alert animated:YES completion:nil];
-                }
+                [self openSettingsApp:viewController title:title message:message];
             }else{
                 // [AWAREUtils sendLocalNotificationForMessage:title soundFlag:NO];
-
             }
             
-        
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-            [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is ON" type:DebugTypeWarn label:@""];
-            [debugSensor startSyncDB];
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                                @"event":@"compliance check",
+                                                @"state":@"error",
+                                                @"reason":@"low-power-mode is enabled"}];
         }else{
-            Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-            [debugSensor saveDebugEventWithText:@"[compliance] Low Power Mode is OFF" type:DebugTypeInfo label:@""];
+            [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                                @"event":@"compliance check",
+                                                @"state":@"pass",
+                                                @"reason":@"low-power-mode is disabled"}];
             state = YES;
         }
     }
@@ -645,42 +527,19 @@ void exceptionHandler(NSException *exception) {
         NSString * message = @"WiFi is turned off now. AWARE needs the wifi network for data uploading. Please keep turn on the WiFi during your study.";
         
         if ([AWAREUtils isForeground] && viewController!=nil) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
-                                                                           message:message
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-//                                                                       Send the user to the Settings for this app
-                                                                      NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                                      // if([AWAREUtils getCurrentOSVersionAsFloat] < 10.0f ){
-                                                                      //    settingsURL = [NSURL URLWithString:@"prefs:root=WIFI"];
-                                                                      // }
-                                                                      [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-                                                                          
-                                                                      }];
-                                                                      // [[UIApplication sharedApplication] openURL:settingsURL];
-                                                                      
-                                                                  }];
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * _Nonnull action) {
-                                                                      
-                                                                  }];
-            [alert addAction:defaultAction];
-            [alert addAction:cancelAction];
-            if(detail){
-                [viewController presentViewController:alert animated:YES completion:nil];
-            }
+            [self openSettingsApp:viewController title:title message:message];
         }else{
             // [AWAREUtils sendLocalNotificationForMessage:@"Please turn on WiFi! AWARE client needs WiFi for data uploading." soundFlag:NO];
         }
-        
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] WiFi is OFF" type:DebugTypeWarn label:@""];
-        [debugSensor startSyncDB];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"error",
+                                            @"reason":@"wifi-module is off"}];
     }else{
-        Debug * debugSensor = [[Debug alloc] initWithAwareStudy:[AWAREStudy sharedStudy] dbType:AwareDBTypeJSON];
-        [debugSensor saveDebugEventWithText:@"[compliance] WiFi is On" type:DebugTypeInfo label:@""];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"compliance check",
+                                            @"state":@"pass",
+                                            @"reason":@"wifi-module is on"}];
     }
     
     return [self isWiFiEnabled];
@@ -706,6 +565,30 @@ void exceptionHandler(NSException *exception) {
 
 - (NSDictionary *) wifiDetails {
     return (__bridge NSDictionary *) CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex( CNCopySupportedInterfaces(), 0));
+}
+
+
+- (void) openSettingsApp:(UIViewController * _Nonnull)vc title:(NSString * _Nullable)title message:(NSString * _Nullable)message{ //} completion:(void(^)(void))completion{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                                                              [[UIApplication sharedApplication] openURL:settingsURL
+                                                                                                 options:@{}
+                                                                                       completionHandler:^(BOOL success) {
+                                                                  
+                                                              }];
+                                                          }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                          }];
+    [alert addAction:defaultAction];
+    [alert addAction:cancelAction];
+    [vc presentViewController:alert animated:YES completion:nil];
 }
 
 @end

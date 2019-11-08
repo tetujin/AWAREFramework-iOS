@@ -24,10 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
+        core.requestPermissionForBackgroundSensing { (status) in
+            core.requestPermissionForPushNotification(completion: nil)
             core.activate()
-            
             /// If user uses smartphone over 60 second,
             /// this application makes a notification as an ESM
             let deviceUsage = DeviceUsage()

@@ -50,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)stringByAddingPercentEncoding:(NSString *)string;
 + (NSString *)stringByAddingPercentEncoding:(NSString *)string unreserved:(NSString*)unreserved;
 
++ (void) sendLocalPushNotificationWithTitle:(NSString * _Nullable)title
+                                       body:(NSString * _Nullable)body
+                               timeInterval:(double)timeInterval
+                                    repeats:(BOOL)repeats;
+
 NS_ASSUME_NONNULL_END
 
 @end

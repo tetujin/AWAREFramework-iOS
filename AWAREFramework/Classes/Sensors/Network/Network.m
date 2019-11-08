@@ -59,8 +59,7 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     if ([self isDebug]) {
         NSLog(@"[%@] Cretate Table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
+    NSString *query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"
     "network_type integer default 0,"

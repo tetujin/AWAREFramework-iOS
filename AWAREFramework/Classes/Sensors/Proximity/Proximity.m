@@ -50,8 +50,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
     if([self isDebug]){
         NSLog(@"[%@] Create Table", [self getSensorName]);
     }
-    NSString *query = [[NSString alloc] init];
-    query = @"_id integer primary key autoincrement,"
+    NSString *query = @"_id integer primary key autoincrement,"
     "timestamp real default 0,"
     "device_id text default '',"
     "double_proximity real default 0,"

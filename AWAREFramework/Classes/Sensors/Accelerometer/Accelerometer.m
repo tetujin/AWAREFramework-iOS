@@ -45,6 +45,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
             entityAcc.label = [dataDict objectForKey:@"label"];
         }];
     }
+    [self setNotificationNames:@[]];
     self = [super initWithAwareStudy:study
                           sensorName:@"accelerometer"
                              storage:storage];

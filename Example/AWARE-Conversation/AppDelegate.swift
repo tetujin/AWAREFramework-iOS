@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
+        core.requestPermissionForBackgroundSensing { (status) in
             core.startBaseLocationSensor()
             let conversation = Conversation(awareStudy: AWAREStudy.shared())
             
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             manager.add(conversation)
             manager.startAllSensors()
         }
-        
+
         return true
     }
 

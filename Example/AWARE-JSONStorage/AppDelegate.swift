@@ -15,21 +15,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        AWARECore.shared().requestPermissionForBackgroundSensing {
+        AWARECore.shared().requestPermissionForBackgroundSensing { (status) in
             AWARECore.shared().activate()
             
             AWAREStudy.shared().setStudyURL("https://api.awareframework.com/index.php/webservice/index/1947/Op1dc3cTy41y")
             
             // let acc = Accelerometer(awareStudy: AWAREStudy.shared(), dbType: AwareDBTypeJSON)
-            let acc = Accelerometer(awareStudy: AWAREStudy.shared(), dbType: AwareDBTypeCSV)            
+            let acc = Accelerometer(awareStudy: AWAREStudy.shared(), dbType: AwareDBTypeCSV)
             acc.startSensor()
             acc.storage?.setDebug(true)
             
             acc.storage?.startSyncStorage(callBack: { (name, progress, error) in
                 print(name,progress,error)
             })
-            
-            
         }
         
         return true

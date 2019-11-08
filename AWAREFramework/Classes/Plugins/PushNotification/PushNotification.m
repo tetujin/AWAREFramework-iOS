@@ -17,7 +17,6 @@
     NSString * KEY_PUSH_TOKEN;
 }
 
-
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     AWAREStorage * storage = nil;
     if(dbType == AwareDBTypeSQLite){
@@ -46,16 +45,13 @@
 
 
 - (void)createTable{
-    if([self isDebug]){
-        NSLog(@"[%@] Send a create table query", [self getSensorName]);
-    }
+    if([self isDebug]) NSLog(@"[%@] Send a create table query", [self getSensorName]);
     NSMutableString *query = [[NSMutableString alloc] init];
     [query appendString:@"_id integer primary key autoincrement,"];
     [query appendString:[NSString stringWithFormat:@"%@ real default 0,", KEY_PUSH_TIMESTAMP]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_PUSH_DEVICE_ID]];
     [query appendString:[NSString stringWithFormat:@"%@ text default '',", KEY_PUSH_TOKEN]];
     [query appendString:@"UNIQUE (timestamp,device_id)"];
-    // [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -69,38 +65,63 @@
     return YES;
 }
 
+- (void) savePushNotificationDeviceTokenWithData:(NSData *)data{
+    [self savePushNotificationDeviceToken:[self hexadecimalStringFromData:data]];
+}
+
+- (NSString * _Nonnull)hexadecimalStringFromData:(NSData * _Nonnull)data
+{
+    NSUInteger dataLength = data.length;
+    if (dataLength == 0) {
+        return nil;
+    }
+
+    const unsigned char *dataBuffer = data.bytes;
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    for (int i = 0; i < dataLength; ++i) {
+        [hexString appendFormat:@"%02x", dataBuffer[i]];
+    }
+    return [hexString copy];
+}
+
+/// Save a push notification token. The data format should be String.
+/// @param token A push notification token (String)
 - (void) savePushNotificationDeviceToken:(NSString*) token {
-    if (token == nil) {
-        return;
-    }
+    if (token == nil) return;
     
-    NSString * storedToken = [self getPushNotificationToken];
-    if (storedToken!=nil) {
-        if ([storedToken isEqualToString:token]) {
-            if([self isDebug]) NSLog(@"[%@] The Push Notification Token is already stored",self.getSensorName);
-            return;
-        }else{
-            if([self isDebug]) NSLog(@"[%@] The Push Notification Token is updated",self.getSensorName);
+    if (!NSThread.isMainThread) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self savePushNotificationDeviceToken:token];
+        });
+    }else{
+        NSString * storedToken = [self getPushNotificationToken];
+        if (storedToken!=nil) {
+            if ([storedToken isEqualToString:token]) {
+                if([self isDebug]) NSLog(@"[%@] The Push Notification Token is already stored",self.getSensorName);
+                return;
+            }else{
+                if([self isDebug]) NSLog(@"[%@] The Push Notification Token is updated",self.getSensorName);
+            }
         }
-    }
-    
-    NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_PUSH_TIMESTAMP];
-    [dict setObject:[self getDeviceId] forKey:KEY_PUSH_DEVICE_ID];
-    [dict setObject:token forKey:KEY_PUSH_TOKEN];
-    
-    // [self saveData:dict];
-    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-    [self setLatestData:dict];
-    
-    // Save the token to user default
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:token forKey:KEY_APNS_TOKEN];
-    [defaults synchronize];
-    
-    SensorEventHandler handler = [self getSensorEventHandler];
-    if (handler!=nil) {
-        handler(self, dict);
+        
+        NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+        [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_PUSH_TIMESTAMP];
+        [dict setObject:[self getDeviceId] forKey:KEY_PUSH_DEVICE_ID];
+        [dict setObject:token forKey:KEY_PUSH_TOKEN];
+        
+        // [self saveData:dict];
+        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+        [self setLatestData:dict];
+        
+        // Save the token to user default
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:token forKey:KEY_APNS_TOKEN];
+        [defaults synchronize];
+        
+        SensorEventHandler handler = [self getSensorEventHandler];
+        if (handler!=nil) {
+            handler(self, dict);
+        }
     }
 }
 
@@ -118,16 +139,9 @@
     return NO;
 }
 
-
 - (void)saveDummyData{
     [self saveStoredPushNotificationDeviceToken];
 }
-
-//////////////////////////////////////////////////
-
-//- (BOOL)syncAwareDBInForeground{
-//    return [super syncAwareDBInForeground];
-//}
 
 - (NSString *) getPushNotificationToken {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];

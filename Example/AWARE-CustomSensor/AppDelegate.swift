@@ -35,8 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         externalDBHandler.overwriteManageObjectModel(withName: "AWARE_CustomSensor")
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
+        core.requestPermissionForBackgroundSensing { (status) in
+            core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
             let customSensorSQLite = CustomSensor(dbType: AwareDBTypeSQLite)

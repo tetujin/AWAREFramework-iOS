@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing {
-            core.requestPermissionForPushNotification()
+        core.requestPermissionForBackgroundSensing { (status) in
+            core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
             let schedule = ESMSchedule()
