@@ -64,10 +64,10 @@ For collecting data in the background, you need to edit `Info.plist` and `Capabi
 
 ### 3. Request permissions and activate AWAREFramework
 To use AWAREFramework in the project, you need to (1) import `AWAREFramework` into your class and (2) request permission for accessing the iOS location sensor always. 
-After the permission is approved, you can (3) activate `AWARECore`.
+After the permission is approved, you can (3) activate `AWARECore`. 
+(4) `AWARECore`,`AWAREStudy` and `AWARESensorManager` are singleton instances for managing sensing/synchronization schedules in the library.  You can control any sensors by the way which is described in How To Use session.
 
- (4) `AWARECore`,`AWAREStudy` and `AWARESensorManager` are singleton instances for managing sensing/synchronization schedules in the library.  You can control any sensors by the way which is described in How To Use session.
-
+We recommend you to activate `AWARECore` at `-application:didFinishLaunchingWithOptions:launchOptions:` in `AppDelegate` which is called one time when the application is launched.
 
 ```swift
 /// AppDelegate.swift ///
