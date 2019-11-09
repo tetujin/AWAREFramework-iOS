@@ -38,7 +38,7 @@
 
 ## Installation
 
-### Install AWAREFramework-iOS
+### 1. Install AWAREFramework-iOS
 AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org). 
 To install it, simply add the following line to your Podfile:
 
@@ -47,22 +47,22 @@ pod 'AWAREFramework', '~> 1.4'
 ```
 And run `pod install` in your Xcode project.
 
-### Edit confgurations
+### 2. Edit confgurations
 For collecting data in the background, you need to edit `Info.plist` and `Capabilities/Background Modes` in the project as follows.
 
 [NOTE] The following settings are a minimum condition, so then you might need to do more modification if you are using special sensors (e.g., Ambient Noise, HealthKit, Activity Recognition and more).
 
-#### Info.plist
+#### 2-1. Info.plist
 * Privacy - Location Always and When In Use Usage Description
 * Privacy - Location Always Usage Description
 ![Image](./Screenshots/info_plist_location.png)
 
-#### Capabilities/Background Modes
+#### 2-2. Capabilities/Background Modes
 * Location updates
 ![Image](./Screenshots/background_modes.png)
 
 
-### Request permissions and activate AWAREFramework
+### 3. Request permissions and activate AWAREFramework
 To use AWAREFramework in the project, you need to (1) import `AWAREFramework` into your class and (2) request permission for accessing the iOS location sensor always. 
 After the permission is approved, you can (3) activate `AWARECore`.
 
