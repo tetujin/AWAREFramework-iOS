@@ -86,6 +86,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         _fetchIntervalSecond = 60 * 30; // 30 min
     }
     [self requestAuthorizationToAccessHealthKit];
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
     timer = [NSTimer scheduledTimerWithTimeInterval:_fetchIntervalSecond
                                              target:self
                                            selector:@selector(readAllDate)
@@ -100,6 +104,25 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         [timer invalidate];
         timer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
+    if (_awareHKWorkout.storage != nil){
+        [_awareHKWorkout.storage saveBufferDataInMainThread:YES];
+    }
+    if (_awareHKCategory.storage != nil) {
+        [_awareHKCategory.storage saveBufferDataInMainThread:YES];
+    }
+    if (_awareHKQuantity.storage != nil) {
+        [_awareHKCategory.storage saveBufferDataInMainThread:YES];
+    }
+    if (_awareHKHeartRate.storage != nil){
+        [_awareHKHeartRate.storage saveBufferDataInMainThread:YES];
+    }
+    if(_awareHKSleep.storage != nil) {
+        [_awareHKSleep.storage saveBufferDataInMainThread:YES];
+    }
+      
     [self setSensingState:NO];
     return YES;
 }
@@ -124,9 +147,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [_awareHKSleep     startSyncDB];
     // [super stopSyncDB];
 }
-
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
 
 - (NSDate * _Nullable) getLastRecordTimeWithHKDataType:(NSString * _Nonnull)type{
     NSString * key = [NSString stringWithFormat:@"plugin_healthkit_timestamp_%@",type];

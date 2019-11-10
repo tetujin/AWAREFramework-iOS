@@ -22,8 +22,17 @@ extern NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION;
 @property Locations * locationSensor;
 @property VisitLocations * visitLocationSensor;
 
+@property BOOL saveAll;
+
+/// interval (second)
 @property int intervalSec;
-@property int accuracyMeter;
+
+/// meter
+@property int distanceFilter;
 @property CLLocationAccuracy accuracy;
+
+- (BOOL) startSensorWithInterval:(double)intervalSecond;
+- (BOOL) startSensorWithInterval:(double)intervalSecond accuracy:(CLLocationAccuracy)accuracy;
+- (BOOL) startSensorWithInterval:(double)intervalSecond accuracy:(CLLocationAccuracy)accuracy distanceFilter:(int)fiterMeter;
 
 @end

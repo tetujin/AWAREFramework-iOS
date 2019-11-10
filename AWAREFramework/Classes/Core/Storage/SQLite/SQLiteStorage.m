@@ -111,6 +111,11 @@
         }
     }
 
+    return [self saveBufferDataInMainThread:saveInMainThread];
+}
+
+- (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread{
+    
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
     
@@ -178,7 +183,6 @@
             }
         }];
     }
-    
     return YES;
 }
 
@@ -206,11 +210,6 @@
     // NSLog(@"Please overwirte -cancelSyncStorage");
     cancel = YES;
 }
-
-
-/////////////////////////
-
-
 
 /**
  * start sync db with timestamp

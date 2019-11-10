@@ -86,6 +86,9 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     // Stop a sync timer
     [self unregisterAppforDetectDisplayStatus];
     [self unregisterAppforDetectLockState];
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

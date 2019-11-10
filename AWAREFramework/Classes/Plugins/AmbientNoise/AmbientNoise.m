@@ -183,6 +183,9 @@ NSString * const _Nonnull AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHO
         [mainTimer invalidate];
         mainTimer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

@@ -62,15 +62,14 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
     [tcqMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
     [tcqMaker addColumn:@"accuracy" type:TCQTypeInteger default:@"0"];
     [tcqMaker addColumn:@"label" type:TCQTypeText default:@"''"];
-    // NSString * query = [tcqMaker getDefaudltTableCreateQuery];
     [self.storage createDBTableOnServerWithTCQMaker:tcqMaker];
 }
 
 - (void)setParameters:(NSArray *)parameters{
-    // Get a sensing frequency
+    /// Get a sensing frequency
     double frequency = [self getSensorSetting:parameters withKey:@"frequency_barometer"];
     if(frequency > 0){
-        // NOTE: The frequency value is a microsecond
+        /// NOTE: The frequency value is a microsecond
         [self setSensingIntervalWithSecond:frequency/1000000];
     }
 }
@@ -81,12 +80,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 
 - (BOOL)startSensorWithSensingInterval:(double)sensingInterval savingInterval:(double)savingInterval{
     
-    // [self setBufferSize:savingInterval/sensingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
     timestamp = [[NSDate new] timeIntervalSince1970];
     
-    // Set and start a sensor
+    /// Set and start a sensor
     if ([self isDebug]) {
         NSLog(@"[%@] Start Barometer Sensor", [self getSensorName]);
     }
@@ -140,10 +138,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 
 
 - (BOOL)stopSensor{
-    // Stop a altitude sensor
+    /// Stop a altitude sensor
     [altitude stopRelativeAltitudeUpdates];
     altitude = nil;
-    
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     
     return YES;

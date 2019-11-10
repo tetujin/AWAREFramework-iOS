@@ -146,6 +146,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
 
 - (BOOL)stopSensor{
     [gyroManager stopGyroUpdates];
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

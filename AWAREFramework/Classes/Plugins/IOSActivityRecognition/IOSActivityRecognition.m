@@ -217,6 +217,9 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
         [timer invalidate];
         timer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

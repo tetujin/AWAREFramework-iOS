@@ -124,6 +124,9 @@ NSString* const AWARE_PREFERENCES_STATUS_CONTACTS = @"status_plugin_contacts";
         [timer invalidate];
         timer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

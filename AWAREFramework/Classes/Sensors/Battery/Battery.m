@@ -27,9 +27,9 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     NSString* KEY_LAST_BATTERY_EVENT_TIMESTAMP;
     NSString* KEY_LAST_BATTERY_LEVEL;
     
-    // A battery charge sensor
+    /// A battery charge sensor
     BatteryCharge * batteryChargeSensor;
-    // A battery discharge sensor
+    /// A battery discharge sensor
     BatteryDischarge * batteryDischargeSensor;
     
     NSTimer * timer;
@@ -69,7 +69,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
         BATTERY_DISCHARGERES = @"battery_discharges";
         BATTERY_CHARGERES = @"battery_charges";
         
-        // keys for local storage
+        /// keys for local storage
         KEY_LAST_BATTERY_EVENT = @"key_last_battery_event";
         KEY_LAST_BATTERY_EVENT_TIMESTAMP = @"key_last_battery_event_timestamp";
         KEY_LAST_BATTERY_LEVEL = @"key_last_battery_level";
@@ -81,7 +81,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
             [userDefaults setInteger:[UIDevice currentDevice].batteryLevel*100 forKey:KEY_LAST_BATTERY_LEVEL];
         }
         
-        // Get default information from local storage
+        /// Get default information from local storage
         batteryChargeSensor    = [[BatteryCharge alloc] initWithAwareStudy:study dbType:dbType];
         batteryDischargeSensor = [[BatteryDischarge alloc] initWithAwareStudy:study dbType:dbType];
         
@@ -94,7 +94,7 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 
 
 - (void) createTable{
-    // Send a create table queries (battery_level, battery_charging, and battery_discharging)
+    /// Create a database table (battery_level, battery_charging, and battery_discharging)
     [self createBatteryTable];
     [batteryChargeSensor createTable];
     [batteryDischargeSensor createTable];
@@ -131,13 +131,13 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
 
 - (BOOL) startSensorWithIntervalSeconds:(double)intervalSec{
     
-    // Set a battery level change event to a notification center
+    /// Set a battery level change event to a notification center
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(batteryLevelChanged:)
                                                  name:UIDeviceBatteryLevelDidChangeNotification object:nil];
     
-    // Set a battery state change event to a notification center
+    /// Set a battery state change event to a notification center
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(batteryStateChanged:)
                                                  name:UIDeviceBatteryStateDidChangeNotification object:nil];
@@ -166,7 +166,16 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
         [timer invalidate];
         timer = nil;
     }
-   [self setSensingState:NO];
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
+    if (batteryChargeSensor.storage != nil) {
+        [batteryChargeSensor.storage saveBufferDataInMainThread:YES];
+    }
+    if (batteryDischargeSensor.storage != nil) {
+        [batteryDischargeSensor.storage saveBufferDataInMainThread:YES];
+    }
+    [self setSensingState:NO];
     return YES;
 }
 
@@ -251,18 +260,12 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     
 }
 
-
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-
 - (void)batteryStateChanged:(NSNotification *)notification {
-    // Get current values
+    /// Get current values
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger lastBatteryEvent = [userDefaults integerForKey:KEY_LAST_BATTERY_EVENT];
     NSNumber * lastBatteryEventTimestamp = [userDefaults objectForKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP];
-    // lastBatteryEvent = [UIDevice currentDevice].batteryLevel * 100;
+    /// lastBatteryEvent = [UIDevice currentDevice].batteryLevel * 100;
     NSNumber* lastBatteryLevel = [userDefaults objectForKey:KEY_LAST_BATTERY_LEVEL];
     
     
@@ -270,26 +273,21 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     switch ([UIDevice currentDevice].batteryState) {
         case UIDeviceBatteryStateCharging:
             currentBatteryEvent = UIDeviceBatteryStateCharging;
-//            [self sendLocalNotificationForMessage:@"Battery Charging Event" soundFlag:NO];
             break;
         case UIDeviceBatteryStateFull:
             currentBatteryEvent = UIDeviceBatteryStateFull;
             [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_BATTERY_CHARGING
                                                                 object:nil
                                                               userInfo:nil];
-//            [self sendLocalNotificationForMessage:@"Battery Full Event" soundFlag:NO];
             break;
         case UIDeviceBatteryStateUnknown:
             currentBatteryEvent = UIDeviceBatteryStateUnknown;
-//            [self sendLocalNotificationForMessage:@"Battery Unknown Event" soundFlag:NO];
             break;
         case UIDeviceBatteryStateUnplugged:
             currentBatteryEvent = UIDeviceBatteryStateUnplugged;
-//            [self sendLocalNotificationForMessage:@"Battery Unplugged Event" soundFlag:NO];
             break;
         default:
             currentBatteryEvent = UIDeviceBatteryStateUnknown;
-//            [self sendLocalNotificationForMessage:@"Battery Unknown Event" soundFlag:NO];
             break;
     };
     
@@ -297,11 +295,11 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     int battery = [UIDevice currentDevice].batteryLevel * 100;
     NSNumber * currentBatteryLevel = [NSNumber numberWithInt:battery];
 
-    // discharge event
+    /// discharge event
     if (lastBatteryEvent == UIDeviceBatteryStateUnplugged &&
         currentBatteryEvent == UIDeviceBatteryStateCharging) {
         
-        // Save latest event on UserDefaults
+        /// Save latest event on UserDefaults
         [userDefaults setObject:currentBatteryLevel forKey:KEY_LAST_BATTERY_LEVEL];
         [userDefaults setObject:currentTime forKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP];
         
@@ -311,16 +309,16 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
                                                               startBatteryLevel:lastBatteryLevel
                                                                 endBatteryLevel:currentBatteryLevel];
         } @catch (NSException *exception) {
-//            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_discharge"];
+
         } @finally {
             
         }
         
-    // charge event
+    /// charge event
     }else if(lastBatteryEvent == UIDeviceBatteryStateCharging &&
              currentBatteryEvent == UIDeviceBatteryStateUnplugged ){
         
-        // Save battery events on UserDefaults
+        /// Save battery events on UserDefaults
         [userDefaults setObject:currentBatteryLevel forKey:KEY_LAST_BATTERY_LEVEL];
         [userDefaults setObject:currentTime forKey:KEY_LAST_BATTERY_EVENT_TIMESTAMP];
         
@@ -330,18 +328,14 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
                                                         startBatteryLevel:lastBatteryLevel
                                                           endBatteryLevel:currentBatteryLevel];
         } @catch (NSException *exception) {
-//            [self saveDebugEventWithText:[exception debugDescription] type:DebugTypeCrash label:@"battery_charge"];
         } @finally {
         }
     }
     switch (currentBatteryEvent) {
         case UIDeviceBatteryStateCharging:
-//            lastBatteryEvent = currentBatteryEvent;
             [userDefaults setInteger:UIDeviceBatteryStateCharging forKey:KEY_LAST_BATTERY_EVENT];
             break;
         case UIDeviceBatteryStateUnplugged:
-//            currentBatteryEvent = UIDeviceBatteryStateUnplugged;
-//            lastBatteryEvent = currentBatteryEvent;
             [userDefaults setInteger:UIDeviceBatteryStateUnplugged forKey:KEY_LAST_BATTERY_EVENT];
             break;
         default:

@@ -164,13 +164,14 @@ NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_student
 
 - (BOOL) stopSensor {
     [self.pipeline stopPipeline];
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }
 
-//////////////////////////////////
-
-// AudioInferenceRecorder accesss following methods for saving the sensor data.
+/// AudioInferenceRecorder accesss following methods for saving the sensor data.
 -(void)saveAudioInference: (int)inference_int energy:(double)energy timestamp:(long)timestamp sync_id:(long) sync_id {
     NSMutableDictionary *audioData = [[NSMutableDictionary alloc] init];
     [audioData setObject:[NSNumber numberWithLongLong:timestamp] forKey:KEY_TIMESTAMP];

@@ -95,6 +95,9 @@
         [sensingTimer invalidate];
         sensingTimer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

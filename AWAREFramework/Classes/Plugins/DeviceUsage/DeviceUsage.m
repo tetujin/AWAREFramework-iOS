@@ -78,6 +78,9 @@ NSString* const AWARE_PREFERENCES_STATUS_DEVICE_USAGE = @"status_plugin_device_u
 
 - (BOOL)stopSensor{
     [self unregisterAppforDetectDisplayStatus];
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

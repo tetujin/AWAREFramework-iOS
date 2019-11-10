@@ -98,6 +98,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
         NSLog(@"[%@] Start Processor Sensor", [self getSensorName]);
     }
     
+    if (sensingTimer!=nil) {
+        [sensingTimer invalidate];
+        sensingTimer = nil;
+    }
+    
     sensingTimer = [NSTimer scheduledTimerWithTimeInterval:sensingInterval
                                                     target:self
                                                   selector:@selector(saveCPUUsage:)
@@ -138,7 +143,13 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
 }
 
 - (BOOL)stopSensor{
-    [sensingTimer invalidate];
+    if (sensingTimer != nil) {
+        [sensingTimer invalidate];
+        sensingTimer = nil;
+    }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

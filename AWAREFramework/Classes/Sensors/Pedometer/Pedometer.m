@@ -167,6 +167,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER = @"frequency_ios_pedomet
         [timer invalidate];
         timer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return NO;
 }

@@ -117,7 +117,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 }
 
 - (BOOL)startSensorWithInterval:(double) interval{
-    // Set and start a data upload interval
+    /// Set and start a data upload interval
     if([self isDebug]){
         NSLog(@"[%@] Start Wifi Sensor", [self getSensorName]);
     }
@@ -134,20 +134,17 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 
 
 - (BOOL)stopSensor{
-    // Stop a sensing timer
+    /// Stop a sensing timer
     if (sensingTimer != nil) {
         [sensingTimer invalidate];
         sensingTimer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }
-
-    
-    
-    ///////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-    
     
 - (void) getWifiInfo {
     
@@ -171,9 +168,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 - (NSString *) getLatestValue {
     return [sensorWifi getLatestValue];
 }
-    ///////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-    
+
 - (void) broadcastDetectedNewDevice{
     [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_NEW_DEVICE
                                                         object:nil

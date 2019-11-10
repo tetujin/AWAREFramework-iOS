@@ -109,6 +109,9 @@
 - (BOOL)stopSensor
 {
     [self setSensingState:NO];
+    if (self.storage != nil){
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     return YES;
 }
 

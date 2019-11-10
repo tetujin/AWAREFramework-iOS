@@ -128,6 +128,9 @@ NSString * const AWARE_PREFERENCES_STATUS_CALENDAR_ESM = @"status_plugin_esm_sch
     if (calendar!=nil) {
         [calendar stopSensor];
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

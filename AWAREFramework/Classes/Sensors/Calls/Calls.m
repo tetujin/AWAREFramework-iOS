@@ -85,8 +85,12 @@ NSString* const KEY_CALLS_TRACE = @"trace";
 
 -(BOOL) stopSensor{
     _callObserver = nil;
-    [self setSensingState:NO];
     
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
+    
+    [self setSensingState:NO];
     return YES;
 }
 

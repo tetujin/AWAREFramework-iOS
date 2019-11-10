@@ -170,6 +170,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
 - (BOOL)stopSensor{
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

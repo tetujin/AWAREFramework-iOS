@@ -102,31 +102,17 @@ static AWAREStatusMonitor * shared;
     [info setObject:@(NSProcessInfo.processInfo.isLowPowerModeEnabled) forKey:@"low_power"];
     [info setObject:[self getStorageInfo] forKey:@"storage"];
     
-    NSMutableDictionary * api = [[NSMutableDictionary alloc] init];
-    if (@available(iOS 11.0, *)) {
-        [api setObject:@(CMMotionActivityManager.authorizationStatus) forKey:@"activity"];
-    } else {
-        [api setObject:@(-1) forKey:@"activity"];
+    NSString * strInfo = @"";
+    NSError * error = nil;
+    NSData * dataInfo = [NSJSONSerialization dataWithJSONObject:info
+                                                        options:NSJSONWritingFragmentsAllowed
+                                                          error:&error];
+    if (dataInfo != nil && error == nil) {
+        strInfo = [[NSString alloc] initWithData:dataInfo encoding:NSUTF8StringEncoding];
     }
-    [api setObject:@(CLLocationManager.authorizationStatus) forKey:@"location"];
     
-    [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-        [api setObject:@(settings.authorizationStatus) forKey:@"notification"];
-        [info setObject:api forKey:@"api"];
-        
-        NSString * strInfo = @"";
-        
-        NSError * error = nil;
-        NSData * dataInfo = [NSJSONSerialization dataWithJSONObject:info options:NSJSONWritingFragmentsAllowed error:&error];
-        if (dataInfo != nil && error == nil) {
-            strInfo = [[NSString alloc] initWithData:dataInfo encoding:NSUTF8StringEncoding];
-        }
-        
-        [data setObject:strInfo forKey:@"info"];
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [self.storage saveDataWithDictionary:data buffer:NO saveInMainThread:YES];
-         });
-     }];
+    [data setObject:strInfo forKey:@"info"];
+    [self.storage saveDataWithDictionary:data buffer:NO saveInMainThread:YES];
 }
 
 - (void) deactivate{
@@ -144,10 +130,10 @@ static AWAREStatusMonitor * shared;
         float free = [[dictionary objectForKey: NSFileSystemFreeSize] floatValue]/GiB;
         float total = [[dictionary objectForKey: NSFileSystemSize] floatValue]/GiB;
         float percentage = free/total * 100.0f;
-        return [[NSDictionary alloc] initWithObjects:@[@([self round:free to:2]),
-                                                       @([self round:total to:2]),
-                                                       @([self round:(total-free) to:2]),
-                                                       @([self round:percentage to:2])]
+        return [[NSDictionary alloc] initWithObjects:@[@(round(free)),
+                                                       @(round(total)),
+                                                       @(round(total-free)),
+                                                       @(round(percentage))]
                                              forKeys:@[@"free",@"total",@"used",@"percentage"]];
     }
     return [[NSDictionary alloc] init];

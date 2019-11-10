@@ -98,6 +98,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_TIMEZONE = @"frequency_timezone";
     [sensingTimer invalidate];
     sensingTimer = nil;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

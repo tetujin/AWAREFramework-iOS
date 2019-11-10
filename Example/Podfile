@@ -91,3 +91,8 @@ end
 target 'AWARE-ForTest' do
   pod 'AWAREFramework', :path => '../'
 end
+
+target 'AWARE-Location' do
+  pod 'AWAREFramework', :path => '../'
+end
+

@@ -33,6 +33,8 @@ typedef void (^UNNotificationAuthCompletionHandler)(BOOL granted, NSError * _Nul
 
 - (void) activate;
 - (void) deactivate;
+- (void) reactivate;
+
 - (void) startBaseLocationSensor;
 
 - (void) checkCompliance;

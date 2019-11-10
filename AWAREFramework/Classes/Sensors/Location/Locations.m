@@ -8,30 +8,35 @@
 
 #import "Locations.h"
 #import "EntityLocation.h"
+#import "AWAREEventLogger.h"
 
 
 NSString * const AWARE_PREFERENCES_STATUS_LOCATION_GPS = @"status_location_gps";
-NSString * const AWARE_PREFERENCES_FREQUENCY_GPS = @"frequency_gps";
-NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
+NSString * const AWARE_PREFERENCES_FREQUENCY_GPS       = @"frequency_gps";
+NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
 
 @implementation Locations{
-    NSTimer *locationTimer;
+    NSTimer * locationTimer;
     IBOutlet CLLocationManager *locationManager;
     double interval;
     double accuracy;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    
+    _saveAll = NO;
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations"];
     }else if(dbType == AwareDBTypeCSV){
-        NSArray * header = @[@"timestamp", @"device_id", @"double_latitude", @"double_longitude", @"double_bearing", @"double_speed", @"double_altitude", @"provider", @"accuracy", @"label"];
+        NSArray * header = @[@"timestamp", @"device_id", @"double_latitude",
+                             @"double_longitude", @"double_bearing", @"double_speed",
+                             @"double_altitude", @"provider", @"accuracy", @"label"];
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations" headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations" entityName:NSStringFromClass([EntityLocation class])
+        storage = [[SQLiteStorage alloc] initWithStudy:study
+                                            sensorName:@"locations"
+                                            entityName:NSStringFromClass([EntityLocation class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
                                             EntityLocation* entityLocation = (EntityLocation *)[NSEntityDescription
                                                                                                 insertNewObjectForEntityForName:entity
@@ -54,15 +59,14 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
                           sensorName:@"locations"
                              storage:storage];
     if (self) {
-        interval = 180; // 180sec(=3min)
-        accuracy = 250; // 250m
+        interval = 180; /// 180sec(=3min)
+        accuracy = 250; /// 250m
     }
     return self;
 }
 
 
 - (void) createTable{
-    // Send a query for creating table
     if([self isDebug]){
         NSLog(@"[%@] Create Table", [self getSensorName]);
     }
@@ -78,8 +82,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         "provider text default '',"
         "accuracy real default 0,"
         "label text default ''";
-        // "UNIQUE (timestamp,device_id)";
-//    [super createTable:query];
     [self.storage createDBTableOnServerWithQuery:query];
 }
 
@@ -89,7 +91,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
         interval = frequency;
     }
     
-    // Get a min gps accuracy from settings
+    /// Get a min gps accuracy from settings
     double minAccuracy = [self getSensorSetting:parameters withKey:@"min_gps_accuracy"];
     if ( minAccuracy > 0 ) {
         accuracy = minAccuracy;
@@ -108,115 +110,70 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
     return [self startSensorWithInterval:interval accuracy:accuracyMeter];
 }
 
+/// Start a location sensor with the senseing frequency and min GPS accuracy
 - (BOOL)startSensorWithInterval:(double)interval accuracy:(double)accuracyMeter{
-    // Set and start a location sensor with the senseing frequency and min GPS accuracy
     if ([self isDebug]) {
         NSLog(@"[%@] Start Location Sensor!", [self getSensorName]);
     }
     
-    if (nil == locationManager){
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.delegate = self;
-        
-        // extern const CLLocationAccuracy kCLLocationAccuracyBestForNavigation
-        // extern const CLLocationAccuracy kCLLocationAccuracyBest;
-        // extern const CLLocationAccuracy kCLLocationAccuracyNearestTenMeters;
-        // extern const CLLocationAccuracy kCLLocationAccuracyHundredMeters;
-        // extern const CLLocationAccuracy kCLLocationAccuracyKilometer;
-        // extern const CLLocationAccuracy kCLLocationAccuracyThreeKilometers;
-        /*
-         if (accuracyMeter == 0) {
-         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-         } else if (accuracyMeter > 0 && accuracyMeter <= 5){
-         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-         } else if (accuracyMeter > 10 && accuracyMeter <= 25 ){
-         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-         } else if (accuracyMeter > 25 && accuracyMeter <= 100 ){
-         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-         } else if (accuracyMeter > 100 && accuracyMeter <= 1000){
-         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-         } else if (accuracyMeter > 1000 && accuracyMeter <= 3000){
-         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-         } else {
-         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-         }
-         */
-        
-        if (accuracyMeter == 0) {
-            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        } else if (accuracyMeter <= 5){
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        } else if (accuracyMeter <= 25 ){
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-        } else if (accuracyMeter <= 100 ){
-            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-        } else if (accuracyMeter <= 1000){
-            locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-        } else if (accuracyMeter <= 3000){
-            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-        } else {
-            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
-        }
+    self->interval = interval;
+    self->accuracy = accuracyMeter;
+    
+    if (nil != locationManager){
+        /// stop sensor
+        [self stopSensor];
+    }
 
-        locationManager.pausesLocationUpdatesAutomatically = NO;
-        CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-        // NSLog(@"OS:%f", currentVersion);
-        if (currentVersion >= 9.0) {
-            //This variable is an important method for background sensing after iOS9
-            locationManager.allowsBackgroundLocationUpdates = YES;
-        }
-        
-        if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-            [locationManager requestAlwaysAuthorization];
-        }
-        
-        /**
-         * Check an authorization of location sensor
-         * https://developer.apple.com/library/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/#//apple_ref/c/tdef/CLAuthorizationStatus
-         */
-        [self saveAuthorizationStatus:[CLLocationManager authorizationStatus]];
-        
-//        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined ){
-//            [self saveDebugEventWithText:@":Location sensor's authorization is not determined" type:DebugTypeWarn label:@""];
-//        }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted ){
-//            [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
-//        }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied ){
-//            [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
-//        }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized ){
-//            [self saveDebugEventWithText:@"Location sensor's authorization is authorized (always)" type:DebugTypeWarn label:@""];
-//        }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways){
-//            [self saveDebugEventWithText:@"Location sensor's authorization is authorized always" type:DebugTypeWarn label:@""];
-//        }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse){
-//            [self saveDebugEventWithText:@"Location sensor's authorization is authorized when in use" type:DebugTypeWarn label:@""];
-//        }else {
-//            [self saveDebugEventWithText:@"Location sensor's authorization is unknown" type:DebugTypeWarn label:@""];
-//        }
-        
-        
-        // Set a movement threshold for new events.
-        locationManager.distanceFilter = accuracyMeter; // meter
-        // locationManager.activityType = CLActivityTypeFitness;
-        
-        // Start Monitoring
-        // [locationManager startMonitoringSignificantLocationChanges];
-        
-        // [locationManager startUpdatingLocation];
-        // [locationManager startUpdatingHeading];
-        // [_locationManager startMonitoringVisits];
-        
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    
+    /// set  accuracy of data collection
+    if (accuracyMeter == 0) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    } else if (accuracyMeter <= 5){
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    } else if (accuracyMeter <= 25 ){
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    } else if (accuracyMeter <= 100 ){
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    } else if (accuracyMeter <= 1000){
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    } else if (accuracyMeter <= 3000){
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    } else {
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    }
+    
+    /// Set a movement threshold for new events.
+    locationManager.distanceFilter = accuracyMeter; // meter
+    
+    locationManager.pausesLocationUpdatesAutomatically = NO;
+    CGFloat currentVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if (currentVersion >= 9.0) {
+        locationManager.allowsBackgroundLocationUpdates = YES;
+    }
+    
+    if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [locationManager requestAlwaysAuthorization];
+    }
+    
+    [self saveAuthorizationStatus:[CLLocationManager authorizationStatus]];
+    
+    /// set ActivityType
+    // locationManager.activityType = CLActivityTypeFitness;
+    
+    /// start Monitoring
+    // [locationManager startMonitoringSignificantLocationChanges];
+    
+    [locationManager startUpdatingLocation];
+    
+    if(self->interval > 0){
+        locationTimer = [NSTimer scheduledTimerWithTimeInterval:self->interval
+                                                         target:self
+                                                       selector:@selector(getGpsData:)
+                                                       userInfo:nil
+                                                        repeats:YES];
         [self getGpsData:nil];
-        
-        if(interval > 0){
-            locationTimer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                                             target:self
-                                                           selector:@selector(getGpsData:)
-                                                           userInfo:nil
-                                                            repeats:YES];
-            [self getGpsData:nil];
-        }else{
-            [locationManager startUpdatingLocation];
-        }
-        
     }
     
     [self setSensingState:YES];
@@ -225,57 +182,64 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 
 
 - (BOOL)stopSensor{
-    // Stop a sensing timer
+    /// stop a sensing timer
     [locationTimer invalidate];
     locationTimer = nil;
     
-    // Stop location sensors
-    [locationManager stopUpdatingHeading];
+    /// stop location sensors
     [locationManager stopUpdatingLocation];
     locationManager = nil;
+    
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     
     [self setSensingState:NO];
     
     return YES;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
-
-
 - (void) getGpsData: (NSTimer *) theTimer {
-    //[sdManager addLocation:[_locationManager location]];
-    CLLocation* location = [locationManager location];
-    [self saveLocation:location];
-}
-
-- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    for (CLLocation* location in locations) {
-        [self saveLocation:location];
+    if (_lastLocation != nil) {
+        [self saveLocation:_lastLocation];
+    }else{
+        _lastLocation = [locationManager location];
+        if (_lastLocation != nil) {
+            [self saveLocation:_lastLocation];
+        }
     }
 }
 
-- (void) saveLocation:(CLLocation *)location{
+- (void) locationManager:(CLLocationManager *)manager
+      didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    if (locations != nil) {
+        for (CLLocation* location in locations) {
+            _lastLocation = location;
+            /// If the interval value is less than or equal to 0, all of the location data will be saved.
+            if (self->interval <= 0 || _saveAll) {
+                [self saveLocation:location];
+            }
+        }
+    }
+}
 
-    double accuracy = (location.verticalAccuracy + location.horizontalAccuracy) / 2;
+- (void) saveLocation:(CLLocation * _Nonnull)location{
     
-    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime forKey:@"timestamp"];
+    [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:@"timestamp"];
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
-    [dict setObject:[NSNumber numberWithDouble:location.coordinate.latitude] forKey:@"double_latitude"];
-    [dict setObject:[NSNumber numberWithDouble:location.coordinate.longitude] forKey:@"double_longitude"];
-    [dict setObject:[NSNumber numberWithDouble:location.course] forKey:@"double_bearing"];
-    [dict setObject:[NSNumber numberWithDouble:location.speed] forKey:@"double_speed"];
-    [dict setObject:[NSNumber numberWithDouble:location.altitude] forKey:@"double_altitude"];
+    [dict setObject:@(location.coordinate.latitude)  forKey:@"double_latitude"];
+    [dict setObject:@(location.coordinate.longitude) forKey:@"double_longitude"];
+    [dict setObject:@(location.course) forKey:@"double_bearing"];
+    [dict setObject:@(location.speed) forKey:@"double_speed"];
+    [dict setObject:@(location.altitude) forKey:@"double_altitude"];
     [dict setObject:@"gps" forKey:@"provider"];
-    [dict setObject:@(accuracy) forKey:@"accuracy"];
+    [dict setObject:@(location.horizontalAccuracy) forKey:@"accuracy"];
     [dict setObject:@"" forKey:@"label"];
-    [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f", location.coordinate.latitude, location.coordinate.longitude, location.speed]];
-    [self setLatestData:dict];
     
+    [self setLatestData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
+
     [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
                           location.coordinate.latitude,
                           location.coordinate.longitude,
@@ -297,93 +261,18 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY = @"min_gps_accuracy";
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     [self saveAuthorizationStatus:status];
-}
-
-
-
-- (void) saveAuthorizationStatus:(CLAuthorizationStatus ) status {
-    if(status == kCLAuthorizationStatusNotDetermined ){
-//        [self saveDebugEventWithText:@"Location sensor's authorization is not determined" type:DebugTypeWarn label:@""];
-        
-        //        NSString * title = @"Location Sensor Error";
-        //        NSString * message = @"Please allow to use location sensor on AWARE client iOS from 'Settings > AWARE > Location> Always'";
-        //        [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
-        //        if([AWAREUtils isBackground]){
-        //            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:YES
-        //                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
-        //        }else{
-        //            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-        //                                                                message:message
-        //                                                               delegate:nil
-        //                                                      cancelButtonTitle:@"OK"
-        //                                                      otherButtonTitles:nil];
-        //            [alertView show];
-        //        }
-        ////////////////// kCLAuthorizationStatusRestricted ///////////////////////
-    }else if (status == kCLAuthorizationStatusRestricted ){
-//        NSString * title = @"Location Sensor Error";
-//        NSString * message = @"Please allow to use location sensor on AWARE client iOS from 'Settings > AWARE > Location> Always'";
-        // [self saveDebugEventWithText:@"Location sensor's authorization is restrcted" type:DebugTypeWarn label:@""];
-        if([AWAREUtils isBackground]){
-            // [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-            //                                     category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
-        }else{
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-//                                                                message:message
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"Close"
-//                                                      otherButtonTitles:nil];
-//            [alertView show];
+    if (status == kCLAuthorizationStatusAuthorizedAlways) {
+        if (locationManager != nil) {
+            [locationManager startUpdatingLocation];
         }
-        ///////////////// kCLAuthorizationStatusDenied //////////////////////////////
-    }else if (status == kCLAuthorizationStatusDenied ){
-        
-//        NSString * title = @"Location Sensor Error";
-//        NSString * message = @"Please turn on the location service from 'Settings > General > Privacy > Location Services'";
-        // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
-        if([AWAREUtils isBackground]){
-//            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-//                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
-        }else{
-            // UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
-            // [alertView show];
-        }
-        //////////////////// kCLAuthorizationStatusAuthorized /////////////////////////
-    }else if (status == kCLAuthorizationStatusAuthorizedAlways){
-        // [ self saveDebugEventWithText:@"Location sensor's authorization is authorized always" type:DebugTypeWarn label:@""];
-        //        NSString * title = @"Location Sensor";
-        //        NSString * message = @"Location service setting is correct! Thank you for your cooperation";
-        //        if([AWAREUtils isBackground]){
-        //            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:YES
-        //                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
-        //        }else{
-        //            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //             [alertView show];
-        //        }
-        
-        /////////////////// kCLAuthorizationStatusAuthorizedWhenInUse ///////////////////
-    }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
-        // [self saveDebugEventWithText:@"Location sensor's authorization is authorized when in use" type:DebugTypeWarn label:@""];
-//        NSString * title = @"Location Sensor Error";
-//        NSString * message = @"Please allow to use location sensor 'Always' on AWARE client iOS from 'Settings > AWARE > Location> Always'";
-        // [self saveDebugEventWithText:@"Location sensor's authorization is denied" type:DebugTypeWarn label:@""];
-        if([AWAREUtils isBackground]){
-//            [AWAREUtils sendLocalNotificationForMessage:message title:title soundFlag:NO
-//                                               category:nil fireDate:[NSDate new] repeatInterval:0 userInfo:nil iconBadgeNumber:1];
-        }else{
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-//                                                                message:message
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"Close"
-//                                                      otherButtonTitles:nil];
-//            [alertView show];
-        }
-        
-        //////////////////// Unknown ///////////////////////////////
-    }else {
-        // [self saveDebugEventWithText:@"Location sensor's authorization is unknown" type:DebugTypeWarn label:@""];
+    }else{
+        NSLog(@"[%@] Location API is not allowed to access this app in the background condition.", self.getSensorName);
     }
 }
 
+- (void) saveAuthorizationStatus:(CLAuthorizationStatus ) status {
+    [AWAREEventLogger.shared logEvent:@{@"class":@"Locations",
+                                        @"event":@"saveAuthorizationStatus",@"status":@(status)}];
+}
 
 @end

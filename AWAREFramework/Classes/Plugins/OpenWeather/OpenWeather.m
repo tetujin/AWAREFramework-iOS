@@ -194,6 +194,9 @@ int ONE_HOUR = 60*60;
         [timer invalidate];
         timer = nil;
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     
     return YES;

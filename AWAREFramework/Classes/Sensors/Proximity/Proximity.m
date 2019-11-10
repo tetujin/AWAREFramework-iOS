@@ -84,14 +84,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROXIMITY = @"frequency_proximity";
                                                     name:UIDeviceProximityStateDidChangeNotification
                                                   object:nil];
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 - (void)proximitySensorStateDidChange:(NSNotification *)notification {
     int state = [UIDevice currentDevice].proximityState;

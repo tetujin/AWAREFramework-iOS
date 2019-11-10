@@ -95,11 +95,16 @@
         return YES;
     }
     
+    return [self saveBufferDataInMainThread:YES];
+
+}
+
+- (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread{
+    NSArray * copiedArray = [self.buffer copy];
     NSMutableString * lines = [[NSMutableString alloc] init];
-    for (NSDictionary * dict in self.buffer) {
+    for (NSDictionary * dict in copiedArray) {
         [lines appendFormat:@"%@\n",[self convertDictionaryToCSVLine:dict withHeader:headerLabels]];
     }
-    
     [self.buffer removeAllObjects];
     
     NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];

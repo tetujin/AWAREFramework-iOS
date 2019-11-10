@@ -10,19 +10,22 @@
 #import <CoreLocation/CoreLocation.h>
 #import "AWAREKeys.h"
 
-extern NSString * const AWARE_PREFERENCES_STATUS_LOCATION_GPS;
-extern NSString * const AWARE_PREFERENCES_FREQUENCY_GPS;
-extern NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_LOCATION_GPS;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_GPS;
+extern NSString * _Nonnull const AWARE_PREFERENCES_MIN_GPS_ACCURACY;
 
 @interface Locations : AWARESensor <AWARESensorDelegate, CLLocationManagerDelegate>
+
+@property (nullable) CLLocation * lastLocation;
+
+@property BOOL saveAll;
 
 - (BOOL) startSensor;
 - (BOOL) startSensorWithInterval:(double)interval;
 - (BOOL) startSensorWithAccuracy:(double)accuracyMeter;
 - (BOOL) startSensorWithInterval:(double)interval accuracy:(double)accuracyMeter;
 
-- (void) saveLocation:(CLLocation *)location;
-
-- (void) saveAuthorizationStatus:(CLAuthorizationStatus)status;
+// - (void) saveLocation:(CLLocation *)location;
+// - (void) saveAuthorizationStatus:(CLAuthorizationStatus)status;
 
 @end

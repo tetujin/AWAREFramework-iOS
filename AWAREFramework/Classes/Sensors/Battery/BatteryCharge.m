@@ -34,7 +34,6 @@
         
     }
     return self;
-    
 }
 
 - (void)createTable{

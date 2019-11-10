@@ -159,18 +159,12 @@ NSString * const AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION = @"status_signific
     if (manager!=nil) {
         [manager stopAccelerometerUpdates];
     }
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }
-
-//- (void)startSyncDB{
-//    if (self.storage != nil) {
-//        [self.storage setSensorName:@"significant"];
-//        [self.storage startSyncStorageWithCallBack:^(NSString * _Nonnull name, double progress, NSError * _Nullable error) {
-//
-//        }];
-//    }
-//}
 
 - (void)setSignificantMotionStartHandler:(SignificantMotionStartHandler)handler{
     startHandler = handler;

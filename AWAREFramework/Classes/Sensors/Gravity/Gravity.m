@@ -148,6 +148,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
 - (BOOL)stopSensor{
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

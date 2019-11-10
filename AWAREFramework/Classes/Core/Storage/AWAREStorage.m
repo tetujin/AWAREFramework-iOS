@@ -257,16 +257,18 @@
 }
 
 - (BOOL)saveDataWithArray:(NSArray * _Nullable)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
-    NSLog(@"Please overwrite -saveDataWithArrray:buffer:saveInMainThread");
+    NSLog(@"Please overwrite -saveDataWithArrray:buffer:saveInMainThread:");
     return YES;
 }
-
 
 - (BOOL)saveDataWithDictionary:(NSDictionary * _Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
-    NSLog(@"Please overwrite -saveDataWithDict:buffer:saveInMainThread");
+    NSLog(@"Please overwrite -saveDataWithDict:buffer:saveInMainThread:");
     return YES;
 }
 
+- (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread{
+    return YES;
+}
 
 - (void)resetMark{
     
@@ -327,7 +329,5 @@
     NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%zd/%zd/%zd", year, month, day]];
     return today;
 }
-
-
 
 @end

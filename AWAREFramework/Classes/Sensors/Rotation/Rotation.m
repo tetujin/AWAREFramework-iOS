@@ -150,6 +150,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     // Stop a sync timer
     [motionManager stopDeviceMotionUpdates];
     motionManager = nil;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

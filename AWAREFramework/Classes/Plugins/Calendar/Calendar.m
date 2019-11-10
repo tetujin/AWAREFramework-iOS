@@ -116,7 +116,9 @@ NSString* const AWARE_PREFERENCES_STATUS_CALENDAR = @"status_plugin_calendar";
         [timer invalidate];
         timer = nil;
     }
-    
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

@@ -77,10 +77,17 @@
             if ([self isDebug]) { NSLog(@"[JSONStorage] %@: Save data by buffer limit-based trigger", self.sensorName); }
         }
     }
+
+    return [self saveBufferDataInMainThread:YES];
+}
+
+
+- (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread{
     
+    NSArray * copiedArray = [self.buffer copy];
     NSMutableString * lines = nil;
     NSError * error=nil;
-    NSData * d = [NSJSONSerialization dataWithJSONObject:self.buffer  options:2 error:&error];
+    NSData * d = [NSJSONSerialization dataWithJSONObject:copiedArray options:2 error:&error];
 
     [self.buffer removeAllObjects];
     
@@ -105,8 +112,6 @@
     
     return YES;
 }
-
-//////////////////////////////////////////
 
 - (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
     self.syncProcessCallBack = callback;

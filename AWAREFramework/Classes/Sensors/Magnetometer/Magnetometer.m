@@ -89,7 +89,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
         NSLog(@"[%@] Start Mag sensor", [self getSensorName]);
     }
 
-//    [self setBufferSize:savingInterval/sensingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
     manager.magnetometerUpdateInterval = sensingInterval;
@@ -144,6 +143,9 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     // Stop a motion sensor
     [manager stopMagnetometerUpdates];
     manager = nil;
+    if (self.storage != nil) {
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

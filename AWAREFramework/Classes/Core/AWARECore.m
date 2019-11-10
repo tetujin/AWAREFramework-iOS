@@ -46,7 +46,7 @@ static AWARECore * sharedCore;
         // background sensing
         _isNeedBackgroundSensing = YES;
         
-        /// Set defualt settings
+        // Set defualt settings
         AWAREStudy * study = [AWAREStudy sharedStudy];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if (![userDefaults boolForKey:@"aware_inited"]) {
@@ -70,8 +70,11 @@ static AWARECore * sharedCore;
 }
 
 
+/// Activate a core module of AWARE framework.
 - (void) activate {
     [self deactivate];
+    
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"activate"}];
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     
@@ -129,8 +132,9 @@ static AWARECore * sharedCore;
                                                  name: NSUbiquitousKeyValueStoreDidChangeExternallyNotification
                                                object: [NSUbiquitousKeyValueStore defaultStore]];
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
-
-    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"activate"}];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void) changedBatteryState:(id) sender{
@@ -158,10 +162,15 @@ static AWARECore * sharedCore;
 //    }
 }
 
+- (void) applicationDidEnterBackground:(id)snder{
+    [AWARECore.sharedCore reactivate];
+}
+
 - (void) deactivate{
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore", @"event":@"deactivate"}];
     [[AWARESensorManager sharedSensorManager] stopAllSensors];
-    [_sharedLocationManager stopUpdatingLocation];
     [[AWARESensorManager sharedSensorManager] stopAutoSyncTimer];
+    [_sharedLocationManager stopUpdatingLocation];
     [_dailyUpdateTimer invalidate];
     [_complianceTimer invalidate];
     
@@ -171,18 +180,34 @@ static AWARECore * sharedCore;
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceBatteryStateDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object: [NSUbiquitousKeyValueStore defaultStore]];
-    
-    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore", @"event":@"deactivate"}];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
-////////////////////////////////////////////////////////////////////////////////////
+- (void)reactivate{
+    [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore", @"event":@"reactivate"}];
+    if (_isNeedBackgroundSensing) {
+        [_sharedLocationManager stopUpdatingLocation];
+        [_sharedLocationManager startUpdatingLocation];
+        [_sharedLocationManager requestLocation];
+    }
+//    AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
+//    [manager stopAllSensors];
+//    [manager startAllSensors];
+}
 
-/**
- * This method is an initializers for a location sensor.
- * On the iOS, we have to turn on the location sensor
- * for using application in the background.
- * And also, this sensing interval is the most low level.
- */
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    if (error!=nil) {
+        NSLog(@"%@",error);
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"locationManager:didFailWithError:",
+                                            @"reason":error.debugDescription}];
+    }
+}
+/// This method is an initializers for a location sensor.
+/// On the iOS, we have to turn on the location sensor
+/// for using application in the background.
+/// And also, this sensing interval is the most low level.
 - (void) startBaseLocationSensor {
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
@@ -199,17 +224,21 @@ static AWARECore * sharedCore;
         }
         [_sharedLocationManager startUpdatingLocation];
         // [_sharedLocationManager startMonitoringSignificantLocationChanges];
-        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"base-location-sensor is started"}];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"base-location-sensor is started"}];
     }else{
         NSLog(@"[NOTE] Background location sensing is not allowed. Please call sendBackgroundSensingRequest first if you need to collect activities in the background.");
-        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",@"event":@"base-location-sensor is not started", @"reason":@"not authronized"}];
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
+                                            @"event":@"base-location-sensor is not started",
+                                            @"reason":@"not authronized"}];
     }
 }
 
-/**
- * The method is called by location sensor when the device location is changed.
- */
+
+/// The method is called by location sensor when the device location is changed.
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    
+    // NSLog(@"[AWARECore|BaseLocationSensor]%@", locations.debugDescription);
     
     #ifdef LOG_BASE_LOCATION_EVENTS
     if (locations.count > 0) {
@@ -407,7 +436,7 @@ static AWARECore * sharedCore;
         [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
                                             @"event":@"compliance check",
                                             @"state":@"pass",
-                                            @"reason":@"UIBackgroundRefreshStatusDenied or UIBackgroundRefreshStatusRestricted"}];
+                                            @"reason":@"UIBackgroundRefreshStatusAvailable"}];
         state = YES;
     }
     return state;

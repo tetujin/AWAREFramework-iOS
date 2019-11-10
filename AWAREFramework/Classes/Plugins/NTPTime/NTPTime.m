@@ -85,6 +85,9 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
         [timer invalidate];
         timer = nil;
     }
+    if(self.storage != nil){
+        [self.storage saveBufferDataInMainThread:YES];
+    }
     [self setSensingState:NO];
     return YES;
 }

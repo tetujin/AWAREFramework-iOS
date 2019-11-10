@@ -60,6 +60,8 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 - (BOOL)saveDataWithArray:(NSArray *_Nullable)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread;
 - (BOOL)saveDataWithDictionary:(NSDictionary *_Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread;
 
+- (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread;
+
 - (BOOL)createLocalStorageWithName:(NSString*) fileName type:(NSString *) type;
 - (BOOL)removeLocalStorageWithName:(NSString*) fileName type:(NSString *)type;
 - (NSString *) getFilePathWithName:(NSString *) fileName type:(NSString *)type;
