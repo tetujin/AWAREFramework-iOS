@@ -24,8 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             let study = AWAREStudy.shared()
+            study.setDebug(true)
             /// Connect AWARE Dashboard
-            let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+            let studyURL = "https://delphi.awareframework.com:8080/index.php/1/studyKey"
+//            "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+            
+//            study.getConfiguration(studyURL) { (settings, error) in
+//                print(settings)
+//                print(error)
+//            }
+//            
+            
             study.join(withURL: studyURL) { (settings, status, error) in
                 
                 /// Start sensors

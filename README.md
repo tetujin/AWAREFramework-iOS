@@ -35,6 +35,7 @@
 * Memory
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
+* HealthKit
 
 ## Installation
 
@@ -80,11 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         ////////////////////////
-        let core = AWARECore.shared()
+        let core    = AWARECore.shared()
         let study   = AWAREStudy.shared()
         let manager = AWARESensorManager.shared()
         
-        /// (2) request permission
+        /// (2) request permissions
         core.requestPermissionForBackgroundSensing{ (status) in
             core.requestPermissionForPushNotification(completion:nil)
             

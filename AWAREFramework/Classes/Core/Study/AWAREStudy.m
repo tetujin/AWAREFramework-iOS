@@ -140,6 +140,44 @@ static AWAREStudy * sharedStudy;
     [self joinStudyWithURL:[self getStudyURL] completion:nil];
 }
 
+- (void)getStudyConfiguration:(NSString *)url completion:(GetStudyConfigurationCompletionHandler)completionHandler{
+    
+    NSString * uuid = [self getDeviceId];
+    NSString * post = [NSString stringWithFormat:@"device_id=%@", uuid];
+    NSData   * postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString * postLength = [NSString stringWithFormat:@"%zd", [postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody:postData];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data,
+                                                                                          NSURLResponse * _Nullable response,
+                                                                                          NSError * _Nullable error) {
+        if(error==nil && data!=nil){
+            NSError * jsonError = nil;
+            NSArray * awareConfigArray = [NSJSONSerialization JSONObjectWithData:data
+                                                                         options:NSJSONReadingAllowFragments
+                                                                           error:&jsonError];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(awareConfigArray != nil){
+                    completionHandler(awareConfigArray,nil);
+                }else{
+                    completionHandler(@[],nil);
+                }
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(@[],error);
+            });
+        }
+    }];
+    [task resume];
+}
+
 /**
  * This method downloads and sets a study configuration by using study URL. (NOTE: This URL can get from a study QRCode.)
  *
@@ -182,7 +220,7 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
     int responseCode = (int)[httpResponse statusCode];
-    NSLog(@"%d",responseCode);
+    // NSLog(@"%d",responseCode);
     if (responseCode == 200) {
         [session finishTasksAndInvalidate];
     }else{
@@ -222,11 +260,24 @@ didCompleteWithError:(NSError *)error {
             // NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             // NSString* url = [userDefaults objectForKey:KEY_STUDY_QR_CODE];
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
+        });
     }else{
         if (receivedData != nil) {
-            [self setStudySettings:[receivedData copy]];
+            /// save configuration
+            [self setStudyConfigurationWithData:[receivedData copy]
+                                     completion:self->joinStudyCompletionHandler];
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
+            });
         }
     }
+}
+
+- (NSString *) getKeyForIsDeviceIdOnAWAREServer {
+    return [[NSString alloc] initWithFormat:@"key_device_id_on_server_%@", [self getStudyURL]];
 }
 
 /**
@@ -234,13 +285,18 @@ didCompleteWithError:(NSError *)error {
  *
  * @param data A response (study configurations) from the aware server
  */
-- (void) setStudySettings:(NSData *) data {
+- (void) setStudyConfigurationWithData:(NSData *) data
+                            completion:(JoinStudyCompletionHandler)completionHandler{
     NSError * error = nil;
-    NSArray * studySettings = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSArray * studySettings = [NSJSONSerialization JSONObjectWithData:data
+                                                              options:NSJSONReadingMutableContainers
+                                                                error:&error];
     if(error != nil){
-        NSLog(@"Error: %@", error.debugDescription);
-        if (self->joinStudyCompletionHandler!=nil) {
-            self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
+        NSLog(@"[AWAREStudy|setStudySettings] Error: %@", error.debugDescription);
+        if (completionHandler==nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(@[], AwareStudyStateError, error);
+            });
         }
         return;
     }
@@ -252,8 +308,10 @@ didCompleteWithError:(NSError *)error {
     
     if([previousConfig isEqualToString:currentConfig]){
         if (isDebug) NSLog(@"[AWAREStudy] The study configuration is same as previous configuration!");
-        if (self->joinStudyCompletionHandler!=nil) {
-            self->joinStudyCompletionHandler(studySettings, AwareStudyStateNoChange, error);
+        if (completionHandler!=nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(studySettings, AwareStudyStateNoChange, error);
+            });
         }
         return ;
     }else{
@@ -261,8 +319,6 @@ didCompleteWithError:(NSError *)error {
     }
     
     [self setStudyConfiguration:studySettingsString];
-    
-    // NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     NSArray * sensors = @[];
     NSArray * plugins = @[];
@@ -296,21 +352,36 @@ didCompleteWithError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         NSString * url =  [self getStudyURL];
-        NSString * uuid = [self getDeviceId]; //[AWAREUtils getSystemUUID];
-        
-        bool isExistDeviceId = [self isExistDeviceId:uuid onAwareServer:url];
-        if (!isExistDeviceId) {
-            [self addNewDeviceToAwareServer:url withDeviceId:uuid];
-        }
+        NSString * uuid = [self getDeviceId];
         
         [self setStudyState:YES];
         
         [NSNotificationCenter.defaultCenter postNotificationName:ACTION_AWARE_UPDATE_STUDY_CONFIG object:nil];
-        if (self->joinStudyCompletionHandler!=nil) {
-            if (isExistDeviceId) {
-                self->joinStudyCompletionHandler(studySettings, AwareStudyStateUpdate, error);
+        if (completionHandler!=nil) {
+            /// add device_id
+            NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
+            if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
+                if (self->isDebug) {
+                    NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]);
+                }
+                if ([self addNewDevice:uuid to:url]){
+                    [NSUserDefaults.standardUserDefaults setBool:YES forKey:key];
+                    [NSUserDefaults.standardUserDefaults synchronize];
+                    if (self->isDebug) {
+                        NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is succeed", [self getDeviceId]);
+                        completionHandler(studySettings, AwareStudyStateNew, error);
+                    }
+                }else{
+                    if (self->isDebug) {
+                        NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is failed", [self getDeviceId]);
+                        completionHandler(studySettings, AwareStudyStateError, error);
+                    }
+                }
             }else{
-                self->joinStudyCompletionHandler(studySettings, AwareStudyStateNew, error);
+                if (self->isDebug){
+                    NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is already registered", [self getDeviceId]);
+                    completionHandler(studySettings, AwareStudyStateUpdate, error);
+                }
             }
         }
     });
@@ -324,72 +395,20 @@ didCompleteWithError:(NSError *)error {
  * @param url of the target aware server
  * @param deviceId of this client
  */
-- (bool) addNewDeviceToAwareServer:(NSString *)url withDeviceId:(NSString *) deviceId {
+- (bool) addNewDevice:(NSString *)deviceId to:(NSString *)url{
     if([self createTableWithURL:url deviceId:deviceId]){
-        if (self->isDebug) NSLog(@"[AWAREStudy] A table create query to %@ is succeed.", url);
-        if([self insertDeviceIdToAwareServerWithURL:url deviceId:deviceId]){
+        if (self->isDebug) NSLog(@"[AWAREStudy] aware_device table is created on %@", url);
+        if([self insertDeviceId:deviceId to:url]){
             if (self->isDebug) NSLog(@"[AWAREStudy] A device_id (%@) registration is succeed.", deviceId);
+            return YES;
         }else{
-            NSLog(@"[AWAREStudy] A device_id (%@) registration is filaed.", deviceId);
+            NSLog(@"[AWAREStudy] A device_id (%@) registration is failed.", deviceId);
         }
     }else{
-        NSLog(@"[AWAREStudy] A table create query to %@ is failed.", url);
+        NSLog(@"[AWAREStudy] aware_device table is not created on %@", url);
     }
-    return YES;
+    return NO;
 }
-
-- (bool) isExistDeviceId:(NSString *)deviceId onAwareServer:(NSString *)url{
-    NSString * result = [self getLatestStoredDataInAwareServerWithUrl:url deviceId:deviceId];
-    if([result isEqualToString:@"[]"] || [result isEqualToString:@"\n\n[]"]){
-        if (isDebug) NSLog(@"[AWAREStudy] Your device_id (%@) is not stored.", deviceId);
-        return NO;
-    }else{
-        if (isDebug) NSLog(@"[AWAREStudy] Your device_id (%@) is already stored.", deviceId);
-        return YES;
-    }
-}
-
-- (NSString *)getLatestStoredDataInAwareServerWithUrl:(NSString *)serverUrl deviceId:(NSString *)deviceId {
-    // https://forums.developer.apple.com/thread/11519
-    // [NOTE] https://api.awareframework.com/index.php/webservice/index/STUDYID/APIKEY/aware_device/latest
-    NSString * url = [NSString stringWithFormat:@"%@/aware_device/latest", serverUrl]; ///aware_device/latest
-    NSString *post = [NSString stringWithFormat:@"device_id=%@", deviceId];
-    // NSLog(@"%@", url);
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%zd", [postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody:postData];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSession sharedSession].configuration
-                                                          delegate:self
-                                                     delegateQueue:nil];
-    dispatch_semaphore_t    sem;
-    __block NSData *        result;
-    result = nil;
-    sem = dispatch_semaphore_create(0);
-    [[session dataTaskWithRequest: request  completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error) {
-        // Success
-        if (error != nil) {
-            NSLog(@"[AWAREStudy] Error: %@", error.debugDescription);
-        }else{
-            if (self->isDebug) NSLog(@"Success: %@", [[NSString alloc] initWithData: data  encoding: NSUTF8StringEncoding]);
-            result = data;
-        }
-        [session finishTasksAndInvalidate];
-        [session invalidateAndCancel];
-        dispatch_semaphore_signal(sem);
-    }] resume];
-    
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-    
-    NSString * str = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-    
-    return str;
-}
-
-
 
 /**
  * Create an aware_device table with an url and an uuid
@@ -469,42 +488,16 @@ didCompleteWithError:(NSError *)error {
 }
 
 
-- (BOOL) insertDeviceIdToAwareServerWithURL:(NSString *)url
-                                   deviceId:(NSString *)uuid{
+- (BOOL) insertDeviceId:(NSString *)deviceId to:(NSString *)url{
     NSString *name = [self getDeviceName]; //[[UIDevice currentDevice] name];//ok
-    return [self insertDeviceIdToAwareServerWithURL:url
-                                           deviceId:uuid
-                                         deviceName:name];
+    return [self insertDeviceId:deviceId name:name to:url];
 }
 
-- (BOOL) insertDeviceIdToAwareServerWithURL:(NSString *)url
-                                   deviceId:(NSString *)uuid
-                                 deviceName:(NSString *)deviceName {
-    return [self insertDeviceIdToAwareServerWithURL:url
-                                           deviceId:deviceId
-                                         deviceName:deviceName
-                                         completion:nil];
+- (BOOL) insertDeviceId:(NSString *)deviceId name:(NSString *)deviceName to:(NSString *)url{
+     return [self insertDeviceId:deviceId name:deviceName to:url completion:nil];
 }
 
-- (BOOL) updateDeviceName:(NSString *)deviceName
-               completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler{
-    [self setDeviceName:deviceName];
-    NSString * deviceId = [self getDeviceId];
-    NSString * url = [self getStudyURL];
-    if ([url isEqualToString:@""]) {
-        return NO;
-    }
-    
-    return [self insertDeviceIdToAwareServerWithURL:url
-                                           deviceId:deviceId
-                                         deviceName:deviceName
-                                         completion:completionHandler];
-}
-
-
-- (BOOL) insertDeviceIdToAwareServerWithURL:(NSString *)url
-                                   deviceId:(NSString *)uuid
-                                 deviceName:(NSString *)deviceName
+- (BOOL) insertDeviceId:(NSString *)deviceId name:(NSString *)deviceName to:(NSString *)url
                                  completion:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler{
     
     // preparing for insert device information
@@ -525,7 +518,7 @@ didCompleteWithError:(NSError *)error {
     
     
     NSMutableDictionary *jsonQuery = [[NSMutableDictionary alloc] init];
-    [jsonQuery setValue:uuid            forKey:@"device_id"];
+    [jsonQuery setValue:deviceId            forKey:@"device_id"];
     [jsonQuery setValue:unixtime        forKey:@"timestamp"];
     [jsonQuery setValue:manufacturer    forKey:@"board"];
     [jsonQuery setValue:model           forKey:@"brand"];
@@ -546,7 +539,7 @@ didCompleteWithError:(NSError *)error {
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:a
-                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                       options:NSJSONWritingPrettyPrinted
                                                          error:&error];
     NSString *jsonString = @"";
     if (! jsonData) {
@@ -555,7 +548,7 @@ didCompleteWithError:(NSError *)error {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (self->isDebug) NSLog(@"%@",jsonString);
     }
-    NSString *post = [NSString stringWithFormat:@"data=%@&device_id=%@", jsonString,uuid];
+    NSString *post = [NSString stringWithFormat:@"data=%@&device_id=%@", jsonString, deviceId];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%zd", [postData length]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
