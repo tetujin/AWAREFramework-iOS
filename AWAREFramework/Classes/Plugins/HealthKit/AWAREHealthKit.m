@@ -346,6 +346,16 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [dataTypesSet addObject:quantityType];
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
     [dataTypesSet addObject:quantityType];
+    if (@available(iOS 11.0, *)) {
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
+        [dataTypesSet addObject:quantityType];
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
+        [dataTypesSet addObject:quantityType];
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierWalkingHeartRateAverage];
+        [dataTypesSet addObject:quantityType];
+    } else {
+        // Fallback on earlier versions
+    }
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyTemperature];
     [dataTypesSet addObject:quantityType];
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalBodyTemperature];
