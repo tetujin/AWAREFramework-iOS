@@ -26,32 +26,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let study = AWAREStudy.shared()
             study.setDebug(true)
             /// Connect AWARE Dashboard
-            let studyURL = "https://delphi.awareframework.com:8080/index.php/1/studyKey"
-//            "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+            let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
             
-//            study.getConfiguration(studyURL) { (settings, error) in
-//                print(settings)
-//                print(error)
-//            }
-//            
+            study.getConfiguration(studyURL) { (settings, error) in
+                
+                print(settings)
             
-            study.join(withURL: studyURL) { (settings, status, error) in
-                
-                /// Start sensors
-                let manager = AWARESensorManager.shared()
-                
-                /// Init sensors based on the setting on AWARE Dashboard.
-                manager.addSensors(with: study)
-                
-                /// [Option] Add additional sensors if you want
-                // let location = Locations()
-                // manager.add(location)
-                
-                /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
-                manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
-                
-                /// Start all sensors
-                manager.startAllSensors()
+                study.join(withURL: studyURL) { (settings, status, error) in
+                    
+                    /// Start sensors
+                    let manager = AWARESensorManager.shared()
+                    
+                    /// Init sensors based on the setting on AWARE Dashboard.
+                    manager.addSensors(with: study)
+                    
+                    /// [Option] Add additional sensors if you want
+                    // let location = Locations()
+                    // manager.add(location)
+                    
+                    /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
+                    manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
+                    
+                    /// Start all sensors
+                    manager.startAllSensors()
+                }
             }
         }
         
