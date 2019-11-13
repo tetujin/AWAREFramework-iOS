@@ -261,13 +261,17 @@ didCompleteWithError:(NSError *)error {
             // NSString* url = [userDefaults objectForKey:KEY_STUDY_QR_CODE];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
+            if (self->joinStudyCompletionHandler != nil) {
+                self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
+            }
         });
     }else{
         if (receivedData != nil) {
             /// save configuration
-            [self setStudyConfigurationWithData:[receivedData copy]
-                                     completion:self->joinStudyCompletionHandler];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setStudyConfigurationWithData:[self->receivedData copy]
+                                         completion:self->joinStudyCompletionHandler];
+            });
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
                 self->joinStudyCompletionHandler(@[], AwareStudyStateError, error);
@@ -294,32 +298,52 @@ didCompleteWithError:(NSError *)error {
     if(error != nil){
         NSLog(@"[AWAREStudy|setStudySettings] Error: %@", error.debugDescription);
         if (completionHandler==nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(@[], AwareStudyStateError, error);
-            });
+            completionHandler(@[], AwareStudyStateError, error);
         }
         return;
     }
-    NSString * studySettingsString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    /// create an aware_device table and register a device if it is needed
+    NSString * url =  [self getStudyURL];
+    NSString * uuid = [self getDeviceId];
+    AwareStudyState studyState = AwareStudyStateNoChange;
+    NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
+    if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
+        if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]); }
+        if ([self addNewDevice:uuid to:url]){
+            [NSUserDefaults.standardUserDefaults setBool:YES forKey:key];
+            [NSUserDefaults.standardUserDefaults synchronize];
+            if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is succeed", [self getDeviceId]); }
+            studyState = AwareStudyStateNew;
+        }else{
+            if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is failed", [self getDeviceId]); }
+            studyState = AwareStudyStateError;
+            if (completionHandler != nil) {
+                completionHandler(@[], studyState, error);
+            }
+            return;
+        }
+    }else{
+        if (self->isDebug){  NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is already registered", [self getDeviceId]); }
+        studyState = AwareStudyStateUpdate;
+    }
     
     // compare the latest configuration string with the previous configuration string.
+    NSString * studySettingsString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSString * previousConfig = [self removeStudyStartTimeFromConfig:[self getStudyConfigurationAsText]];
     NSString * currentConfig  = [self removeStudyStartTimeFromConfig:studySettingsString];
-    
     if([previousConfig isEqualToString:currentConfig]){
         if (isDebug) NSLog(@"[AWAREStudy] The study configuration is same as previous configuration!");
         if (completionHandler!=nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(studySettings, AwareStudyStateNoChange, error);
-            });
+            completionHandler(studySettings, AwareStudyStateNoChange, error);
         }
-        return ;
+        return;
     }else{
         if (isDebug) NSLog(@"[AWAREStudy] The study configuration is updated!");
     }
-    
     [self setStudyConfiguration:studySettingsString];
     
+    /// save sensor and plugin configurations
     NSArray * sensors = @[];
     NSArray * plugins = @[];
     if (studySettings.count > 0) {
@@ -349,45 +373,14 @@ didCompleteWithError:(NSError *)error {
         }
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString * url =  [self getStudyURL];
-        NSString * uuid = [self getDeviceId];
-        
-        [self setStudyState:YES];
-        
-        [NSNotificationCenter.defaultCenter postNotificationName:ACTION_AWARE_UPDATE_STUDY_CONFIG object:nil];
-        if (completionHandler!=nil) {
-            /// add device_id
-            NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
-            if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
-                if (self->isDebug) {
-                    NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]);
-                }
-                if ([self addNewDevice:uuid to:url]){
-                    [NSUserDefaults.standardUserDefaults setBool:YES forKey:key];
-                    [NSUserDefaults.standardUserDefaults synchronize];
-                    if (self->isDebug) {
-                        NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is succeed", [self getDeviceId]);
-                        completionHandler(studySettings, AwareStudyStateNew, error);
-                    }
-                }else{
-                    if (self->isDebug) {
-                        NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is failed", [self getDeviceId]);
-                        completionHandler(studySettings, AwareStudyStateError, error);
-                    }
-                }
-            }else{
-                if (self->isDebug){
-                    NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is already registered", [self getDeviceId]);
-                    completionHandler(studySettings, AwareStudyStateUpdate, error);
-                }
-            }
-        }
-    });
+    [self setStudyState:YES];
+    
+    /// call a completion handler if exist
+    if (completionHandler != nil) {
+        completionHandler(studySettings, studyState, error);
+    }
 }
 
-///////////////////////////////////////////////////////
 
 /**
  * This method sets downloaded study configurations.

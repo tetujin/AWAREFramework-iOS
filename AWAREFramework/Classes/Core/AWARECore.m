@@ -190,9 +190,6 @@ static AWARECore * sharedCore;
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager requestLocation];
     }
-//    AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
-//    [manager stopAllSensors];
-//    [manager startAllSensors];
 }
 
 
@@ -204,6 +201,7 @@ static AWARECore * sharedCore;
                                             @"reason":error.debugDescription}];
     }
 }
+
 /// This method is an initializers for a location sensor.
 /// On the iOS, we have to turn on the location sensor
 /// for using application in the background.
