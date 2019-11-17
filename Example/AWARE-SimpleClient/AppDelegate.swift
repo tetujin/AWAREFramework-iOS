@@ -26,12 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let study = AWAREStudy.shared()
             study.setDebug(true)
             /// Connect AWARE Dashboard
-            let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
-            
-            study.getConfiguration(studyURL) { (settings, error) in
-                
-                print(settings)
-            
+            // let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+            let studyURL = "http://127.0.0.1:8080/index.php/1/studyKey"
+//            study.getConfiguration(studyURL) { (settings, error) in
+//
+//                print(settings)
+//
                 study.join(withURL: studyURL) { (settings, status, error) in
                     
                     /// Start sensors
@@ -47,11 +47,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
                     manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
                     
+                    manager.createDBTablesOnAwareServer()
+                    
+                    // study.insertDeviceId(study.getDeviceId(), to: )
                     /// Start all sensors
                     manager.startAllSensors()
+                    
                 }
             }
-        }
+//        }
         
         return true
     }

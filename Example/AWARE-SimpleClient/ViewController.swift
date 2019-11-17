@@ -34,6 +34,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pushedResetButton(_ sender: UIButton) {
+        
         if let studyURL = study.getURL(){
             study.join(withURL: studyURL) { (settings, status, error) in
                 

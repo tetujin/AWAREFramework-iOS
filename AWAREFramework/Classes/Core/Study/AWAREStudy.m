@@ -532,7 +532,7 @@ didCompleteWithError:(NSError *)error {
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:a
-                                                       options:NSJSONWritingPrettyPrinted
+                                                       options:NSJSONWritingFragmentsAllowed //NSJSONWritingPrettyPrinted  //
                                                          error:&error];
     NSString *jsonString = @"";
     if (! jsonData) {
@@ -541,7 +541,7 @@ didCompleteWithError:(NSError *)error {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (self->isDebug) NSLog(@"%@",jsonString);
     }
-    NSString *post = [NSString stringWithFormat:@"data=%@&device_id=%@", jsonString, deviceId];
+    NSString *post = [NSString stringWithFormat:@"device_id=%@&data=%@", deviceId, jsonString];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%zd", [postData length]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -551,7 +551,7 @@ didCompleteWithError:(NSError *)error {
     //[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
-    url = [NSString stringWithFormat:@"%@/aware_device/insert?%@", url,unixtime];
+    url = [NSString stringWithFormat:@"%@/aware_device/insert", url];
     
     
     NSURL * urlObj = [NSURL URLWithString:url];

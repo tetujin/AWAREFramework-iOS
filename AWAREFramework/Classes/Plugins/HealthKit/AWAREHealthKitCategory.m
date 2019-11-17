@@ -125,7 +125,7 @@
             if (sample.metadata != nil) {
                 NSError * e = nil;
                 NSData * md = [NSJSONSerialization dataWithJSONObject:sample.metadata
-                                                              options:NSJSONWritingPrettyPrinted
+                                                              options:NSJSONWritingFragmentsAllowed
                                                                 error:&e];
                 if(e != nil){
                     if (self.isDebug) NSLog(@"%@", e.debugDescription);
@@ -152,7 +152,7 @@
                 [sourceDict setObject:sample.sourceRevision.source.bundleIdentifier forKey:@"bundleId"];
                 NSError * e  = nil;
                 NSData  * sd = [NSJSONSerialization dataWithJSONObject:sourceDict
-                                                               options:NSJSONWritingPrettyPrinted
+                                                               options:NSJSONWritingFragmentsAllowed
                                                                  error:&e];
                 NSString * ss = [[NSString alloc] initWithData:sd encoding:NSUTF8StringEncoding];
                 [dict setObject:ss forKey:KEY_SOURCE];
