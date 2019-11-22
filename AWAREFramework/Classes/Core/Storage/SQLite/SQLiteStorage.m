@@ -193,7 +193,7 @@
 
 - (void)startSyncStorage {
 
-    if(self->isUploading){
+    if(isUploading){
         NSString * message= [NSString stringWithFormat:@"[%@] Now sendsor data is uploading.", self.sensorName];
         NSLog(@"%@", message);
         return;
@@ -201,7 +201,7 @@
     
     [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
     if (self.isDebug) NSLog(@"[SQLiteStorage:%@] start sync process ", self.sensorName);
-    self-> isUploading = YES;
+    isUploading = YES;
 
 }
 
