@@ -19,4 +19,8 @@ jobs:
       run: pod install --project-directory=Example
     - name: Build
       run: xcodebuild -sdk iphonesimulator -configuration Debug build
+    - name: Test
+      run: set -o pipefail && xcodebuild clean build-for-testing  -enableCodeCoverage YES -workspace Example/AWAREFramework.xcworkspace -scheme AWAREFramework-Example CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO -sdk iphonesimulator13.0 | xcpretty
+    - name: Dry-run
+      run: pod lib lint --allow-warnings
       
