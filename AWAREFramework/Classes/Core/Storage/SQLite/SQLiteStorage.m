@@ -73,7 +73,6 @@
             [self setTimeMark:now];
         }
         coreDataHandler = dbHandler;
-        // executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
     }
     return self;
 }
@@ -107,7 +106,7 @@
         if (self.buffer.count < [self getBufferSize]) {
             return YES;
         }else{
-            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: save data by buffer limit-based trigger", self.sensorName); }
+            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: buffer limit-based trigger", self.sensorName); }
         }
     }
 
@@ -177,7 +176,7 @@
                         [self.buffer addObjectsFromArray:copiedArray];
                         // [self.buffer addObjectsFromArray:array];
                     }
-                    if(self.isDebug) NSLog(@"[SQLiteStorage] %@: Data is saved in the sub-thread", self.sensorName);
+                    if(self.isDebug) NSLog(@"[SQLiteStorage] %@: data is saved in the sub-thread", self.sensorName);
                     [self unlock];
                 }];
             }
@@ -282,26 +281,27 @@
 /**
  * Upload method
  */
-- (void) syncTask{
+- (void) syncTask {
     previousUploadingProcessFinishUnixTime = [self getTimeMark];
     
     if (cancel) {
         [self dataSyncIsFinishedCorrectly];
+        NSLog(@"[%@] This sync task is canceled", self.sensorName);
         if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -2, nil);
         return;
     }
     // NSLog(@"[%@] marker   end: %@", sensorName, [NSDate dateWithTimeIntervalSince1970:previousUploadingProcessFinishUnixTime.longLongValue/1000]);
     
     if ([self isLock]) {
-        // [self dataSyncIsFinishedCorrectly];
-        [self performSelector:@selector(syncTask) withObject:nil afterDelay:1];
+        NSLog(@"[%@] The local-storage is locked. This sync task is canceled", self.sensorName);
+        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, -2, nil);
         return;
     }else{
         [self lock];
     }
     
     if(entityName == nil){
-        NSLog(@"Entity Name is 'nil'. Please check the initialozation of this class.");
+        NSLog(@"Entity Name is `nil`. Please check the initialozation of this class.");
     }
     
     @try {
@@ -381,6 +381,15 @@
                             SyncExecutor * executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
                             executor.debug = self.isDebug;
                             [executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
+                                if (self->cancel) {
+                                    if (self.isDebug) NSLog(@"[SyncTasK|%@] Cancel", self.sensorName);
+                                    self->cancel = NO;
+                                    [self dataSyncIsFinishedCorrectly];
+                                    if (self.syncProcessCallBack!=nil) {
+                                        self.syncProcessCallBack(self.sensorName, -2, nil);
+                                    }
+                                    return;
+                                }
                                 
                                 if (result!=nil) {
                                     if (self.isDebug) NSLog(@"%@",result.debugDescription);
@@ -412,7 +421,7 @@
                                             }
                                         }else{
                                             ///////////////// retry ////////////
-                                            if (self->retryCurrentCount < self.retryLimit ) {
+                                            if (self->retryCurrentCount < self.retryLimit) {
                                                 self->retryCurrentCount++;
                                                 if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
                                                 // [self syncTask];
@@ -459,44 +468,44 @@
 }
 
 
-- (void) clearOldData{
-    NSFetchRequest* request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
-    [request setIncludesSubentities:NO];
+- (void) clearOldData { //Immediately{
     
-    NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [private setParentContext:self.mainQueueManagedObjectContext];
-    [private performBlock:^{
+    cleanOldDataType cleanType = [self.awareStudy getCleanOldDataType];
+    NSDate * clearLimitDate = nil;
+    bool skip = YES;
+    switch (cleanType) {
+        case cleanOldDataTypeNever:
+            skip = YES;
+            break;
+        case cleanOldDataTypeDaily:
+            skip = NO;
+            clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24];
+            break;
+        case cleanOldDataTypeWeekly:
+            skip = NO;
+            clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*7];
+            break;
+        case cleanOldDataTypeMonthly:
+            clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*31];
+            skip = NO;
+            break;
+        case cleanOldDataTypeAlways:
+            clearLimitDate = nil;
+            skip = NO;
+            break;
+        default:
+            skip = YES;
+            break;
+    }
+    
+    if(!skip){
+        NSFetchRequest* request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
+        [request setIncludesSubentities:NO];
         
-        cleanOldDataType cleanType = [self.awareStudy getCleanOldDataType];
-        NSDate * clearLimitDate = nil;
-        bool skip = YES;
-        switch (cleanType) {
-            case cleanOldDataTypeNever:
-                skip = YES;
-                break;
-            case cleanOldDataTypeDaily:
-                skip = NO;
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24];
-                break;
-            case cleanOldDataTypeWeekly:
-                skip = NO;
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*7];
-                break;
-            case cleanOldDataTypeMonthly:
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*31];
-                skip = NO;
-                break;
-            case cleanOldDataTypeAlways:
-                clearLimitDate = nil;
-                skip = NO;
-                break;
-            default:
-                skip = YES;
-                break;
-        }
-        
-        if(!skip){
+        NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [private setParentContext:self.mainQueueManagedObjectContext];
+        [private performBlock:^{
             /** ========== Delete uploaded data ============= */
             if(![self isLock]){
                 [self lock];
@@ -526,8 +535,8 @@
                 }
                 [self unlock];
             }
-        }
-    }];
+        }];
+    }
 }
 
 

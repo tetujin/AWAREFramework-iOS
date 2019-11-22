@@ -29,10 +29,10 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 @property NSString * _Nullable sensorName;
 @property int retryLimit;
 @property double syncTaskIntervalSecond;
-@property SyncProcessCallBack syncProcessCallBack;
+@property (nullable) SyncProcessCallBack syncProcessCallBack;
 @property double saveInterval;
 @property double lastSaveTimestamp;
-@property TableCreateCallBack tableCreatecallBack;
+@property (nullable) TableCreateCallBack tableCreatecallBack;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 
@@ -73,6 +73,8 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 - (void) createDBTableOnServerWithTCQMaker:(TCQMaker *_Nonnull)tcqMaker;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table;
+- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query completion:(TableCreateCallBack _Nullable)completion;
+- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table completion:(TableCreateCallBack _Nullable)completion;
 
 ///////////////////// sync a local-DB and remote-DB functions ////////////////////////////////
 - (void) startSyncStorage;

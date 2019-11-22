@@ -20,42 +20,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let core = AWARECore.shared()
-        core.requestPermissionForBackgroundSensing{ status in
-            core.requestPermissionForPushNotification(completion: nil)
+        core.requestPermissionForBackgroundSensing{ locState in
             core.activate()
             let study = AWAREStudy.shared()
             study.setDebug(true)
             /// Connect AWARE Dashboard
-            // let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
-            let studyURL = "http://127.0.0.1:8080/index.php/1/studyKey"
-//            study.getConfiguration(studyURL) { (settings, error) in
-//
-//                print(settings)
-//
-                study.join(withURL: studyURL) { (settings, status, error) in
-                    
-                    /// Start sensors
-                    let manager = AWARESensorManager.shared()
-                    
-                    /// Init sensors based on the setting on AWARE Dashboard.
-                    manager.addSensors(with: study)
-                    
-                    /// [Option] Add additional sensors if you want
-                    // let location = Locations()
-                    // manager.add(location)
-                    
-                    /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
-                    manager.startAutoSyncTimer(withIntervalSecond: 60 * 30)
-                    
-                    manager.createDBTablesOnAwareServer()
-                    
-                    // study.insertDeviceId(study.getDeviceId(), to: )
-                    /// Start all sensors
-                    manager.startAllSensors()
-                    
+//            let studyURL = "https://aware.jn.sfc.keio.ac.jp/index.php/webservice/index/5/XSY8IH3GnqwK"
+             let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+//            let studyURL = "http://127.0.0.1:8080/index.php/1/studyKey"
+            study.join(withURL: studyURL) { (settings, status, error) in
+                
+                switch status {
+                case AwareStudyStateNew, AwareStudyStateUpdate, AwareStudyStateNoChange:
+                    print(settings)
+                    break
+                case AwareStudyStateDataFormatError, AwareStudyStateNetworkConnectionError:
+                    if let e = error {
+                        print(e)
+                    }
+                    break
+                default:
+                    break
                 }
+                
+                /// Start sensors
+                let manager = AWARESensorManager.shared()
+
+                /// Init sensors based on the setting on AWARE Dashboard.
+                manager.addSensors(with: study)
+
+                /// [Option] Add additional sensors if you want
+                let location = Locations(awareStudy: study)
+                location.startSensor(withInterval: 1)
+                manager.add(location)
+                
+                let acc = Accelerometer(awareStudy: study)
+                acc.start(withSensingInterval: 100)
+                manager.add(acc)
+                
+                /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
+                manager.startAutoSyncTimer(withIntervalSecond: 60)
+                
+                study.setAutoDBSyncOnlyBatterChargning(false)
+                study.setAutoDBSyncOnlyWifi(false)
+                study.setCleanOldDataType(cleanOldDataTypeAlways)
+                
+//                manager.createDBTablesOnAwareServer()
+//
+//                Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (timer) in
+//                    manager.stopAllSensors()
+//                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+//                        manager.startAllSensors()
+//                    }
+//                }
+                /// Start all sensors
+                // manager.startAllSensors()
+
             }
-//        }
+        }
         
         return true
     }

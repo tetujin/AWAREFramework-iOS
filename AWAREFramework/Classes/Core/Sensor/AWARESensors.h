@@ -34,6 +34,7 @@
 #import "Wifi.h"
 #import "ESM.h"
 #import "SignificantMotion.h"
+#import "AWAREDevice.h"
 
 /// Plugins
 #import "BLEHeartRate.h"

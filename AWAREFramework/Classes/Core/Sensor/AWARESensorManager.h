@@ -19,6 +19,7 @@
 /** Initializer */
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Sensor In/Out Operations
 - (void) addSensor:(AWARESensor *  _Nonnull) sensor;
 - (void) addSensors:(NSArray<AWARESensor *> * _Nonnull)sensors;
 - (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull) study;
@@ -27,35 +28,36 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<AWARESensor *> * _Nonnull) getAllSensors;
 - (AWARESensor * _Nullable ) getSensor:(NSString * _Nonnull) sensorName;
 
-///////////////////////////////////
+#pragma mark - Event Handls
 - (void) setSensorEventHandlerToAllSensors:(SensorEventHandler _Nonnull)handler;
 - (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack _Nonnull)callback;
+
+#pragma mark - Debug
 - (void) setDebugToAllSensors:(bool)state;
 - (void) setDebugToAllStorage:(bool)state;
 
-////////////////////////////////////////
-- (BOOL) createDBTablesOnAwareServer;
+#pragma mark - Sensor Start/Stop Operations
 - (BOOL) startAllSensors;
-- (void) runBatteryStateChangeEvents;
-- (void) stopAndRemoveAllSensors;
-- (void) stopAllSensors;
 - (void) stopSensor:(NSString *) sensorName;
+- (void) stopAllSensors;
+- (void) stopAndRemoveAllSensors;
 
-//////////////////
+#pragma mark - Sensor Sync Operations
+- (BOOL) createDBTablesOnAwareServer;
+- (BOOL) createTablesOnRemoteServer;
 - (void) syncAllSensors;
 - (void) syncAllSensorsForcefully;
 
-////////////////////////
+#pragma mark - Auto Sync Timer
 - (void) startAutoSyncTimerWithIntervalSecond:(double) second;
 - (void) startAutoSyncTimer;
 - (void) stopAutoSyncTimer;
 
-////////////////////////////
+#pragma mark - Lastest Data Interface
+- (NSDictionary * _Nullable) getLatestSensorData:(NSString * _Nonnull)  sensorName;
+- (NSString * _Nullable)     getLatestSensorValue:(NSString * _Nonnull) sensorName;
 
-// get latest sensor data with sensor name
-- (NSString * _Nullable) getLatestSensorValue:(NSString * _Nonnull) sensorName;
-- (NSDictionary * _Nullable) getLatestSensorData:(NSString * _Nonnull) sensorName;
-
+#pragma mark - Others
 - (void) resetAllMarkerPositionsInDB;
 - (void) removeAllFilesFromDocumentRoot;
 

@@ -170,6 +170,7 @@
 #import "Calls.h"
 #import "EntityCall+CoreDataProperties.h"
 #import "EntityCall.h"
+#import "AWAREDevice.h"
 #import "EntityGravity+CoreDataProperties.h"
 #import "EntityGravity.h"
 #import "Gravity.h"

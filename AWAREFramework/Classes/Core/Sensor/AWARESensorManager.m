@@ -98,7 +98,10 @@ static AWARESensorManager * sharedSensorManager;
     }
 }
 
-- (BOOL) startAllSensors{
+- (BOOL) startAllSensors {
+    if (![NSThread isMainThread]) {
+        NSLog(@"[NOTE] Please call `-startAllSensors` in the main thread.");
+    }
     if(awareSensors != nil){
         for (AWARESensor * sensor in awareSensors) {
             bool state = [sensor startSensor];
@@ -111,7 +114,6 @@ static AWARESensorManager * sharedSensorManager;
 }
 
 - (BOOL) addSensorsWithStudy:(AWAREStudy * _Nonnull) study{
-    //return [self startAllSensorsWithStudy:study dbType:AwareDBTypeSQLite];
     NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger dbType = [userDefaults integerForKey:SETTING_DB_TYPE];
     return [self addSensorsWithStudy:study dbType:dbType];
@@ -242,12 +244,18 @@ static AWARESensorManager * sharedSensorManager;
 
 
 - (BOOL)createDBTablesOnAwareServer{
+    return [self createTablesOnRemoteServer];
+}
+
+- (BOOL)createTablesOnRemoteServer{
+    if (![NSThread isMainThread]) {
+        NSLog(@"[NOTE] Please call `-createTablesOnRemoteServer` in the main thread.");
+    }
     for(AWARESensor * sensor in awareSensors){
         [sensor createTable];
     }
     return YES;
 }
-
 
 /**
  * Check an existance of a sensor by a sensor name
@@ -318,6 +326,9 @@ static AWARESensorManager * sharedSensorManager;
  */
 - (void) stopAndRemoveAllSensors {
     [self lock];
+    if (![NSThread isMainThread]) {
+        NSLog(@"[NOTE] Please call `-stopAndRemoveAllSensors` in the main thread.");
+    }
     @autoreleasepool {
         for (AWARESensor* sensor in awareSensors) {
             // message = [NSString stringWithFormat:@"[%@] Stop %@ sensor",[sensor getSensorName], [sensor getSensorName]];
@@ -365,10 +376,11 @@ static AWARESensorManager * sharedSensorManager;
  * Stop all sensors
  *
  */
-- (void) stopAllSensors{
+- (void) stopAllSensors {
     if(awareSensors == nil) return;
     for (AWARESensor* sensor in awareSensors) {
         [sensor stopSensor];
+        [sensor.storage cancelSyncStorage];
         if(sensor.getSensorName != nil){
             [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",
                                                 @"event":@"stop sensor",
@@ -461,11 +473,22 @@ static AWARESensorManager * sharedSensorManager;
         }
     }
     
+    if (![awareStudy isNetworkReachable]) {
+        [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: No Network Connection"}];
+        if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] No Network Connection");
+        return;
+    }
+    
     [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: pass all flags"}];
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
 
+    int delaySec = 0;
     for (AWARESensor * sensor in awareSensors ) {
-        [sensor startSyncDB];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [sensor startSyncDB];
+            // NSLog(@"[AWARESensorManager|%@] sync + %d", [sensor getSensorName], count);
+        });
+        delaySec = delaySec + 1;
     }
 }
 
@@ -485,9 +508,12 @@ static AWARESensorManager * sharedSensorManager;
 }
 
 
-- (void) startAutoSyncTimer{
+- (void) startAutoSyncTimer {
     if(awareStudy != nil){
         [self startAutoSyncTimerWithIntervalSecond:[awareStudy getAutoDBSyncIntervalSecond]];
+    }else{
+        double interval = [[AWAREStudy sharedStudy] getAutoDBSyncIntervalSecond];
+        [self startAutoSyncTimerWithIntervalSecond:interval];
     }
 }
 
@@ -496,9 +522,12 @@ static AWARESensorManager * sharedSensorManager;
 
  @param second An interval of the synchronization event trigger
  */
-- (void) startAutoSyncTimerWithIntervalSecond:(double) second{
+- (void) startAutoSyncTimerWithIntervalSecond:(double) second {
     if (syncTimer != nil) {
         [self stopAutoSyncTimer];
+    }
+    if (![NSThread isMainThread]) {
+        NSLog(@"[NOTE] Please call `-startAutoSyncTimer` in the main thread.");
     }
     syncTimer = [NSTimer scheduledTimerWithTimeInterval:second
                                                    target:self
@@ -513,15 +542,6 @@ static AWARESensorManager * sharedSensorManager;
         syncTimer = nil;
     }
 }
-
-
-- (void)runBatteryStateChangeEvents{
-//    if(awareSensors == nil) return;
-//    for (AWARESensor * sensor in awareSensors) {
-//        [sensor changedBatteryState];
-//    }
-}
-
 
 - (void) checkLocalDBs {
     for (AWARESensor * sensor in awareSensors) {

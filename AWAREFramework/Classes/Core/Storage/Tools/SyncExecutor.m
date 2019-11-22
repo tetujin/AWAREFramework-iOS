@@ -26,6 +26,7 @@
         _timeoutIntervalForResource = 60;
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@",sensorName];
         isSyncing = NO;
+        _debug = [study isDebug];
         
         // Set session configuration
         NSURLSessionConfiguration *sessionConfig = nil;
@@ -37,16 +38,7 @@
         sessionConfig.timeoutIntervalForResource = _timeoutIntervalForResource;
         sessionConfig.allowsCellularAccess = YES;
         
-        _session = [NSURLSession sessionWithConfiguration:sessionConfig
-                                                              delegate:self
-                                                         delegateQueue:nil];
-        
-//        if (_debug) {
-//            NSLog(@"[SyncExecutor:%@] NSURLSession is initalized",sensorName);
-//            NSLog(@"[SyncExecutor:%@] NSURLSession identifier = %@",sensorName, sessionConfig.identifier);
-//            NSLog(@"[SyncExecutor:%@] NSURLSession container identifier = %@",sensorName, sessionConfig.sharedContainerIdentifier);
-//        }
-        
+        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
     return self;
 }
@@ -61,6 +53,8 @@
     if (isSyncing) {
         NSLog(@"[%@] still in a sync process", sensorName);
         return;
+    }else{
+        isSyncing = true;
     }
     
     executorCallback = callback;
@@ -68,7 +62,7 @@
     receivedData = [[NSMutableData alloc] init];
     
     NSString *deviceId = [self getDeviceId];
-    NSString *url = [self getInsertUrl:sensorName];
+    NSString *url      = [self getInsertUrl:sensorName];
 
     // set HTTP/POST body information
     NSString* post = [NSString stringWithFormat:@"device_id=%@&data=", deviceId];
@@ -82,12 +76,11 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:mutablePostData];
 
-    _session.configuration.timeoutIntervalForRequest =_timeoutIntervalForRequest;
+    _session.configuration.timeoutIntervalForRequest     = _timeoutIntervalForRequest;
     _session.configuration.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
-    _session.configuration.timeoutIntervalForResource = _timeoutIntervalForResource;
+    _session.configuration.timeoutIntervalForResource    = _timeoutIntervalForResource;
     _session.configuration.allowsCellularAccess = YES;
-//    if (_debug) NSLog(@"id:%@",_session.configuration.identifier);
-//    if (_debug) NSLog(@"shared id:%@",_session.configuration.sharedContainerIdentifier);
+    
     NSURLSessionDataTask* dataTask = [_session dataTaskWithRequest:request];
 
     [dataTask resume];
@@ -115,20 +108,18 @@
  *
  * This method will not be called for background upload tasks (which cannot be converted to download tasks).
  */
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
-didReceiveResponse:(NSURLResponse *)response
- completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler{
-    
-    completionHandler(NSURLSessionResponseAllow);
-    
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-    int responseCode = (int)[httpResponse statusCode];
-    if ( responseCode == 200 ) {
-        [session finishTasksAndInvalidate];
-    } else {
-        [session invalidateAndCancel];
-    }
-}
+//- (void)URLSession:(NSURLSession *)session
+//          dataTask:(NSURLSessionDataTask *)dataTask
+//didReceiveResponse:(NSURLResponse *)response
+// completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler{
+//    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+//    int responseCode = (int)[httpResponse statusCode];
+//    if ( responseCode == 200 ) {
+//        completionHandler(NSURLSessionResponseAllow);
+//    } else {
+//
+//    }
+//}
 
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
@@ -161,11 +152,12 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 ////////////////////////////////////////////////////////////
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error{
-    if (error != nil) {
-        NSLog(@"[%@] the session did become invaild with error: %@", sensorName, error.debugDescription);
-        [session invalidateAndCancel];
-    }else{
-        [session finishTasksAndInvalidate];
+    if (_debug) {
+        if (error != nil) {
+            NSLog(@"[%@] URLSession:didBecomeInvalidWithError: %@", sensorName, error.debugDescription);
+        }else{
+            NSLog(@"[%@] URLSession:didBecomeInvalid", sensorName);
+        }
     }
 }
 
@@ -175,9 +167,17 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 /* Sent as the last message related to a specific task.  Error may be
  * nil, which implies that no error occurred and this task is complete.
  */
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error;
-{
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error {
+    if (_debug) {
+        if (error!=nil) {
+            NSLog(@"[%@] URLSession:task:didCompleteWithError: %@", sensorName, error.debugDescription);
+        }else{
+            NSLog(@"[%@] URLSession:task:didComplete", sensorName);
+        }
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self->isSyncing = NO;
         NSString * response = @"";
@@ -187,7 +187,6 @@ didCompleteWithError:(nullable NSError *)error;
         
         if (error!=nil) {
             [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:self->sensorName];
-            NSLog(@"[%@] Error: %@", self->sensorName, error.debugDescription);
             if (self->executorCallback!=nil) {
                 self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
             }
@@ -266,3 +265,52 @@ didCompleteWithError:(nullable NSError *)error;
 }
 
 @end
+
+
+
+//@implementation AWAREBackgroundURLSessionManager : NSObject
+//
+//static AWAREBackgroundURLSessionManager * shared_ = nil;
+//
+//+ (AWAREBackgroundURLSessionManager *) shared {
+//    @synchronized(self){
+//        if (!shared_) {
+//            shared_ = [[AWAREBackgroundURLSessionManager alloc] init];
+//        }
+//    }
+//    return shared_;
+//}
+//
+//- (id)init
+//{
+//    self = [super init];
+//    if (self) {
+//        _sessions = [[NSMutableArray alloc] init];
+//    }
+//    return self;
+//}
+//
+//- (NSURLSession *)getBackgroundURLSessionWithIdentifier:(NSString *)identifier{
+//    for (NSURLSession * bgSession in _sessions) {
+//        NSLog(@"%@",bgSession.configuration.identifier);
+//        if (bgSession.configuration.identifier!=nil){
+//            if ([bgSession.configuration.identifier isEqualToString:identifier]) {
+//                return bgSession;
+//            }
+//        }
+//    }
+//    return nil;
+//}
+//
+//- (void)removeBackgroundURLSessionWithIdentifier:(NSString *)identifier{
+//    for (NSURLSession * bgSession in _sessions) {
+//        NSLog(@"%@",bgSession.configuration.identifier);
+//        if (bgSession.configuration.identifier!=nil){
+//            if ([bgSession.configuration.identifier isEqualToString:identifier]) {
+//                [_sessions removeObject:bgSession];
+//            }
+//        }
+//    }
+//}
+//
+//@end

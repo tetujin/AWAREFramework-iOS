@@ -219,16 +219,27 @@
 
 - (void)createDBTableOnServerWithTCQMaker:(TCQMaker *)tcqMaker {
     if (tcqMaker!=nil) {
-        DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:sensorName];
-        [creator setCallback:tableCreatecallBack];
-        [creator createTable:tcqMaker.getDefaudltTableCreateQuery];
+        NSString * tableName = @"";
+        if (self.sensorName != nil) {
+            tableName = self.sensorName;
+        }
+        NSString * query = [tcqMaker getDefaudltTableCreateQuery];
+        if (query != nil) {
+            DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:tableName ];
+            [creator setCallback:self.tableCreatecallBack];
+            [creator createTable:query];
+        }
     }
 }
 
 - (void) createDBTableOnServerWithQuery:(NSString *)query{
+    NSString * tableName = @"";
+    if (self.sensorName != nil) {
+        tableName = self.sensorName;
+    }
     if (query != nil) {
-        DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:sensorName];
-        [creator setCallback:tableCreatecallBack];
+        DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:tableName ];
+        [creator setCallback:self.tableCreatecallBack];
         [creator createTable:query];
     }
 }
@@ -236,7 +247,24 @@
 - (void) createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *) table {
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:table];
-        [creator setCallback:tableCreatecallBack];
+        [creator setCallback:self.tableCreatecallBack];
+        [creator createTable:query];
+    }
+}
+
+
+- (void)createDBTableOnServerWithQuery:(NSString *)query completion:(TableCreateCallBack)completion{
+    NSString * tableName = @"";
+    if (self.sensorName != nil) {
+        tableName = self.sensorName;
+    }
+    [self createDBTableOnServerWithQuery:query tableName:tableName  completion:completion];
+}
+
+- (void)createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *)table completion:(TableCreateCallBack)completion{
+    if (query != nil) {
+        DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:table];
+        [creator setCallback:completion];
         [creator createTable:query];
     }
 }

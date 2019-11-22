@@ -74,7 +74,7 @@
             NSLog(@"[%@] The length of buffer is zero.", self.sensorName);
             return YES;
         }else{
-            if ([self isDebug]) { NSLog(@"[JSONStorage] %@: Save data by buffer limit-based trigger", self.sensorName); }
+            if ([self isDebug]) { NSLog(@"[JSONStorage] %@: buffer limit-based trigger", self.sensorName); }
         }
     }
 
@@ -160,7 +160,6 @@
             }
         }];
     }
-    
 }
 
 - (void) dataSyncIsFinishedCorrectly {

@@ -39,7 +39,8 @@ typedef enum: NSInteger{
     AwareStudyStateNoChange   = 0,
     AwareStudyStateNew        = 1,
     AwareStudyStateUpdate     = 2,
-    AwareStudyStateError      = 3
+    AwareStudyStateDataFormatError        = 3,
+    AwareStudyStateNetworkConnectionError = 4,
 } AwareStudyState;
 
 @interface AWAREStudy : NSObject <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
@@ -47,7 +48,7 @@ typedef enum: NSInteger{
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^JoinStudyCompletionHandler)(NSArray * config, AwareStudyState state, NSError * _Nullable  error);
-typedef void (^GetStudyConfigurationCompletionHandler)(NSArray * config, NSError * _Nullable  error);
+typedef void (^FetchStudyConfigurationCompletionHandler)(NSArray * config, NSError * _Nullable  error);
 
 @property (strong, nonatomic) NSString* getSettingIdentifier;
 @property (strong, nonatomic) NSString* makeDeviceTableIdentifier;
@@ -94,15 +95,11 @@ typedef void (^GetStudyConfigurationCompletionHandler)(NSArray * config, NSError
 - (BOOL) isAutoDBSync;
 
 /// [Remote Server Based Settings]
-- (void) getStudyConfiguration:(NSString * _Nonnull)url completion:(GetStudyConfigurationCompletionHandler _Nullable) completionHandler;
+- (void) fetchStudyConfiguration:(NSString * _Nonnull)url completion:(FetchStudyConfigurationCompletionHandler _Nullable) completionHandler;
+- (NSArray *) getStudyConfiguration;
 - (void) joinStudyWithURL:(NSString* _Nonnull)url completion:(JoinStudyCompletionHandler _Nullable) completionHandler;
 - (void) refreshStudySettings;
 - (BOOL) clearStudySettings;
-
-- (BOOL) insertDeviceId:(NSString * _Nonnull)deviceId to:(NSString * _Nonnull)url;
-- (BOOL) insertDeviceId:(NSString * _Nonnull)deviceId name:(NSString * _Nonnull)deviceName to:(NSString * _Nonnull)url;
-- (BOOL) insertDeviceId:(NSString * _Nonnull)deviceId name:(NSString * _Nonnull)deviceName to:(NSString * _Nonnull)url
-             completion:(void (^ _Nullable)(NSData *data, NSURLResponse *response, NSError *error)) completionHandler;
 
 - (NSString *) getStudyConfigurationAsText;
 

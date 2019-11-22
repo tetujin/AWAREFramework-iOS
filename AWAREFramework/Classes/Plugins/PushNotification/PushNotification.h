@@ -13,4 +13,5 @@
 // - (void) savePushNotificationDeviceToken:(NSString * _Nonnull) token;
 - (void) savePushNotificationDeviceTokenWithData:(NSData * _Nonnull) data;
 - (NSString * _Nullable) getPushNotificationToken;
+
 @end
