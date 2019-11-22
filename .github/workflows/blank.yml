@@ -11,6 +11,12 @@ jobs:
     - uses: actions/checkout@v1
     - name: Show Xcode version
       run: xcodebuild -version
+    - name: Install gem
+      run: gem install cocoapods
+    - name: Update pod
+      run: (cd Example && pod update)
+    - name: Install pod
+      run: pod install --project-directory=Example
     - name: Build
-      run: xcodebuild -sdk iphonesimulator -configuration Debug build 
+      run: xcodebuild -sdk iphonesimulator -configuration Debug build
       
