@@ -6,6 +6,9 @@ jobs:
   build:
 
     runs-on: macOS-latest
+    strategy:
+        matrix:
+          destination: ['platform=iOS Simulator,OS=12.2,name=iPhone X']
 
     steps:
     - uses: actions/checkout@v1
@@ -20,7 +23,10 @@ jobs:
     - name: Build
       run: xcodebuild -sdk iphonesimulator -configuration Debug build
     - name: Test
-      run: set -o pipefail && xcodebuild clean build-for-testing  -enableCodeCoverage YES -workspace Example/AWAREFramework.xcworkspace -scheme AWAREFramework-Example CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO -sdk iphonesimulator13.0 | xcpretty
+      run: set -o pipefail && xcodebuild clean build-for-testing  -enableCodeCoverage YES -workspace Example/AWAREFramework.xcworkspace -scheme AWAREFramework-Example -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO | xcpretty
+      env: 
+        destination: ${{ matrix.destination }}
     - name: Dry-run
       run: pod lib lint --allow-warnings
+      
       
