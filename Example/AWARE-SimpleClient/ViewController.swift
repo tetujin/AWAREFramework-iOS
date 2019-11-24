@@ -27,8 +27,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pushedManualUploadButton(_ sender: UIButton) {
-        manager.setSyncProcessCallbackToAllSensorStorages { (sensorName, process, error) in
-            print(sensorName, process)
+        manager.setSyncProcessCallbackToAllSensorStorages { (sensorName, status, process, error)  in
+            print(sensorName, status, process)
         }
         manager.syncAllSensorsForcefully()
     }

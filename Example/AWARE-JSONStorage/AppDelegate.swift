@@ -25,8 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             acc.startSensor()
             acc.storage?.setDebug(true)
             
-            acc.storage?.startSyncStorage(callBack: { (name, progress, error) in
-                print(name,progress,error)
+            acc.storage?.startSyncStorage(callBack: { (name, status, progress, error) in
+                print(name,status,progress,error)
             })
         }
         
