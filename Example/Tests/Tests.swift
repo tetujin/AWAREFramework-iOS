@@ -83,7 +83,7 @@ class Tests: XCTestCase {
         
         // sync test
         let syncExpectation = XCTestExpectation(description: "battery sync expectation")
-        battery.storage?.startSyncStorage(callBack: { (sensor, progress, error) in
+        battery.storage?.startSyncStorage(callBack: { (sensor, status, progress, error) in
             print(sensor,progress)
             if progress == 1 {
                 syncExpectation.fulfill()
