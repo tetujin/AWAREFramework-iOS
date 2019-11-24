@@ -16,6 +16,7 @@
 
 //@property (readonly, atomic, weak) NSURLSession* _Nullable session;
 @property (readonly) NSURLSession* _Nullable session;
+@property (readonly) NSURLSessionDataTask* _Nullable dataTask;
 
 @property BOOL debug;
 

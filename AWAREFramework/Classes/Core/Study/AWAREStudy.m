@@ -332,7 +332,7 @@ didCompleteWithError:(NSError *)error {
                 if (result) {
                     if (self->isDebug) { NSLog(@"[AWAREStudy] aware_device table is created on %@", url); }
                     [aDevice unlockOperation];
-                    [aDevice.storage startSyncStorageWithCallBack:^(NSString * _Nonnull name, double progress, NSError * _Nullable error) {
+                    [aDevice.storage startSyncStorageWithCallBack:^(NSString * _Nonnull name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
                         if (error == nil) {
                             if (progress >= 1) {
                                 NSLog(@"[%@] %f", name, progress);

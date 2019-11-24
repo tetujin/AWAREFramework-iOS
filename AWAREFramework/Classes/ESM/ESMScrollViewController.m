@@ -603,7 +603,7 @@
                 [esmManager refreshESMNotifications];
                 
                 __block typeof(self) blockSelf = self;
-                [esmSensor.storage setSyncProcessCallBack:^(NSString *name, double progress, NSError * _Nullable error) {
+                [esmSensor.storage setSyncProcessCallBack:^(NSString *name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
                     if (blockSelf->study.isDebug) NSLog(@"[%@] %f", name, progress);
                     if (error != nil) {
                         NSLog(@"%@", error.debugDescription);

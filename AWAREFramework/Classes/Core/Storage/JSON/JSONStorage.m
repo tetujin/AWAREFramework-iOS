@@ -137,13 +137,13 @@
                         [self dataSyncIsFinishedCorrectly];
                         if (self.syncProcessCallBack != nil) {
                             // typedef void (^SyncProcessCallBack)(NSString *name, double progress, NSError * _Nullable  error);
-                            self.syncProcessCallBack(sensorName, 1, nil);
+                            self.syncProcessCallBack(sensorName, AwareStorageSyncProgressComplete, 0, nil);
                         }
                     }else{
                         [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
                         if (self.syncProcessCallBack != nil) {
                             // double progress = double([self getStoredDataSize])/double([self getPostion])
-                            self.syncProcessCallBack(sensorName, 0, nil); // TODO: replay to real data
+                            self.syncProcessCallBack(sensorName, AwareStorageSyncProgressContinue, 0, nil); // TODO: replay to real data
                         }
                     }
                 }else{

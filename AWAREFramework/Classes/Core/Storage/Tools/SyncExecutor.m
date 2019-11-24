@@ -81,9 +81,9 @@
     _session.configuration.timeoutIntervalForResource    = _timeoutIntervalForResource;
     _session.configuration.allowsCellularAccess = YES;
     
-    NSURLSessionDataTask* dataTask = [_session dataTaskWithRequest:request];
+    _dataTask = [_session dataTaskWithRequest:request];
 
-    [dataTask resume];
+    [_dataTask resume];
     
 }
 

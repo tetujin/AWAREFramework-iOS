@@ -32,8 +32,8 @@
         self.awareStudy = study;
         self.sensorName = name;
         isStorageLocked = NO;
-        isSyncing = NO;
-        isStore = YES;
+        isSyncing       = NO;
+        isStore         = YES;
         bufferSize = 0;
         retryLimit = 0;
         lastSaveTimestamp = 0;
