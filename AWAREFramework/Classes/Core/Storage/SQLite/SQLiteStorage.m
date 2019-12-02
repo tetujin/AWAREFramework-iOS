@@ -207,17 +207,13 @@
     isUploading = YES;
     
     [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
-    
-    // [self syncTask];
-
 }
 
 - (void)cancelSyncStorage {
-    // NSLog(@"Please overwirte -cancelSyncStorage");
-    // cancel = YES;
     if (executor != nil) {
         if ( executor.dataTask != nil ) {
             [executor.dataTask cancel];
+            [self dataSyncIsFinishedCorrectly];
         }
     }
 }
@@ -239,11 +235,10 @@
         }else{
             [self lock];
         }
-
+        
         NSFetchRequest* request = [[NSFetchRequest alloc] init];
         NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [private setParentContext:self.mainQueueManagedObjectContext];
-
         [private performBlock:^{
             // NSLog(@"start time is ... %@",startTimestamp);
             [request setEntity:[NSEntityDescription entityForName:self->entityName inManagedObjectContext:self.mainQueueManagedObjectContext]];
@@ -258,7 +253,9 @@
                 if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->entityName);
                 [self dataSyncIsFinishedCorrectly];
                 if (self.syncProcessCallBack!=nil) {
-                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                    });
                 }
                 [self unlock]; // Unlock DB
                 return;
@@ -266,7 +263,9 @@
                 NSLog(@"%@", error.description);
                 [self dataSyncIsFinishedCorrectly];
                 if (self.syncProcessCallBack!=nil) {
-                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, error) ;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, error) ;
+                    });
                 }
                 [self unlock]; // Unlock DB
                 return;
@@ -281,8 +280,10 @@
             // set db condition as normal
             [self unlock]; // Unlock DB
 
-            // start upload
-            [self syncTask];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // start upload
+                [self syncTask];
+            });
 
         }];
     } @catch (NSException *exception) {
@@ -336,13 +337,14 @@
             //Get NSManagedObject from managedObjectContext by using fetch setting
             NSArray *results = [private executeFetchRequest:fetchRequest error:nil] ;
             // NSLog(@"%ld",results.count); //TODO
-            
             [self unlock];
             
             if (results != nil) {
                 if (results.count == 0 || results.count == NSNotFound) {
                     [self dataSyncIsFinishedCorrectly];
-                    if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                    });
                     return;
                 }
                 
@@ -367,36 +369,30 @@
                 
                 if (error == nil && jsonData != nil) {
                     // Set HTTP/POST session on main thread
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if ( jsonData.length == 0 || jsonData.length == 2 ) {
-                            NSString * message = [NSString stringWithFormat:@"[%@] Data is Null or Length is Zero", self.sensorName];
-                            if (self.isDebug) NSLog(@"%@", message);
-                            [self dataSyncIsFinishedCorrectly];
+                    
+                    if ( jsonData.length == 0 || jsonData.length == 2 ) {
+                        NSString * message = [NSString stringWithFormat:@"[%@] Data is Null or Length is Zero", self.sensorName];
+                        if (self.isDebug) NSLog(@"%@", message);
+                        [self dataSyncIsFinishedCorrectly];
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
-                            return;
-                        }
-                        
-                        NSMutableData * mutablePostData = [[NSMutableData alloc] init];
-                        if([self->entityName isEqualToString:@"EntityESMAnswer"]){
-                            NSString * jsonDataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                            [mutablePostData appendData:[[self stringByAddingPercentEncodingForAWARE:jsonDataStr] dataUsingEncoding:NSUTF8StringEncoding]];
-                        }else{
-                            [mutablePostData appendData:jsonData];
-                        }
+                        });
+                        return;
+                    }
+                    
+                    NSMutableData * mutablePostData = [[NSMutableData alloc] init];
+                    if([self->entityName isEqualToString:@"EntityESMAnswer"]){
+                        NSString * jsonDataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                        [mutablePostData appendData:[[self stringByAddingPercentEncodingForAWARE:jsonDataStr] dataUsingEncoding:NSUTF8StringEncoding]];
+                    }else{
+                        [mutablePostData appendData:jsonData];
+                    }
 
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         @try {
                             self->executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
                             self->executor.debug = self.isDebug;
                             [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
-//                                if (self->cancel) {
-//                                    if (self.isDebug) NSLog(@"[SyncTasK|%@] Cancel", self.sensorName);
-//                                    [self dataSyncIsFinishedCorrectly];
-//                                    if (self.syncProcessCallBack!=nil) {
-//                                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressCanceled, -1, nil);
-//                                    }
-//                                    return;
-//                                }
-                                
                                 if (result!=nil) {
                                     if (self.isDebug) NSLog(@"%@",result.debugDescription);
                                     NSNumber * isSuccess = [result objectForKey:@"result"];
@@ -724,6 +720,10 @@
             }
         }
     }];
+}
+
+- (bool)isSyncing{
+    return isUploading;
 }
 
 @end
