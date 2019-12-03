@@ -114,16 +114,16 @@ static AWAREEventLogger * shared;
             [event setObject:@(UIDevice.currentDevice.batteryLevel) forKey:@"level"];
         }else if (notification.name == UIApplicationDidReceiveMemoryWarningNotification){
             NSLog(@"AWAREEventLogger: UIApplicationDidReceiveMemoryWarningNotification");
-            if (AWAREStudy.sharedStudy.isDebug){
-                [AWAREUtils sendLocalPushNotificationWithTitle:@"Memory Warnings" body:nil timeInterval:0.1 repeats:NO];
-            }
+//            if (AWAREStudy.sharedStudy.isDebug){
+//                [AWAREUtils sendLocalPushNotificationWithTitle:@"Memory Warnings" body:nil timeInterval:0.1 repeats:NO];
+//            }
         }else if(notification.name == UIApplicationDidFinishLaunchingNotification){
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             if ([userDefaults boolForKey:KEY_APP_TERMINATED]) {
                 [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
                                                     @"event":@"auto-reboot by the location sensor"}];
                 if (AWAREStudy.sharedStudy.isDebug){
-                    [AWAREUtils sendLocalPushNotificationWithTitle:@"AWARE:: Auto Reboot (Location)" body:nil timeInterval:0.1 repeats:NO];
+                    [AWAREUtils sendLocalPushNotificationWithTitle:@"AWARE: Auto Reboot" body:nil timeInterval:0.1 repeats:NO];
                 }
                 [userDefaults setBool:NO forKey:KEY_APP_TERMINATED];
                 [userDefaults synchronize];

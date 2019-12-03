@@ -482,13 +482,12 @@ static AWARESensorManager * sharedSensorManager;
     [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: pass all flags"}];
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
 
-    int delaySec = 0;
+//    int delaySec = 0;
     for (AWARESensor * sensor in awareSensors ) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [sensor startSyncDB];
-            // NSLog(@"[AWARESensorManager|%@] sync + %d", [sensor getSensorName], count);
-        });
-        delaySec = delaySec + 1;
+//        });
+//        delaySec = delaySec + 1;
     }
 }
 
@@ -498,18 +497,18 @@ static AWARESensorManager * sharedSensorManager;
     if (awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB forcefully");
     
    
-    int delaySec = 0;
+    // int delaySec = 0;
     for (AWARESensor * sensor in awareSensors ) {
         // if (awareStudy.isDebug) NSLog(@"%@",sensor.getSensorName);
         NSString * name = sensor.getSensorName;
         if (name != nil){
             [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager", @"event":@"sync", @"sensor":name}];
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [sensor startSyncDB];
-            if (self->awareStudy.isDebug) { NSLog(@"[AWARESensorManager|%@] sync + %d", name, delaySec); }
-        });
-        delaySec = delaySec + 1;
+        //    if (self->awareStudy.isDebug) { NSLog(@"[AWARESensorManager|%@] sync + %d", name, delaySec); }
+        //});
+        //delaySec = delaySec + 1;
     }
 }
 

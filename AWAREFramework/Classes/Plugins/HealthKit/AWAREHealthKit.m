@@ -18,12 +18,15 @@
 #import "AWAREHealthKitCategory.h"
 #import "AWAREHealthKitQuantity.h"
 
+#import "Screen.h"
+
 NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT = @"status_health_kit";
 NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_health_kit";
 
 @implementation AWAREHealthKit{
     NSTimer       * timer;
     HKHealthStore * healthStore;
+    Screen * screen;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -43,6 +46,8 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                 sensorName:[NSString stringWithFormat:@"%@_sleep", SENSOR_HEALTH_KIT]
                                                                 entityName:@"EntityHealthKitCategorySleep"];
         _fetchIntervalSecond = 60 * 30;
+        screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
+        [screen.storage setStore:NO];
     }
     return self;
 }
@@ -86,23 +91,30 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         _fetchIntervalSecond = 60 * 30; // 30 min
     }
     [self requestAuthorizationToAccessHealthKit];
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
+    
+    [screen stopSensor];
+    [screen startSensor];
+    
+    if (screen != nil) {
+        __weak typeof(self) weakSelf = self;
+        [screen setSensorEventHandler:^(AWARESensor * _Nonnull sensor,
+                                        NSDictionary<NSString *,id> * _Nullable data) {
+            if (data!=nil) {
+                NSNumber * state = [data objectForKey:@"screen_status"];
+                if (state!=nil && weakSelf!=nil) {
+                    if (state.intValue == 3){
+                        [weakSelf readAllDate];
+                    }
+                }
+            }
+        }];
     }
-    timer = [NSTimer scheduledTimerWithTimeInterval:_fetchIntervalSecond
-                                             target:self
-                                           selector:@selector(readAllDate)
-                                           userInfo:nil
-                                            repeats:YES];
-    [self setSensingState:YES];
     return YES;
 }
 
 - (BOOL)stopSensor{
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
+    if (screen != nil) {
+        [screen stopSensor];
     }
     if (self.storage != nil) {
         [self.storage saveBufferDataInMainThread:YES];

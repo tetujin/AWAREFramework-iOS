@@ -98,15 +98,15 @@ static AWARECore * sharedCore;
     }
     
     // Compliance checker
-    NSDate* dailyCheckComplianceTime = [AWAREUtils getTargetNSDate:[NSDate new] hour:0 minute:0 second:0 nextDay:YES];
-    _complianceTimer = [[NSTimer alloc] initWithFireDate:dailyCheckComplianceTime
-                                                interval:60*60
-                                                  target:self
-                                                selector:@selector(checkCompliance)
-                                                userInfo:nil
-                                                 repeats:YES];
-    NSRunLoop *loop = [NSRunLoop currentRunLoop];
-    [loop addTimer:_complianceTimer forMode:NSRunLoopCommonModes];
+//    NSDate* dailyCheckComplianceTime = [AWAREUtils getTargetNSDate:[NSDate new] hour:0 minute:0 second:0 nextDay:YES];
+//    _complianceTimer = [[NSTimer alloc] initWithFireDate:dailyCheckComplianceTime
+//                                                interval:60*60
+//                                                  target:self
+//                                                selector:@selector(checkCompliance)
+//                                                userInfo:nil
+//                                                 repeats:YES];
+//    NSRunLoop *loop = [NSRunLoop currentRunLoop];
+//    [loop addTimer:_complianceTimer forMode:NSRunLoopCommonModes];
 
     // Battery Monitor
     if([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0){
