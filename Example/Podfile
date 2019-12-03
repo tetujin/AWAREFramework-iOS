@@ -24,7 +24,14 @@ target 'AWARE-DynamicESM' do
 end
 
 target 'AWARE-SensingApp' do
+#  pod 'AWAREFramework/Core', :path => '../'
   pod 'AWAREFramework', :path => '../'
+  pod 'AWAREFramework/Microphone', :path => '../'
+  pod 'AWAREFramework/MotionActivity', :path => '../'
+  pod 'AWAREFramework/Bluetooth', :path => '../'
+  pod 'AWAREFramework/Calendar', :path => '../'
+  pod 'AWAREFramework/Contact', :path => '../'
+  pod 'AWAREFramework/HealthKit', :path => '../'
 end
 
 target 'AWARE-SimpleClient' do
@@ -50,6 +57,7 @@ end
 target 'AWARE-Visualizer' do
   pod 'AWAREFramework', :path => '../'
   pod 'Charts','3.2'
+  pod 'AWAREFramework/Microphone', :path => '../'
 end
 
 target 'AWARE-ScheduleESM' do
@@ -66,6 +74,7 @@ end
 
 target 'AWARE-AmbientNoise' do
   pod 'AWAREFramework', :path => '../'
+  pod 'AWAREFramework/Microphone', :path => '../'
 end
 
 target 'AWARE-HealthKit' do
@@ -86,6 +95,7 @@ end
 
 target 'AWARE-Conversation' do
   pod 'AWAREFramework', :path => '../'
+  pod 'AWAREFramework/Microphone', :path => '../'
 end
 
 target 'AWARE-ForTest' do

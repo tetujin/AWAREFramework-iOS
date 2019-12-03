@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.6.8'
+  s.version          = '1.7'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -31,24 +31,64 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10'
   
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
-
-  s.source_files = ['AWAREFramework/Classes/**/*.m','AWAREFramework/Classes/**/*.h','AWAREFramework/Classes/**/*.swift']
   
-  s.resource_bundles = {
-     'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld', 'AWAREFramework/Assets/**/*.xcassets']
-  }
-   
-  s.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
+  plugin_path = 'AWAREFramework/Classes/Plugins/'
+  
+  s.subspec 'HealthKit' do |sp|
+    sp.source_files = [plugin_path+'HealthKit/**/*.m',plugin_path+'HealthKit/**/*.h']
+    sp.frameworks = 'HealthKit'
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_HEALTHKIT=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+  
+  s.subspec 'Bluetooth' do |sp|
+    sp.source_files = [plugin_path+'Bluetooth/**/*.m',plugin_path+'Bluetooth/**/*.h',plugin_path+'BLEHeartRate/**/*.h',plugin_path+'BLEHeartRate/**/*.m']
+    sp.frameworks = 'CoreBluetooth'
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_BLUETOOTH=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+  
+  s.subspec 'Calendar' do |sp|
+    sp.source_files = [plugin_path+'Calendar/**/*.m',plugin_path+'Calendar/**/*.h',plugin_path+'CalendarESMScheduler/**/*.h',plugin_path+'CalendarESMScheduler/**/*.m']
+    sp.frameworks = 'EventKit', 'EventKitUI'
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_CALENDAR=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+  
+  s.subspec 'Contact' do |sp|
+    sp.source_files = [plugin_path+'Contacts/**/*.m',plugin_path+'Contacts/**/*.h']
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_CONTACT=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+  
+  s.subspec 'Microphone' do |sp|
+    sp.source_files = [plugin_path+'AmbientNoise/**/*.m',plugin_path+'AmbientNoise/**/*.h',plugin_path+'Conversation/**/*.m',plugin_path+'Conversation/**/*.h']
+    sp.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MIC=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+  
+  s.subspec 'MotionActivity' do |sp|
+    sp.source_files = [plugin_path+'IOSActivityRecognition/**/*.m',plugin_path+'IOSActivityRecognition/**/*.h',plugin_path+'Pedometer/**/*.h',plugin_path+'Pedometer/**/*.m']
+    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MOTION_ACTIVITY=1' }
+    sp.dependency 'AWAREFramework/Core'
+  end
+ 
+  s.subspec 'Core' do |cs|
+      cs.source_files = ['AWAREFramework/Classes/Core/**/*.m','AWAREFramework/Classes/Core/**/*.h','AWAREFramework/Classes/**/*.swift','AWAREFramework/Classes/Sensors/**/*.m','AWAREFramework/Classes/Sensors/**/*.h','AWAREFramework/Classes/ESM/**/*.h','AWAREFramework/Classes/ESM/**/*.m']
+      cs.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
+      cs.resource_bundles = {
+       'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld', 'AWAREFramework/Assets/**/*.xcassets']
+      }
+      cs.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'UserNotifications', 'Accelerate', 'AudioToolbox','AVFoundation','GLKit'
+      cs.dependency 'SCNetworkReachability', '~> 2.0'
+      cs.dependency 'GoogleSignIn', '~> 5.0'
+      cs.dependency 'ios-ntp', '~> 1.1'
+      cs.dependency 'TPCircularBuffer', '~> 1.6'
+  end
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'CoreBluetooth', 'EventKit', 'EventKitUI', 'UserNotifications', 'EventKit', 'EventKitUI','Accelerate', 'AudioToolbox','AVFoundation','GLKit'
+  s.default_subspec = 'Core'
+  
   s.static_framework = true
-  s.dependency 'SCNetworkReachability', '~> 2.0'
-  s.dependency 'GoogleSignIn', '~> 5.0'
-  s.dependency 'ios-ntp', '~> 1.1'
-  # s.dependency 'EZAudio', '1.1.2' # EZAudio 1.1.5 has an error regarding bridge header ( https://github.com/syedhali/EZAudio/issues/267 )
-  s.dependency 'TPCircularBuffer', '~> 1.6'
-  
-  s.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
   
 end

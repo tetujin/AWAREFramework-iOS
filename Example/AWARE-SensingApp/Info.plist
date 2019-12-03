@@ -20,16 +20,29 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string></string>
+	<key>NSCalendarsUsageDescription</key>
+	<string></string>
 	<key>NSCameraUsageDescription</key>
 	<string>This application needs to access your camera for taking pictures.</string>
+	<key>NSContactsUsageDescription</key>
+	<string></string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Please add some message here</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Please add some message here</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application needs to access your location data for recording your activities.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>For detecting converstation events, this application needs to access your microphone.</string>
+	<key>NSMotionUsageDescription</key>
+	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

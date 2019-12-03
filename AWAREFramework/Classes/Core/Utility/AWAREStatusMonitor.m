@@ -8,7 +8,6 @@
 #import "AWAREStatusMonitor.h"
 #import "AWARECore.h"
 #import "EntityAWAREStatus+CoreDataClass.h"
-#import "IOSActivityRecognition.h"
 
 @import CoreData;
 

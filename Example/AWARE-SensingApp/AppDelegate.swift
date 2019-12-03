@@ -34,9 +34,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let screen        = Screen()
             let call          = Calls()
             let ambientNoise  = AmbientNoise()
-
+            let activity      = IOSActivityRecognition()
+            let step          = Pedometer()
+            let bluetooth     = Bluetooth()
+            let cal           = Calendar()
+            let healthKit     = AWAREHealthKit()
+            
             // add the sensors into AWARESensorManager
-            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise])
+            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
             self.sensorManager.startAllSensors()
 
             // setup ESMs

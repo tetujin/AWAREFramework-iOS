@@ -12,41 +12,41 @@ import Speech
 
 class ViewController: UIViewController {
 
-    let noise = AmbientNoise()
+//    let noise = AmbientNoise()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        SFSpeechRecognizer.requestAuthorization { authStatus in
-            
-            // The authorization status results in changes to the
-            // app’s interface, so process the results on the app’s
-            // main queue.
-            OperationQueue.main.addOperation {
-                switch authStatus {
-                case .authorized: break
-                case .denied: break
-                case .restricted: break
-                case .notDetermined: break
-                @unknown default:
-                    // fatalError()
-                    break
-                }
-            }
-        }
-        
-        noise.frequencyMin   = 10
-        noise.sampleDuration = 1
-        noise.sampleSize     = 10
-        noise.setDebug(true)
-        noise.startSensor()
-        noise.setAudioFileGenerationHandler { (url) in
-            if let url = url {
-                self.recognizeFile(url: url)
-            }
-        }
-        noise.fftDelegate = self
+//        SFSpeechRecognizer.requestAuthorization { authStatus in
+//
+//            // The authorization status results in changes to the
+//            // app’s interface, so process the results on the app’s
+//            // main queue.
+//            OperationQueue.main.addOperation {
+//                switch authStatus {
+//                case .authorized: break
+//                case .denied: break
+//                case .restricted: break
+//                case .notDetermined: break
+//                @unknown default:
+//                    // fatalError()
+//                    break
+//                }
+//            }
+//        }
+//
+//        noise.frequencyMin   = 10
+//        noise.sampleDuration = 1
+//        noise.sampleSize     = 10
+//        noise.setDebug(true)
+//        noise.startSensor()
+//        noise.setAudioFileGenerationHandler { (url) in
+//            if let url = url {
+//                self.recognizeFile(url: url)
+//            }
+//        }
+//        noise.fftDelegate = self
         
     }
 
@@ -77,15 +77,15 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController: AWAREAmbientNoiseFFTDelegate {
-    func fft(_ fft: EZAudioFFT!, updatedWithFFTData fftData: UnsafeMutablePointer<Float>!, bufferSize: vDSP_Length) {
-        if let data = fftData {
-            for i in 0..<Int(bufferSize){
-                if data[i] > 0.01 {
-                    // print(i,data[i])
-                }
-            }
-        }
-    }
-}
+//extension ViewController: AWAREAmbientNoiseFFTDelegate {
+//    func fft(_ fft: EZAudioFFT!, updatedWithFFTData fftData: UnsafeMutablePointer<Float>!, bufferSize: vDSP_Length) {
+//        if let data = fftData {
+//            for i in 0..<Int(bufferSize){
+//                if data[i] > 0.01 {
+//                    // print(i,data[i])
+//                }
+//            }
+//        }
+//    }
+//}
 
