@@ -7,34 +7,40 @@
 
 [AWARE](http://www.awareframework.com/) is iOS and Android framework dedicated to instrument, infer, log and share mobile context information, for application developers, researchers and smartphone users. AWARE captures hardware-, software-, and human-based data (ESM). They transform data into information you can understand.
 
-## Supported Sensors
+## Supported Sensors and Extensions
+
+### Default Sensors
 * Accelerometer
 * Gyroscope
 * Magnetometer
 * Gravity
 * Rotation
-* Motion Activity
-* Pedometer
 * Location
 * Barometer
 * Battery
 * Network
 * Call
-* Bluetooth
 * Processor
 * Proximity
 * Timezone
 * Wifi
 * Screen Events
-* Microphone (Ambient Noise)
-* Heartrate (BLE)
-* Calendar
-* Contact
 * [Fitbit](https://dev.fitbit.com/)
 * [Google Login](https://developers.google.com/identity/sign-in/ios/)
 * Memory
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
+
+### Extensions
+The following sensors can be used under extension(s)because these sensors need additional permission(s) into Info.plist and take a review by apple.
+You can get detail information from [here](https://awareframework.com/minimize-sensor-import-on-ios/).
+* Motion Activity
+* Pedometer
+* Bluetooth
+* Heartrate (BLE)
+* Microphone (Ambient Noise)
+* Calendar
+* Contact
 * HealthKit
 
 ## Installation
@@ -44,19 +50,19 @@ AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org).
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', '~> 1.6'
+pod 'AWAREFramework', '~> 1.7'
 ```
 And run `pod install` in your Xcode project.
 
 ### 2. Edit confgurations
 For collecting data in the background, you need to edit `Info.plist` and `Capabilities/Background Modes` in the project as follows.
 
-[NOTE] The following settings are a minimum condition, so then you might need to do more modification if you are using special sensors (e.g., Ambient Noise, HealthKit, Activity Recognition and more).
+__[NOTE] The following settings are a minimum condition, so then you might need to do more modification if you are using special sensors (e.g., Ambient Noise, HealthKit, Activity Recognition and more). Please check this [link](https://awareframework.com/minimize-sensor-import-on-ios/) about the configuration.__
 
 #### 2-1. Info.plist
 * Privacy - Location Always and When In Use Usage Description
+* Privacy - Location When In Use Usage Description
 * Privacy - Location Always Usage Description
-![Image](./Screenshots/info_plist_location.png)
 
 #### 2-2. Capabilities/Background Modes
 * Location updates

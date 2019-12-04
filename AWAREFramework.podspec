@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.7'
+  s.version          = '1.7.1'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -31,46 +31,48 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10'
   
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
+  # s.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) COCOAPODS=1'}
   
   plugin_path = 'AWAREFramework/Classes/Plugins/'
   
   s.subspec 'HealthKit' do |sp|
     sp.source_files = [plugin_path+'HealthKit/**/*.m',plugin_path+'HealthKit/**/*.h']
     sp.frameworks = 'HealthKit'
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_HEALTHKIT=1' }
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_HEALTHKIT=1'}
     sp.dependency 'AWAREFramework/Core'
   end
   
   s.subspec 'Bluetooth' do |sp|
     sp.source_files = [plugin_path+'Bluetooth/**/*.m',plugin_path+'Bluetooth/**/*.h',plugin_path+'BLEHeartRate/**/*.h',plugin_path+'BLEHeartRate/**/*.m']
     sp.frameworks = 'CoreBluetooth'
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_BLUETOOTH=1' }
     sp.dependency 'AWAREFramework/Core'
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_BLUETOOTH=1'}
   end
   
   s.subspec 'Calendar' do |sp|
     sp.source_files = [plugin_path+'Calendar/**/*.m',plugin_path+'Calendar/**/*.h',plugin_path+'CalendarESMScheduler/**/*.h',plugin_path+'CalendarESMScheduler/**/*.m']
     sp.frameworks = 'EventKit', 'EventKitUI'
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_CALENDAR=1' }
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_CALENDAR=1'}
     sp.dependency 'AWAREFramework/Core'
   end
   
   s.subspec 'Contact' do |sp|
     sp.source_files = [plugin_path+'Contacts/**/*.m',plugin_path+'Contacts/**/*.h']
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_CONTACT=1' }
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_CONTACT=1'}
     sp.dependency 'AWAREFramework/Core'
   end
   
   s.subspec 'Microphone' do |sp|
     sp.source_files = [plugin_path+'AmbientNoise/**/*.m',plugin_path+'AmbientNoise/**/*.h',plugin_path+'Conversation/**/*.m',plugin_path+'Conversation/**/*.h']
     sp.ios.vendored_frameworks = 'AWAREFramework/Frameworks/StudentLifeAudio.framework'
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MIC=1' }
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_MIC=1'}
     sp.dependency 'AWAREFramework/Core'
   end
   
   s.subspec 'MotionActivity' do |sp|
     sp.source_files = [plugin_path+'IOSActivityRecognition/**/*.m',plugin_path+'IOSActivityRecognition/**/*.h',plugin_path+'Pedometer/**/*.h',plugin_path+'Pedometer/**/*.m']
-    sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MOTION_ACTIVITY=1' }
+    #sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MOTION_ACTIVITY=1' }
+    sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_MOTION_ACTIVITY=1'}
     sp.dependency 'AWAREFramework/Core'
   end
  
