@@ -5,15 +5,15 @@
 //  Created by Yuuki Nishiyama on 2019/12/05.
 //
 
-#import "SQLiteIndexedStorage.h"
+#import "SQLiteSeparatedStorage.h"
 #import "SyncExecutor.h"
 #import "CoreDataHandler.h"
 #import "AWAREUtils.h"
 @import CoreData;
 
-@implementation SQLiteIndexedStorage{
+@implementation SQLiteSeparatedStorage{
     NSString * objectName;
-    NSString * indexName;
+    NSString * syncName;
     NSString * baseSyncDataQueryIdentifier;
     NSString * timeMarkerIdentifier;
     BOOL isUploading;
@@ -31,19 +31,19 @@
     NSLog(@"[NOTE] Please use -initWithStudy:sensorName:objectModelName:indexModelName:dbHandler:");
     BaseCoreDataHandler * handler = [[BaseCoreDataHandler alloc] init];
     return [self initWithStudy:study sensorName:name
-               objectModelName:@"" indexModelName:@"" dbHandler:handler];
+               objectModelName:@"" syncModelName:@"" dbHandler:handler];
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study
                    sensorName:(NSString *)name
               objectModelName:(NSString *)objectModelName
-               indexModelName:(NSString *)indexModelName
+               syncModelName:(NSString *)syncModelName
                     dbHandler:(BaseCoreDataHandler *)dbHandler{
     self = [super initWithStudy:study sensorName:name];
     if(self != nil){
         isUploading = NO;
         objectName  = objectModelName;
-        indexName   = indexModelName;
+        syncName   = syncModelName;
         self.retryLimit   = 3;
         retryCurrentCount = 0;
         tempLastUnixTimestamp   = @0;
@@ -112,7 +112,7 @@
     /// save data in the main-thread
     if (saveInMainThread) {
         /// stage data on context
-        [self stageData:copiedArray to:self->objectName with:self->indexName on:parentContext];
+        [self stageData:copiedArray to:self->objectName with:self->syncName on:parentContext];
 
         NSError *error = nil;
         if (![parentContext save:&error]) {
@@ -129,7 +129,7 @@
         [childContext setParentContext:parentContext];
         [childContext performBlock:^{
 
-            [self stageData:copiedArray to:self->objectName with:self->indexName on:childContext];
+            [self stageData:copiedArray to:self->objectName with:self->syncName on:childContext];
             
             NSError *error = nil;
             if (![childContext save:&error]) {
@@ -157,25 +157,18 @@
 
 - (void) stageData:(NSArray * _Nonnull)  data
                 to:(NSString * _Nonnull) objectName
-              with:(NSString * _Nonnull) indexName
+              with:(NSString * _Nonnull) syncName
                 on:(NSManagedObjectContext * _Nonnull) context {
-    NSManagedObject * indexObj = [NSEntityDescription insertNewObjectForEntityForName:indexName
+    NSManagedObject * indexObj = [NSEntityDescription insertNewObjectForEntityForName:syncName
                                                                        inManagedObjectContext:context];
     
-    NSMutableArray * children = [@[] mutableCopy];
     for (NSDictionary * d in data) {
         NSManagedObject * mo = [NSEntityDescription insertNewObjectForEntityForName:objectName
                                                              inManagedObjectContext:context];
         [mo setValuesForKeysWithDictionary:d];
-        [children setValue:indexObj forKey:@"index"];
-        [children addObject:mo];
     }
-    
-    NSMutableSet * set = [indexObj valueForKey:@"data"];
-    if (set!=nil) {
-        [children addObjectsFromArray:[set allObjects]];
-    }
-    [indexObj setValue:[[NSSet alloc] initWithArray:children] forKey:@"data"];
+        
+    [indexObj setValue:data forKey:@"batch_data"];
     [indexObj setValue:@(data.count) forKey:@"count"];
     NSDate * now = [NSDate new];
     [indexObj setValue:now  forKey:@"date"];
@@ -233,7 +226,6 @@
             [self lock];
         }
         
-
         NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [private setParentContext:self.mainQueueManagedObjectContext];
         [private performBlock:^{
@@ -244,10 +236,9 @@
             int count = 0;
             
             ///  prepare a fetch request
-            NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self->indexName];
-//            [request setEntity:[NSEntityDescription entityForName:self->indexName inManagedObjectContext:self.mainQueueManagedObjectContext]];
+            NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
             [request setIncludesSubentities:NO];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"(synced == 0) && (timestamp > %@)", startTimestamp]];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", startTimestamp]];
             NSArray * indexes = [private executeFetchRequest:request error:&error];
             NSInteger fetchLimit = [self.awareStudy getMaximumNumberOfRecordsForDBSync];
             
@@ -265,8 +256,6 @@
                  }
              }
             
-            
-            // NSLog(@"[%@] %ld records", self->entityName , count);
             if (count == NSNotFound || count== 0) {
                 if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->objectName);
                 [self dataSyncIsFinishedCorrectly];
@@ -339,24 +328,19 @@
             NSArray * results = [[NSArray alloc] init];
             
             /// prepare a fetch request
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->indexName];
-//            [fetchRequest setEntity:[NSEntityDescription entityForName:self->indexName inManagedObjectContext:self.mainQueueManagedObjectContext]];
-            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(synced == 0) && (timestamp > %@)", self->previousUploadingProcessFinishUnixTime]];
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", self->previousUploadingProcessFinishUnixTime]];
             
             /// prepare sync buffer
             NSError * error = nil;
-            NSMutableArray * buffer = [[NSMutableArray alloc] init];
+            NSMutableArray * buffer = [@[] mutableCopy];
             NSArray * indexes = [private executeFetchRequest:fetchRequest error:&error];
             if (indexes!=nil && indexes.count>0) {
                 for (NSManagedObjectModel * mom in indexes) {
                     
-                    NSMutableSet *data = [mom valueForKey:@"data"];
-                    if (data != nil) {
-                        for (NSManagedObject * obj in data) {
-                            NSArray * keys = [[[obj entity] attributesByName] allKeys];
-                            NSDictionary * dict = [obj dictionaryWithValuesForKeys:keys];
-                            [buffer addObject:dict];
-                        }
+                    NSArray *batchData = [mom valueForKey:@"batch_data"];
+                    if (batchData != nil) {
+                        [buffer addObjectsFromArray:batchData];
                     }
                     
                     /// Save current timestamp as a maker
@@ -521,27 +505,28 @@
             default:
                 break;
         }
+                
+        NSFetchRequest* deleteRequest = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
+        [deleteRequest setIncludesSubentities:YES];
+        NSNumber * clearTimestamp = self->tempLastUnixTimestamp;
         
-        NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self->indexName];
-        [request setIncludesSubentities:NO];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(synced == 0) && (timestamp <= %@)", self->tempLastUnixTimestamp]];
-        NSError * fetchError = nil;
-        NSArray * result = [private executeFetchRequest:request error:&fetchError];
-        if (fetchError == nil) {
-            for (NSManagedObject * record in result) {
-                [record setValue:@(YES) forKey:@"synced"];
+        if ( clearLimitDate != nil){
+            clearTimestamp = [AWAREUtils getUnixTimestamp:clearLimitDate];
+        }
+        [deleteRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp <= %@", clearTimestamp]];
+        NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:deleteRequest];
+        NSError *deleteError = nil;
+        if ([private executeRequest:delete error:&deleteError]) {
+            if(self.isDebug){
+                NSLog(@"[%@] Sucess to clear the data from DB (date <= %@ )", self.sensorName, clearLimitDate);
             }
         }else{
-            NSLog(@"%@", fetchError.debugDescription);
-        }
-        NSError * saveError = nil;
-        if([private save:&saveError]){
-            // NSLog(@"%@", saveError.description);
+            NSLog(@"%@", deleteError.description);
         }
         
         /////////////////////
         if([self.awareStudy getCleanOldDataType] != cleanOldDataTypeNever){
-            NSFetchRequest* deleteRequest = [[NSFetchRequest alloc] initWithEntityName:self->indexName];
+            NSFetchRequest* deleteRequest = [[NSFetchRequest alloc] initWithEntityName:self->objectName];
             [deleteRequest setIncludesSubentities:YES];
             NSNumber * clearTimestamp = self->tempLastUnixTimestamp;
             
@@ -549,7 +534,7 @@
                 clearTimestamp = [AWAREUtils getUnixTimestamp:clearLimitDate];
             }
             
-            [deleteRequest setPredicate:[NSPredicate predicateWithFormat:@"(synced == true) && (timestamp <= %@)", clearTimestamp]];
+            [deleteRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp <= %@", clearTimestamp]];
             NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:deleteRequest];
             NSError *deleteError = nil;
             if ([private executeRequest:delete error:&deleteError]) {
@@ -562,17 +547,12 @@
         }
 
         [self->_mainQueueManagedObjectContext performBlock:^{
-            // fetch unsynced data
-            if(![self isLock]){
-                [self lock];
-                NSError * error = nil;
-                if([self->_mainQueueManagedObjectContext save:&error]){
-                    NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
-                }else{
-                    NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
-                }
+            NSError * error = nil;
+            if([self->_mainQueueManagedObjectContext save:&error]){
+                NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
+            }else{
+                NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
             }
-            [self unlock];
         }];
         
 
@@ -657,45 +637,21 @@
     NSNumber * startNum = [AWAREUtils getUnixTimestamp:from];
     NSNumber * endNum   = [AWAREUtils getUnixTimestamp:to];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->indexName];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->objectName];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) AND (timestamp <= %@)", startNum, endNum]];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
+    [fetchRequest setResultType:NSDictionaryResultType];
 
+    // NSDate * start = [NSDate new];
     NSArray *results = [context executeFetchRequest:fetchRequest error:error];
-
-    NSMutableArray * mergedResult = [@[] mutableCopy];
-
-    NSDate * start = [NSDate new];
-    for (NSManagedObject * mo in results) {
-        NSMutableSet * data = [mo valueForKey:@"data"];
-        if (data != nil) {
-            for (NSManagedObject * obj in data) {
-                NSArray * keys = [[[obj entity] attributesByName] allKeys];
-                [mergedResult addObject:[obj dictionaryWithValuesForKeys:keys]];
-            }
-        }
+    // NSLog(@"--> %f", [[NSDate new] timeIntervalSinceDate:start]);
+    if (results==nil) {
+        return @[];
+    }else{
+        return results;
     }
-
-    NSLog(@"--> %f", [[NSDate new] timeIntervalSinceDate:start]);
-    return mergedResult;
-    
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->objectName];
-//    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(timestamp >= %@) AND (timestamp <= %@)", startNum, endNum]];
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
-//    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-//    [fetchRequest setSortDescriptors:sortDescriptors];
-//    [fetchRequest setResultType:NSDictionaryResultType];
-//
-//    NSDate * start = [NSDate new];
-//    NSArray *results = [context executeFetchRequest:fetchRequest error:error];
-//    NSLog(@"--> %f", [[NSDate new] timeIntervalSinceDate:start]);
-//    if (results==nil) {
-//        return @[];
-//    }else{
-//        return results;
-//    }
 }
 
 - (void)fetchTodaysDataWithHandler:(FetchDataHandler)handler{

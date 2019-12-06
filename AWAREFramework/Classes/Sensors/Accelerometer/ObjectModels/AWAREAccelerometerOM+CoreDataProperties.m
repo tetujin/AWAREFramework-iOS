@@ -2,7 +2,7 @@
 //  AWAREAccelerometerOM+CoreDataProperties.m
 //  
 //
-//  Created by Yuuki Nishiyama on 2019/12/05.
+//  Created by Yuuki Nishiyama on 2019/12/06.
 //
 //
 
@@ -21,6 +21,5 @@
 @dynamic double_values_2;
 @dynamic label;
 @dynamic timestamp;
-@dynamic index;
 
 @end

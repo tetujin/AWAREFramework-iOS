@@ -2,7 +2,7 @@
 //  AWAREAccelerometerOM+CoreDataClass.m
 //  
 //
-//  Created by Yuuki Nishiyama on 2019/12/05.
+//  Created by Yuuki Nishiyama on 2019/12/06.
 //
 //
 

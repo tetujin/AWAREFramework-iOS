@@ -11,10 +11,10 @@
 #import "EntityAccelerometer.h"
 #import "EntityAccelerometer+CoreDataProperties.h"
 #import "ObjectModels/AWAREAccelerometerOM+CoreDataClass.h"
-#import "ObjectModels/AWAREAccelerometerIndexOM+CoreDataClass.h"
+#import "ObjectModels/AWAREAccelerometerOMForSync+CoreDataClass.h"
 #import "JSONStorage.h"
 #import "SQLiteStorage.h"
-#import "../../Core/Storage/SQLite/SQLiteIndexedStorage.h"
+#import "../../Core/Storage/SQLite/SQLiteSeparatedStorage.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_ACCELEROMETER    = @"status_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER = @"frequency_accelerometer";
@@ -35,22 +35,14 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"accelerometer" headerLabels:headerLabels headerTypes:headerTypes];
     } else{
-//        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"accelerometer" entityName:NSStringFromClass([EntityAccelerometer class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
-//            EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription
-//                                                                      insertNewObjectForEntityForName:entity
-//                                                                      inManagedObjectContext:childContext];
-//            entityAcc.device_id = [self getDeviceId];
-//            entityAcc.timestamp = [dataDict objectForKey:@"timestamp"];
-//            entityAcc.double_values_0 = [dataDict objectForKey:@"double_values_0"];
-//            entityAcc.double_values_1 = [dataDict objectForKey:@"double_values_1"];
-//            entityAcc.double_values_2 = [dataDict objectForKey:@"double_values_2"];
-//            entityAcc.accuracy = [dataDict objectForKey:@"accuracy"];
-//            entityAcc.label = [dataDict objectForKey:@"label"];
-//        }];
+        storage = [[SQLiteStorage alloc] initWithStudy:study
+                                            sensorName:@"accelerometer"
+                                            entityName:NSStringFromClass([EntityAccelerometer class])
+                                        insertCallBack:nil];
        
-       storage = [[SQLiteIndexedStorage alloc] initWithStudy:study sensorName:@"accelerometer"
+       storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:@"accelerometer"
                                              objectModelName:NSStringFromClass([AWAREAccelerometerOM class])
-                                              indexModelName:NSStringFromClass([AWAREAccelerometerIndexOM class])
+                                               syncModelName:NSStringFromClass([AWAREAccelerometerOMForSync class])
                                                    dbHandler:AWAREAcceleromoeterCoreDataHandler.shared];
     
     }

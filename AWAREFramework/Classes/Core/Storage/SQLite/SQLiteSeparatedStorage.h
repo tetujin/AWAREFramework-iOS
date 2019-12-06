@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SQLiteIndexedStorage : AWAREStorage <AWAREStorageDelegate>
+@interface SQLiteSeparatedStorage : AWAREStorage <AWAREStorageDelegate>
 
 @property NSManagedObjectContext * _Nonnull mainQueueManagedObjectContext;
 // @property NSManagedObjectContext * _Nullable writeQueueManagedObjectContext;
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype _Nonnull )initWithStudy:(AWAREStudy * _Nullable) study
                              sensorName:(NSString * _Nonnull) name
                         objectModelName:(NSString * _Nonnull) objectModelName
-                         indexModelName:(NSString * _Nonnull) indexModelName
+                         syncModelName:(NSString * _Nonnull) syncModelName
                               dbHandler:(BaseCoreDataHandler * _Nonnull) dbHandler;
 
 @end

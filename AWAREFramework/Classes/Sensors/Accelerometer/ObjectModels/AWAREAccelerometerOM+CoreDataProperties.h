@@ -2,7 +2,7 @@
 //  AWAREAccelerometerOM+CoreDataProperties.h
 //  
 //
-//  Created by Yuuki Nishiyama on 2019/12/05.
+//  Created by Yuuki Nishiyama on 2019/12/06.
 //
 //
 
@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) double double_values_2;
 @property (nullable, nonatomic, copy) NSString *label;
 @property (nonatomic) int64_t timestamp;
-@property (nullable, nonatomic, retain) AWAREAccelerometerIndexOM *index;
 
 @end
 
