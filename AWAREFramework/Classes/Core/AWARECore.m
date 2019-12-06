@@ -493,8 +493,8 @@ static AWARECore * sharedCore;
         
         if(percentage < 5 && detail){ // %
             state = NO;
-            NSString * title = @"Please sync your local database manually!";
-            NSString * message = [NSString stringWithFormat:@"You are using  %.3f GB ", free];
+            NSString * title = @"[WARNING] No free space to save data";
+            NSString * message = @"Please make a free space to save data.";
             if([AWAREUtils isForeground]){
                 UIAlertController * alertContoller = [UIAlertController alertControllerWithTitle:title
                                                                                          message:message preferredStyle:UIAlertControllerStyleAlert];

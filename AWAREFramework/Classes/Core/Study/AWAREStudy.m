@@ -791,7 +791,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 - (void) setMaximumNumberOfRecordsForDBSync:(NSInteger)number{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:@(number) forKey:KEY_MAX_FETCH_SIZE_NORMAL_SENSOR];
+    [userDefaults setInteger:number forKey:KEY_MAX_FETCH_SIZE_NORMAL_SENSOR];
     [userDefaults synchronize];
 }
 

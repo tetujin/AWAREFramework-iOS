@@ -19,11 +19,11 @@ typedef enum: NSInteger {
 
 @property AwareSQLiteStatus status;
 
-@property (strong, nonatomic) NSURL *sqliteFileURL;
+@property (strong, nonatomic, nullable) NSURL *sqliteFileURL;
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext * managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel   * managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator * persistentStoreCoordinator;
+@property (readonly, strong, nonatomic, nullable) NSManagedObjectContext * managedObjectContext;
+@property (readonly, strong, nonatomic, nullable) NSManagedObjectModel   * managedObjectModel;
+@property (readonly, strong, nonatomic, nullable) NSPersistentStoreCoordinator * persistentStoreCoordinator;
 
 - (BOOL) migrateSQLite;
 - (BOOL) backupSQLite;
@@ -32,16 +32,18 @@ typedef enum: NSInteger {
 
 - (void) saveContext;
 
-- (bool) deleteLocalStorageWithName:(NSString*) fileName type:(NSString *)type;
+- (bool) deleteLocalStorageWithName:(NSString* _Nonnull) fileName type:(NSString * _Nonnull)type;
 
-- (void) overwriteManageObjectModelWithFileURL:(NSURL *)url;
-- (void) overwriteDatabasePathWithFileURL:(NSURL *)url;
+- (void) overwriteManageObjectModelWithFileURL:(NSURL * _Nonnull)url;
+- (void) overwriteDatabasePathWithFileURL:(NSURL * _Nonnull)url;
 
-- (void) overwriteManageObjectModelWithName:(NSString *)name;
-- (void) overwriteDatabasePathWithName:(NSString *)name;
+- (void) overwriteManageObjectModelWithName:(NSString * _Nonnull)name;
+- (void) overwriteDatabasePathWithName:(NSString * _Nonnull)name;
 
 @end
 
 @interface BaseCoreDataHandler : NSObject <CoreDataHandlerDelegate>
+
+- (instancetype _Nonnull )initWithDBName:(NSString * _Nullable)dbName;
 
 @end

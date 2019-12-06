@@ -11,6 +11,7 @@ import CoreData
 import AWAREFramework
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -29,19 +30,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // init sensors
             let accelerometer = Accelerometer()
-            let gyroscope     = Gyroscope()
-            let battery       = Battery()
-            let screen        = Screen()
-            let call          = Calls()
-            let ambientNoise  = AmbientNoise()
-            let activity      = IOSActivityRecognition()
-            let step          = Pedometer()
-            let bluetooth     = Bluetooth()
-            let cal           = Calendar()
-            let healthKit     = AWAREHealthKit()
+//            let gyroscope     = Gyroscope()
+//            let battery       = Battery()
+//            let screen        = Screen()
+//            let call          = Calls()
+//            let ambientNoise  = AmbientNoise()
+//            let activity      = IOSActivityRecognition()
+//            let step          = Pedometer()
+//            let bluetooth     = Bluetooth()
+//            let cal           = Calendar()
+//            let healthKit     = AWAREHealthKit()
             
             // add the sensors into AWARESensorManager
-            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
+            self.sensorManager.add(accelerometer)
+//            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
             self.sensorManager.startAllSensors()
 
             // setup ESMs

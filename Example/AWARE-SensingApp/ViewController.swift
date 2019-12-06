@@ -23,6 +23,8 @@ class ViewController: UIViewController {
                                                selector: #selector(willEnterForegroundNotification(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
+        
+        AWARESensorManager.shared().syncAllSensorsForcefully()
     }
 
     override func viewDidAppear(_ animated: Bool) {

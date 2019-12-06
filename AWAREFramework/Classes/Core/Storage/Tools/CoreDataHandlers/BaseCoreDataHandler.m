@@ -9,7 +9,11 @@
 #import <CoreData/CoreData.h>
 #import <UserNotifications/UserNotifications.h>
 
-@implementation BaseCoreDataHandler
+@implementation BaseCoreDataHandler{
+    NSString * _Nonnull dbFileName;
+    NSString * _Nonnull backupDBFileName;
+    NSString * _Nonnull objectModelName;
+}
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -18,13 +22,25 @@
 @synthesize sqliteFileURL;
 
 - (instancetype)init{
+    return [self initWithDBName:@"AWARE"];
+}
+
+- (instancetype)initWithDBName:(NSString * _Nullable)dbName{
     self = [super init];
-    if(self!= nil){
+    if(self != nil){
+        if (dbName == nil) {
+            dbName = @"AWARE";
+        }
+        
+        dbFileName = [NSString stringWithFormat:@"%@.sqlite", dbName];
+        backupDBFileName = [NSString stringWithFormat:@"%@-backup.sqlite", dbName];
+        objectModelName = dbName;
+        
         self.status = AwareSQLiteStatusUnknown;
         
         // check migration requirement at here
         if (self.sqliteFileURL == nil) {
-            self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+            self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dbFileName];
         }
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:self.sqliteFileURL.path]){
@@ -49,7 +65,7 @@
     
     NSError * error = nil;
     if (self.sqliteFileURL == nil) {
-        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dbFileName];
     }
     NSDictionary *sourceMetaData = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
                                                                                               URL:self.sqliteFileURL
@@ -87,7 +103,7 @@
     NSPersistentStoreCoordinator *migrationPSC = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
     if (self.sqliteFileURL == nil) {
-        self.sqliteFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+        self.sqliteFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dbFileName];
     }
     // Open the store
     id sourceStore = [migrationPSC addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.sqliteFileURL options:nil error:nil];
@@ -102,7 +118,7 @@
         
         NSError *error;
         //        NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:[NSString stringWithFormat:@"AWARE_%@.sqlite",[NSDate new].debugDescription]];
-        NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE-bkp.sqlite"];
+        NSURL *backupStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:backupDBFileName];
         NSLog(@" About to migrate the store...");
         id migrationSuccess = [migrationPSC migratePersistentStore:sourceStore toURL:backupStoreURL options:nil withType:NSSQLiteStoreType error:&error];
         
@@ -140,7 +156,7 @@
 
 
 - (void) deleteBackupSQLite{
-    NSURL *storeURL = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"AWARE-bkp.sqlite"];
+    NSURL *storeURL = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:backupDBFileName];
     NSPersistentStoreCoordinator *storeCoodinator = [self.managedObjectContext persistentStoreCoordinator];
     NSPersistentStore  *store = [storeCoodinator persistentStoreForURL:storeURL];
     NSError *error;
@@ -215,11 +231,15 @@
         return _managedObjectModel;
     }
     
-    NSURL * url = [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
+    NSURL * url = [[NSBundle mainBundle] URLForResource:objectModelName withExtension:@"momd"];
     
     // NSURL *modelURL = _sqliteModelURL; // [[NSBundle mainBundle] URLForResource:@"AWARE" withExtension:@"momd"];
     //    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
+    if (url != nil) {
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
+    }else{
+        NSLog(@"[WARNING] No Object Model of %@", objectModelName);
+    }
     return _managedObjectModel;
 }
 
@@ -265,7 +285,7 @@
     }
     
     if (self.sqliteFileURL == nil) {
-        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AWARE.sqlite"];
+        self.sqliteFileURL  = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dbFileName];
     }
     if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.sqliteFileURL options:options error:&error]) {
         // Report any error we got.

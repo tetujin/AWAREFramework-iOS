@@ -10,8 +10,11 @@
 #import "AWAREUtils.h"
 #import "EntityAccelerometer.h"
 #import "EntityAccelerometer+CoreDataProperties.h"
+#import "ObjectModels/AWAREAccelerometerOM+CoreDataClass.h"
+#import "ObjectModels/AWAREAccelerometerIndexOM+CoreDataClass.h"
 #import "JSONStorage.h"
 #import "SQLiteStorage.h"
+#import "../../Core/Storage/SQLite/SQLiteIndexedStorage.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_ACCELEROMETER    = @"status_accelerometer";
 NSString * const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER = @"frequency_accelerometer";
@@ -32,18 +35,24 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"accelerometer" headerLabels:headerLabels headerTypes:headerTypes];
     } else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"accelerometer" entityName:NSStringFromClass([EntityAccelerometer class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
-            EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription
-                                                                      insertNewObjectForEntityForName:entity
-                                                                      inManagedObjectContext:childContext];
-            entityAcc.device_id = [self getDeviceId];
-            entityAcc.timestamp = [dataDict objectForKey:@"timestamp"];
-            entityAcc.double_values_0 = [dataDict objectForKey:@"double_values_0"];
-            entityAcc.double_values_1 = [dataDict objectForKey:@"double_values_1"];
-            entityAcc.double_values_2 = [dataDict objectForKey:@"double_values_2"];
-            entityAcc.accuracy = [dataDict objectForKey:@"accuracy"];
-            entityAcc.label = [dataDict objectForKey:@"label"];
-        }];
+//        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"accelerometer" entityName:NSStringFromClass([EntityAccelerometer class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
+//            EntityAccelerometer * entityAcc = (EntityAccelerometer *)[NSEntityDescription
+//                                                                      insertNewObjectForEntityForName:entity
+//                                                                      inManagedObjectContext:childContext];
+//            entityAcc.device_id = [self getDeviceId];
+//            entityAcc.timestamp = [dataDict objectForKey:@"timestamp"];
+//            entityAcc.double_values_0 = [dataDict objectForKey:@"double_values_0"];
+//            entityAcc.double_values_1 = [dataDict objectForKey:@"double_values_1"];
+//            entityAcc.double_values_2 = [dataDict objectForKey:@"double_values_2"];
+//            entityAcc.accuracy = [dataDict objectForKey:@"accuracy"];
+//            entityAcc.label = [dataDict objectForKey:@"label"];
+//        }];
+       
+       storage = [[SQLiteIndexedStorage alloc] initWithStudy:study sensorName:@"accelerometer"
+                                             objectModelName:NSStringFromClass([AWAREAccelerometerOM class])
+                                              indexModelName:NSStringFromClass([AWAREAccelerometerIndexOM class])
+                                                   dbHandler:AWAREAcceleromoeterCoreDataHandler.shared];
+    
     }
     [self setNotificationNames:@[]];
     self = [super initWithAwareStudy:study
@@ -173,3 +182,28 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
 
 
 @end
+
+
+static AWAREAcceleromoeterCoreDataHandler * shared;
+@implementation AWAREAcceleromoeterCoreDataHandler
++ (AWAREAcceleromoeterCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWAREAcceleromoeterCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Accelerometer"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
+
+@end
+

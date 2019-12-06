@@ -78,9 +78,9 @@ Pod::Spec.new do |s|
  
   s.subspec 'Core' do |cs|
       cs.source_files = ['AWAREFramework/Classes/Core/**/*.m','AWAREFramework/Classes/Core/**/*.h','AWAREFramework/Classes/**/*.swift','AWAREFramework/Classes/Sensors/**/*.m','AWAREFramework/Classes/Sensors/**/*.h','AWAREFramework/Classes/ESM/**/*.h','AWAREFramework/Classes/ESM/**/*.m']
-      cs.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld'
+      cs.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Classes/**/*.xcdatamodeld'
       cs.resource_bundles = {
-       'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld', 'AWAREFramework/Assets/**/*.xcassets']
+       'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Assets/**/*.xcassets','AWAREFramework/Classes/**/*.xcdatamodeld']
       }
       cs.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'UserNotifications', 'Accelerate', 'AudioToolbox','AVFoundation','GLKit'
       cs.dependency 'SCNetworkReachability', '~> 2.0'

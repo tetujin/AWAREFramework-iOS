@@ -11,11 +11,15 @@
 #import "AWAREKeys.h"
 #import "AWAREMotionSensor.h"
 
-extern NSString* const AWARE_PREFERENCES_STATUS_ACCELEROMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER;
-extern NSString* const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_STATUS_ACCELEROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_ACCELEROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_ACCELEROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER;
 
 @interface Accelerometer : AWAREMotionSensor <AWARESensorDelegate>
 
+@end
+
+@interface AWAREAcceleromoeterCoreDataHandler : BaseCoreDataHandler
++ (AWAREAcceleromoeterCoreDataHandler * _Nonnull)shared;
 @end
