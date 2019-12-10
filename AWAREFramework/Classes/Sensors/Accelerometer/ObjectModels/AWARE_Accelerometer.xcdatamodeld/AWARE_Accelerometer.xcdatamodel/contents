@@ -9,14 +9,13 @@
         <attribute name="label" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="AWAREAccelerometerOMForSync" representedClassName="AWAREAccelerometerOMForSync" syncable="YES">
+    <entity name="AWAREBatchDataOM" representedClassName="AWAREBatchDataOM" syncable="YES">
         <attribute name="batch_data" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="NSArray"/>
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="AWAREAccelerometerOMForSync" positionX="-18" positionY="27" width="128" height="103"/>
         <element name="AWAREAccelerometerOM" positionX="-45" positionY="0" width="128" height="148"/>
+        <element name="AWAREBatchDataOM" positionX="-27" positionY="54" width="128" height="88"/>
     </elements>
 </model>

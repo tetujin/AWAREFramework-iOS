@@ -10,6 +10,9 @@
 #import "EntityBarometer.h"
 #import "SQLiteStorage.h"
 #import "JSONStorage.h"
+#import "../../Core/Storage/SQLite/SQLiteSeparatedStorage.h"
+#import "../../Core/Storage/SQLite/AWAREBatchDataOM+CoreDataClass.h"
+#import "ObjectModels/AWAREBarometerOM+CoreDataClass.h"
 
 
 NSString* const AWARE_PREFERENCES_STATUS_BAROMETER    = @"status_barometer";
@@ -29,18 +32,23 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER
-                                            entityName:NSStringFromClass([EntityBarometer class]) insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                                EntityBarometer * pressureData = (EntityBarometer *)[NSEntityDescription
-                                                                                                     insertNewObjectForEntityForName:entity
-                                                                                                     inManagedObjectContext:childContext];
-                                                
-                                                pressureData.device_id = [data objectForKey:@"device_id"];
-                                                pressureData.timestamp = [data objectForKey:@"timestamp"];
-                                                pressureData.double_values_0 = [data objectForKey:@"double_values_0"];
-                                                pressureData.accuracy = @0;
-                                                pressureData.label = @"";
-                                            }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER
+                                                           entityName:NSStringFromClass([EntityBarometer class])
+                                                       insertCallBack:nil];
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_BAROMETER
+                                                    objectModelName:NSStringFromClass([AWAREBarometerOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWAREBarometerCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
+        
     }
     
     self = [super initWithAwareStudy:study
@@ -150,5 +158,29 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
 }
 
 
+
+@end
+
+
+static AWAREBarometerCoreDataHandler * shared;
+@implementation  AWAREBarometerCoreDataHandler
++ ( AWAREBarometerCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWAREBarometerCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Barometer"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

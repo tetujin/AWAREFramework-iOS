@@ -48,6 +48,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         _fetchIntervalSecond = 60 * 30;
         screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
         [screen.storage setStore:NO];
+        // self.storage = _awareHKHeartRate.storage;
     }
     return self;
 }

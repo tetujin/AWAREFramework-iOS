@@ -16,10 +16,11 @@
 
 #import "Rotation.h"
 #import "EntityRotation.h"
+#import "ObjectModels/AWARERotationOM+CoreDataClass.h"
 
-NSString* const AWARE_PREFERENCES_STATUS_ROTATION = @"status_rotation";
-NSString* const AWARE_PREFERENCES_FREQUENCY_ROTATION = @"frequency_rotation";
-NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotation";
+NSString * const AWARE_PREFERENCES_STATUS_ROTATION = @"status_rotation";
+NSString * const AWARE_PREFERENCES_FREQUENCY_ROTATION = @"frequency_rotation";
+NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotation";
 
 @implementation Rotation {
     CMMotionManager* motionManager;
@@ -34,23 +35,22 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION entityName:NSStringFromClass([EntityRotation class])
-                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                            
-                                            EntityRotation* entityRotation = (EntityRotation *)[NSEntityDescription
-                                                                                                insertNewObjectForEntityForName:entity
-                                                                                                inManagedObjectContext:childContext];
-                                            
-                                            entityRotation.device_id = [data objectForKey:@"device_id"];
-                                            entityRotation.timestamp = [data objectForKey:@"timestamp"];
-                                            entityRotation.double_values_0 = [data objectForKey:@"double_values_0"];
-                                            entityRotation.double_values_1 = [data objectForKey:@"double_values_1"];
-                                            entityRotation.double_values_2 = [data objectForKey:@"double_values_2"];
-                                            entityRotation.double_values_3 = [data objectForKey:@"double_values_3"];
-                                            entityRotation.accuracy = [data objectForKey:@"accuracy"];
-                                            entityRotation.label = [data objectForKey:@"label"];
-                                            
-                                        }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION entityName:NSStringFromClass([EntityRotation class])
+                                        insertCallBack:nil];
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_ROTATION
+                                                    objectModelName:NSStringFromClass([AWARERotationOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWARERotationCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
     }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_ROTATION
@@ -157,5 +157,29 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotatio
     return YES;
 }
 
+
+@end
+
+
+static AWARERotationCoreDataHandler * shared;
+@implementation AWARERotationCoreDataHandler
++ (AWARERotationCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWARERotationCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Rotation"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

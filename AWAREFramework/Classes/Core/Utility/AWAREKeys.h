@@ -17,6 +17,7 @@ extern NSString* const KEY_APP_TERMINATED;
 extern NSString* const KEY_MAX_DATA_SIZE;
 extern NSString* const KEY_MAX_FETCH_SIZE_MOTION_SENSOR;
 extern NSString* const KEY_MAX_FETCH_SIZE_NORMAL_SENSOR;
+extern NSString* const KEY_MAX_FETCH_SIZE_BATCH_STYLE_DB;
 extern NSString* const KEY_UPLOAD_MARK;
 
 extern NSString* const KEY_SENSORS;

@@ -76,6 +76,7 @@ typedef void (^FetchStudyConfigurationCompletionHandler)(NSArray * config, NSErr
 - (void) setAutoDBSync:(bool) state;
 - (void) setMaximumByteSizeForDBSync:(NSInteger)size;  // for Text File
 - (void) setMaximumNumberOfRecordsForDBSync:(NSInteger)number;  // for SQLite DB
+- (void) setMaximumNumberOfRecordsForBatchStyleDBSync:(NSInteger)max;
 - (void) setDBType:(AwareDBType)type;
 - (void) setCleanOldDataType:(cleanOldDataType)type;
 - (void) setUIMode:(AwareUIMode) mode;
@@ -88,6 +89,7 @@ typedef void (^FetchStudyConfigurationCompletionHandler)(NSArray * config, NSErr
 - (int)  getAutoDBSyncIntervalSecond; // second
 - (NSInteger) getMaximumByteSizeForDBSync;  // for Text File
 - (NSInteger) getMaximumNumberOfRecordsForDBSync;
+- (NSInteger) getMaximumNumberOfRecordsForBatchStyleDBSync;
 - (AwareDBType) getDBType;
 - (cleanOldDataType) getCleanOldDataType;
 - (AwareUIMode) getUIMode;

@@ -16,6 +16,7 @@
 
 #import "Gravity.h"
 #import "EntityGravity.h"
+#import "ObjectModels/AWAREGravityOM+CoreDataClass.h"
 
 NSString* const AWARE_PREFERENCES_STATUS_GRAVITY = @"status_gravity";
 NSString* const AWARE_PREFERENCES_FREQUENCY_GRAVITY = @"frequency_gravity";
@@ -34,19 +35,25 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY entityName:NSStringFromClass([EntityGravity class])
-                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                            EntityGravity* gravityData = (EntityGravity *)[NSEntityDescription
-                                                                                           insertNewObjectForEntityForName:entity
-                                                                                           inManagedObjectContext:childContext];
-                                            
-                                            gravityData.device_id = [data objectForKey:@"device_id"];
-                                            gravityData.timestamp = [data objectForKey:@"timestamp"];
-                                            gravityData.double_values_0 = [data objectForKey:@"double_values_0"];
-                                            gravityData.double_values_1 = [data objectForKey:@"double_values_1"];
-                                            gravityData.double_values_2 = [data objectForKey:@"double_values_2"];
-                                            gravityData.label =  [data objectForKey:@"label"];
-                                        }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study
+                                                           sensorName:SENSOR_GRAVITY
+                                                           entityName:NSStringFromClass([EntityGravity class])
+                                                       insertCallBack:nil];
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_GRAVITY
+                                                    objectModelName:NSStringFromClass([AWAREGravityOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWAREGravityCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
+        
     }
     
     self = [super initWithAwareStudy:study
@@ -158,5 +165,28 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
 
 /////////////// for TextFile based DB
 //
+
+@end
+
+static AWAREGravityCoreDataHandler * shared;
+@implementation AWAREGravityCoreDataHandler
++ (AWAREGravityCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWAREGravityCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Gravity"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

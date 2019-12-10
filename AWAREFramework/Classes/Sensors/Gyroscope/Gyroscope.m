@@ -9,6 +9,9 @@
 #import "Gyroscope.h"
 #import "AWAREUtils.h"
 #import "EntityGyroscope.h"
+#import "../../Core/Storage/SQLite/AWAREBatchDataOM+CoreDataClass.h"
+#import "../../Core/Storage/SQLite/SQLiteSeparatedStorage.h"
+#import "ObjectModels/AWAREGyroscopeOM+CoreDataClass.h"
 
 NSString* const AWARE_PREFERENCES_STATUS_GYROSCOPE = @"status_gyroscope";
 NSString* const AWARE_PREFERENCES_FREQUENCY_GYROSCOPE = @"frequency_gyroscope";
@@ -27,20 +30,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_GYROSCOPE headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_GYROSCOPE entityName:NSStringFromClass([EntityGyroscope class])
-                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                            EntityGyroscope* entityGyro = (EntityGyroscope *)[NSEntityDescription
-                                                                                              insertNewObjectForEntityForName:entity
-                                                                                              inManagedObjectContext:childContext];
-                                            
-                                            entityGyro.device_id = [data objectForKey:@"device_id"];
-                                            entityGyro.timestamp = [data objectForKey:@"timestamp"];
-                                            entityGyro.double_values_0 = [data objectForKey:@"double_values_0"];
-                                            entityGyro.double_values_1 = [data objectForKey:@"double_values_1"];
-                                            entityGyro.double_values_2 = [data objectForKey:@"double_values_2"];
-                                            entityGyro.accuracy = [data objectForKey:@"accuracy"];
-                                            entityGyro.label =  [data objectForKey:@"label"];
-                                        }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study
+                                            sensorName:SENSOR_GYROSCOPE
+                                            entityName:NSStringFromClass([EntityGyroscope class])
+                                        insertCallBack:nil];
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_GYROSCOPE
+                                                    objectModelName:NSStringFromClass([AWAREGyroscopeOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWAREGyroscopeCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
     }
     
     self = [super initWithAwareStudy:study
@@ -153,5 +160,29 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
     return YES;
 }
 
+
+@end
+
+
+static AWAREGyroscopeCoreDataHandler * shared;
+@implementation AWAREGyroscopeCoreDataHandler
++ (AWAREGyroscopeCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWAREGyroscopeCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Gyroscope"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

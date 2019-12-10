@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, AwareStorageSyncProgress) {
     AwareStorageSyncProgressUploading = 3,
     AwareStorageSyncProgressLocked    = 4,
     AwareStorageSyncProgressError     = 5,
+    AwareStorageSyncProgressCancel    = 6,
 };
 
 

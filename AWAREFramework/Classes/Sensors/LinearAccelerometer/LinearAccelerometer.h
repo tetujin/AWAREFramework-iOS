@@ -13,8 +13,12 @@
 
 @interface LinearAccelerometer : AWAREMotionSensor <AWARESensorDelegate>
 
-extern NSString* const AWARE_PREFERENCES_STATUS_LINEAR_ACCELEROMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_LINEAR_ACCELEROMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_LINEAR_ACCELEROMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_LINEAR_ACCELEROMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER;
 
+@end
+
+@interface AWARELinearAccelerometerCoreDataHandler : BaseCoreDataHandler
++ (AWARELinearAccelerometerCoreDataHandler * _Nonnull)shared;
 @end

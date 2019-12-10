@@ -30,6 +30,9 @@ static AWAREStudy * sharedStudy;
     NSURLSessionConfiguration *sessionConfig;
     NSMutableData * receivedData;
     NSString * deviceId;
+    NSNumber * cashMaxBatchSize;
+    NSNumber * cashMaxRecords;
+    NSNumber * cashIsDebug;
 }
 
 + (AWAREStudy * _Nonnull)sharedStudy{
@@ -361,7 +364,6 @@ didCompleteWithError:(NSError *)error {
         studyState = AwareStudyStateUpdate;
         [awareDevice.storage startSyncStorage];
     }
-    
     
     // compare the latest configuration string with the previous configuration string.
     NSString * studySettingsString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -756,6 +758,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     [userDefaults setBool:state forKey:SETTING_DEBUG_STATE];
     [userDefaults synchronize];
     isDebug = state;
+    cashIsDebug = @(state);
 }
 
 - (void) setAutoDBSyncOnlyWifi:(bool)state{
@@ -793,6 +796,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:number forKey:KEY_MAX_FETCH_SIZE_NORMAL_SENSOR];
     [userDefaults synchronize];
+    cashMaxRecords = @(number);
 }
 
 - (void) setDBType:(AwareDBType)type{
@@ -817,8 +821,15 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 //////////////////////////////////////////////////////////////////////
 
 - (bool) isDebug {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults boolForKey:SETTING_DEBUG_STATE];
+    if (cashIsDebug != nil) {
+        return cashIsDebug.boolValue;
+    }else{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        bool state = [userDefaults boolForKey:SETTING_DEBUG_STATE];
+        cashIsDebug = @(state);
+        isDebug = state;
+        return state;
+    }
 }
 
 
@@ -843,8 +854,14 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 }
 
 - (NSInteger) getMaximumNumberOfRecordsForDBSync{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults integerForKey:KEY_MAX_FETCH_SIZE_NORMAL_SENSOR];
+    if (cashMaxRecords != nil) {
+        return cashMaxRecords.integerValue;
+    }else{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSInteger max = [userDefaults integerForKey:KEY_MAX_FETCH_SIZE_NORMAL_SENSOR];
+        cashMaxRecords =@(max);
+        return max;
+    }
 }
 
 - (AwareDBType) getDBType{
@@ -893,6 +910,24 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:state forKey:SETTING_AWARE_STUDY_STATE];
     [userDefaults synchronize];
+}
+
+- (void)setMaximumNumberOfRecordsForBatchStyleDBSync:(NSInteger)max{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setInteger:max forKey:KEY_MAX_FETCH_SIZE_BATCH_STYLE_DB];
+    [userDefaults synchronize];
+    cashMaxBatchSize = @(max);
+}
+
+- (NSInteger)getMaximumNumberOfRecordsForBatchStyleDBSync{
+    if (cashMaxBatchSize != nil) {
+        return cashMaxBatchSize.integerValue;
+    }else{
+        NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+        NSInteger max = [userDefaults integerForKey:KEY_MAX_FETCH_SIZE_BATCH_STYLE_DB];
+        cashMaxBatchSize = @(max);
+        return max;
+    }
 }
 
 @end

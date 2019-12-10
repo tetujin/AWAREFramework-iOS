@@ -19,6 +19,8 @@
 #import "SQLiteStorage.h"
 #import "CSVStorage.h"
 #import "BaseCoreDataHandler.h"
+#import "AWAREBatchDataOM+CoreDataClass.h"
+#import "SQLiteSeparatedStorage.h"
 
 extern double const MOTION_SENSOR_DEFAULT_SENSING_INTERVAL_SECOND;
 extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;

@@ -37,6 +37,7 @@
 
 #import "LinearAccelerometer.h"
 #import "EntityLinearAccelerometer.h"
+#import "ObjectModels/AWARELinearAccelerometerOM+CoreDataClass.h"
 
 NSString* const AWARE_PREFERENCES_STATUS_LINEAR_ACCELEROMETER = @"status_linear_accelerometer";
 NSString* const AWARE_PREFERENCES_FREQUENCY_LINEAR_ACCELEROMETER = @"frequency_linear_accelerometer";
@@ -55,20 +56,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER entityName:NSStringFromClass([EntityLinearAccelerometer class])
-                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                            EntityLinearAccelerometer* entityLinearAcc = (EntityLinearAccelerometer *)[NSEntityDescription
-                                                                                                                       insertNewObjectForEntityForName:entity
-                                                                                                                       inManagedObjectContext:childContext];
-                                            
-                                            entityLinearAcc.device_id = [data objectForKey:@"device_id"];
-                                            entityLinearAcc.timestamp = [data objectForKey:@"timestamp"];
-                                            entityLinearAcc.double_values_0 = [data objectForKey:@"double_values_0"];
-                                            entityLinearAcc.double_values_1 = [data objectForKey:@"double_values_1"];
-                                            entityLinearAcc.double_values_2 = [data objectForKey:@"double_values_2"];
-                                            entityLinearAcc.accuracy = [data objectForKey:@"accuracy"];
-                                            entityLinearAcc.label =  [data objectForKey:@"label"];
-                                        }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study
+                                                           sensorName:SENSOR_LINEAR_ACCELEROMETER
+                                                           entityName:NSStringFromClass([EntityLinearAccelerometer class])
+                                                       insertCallBack:nil];
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_LINEAR_ACCELEROMETER
+                                                    objectModelName:NSStringFromClass([AWARELinearAccelerometerOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWARELinearAccelerometerCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
     }
     
     self = [super initWithAwareStudy:study
@@ -177,7 +182,28 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
     return YES;
 }
 
+@end
 
 
+static AWARELinearAccelerometerCoreDataHandler * shared;
+@implementation AWARELinearAccelerometerCoreDataHandler
++ (AWARELinearAccelerometerCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWARELinearAccelerometerCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_LinearAccelerometer"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

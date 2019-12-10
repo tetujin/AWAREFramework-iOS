@@ -11,9 +11,13 @@
 #import <CoreMotion/CoreMotion.h>
 #import "AWAREMotionSensor.h"
 
-extern NSString* const AWARE_PREFERENCES_STATUS_BAROMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_STATUS_BAROMETER;
+extern NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_BAROMETER;
 
 @interface Barometer : AWAREMotionSensor <AWARESensorDelegate>
 
+@end
+
+@interface AWAREBarometerCoreDataHandler : BaseCoreDataHandler
++ (AWAREBarometerCoreDataHandler * _Nonnull)shared;
 @end

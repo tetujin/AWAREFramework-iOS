@@ -8,6 +8,7 @@
 
 #import "Magnetometer.h"
 #import "EntityMagnetometer.h"
+#import "ObjectModels/AWAREMagnetometerOM+CoreDataClass.h"
 
 NSString* const AWARE_PREFERENCES_STATUS_MAGNETOMETER = @"status_magnetometer";
 NSString* const AWARE_PREFERENCES_FREQUENCY_MAGNETOMETER = @"frequency_magnetometer";
@@ -26,20 +27,24 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:SENSOR_MAGNETOMETER headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:SENSOR_MAGNETOMETER entityName:NSStringFromClass([EntityMagnetometer class])
-                                        insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
-                                            EntityMagnetometer* entityMag = (EntityMagnetometer *)[NSEntityDescription
-                                                                                                   insertNewObjectForEntityForName:entity
-                                                                                                   inManagedObjectContext:childContext];
-                                            
-                                            entityMag.device_id = [data objectForKey:@"device_id"];
-                                            entityMag.timestamp = [data objectForKey:@"timestamp"];
-                                            entityMag.double_values_0 = [data objectForKey:@"double_values_0"];
-                                            entityMag.double_values_1 = [data objectForKey:@"double_values_1"];
-                                            entityMag.double_values_2 = [data objectForKey:@"double_values_2"];
-                                            entityMag.accuracy = [data objectForKey:@"accuracy"];
-                                            entityMag.label =  [data objectForKey:@"label"];
-                                        }];
+        SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study
+                                                           sensorName:SENSOR_MAGNETOMETER
+                                                           entityName:NSStringFromClass([EntityMagnetometer class])
+                                                       insertCallBack:nil];
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:SENSOR_MAGNETOMETER
+                                                    objectModelName:NSStringFromClass([AWAREMagnetometerOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWAREMagnetometerCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
     }
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_MAGNETOMETER
@@ -150,5 +155,28 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     return YES;
 }
 
+@end
+
+
+static AWAREMagnetometerCoreDataHandler * shared;
+@implementation AWAREMagnetometerCoreDataHandler
++ (AWAREMagnetometerCoreDataHandler * _Nonnull)shared {
+    @synchronized(self){
+        if (!shared){
+            shared =  (AWAREMagnetometerCoreDataHandler *)[[BaseCoreDataHandler alloc] initWithDBName:@"AWARE_Magnetometer"];
+        }
+    }
+    return shared;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    @synchronized(self) {
+        if (shared == nil) {
+            shared= [super allocWithZone:zone];
+            return shared;
+        }
+    }
+    return nil;
+}
 
 @end

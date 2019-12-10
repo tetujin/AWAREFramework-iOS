@@ -11,6 +11,13 @@
 		031AFBD5B88D91BE5F4E183F /* Pods_AWARE_ConfigURLESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5954DC034BE92D88F57CC2 /* Pods_AWARE_ConfigURLESM.framework */; };
 		0EB9CAFC1AFC4D34EEE7CDB9 /* Pods_AWARE_ForTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AE672AA9B459085797DA37 /* Pods_AWARE_ForTest.framework */; };
 		191107BA4381F7C509A0C106 /* Pods_AWARE_UnitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3703671691169FEBBD7AE0C /* Pods_AWARE_UnitTest.framework */; };
+		4F2AEC25239F45D90015719F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2AEC24239F45D90015719F /* AppDelegate.m */; };
+		4F2AEC28239F45D90015719F /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2AEC27239F45D90015719F /* SceneDelegate.m */; };
+		4F2AEC2B239F45D90015719F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2AEC2A239F45D90015719F /* ViewController.m */; };
+		4F2AEC2E239F45D90015719F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2AEC2C239F45D90015719F /* Main.storyboard */; };
+		4F2AEC30239F45DA0015719F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2AEC2F239F45DA0015719F /* Assets.xcassets */; };
+		4F2AEC33239F45DA0015719F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2AEC31239F45DA0015719F /* LaunchScreen.storyboard */; };
+		4F2AEC36239F45DB0015719F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2AEC35239F45DB0015719F /* main.m */; };
 		4F36A5B82320C48E00399D7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36A5B72320C48E00399D7F /* AppDelegate.swift */; };
 		4F36A5BA2320C48E00399D7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36A5B92320C48E00399D7F /* ViewController.swift */; };
 		4F36A5BD2320C48E00399D7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F36A5BB2320C48E00399D7F /* Main.storyboard */; };
@@ -130,6 +137,7 @@
 		4FDB561B233CDFF10095E7D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB5619233CDFF10095E7D7 /* Main.storyboard */; };
 		4FDB561D233CDFF20095E7D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB561C233CDFF20095E7D7 /* Assets.xcassets */; };
 		4FDB5620233CDFF20095E7D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB561E233CDFF20095E7D7 /* LaunchScreen.storyboard */; };
+		523AF523678B351042525B67 /* Pods_AWARE_SimpleClient_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E298A289E212537967274AF /* Pods_AWARE_SimpleClient_ObjC.framework */; };
 		6A386C193A5CE20DB638F3A8 /* Pods_AWARE_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C968B0CEDF9B257CCB86F9 /* Pods_AWARE_Location.framework */; };
 		7082540140A2FBDA4AE9159C /* Pods_AWARE_Visualizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363AFB9065F89D90BA1B27FA /* Pods_AWARE_Visualizer.framework */; };
 		74E731ECADB4DCE831B03D9A /* Pods_AWARE_SimpleClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3840C97A36CC4522C9005CFB /* Pods_AWARE_SimpleClient.framework */; };
@@ -210,9 +218,23 @@
 		3CB675B8D74DF70FA1325F6B /* Pods-AWARE-ConfigURLESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ConfigURLESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM.release.xcconfig"; sourceTree = "<group>"; };
 		3EA92FFC5E1D37D4AEAA745D /* Pods-AWARE-CustomESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomESM.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM.debug.xcconfig"; sourceTree = "<group>"; };
 		42953999CF1E0A6FBD61F8B9 /* Pods-AWARE-Location.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Location.release.xcconfig"; path = "Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location.release.xcconfig"; sourceTree = "<group>"; };
+		4E298A289E212537967274AF /* Pods_AWARE_SimpleClient_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SimpleClient_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E3B0EEEFE200865238BE91D /* Pods-AWARE-JSONStorage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-JSONStorage.release.xcconfig"; path = "Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage.release.xcconfig"; sourceTree = "<group>"; };
 		4F128055206E672C00AE4E44 /* AWAREFramework_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AWAREFramework_Example.entitlements; sourceTree = "<group>"; };
 		4F251D8220CAB8A7006443FC /* AWAREFramework.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AWAREFramework.podspec; path = ../AWAREFramework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4F2AEC04239F459C0015719F /* AWARE_ObjC_client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWARE_ObjC_client.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F2AEC21239F45D90015719F /* AWARE-SimpleClient-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-SimpleClient-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F2AEC23239F45D90015719F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4F2AEC24239F45D90015719F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F2AEC26239F45D90015719F /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		4F2AEC27239F45D90015719F /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		4F2AEC29239F45D90015719F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4F2AEC2A239F45D90015719F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4F2AEC2D239F45D90015719F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F2AEC2F239F45DA0015719F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F2AEC32239F45DA0015719F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F2AEC34239F45DA0015719F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F2AEC35239F45DB0015719F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F36A5B52320C48D00399D7F /* AWARE-Barometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Barometer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F36A5B72320C48E00399D7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F36A5B92320C48E00399D7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -380,6 +402,7 @@
 		4FDB561F233CDFF20095E7D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FDB5621233CDFF20095E7D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FDB5627233CE25A0095E7D7 /* AWARE-ForTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-ForTest.entitlements"; sourceTree = "<group>"; };
+		4FF08EC2AE7D4654072E1BF7 /* Pods-AWARE-SimpleClient-ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient-ObjC.release.xcconfig"; path = "Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		515E2F02563D146F780C8F2B /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		558CC5C645459E846824D1DA /* Pods-AWARE-InteractiveESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -398,6 +421,7 @@
 		6F7230664751340410663648 /* Pods-AWARE-ScheduleESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ScheduleESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM.release.xcconfig"; sourceTree = "<group>"; };
 		746FB4279E84527A848B9908 /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
 		76E882D90DF88CDFF3498329 /* Pods-AWARE-ForTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ForTest.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest.debug.xcconfig"; sourceTree = "<group>"; };
+		798BA06FD80C25D9794D6C51 /* Pods-AWARE-SimpleClient-ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient-ObjC.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		7A48962B000FC52468E7562D /* Pods_AWARE_GoogleLogin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_GoogleLogin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85994FB8742BB576E44F9DD5 /* Pods-AWARE-CustomSensor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.release.xcconfig"; path = "Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.release.xcconfig"; sourceTree = "<group>"; };
 		88215E641A54E46C83895B04 /* Pods-AWARE-HealthKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-HealthKit.release.xcconfig"; path = "Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -431,6 +455,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F2AEC01239F459C0015719F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F2AEC1E239F45D90015719F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				523AF523678B351042525B67 /* Pods_AWARE_SimpleClient_ObjC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F36A5B22320C48D00399D7F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -596,6 +635,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F2AEC22239F45D90015719F /* AWARE-SimpleClient-ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				4F2AEC23239F45D90015719F /* AppDelegate.h */,
+				4F2AEC24239F45D90015719F /* AppDelegate.m */,
+				4F2AEC26239F45D90015719F /* SceneDelegate.h */,
+				4F2AEC27239F45D90015719F /* SceneDelegate.m */,
+				4F2AEC29239F45D90015719F /* ViewController.h */,
+				4F2AEC2A239F45D90015719F /* ViewController.m */,
+				4F2AEC2C239F45D90015719F /* Main.storyboard */,
+				4F2AEC2F239F45DA0015719F /* Assets.xcassets */,
+				4F2AEC31239F45DA0015719F /* LaunchScreen.storyboard */,
+				4F2AEC34239F45DA0015719F /* Info.plist */,
+				4F2AEC35239F45DB0015719F /* main.m */,
+			);
+			path = "AWARE-SimpleClient-ObjC";
+			sourceTree = "<group>";
+		};
 		4F36A5B62320C48D00399D7F /* AWARE-Barometer */ = {
 			isa = PBXGroup;
 			children = (
@@ -922,6 +979,7 @@
 				4FDB5612233CDFF10095E7D7 /* AWARE-ForTest */,
 				4F8C41442377DD7E008A3B1D /* AWARE-Location */,
 				4FC7EF5422560B8400136D05 /* Tests */,
+				4F2AEC22239F45D90015719F /* AWARE-SimpleClient-ObjC */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				BC09BD952F6C5A5ADE2A6DBE /* Pods */,
@@ -951,6 +1009,8 @@
 				4FDB55F9233CA5290095E7D7 /* AWARE-Conversation.app */,
 				4FDB5611233CDFF10095E7D7 /* AWARE-ForTest.app */,
 				4F8C41432377DD7E008A3B1D /* AWARE-Location.app */,
+				4F2AEC04239F459C0015719F /* AWARE_ObjC_client.app */,
+				4F2AEC21239F45D90015719F /* AWARE-SimpleClient-ObjC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -983,6 +1043,7 @@
 				A3703671691169FEBBD7AE0C /* Pods_AWARE_UnitTest.framework */,
 				363AFB9065F89D90BA1B27FA /* Pods_AWARE_Visualizer.framework */,
 				E839A4E7FE864E3287AC0137 /* Pods_Tests.framework */,
+				4E298A289E212537967274AF /* Pods_AWARE_SimpleClient_ObjC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1040,6 +1101,8 @@
 				1883A3EDD974A287005B0169 /* Pods-AWARE-Visualizer.release.xcconfig */,
 				A20F599C4F17256EE08D75C5 /* Pods-Tests.debug.xcconfig */,
 				6173ADD3E94FB179F0E7B339 /* Pods-Tests.release.xcconfig */,
+				798BA06FD80C25D9794D6C51 /* Pods-AWARE-SimpleClient-ObjC.debug.xcconfig */,
+				4FF08EC2AE7D4654072E1BF7 /* Pods-AWARE-SimpleClient-ObjC.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1047,6 +1110,43 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F2AEC03239F459C0015719F /* AWARE_ObjC_client */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F2AEC1C239F459F0015719F /* Build configuration list for PBXNativeTarget "AWARE_ObjC_client" */;
+			buildPhases = (
+				4F2AEC00239F459C0015719F /* Sources */,
+				4F2AEC01239F459C0015719F /* Frameworks */,
+				4F2AEC02239F459C0015719F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AWARE_ObjC_client;
+			productName = AWARE_ObjC_client;
+			productReference = 4F2AEC04239F459C0015719F /* AWARE_ObjC_client.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F2AEC20239F45D90015719F /* AWARE-SimpleClient-ObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F2AEC37239F45DB0015719F /* Build configuration list for PBXNativeTarget "AWARE-SimpleClient-ObjC" */;
+			buildPhases = (
+				9B23D28E00F243986BA40BD5 /* [CP] Check Pods Manifest.lock */,
+				4F2AEC1D239F45D90015719F /* Sources */,
+				4F2AEC1E239F45D90015719F /* Frameworks */,
+				4F2AEC1F239F45D90015719F /* Resources */,
+				196C6166D0EC25611964C0F5 /* [CP] Embed Pods Frameworks */,
+				63EF672262085A65291B8CA3 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-SimpleClient-ObjC";
+			productName = "AWARE-SimpleClient-ObjC";
+			productReference = 4F2AEC21239F45D90015719F /* AWARE-SimpleClient-ObjC.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4F36A5B42320C48D00399D7F /* AWARE-Barometer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F36A5C62320C48E00399D7F /* Build configuration list for PBXNativeTarget "AWARE-Barometer" */;
@@ -1465,6 +1565,16 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = tetujin;
 				TargetAttributes = {
+					4F2AEC03239F459C0015719F = {
+						CreatedOnToolsVersion = 11.2.1;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
+					4F2AEC20239F45D90015719F = {
+						CreatedOnToolsVersion = 11.2.1;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
+					};
 					4F36A5B42320C48D00399D7F = {
 						CreatedOnToolsVersion = 10.3;
 						DevelopmentTeam = FH352PYMNC;
@@ -1685,11 +1795,30 @@
 				4FDB5610233CDFF10095E7D7 /* AWARE-ForTest */,
 				4F8C41422377DD7E008A3B1D /* AWARE-Location */,
 				4FC7EF5222560B8400136D05 /* Tests */,
+				4F2AEC03239F459C0015719F /* AWARE_ObjC_client */,
+				4F2AEC20239F45D90015719F /* AWARE-SimpleClient-ObjC */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F2AEC02239F459C0015719F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F2AEC1F239F45D90015719F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F2AEC33239F45DA0015719F /* LaunchScreen.storyboard in Resources */,
+				4F2AEC30239F45DA0015719F /* Assets.xcassets in Resources */,
+				4F2AEC2E239F45D90015719F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F36A5B32320C48D00399D7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1900,6 +2029,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -1907,6 +2042,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2000,6 +2141,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2007,12 +2154,48 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		196C6166D0EC25611964C0F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		19E30D4EFD29087C744EDF89 /* [CP] Check Pods Manifest.lock */ = {
@@ -2106,6 +2289,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2113,6 +2302,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2238,6 +2433,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2245,6 +2446,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2292,6 +2499,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-AmbientNoise/Pods-AWARE-AmbientNoise-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2299,6 +2512,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2370,6 +2589,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework-532c8a0f/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2377,6 +2602,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2424,6 +2655,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2431,12 +2668,54 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63EF672262085A65291B8CA3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient-ObjC/Pods-AWARE-SimpleClient-ObjC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6600914F5E3F84A20BBDB32D /* [CP] Embed Pods Frameworks */ = {
@@ -2530,6 +2809,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2537,6 +2822,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2754,6 +3045,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2761,6 +3058,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2853,6 +3156,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9B23D28E00F243986BA40BD5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-SimpleClient-ObjC-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9DD8A7213FADCF889B8A4208 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2884,6 +3209,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2891,6 +3222,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2952,6 +3289,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2959,6 +3302,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -2976,6 +3325,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -2983,6 +3338,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3112,6 +3473,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3119,6 +3486,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3232,6 +3605,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3239,6 +3618,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3256,6 +3641,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-GoogleLogin/Pods-AWARE-GoogleLogin-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3263,6 +3654,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3280,6 +3677,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3287,6 +3690,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3304,6 +3713,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3311,6 +3726,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3328,6 +3749,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3335,6 +3762,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3352,6 +3785,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3359,6 +3798,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3406,6 +3851,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-resources.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
 				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
 				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
@@ -3413,6 +3864,12 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
@@ -3424,6 +3881,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F2AEC00239F459C0015719F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F2AEC1D239F45D90015719F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F2AEC2B239F45D90015719F /* ViewController.m in Sources */,
+				4F2AEC25239F45D90015719F /* AppDelegate.m in Sources */,
+				4F2AEC36239F45DB0015719F /* main.m in Sources */,
+				4F2AEC28239F45D90015719F /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F36A5B12320C48D00399D7F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3659,6 +4134,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4F2AEC2C239F45D90015719F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F2AEC2D239F45D90015719F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F2AEC31239F45DA0015719F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F2AEC32239F45DA0015719F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		4F36A5BB2320C48E00399D7F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3958,6 +4449,110 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F2AEC1A239F459F0015719F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = AWARE_ObjC_client/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.demo.AWARE-ObjC-client";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F2AEC1B239F459F0015719F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = AWARE_ObjC_client/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.demo.AWARE-ObjC-client";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F2AEC38239F45DB0015719F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 798BA06FD80C25D9794D6C51 /* Pods-AWARE-SimpleClient-ObjC.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SimpleClient-ObjC/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.demo.AWARE-SimpleClient-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F2AEC39239F45DB0015719F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FF08EC2AE7D4654072E1BF7 /* Pods-AWARE-SimpleClient-ObjC.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SimpleClient-ObjC/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.demo.AWARE-SimpleClient-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4F36A5C42320C48E00399D7F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F66192ABA730B455077FB333 /* Pods-AWARE-Barometer.debug.xcconfig */;
@@ -5530,6 +6125,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F2AEC1C239F459F0015719F /* Build configuration list for PBXNativeTarget "AWARE_ObjC_client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F2AEC1A239F459F0015719F /* Debug */,
+				4F2AEC1B239F459F0015719F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F2AEC37239F45DB0015719F /* Build configuration list for PBXNativeTarget "AWARE-SimpleClient-ObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F2AEC38239F45DB0015719F /* Debug */,
+				4F2AEC39239F45DB0015719F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4F36A5C62320C48E00399D7F /* Build configuration list for PBXNativeTarget "AWARE-Barometer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

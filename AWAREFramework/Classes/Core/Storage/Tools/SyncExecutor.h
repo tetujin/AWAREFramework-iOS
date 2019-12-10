@@ -22,7 +22,7 @@
 
 typedef void (^SyncExecutorCallBack)(NSDictionary * _Nullable result);
 
-// - (NSURLSession *)getSessionWithSensorName:(NSString * )name;
+@property SyncExecutorCallBack _Nullable executorCallback;
 
 - (instancetype _Nonnull ) initWithAwareStudy:(AWAREStudy * _Nonnull)study sensorName:(NSString * _Nonnull)name;
 - (void)syncWithData:(NSData * _Nonnull)data callback:(SyncExecutorCallBack _Nullable)callback;
@@ -30,11 +30,3 @@ typedef void (^SyncExecutorCallBack)(NSDictionary * _Nullable result);
 - (BOOL) isSyncing;
 
 @end
-
-
-//@interface AWAREBackgroundURLSessionManager : NSObject
-//+ (AWAREBackgroundURLSessionManager * _Nonnull)shared;
-//@property (nonnull) NSMutableArray<NSURLSession *> * sessions;
-//- (NSURLSession * _Nullable) getBackgroundURLSessionWithIdentifier:(NSString * _Nonnull)identifier;
-//- (void) removeBackgroundURLSessionWithIdentifier:(NSString * _Nonnull)identifier;
-//@end

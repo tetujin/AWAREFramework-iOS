@@ -11,11 +11,15 @@
 #import "AWAREKeys.h"
 #import <CoreMotion/CoreMotion.h>
 
-extern NSString* const AWARE_PREFERENCES_STATUS_ROTATION;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_ROTATION;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_ROTATION;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_ROTATION;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION;
 
 
 @interface Rotation : AWAREMotionSensor <AWARESensorDelegate>
 
+@end
+
+@interface AWARERotationCoreDataHandler : BaseCoreDataHandler
++ (AWARERotationCoreDataHandler * _Nonnull)shared;
 @end

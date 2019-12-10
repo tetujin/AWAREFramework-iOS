@@ -106,3 +106,7 @@ target 'AWARE-Location' do
   pod 'AWAREFramework', :path => '../'
 end
 
+target 'AWARE-SimpleClient-ObjC' do
+  pod 'AWAREFramework', :path => '../'
+end
+

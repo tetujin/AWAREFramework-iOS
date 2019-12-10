@@ -11,30 +11,34 @@
 
 @interface SQLiteStorage : AWAREStorage <AWAREStorageDelegate>
 
-@property NSManagedObjectContext *mainQueueManagedObjectContext;
-@property NSManagedObjectContext *writeQueueManagedObjectContext;
+@property NSManagedObjectContext * _Nonnull mainQueueManagedObjectContext;
+//@property NSManagedObjectContext *writeQueueManagedObjectContext;
 
-typedef void (^InsertEntityCallBack)(NSDictionary *dataDict, NSManagedObjectContext * childContext, NSString* entity );
+typedef void (^InsertEntityCallBack)(NSDictionary * _Nonnull dataDict, NSManagedObjectContext * _Nonnull childContext , NSString* _Nonnull entity);
 
+- (instancetype _Nonnull)initWithStudy:(AWAREStudy * _Nullable) study
+                   sensorName:(NSString * _Nonnull) name
+                   entityName:(NSString * _Nonnull) entity
+               insertCallBack:(InsertEntityCallBack _Nullable)insertCallBack;
 
-- (instancetype)initWithStudy:(AWAREStudy *) study
-                   sensorName:(NSString *) name
-                   entityName:(NSString *) entity
-               insertCallBack:(InsertEntityCallBack)insertCallBack;
+- (instancetype _Nonnull)initWithStudy:(AWAREStudy * _Nullable) study
+                   sensorName:(NSString * _Nonnull) name
+                   entityName:(NSString * _Nonnull) entity
+                   dbHandler:(BaseCoreDataHandler * _Nonnull) dbHandler
+               insertCallBack:(InsertEntityCallBack _Nullable)insertCallBack;
+ 
+- (instancetype _Nonnull)initWithStudy:(AWAREStudy * _Nullable) study
+                   sensorName:(NSString * _Nonnull) name
+                   entityName:(NSString * _Nonnull) entity;
 
-- (instancetype)initWithStudy:(AWAREStudy *) study
-                   sensorName:(NSString *) name
-                   entityName:(NSString *) entity
-                   dbHandler:(BaseCoreDataHandler *) dbHandler
-               insertCallBack:(InsertEntityCallBack)insertCallBack;
+- (instancetype _Nonnull)initWithStudy:(AWAREStudy * _Nullable) study
+                   sensorName:(NSString * _Nonnull) name
+                   entityName:(NSString * _Nonnull) entity
+                    dbHandler:(BaseCoreDataHandler * _Nonnull) dbHandler;
 
-- (instancetype)initWithStudy:(AWAREStudy *) study
-                   sensorName:(NSString *) name
-                   entityName:(NSString *) entity;
+- (NSUInteger)countStoredDataWithError:(NSError * _Nullable) error;
+- (NSUInteger)countUnsyncedDataWithError:(NSError * _Nullable) error;
 
-- (instancetype)initWithStudy:(AWAREStudy *) study
-                   sensorName:(NSString *) name
-                   entityName:(NSString *) entity
-                    dbHandler:(BaseCoreDataHandler *) dbHandler;
+- (BOOL) isExistUnsyncedDataWithError:(NSError * _Nullable) error;
 
 @end

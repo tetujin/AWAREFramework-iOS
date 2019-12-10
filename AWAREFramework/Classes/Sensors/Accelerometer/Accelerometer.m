@@ -11,7 +11,7 @@
 #import "EntityAccelerometer.h"
 #import "EntityAccelerometer+CoreDataProperties.h"
 #import "ObjectModels/AWAREAccelerometerOM+CoreDataClass.h"
-#import "ObjectModels/AWAREAccelerometerOMForSync+CoreDataClass.h"
+#import "../../Core/Storage/SQLite/AWAREBatchDataOM+CoreDataClass.h"
 #import "JSONStorage.h"
 #import "SQLiteStorage.h"
 #import "../../Core/Storage/SQLite/SQLiteSeparatedStorage.h"
@@ -35,16 +35,27 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeInteger),@(CSVTypeText)];
         storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"accelerometer" headerLabels:headerLabels headerTypes:headerTypes];
     } else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study
+        
+       SQLiteStorage * sqlite = [[SQLiteStorage alloc] initWithStudy:study
                                             sensorName:@"accelerometer"
                                             entityName:NSStringFromClass([EntityAccelerometer class])
                                         insertCallBack:nil];
-       
-       storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:@"accelerometer"
-                                             objectModelName:NSStringFromClass([AWAREAccelerometerOM class])
-                                               syncModelName:NSStringFromClass([AWAREAccelerometerOMForSync class])
-                                                   dbHandler:AWAREAcceleromoeterCoreDataHandler.shared];
-    
+        
+        /// use the separated database if the existing database is empty
+        NSError * error = nil;
+        BOOL exist = [sqlite isExistUnsyncedDataWithError:error];
+        if (!exist && error==nil) {
+            storage = [[SQLiteSeparatedStorage alloc] initWithStudy:study sensorName:@"accelerometer"
+                                                    objectModelName:NSStringFromClass([AWAREAccelerometerOM class])
+                                                      syncModelName:NSStringFromClass([AWAREBatchDataOM class])
+                                                          dbHandler:AWAREAcceleromoeterCoreDataHandler.shared];
+        }else{
+            if (error!=nil) {
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+            storage = sqlite;
+        }
+        
     }
     [self setNotificationNames:@[]];
     self = [super initWithAwareStudy:study
@@ -55,12 +66,16 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
         lastValues = [[NSArray alloc] init];
     }
     
+    if (self.isDebug) {
+        NSLog(@"[%@][%@] init sensor",[self getSensorName],self);
+    }
+    
     return self;
 }
 
 - (void) createTable {
     if ([self isDebug]){
-        NSLog(@"[%@] Create Table", [self getSensorName]);
+        NSLog(@"[%@][%@] create table", [self getSensorName],self);
     }
     TCQMaker * queryMaker = [[TCQMaker alloc] init];
     [queryMaker addColumn:@"double_values_0" type:TCQTypeReal default:@"0"];
@@ -97,7 +112,7 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
                          savingInterval:(double)savingInterval{
     // Set and start a data uploader
     if ([self isDebug]) {
-        NSLog(@"[%@] Start Sensor!", [self getSensorName]);
+        NSLog(@"[%@][%@] start sensor", [self getSensorName], self);
     }
     
     if (![manager isAccelerometerAvailable]) {
@@ -169,9 +184,18 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
         [self.storage saveBufferDataInMainThread:YES];
     }
     [self setSensingState:NO];
+    if ([self isDebug]) {
+        NSLog(@"[%@][%@] stop sensor", [self getSensorName], self);
+    }
     return YES;
 }
 
+- (void)startSyncDB{
+    if ([self isDebug]){
+        NSLog(@"[%@][%@] start sync", [self getSensorName],self);
+    }
+    [super startSyncDB];
+}
 
 @end
 

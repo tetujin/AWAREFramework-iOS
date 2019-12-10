@@ -11,10 +11,15 @@
 #import "AWAREMotionSensor.h"
 #import <CoreMotion/CoreMotion.h>
 
-extern NSString* const AWARE_PREFERENCES_STATUS_GRAVITY;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_GRAVITY;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_GRAVITY;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_GRAVITY;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY;
 
 @interface Gravity : AWAREMotionSensor <AWARESensorDelegate>
 
 @end
+
+@interface AWAREGravityCoreDataHandler : BaseCoreDataHandler
++ (AWAREGravityCoreDataHandler * _Nonnull)shared;
+@end
+

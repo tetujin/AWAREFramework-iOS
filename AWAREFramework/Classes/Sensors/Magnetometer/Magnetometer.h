@@ -11,10 +11,14 @@
 #import "AWAREKeys.h"
 #import "AWAREMotionSensor.h"
 
-extern NSString* const AWARE_PREFERENCES_STATUS_MAGNETOMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_MAGNETOMETER;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_MAGNETOMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_MAGNETOMETER;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER;
 
 @interface Magnetometer : AWAREMotionSensor <AWARESensorDelegate>
 
+@end
+
+@interface AWAREMagnetometerCoreDataHandler : BaseCoreDataHandler
++ (AWAREMagnetometerCoreDataHandler * _Nonnull)shared;
 @end

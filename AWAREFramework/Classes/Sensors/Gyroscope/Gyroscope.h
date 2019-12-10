@@ -12,10 +12,13 @@
 #import "AWAREKeys.h"
 #import "AWAREMotionSensor.h"
 
-extern NSString* const AWARE_PREFERENCES_STATUS_GYROSCOPE;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_GYROSCOPE;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_GYROSCOPE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_GYROSCOPE;
+extern NSString * _Nonnull const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE;
 
 @interface Gyroscope : AWAREMotionSensor <AWARESensorDelegate>
+@end
 
+@interface AWAREGyroscopeCoreDataHandler : BaseCoreDataHandler
++ (AWAREGyroscopeCoreDataHandler * _Nonnull)shared;
 @end

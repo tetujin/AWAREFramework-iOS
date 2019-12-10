@@ -123,7 +123,7 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
     if(error==nil){
         NSString * result = [[NSString alloc] initWithData:recievedData encoding:NSUTF8StringEncoding];
-        if (awareStudy.isDebug) NSLog(@"[DBTableCreator|%@][sucess] %@", sensorName, result);
+        if (awareStudy.isDebug) NSLog(@"[DBTableCreator|%@][success] %@", sensorName, result);
         if (httpCallback!=nil) {
             httpCallback(YES, recievedData, error);
         }

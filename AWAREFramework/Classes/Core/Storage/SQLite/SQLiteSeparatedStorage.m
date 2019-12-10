@@ -9,6 +9,7 @@
 #import "SyncExecutor.h"
 #import "CoreDataHandler.h"
 #import "AWAREUtils.h"
+#import "../Tools/AWAREFetchSizeAdjuster.h"
 @import CoreData;
 
 @implementation SQLiteSeparatedStorage{
@@ -17,14 +18,16 @@
     NSString * baseSyncDataQueryIdentifier;
     NSString * timeMarkerIdentifier;
     BOOL isUploading;
-    int  currentRepetitionCount;
-    int  requiredRepetitionCount;
-    NSNumber * previousUploadingProcessFinishUnixTime; // unixtimeOfUploadingData;
+    NSNumber * previousUploadingProcessFinishUnixtime; // unixtimeOfUploadingData;
     NSNumber * tempLastUnixTimestamp;
-    // BOOL cancel;
     int retryCurrentCount;
+    int currentRepetitionCount;
+    NSUInteger stagedRecords;
+    BOOL isCanceled;
+    BOOL isFetching;
     BaseCoreDataHandler * coreDataHandler;
     SyncExecutor * executor;
+    AWAREFetchSizeAdjuster * fetchSizeAdjuster;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -47,22 +50,23 @@
         self.retryLimit   = 3;
         retryCurrentCount = 0;
         tempLastUnixTimestamp   = @0;
-        currentRepetitionCount  = 0;
-        requiredRepetitionCount = 0;
         timeMarkerIdentifier        = [NSString stringWithFormat:@"uploader_coredata_timestamp_marker_%@", name];
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@", name];
 
         self.mainQueueManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [self.mainQueueManagedObjectContext setPersistentStoreCoordinator:dbHandler.persistentStoreCoordinator];
-        previousUploadingProcessFinishUnixTime = [self getTimeMark];
-        if([previousUploadingProcessFinishUnixTime isEqualToNumber:@0]){
+        previousUploadingProcessFinishUnixtime = [self getTimeMark];
+        if([previousUploadingProcessFinishUnixtime isEqualToNumber:@0]){
             [self setTimeMark:[NSDate new]];
         }
         coreDataHandler = dbHandler;
+        fetchSizeAdjuster = [[AWAREFetchSizeAdjuster alloc] initWithSensorName:name];
+        fetchSizeAdjuster.debug = study.isDebug;
     }
     return self;
 }
 
+#pragma mark - Save Operations
 
 - (BOOL)saveDataWithDictionary:(NSDictionary * _Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
     [self saveDataWithArray:@[dataDict] buffer:isRequiredBuffer saveInMainThread:saveInMainThread];
@@ -84,7 +88,7 @@
         if (now.timeIntervalSince1970 < self.lastSaveTimestamp + self.saveInterval) {
             return YES;
         }else{
-            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: save data by time-base trigger", self.sensorName); }
+            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: data is saved by time-base trigger", self.sensorName); }
             self.lastSaveTimestamp = now.timeIntervalSince1970;
         }
     }else{
@@ -92,7 +96,7 @@
         if (self.buffer.count < [self getBufferSize]) {
             return YES;
         }else{
-            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: buffer limit-based trigger", self.sensorName); }
+            if ([self isDebug]) { NSLog(@"[SQLiteStorage] %@: data is saved by buffer limit-based trigger", self.sensorName); }
         }
     }
 
@@ -138,7 +142,7 @@
                 [self.buffer addObjectsFromArray:copiedArray];
                 [self unlock];
             }else{
-                // sucess to marge diff to the main context manager
+                // success to marge diff to the main context manager
                 [parentContext performBlock:^{
                     if(![parentContext save:nil]){
                         NSLog(@"Error saving context");
@@ -154,8 +158,7 @@
 }
 
 
-
-- (void) stageData:(NSArray * _Nonnull)  data
+- (void) stageData:(NSArray  * _Nonnull)  data
                 to:(NSString * _Nonnull) objectName
               with:(NSString * _Nonnull) syncName
                 on:(NSManagedObjectContext * _Nonnull) context {
@@ -170,12 +173,10 @@
         
     [indexObj setValue:data forKey:@"batch_data"];
     [indexObj setValue:@(data.count) forKey:@"count"];
-    NSDate * now = [NSDate new];
-    [indexObj setValue:now  forKey:@"date"];
-    [indexObj setValue:[AWAREUtils getUnixTimestamp:now] forKey:@"timestamp"];
+    [indexObj setValue:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:@"timestamp"];
 }
 
-
+#pragma mark - Sync Functions
 
 - (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
     self.syncProcessCallBack = callback;
@@ -183,260 +184,192 @@
 }
 
 - (void) startSyncStorage {
-
+    
+    if (objectName == nil || syncName == nil) {
+        NSLog(@"***** [%@][%@] Error: Entity Name is nil! *****", self.sensorName, self);
+        if (self.syncProcessCallBack!=nil){
+            self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
+        }
+        return;
+    }
+    
     if(isUploading){
-        NSString * message= [NSString stringWithFormat:@"[%@] sensor data is uploading.", self.sensorName];
-        NSLog(@"%@", message);
+        NSLog(@"[%@][%@] NOTE: The storage is uploading data now.", self.sensorName, self);
         if (self.syncProcessCallBack!=nil){
             self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressUploading, -1, nil);
         }
         return;
     }
     
-    if (self.isDebug) NSLog(@"[SQLiteStorage:%@] start sync process ", self.sensorName);
-    isUploading = YES;
-    
-    [self setRepetationCountAfterStartToSyncDB:[self getTimeMark]];
-}
-
-- (void)cancelSyncStorage {
-    if (executor != nil) {
-        if ( executor.dataTask != nil ) {
-            [executor.dataTask cancel];
-            [self dataSyncIsFinishedCorrectly];
-        }
+    if (self.isDebug){
+        NSLog(@"[SQLiteStorage:%@][%@] start sync process ", self.sensorName, self);
     }
+    
+    [self setUploadingState:YES];
+    
+    [self syncTask];
 }
 
-/**
- * start sync db with timestamp
- * @discussion Please call this method in the background
- */
-- (BOOL) setRepetationCountAfterStartToSyncDB:(NSNumber *) startTimestamp {
-
-    @try {
-        if (objectName == nil) {
-            NSLog(@"***** [%@] Error: Entity Name is nil! *****", self.sensorName);
-            return NO;
-        }
-
-        if ([self isLock]) {
-            return NO;
-        }else{
-            [self lock];
+- (void) cancelSyncStorage {
+    if (self.isDebug) NSLog(@"[%@][%@] cancel a sync-process",[self sensorName],self);
+    if (executor != nil) {
+        if (executor.dataTask != nil ) {
+            [executor.dataTask cancel];
         }
         
-        NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [private setParentContext:self.mainQueueManagedObjectContext];
-        [private performBlock:^{
-            
-            NSError* error = nil;
-            
-            /// get a number of un-synced data
-            int count = 0;
-            
-            ///  prepare a fetch request
-            NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
-            [request setIncludesSubentities:NO];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", startTimestamp]];
-            NSArray * indexes = [private executeFetchRequest:request error:&error];
-            NSInteger fetchLimit = [self.awareStudy getMaximumNumberOfRecordsForDBSync];
-            
-            int tempCount = 0;
-            if (indexes!=nil && indexes.count>0) {
-                 for (NSManagedObjectModel * mom in indexes) {
-                     NSNumber * child = [mom valueForKey:@"count"];
-                     if (child != nil) {
-                         tempCount+=child.intValue;
-                     }
-                     if (tempCount > fetchLimit) {
-                         count+=1;
-                         tempCount = 0;
-                     }
-                 }
-             }
-            
-            if (count == NSNotFound || count== 0) {
-                if (self.isDebug) NSLog(@"[%@] There are no data in this database table",self->objectName);
-                [self dataSyncIsFinishedCorrectly];
-                if (self.syncProcessCallBack!=nil) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
-                    });
-                }
-                [self unlock]; // Unlock DB
-                return;
-            } else if(error != nil){
-                NSLog(@"%@", error.description);
-                [self dataSyncIsFinishedCorrectly];
-                if (self.syncProcessCallBack!=nil) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, error) ;
-                    });
-                }
-                [self unlock]; // Unlock DB
-                return;
-            }
-
-            // Set repetationCount
-            self->currentRepetitionCount = 0;
-            self->requiredRepetitionCount = count; //(int)count/(int)[self.awareStudy getMaximumNumberOfRecordsForDBSync];
-
-            if (self.isDebug) NSLog(@"[%@] %d times of sync tasks are required", self.sensorName, self->requiredRepetitionCount);
-
-            // set db condition as normal
-            [self unlock]; // Unlock DB
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // start upload
-                [self syncTask];
-            });
-
-        }];
-    } @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
-        [self unlock]; // Unlock DB
-    } @finally {
-        return YES;
+        if (executor.session != nil){
+            [executor.session invalidateAndCancel];
+        }
+        [self dataSyncIsFinishedCorrectly];
+        isCanceled = YES;
+    }
+    
+    if (isFetching) {
+        isCanceled = YES;
     }
 }
-
 
 /**
  * Upload method
  */
 - (void) syncTask {
-    previousUploadingProcessFinishUnixTime = [self getTimeMark];
-    
-    if ([self isLock]) {
-        NSLog(@"[%@] The local-storage is locked. This sync task is canceled", self.sensorName);
-        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressLocked, -1, nil);
-        return;
-    }else{
-        [self lock];
-    }
-    
-    if(objectName == nil){
-        NSLog(@"Entity Name is `nil`. Please check the initialozation of this class.");
-    }
-    
+    previousUploadingProcessFinishUnixtime = [self getTimeMark];
+    isFetching = YES;
     @try {
         NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [private setParentContext:self.mainQueueManagedObjectContext];
         [private performBlock:^{
             
-            NSArray * results = [[NSArray alloc] init];
-            
-            /// prepare a fetch request
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
-            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", self->previousUploadingProcessFinishUnixTime]];
-            
-            /// prepare sync buffer
-            NSError * error = nil;
-            NSMutableArray * buffer = [@[] mutableCopy];
-            NSArray * indexes = [private executeFetchRequest:fetchRequest error:&error];
-            if (indexes!=nil && indexes.count>0) {
-                for (NSManagedObjectModel * mom in indexes) {
-                    
-                    NSArray *batchData = [mom valueForKey:@"batch_data"];
-                    if (batchData != nil) {
-                        [buffer addObjectsFromArray:batchData];
-                    }
-                    
-                    /// Save current timestamp as a maker
-                    NSDate * date = [mom valueForKey:@"date"];
-                    if (date != nil ) {
-                        self->tempLastUnixTimestamp = [AWAREUtils getUnixTimestamp:date];
-                    }
-                    
-                    NSInteger fetchLimit = [self.awareStudy getMaximumNumberOfRecordsForDBSync];
-                    if (buffer.count > fetchLimit) {
-                        break;
-                    }
-                }
+            if (self.isDebug) NSLog(@"[%@][is_canceled] %@", self.sensorName, self->isCanceled?@"YES":@"NO");
+            if (self->isCanceled) {
+                [self dataSyncIsFinishedCorrectly];
+                self->isFetching = NO;
+                self->isCanceled = NO;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressCancel, -1, nil);
+                });
+                return;
             }
-            results = buffer;
-
-            [self unlock];
             
-            if (results != nil) {
-                if (results.count == 0 || results.count == NSNotFound) {
+            NSError * countingError = nil;
+            if (self->stagedRecords == 0) {
+                self->stagedRecords =  [self countStoredData:self->syncName
+                                                        from:self->previousUploadingProcessFinishUnixtime
+                                                     context:private
+                                                  fetchLimit:0
+                                                       error:countingError];
+                self->currentRepetitionCount = 0;
+                if (self.isDebug) NSLog(@"[%@][staged] %ld", self.sensorName, self->stagedRecords);
+                if (self->stagedRecords == 0 || self->stagedRecords == NSNotFound) {
                     [self dataSyncIsFinishedCorrectly];
+                   self->isFetching = NO;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
                     });
                     return;
                 }
-                
-                // Convert array to json data
-                NSError * error = nil;
-                NSData * jsonData = nil;
+            }
+            
+            /// prepare a fetch request
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
+            [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", self->previousUploadingProcessFinishUnixtime]];
+            [fetchRequest setFetchLimit:self->fetchSizeAdjuster.fetchSize];
+            NSError * error = nil;
+            NSDate  * s = [NSDate new];
+            NSArray * indexes = [private executeFetchRequest:fetchRequest error:&error];
+            if (self.isDebug) NSLog(@"[%@][%@] FETCH SPEED: (%ld) New SQLite ---> %f", self.sensorName, self, indexes.count, [[NSDate new] timeIntervalSinceDate:s] );
+
+            NSMutableArray * results = [@[] mutableCopy];
+            if (indexes!=nil && indexes.count>0) {
+                for (NSManagedObjectModel * mom in indexes) {
+                    NSArray *batchData = [mom valueForKey:@"batch_data"];
+                    if (batchData != nil) {
+                        [results addObjectsFromArray:batchData];
+                    }
+                    NSNumber * timestamp = [mom valueForKey:@"timestamp"];
+                    // NSLog(@"%@",timestamp);
+                    if (timestamp!=nil) {
+                        self->tempLastUnixTimestamp = timestamp;
+                    }
+                }
+            }
+
+            if (results != nil) {
+                /// Convert an array object to json
+                NSError * error    = nil;
+                NSData  * jsonData = nil;
                 @try {
                     jsonData = [NSJSONSerialization dataWithJSONObject:results options:0 error:&error];
                 } @catch (NSException *exception) {
-                    NSLog(@"[%@] %@",self.sensorName, exception.debugDescription);
+                    NSLog(@"[%@][%@] %@", self.sensorName, self, exception.debugDescription);
                 }
                 
                 if (error == nil && jsonData != nil) {
                     // Set HTTP/POST session on main thread
-                    
-                    if ( jsonData.length == 0 || jsonData.length == 2 ) {
-                        NSString * message = [NSString stringWithFormat:@"[%@] data is null or zero", self.sensorName];
-                        if (self.isDebug) NSLog(@"%@", message);
-                        [self dataSyncIsFinishedCorrectly];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
-                        });
-                        return;
-                    }
-                    
                     NSMutableData * mutablePostData = [[NSMutableData alloc] initWithData:jsonData];
-
                     dispatch_async(dispatch_get_main_queue(), ^{
                         @try {
                             self->executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            self->isFetching = NO;
                             self->executor.debug = self.isDebug;
                             [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
                                 if (result!=nil) {
-                                    if (self.isDebug) NSLog(@"%@",result.debugDescription);
+                                    if (self.isDebug) NSLog(@"[%@][%@]%@", self.sensorName, self,  result.debugDescription);
                                     NSNumber * isSuccess = [result objectForKey:@"result"];
-                                    if (isSuccess != nil) {
-                                        if((BOOL)isSuccess.intValue){
-                                            // set a repetation count
-                                            self->currentRepetitionCount++;
+                                    NSString * response  = [result objectForKey:@"response"];
+                                    if (isSuccess != nil && response != nil) {
+                                        self->currentRepetitionCount++;
+                                        double completionRate = (double)(self->currentRepetitionCount * self->fetchSizeAdjuster.fetchSize)/(double)self->stagedRecords;
+                                        
+                                        if (self.isDebug) {
+                                            NSLog(@"[%@] sync progress: %f", self.sensorName, completionRate);
+                                        }
+                                        if((BOOL)isSuccess.intValue && [response isEqualToString:@""]){
+                                            // "[{\"message\":\"I don't know who you are.\"}]"
+                                            [self->fetchSizeAdjuster success];
                                             [self setTimeMarkWithTimestamp:self->tempLastUnixTimestamp];
-                                            if (self->requiredRepetitionCount <= self->currentRepetitionCount) {
+                                            if (completionRate >= 1.0) {
                                                 ///////////////// Done ////////////
                                                 if (self.isDebug) NSLog(@"[%@] done", self.sensorName);
                                                 if (self.syncProcessCallBack!=nil) {
-                                                    if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
-                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete,completionRate, nil);
                                                 }
                                                 [self dataSyncIsFinishedCorrectly];
                                                 if (self.isDebug) NSLog(@"[%@] clear old data", self.sensorName);
-                                                [self clearOldData];
+                                                [self deleteSyncedData];
+                                                [self deleteOldDataIfNeeded];
+                                                return;
                                             }else{
                                                 ///////////////// continue ////////////
                                                 if (self.syncProcessCallBack!=nil) {
-                                                    if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
-                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressContinue, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressContinue,completionRate, nil);
                                                 }
-                                                if (self.isDebug) NSLog(@"[%@] execute next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
+                                                if (self.isDebug) NSLog(@"[%@][%@] execute next sync task (%f)", self.sensorName, self, completionRate);
                                                 [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                                                [self deleteSyncedData];
+                                                return;
                                             }
                                         }else{
                                             ///////////////// retry ////////////
+                                            [self->fetchSizeAdjuster failure];
+                                            
                                             if (self->retryCurrentCount < self.retryLimit) {
                                                 self->retryCurrentCount++;
-                                                if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
-                                                // [self syncTask];
+                                                if (self.isDebug) NSLog(@"[%@] Do the next sync task (%f)", self.sensorName, completionRate);
+                                                if (self.syncProcessCallBack!=nil) {
+                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressContinue,completionRate, nil);
+                                                }
                                                 [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-                                            }else{
-                                                [self dataSyncIsFinishedCorrectly];
+                                                return;
                                             }
                                         }
+                                    }else{
+                                        [self->fetchSizeAdjuster failure];
                                     }
                                 }
+                                NSLog(@"[%@] Error: A response from AWARE-Server is null",self.sensorName);
+                                [self dataSyncIsFinishedCorrectly];
+                                if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
                             }];
                         } @catch (NSException *exception) {
                             NSLog(@"[%@] %@",self.sensorName, exception.debugDescription);
@@ -456,76 +389,78 @@
             }
         }];
     } @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
+        NSLog(@"[%@] %@", self.sensorName, exception.reason);
         [self dataSyncIsFinishedCorrectly];
         if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
-        [self unlock];
     }
 }
 
 - (void) dataSyncIsFinishedCorrectly {
     if (self.isDebug) NSLog(@"[SQLiteStorage:%@] dataSyncIsFinishedCorrectly ", self.sensorName);
-    isUploading = NO;
-    // cancel      = NO;
-    requiredRepetitionCount = 0;
-    currentRepetitionCount  = 0;
-    retryCurrentCount       = 0;
+    [self setUploadingState:NO];
+    retryCurrentCount      = 0;
+    stagedRecords          = 0;
+    currentRepetitionCount = 0;
 }
 
 
-- (void) clearOldData {
-//    NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-//    [parentContext setPersistentStoreCoordinator:coreDataHandler.persistentStoreCoordinator];
-//
-//    NSManagedObjectContext* childContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//    [childContext setParentContext:parentContext];
-//    [childContext performBlock:^{
-//    }];
-    
+- (void) deleteSyncedData {
+
+    NSNumber * clearTimestamp =  [[NSNumber alloc] initWithDouble:self->tempLastUnixTimestamp.doubleValue];
+
     NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [private setParentContext:self.mainQueueManagedObjectContext];
     [private performBlock:^{
-        
-        NSDate * clearLimitDate = nil;
-        switch ([self.awareStudy getCleanOldDataType]) {
-            case cleanOldDataTypeNever:
-                break;
-            case cleanOldDataTypeDaily:
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24];
-                break;
-            case cleanOldDataTypeWeekly:
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*7];
-                break;
-            case cleanOldDataTypeMonthly:
-                clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*31];
-                break;
-            case cleanOldDataTypeAlways:
-                clearLimitDate = nil;
-                break;
-            default:
-                break;
-        }
-                
         NSFetchRequest* deleteRequest = [[NSFetchRequest alloc] initWithEntityName:self->syncName];
         [deleteRequest setIncludesSubentities:YES];
-        NSNumber * clearTimestamp = self->tempLastUnixTimestamp;
-        
-        if ( clearLimitDate != nil){
-            clearTimestamp = [AWAREUtils getUnixTimestamp:clearLimitDate];
-        }
         [deleteRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp <= %@", clearTimestamp]];
         NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:deleteRequest];
         NSError *deleteError = nil;
         if ([private executeRequest:delete error:&deleteError]) {
             if(self.isDebug){
-                NSLog(@"[%@] Sucess to clear the data from DB (date <= %@ )", self.sensorName, clearLimitDate);
+                NSLog(@"[%@] Success to clear the synced data from DB (timestamp <= %@ )", self.sensorName, clearTimestamp);
             }
         }else{
             NSLog(@"%@", deleteError.description);
         }
+
+        [self->_mainQueueManagedObjectContext performBlock:^{
+            NSError * error = nil;
+            if([self->_mainQueueManagedObjectContext save:&error]){
+                NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
+            }else{
+                NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
+            }
+        }];
+    }];
+}
+
+- (void) deleteOldDataIfNeeded {
+    if([self.awareStudy getCleanOldDataType] != cleanOldDataTypeNever){
         
-        /////////////////////
-        if([self.awareStudy getCleanOldDataType] != cleanOldDataTypeNever){
+        NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [private setParentContext:self.mainQueueManagedObjectContext];
+        [private performBlock:^{
+            NSDate * clearLimitDate = nil;
+            switch ([self.awareStudy getCleanOldDataType]) {
+                case cleanOldDataTypeNever:
+                    break;
+                case cleanOldDataTypeDaily:
+                    clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24];
+                    break;
+                case cleanOldDataTypeWeekly:
+                    clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*7];
+                    break;
+                case cleanOldDataTypeMonthly:
+                    clearLimitDate = [[NSDate alloc] initWithTimeIntervalSinceNow:-1*60*60*24*31];
+                    break;
+                case cleanOldDataTypeAlways:
+                    clearLimitDate = nil;
+                    break;
+                default:
+                    break;
+            }
+        
             NSFetchRequest* deleteRequest = [[NSFetchRequest alloc] initWithEntityName:self->objectName];
             [deleteRequest setIncludesSubentities:YES];
             NSNumber * clearTimestamp = self->tempLastUnixTimestamp;
@@ -539,28 +474,26 @@
             NSError *deleteError = nil;
             if ([private executeRequest:delete error:&deleteError]) {
                 if(self.isDebug){
-                    NSLog(@"[%@] Sucess to clear the data from DB (date <= %@ )", self.sensorName, clearLimitDate);
+                    NSLog(@"[%@] success to clear the data from DB (date <= %@ )", self.sensorName, clearLimitDate);
                 }
             }else{
                 NSLog(@"%@", deleteError.description);
             }
-        }
-
-        [self->_mainQueueManagedObjectContext performBlock:^{
-            NSError * error = nil;
-            if([self->_mainQueueManagedObjectContext save:&error]){
-                NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
-            }else{
-                NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
-            }
-        }];
         
 
-    }];
+            [self->_mainQueueManagedObjectContext performBlock:^{
+                NSError * error = nil;
+                if([self->_mainQueueManagedObjectContext save:&error]){
+                    NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
+                }else{
+                    NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
+                }
+            }];
+         }];
+    }
 }
 
-
-//////////////////////////////////
+#pragma mark - Storage Configurations
 
 - (void) resetMark {
     [self setTimeMarkWithTimestamp:@0];
@@ -598,17 +531,28 @@
     }
 }
 
-- (NSString *)stringByAddingPercentEncodingForAWARE:(NSString *) string {
-    // NSString *unreserved = @"-._~/?{}[]\"\':, ";
-    NSString *unreserved = @"";
-    NSMutableCharacterSet *allowed = [NSMutableCharacterSet
-                                      alphanumericCharacterSet];
-    [allowed addCharactersInString:unreserved];
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+//- (NSString *)stringByAddingPercentEncodingForAWARE:(NSString *) string {
+//    // NSString *unreserved = @"-._~/?{}[]\"\':, ";
+//    NSString *unreserved = @"";
+//    NSMutableCharacterSet *allowed = [NSMutableCharacterSet
+//                                      alphanumericCharacterSet];
+//    [allowed addCharactersInString:unreserved];
+//    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowed];
+//}
+
+#pragma mark - Status
+
+- (bool)isSyncing{
+    return isUploading;
+}
+
+- (void)setUploadingState:(BOOL)state{
+    if (self.isDebug) NSLog(@"[%@][%@]%@",self.sensorName,self,state?@"YES":@"NO");
+    isUploading = state;
 }
 
 
-//////////////////
+#pragma mark - Fetch Operations
 
 -(NSArray *)fetchTodaysData{
     NSDate * today = [self getToday];
@@ -644,9 +588,7 @@
     [fetchRequest setSortDescriptors:sortDescriptors];
     [fetchRequest setResultType:NSDictionaryResultType];
 
-    // NSDate * start = [NSDate new];
     NSArray *results = [context executeFetchRequest:fetchRequest error:error];
-    // NSLog(@"--> %f", [[NSDate new] timeIntervalSinceDate:start]);
     if (results==nil) {
         return @[];
     }else{
@@ -679,8 +621,25 @@
     }];
 }
 
-- (bool)isSyncing{
-    return isUploading;
+- (NSUInteger)countStoredData:(NSString *)entityName
+                         from:(NSNumber * _Nullable)from
+                      context:(NSManagedObjectContext * _Nonnull)context
+                   fetchLimit:(int)limit
+                        error:(NSError * _Nullable) error {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:context]];
+    [request setIncludesSubentities:NO];
+    if (limit != 0) {
+        [request setFetchLimit:0];
+    }
+    if (from!=nil) {
+        [request setPredicate:[NSPredicate predicateWithFormat:@"timestamp > %@", from]];
+    }
+    
+    NSDate  * s = [NSDate new];
+    NSUInteger count =  [context countForFetchRequest:request error:&error];
+    if (self.isDebug) NSLog(@"[%@] COUNT SPEED: New SQLite ---> %f", self.sensorName, [[NSDate new] timeIntervalSinceDate:s] );
+    return count;
 }
 
 
