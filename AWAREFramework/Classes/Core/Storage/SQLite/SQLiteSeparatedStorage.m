@@ -105,6 +105,11 @@
 
 - (BOOL)saveBufferDataInMainThread:(BOOL)saveInMainThread{
     
+    if (self.buffer.count == 0) {
+        if (self.isDebug) NSLog(@"[%@] NO buffer data", self.sensorName);
+        return YES;
+    }
+    
     /// generate a copied buffer
     NSArray * copiedArray = [self.buffer copy];
     [self.buffer removeAllObjects];
@@ -112,7 +117,7 @@
     /// get a parent context
     NSManagedObjectContext* parentContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [parentContext setPersistentStoreCoordinator:coreDataHandler.persistentStoreCoordinator];
-
+    
     /// save data in the main-thread
     if (saveInMainThread) {
         /// stage data on context
@@ -293,6 +298,10 @@
                     }
                 }
             }
+            
+//            if ([self.sensorName isEqualToString:@"magnetometer"]) {
+//                NSLog(@"%@",results);
+//            }
 
             if (results != nil) {
                 /// Convert an array object to json
