@@ -46,6 +46,10 @@
     return self;
 }
 
+- (void)setParameters:(NSArray *)parameters{
+    // TODO
+}
+
 - (void) createTable
 {
     // Send a table create query
