@@ -272,16 +272,16 @@
 //////////////////////////////////////////
 
 - (void)startSyncStorage {
-    NSLog(@"Please orverwrite -startSyncStorage");
+    NSLog(@"[%@] Please orverwrite -startSyncStorage", sensorName);
 }
 
 - (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
     syncProcessCallBack = callback;
-    NSLog(@"Please orverwrite -startSyncStorageWithCallBack");
+    NSLog(@"[%@] Please orverwrite -startSyncStorageWithCallBack", sensorName);
 }
 
 - (void)cancelSyncStorage {
-    NSLog(@"Please overwirte -cancelSyncStorage");
+    NSLog(@"[%@] Please overwirte -cancelSyncStorage", sensorName);
 }
 
 - (BOOL)saveDataWithArray:(NSArray * _Nullable)dataArray buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {

@@ -30,7 +30,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
-    AWAREStorage * storage = [[AWAREStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
+    JSONStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
     self = [super initWithAwareStudy:study sensorName:SENSOR_HEALTH_KIT storage:storage];
     if( self != nil ){
         healthStore      = [[HKHealthStore alloc] init];
@@ -144,11 +144,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [_awareHKWorkout  startSyncDB];
     [_awareHKCategory startSyncDB];
     [_awareHKQuantity startSyncDB];
-    
     [_awareHKHeartRate.storage setSyncProcessCallBack:self.storage.syncProcessCallBack];
     [_awareHKHeartRate startSyncDB];
     [_awareHKSleep     startSyncDB];
-    // [super startSyncDB];
+    [super startSyncDB];
 }
 
 - (void)stopSyncDB{
@@ -156,9 +155,9 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [_awareHKCategory  stopSyncDB];
     [_awareHKQuantity  stopSyncDB];
     
-    [_awareHKHeartRate startSyncDB];
-    [_awareHKSleep     startSyncDB];
-    // [super stopSyncDB];
+    [_awareHKHeartRate stopSyncDB];
+    [_awareHKSleep     stopSyncDB];
+    [super stopSyncDB];
 }
 
 - (NSDate * _Nullable) getLastRecordTimeWithHKDataType:(NSString * _Nonnull)type{

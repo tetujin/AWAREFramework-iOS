@@ -161,8 +161,8 @@
     }
 }
 
-- (void)cancelSyncStorage {
-    NSLog(@"Please overwirte -cancelSyncStorage");
+- (void) cancelSyncStorage {
+    if (self.isDebug) NSLog(@"Please overwirte -cancelSyncStorage");
 }
 
 

@@ -436,9 +436,9 @@
         [self->_mainQueueManagedObjectContext performBlock:^{
             NSError * error = nil;
             if([self->_mainQueueManagedObjectContext save:&error]){
-                NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
+                if (self.isDebug) NSLog(@"[%@] merged all changes on the temp-DB into the main DB", self.sensorName);
             }else{
-                NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
+                if (self.isDebug) NSLog(@"[%@] %@", self.sensorName, error.debugDescription);
             }
         }];
     }];

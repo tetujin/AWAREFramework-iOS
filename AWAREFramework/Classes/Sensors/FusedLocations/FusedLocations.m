@@ -145,13 +145,13 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 - (void) startSyncDB{
     [_visitLocationSensor startSyncDB];
     [_locationSensor startSyncDB];
-    [super startSyncDB];
+    // [super startSyncDB];
 }
 
 - (void)stopSyncDB{
     [_visitLocationSensor stopSyncDB];
     [_locationSensor stopSyncDB];
-    [super stopSyncDB];
+    // [super stopSyncDB];
 }
 
 - (void) getGpsData: (NSTimer *) theTimer {

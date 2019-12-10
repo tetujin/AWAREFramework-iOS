@@ -347,7 +347,8 @@ static AWARESensorManager * sharedSensorManager;
             // message = [NSString stringWithFormat:@"[%@] Stop %@ sensor",[sensor getSensorName], [sensor getSensorName]];
             // NSLog(@"%@", message);
             bool state = [sensor stopSensor];
-            [sensor.storage cancelSyncStorage];
+            // [sensor.storage cancelSyncStorage];
+            [sensor stopSyncDB];
             [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",
                                                 @"event":@"stop and remove sensor",
                                                 @"sensor":sensor.getSensorName,
