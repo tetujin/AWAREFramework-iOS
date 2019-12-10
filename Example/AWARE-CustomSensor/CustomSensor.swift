@@ -21,7 +21,7 @@ class CustomSensor: AWARESensor {
                                      sensorName: CustomSensor.sensorName,
                                      entityName: "EntityCustomSensor",
                                      dbHandler:  ExternalCoreDataHandler.shared())
-        self.init(awareStudy: study, sensorName: CustomSensor.sensorName, storage: storage!)
+        self.init(awareStudy: study, sensorName: CustomSensor.sensorName, storage: storage)
     }
     
     override convenience init(dbType:AwareDBType) {
