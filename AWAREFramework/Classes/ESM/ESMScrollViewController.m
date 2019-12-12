@@ -67,6 +67,7 @@
     OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
     ESMCompletionHandler             _Nullable esmCompletionHandler;
     ESMScrollViewUIComponentReadyHandler _Nullable uiComponentReadyHandler;
+    SyncProcessCallBack              _Nullable originalStorageSyncHandler;
 
 }
 @end
@@ -110,7 +111,10 @@
     _cancelButtonText = @"Cancel";
     
     _sendCompletionAlert = YES;
-    _completionAlertMessage = @"Thank you for your answer!";
+    _completionAlertTitle      = @"Thank you for your answer!";
+    _completionAlertMessage    = nil;
+    _completionAlertErrorTitle = @"Sorry, could not upload your answer";
+    _completionAlertErrorMessage = @"Your answer will be uploaded to the server automatically at the next time.";
     _completionAlertCloseButton = @"close";
     
     flowsFlag = NO;
@@ -138,10 +142,6 @@
                                                                      }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -281,75 +281,7 @@
 
 //////////////////////////////////////////////////////////////
 
-- (void) addAnESM:(EntityESM * _Nonnull) esm {
-    
-    int esmType = [esm.esm_type intValue];
-    BaseESMView * esmView = nil;
-    
-    if (esmType == AwareESMTypeText) {
-        esmView = [[ESMFreeTextView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-        [freeTextViews addObject:esmView];
-    } else if(esmType == AwareESMTypeRadio){
-        esmView = [[ESMRadioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeCheckbox){
-        esmView = [[ESMCheckBoxView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeLikertScale){
-        esmView = [[ESMLikertScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeQuickAnswer){
-        esmView = [[ESMQuickAnswerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeScale){
-        esmView = [[ESMScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm  viewController:self];
-        [sliderViews addObject:esmView];
-    } else if(esmType == AwareESMTypeDateTime){
-        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
-                                                           esm:esm uiMode:UIDatePickerModeDateAndTime
-                                                       version:1
-                                                viewController:self];
-    } else if(esmType == AwareESMTypePAM){
-        esmView = [[ESMPAMView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeNumeric){
-        esmView = [[ESMNumberView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-        [numberViews addObject:esmView];
-    } else if(esmType == AwareESMTypeWeb){
-        esmView = [[ESMWebView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeDate){
-        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
-                                                           esm:esm uiMode:UIDatePickerModeDate
-                                                       version:1
-                                                viewController:self];
-    } else if(esmType == AwareESMTypeTime){
-        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
-                                                           esm:esm
-                                                        uiMode:UIDatePickerModeTime
-                                                       version:1
-                                                viewController:self];
-    } else if(esmType == AwareESMTypeClock){
-        esmView = [[ESMClockTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypePicture){ // picture
-        esmView = [[ESMPictureView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeAudio){ // voice
-        esmView = [[ESMAudioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else if(esmType == AwareESMTypeVideo){ // video
-        esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
-    } else {
-        if (originalESMViewGenerationHandler != nil && self != nil) {
-            esmView = originalESMViewGenerationHandler(esm, totalHight, self);
-        }
-    }
-
-    ////////////////
-    
-    if(esmView != nil){
-        [_mainScrollView addSubview:esmView];
-        [self setContentSizeWithAdditionalHeight:esmView.frame.size.height];
-        [esmCells addObject:esmView];
-    }else{
-        NSLog(@"BaseESMView is null. If you are using an original ESM View, \
-              please use `OriginalESMViewGenerationHandler` for generating the ESM view. \
-              ESM TYPE = %d", esmType);
-    }
-}
-
+#pragma mark - Screen Events
 
 -(void)onSingleTap:(UITapGestureRecognizer *)recognizer {
     @try {
@@ -380,7 +312,7 @@
 }
 
 
-//////////////////////////////////////////
+#pragma mark - Button Events
 
 - (void) pushedCancelButton:(id) senser {
     AudioServicesPlaySystemSound(1104);
@@ -580,8 +512,7 @@
                 currentESMNumber = 0;
                 
                 if (_sendCompletionAlert) {
-                    
-                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertMessage message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:_completionAlertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
                     [alertController addAction:[UIAlertAction actionWithTitle:_completionAlertCloseButton style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         [self.navigationController popToRootViewControllerAnimated:YES];
                         [self dismissViewControllerAnimated:YES completion:^{}];
@@ -602,46 +533,149 @@
                 ESMScheduleManager * esmManager = [ESMScheduleManager sharedESMScheduleManager];
                 [esmManager refreshESMNotifications];
                 
-                __block typeof(self) blockSelf = self;
-                [esmSensor.storage setSyncProcessCallBack:^(NSString *name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
-                    if (blockSelf->study.isDebug) NSLog(@"[%@] %f", name, progress);
-                    if (error != nil) {
-                        NSLog(@"%@", error.debugDescription);
-                        if (blockSelf->uploadCompletionHandler != nil) {
-                            blockSelf->uploadCompletionHandler(NO);
-                        }
-                    }else{
-                        // send alert and close
-                        if (blockSelf->_sendCompletionAlert) {
-                            UIAlertController * alertController = [UIAlertController alertControllerWithTitle:blockSelf->_completionAlertMessage
-                                                                                                      message:nil
-                                                                                               preferredStyle:UIAlertControllerStyleAlert];
-                            [alertController addAction:[UIAlertAction actionWithTitle:blockSelf->_completionAlertCloseButton
-                                                                                style:UIAlertActionStyleDefault
-                                                                              handler:^(UIAlertAction * _Nonnull action) {
-                                blockSelf->esmNumber = 0;
-                                blockSelf->currentESMNumber = 0;
+                if (originalStorageSyncHandler!=nil) {
+                    [esmSensor.storage setSyncProcessCallBack:originalStorageSyncHandler];
+                    [esmSensor startSyncDB];
+                }else{
+                    __block typeof(self) blockSelf = self;
+                    [esmSensor.storage setSyncProcessCallBack:^(NSString *name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
+                        
+                        if (blockSelf->study.isDebug) NSLog(@"[%@] %f", name, progress);
+                        
+                        if ( syncState == AwareStorageSyncProgressComplete){
+                            // send alert and close
+                            if (blockSelf->_sendCompletionAlert) {
+                                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:blockSelf->_completionAlertTitle
+                                                                                                          message:blockSelf->_completionAlertMessage
+                                                                                                   preferredStyle:UIAlertControllerStyleAlert];
+                                [alertController addAction:[UIAlertAction actionWithTitle:blockSelf->_completionAlertCloseButton
+                                                                                    style:UIAlertActionStyleDefault
+                                                                                  handler:^(UIAlertAction * _Nonnull action) {
+                                    blockSelf->esmNumber = 0;
+                                    blockSelf->currentESMNumber = 0;
+                                    [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                                    [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                                }]];
+                                [blockSelf presentViewController:alertController animated:YES completion:^{}];
+                            }else{
                                 [blockSelf.navigationController popToRootViewControllerAnimated:YES];
                                 [blockSelf dismissViewControllerAnimated:YES completion:^{}];
-                            }]];
-                            [blockSelf presentViewController:alertController animated:YES completion:^{}];
+                            }
+                            
+                            if (blockSelf->uploadCompletionHandler != nil) {
+                                blockSelf->uploadCompletionHandler(YES);
+                            }
+                            
                         }else{
-                            [blockSelf.navigationController popToRootViewControllerAnimated:YES];
-                            [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+
+                            // send alert and close
+                            if (blockSelf->_sendCompletionAlert) {
+                                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:blockSelf->_completionAlertErrorTitle
+                                                                                                          message:blockSelf->_completionAlertErrorMessage
+                                                                                                   preferredStyle:UIAlertControllerStyleAlert];
+                                [alertController addAction:[UIAlertAction actionWithTitle:blockSelf->_completionAlertCloseButton
+                                                                                    style:UIAlertActionStyleDefault
+                                                                                  handler:^(UIAlertAction * _Nonnull action) {
+                                    blockSelf->esmNumber = 0;
+                                    blockSelf->currentESMNumber = 0;
+                                    [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                                    [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                                }]];
+                                [blockSelf presentViewController:alertController animated:YES completion:^{}];
+                            }else{
+                                [blockSelf.navigationController popToRootViewControllerAnimated:YES];
+                                [blockSelf dismissViewControllerAnimated:YES completion:^{}];
+                            }
+
+                            if (blockSelf->uploadCompletionHandler != nil) {
+                                blockSelf->uploadCompletionHandler(NO);
+                            }
+
                         }
                         
-                        if (blockSelf->uploadCompletionHandler != nil) {
-                            blockSelf->uploadCompletionHandler(YES);
-                        }
-                    }
-                }];
-                [esmSensor startSyncDB];
+                    }];
+                    [esmSensor startSyncDB];
+                }
             }
         }
     } else {
         NSLog(@"Error@ESMScrollViewController: The answer of ESM did not save to SQLite database.");
     }
 }
+
+
+#pragma mark - ESM Handlers
+
+- (void) addAnESM:(EntityESM * _Nonnull) esm {
+    
+    int esmType = [esm.esm_type intValue];
+    BaseESMView * esmView = nil;
+    
+    if (esmType == AwareESMTypeText) {
+        esmView = [[ESMFreeTextView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+        [freeTextViews addObject:esmView];
+    } else if(esmType == AwareESMTypeRadio){
+        esmView = [[ESMRadioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeCheckbox){
+        esmView = [[ESMCheckBoxView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeLikertScale){
+        esmView = [[ESMLikertScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeQuickAnswer){
+        esmView = [[ESMQuickAnswerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeScale){
+        esmView = [[ESMScaleView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm  viewController:self];
+        [sliderViews addObject:esmView];
+    } else if(esmType == AwareESMTypeDateTime){
+        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
+                                                           esm:esm uiMode:UIDatePickerModeDateAndTime
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypePAM){
+        esmView = [[ESMPAMView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeNumeric){
+        esmView = [[ESMNumberView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+        [numberViews addObject:esmView];
+    } else if(esmType == AwareESMTypeWeb){
+        esmView = [[ESMWebView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeDate){
+        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
+                                                           esm:esm uiMode:UIDatePickerModeDate
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypeTime){
+        esmView = [[ESMDateTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100)
+                                                           esm:esm
+                                                        uiMode:UIDatePickerModeTime
+                                                       version:1
+                                                viewController:self];
+    } else if(esmType == AwareESMTypeClock){
+        esmView = [[ESMClockTimePickerView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypePicture){ // picture
+        esmView = [[ESMPictureView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeAudio){ // voice
+        esmView = [[ESMAudioView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else if(esmType == AwareESMTypeVideo){ // video
+        esmView = [[ESMVideoView alloc] initWithFrame:CGRectMake(0, totalHight, self.view.frame.size.width, 100) esm:esm viewController:self];
+    } else {
+        if (originalESMViewGenerationHandler != nil && self != nil) {
+            esmView = originalESMViewGenerationHandler(esm, totalHight, self);
+        }
+    }
+
+    ////////////////
+    
+    if(esmView != nil){
+        [_mainScrollView addSubview:esmView];
+        [self setContentSizeWithAdditionalHeight:esmView.frame.size.height];
+        [esmCells addObject:esmView];
+    }else{
+        NSLog(@"BaseESMView is null. If you are using an original ESM View, \
+              please use `OriginalESMViewGenerationHandler` for generating the ESM view. \
+              ESM TYPE = %d", esmType);
+    }
+}
+
+
 
 ///////////////////////////////////////////
 - (bool) addNextESMs:(EntityESM *)esm
@@ -744,7 +778,7 @@
     return flag;
 }
 
-///////////////////////////////////////////
+
 - (void) insertNextESM:(ESMItem * _Nonnull) esm {
     ESMScheduleManager * manager = [ESMScheduleManager sharedESMScheduleManager];
     ESMSchedule * schedule = [[ESMSchedule alloc] init];
@@ -801,7 +835,6 @@
     }
 }
 
-
 - (bool) removeTempESMsFromDB {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([EntityESMSchedule class]) inManagedObjectContext:[CoreDataHandler sharedHandler].managedObjectContext];
@@ -824,37 +857,15 @@
     }
 }
 
-///////////////////////////////////////////
 
-/**
- * This method is managing a total height of the ESM elemetns and a size of the base scroll view. You should call this method if you add a new element to the _mainScrollView.
- */
-- (void) setContentSizeWithAdditionalHeight:(int) additionalHeight {
-    totalHight += additionalHeight;
-    [_mainScrollView setContentSize:CGSizeMake(self.view.frame.size.width, totalHight)];
-}
-
-
-- (NSString *) convertNSArraytoJsonStr:(NSArray *)array{
-    if(array != nil){
-        NSError * error;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:0 error:&error];
-        if(error == nil){
-            return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        }
-    }
-    return @"[]";
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - History
 
 - (void) saveHistory:(EntityESMSchedule *)esmSchedule context:(NSManagedObjectContext *)context {
     EntityESMAnswerHistory * entityESMHistory = (EntityESMAnswerHistory *) [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswerHistory class])
                                                                             
                                                                                                          inManagedObjectContext:context];
-    entityESMHistory.timestamp = @([NSDate new].timeIntervalSince1970);
-    entityESMHistory.fire_hour = esmSchedule.fire_hour;
+    entityESMHistory.timestamp   = @([NSDate new].timeIntervalSince1970);
+    entityESMHistory.fire_hour   = esmSchedule.fire_hour;
     entityESMHistory.schedule_id = esmSchedule.schedule_id;
     NSError * error = nil;
     bool result = [context save:&error];
@@ -866,6 +877,9 @@
         }
     }
 }
+
+
+#pragma mark - Callback Handlers
 
 - (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler)handler{
     uploadStartHandler = handler;
@@ -893,6 +907,31 @@
 
 - (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler)handler{
     uiComponentReadyHandler = handler;
+}
+
+- (void) setOriginalStorageSyncHandler:(SyncProcessCallBack)handler{
+    originalStorageSyncHandler = handler;
+}
+
+#pragma mark - Utilities
+
+- (NSString *) convertNSArraytoJsonStr:(NSArray *)array{
+    if(array != nil){
+        NSError * error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:0 error:&error];
+        if(error == nil){
+            return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+    }
+    return @"[]";
+}
+
+/**
+ * This method is managing a total height of the ESM elemetns and a size of the base scroll view. You should call this method if you add a new element to the _mainScrollView.
+ */
+- (void) setContentSizeWithAdditionalHeight:(int) additionalHeight {
+    totalHight += additionalHeight;
+    [_mainScrollView setContentSize:CGSizeMake(self.view.frame.size.width, totalHight)];
 }
 
 @end

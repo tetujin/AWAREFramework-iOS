@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseESMView.h"
 #import "EntityESMAnswer.h"
+#import "AWAREStorage.h"
 
 //@protocol ESMScrollViewControllerDelegate <NSObject>
 //@required
@@ -37,24 +38,28 @@ typedef void (^ESMScrollViewUIComponentReadyHandler)(void);
 
 /////// Completion Alert
 @property bool sendCompletionAlert;
+@property (nullable) NSString * completionAlertTitle;
 @property (nullable) NSString * completionAlertMessage;
+@property (nullable) NSString * completionAlertErrorTitle;
+@property (nullable) NSString * completionAlertErrorMessage;
 @property (nullable) NSString * completionAlertCloseButton;
 
 /////// Uploading Progress
 // @property bool showUploadingAlert;
 // @property NSString * uploadingAlertMessage;
 
-- (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler _Nonnull)handler;
-- (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler _Nonnull)handler;
+- (void) setESMAnswerUploadStartHandler:(ESMAnswerUploadStartHandler _Nullable)handler;
+- (void) setESMAnswerUploadCompletionHandler:(ESMAnswerUploadCompletionHandler _Nullable)handler;
 
-- (void) setESMAnswerCompletionHandler:(AllESMCompletionHandler _Nonnull)handler;
-- (void) setAllESMCompletionHandler:(AllESMCompletionHandler _Nonnull)handler;
+- (void) setESMAnswerCompletionHandler:(AllESMCompletionHandler _Nullable)handler;
+- (void) setAllESMCompletionHandler:(AllESMCompletionHandler _Nullable)handler;
 
-- (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler _Nonnull)handler;
-- (void) setESMCompletionHandler:(ESMCompletionHandler _Nonnull)handler;
-
-- (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler _Nonnull)handler;
+- (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler _Nullable)handler;
+- (void) setESMCompletionHandler:(ESMCompletionHandler _Nullable)handler;
+- (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler _Nullable)handler;
+- (void) setOriginalStorageSyncHandler:(SyncProcessCallBack _Nullable)handler;
 
 - (void) insertNextESM:(ESMItem * _Nonnull) esm;
+
 
 @end

@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         let schedules = ESMScheduleManager.shared().getValidSchedules()
         if schedules.count > 0 {
             // Generate a ViewController
+            // AWAREStudy.shared().setStudyURL("")
             let esmViewController = ESMScrollViewController()
             // Set an ESM completion handler
             esmViewController.setESMCompletionHandler { (answer) in
