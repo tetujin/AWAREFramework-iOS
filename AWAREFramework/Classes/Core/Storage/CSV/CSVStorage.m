@@ -115,8 +115,8 @@
 }
 
 
-- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
-    self.syncProcessCallBack = callback;
+- (void)startSyncStorageWithCallBack:(SyncProcessCallback)callback{
+    self.syncProcessCallback = callback;
     [self startSyncStorage];
 }
 

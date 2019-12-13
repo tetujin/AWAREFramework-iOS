@@ -113,8 +113,8 @@
     return YES;
 }
 
-- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
-    self.syncProcessCallBack = callback;
+- (void)startSyncStorageWithCallBack:(SyncProcessCallback)callback{
+    self.syncProcessCallback = callback;
     [self startSyncStorage];
 }
 
@@ -135,14 +135,14 @@
                         if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
                         [self clearLocalStorageWithName:self.sensorName type:self->FILE_EXTENSION];
                         [self dataSyncIsFinishedCorrectly];
-                        if (self.syncProcessCallBack != nil) {
-                            self.syncProcessCallBack(sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                        if (self.syncProcessCallback != nil) {
+                            self.syncProcessCallback(sensorName, AwareStorageSyncProgressComplete, 1, nil);
                         }
                     }else{
                         [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
-                        if (self.syncProcessCallBack != nil) {
+                        if (self.syncProcessCallback != nil) {
                             double progress = 0; // TODO
-                            self.syncProcessCallBack(sensorName, AwareStorageSyncProgressContinue, progress, nil); // TODO: replay to real data
+                            self.syncProcessCallback(sensorName, AwareStorageSyncProgressContinue, progress, nil); // TODO: replay to real data
                         }
                     }
                 }else{

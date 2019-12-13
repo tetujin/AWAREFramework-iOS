@@ -67,7 +67,7 @@
     OriginalESMViewGenerationHandler _Nullable originalESMViewGenerationHandler;
     ESMCompletionHandler             _Nullable esmCompletionHandler;
     ESMScrollViewUIComponentReadyHandler _Nullable uiComponentReadyHandler;
-    SyncProcessCallBack              _Nullable originalStorageSyncHandler;
+    SyncProcessCallback              _Nullable originalStorageSyncHandler;
 
 }
 @end
@@ -534,11 +534,11 @@
                 [esmManager refreshESMNotifications];
                 
                 if (originalStorageSyncHandler!=nil) {
-                    [esmSensor.storage setSyncProcessCallBack:originalStorageSyncHandler];
+                    [esmSensor.storage setSyncProcessCallback:originalStorageSyncHandler];
                     [esmSensor startSyncDB];
                 }else{
                     __block typeof(self) blockSelf = self;
-                    [esmSensor.storage setSyncProcessCallBack:^(NSString *name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
+                    [esmSensor.storage setSyncProcessCallback:^(NSString *name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
                         
                         if (blockSelf->study.isDebug) NSLog(@"[%@] %f", name, progress);
                         
@@ -909,7 +909,7 @@
     uiComponentReadyHandler = handler;
 }
 
-- (void) setOriginalStorageSyncHandler:(SyncProcessCallBack)handler{
+- (void) setOriginalStorageSyncHandler:(SyncProcessCallback)handler{
     originalStorageSyncHandler = handler;
 }
 

@@ -144,7 +144,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [_awareHKWorkout  startSyncDB];
     [_awareHKCategory startSyncDB];
     [_awareHKQuantity startSyncDB];
-    [_awareHKHeartRate.storage setSyncProcessCallBack:self.storage.syncProcessCallBack];
+    [_awareHKHeartRate.storage setSyncProcessCallback:self.storage.syncProcessCallback];
     [_awareHKHeartRate startSyncDB];
     [_awareHKSleep     startSyncDB];
     [super startSyncDB];

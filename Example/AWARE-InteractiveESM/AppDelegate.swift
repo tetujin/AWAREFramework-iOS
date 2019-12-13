@@ -38,6 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             manager.removeAllNotifications()
             manager.removeAllSchedulesFromDB()
             manager.add(schedule)
+            
+            let location = Locations()
+            location.startSensor(withInterval: 60, accuracy: 0)
+            location.startSensor(withInterval: 60, accuracy: 25)
+            location.startSensor(withInterval: 60, accuracy: 100)
+            // location.startSensor(withInterval: 60, accuracy: 1000)
         }
         
         return true

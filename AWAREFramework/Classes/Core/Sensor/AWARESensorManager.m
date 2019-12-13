@@ -626,9 +626,9 @@ static AWARESensorManager * sharedSensorManager;
     }
 }
 
-- (void)setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack)callback{
+- (void)setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallback)callback{
     for (AWARESensor * sensor in awareSensors) {
-        [sensor.storage setSyncProcessCallBack:callback];
+        [sensor.storage setSyncProcessCallback:callback];
     }
 }
 

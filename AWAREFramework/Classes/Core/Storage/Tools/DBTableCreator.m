@@ -15,7 +15,7 @@
     NSString * baseCreateTableQueryIdentifier;
     NSMutableData * recievedData;
     __weak NSURLSession *session;
-    TableCreateCallBack httpCallback;
+    TableCreateCallback httpCallback;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -40,7 +40,7 @@
     return self;
 }
 
-- (void) setCallback:(TableCreateCallBack)callback{
+- (void) setCallback:(TableCreateCallback)callback{
     httpCallback = callback;
 }
 
@@ -121,6 +121,7 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
+    
     if(error==nil){
         NSString * result = [[NSString alloc] initWithData:recievedData encoding:NSUTF8StringEncoding];
         if (awareStudy.isDebug) NSLog(@"[DBTableCreator|%@][success] %@", sensorName, result);

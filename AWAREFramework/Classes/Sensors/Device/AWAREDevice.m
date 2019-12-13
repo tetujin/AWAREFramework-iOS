@@ -20,7 +20,7 @@
     AWAREStorage * storage  = [[JSONStorage alloc] initWithStudy:study sensorName:sensorName];
     self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     if (self!=nil) {
-        
+        isOperationLocked = false;
     }
     return self;
 }
@@ -45,8 +45,13 @@
     "label text default '', "
     "UNIQUE (device_id)";
     
-    if (self.storage != nil && !isOperationLocked){
-        [self.storage createDBTableOnServerWithQuery:query];
+    if (self.storage != nil && !self.isOperationLocked){
+        if (self.storage.tableCreateCallback != nil) {
+            [self.storage createDBTableOnServerWithQuery:query
+                                              completion:self.storage.tableCreateCallback];
+        }else{
+            [self.storage createDBTableOnServerWithQuery:query];
+        }
     }
 }
 

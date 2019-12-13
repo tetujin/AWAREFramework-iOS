@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, AwareStorageSyncProgress) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SyncProcessCallBack)(NSString * _Nonnull name, AwareStorageSyncProgress state, double progress, NSError * _Nullable  error);
+typedef void (^SyncProcessCallback)(NSString * _Nonnull name, AwareStorageSyncProgress state, double progress, NSError * _Nullable  error);
 typedef void (^FetchDataHandler)(NSString * _Nonnull name, NSArray * results, NSDate * start, NSDate * end, NSError * _Nullable error);
 typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nullable results, NSDate * _Nonnull from, NSDate * _Nonnull to, BOOL isEnd, NSError * _Nullable error);
 
@@ -39,10 +39,10 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 @property NSString * _Nullable sensorName;
 @property int retryLimit;
 @property double syncTaskIntervalSecond;
-@property (nullable) SyncProcessCallBack syncProcessCallBack;
+@property (nullable) SyncProcessCallback syncProcessCallback;
 @property double saveInterval;
 @property double lastSaveTimestamp;
-@property (nullable) TableCreateCallBack tableCreatecallBack;
+@property (nullable) TableCreateCallback tableCreateCallback;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 
@@ -83,12 +83,12 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 - (void) createDBTableOnServerWithTCQMaker:(TCQMaker *_Nonnull)tcqMaker;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query;
 - (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table;
-- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query completion:(TableCreateCallBack _Nullable)completion;
-- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table completion:(TableCreateCallBack _Nullable)completion;
+- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query completion:(TableCreateCallback _Nullable)completion;
+- (void) createDBTableOnServerWithQuery:(NSString *_Nonnull)query tableName:(NSString *_Nonnull) table completion:(TableCreateCallback _Nullable)completion;
 
 ///////////////////// sync a local-DB and remote-DB functions ////////////////////////////////
 - (void) startSyncStorage;
-- (void) startSyncStorageWithCallBack:(SyncProcessCallBack)callback;
+- (void) startSyncStorageWithCallback:(SyncProcessCallback)callback;
 - (void) cancelSyncStorage;
 
 //////////////////// fetch data from the local-DB functions //////////////////

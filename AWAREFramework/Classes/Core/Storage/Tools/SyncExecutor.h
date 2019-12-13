@@ -20,12 +20,12 @@
 
 @property BOOL debug;
 
-typedef void (^SyncExecutorCallBack)(NSDictionary * _Nullable result);
+typedef void (^SyncExecutorCallback)(NSDictionary * _Nullable result);
 
-@property SyncExecutorCallBack _Nullable executorCallback;
+@property SyncExecutorCallback _Nullable executorCallback;
 
 - (instancetype _Nonnull ) initWithAwareStudy:(AWAREStudy * _Nonnull)study sensorName:(NSString * _Nonnull)name;
-- (void)syncWithData:(NSData * _Nonnull)data callback:(SyncExecutorCallBack _Nullable)callback;
+- (void)syncWithData:(NSData * _Nonnull)data callback:(SyncExecutorCallback _Nullable)callback;
 
 - (BOOL) isSyncing;
 

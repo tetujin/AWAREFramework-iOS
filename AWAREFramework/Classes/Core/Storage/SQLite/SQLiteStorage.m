@@ -185,8 +185,8 @@
 }
 
 
-- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
-    self.syncProcessCallBack = callback;
+- (void)startSyncStorageWithCallBack:(SyncProcessCallback)callback{
+    self.syncProcessCallback = callback;
     [self startSyncStorage];
 }
 
@@ -200,8 +200,8 @@
     if(isUploading){
         NSString * message= [NSString stringWithFormat:@"[%@] NOTE: sensor data is uploading.", self.sensorName];
         NSLog(@"%@", message);
-        if (self.syncProcessCallBack!=nil){
-            self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressUploading, -1, nil);
+        if (self.syncProcessCallback!=nil){
+            self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressUploading, -1, nil);
         }
         return;
     }else{
@@ -253,9 +253,9 @@
                 [self dataSyncIsFinishedCorrectly];
                 self->isCanceled = NO;
                 self->isFetching = NO;
-                if (self.syncProcessCallBack!=nil) {
+                if (self.syncProcessCallback!=nil) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                        self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
                     });
                 }
                 return;
@@ -264,9 +264,9 @@
                 [self dataSyncIsFinishedCorrectly];
                 self->isCanceled = NO;
                 self->isFetching = NO;
-                if (self.syncProcessCallBack!=nil) {
+                if (self.syncProcessCallback!=nil) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, error) ;
+                        self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, error) ;
                     });
                 }
                 return;
@@ -302,7 +302,7 @@
         isCanceled = NO;
         isFetching = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressCancel, -1, nil);
+            if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressCancel, -1, nil);
         });
         return;
     }
@@ -346,7 +346,7 @@
                     self->isCanceled = NO;
                     self->isFetching = NO;
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                        if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
                     });
                     return;
                 }
@@ -396,18 +396,18 @@
                                             if (self->requiredRepetitionCount<=self->currentRepetitionCount) {
                                                 ///////////////// Done ////////////
                                                 if (self.isDebug) NSLog(@"[%@] Done", self.sensorName);
-                                                if (self.syncProcessCallBack!=nil) {
+                                                if (self.syncProcessCallback!=nil) {
                                                     if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
-                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressComplete, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                    self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressComplete, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
                                                 }
                                                 [self dataSyncIsFinishedCorrectly];
                                                 if (self.isDebug) NSLog(@"[%@] Clear old data", self.sensorName);
                                                 [self clearOldData];
                                             }else{
                                                 ///////////////// continue ////////////
-                                                if (self.syncProcessCallBack!=nil) {
+                                                if (self.syncProcessCallback!=nil) {
                                                     if ((double)self->requiredRepetitionCount == 0) { self->requiredRepetitionCount = 1; }
-                                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressContinue, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
+                                                    self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressContinue, (double)self->currentRepetitionCount/(double)self->requiredRepetitionCount, nil);
                                                 }
                                                 if (self.isDebug) NSLog(@"[%@] Do the next sync task (%d/%d)", self.sensorName, self->currentRepetitionCount, self->requiredRepetitionCount);
                                                 [self performSelector:@selector(syncTask) withObject:nil afterDelay:self.syncTaskIntervalSecond];
@@ -425,32 +425,32 @@
                                         }
                                     }
                                 }
-                                if (self.syncProcessCallBack!=nil) {
-                                    self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
+                                if (self.syncProcessCallback!=nil) {
+                                    self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, nil);
                                 }
                                 [self dataSyncIsFinishedCorrectly];
                             }];
                         } @catch (NSException *exception) {
                             NSLog(@"[%@] %@",self.sensorName, exception.debugDescription);
                             [self dataSyncIsFinishedCorrectly];
-                            if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
+                            if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, nil);
                         }
                     });
                 }else{
                     NSLog(@"%@] %@", self.sensorName, error.debugDescription);
                     [self dataSyncIsFinishedCorrectly];
-                    if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, error);
+                    if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, error);
                 }
             }else{
                 NSLog(@"%@] results is null", self.sensorName);
                 [self dataSyncIsFinishedCorrectly];
-                if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
+                if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, nil);
             }
         }];
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.reason);
         [self dataSyncIsFinishedCorrectly];
-        if (self.syncProcessCallBack!=nil) self.syncProcessCallBack(self.sensorName, AwareStorageSyncProgressError, -1, nil);
+        if (self.syncProcessCallback!=nil) self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, nil);
     }
 }
 

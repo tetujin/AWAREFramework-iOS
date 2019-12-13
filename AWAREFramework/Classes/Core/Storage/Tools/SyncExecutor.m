@@ -42,7 +42,7 @@
     return self;
 }
 
-- (void)syncWithData:(NSData *)data callback:(SyncExecutorCallBack)callback{
+- (void)syncWithData:(NSData *)data callback:(SyncExecutorCallback)callback{
     
     NSString * baseURL = [self getWebserviceUrl];
     if (baseURL == nil || [baseURL isEqualToString:@""]) {

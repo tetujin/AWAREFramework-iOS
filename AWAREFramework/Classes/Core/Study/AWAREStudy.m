@@ -314,38 +314,33 @@ didCompleteWithError:(NSError *)error {
     NSString * deviceName = [self getDeviceName];
 
     AWAREDevice * awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
-    [awareDevice lockOperation];
     [[AWARESensorManager sharedSensorManager] addSensor:awareDevice];
-
     NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
     if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
-        
         /// create an aware_device table and register a device if it is needed
-        [awareDevice unlockOperation];
         [awareDevice insertDeviceId:deviceId name:deviceName];
-        [awareDevice lockOperation];
         [NSUserDefaults.standardUserDefaults setBool:YES forKey:key];
         [NSUserDefaults.standardUserDefaults synchronize];
         studyState = AwareStudyStateNew;
         
         if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]); }
-        awareDevice.storage.tableCreatecallBack = ^(bool result, NSData *data, NSError *error) {
+        awareDevice.storage.tableCreateCallback = ^(bool result, NSData *data, NSError *error) {
             AWAREDevice * aDevice = (AWAREDevice *)[[AWARESensorManager sharedSensorManager] getSensor:@"aware_device"];
             if (aDevice != nil) {
                 if (result) {
                     if (self->isDebug) { NSLog(@"[AWAREStudy] aware_device table is created on %@", url); }
                     [aDevice unlockOperation];
-                    [aDevice.storage startSyncStorageWithCallBack:^(NSString * _Nonnull name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
+                    [aDevice.storage startSyncStorageWithCallback:^(NSString * _Nonnull name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
                         if (error == nil) {
                             if (progress >= 1) {
                                 NSLog(@"[%@] %f", name, progress);
                                 if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is succeed", [self getDeviceId]); }
-                                aDevice.storage.syncProcessCallBack = nil;
+                                aDevice.storage.syncProcessCallback = nil;
                             }
                         }else{
                             NSLog(@"[%@] Error: %@", name, error.debugDescription);
                             if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is failed", [self getDeviceId]); }
-                            aDevice.storage.syncProcessCallBack = nil;
+                            aDevice.storage.syncProcessCallback = nil;
                         }
                         [aDevice unlockOperation];
                     }];
@@ -355,10 +350,13 @@ didCompleteWithError:(NSError *)error {
                     [NSUserDefaults.standardUserDefaults setBool:NO forKey:[self getKeyForIsDeviceIdOnAWAREServer]];
                     [NSUserDefaults.standardUserDefaults synchronize];
                 }
-                aDevice.storage.tableCreatecallBack = nil;
+                aDevice.storage.tableCreateCallback = nil;
             }
         };
+    
         [awareDevice createTable];
+        [awareDevice lockOperation];
+    
     }else{
         if (self->isDebug){  NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is already registered", [self getDeviceId]); }
         studyState = AwareStudyStateUpdate;

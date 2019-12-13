@@ -57,7 +57,7 @@ typedef void (^ESMScrollViewUIComponentReadyHandler)(void);
 - (void) setOriginalESMViewGenerationHandler:(OriginalESMViewGenerationHandler _Nullable)handler;
 - (void) setESMCompletionHandler:(ESMCompletionHandler _Nullable)handler;
 - (void) setESMScrollViewUIComponentReadyHandler:(ESMScrollViewUIComponentReadyHandler _Nullable)handler;
-- (void) setOriginalStorageSyncHandler:(SyncProcessCallBack _Nullable)handler;
+- (void) setOriginalStorageSyncHandler:(SyncProcessCallback _Nullable)handler;
 
 - (void) insertNextESM:(ESMItem * _Nonnull) esm;
 

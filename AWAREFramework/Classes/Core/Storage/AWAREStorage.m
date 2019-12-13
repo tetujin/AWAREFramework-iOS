@@ -21,10 +21,10 @@
 @synthesize sensorName;
 @synthesize retryLimit;
 @synthesize syncTaskIntervalSecond;
-@synthesize syncProcessCallBack;
+@synthesize syncProcessCallback;
 @synthesize lastSaveTimestamp;
 @synthesize saveInterval;
-@synthesize tableCreatecallBack;
+@synthesize tableCreateCallback;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name{
     self = [super init];
@@ -226,7 +226,7 @@
         NSString * query = [tcqMaker getDefaudltTableCreateQuery];
         if (query != nil) {
             DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:tableName ];
-            [creator setCallback:self.tableCreatecallBack];
+            [creator setCallback:self.tableCreateCallback];
             [creator createTable:query];
         }
     }
@@ -239,7 +239,7 @@
     }
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:tableName ];
-        [creator setCallback:self.tableCreatecallBack];
+        [creator setCallback:self.tableCreateCallback];
         [creator createTable:query];
     }
 }
@@ -247,13 +247,13 @@
 - (void) createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *) table {
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:table];
-        [creator setCallback:self.tableCreatecallBack];
+        [creator setCallback:self.tableCreateCallback];
         [creator createTable:query];
     }
 }
 
 
-- (void)createDBTableOnServerWithQuery:(NSString *)query completion:(TableCreateCallBack)completion{
+- (void)createDBTableOnServerWithQuery:(NSString *)query completion:(TableCreateCallback)completion{
     NSString * tableName = @"";
     if (self.sensorName != nil) {
         tableName = self.sensorName;
@@ -261,7 +261,7 @@
     [self createDBTableOnServerWithQuery:query tableName:tableName  completion:completion];
 }
 
-- (void)createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *)table completion:(TableCreateCallBack)completion{
+- (void)createDBTableOnServerWithQuery:(NSString *)query tableName:(NSString *)table completion:(TableCreateCallback)completion{
     if (query != nil) {
         DBTableCreator * creator = [[DBTableCreator alloc] initWithAwareStudy:awareStudy sensorName:table];
         [creator setCallback:completion];
@@ -275,9 +275,9 @@
     NSLog(@"[%@] Please orverwrite -startSyncStorage", sensorName);
 }
 
-- (void)startSyncStorageWithCallBack:(SyncProcessCallBack)callback{
-    syncProcessCallBack = callback;
-    NSLog(@"[%@] Please orverwrite -startSyncStorageWithCallBack", sensorName);
+- (void)startSyncStorageWithCallback:(SyncProcessCallback)callback{
+    syncProcessCallback = callback;
+    NSLog(@"[%@] Please orverwrite -startSyncStorageWithCallback", sensorName);
 }
 
 - (void)cancelSyncStorage {

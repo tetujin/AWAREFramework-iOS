@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Event Handls
 - (void) setSensorEventHandlerToAllSensors:(SensorEventHandler _Nonnull)handler;
-- (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallBack _Nonnull)callback;
+- (void) setSyncProcessCallbackToAllSensorStorages:(SyncProcessCallback _Nonnull)callback;
 
 #pragma mark - Debug
 - (void) setDebugToAllSensors:(bool)state;
