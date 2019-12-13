@@ -84,11 +84,11 @@ static AWAREStudy * sharedStudy;
         }
         
         sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_getSettingIdentifier];
-        sessionConfig.sharedContainerIdentifier= @"com.awareframework.setting.task.identifier";
-        sessionConfig.timeoutIntervalForRequest = 60;
+        sessionConfig.sharedContainerIdentifier     = @"com.awareframework.setting.task.identifier";
+        sessionConfig.timeoutIntervalForRequest     = 60;
         sessionConfig.HTTPMaximumConnectionsPerHost = 60;
-        sessionConfig.timeoutIntervalForResource = 60; //60*60*24; // 1 day
-        sessionConfig.allowsCellularAccess = YES;
+        sessionConfig.timeoutIntervalForResource    = 60; //60*60*24; // 1 day
+        sessionConfig.allowsCellularAccess          = YES;
         
         
         isDebug = [self isDebug];
