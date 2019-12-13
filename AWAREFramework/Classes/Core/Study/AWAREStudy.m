@@ -33,6 +33,7 @@ static AWAREStudy * sharedStudy;
     NSNumber * cashMaxBatchSize;
     NSNumber * cashMaxRecords;
     NSNumber * cashIsDebug;
+    AWAREDevice * awareDevice;
 }
 
 + (AWAREStudy * _Nonnull)sharedStudy{
@@ -111,6 +112,7 @@ static AWAREStudy * sharedStudy;
                 }
             }];
         }
+        awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
         ////////////////////////////////////////////////
     }
     return self;
@@ -309,12 +311,12 @@ didCompleteWithError:(NSError *)error {
     
     AwareStudyState studyState = AwareStudyStateNoChange;
 
-    NSString * url        =  [self getStudyURL];
+    NSString * url        = [self getStudyURL];
     NSString * deviceId   = [self getDeviceId];
     NSString * deviceName = [self getDeviceName];
 
-    AWAREDevice * awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
-    [[AWARESensorManager sharedSensorManager] addSensor:awareDevice];
+    // [self setDebug:YES];
+    
     NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
     if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
         /// create an aware_device table and register a device if it is needed
@@ -323,35 +325,20 @@ didCompleteWithError:(NSError *)error {
         [NSUserDefaults.standardUserDefaults synchronize];
         studyState = AwareStudyStateNew;
         
+        __weak typeof(self) wself = self;
+        
         if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]); }
         awareDevice.storage.tableCreateCallback = ^(bool result, NSData *data, NSError *error) {
-            AWAREDevice * aDevice = (AWAREDevice *)[[AWARESensorManager sharedSensorManager] getSensor:@"aware_device"];
-            if (aDevice != nil) {
-                if (result) {
-                    if (self->isDebug) { NSLog(@"[AWAREStudy] aware_device table is created on %@", url); }
-                    [aDevice unlockOperation];
-                    [aDevice.storage startSyncStorageWithCallback:^(NSString * _Nonnull name, AwareStorageSyncProgress syncState, double progress, NSError * _Nullable error) {
-                        if (error == nil) {
-                            if (progress >= 1) {
-                                NSLog(@"[%@] %f", name, progress);
-                                if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is succeed", [self getDeviceId]); }
-                                aDevice.storage.syncProcessCallback = nil;
-                            }
-                        }else{
-                            NSLog(@"[%@] Error: %@", name, error.debugDescription);
-                            if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) registration is failed", [self getDeviceId]); }
-                            aDevice.storage.syncProcessCallback = nil;
-                        }
-                        [aDevice unlockOperation];
-                    }];
-                    [aDevice lockOperation];
-                }else{
-                    if (self->isDebug) NSLog(@"[AWAREStudy] aware_device table is not created on %@", url);
-                    [NSUserDefaults.standardUserDefaults setBool:NO forKey:[self getKeyForIsDeviceIdOnAWAREServer]];
-                    [NSUserDefaults.standardUserDefaults synchronize];
-                }
-                aDevice.storage.tableCreateCallback = nil;
+            AWAREDevice * aDevice = [wself getAwareDevice];
+            if (result) {
+                if ([wself isDebug]) { NSLog(@"[AWAREStudy] aware_device table is created on %@", url); }
+                [aDevice.storage startSyncStorage];
+            }else{
+                if ([wself isDebug]) NSLog(@"[AWAREStudy] aware_device table is not created on %@", url);
+                [NSUserDefaults.standardUserDefaults setBool:NO forKey:[wself getKeyForIsDeviceIdOnAWAREServer]];
+                [NSUserDefaults.standardUserDefaults synchronize];
             }
+            aDevice.storage.tableCreateCallback = nil;
         };
     
         [awareDevice createTable];
@@ -416,8 +403,13 @@ didCompleteWithError:(NSError *)error {
     }
 }
 
-- (void) registerDevice {
-
+- (AWAREDevice * _Nonnull) getAwareDevice {
+    if (awareDevice == nil) {
+        awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
+        return awareDevice;
+    }else{
+        return awareDevice;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////
