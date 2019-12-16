@@ -631,12 +631,13 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
        && expirationTime.timeIntervalSince1970 >= datetime.timeIntervalSince1970){
         isInTime = YES;
     }
-    // NSLog(@"[BASE_TIME:%@]\n[CURRENT_TIME:%@]\n[EXPIRATION_TIME:%@][IN_TIME:%d]", inspirationTime, now, expirationTime, isInTime);
+    
     // Check an answering condition
     if(isInTime){
         [fireDate dateByAddingTimeInterval:60*60*24]; // <- temporary solution
     }
 
+    // NSLog(@"[FIRE_TIME:%@] [EXPIRATION_TIME:%@] [IN_TIME:%d]", fireDate, expirationTime, isInTime);
 
     NSDictionary * userInfo = [[NSDictionary alloc] initWithObjects:@[originalFireDate, randomize, scheduleId,expiration,fireDate,interface]
                                                             forKeys:@[@"original_fire_date", @"randomize",
@@ -645,7 +646,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     // If the value is 0-23
     UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
     content.title = schedule.notification_title;
-    content.body = schedule.notification_body;
+    content.body  = schedule.notification_body;
     content.sound = [UNNotificationSound defaultSound];
     content.categoryIdentifier = categoryNormalESM;
     content.userInfo = userInfo;
@@ -656,23 +657,18 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:repeat];
 
     NSString *notificationId = [NSString stringWithFormat:@"%@_%@_%@",KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER,fireHour.stringValue,schedule.schedule_id];
-
-    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:notificationId content:content trigger:trigger];
-
-    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    UNNotificationRequest    * request = [UNNotificationRequest requestWithIdentifier:notificationId content:content trigger:trigger];
+    UNUserNotificationCenter * center  = [UNUserNotificationCenter currentNotificationCenter];
     [center removePendingNotificationRequestsWithIdentifiers:@[notificationId]];
     [center removeDeliveredNotificationsWithIdentifiers:@[notificationId]];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
         if (error!=nil) {
             NSLog(@"[ESMScheduleManager:HourBasedNotification] %@", error.debugDescription);
         }else{
-            if (self->_debug) NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification: %zd:%zd",trigger.dateComponents.hour,trigger.dateComponents.minute);
-            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-            [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
-                for (UNNotificationRequest * request in requests) {
-                    if(self->_debug) NSLog(@"%@",request.identifier);
-                }
-            }];
+            if (self->_debug){
+                NSLog(@"[ESMScheduleManager:HourBasedNotification] Set a notification: %zd:%zd",trigger.dateComponents.hour,trigger.dateComponents.minute);
+            }
         }
     }];
 }
@@ -851,17 +847,16 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     // remove all old notifications from UNUserNotificationCenter
     UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
     [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
-        if (requests != nil) {
-            for (UNNotificationRequest * request in requests) {
-                NSString * identifer = request.identifier;
-                if (identifer!=nil) {
-                    if ([identifer hasPrefix:KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER]) {
-                        if (self->_debug) NSLog(@"[ESMScheduleManager] remove pending notification: %@", identifer);
-                        [center removePendingNotificationRequestsWithIdentifiers:@[identifer]];
-                    }
-                }
-            }
-        }
+        
+//        for (UNNotificationRequest * request in requests) {
+//            NSString * identifer = request.identifier;
+//            if ([identifer hasPrefix:KEY_AWARE_NOTIFICATION_DEFAULT_REQUEST_IDENTIFIER]) {
+//                if (self->_debug){
+//                    NSLog(@"[ESMScheduleManager] remove pending notification: %@", identifer);
+//                }
+//                [center removePendingNotificationRequestsWithIdentifiers:@[identifer]];
+//            }
+//        }
         
         //////// Set new UNNotifications /////////
         for (int i=0; i<esmSchedules.count; i++) {
