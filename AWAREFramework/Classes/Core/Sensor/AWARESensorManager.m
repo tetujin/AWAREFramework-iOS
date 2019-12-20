@@ -194,6 +194,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[BasicSettings alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION]){
                 awareSensor = [[SignificantMotion alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_PUSH_NOTIFICATION]){
+                awareSensor = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
             #ifdef IMPORT_MIC
             else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_AMBIENT_NOISE]]){
@@ -247,10 +249,6 @@ static AWARESensorManager * sharedSensorManager;
             }
         }
     }
-    
-    // Push Notification
-    AWARESensor * pushNotification = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
-    [self addSensor:pushNotification];
     
     return YES;
 }

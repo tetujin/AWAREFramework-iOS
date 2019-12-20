@@ -33,10 +33,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     JSONStorage * storage = [[JSONStorage alloc] initWithStudy:study sensorName:SENSOR_HEALTH_KIT];
     self = [super initWithAwareStudy:study sensorName:SENSOR_HEALTH_KIT storage:storage];
     if( self != nil ){
-        healthStore      = [[HKHealthStore alloc] init];
-        _awareHKWorkout  = [[AWAREHealthKitWorkout  alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-        _awareHKCategory = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
-        _awareHKQuantity = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+        healthStore       = [[HKHealthStore alloc] init];
+        _awareHKWorkout   = [[AWAREHealthKitWorkout  alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+        _awareHKCategory  = [[AWAREHealthKitCategory alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+        _awareHKQuantity  = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
         _awareHKHeartRate = [[AWAREHealthKitQuantity alloc] initWithAwareStudy:study
                                                                        dbType:dbType
                                                                    sensorName:[NSString stringWithFormat:@"%@_heartrate", SENSOR_HEALTH_KIT]

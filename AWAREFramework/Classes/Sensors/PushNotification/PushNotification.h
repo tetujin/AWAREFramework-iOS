@@ -8,10 +8,20 @@
 
 #import "AWARESensor.h"
 
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_PUSH_NOTIFICATION;
+extern NSString * _Nonnull const AWARE_PREFERENCES_SERVER_PUSH_NOTIFICATION;
+
 @interface PushNotification : AWARESensor
 
-// - (void) savePushNotificationDeviceToken:(NSString * _Nonnull) token;
 - (void) savePushNotificationDeviceTokenWithData:(NSData * _Nonnull) data;
+- (void) savePushNotificationDeviceToken:(NSString* _Nonnull) token;
+- (NSString * _Nonnull) hexadecimalStringFromData:(NSData * _Nonnull)data;
+
 - (NSString * _Nullable) getPushNotificationToken;
+
+- (NSString * _Nullable) getRemoteServerURL;
+- (void) setRemoteServerURL:(NSString * _Nullable)url;
+
+- (void) uploadToken:(NSString * _Nonnull)token toProvider:(NSString * _Nonnull)serverURL;
 
 @end

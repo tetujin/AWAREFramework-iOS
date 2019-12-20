@@ -26,7 +26,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION = @"status_signific
      * NOTE: This sensor is using `significant` as DB name, but the sensor name is `significant_motion`.
      * For using same configurations on AWARE Android, the name of storage and sensor is using the different names.
      */
-    NSString * sensorName = @"significant";
+    NSString * sensorName = @"significant_motion";
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON){
         storage = [[JSONStorage alloc] initWithStudy:study sensorName:sensorName];
@@ -46,7 +46,7 @@ NSString * const AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION = @"status_signific
         }];
     }
     
-    self = [super initWithAwareStudy:study sensorName:@"significant_motion" storage:storage];
+    self = [super initWithAwareStudy:study sensorName:sensorName storage:storage];
     if (self != nil) {
         manager = [[CMMotionManager alloc] init];
         buffer  = [[NSMutableArray alloc] init];

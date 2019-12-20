@@ -126,6 +126,8 @@
 #import "EntityPushNotification+CoreDataProperties.h"
 #import "EntityPushNotification.h"
 #import "PushNotification.h"
+#import "PushNotificationProvider.h"
+#import "PushNotificationResponder.h"
 #import "AWARERotationOM+CoreDataClass.h"
 #import "AWARERotationOM+CoreDataProperties.h"
 #import "EntityRotation+CoreDataProperties.h"
