@@ -89,7 +89,7 @@ NSString * const AWARE_PREFERENCES_SERVER_PUSH_NOTIFICATION = @"plugin_push_noti
 }
 
 - (void) uploadToken:(NSString * _Nonnull)token toProvider:(NSString * _Nonnull)serverURL{
-    [self setPNTokenStateOnServer:serverURL withToken:token state:NO]; //TODO
+    // [self setPNTokenStateOnServer:serverURL withToken:token state:NO]; //TODO
     if (![self existPNTokenOnServer:serverURL withToken:token]) {
         PushNotificationProvider * pnManager = [[PushNotificationProvider alloc] init];
         [pnManager registerToken:token deviceId:[self getDeviceId] serverURL:serverURL
