@@ -43,6 +43,7 @@
 #import "BasicSettings.h"
 #import "GoogleLogin.h"
 #import "SignificantMotion.h"
+#import "PushNotification.h"
 
 /// Plugins
 

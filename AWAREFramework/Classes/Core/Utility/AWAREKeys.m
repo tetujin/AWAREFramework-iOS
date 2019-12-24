@@ -96,6 +96,7 @@ NSString* const SENSOR_HEALTH_KIT      = @"health_kit";
 NSString* const SENSOR_SIGNIFICANT_MOTION = @"significant_motion";
 NSString* const SENSOR_IOS_ESM         = @"plugin_ios_esm";
 NSString* const SENSOR_IOS_ACTIVITY_RECOGNITION = @"plugin_ios_activity_recognition";
+NSString* const SENSOR_PUSH_NOTIFICATION = @"push_notification";
 
 NSString* const STATUS_SENSOR_ACCELEROMETER = @"status_accelerometer";//accelerometer
 NSString* const STATUS_SENSOR_BAROMETER = @"status_barometer";//barometer
