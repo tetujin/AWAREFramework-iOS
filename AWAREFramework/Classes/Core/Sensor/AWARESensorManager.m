@@ -489,12 +489,8 @@ static AWARESensorManager * sharedSensorManager;
     [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager",@"event":@"sync: pass all flags"}];
     if(awareStudy.isDebug) NSLog(@"[AWARESensorManager] Start SyncDB");
 
-//    int delaySec = 0;
     for (AWARESensor * sensor in awareSensors ) {
-        // dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaySec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [sensor startSyncDB];
-//        });
-//        delaySec = delaySec + 1;
+        [sensor startSyncDB];
     }
 }
 
@@ -508,6 +504,7 @@ static AWARESensorManager * sharedSensorManager;
         if (name != nil){
             [AWAREEventLogger.shared logEvent:@{@"class":@"AWARESensorManager", @"event":@"sync", @"sensor":name}];
         }
+        // sensor.storage.syncMode = AwareSyncModeQuick;
         [sensor startSyncDB];
     }
 }

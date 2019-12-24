@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.8.8'
+  s.version          = '1.8.9'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
       cs.source_files = ['AWAREFramework/Classes/Core/**/*.m','AWAREFramework/Classes/Core/**/*.h','AWAREFramework/Classes/**/*.swift','AWAREFramework/Classes/Sensors/**/*.m','AWAREFramework/Classes/Sensors/**/*.h','AWAREFramework/Classes/ESM/**/*.h','AWAREFramework/Classes/ESM/**/*.m']
       cs.resources = 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Classes/**/*.xcdatamodeld'
       cs.resource_bundles = {
-       'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg', 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Assets/**/*.xcassets','AWAREFramework/Classes/**/*.xcdatamodeld']
+       'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg','AWAREFramework/Assets/**/*.mp3', 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Assets/**/*.xcassets','AWAREFramework/Classes/**/*.xcdatamodeld']
       }
       cs.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'UserNotifications', 'Accelerate', 'AudioToolbox','AVFoundation','GLKit'
       cs.dependency 'SCNetworkReachability', '~> 2.0'

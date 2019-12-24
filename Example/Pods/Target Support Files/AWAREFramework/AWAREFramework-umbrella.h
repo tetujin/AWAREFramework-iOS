@@ -28,6 +28,7 @@
 #import "CoreDataHandler.h"
 #import "ExternalCoreDataHandler.h"
 #import "DBTableCreator.h"
+#import "QuickSyncExecutor.h"
 #import "SyncExecutor.h"
 #import "TCQMaker.h"
 #import "AWAREStudy.h"

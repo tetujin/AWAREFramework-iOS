@@ -207,7 +207,7 @@ void exceptionHandler(NSException *exception) {
         preOSVer = [defaults stringForKey:KEY_OS_VERSION];
     }
     if (![currentOSVer isEqualToString:preOSVer]) {
-        [self logEvent:@{@"class":@"AWAREEventLoffer",
+        [self logEvent:@{@"class":@"AWAREEventLogger",
                          @"event":[NSString stringWithFormat:@"os update (%@ -> %@)",preOSVer, currentOSVer]}];
     }
     [defaults setObject:currentOSVer forKey:KEY_OS_VERSION];

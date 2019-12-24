@@ -465,7 +465,30 @@ Provides a system UUID.
                                    body:(NSString *)body
                               timeInterval:(double)timeInterval
                                    repeats:(BOOL)repeats{
-    
+    [AWAREUtils sendLocalPushNotificationWithTitle:title
+                                              body:body
+                                      timeInterval:timeInterval
+                                           repeats:repeats
+                                        identifier:NSUUID.UUID.UUIDString
+                                             clean:NO];
+}
+
++ (void) sendLocalPushNotificationWithTitle:(NSString * _Nullable)title
+                                        body:(NSString * _Nullable)body
+                                timeInterval:(double)timeInterval
+                                     repeats:(BOOL)repeats
+                                  identifier:(NSString * _Nullable)identifier
+                                      clean:(BOOL)clean{
+    [AWAREUtils sendLocalPushNotificationWithTitle:title
+                                              body:body
+                                      timeInterval:timeInterval
+                                           repeats:repeats
+                                        identifier:NSUUID.UUID.UUIDString
+                                             clean:NO
+                                             sound:[UNNotificationSound defaultSound]];
+}
+
++ (void)sendLocalPushNotificationWithTitle:(NSString *)title body:(NSString *)body timeInterval:(double)timeInterval repeats:(BOOL)repeats identifier:(NSString *)identifier clean:(BOOL)clean sound:(UNNotificationSound *)sound{
     // time interval must be at least 60 if repeating
     if (repeats) {
         if (timeInterval < 60) {
@@ -477,14 +500,19 @@ Provides a system UUID.
     
     UNMutableNotificationContent * content = [[UNMutableNotificationContent alloc] init];
     content.title = title;
-    content.body = body;
-//    content.sound = [UNNotificationSound defaultSound];
-    
-    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:NSUUID.UUID.UUIDString
-                                                                           content:content
-                                                                           trigger:trigger];
+    content.body  = body;
+    content.sound = sound;
     
     UNUserNotificationCenter * center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    if (clean) {
+        [center removeDeliveredNotificationsWithIdentifiers:@[identifier]];
+        [center removePendingNotificationRequestsWithIdentifiers:@[identifier]];
+    }
+    
+    UNNotificationRequest * request = [UNNotificationRequest requestWithIdentifier:identifier
+                                                                           content:content
+                                                                           trigger:trigger];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
         if(error != nil){
             NSLog(@"[AWAREUtils|Notification] Error: %@", error.debugDescription);

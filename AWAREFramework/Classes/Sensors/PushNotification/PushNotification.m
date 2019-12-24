@@ -11,6 +11,7 @@
 #import "AWAREKeys.h"
 #import "EntityPushNotification.h"
 #import "PushNotificationProvider.h"
+@import AudioToolbox;
 
 NSString * const AWARE_PREFERENCES_STATUS_PUSH_NOTIFICATION = @"status_push_notification";
 NSString * const AWARE_PREFERENCES_SERVER_PUSH_NOTIFICATION = @"plugin_push_notification_server";
@@ -85,6 +86,11 @@ NSString * const AWARE_PREFERENCES_SERVER_PUSH_NOTIFICATION = @"plugin_push_noti
     if (serverURL != nil && token != nil) {
         [self uploadToken:token toProvider:serverURL];
     }
+    
+//    NSURL    * url    = [[NSBundle mainBundle] URLForResource:@"AWAREFramework" withExtension:@"bundle"];
+//    NSBundle * bundle = [NSBundle bundleWithURL:url];
+//    NSString * path   = [bundle pathForResource:@"silent" ofType:@"mp3"];
+
     return YES;
 }
 

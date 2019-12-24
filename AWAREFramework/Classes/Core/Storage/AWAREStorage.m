@@ -25,6 +25,7 @@
 @synthesize lastSaveTimestamp;
 @synthesize saveInterval;
 @synthesize tableCreateCallback;
+@synthesize syncMode;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name{
     self = [super init];
@@ -357,5 +358,6 @@
     NSDate * today   = [formatter dateFromString:[NSString stringWithFormat:@"%zd/%zd/%zd", year, month, day]];
     return today;
 }
+
 
 @end

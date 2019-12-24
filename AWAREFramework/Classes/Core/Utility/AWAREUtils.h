@@ -55,6 +55,21 @@ NS_ASSUME_NONNULL_BEGIN
                                timeInterval:(double)timeInterval
                                     repeats:(BOOL)repeats;
 
++ (void) sendLocalPushNotificationWithTitle:(NSString * _Nullable)title
+                                       body:(NSString * _Nullable)body
+                               timeInterval:(double)timeInterval
+                                    repeats:(BOOL)repeats
+                                 identifier:(NSString * _Nullable)identifier
+                                      clean:(BOOL)clean;
+
++ (void) sendLocalPushNotificationWithTitle:(NSString * _Nullable)title
+                                        body:(NSString * _Nullable)body
+                                timeInterval:(double)timeInterval
+                                     repeats:(BOOL)repeats
+                                  identifier:(NSString * _Nullable)identifier
+                                       clean:(BOOL)clean
+                                sound:(UNNotificationSound * _Nullable)sound;
+
 NS_ASSUME_NONNULL_END
 
 @end

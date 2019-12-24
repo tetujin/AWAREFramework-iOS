@@ -7,6 +7,7 @@
 
 #import "SQLiteStorage.h"
 #import "SyncExecutor.h"
+#import "../Tools/QuickSyncExecutor.h"
 #import "CoreDataHandler.h"
 #import "AWAREUtils.h"
 
@@ -26,7 +27,8 @@
     BOOL isFetching;
     int retryCurrentCount;
     BaseCoreDataHandler * coreDataHandler;
-    SyncExecutor * executor;
+    // SyncExecutor * executor;
+    id<AWARESyncExecutorDelegate> executorDelegate;
 }
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
@@ -75,6 +77,7 @@
             [self setTimeMark:now];
         }
         coreDataHandler = dbHandler;
+        self.syncMode = AwareSyncModeBackground;
     }
     return self;
 }
@@ -215,12 +218,12 @@
 }
 
 - (void)cancelSyncStorage {
-    if (executor != nil) {
-        if ( executor.dataTask != nil ) {
-            [executor.dataTask cancel];
+    if (executorDelegate != nil) {
+        if ( executorDelegate.dataTask != nil ) {
+            [executorDelegate.dataTask cancel];
         }
-        if ( executor.session != nil){
-            [executor.session invalidateAndCancel];
+        if ( executorDelegate.session != nil){
+            [executorDelegate.session invalidateAndCancel];
         }
         [self dataSyncIsFinishedCorrectly];
         isCanceled = YES;
@@ -381,10 +384,14 @@
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         @try {
-                            self->executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            if (self.syncMode == AwareSyncModeQuick) {
+                                self->executorDelegate = [[QuickSyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            }else{
+                                self->executorDelegate = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            }
                             self->isFetching = NO;
-                            self->executor.debug = self.isDebug;
-                            [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
+                            self->executorDelegate.debug = self.isDebug;
+                            [self->executorDelegate syncWithData:mutablePostData callback:^(NSDictionary *result) {
                                 if (result!=nil) {
                                     if (self.isDebug) NSLog(@"%@",result.debugDescription);
                                     NSNumber * isSuccess = [result objectForKey:@"result"];

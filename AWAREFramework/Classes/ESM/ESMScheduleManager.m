@@ -915,11 +915,11 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 /**
  Remove all pending/delivded notifications from the UNUserNotificationCenter for a debug
  */
-- (void) removeAllNotifications {
-    UNUserNotificationCenter * notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
-    [notificationCenter removeAllDeliveredNotifications];
-    [notificationCenter removeAllPendingNotificationRequests];
-}
+//- (void) removeAllNotifications {
+//    UNUserNotificationCenter * notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+//    [notificationCenter removeAllDeliveredNotifications];
+//    [notificationCenter removeAllPendingNotificationRequests];
+//}
 
 /**
  Remove all ESM answer histories
@@ -927,10 +927,8 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
  @return A status of the removing ESM history
  */
 - (BOOL) removeAllESMHitoryFromDB {
-    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMAnswerHistory class])];
-    NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
+    NSFetchRequest       * request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMAnswerHistory class])];
+    NSBatchDeleteRequest * delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
     
     NSError *deleteError = nil;
     [[CoreDataHandler sharedHandler].managedObjectContext executeRequest:delete error:&deleteError];
@@ -943,7 +941,7 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
 
 
 
-- (BOOL) saveESMAnswerWithTimestamp:(NSNumber * )timestamp
+- (BOOL) saveESMAnswerWithTimestamp:(NSNumber *) timestamp
                            deviceId:(NSString *) deviceId
                             esmJson:(NSString *) esmJson
                          esmTrigger:(NSString *) esmTrigger
@@ -957,14 +955,14 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([EntityESMAnswer class])
                                   inManagedObjectContext:context];
     // add special data to dic from each uielements
-    answer.device_id = deviceId;
-    answer.timestamp = timestamp;
-    answer.esm_json = esmJson;
+    answer.device_id   = deviceId;
+    answer.timestamp   = timestamp;
+    answer.esm_json    = esmJson;
     answer.esm_trigger = esmTrigger;
     answer.esm_user_answer = esmUserAnswer;
     answer.esm_expiration_threshold = esmExpirationThreshold;
     answer.double_esm_user_answer_timestamp = esmUserAnswerTimestamp;
-    answer.esm_status = esmStatus;
+    answer.esm_status  = esmStatus;
     
     NSError * error = nil;
     [context save:&error];
@@ -976,8 +974,6 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     }
 }
 
-
-////////////////////////////////
 - (NSInteger)randomNumberBetween:(int)min maxNumber:(int)max {
     return min + arc4random_uniform(max - min + 1);
 }

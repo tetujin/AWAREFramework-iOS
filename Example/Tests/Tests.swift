@@ -63,7 +63,7 @@ class Tests: XCTestCase {
     
     func testSetStudyURL(){
         // set url
-        let url = "https://api.awareframework.com/index.php/webservice/index/2434/fRPjS3sVf5R4"
+        let url   = "https://api.awareframework.com/index.php/webservice/index/2434/fRPjS3sVf5R4"
         let study = AWAREStudy.shared()
         study.setStudyURL(url)
         
@@ -71,25 +71,48 @@ class Tests: XCTestCase {
         let battery = Battery(awareStudy: study)
         battery.startSensor(withIntervalSeconds: 1)
         
+        AWARESensorManager.shared().add(battery)
+        
         // sensing
         let expectation = XCTestExpectation(description: "battery expectation")
         battery.setSensorEventHandler { (sensor, data) in
-            if let d = data {
-                print(d)
+            if let _ = data {
+                // print(d)
                 expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10)
+
         
         // sync test
         let syncExpectation = XCTestExpectation(description: "battery sync expectation")
-        battery.storage?.startSyncStorage(callback: { (sensor, status, progress, error) in
-            print(sensor,progress)
-            if progress == 1 {
-                syncExpectation.fulfill()
+        if let storage = battery.storage as? SQLiteStorage{
+            storage.syncProcessCallback = { (sensor, state, progress, erro) in
+                print(sensor,progress)
+                if progress == 1 {
+                    syncExpectation.fulfill()
+                }
             }
-        })
+            storage.startSyncStorage()
+        }
         wait(for: [syncExpectation], timeout: 10)
+        
+        // sync test wifi
+        let syncExpectation2 = XCTestExpectation(description: "wifi")
+        let wifi = Wifi(awareStudy: study)
+        AWARESensorManager.shared().add(wifi)
+        wifi.startSensor(withInterval: 1)
+        wifi.storage?.startSyncStorage(callback: { (sensor, status, progress, error) in
+            syncExpectation2.fulfill()
+        })
+        wait(for: [syncExpectation2], timeout: 10)
+
+        
+        AWARESensorManager.shared().setSyncProcessCallbackToAllSensorStorages { (sensor, status, progress, error) in
+            print(sensor, status, progress)
+        }
+        AWARESensorManager.shared().syncAllSensorsForcefully()
+        
     }
     
     func testLimitedDataFetch(){

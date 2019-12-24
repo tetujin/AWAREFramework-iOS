@@ -23,6 +23,10 @@ typedef NS_ENUM(NSUInteger, AwareStorageSyncProgress) {
     AwareStorageSyncProgressCancel    = 6,
 };
 
+typedef NS_ENUM(NSUInteger, AwareSyncMode){
+    AwareSyncModeBackground = 0,
+    AwareSyncModeQuick      = 1,
+};
 
 @protocol AWAREStorageDelegate <NSObject>
 
@@ -43,6 +47,7 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 @property double saveInterval;
 @property double lastSaveTimestamp;
 @property (nullable) TableCreateCallback tableCreateCallback;
+@property AwareSyncMode syncMode;
 
 - (instancetype _Nullable ) initWithStudy:(AWAREStudy *_Nullable) study sensorName:(NSString*_Nullable)name;
 

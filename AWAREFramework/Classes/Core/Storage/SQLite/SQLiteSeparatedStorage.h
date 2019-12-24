@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype _Nonnull )initWithStudy:(AWAREStudy * _Nullable) study
                              sensorName:(NSString * _Nonnull) name
                         objectModelName:(NSString * _Nonnull) objectModelName
-                         syncModelName:(NSString * _Nonnull) syncModelName
+                          syncModelName:(NSString * _Nonnull) syncModelName
                               dbHandler:(BaseCoreDataHandler * _Nonnull) dbHandler;
 
 @end

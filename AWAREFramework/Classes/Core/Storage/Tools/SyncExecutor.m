@@ -15,29 +15,33 @@
     bool isSyncing;
 }
 
+@synthesize debug;
+@synthesize executorCallback;
+@synthesize session;
+@synthesize dataTask;
+
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study sensorName:(NSString *)name{
     self = [super init];
     if (self != nil) {
         awareStudy = study;
         sensorName = name;
-        _timeoutIntervalForRequest = 60;
-        _HTTPMaximumConnectionsPerHost = 60;
+        _timeoutIntervalForRequest  = 60;
+        _maximumConnectionsPerHost = 60;
         _timeoutIntervalForResource = 60;
         baseSyncDataQueryIdentifier = [NSString stringWithFormat:@"sync_data_query_identifier_%@",sensorName];
         isSyncing = NO;
-        _debug = [study isDebug];
+        debug     = [study isDebug];
         
         // Set session configuration
         NSURLSessionConfiguration *sessionConfig = nil;
         sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:baseSyncDataQueryIdentifier];
-        // https://stackoverflow.com/questions/26172783/upload-nsurlsesssion-becomes-invalidated-in-sharing-extension-in-ios8-with-error?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-        sessionConfig.sharedContainerIdentifier= @"com.awareframework.sync.task.identifier";
-        sessionConfig.timeoutIntervalForRequest = _timeoutIntervalForRequest;
-        sessionConfig.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
-        sessionConfig.timeoutIntervalForResource = _timeoutIntervalForResource;
-        sessionConfig.allowsCellularAccess = YES;
+        sessionConfig.sharedContainerIdentifier     = @"com.awareframework.sync.task.identifier";
+        sessionConfig.timeoutIntervalForRequest     = _timeoutIntervalForRequest;
+        sessionConfig.HTTPMaximumConnectionsPerHost = _maximumConnectionsPerHost;
+        sessionConfig.timeoutIntervalForResource    = _timeoutIntervalForResource;
+        sessionConfig.allowsCellularAccess          = YES;
         
-        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+        session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
     return self;
 }
@@ -57,7 +61,7 @@
         isSyncing = true;
     }
     
-    _executorCallback = callback;
+    executorCallback = callback;
     
     receivedData = [[NSMutableData alloc] init];
     
@@ -76,15 +80,13 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:mutablePostData];
 
-    _session.configuration.timeoutIntervalForRequest     = _timeoutIntervalForRequest;
-    _session.configuration.HTTPMaximumConnectionsPerHost = _HTTPMaximumConnectionsPerHost;
-    _session.configuration.timeoutIntervalForResource    = _timeoutIntervalForResource;
-    _session.configuration.allowsCellularAccess = YES;
+    session.configuration.timeoutIntervalForRequest     = _timeoutIntervalForRequest;
+    session.configuration.HTTPMaximumConnectionsPerHost = _maximumConnectionsPerHost;
+    session.configuration.timeoutIntervalForResource    = _timeoutIntervalForResource;
+    session.configuration.allowsCellularAccess = YES;
     
-    _dataTask = [_session dataTaskWithRequest:request];
-
-    [_dataTask resume];
-    
+    dataTask = [session dataTaskWithRequest:request];
+    [dataTask resume];
 }
 
 - (NSString *)stringByAddingPercentEncodingForAWARE:(NSString *) string {
@@ -127,7 +129,7 @@
     totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
     // show progress of upload
-    if (_debug) {
+    if (debug) {
         NSLog(@"[%@] ---> %3.2f%%", sensorName, (double)totalBytesSent/(double)totalBytesExpectedToSend*100.0f);
     }
 }
@@ -152,7 +154,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 ////////////////////////////////////////////////////////////
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error{
-    if (_debug) {
+    if (debug) {
         if (error != nil) {
             NSLog(@"[%@] URLSession:didBecomeInvalidWithError: %@", sensorName, error.debugDescription);
         }else{
@@ -170,7 +172,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error {
-    if (_debug) {
+    if (debug) {
         if (error!=nil) {
             NSLog(@"[%@] URLSession:task:didCompleteWithError: %@", sensorName, error.debugDescription);
         }else{
@@ -187,13 +189,13 @@ didCompleteWithError:(nullable NSError *)error {
         
         if (error!=nil) {
             [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:self->sensorName];
-            if (self->_executorCallback!=nil) {
-                self->_executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
+            if (self->executorCallback!=nil) {
+                self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
             }
         }else{
             [self broadcastDBSyncEventWithProgress:@100 isFinish:YES isSuccess:YES sensorName:self->sensorName];
-            if (self->_executorCallback!=nil) {
-                self->_executorCallback(@{@"result":@(YES),@"name":self->sensorName,@"response":response});
+            if (self->executorCallback!=nil) {
+                self->executorCallback(@{@"result":@(YES),@"name":self->sensorName,@"response":response});
             }
         }
         self->receivedData = [[NSMutableData alloc] init];
@@ -265,52 +267,3 @@ didCompleteWithError:(nullable NSError *)error {
 }
 
 @end
-
-
-
-//@implementation AWAREBackgroundURLSessionManager : NSObject
-//
-//static AWAREBackgroundURLSessionManager * shared_ = nil;
-//
-//+ (AWAREBackgroundURLSessionManager *) shared {
-//    @synchronized(self){
-//        if (!shared_) {
-//            shared_ = [[AWAREBackgroundURLSessionManager alloc] init];
-//        }
-//    }
-//    return shared_;
-//}
-//
-//- (id)init
-//{
-//    self = [super init];
-//    if (self) {
-//        _sessions = [[NSMutableArray alloc] init];
-//    }
-//    return self;
-//}
-//
-//- (NSURLSession *)getBackgroundURLSessionWithIdentifier:(NSString *)identifier{
-//    for (NSURLSession * bgSession in _sessions) {
-//        NSLog(@"%@",bgSession.configuration.identifier);
-//        if (bgSession.configuration.identifier!=nil){
-//            if ([bgSession.configuration.identifier isEqualToString:identifier]) {
-//                return bgSession;
-//            }
-//        }
-//    }
-//    return nil;
-//}
-//
-//- (void)removeBackgroundURLSessionWithIdentifier:(NSString *)identifier{
-//    for (NSURLSession * bgSession in _sessions) {
-//        NSLog(@"%@",bgSession.configuration.identifier);
-//        if (bgSession.configuration.identifier!=nil){
-//            if ([bgSession.configuration.identifier isEqualToString:identifier]) {
-//                [_sessions removeObject:bgSession];
-//            }
-//        }
-//    }
-//}
-//
-//@end

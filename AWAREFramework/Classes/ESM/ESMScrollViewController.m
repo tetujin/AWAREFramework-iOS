@@ -123,6 +123,7 @@
     numberViews   = [[NSMutableArray alloc] init];
     
     esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    esmSensor.storage.syncMode = AwareSyncModeQuick;
     [esmSensor createTable];
     
     _esms = [[NSMutableArray alloc] init];

@@ -34,9 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let manager = ESMScheduleManager.shared()
             manager.debug = true
-            manager.removeAllNotifications()
             manager.removeAllSchedulesFromDB()
-            manager.add(schedule)
+            manager.removeESMNotifications {
+                manager.add(schedule)
+            }
         }
         return true
     }

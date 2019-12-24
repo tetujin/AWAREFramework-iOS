@@ -7,6 +7,7 @@
 
 #import "SQLiteSeparatedStorage.h"
 #import "SyncExecutor.h"
+#import "../Tools/QuickSyncExecutor.h"
 #import "CoreDataHandler.h"
 #import "AWAREUtils.h"
 #import "../Tools/AWAREFetchSizeAdjuster.h"
@@ -26,7 +27,8 @@
     BOOL isCanceled;
     BOOL isFetching;
     BaseCoreDataHandler * coreDataHandler;
-    SyncExecutor * executor;
+    // SyncExecutor * executor;
+    id<AWARESyncExecutorDelegate> executorDelegate;
     AWAREFetchSizeAdjuster * fetchSizeAdjuster;
 }
 
@@ -62,6 +64,7 @@
         coreDataHandler = dbHandler;
         fetchSizeAdjuster = [[AWAREFetchSizeAdjuster alloc] initWithSensorName:name];
         fetchSizeAdjuster.debug = study.isDebug;
+        self.syncMode = AwareSyncModeBackground;
     }
     return self;
 }
@@ -217,13 +220,13 @@
 
 - (void) cancelSyncStorage {
     if (self.isDebug) NSLog(@"[%@][%@] cancel a sync-process",[self sensorName],self);
-    if (executor != nil) {
-        if (executor.dataTask != nil ) {
-            [executor.dataTask cancel];
+    if (executorDelegate != nil) {
+        if (executorDelegate.dataTask != nil ) {
+            [executorDelegate.dataTask cancel];
         }
         
-        if (executor.session != nil){
-            [executor.session invalidateAndCancel];
+        if (executorDelegate.session != nil){
+            [executorDelegate.session invalidateAndCancel];
         }
         [self dataSyncIsFinishedCorrectly];
         isCanceled = YES;
@@ -318,10 +321,15 @@
                     NSMutableData * mutablePostData = [[NSMutableData alloc] initWithData:jsonData];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         @try {
-                            self->executor = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            if (self.syncMode == AwareSyncModeQuick) {
+                                self->executorDelegate = [[QuickSyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            }else{
+                                self->executorDelegate = [[SyncExecutor alloc] initWithAwareStudy:self.awareStudy sensorName:self.sensorName];
+                            }
+                            // NSLog(@"%d", NSThread.isMainThread);
                             self->isFetching = NO;
-                            self->executor.debug = self.isDebug;
-                            [self->executor syncWithData:mutablePostData callback:^(NSDictionary *result) {
+                            self->executorDelegate.debug = self.isDebug;
+                            [self->executorDelegate syncWithData:mutablePostData callback:^(NSDictionary *result) {
                                 if (result!=nil) {
                                     if (self.isDebug) NSLog(@"[%@][%@]%@", self.sensorName, self,  result.debugDescription);
                                     NSNumber * isSuccess = [result objectForKey:@"result"];

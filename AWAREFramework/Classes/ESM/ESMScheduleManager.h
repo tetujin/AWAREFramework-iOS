@@ -29,7 +29,7 @@ typedef void (^NotificationRemoveCompleteHandler)(void);
 - (BOOL) removeAllSchedulesFromDB;
 - (BOOL) removeAllESMHitoryFromDB;
 
-- (void) removeAllNotifications;
+// - (void) removeAllNotifications;
 - (void) removeESMNotificationsWithHandler:(NotificationRemoveCompleteHandler _Nullable)handler;
 - (void) refreshESMNotifications;
 

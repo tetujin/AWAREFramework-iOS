@@ -114,7 +114,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_IOS_ESM_CONFIG_URL = @"plugin_ios_esm_
 }
 
 - (BOOL)quitSensor{
-    [esmManager removeAllNotifications];
+    // [esmManager removeAllNotifications];
+    [esmManager removeESMNotificationsWithHandler:^{
+        
+    }];
     [esmManager removeAllSchedulesFromDB];
     return YES;
 }
@@ -267,30 +270,32 @@ didReceiveResponse:(NSURLResponse *)response
             /// remove scheduled ESM
             ESMScheduleManager * manager = [ESMScheduleManager sharedESMScheduleManager];
             [manager removeAllSchedulesFromDB];
-            [manager removeAllNotifications];
-            
-            /// Set ESM schedules
-            BOOL isESMReady = [manager setScheduleByConfig:config];
-            
-            if (isESMReady) {
-                // Save the new ESM configuration if the configuration is new
-                NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-                NSData * newConfig      = [NSJSONSerialization dataWithJSONObject:config options:0 error:nil];
-                NSData * previousConfig = [defaults objectForKey:@"previous.ios.esm.plugin.configuration.file"];
-                if(previousConfig != nil && ![newConfig isEqual:previousConfig]){
-                    if(AWAREUtils.isForeground && self.isDebug){
-                        [self sendAlertMessageWithTitle:@"ESM configuration is updated correctly!"
-                                                message:newConfig.debugDescription
-                                           cancelButton:@"Close"];
+            [manager removeESMNotificationsWithHandler:^{
+                dispatch_async( dispatch_get_main_queue() , ^{
+                    // NSLog(@"%d", NSThread.isMainThread);
+                    /// Set ESM schedules
+                    BOOL isESMReady = [manager setScheduleByConfig:config];
+                    
+                    if (isESMReady) {
+                        // Save the new ESM configuration if the configuration is new
+                        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+                        NSData * newConfig      = [NSJSONSerialization dataWithJSONObject:config options:0 error:nil];
+                        NSData * previousConfig = [defaults objectForKey:@"previous.ios.esm.plugin.configuration.file"];
+                        if(previousConfig != nil && ![newConfig isEqual:previousConfig]){
+                            if(AWAREUtils.isForeground && self.isDebug){
+                                [self sendAlertMessageWithTitle:@"ESM configuration is updated correctly!"
+                                                        message:newConfig.debugDescription
+                                                   cancelButton:@"Close"];
+                            }
+                        }
+                        [defaults setObject:newConfig forKey:@"previous.ios.esm.plugin.configuration.file"];
+                        
+                        if (self->completionHandler) {
+                            self->completionHandler();
+                        }
                     }
-                }
-                [defaults setObject:newConfig forKey:@"previous.ios.esm.plugin.configuration.file"];
-                
-                if (self->completionHandler) {
-                    self->completionHandler();
-                }
-            }
-            
+                });
+            }];
         });
         
     }else{

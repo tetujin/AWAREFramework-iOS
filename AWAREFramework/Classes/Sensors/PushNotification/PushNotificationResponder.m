@@ -58,11 +58,11 @@
                 } else if ( [cmd isEqualToString:@"stop-all-sensors"]) {
                     [AWARESensorManager.sharedSensorManager stopAllSensors];
                 } else if ( [cmd isEqualToString:@"reactivate-core"]) {
-                    [AWARECore.sharedCore reactivate];
-                    [AWARESensorManager.sharedSensorManager stopAllSensors];
-                    [AWARESensorManager.sharedSensorManager startAllSensors];
                     // check application status
-                    NSDictionary<NSString *, id> * lastSignal = [AWAREStatusMonitor.shared getLatestData];
+                    NSDictionary<NSString *, id> * lastSignal = [[AWAREStatusMonitor.shared getLatestData] mutableCopy];
+                    [AWARECore.sharedCore reactivate];
+                     // [AWARESensorManager.sharedSensorManager stopAllSensors];
+                     // [AWARESensorManager.sharedSensorManager startAllSensors];
                     if (lastSignal != nil) {
                         NSNumber * lastTimestamp = [lastSignal objectForKey:@"timestamp"];
                         if (lastTimestamp != nil) {
@@ -70,10 +70,31 @@
                             double currentTimestamp = NSDate.new.timeIntervalSince1970 * 1000.0;
                             double gap = currentTimestamp - uwLastTimestamp;
                             if (gap > 60 * 10 * 1000) { // 10 min
-                                [AWAREUtils sendLocalPushNotificationWithTitle:helpMessageTitle
-                                                                          body:helpMessageBody
-                                                                  timeInterval:0.1
-                                                                       repeats:false];
+                                NSDate * zero = [AWAREUtils getTargetNSDate:NSDate.new hour:0 nextDay:NO];
+                                NSDate * six  = [AWAREUtils getTargetNSDate:NSDate.new hour:8 nextDay:NO];
+                                NSDate * now = NSDate.new;
+                                NSLog(@"[%@][%@][%@]", zero, six, now);
+                                if(zero<=now && six>=now){
+                                    [AWAREUtils sendLocalPushNotificationWithTitle:helpMessageTitle
+                                                                              body:helpMessageBody
+                                                                      timeInterval:3
+                                                                           repeats:NO
+                                                                        identifier:@"com.awareframework.ios.help.reboot.notification"
+                                                                             clean:YES sound:nil];
+                                    [AWAREEventLogger.shared logEvent:@{@"class":@"PushNotificationResponder",
+                                                                        @"event":@"SendHelpMessage",
+                                                                        @"reason":@"Midnight"}];
+                                }else{
+                                    [AWAREUtils sendLocalPushNotificationWithTitle:helpMessageTitle
+                                                                              body:helpMessageBody
+                                                                      timeInterval:3
+                                                                           repeats:NO
+                                                                        identifier:@"com.awareframework.ios.help.reboot.notification"
+                                                                             clean:YES sound:UNNotificationSound.defaultSound];
+                                    [AWAREEventLogger.shared logEvent:@{@"class":@"PushNotificationResponder",
+                                                                        @"event":@"SendHelpMessage"}];
+                                }
+                                
                             }
                         }
                     }
