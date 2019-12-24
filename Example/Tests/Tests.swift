@@ -68,7 +68,7 @@ class Tests: XCTestCase {
         study.setStudyURL(url)
         
         // init sensor
-        let battery = Battery(awareStudy: study)
+        let battery = Battery(awareStudy: study, dbType: AwareDBTypeSQLite)
         battery.startSensor(withIntervalSeconds: 1)
         
         AWARESensorManager.shared().add(battery)
@@ -99,7 +99,7 @@ class Tests: XCTestCase {
         
         // sync test wifi
         let syncExpectation2 = XCTestExpectation(description: "wifi")
-        let wifi = Wifi(awareStudy: study)
+        let wifi = Wifi(awareStudy: study, dbType: AwareDBTypeSQLite)
         AWARESensorManager.shared().add(wifi)
         wifi.startSensor(withInterval: 1)
         wifi.storage?.startSyncStorage(callback: { (sensor, status, progress, error) in
