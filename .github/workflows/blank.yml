@@ -5,10 +5,10 @@ on: [push]
 jobs:
   build:
 
-    runs-on: macOS-latest
+    runs-on: macos-latest
     strategy:
         matrix:
-          destination: ['platform=iOS Simulator,OS=13.1,name=iPhone 11']
+          destination: ['platform=iOS Simulator,OS=13.2.2,name=iPhone 11 Pro']
 
     steps:
     - uses: actions/checkout@v1
