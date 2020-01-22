@@ -453,6 +453,7 @@
 }
 
 - (void) deleteOldDataIfNeeded {
+    
     if([self.awareStudy getCleanOldDataType] != cleanOldDataTypeNever){
         
         NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];

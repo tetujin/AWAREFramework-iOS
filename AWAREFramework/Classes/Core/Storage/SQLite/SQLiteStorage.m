@@ -82,6 +82,9 @@
     return self;
 }
 
+- (void) setDBHandler:(BaseCoreDataHandler *)handler{
+    coreDataHandler = handler;
+}
 
 - (BOOL)saveDataWithDictionary:(NSDictionary * _Nullable)dataDict buffer:(BOOL)isRequiredBuffer saveInMainThread:(BOOL)saveInMainThread {
     [self saveDataWithArray:@[dataDict] buffer:isRequiredBuffer saveInMainThread:saveInMainThread];
@@ -633,8 +636,11 @@
 - (void)fetchDataBetweenStart:(NSDate *)start andEnd:(NSDate *)end withHandler:(FetchDataHandler)handler{
     [self fetchDataFrom:start to:end handler:handler];
 }
-
 - (void)fetchDataFrom:(NSDate *)from to:(NSDate *)to handler:(FetchDataHandler)handler{
+    [self fetchDataFrom:from to:to granularity:0 handler:handler];
+}
+
+- (void)fetchDataFrom:(NSDate *)from to:(NSDate *)to granularity:(UInt64)granularity handler:(FetchDataHandler)handler{
     NSManagedObjectContext *private = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [private setParentContext:self.mainQueueManagedObjectContext];
     [private performBlock:^{
@@ -656,10 +662,15 @@
             [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timestamp >= %@ AND timestamp <= %@", startNum, endNum]];
         }
         
+//        if (granularity > 0) {
+//            NSPredicate * granularityFilter = [NSPredicate predicateWithFormat:@"%K%%@ == 0", @"timestamp",granularity];
+//            [fetchRequest setPredicate:granularityFilter];
+//        }
+        
         //Set sort option
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        [fetchRequest setSortDescriptors:sortDescriptors];
+//        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+//        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+//        [fetchRequest setSortDescriptors:sortDescriptors];
         
         //Get NSManagedObject from managedObjectContext by using fetch setting
         NSError * error = nil;

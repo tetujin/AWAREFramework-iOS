@@ -23,5 +23,6 @@ extern NSString * _Nonnull const AWARE_PREFERENCES_SERVER_PUSH_NOTIFICATION;
 - (void) setRemoteServerURL:(NSString * _Nullable)url;
 
 - (void) uploadToken:(NSString * _Nonnull)token toProvider:(NSString * _Nonnull)serverURL;
+- (void) uploadToken:(NSString * _Nonnull)token toProvider:(NSString * _Nonnull)serverURL forcefully:(BOOL)forcefully;
 
 @end

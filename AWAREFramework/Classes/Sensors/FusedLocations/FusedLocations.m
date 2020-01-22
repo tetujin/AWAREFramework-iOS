@@ -7,9 +7,7 @@
 //
 #import "FusedLocations.h"
 #import "Locations.h"
-#import "VisitLocations.h"
 #import "EntityLocation.h"
-#import "EntityLocationVisit.h"
 
 NSString * const AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION    = @"status_google_fused_location";
 NSString * const AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION  = @"accuracy_google_fused_location";
@@ -27,7 +25,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
                           sensorName:SENSOR_GOOGLE_FUSED_LOCATION
                              storage:_locationSensor.storage];
     if (self) {
-        _visitLocationSensor = [[VisitLocations alloc] initWithAwareStudy:study dbType:dbType];
         _saveAll             = NO;
         _intervalSec         = 180;
         _distanceFilter      = kCLDistanceFilterNone;
@@ -39,8 +36,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 - (void)createTable{
     /// carete a database table on a remote server
     [_locationSensor createTable];
-    /// create a database table on a remote server
-    [_visitLocationSensor createTable];
 }
 
 - (void)setParameters:(NSArray *)parameters{
@@ -99,7 +94,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
     }
     
     /// Set a movement threshold for new events.
-    [locationManager startMonitoringVisits]; // This method calls didVisit.
+    // [locationManager startMonitoringVisits]; // This method calls didVisit.
     [locationManager startUpdatingLocation];
     
     if(intervalSecond > 0){
@@ -117,7 +112,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 - (BOOL)stopSensor{
     if (locationManager != nil) {
         [locationManager stopUpdatingLocation];
-        [locationManager stopMonitoringVisits];
+        // [locationManager stopMonitoringVisits];
     }
     
     if (locationTimer != nil) {
@@ -133,9 +128,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
     if (self.locationSensor.storage != nil) {
         [self.locationSensor.storage saveBufferDataInMainThread:YES];
     }
-    if (self.visitLocationSensor.storage != nil) {
-        [self.visitLocationSensor.storage saveBufferDataInMainThread:YES];
-    }
     
     [self setSensingState:NO];
     
@@ -143,13 +135,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 }
 
 - (void) startSyncDB{
-    [_visitLocationSensor startSyncDB];
     [_locationSensor startSyncDB];
     // [super startSyncDB];
 }
 
 - (void)stopSyncDB{
-    [_visitLocationSensor stopSyncDB];
     [_locationSensor stopSyncDB];
     // [super stopSyncDB];
 }
@@ -211,9 +201,6 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 
 - (void)locationManager:(CLLocationManager *)manager
                didVisit:(CLVisit *)visit {
-    
-    [_visitLocationSensor locationManager:manager didVisit:visit];
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -222,7 +209,6 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
     if (status == kCLAuthorizationStatusAuthorizedAlways) {
         if (locationManager != nil) {
             [locationManager startUpdatingLocation];
-            [locationManager startMonitoringVisits];
         }
     }
 }

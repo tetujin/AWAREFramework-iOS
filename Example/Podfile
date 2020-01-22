@@ -1,23 +1,17 @@
 use_frameworks!
 platform :ios, '10.0'
 
-#target 'AWAREFramework_Example' do
-#  pod 'AWAREFramework', :path => '../'
-#
-#  target 'AWAREFramework_Tests' do
-#    inherit! :search_paths
-#
-#    
-#  end
-#end
+ #target 'AWAREFramework_Example' do
+ #  pod 'AWAREFramework', :path => '../'
+ #end
 
-target 'Tests' do
-  pod 'AWAREFramework', :path => '../'
-end
+ target 'Tests' do
+   pod 'AWAREFramework', :path => '../'
+ end
 
-target 'AWARE-UnitTest' do
-  pod 'AWAREFramework', :path => '../'
-end
+ target 'AWARE-UnitTest' do
+   pod 'AWAREFramework', :path => '../'
+ end
 
 target 'AWARE-DynamicESM' do
   pod 'AWAREFramework', :path => '../'
@@ -101,12 +95,15 @@ end
 target 'AWARE-ForTest' do
   pod 'AWAREFramework', :path => '../'
 end
-
-target 'AWARE-Location' do
-  pod 'AWAREFramework', :path => '../'
-end
-
-target 'AWARE-SimpleClient-ObjC' do
-  pod 'AWAREFramework', :path => '../'
-end
-
+#
+# target 'AWARE-Location' do
+#   pod 'AWAREFramework', :path => '../'
+# end
+#
+# target 'AWARE-SimpleClient-ObjC' do
+#   pod 'AWAREFramework', :path => '../'
+# end
+#
+# target 'AWARE-StorageTest' do
+#   pod 'AWAREFramework', :path => '../'
+# end

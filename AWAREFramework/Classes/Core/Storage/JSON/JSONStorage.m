@@ -7,13 +7,13 @@
 
 #import "JSONStorage.h"
 #import "SyncExecutor.h"
-#import "BRLineReader.h"
+#import "StreamLineReader.h"
 
 @implementation JSONStorage{
     int retryCurrentCount;
     NSString * FILE_EXTENSION;
     NSString * KEY_STORAGE_JSON_SYNC_POSITION;
-    BRLineReader * brReader;
+    StreamLineReader * streamReader;
     NSUInteger undoPosition;
 }
 
@@ -129,7 +129,7 @@
                 NSNumber * success = [result objectForKey:@"result"];
                 NSString * sensorName = [result objectForKey:@"name"];
                 if (success.intValue == 1) {
-                    if( self->brReader == nil ){
+                    if( self->streamReader == nil ){
                         [self resetPosition];
                         if (self.isDebug) NSLog(@"[%@] Done",self.sensorName);
                         if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
@@ -172,22 +172,22 @@
 
 - (NSString *) getJSONFormatData {
     NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];
-    if (brReader==nil) {
-        brReader = [[BRLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
-        [brReader setLineSearchPosition:[self getPosition]];
+    if (streamReader==nil) {
+        streamReader = [[StreamLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
+        [streamReader setLineSearchPosition:[self getPosition]];
         undoPosition = [self getPosition];
     }
     NSMutableString * jsonString = [[NSMutableString alloc] init];
     while (true) {
-        NSString * line = [brReader readLine];
-        [self setPosition:brReader.linesRead];
+        NSString * line = [streamReader readLine];
+        [self setPosition:streamReader.lastRange.location];
         if (line!=nil) {
             [jsonString appendString:line];
             if (jsonString.length > [self getMaxDataLength]) {
                 break;
             }
         }else{
-            brReader = nil;
+            streamReader = nil;
             break;
         }
     }

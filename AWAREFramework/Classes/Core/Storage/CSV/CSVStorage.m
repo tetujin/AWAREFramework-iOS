@@ -6,15 +6,15 @@
 //
 
 #import "CSVStorage.h"
-#import "BRLineReader.h"
-#import "SyncExecutor.h" 
+#import "SyncExecutor.h"
+#import "StreamLineReader.h"
 
 @implementation CSVStorage{
     NSArray * headerTypes;
     NSArray * headerLabels;
     NSString * FILE_EXTENSION;
     NSString * KEY_STORAGE_CSV_SYNC_POSITION;
-    BRLineReader * brReader;
+    StreamLineReader * streamReader;
     int retryCurrentCount;
     int retryLimit;
 }
@@ -135,7 +135,7 @@
                 if (size != nil) { }
                 NSNumber * success = [result objectForKey:@"result"];
                 if (success.intValue == 1) {
-                    if( self->brReader == nil ){
+                    if( self->streamReader == nil ){
                         [self resetPosition];
                         if (self.isDebug) NSLog(@"[%@] Done",self.sensorName);
                         if (self.isDebug) NSLog(@"[%@] Try to clear the local database", self.sensorName);
@@ -205,17 +205,17 @@
 - (NSString *) getJSONFormatData {
     // prepare a line reader
     NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];
-    if (brReader==nil) {
-        brReader = [[BRLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
-        [brReader setLineSearchPosition:[self getPosition]];
+    if (streamReader==nil) {
+        streamReader = [[StreamLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
+        [streamReader setLineSearchPosition:[self getPosition]];
     }
     
     // read a line
     NSMutableString * jsonString = [[NSMutableString alloc] init];
     while (true) {
-        NSString * line = [brReader readLine];
+        NSString * line = [streamReader readLine];
         // set current position
-        [self setPosition:brReader.linesRead];
+        [self setPosition:streamReader.lastRange.location];
         if (line!=nil) {
             // header
             if ([line hasPrefix:@"timestamp"]) {
@@ -230,7 +230,7 @@
                 break;
             }
         }else{
-            brReader = nil;
+            streamReader = nil;
             break;
         }
     }

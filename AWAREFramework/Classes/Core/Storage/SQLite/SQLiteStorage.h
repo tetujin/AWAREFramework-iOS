@@ -40,5 +40,6 @@ typedef void (^InsertEntityCallBack)(NSDictionary * _Nonnull dataDict, NSManaged
 - (NSUInteger)countUnsyncedDataWithError:(NSError * _Nullable) error;
 
 - (BOOL) isExistUnsyncedDataWithError:(NSError * _Nullable) error;
+- (void) setDBHandler:(BaseCoreDataHandler * _Nonnull)handler;
 
 @end
