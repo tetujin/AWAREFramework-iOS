@@ -23,7 +23,8 @@
 @synthesize lastRange;
 
 - (instancetype)initWithFile:(NSString *)filePath encoding:(NSStringEncoding)encoding{
-    return [self initWithFile:filePath encoding:encoding chunkSize:4096 lineTrimCharacter:@"\n"];
+//    return [self initWithFile:filePath encoding:encoding chunkSize:4096 lineTrimCharacter:@"\n"];
+    return [self initWithFile:filePath encoding:encoding chunkSize:256 lineTrimCharacter:@"\n"];
 }
 - (instancetype)initWithFile:(NSString *)filePath
                     encoding:(NSStringEncoding)encoding
@@ -54,16 +55,14 @@
     while (!atEof) {
         NSRange range = [buffer rangeOfData:elimiterData options:NSDataSearchBackwards range:NSMakeRange(0, buffer.length)];
         if (range.location != NSNotFound) {
-            [buffer subdataWithRange:NSMakeRange(0, range.location)];
-            NSString * line = [[NSString alloc] initWithData: [buffer subdataWithRange:NSMakeRange(0, range.location)]  encoding:NSUTF8StringEncoding];
+            // [buffer subdataWithRange:NSMakeRange(0, range.location)];
+            NSData * subBuffer = [buffer subdataWithRange:NSMakeRange(0, range.location)];
+            NSString * line = [[NSString alloc] initWithData:subBuffer encoding:NSUTF8StringEncoding];
             buffer = [[buffer subdataWithRange:NSMakeRange(range.location+1, buffer.length-range.location-1)] mutableCopy];
             return line;
         }
-//        _lastRange = NSMakeRange(handler.offsetInFile, 10);
-//        NSLog(@"%ld -> %ld", _lastRange.location, _lastRange.location + _lastRange.length);
         NSData * tmpData = [handler readDataOfLength:self->chunkSize];
         lastRange = NSMakeRange(handler.offsetInFile,self->chunkSize);
-//        NSLog(@"%llu", handler.offsetInFile);
         
         if(tmpData.length > 0){
             [buffer appendData:tmpData];

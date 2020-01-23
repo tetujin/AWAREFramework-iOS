@@ -155,6 +155,9 @@
                         if (self.isDebug) NSLog(@"[%@] End sync process doue to much error HTTP sessions.",self.sensorName);
                         [self dataSyncIsFinishedCorrectly];
                     }
+                    if (self.syncProcessCallback != nil) {
+                        self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressError, -1, nil); // TODO: replay to real data
+                    }
                 }
             }
         }];
@@ -193,7 +196,8 @@
     }
     if (jsonString.length > 1) {
         // [note] remove "," and "\n" 
-        [jsonString deleteCharactersInRange:NSMakeRange(jsonString.length-2, 2)];
+         [jsonString deleteCharactersInRange:NSMakeRange(jsonString.length-1, 1)];
+        
         // [note] add "[" and "]" for making JSON-Array
         [jsonString insertString:@"[" atIndex:0];
         [jsonString appendString:@"]"];

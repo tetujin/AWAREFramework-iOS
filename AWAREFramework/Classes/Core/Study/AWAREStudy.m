@@ -33,7 +33,6 @@ static AWAREStudy * sharedStudy;
     NSNumber * cashMaxBatchSize;
     NSNumber * cashMaxRecords;
     NSNumber * cashIsDebug;
-    AWAREDevice * awareDevice;
 }
 
 + (AWAREStudy * _Nonnull)sharedStudy{
@@ -112,7 +111,6 @@ static AWAREStudy * sharedStudy;
                 }
             }];
         }
-        awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
         ////////////////////////////////////////////////
     }
     return self;
@@ -315,12 +313,17 @@ didCompleteWithError:(NSError *)error {
     NSString * deviceId   = [self getDeviceId];
     NSString * deviceName = [self getDeviceName];
 
-    // [self setDebug:YES];
+    AWAREDevice * device = [self getAwareDevice];
+    
+    // TODO
+//    [self setDebug:YES];
+//    [NSUserDefaults.standardUserDefaults setBool:NO forKey:[self getKeyForIsDeviceIdOnAWAREServer]];
+//    [NSUserDefaults.standardUserDefaults synchronize];
     
     NSString * key = [self getKeyForIsDeviceIdOnAWAREServer];
     if (![NSUserDefaults.standardUserDefaults boolForKey: key]) {
         /// create an aware_device table and register a device if it is needed
-        [awareDevice insertDeviceId:deviceId name:deviceName];
+        [device insertDeviceId:deviceId name:deviceName];
         [NSUserDefaults.standardUserDefaults setBool:YES forKey:key];
         [NSUserDefaults.standardUserDefaults synchronize];
         studyState = AwareStudyStateNew;
@@ -328,11 +331,13 @@ didCompleteWithError:(NSError *)error {
         __weak typeof(self) wself = self;
         
         if (self->isDebug) { NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is not registered yet", [self getDeviceId]); }
-        awareDevice.storage.tableCreateCallback = ^(bool result, NSData *data, NSError *error) {
+        device.storage.tableCreateCallback = ^(bool result, NSData *data, NSError *error) {
             AWAREDevice * aDevice = [wself getAwareDevice];
             if (result) {
                 if ([wself isDebug]) { NSLog(@"[AWAREStudy] aware_device table is created on %@", url); }
-                [aDevice.storage startSyncStorage];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [aDevice.storage startSyncStorage];
+                });
             }else{
                 if ([wself isDebug]) NSLog(@"[AWAREStudy] aware_device table is not created on %@", url);
                 [NSUserDefaults.standardUserDefaults setBool:NO forKey:[wself getKeyForIsDeviceIdOnAWAREServer]];
@@ -340,14 +345,12 @@ didCompleteWithError:(NSError *)error {
             }
             aDevice.storage.tableCreateCallback = nil;
         };
-    
-        [awareDevice createTable];
-        [awareDevice lockOperation];
-    
+        [device createTable];
+        [device lockOperation];
     }else{
         if (self->isDebug){  NSLog(@"[AWAREStudy|AddDeviceId] The device_id (%@) is already registered", [self getDeviceId]); }
         studyState = AwareStudyStateUpdate;
-        [awareDevice.storage startSyncStorage];
+        [device.storage startSyncStorage];
     }
     
     // compare the latest configuration string with the previous configuration string.
@@ -404,12 +407,7 @@ didCompleteWithError:(NSError *)error {
 }
 
 - (AWAREDevice * _Nonnull) getAwareDevice {
-    if (awareDevice == nil) {
-        awareDevice = [[AWAREDevice alloc] initWithAwareStudy:self];
-        return awareDevice;
-    }else{
-        return awareDevice;
-    }
+    return [[AWAREDevice alloc] initWithAwareStudy:self dbType:AwareDBTypeSQLite];
 }
 
 ///////////////////////////////////////////////////////////////////////

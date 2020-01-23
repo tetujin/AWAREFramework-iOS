@@ -73,20 +73,20 @@
     if (!self.isStore) {
         return NO;
     }
-    
+
     if (!saveInMainThread) {
         // NSLog(@"[%@] JSONStorage only support a data storing in the main thread. Threfore, the data is stored in the main-thread.", self.sensorName);
     }
-    
+
     if(self.buffer == nil){
         if (self.isDebug) { NSLog(@"[%@] The buffer object is null", self.sensorName);}
         self.buffer = [[NSMutableArray alloc] init];
     }
-    
+
     if (dataArray != nil) {
         [self.buffer addObjectsFromArray:dataArray];
     }
-    
+
     if (self.buffer.count < self.getBufferSize) {
         return YES;
     }
@@ -142,9 +142,16 @@
                         [self clearLocalStorageWithName:self.sensorName type:self->FILE_EXTENSION];
                         [self dataSyncIsFinishedCorrectly];
                         [self setCSVHeader:self->headerLabels];
+                        if (self.syncProcessCallback != nil) {
+                            self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressComplete, 1, nil);
+                        }
                     }else{
                         if (self.isDebug) NSLog(@"[%@] Next: %lul/%@",self.sensorName, (unsigned long)[self getPosition], size);
                         [self performSelector:@selector(startSyncStorage) withObject:nil afterDelay:self.syncTaskIntervalSecond];
+                        if (self.syncProcessCallback != nil) {
+                            double progress = 0; // TODO
+                            self.syncProcessCallback(self.sensorName, AwareStorageSyncProgressContinue, progress, nil); // TODO: replay to real data
+                        }
                     }
                 }else{
                     if (self->retryCurrentCount < self.retryLimit) {
@@ -206,7 +213,7 @@
     // prepare a line reader
     NSString * path = [self getFilePathWithName:self.sensorName type:FILE_EXTENSION];
     if (streamReader==nil) {
-        streamReader = [[StreamLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding];
+        streamReader = [[StreamLineReader alloc] initWithFile:path encoding:NSUTF8StringEncoding chunkSize:64 lineTrimCharacter:@"\n"];
         [streamReader setLineSearchPosition:[self getPosition]];
     }
     
@@ -222,9 +229,11 @@
                 continue;
             }
             // body
-            [jsonString appendString:[self convertCSV2JSONWithCSVLine:line header:headerLabels types:headerTypes]];
-            [jsonString appendString:@","];
-            
+            NSString * jsonStrFromCSV =  [self convertCSV2JSONWithCSVLine:line header:headerLabels types:headerTypes];
+            if (jsonStrFromCSV != nil) {
+                [jsonString appendString:jsonStrFromCSV];
+                [jsonString appendString:@","];
+            }
             /// If the converted and piled data is larger than a limit, the loop is break and go to next process.
             if (jsonString.length > [self getMaxDataLength]) {
                 break;
@@ -258,7 +267,7 @@
  @param types A header types (which is based on the "CSVColumnType") of the header (e.g., [@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeText)])
  @return a JSON-Object String (e.g., {"timestamp":1234, "device_id":"xxxx-xxx","value_1":123.00,"label":"label"})
  */
-- (NSString *) convertCSV2JSONWithCSVLine:(NSString *)line header:(NSArray *)header types:(NSArray *)types{
+- (NSString * _Nullable) convertCSV2JSONWithCSVLine:(NSString *)line header:(NSArray *)header types:(NSArray *)types{
     NSMutableDictionary * baseData = [[NSMutableDictionary alloc] init];
     NSArray *values = [line componentsSeparatedByString:@","];
 
@@ -280,10 +289,16 @@
         }
     }
     
+    if (baseData.allKeys.count == 0) {
+//        if (self.isDebug) NSLog(@"[%@] CSV_2_JSON Error: NO Values", self.sensorName);
+        return nil;
+    }
+    
     NSError * error = nil;
     NSData * data = [NSJSONSerialization dataWithJSONObject:baseData options:0 error:&error];
     if (error!=nil) {
-        return @"{}";
+        if (self.isDebug) NSLog(@"[%@] CSV_2_JSON Error: %@", self.sensorName, error.debugDescription);
+        return nil;
     }
     
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
