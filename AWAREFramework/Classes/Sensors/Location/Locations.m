@@ -120,28 +120,26 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     self->accuracy = accuracyMeter;
     
     if (nil != locationManager){
-        /// stop sensor
         [self stopSensor];
     }
 
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     
-    /// set  accuracy of data collection
-    if (accuracyMeter == 0) {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    } else if (accuracyMeter <= 5){
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    } else if (accuracyMeter <= 25 ){
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    } else if (accuracyMeter <= 100 ){
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    } else if (accuracyMeter <= 1000){
+    if (accuracyMeter >= 3000) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    } else if (accuracyMeter >= 1000){
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-    } else if (accuracyMeter <= 3000){
-        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    } else if (accuracyMeter >= 100 ){
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    } else if (accuracyMeter >= 10  ) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    } else if (accuracyMeter >= 5   ) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    } else if (accuracyMeter == 0   ) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     } else {
-        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     }
     
     /// Set a movement threshold for new events.

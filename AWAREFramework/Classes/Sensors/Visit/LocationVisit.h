@@ -9,6 +9,8 @@
 #import "AWARESensor.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface VisitLocations : AWARESensor <AWARESensorDelegate, CLLocationManagerDelegate>
+extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_IOS_LOCATION_VISIT;
+
+@interface LocationVisit : AWARESensor <AWARESensorDelegate, CLLocationManagerDelegate>
 
 @end

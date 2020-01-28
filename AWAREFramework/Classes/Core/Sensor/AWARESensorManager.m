@@ -196,6 +196,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[SignificantMotion alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_PUSH_NOTIFICATION]){
                 awareSensor = [[PushNotification alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if ([setting isEqualToString:AWARE_PREFERENCES_STATUS_IOS_LOCATION_VISIT]){
+                awareSensor = [[LocationVisit alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
             #ifdef IMPORT_MIC
             else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_AMBIENT_NOISE]]){

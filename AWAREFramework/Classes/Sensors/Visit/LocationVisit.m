@@ -6,24 +6,26 @@
 //  Copyright © 2016 Yuuki NISHIYAMA. All rights reserved.
 //
 
-#import "VisitLocations.h"
+#import "LocationVisit.h"
 #import "EntityLocationVisit.h"
 
-@implementation VisitLocations{
+
+NSString * const AWARE_PREFERENCES_STATUS_IOS_LOCATION_VISIT = @"status_ios_location_visit";
+
+@implementation LocationVisit{
     IBOutlet CLLocationManager *locationManager;
 }
-
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     AWAREStorage * storage = nil;
     if (dbType == AwareDBTypeJSON) {
-        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"locations_visit"];
+        storage = [[JSONStorage alloc] initWithStudy:study sensorName:@"ios_location_visit"];
     }else if(dbType == AwareDBTypeCSV){
         NSArray * header = @[@"timestamp",@"device_id",@"double_latitude",@"double_longitude",@"double_arrival",@"double_departure",@"address",@"name",@"provider",@"accuracy",@"label"];
         NSArray * headerTypes  = @[@(CSVTypeReal),@(CSVTypeText),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeReal),@(CSVTypeText),@(CSVTypeText),@(CSVTypeText),@(CSVTypeInteger),@(CSVTypeReal)];
-        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"locations_visit" headerLabels:header headerTypes:headerTypes];
+        storage = [[CSVStorage alloc] initWithStudy:study sensorName:@"ios_location_visit" headerLabels:header headerTypes:headerTypes];
     }else{
-        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"locations_visit" entityName:NSStringFromClass([EntityLocationVisit class])
+        storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"ios_location_visit" entityName:NSStringFromClass([EntityLocationVisit class])
                                         insertCallBack:^(NSDictionary *data, NSManagedObjectContext *childContext, NSString *entity) {
                                             EntityLocationVisit * visitData = (EntityLocationVisit *)[NSEntityDescription insertNewObjectForEntityForName:entity
                                                                                                                                    inManagedObjectContext:childContext];
@@ -43,7 +45,7 @@
     }
     
     self = [self initWithAwareStudy:study
-                         sensorName:@"locations_visit"
+                         sensorName:@"ios_location_visit"
                             storage:storage];
     if(self != nil){
         // [self setCSVHeader:];
@@ -122,21 +124,21 @@
                   CLPlacemark * placemark = nil;
                   NSString * name = @"";
                   NSString * address = @"";
+                  
                   if (placemarks.count > 0) {
                       placemark = [placemarks objectAtIndex:0];
                       address = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
+                      if (address != nil) {
+                          address = [AWAREUtils md5:address];
+                      }
                       [self setLatestValue:address];
-                      NSString* visitMsg = [NSString stringWithFormat:@"I am currently at %@", address];
                       // Set name
                       if (placemark.name != nil) {
                           //[visitDic setObject:placemark.name forKey:@"name"];
-                          name = placemark.name;
-                          if ([self isDebug]) {
-                              NSLog( @"%@", visitMsg );
-                              // [AWAREUtils sendLocalNotificationForMessage:visitMsg soundFlag:YES];
-                          }
+                          name = [AWAREUtils md5:placemark.name];
                       }
                   }
+                
                   
                   NSNumber * timestamp = [AWAREUtils getUnixTimestamp:[NSDate new]];
                   NSNumber * depature = [AWAREUtils getUnixTimestamp:[visit departureDate]];

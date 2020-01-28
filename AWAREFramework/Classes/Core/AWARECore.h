@@ -35,6 +35,10 @@ typedef void (^UNNotificationAuthCompletionHandler)(BOOL granted, NSError * _Nul
 - (void) deactivate;
 - (void) reactivate;
 
+- (void) setAnchor;
+- (void) setAnchorAccuracy: (CLLocationAccuracy) accuracy;
+- (CLLocationAccuracy) getAnchorAccuracy;
+
 - (void) startBaseLocationSensor;
 
 - (void) checkCompliance;

@@ -20,7 +20,7 @@
 #import "Gyroscope.h"
 #import "LinearAccelerometer.h"
 #import "Locations.h"
-#import "VisitLocations.h"
+#import "LocationVisit.h"
 #import "Magnetometer.h"
 #import "Network.h"
 #import "Orientation.h"

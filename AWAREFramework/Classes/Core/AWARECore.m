@@ -84,7 +84,7 @@ static AWARECore * sharedCore;
      * for using application in the background.
      */
     if (_isNeedBackgroundSensing) {
-        [self startBaseLocationSensor];
+        [self setAnchor];
     }
     
     AWAREStudy * study = [AWAREStudy sharedStudy];
@@ -186,6 +186,12 @@ static AWARECore * sharedCore;
     [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore", @"event":@"reactivate"}];
     if (_isNeedBackgroundSensing) {
         [_sharedLocationManager stopUpdatingLocation];
+        CLLocationAccuracy accuracy = [self getAnchorAccuracy];
+        if (accuracy != 0) {
+            _sharedLocationManager.desiredAccuracy =  accuracy;
+        }else{
+            _sharedLocationManager.desiredAccuracy =  kCLLocationAccuracyHundredMeters;
+        }
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager requestLocation];
     }
@@ -201,21 +207,41 @@ static AWARECore * sharedCore;
     }
 }
 
+- (void)startBaseLocationSensor{
+    [self setAnchor];
+}
+
 /// This method is an initializers for a location sensor.
 /// On the iOS, we have to turn on the location sensor
 /// for using application in the background.
 /// And also, this sensing interval is the most low level.
-- (void) startBaseLocationSensor {
+- (void) setAnchor {
     CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
     if(state == kCLAuthorizationStatusAuthorizedAlways){
         if (_sharedLocationManager == nil) {
             _sharedLocationManager = [[CLLocationManager alloc] init];
             _sharedLocationManager.delegate = self;
         }
-        _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        
+//        NSLog(@"%f, %f, %f, %f, %f, %f ",
+//              kCLLocationAccuracyBestForNavigation,
+//              kCLLocationAccuracyBest,
+//              kCLLocationAccuracyNearestTenMeters,
+//              kCLLocationAccuracyHundredMeters,
+//              kCLLocationAccuracyKilometer,
+//              kCLLocationAccuracyThreeKilometers);
+        /// -2, -1, 10, 100, 1000, 10000
+        
+        CLLocationAccuracy accuracy = [self getAnchorAccuracy];
+        if (accuracy != 0) {
+            _sharedLocationManager.desiredAccuracy =  accuracy;
+            // kCLLocationAccuracyNearestTenMeters; //kCLLocationAccuracyThreeKilometers
+        }else{
+            _sharedLocationManager.desiredAccuracy =  kCLLocationAccuracyHundredMeters;
+        }
+        
         _sharedLocationManager.pausesLocationUpdatesAutomatically = NO;
         _sharedLocationManager.activityType = CLActivityTypeOther;
-        
         if ([AWAREUtils getCurrentOSVersionAsFloat] >= 9.0) {
             _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
         }
@@ -231,6 +257,17 @@ static AWARECore * sharedCore;
     }
 }
 
+- (void) setAnchorAccuracy: (CLLocationAccuracy) accuracy {
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setDouble:accuracy forKey:@"key_aware_core_base_location_desired_accuracy"];
+    [defaults synchronize];
+}
+
+- (CLLocationAccuracy) getAnchorAccuracy{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    CLLocationAccuracy accuracy = [defaults doubleForKey:@"key_aware_core_base_location_desired_accuracy"];
+    return accuracy;
+}
 
 /// The method is called by location sensor when the device location is changed.
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
@@ -307,7 +344,7 @@ static AWARECore * sharedCore;
     }else if (status == kCLAuthorizationStatusAuthorizedAlways){
         /// kCLAuthorizationStatusAuthorizedWhenInUse
         if(_isNeedBackgroundSensing){
-            [self startBaseLocationSensor];
+            [self setAnchor];
         }
     }else if (status == kCLAuthorizationStatusAuthorizedWhenInUse){
         /// kCLAuthorizationStatusAuthorizedWhenInUse
