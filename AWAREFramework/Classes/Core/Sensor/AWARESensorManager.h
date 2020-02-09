@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString * _Nullable)     getLatestSensorValue:(NSString * _Nonnull) sensorName;
 
 #pragma mark - Others
+- (void) resetAllSensors;
 - (void) resetAllMarkerPositionsInDB;
 - (void) removeAllFilesFromDocumentRoot;
 

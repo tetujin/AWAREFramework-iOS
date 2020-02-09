@@ -306,6 +306,12 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
     return notificationNames;
 }
 
+- (void)resetSensor{
+    if(_storage != nil){
+        [_storage resetMark];
+    }
+}
+
 @synthesize label;
 
 @end

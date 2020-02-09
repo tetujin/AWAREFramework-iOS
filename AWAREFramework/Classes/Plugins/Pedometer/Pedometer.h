@@ -11,6 +11,7 @@
 
 extern NSString * const AWARE_PREFERENCES_STATUS_PEDOMETER;
 extern NSString * const AWARE_PREFERENCES_FREQUENCY_PEDOMETER;
+extern NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_PEDOMETER;
 
 @interface Pedometer : AWARESensor <AWARESensorDelegate>
 

@@ -615,9 +615,10 @@ didCompleteWithError:(NSError *)error {
  * @return a result of a cleaning operation
  */
 - (BOOL) clearStudySettings{
-    // AWAREDelegate *delegate=(AWAREDelegate*)[UIApplication sharedApplication].delegate;
-    // AWARECore * core = delegate.sharedAWARECore;
-    [[AWARESensorManager sharedSensorManager] stopAndRemoveAllSensors];
+    
+    AWARESensorManager * manager = [AWARESensorManager sharedSensorManager];
+    [manager resetAllSensors];
+    [manager stopAndRemoveAllSensors];
     
     [self setStudyState:NO];
     

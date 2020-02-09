@@ -568,6 +568,12 @@ static AWARESensorManager * sharedSensorManager;
     }
 }
 
+- (void)resetAllSensors {
+    for (AWARESensor * sensor in self->awareSensors) {
+        [sensor resetSensor];
+    }
+}
+
 - (void) resetAllMarkerPositionsInDB {
     for (AWARESensor * sensor in self->awareSensors) {
         [sensor.storage resetMark];
@@ -575,11 +581,11 @@ static AWARESensorManager * sharedSensorManager;
 }
 
 - (void)removeAllFilesFromDocumentRoot{
-    NSFileManager   *fileManager    = [NSFileManager defaultManager];
-    NSArray         *ducumentDir    =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString        *docRoot        = [ducumentDir objectAtIndex:0];
+    NSFileManager   * fileManager    = [NSFileManager defaultManager];
+    NSArray         * ducumentDir    =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString        * docRoot        = [ducumentDir objectAtIndex:0];
     NSError * error = nil;
-    for ( NSString *dirName  in [fileManager contentsOfDirectoryAtPath:docRoot error:&error] ){
+    for ( NSString * dirName  in [fileManager contentsOfDirectoryAtPath:docRoot error:&error] ){
         if([dirName isEqualToString:@"AWARE.sqlite"] ||
            [dirName isEqualToString:@"AWARE.sqlite-shm"] ||
            [dirName isEqualToString:@"AWARE.sqlite-wal"] ||

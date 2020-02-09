@@ -41,6 +41,7 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 - (BOOL) isDebug;
 - (void) setDebug:(BOOL)state;
 - (void) setLabel:(NSString * _Nullable)label;
+- (void) resetSensor;
 
 @end
 

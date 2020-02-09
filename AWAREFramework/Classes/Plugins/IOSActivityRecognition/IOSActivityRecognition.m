@@ -13,6 +13,7 @@
 NSString * const AWARE_PREFERENCES_STATUS_IOS_ACTIVITY_RECOGNITION    = @"status_plugin_ios_activity_recognition";
 NSString * const AWARE_PREFERENCES_FREQUENCY_IOS_ACTIVITY_RECOGNITION = @"frequency_plugin_ios_activity_recognition";
 NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status_plugin_ios_activity_recognition_live";
+NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"preperiod_days_plugin_ios_activity_recognition";
 
 @implementation IOSActivityRecognition {
     CMMotionActivityManager *motionActivityManager;
@@ -244,7 +245,9 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
         // to date
         NSDate * toDate = [NSDate new];
         motionActivityManager = [CMMotionActivityManager new];
-        [motionActivityManager queryActivityStartingFromDate:fromDate toDate:toDate toQueue:operationQueueUpdate withHandler:^(NSArray<CMMotionActivity *> * _Nullable activities, NSError * _Nullable error) {
+        [motionActivityManager queryActivityStartingFromDate:fromDate toDate:toDate
+                                                     toQueue:operationQueueUpdate
+                                                 withHandler:^(NSArray<CMMotionActivity *> * _Nullable activities, NSError * _Nullable error) {
             if (activities!=nil && error==nil) {
                 NSMutableArray * array = [[NSMutableArray alloc] init];
                 for (CMMotionActivity * activity in activities) {
