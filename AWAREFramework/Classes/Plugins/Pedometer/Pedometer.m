@@ -208,8 +208,6 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_PEDOMETER = @"preperiod_days_i
 }
 
 /////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 - (void) getPedometerData:(id)sender{
     
     [[[NSOperationQueue alloc] init] addOperationWithBlock:^{

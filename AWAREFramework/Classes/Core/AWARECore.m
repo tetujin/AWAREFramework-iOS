@@ -190,7 +190,7 @@ static AWARECore * sharedCore;
         if (accuracy != 0) {
             _sharedLocationManager.desiredAccuracy =  accuracy;
         }else{
-            _sharedLocationManager.desiredAccuracy =  kCLLocationAccuracyHundredMeters;
+            _sharedLocationManager.desiredAccuracy =  kCLLocationAccuracyThreeKilometers;
         }
         [_sharedLocationManager startUpdatingLocation];
         [_sharedLocationManager requestLocation];

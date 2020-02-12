@@ -22,6 +22,7 @@
 
 NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT = @"status_health_kit";
 NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_health_kit";
+NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod_days_health_kit";
 
 @implementation AWAREHealthKit{
     NSTimer       * timer;
@@ -46,6 +47,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
                                                                 sensorName:[NSString stringWithFormat:@"%@_sleep", SENSOR_HEALTH_KIT]
                                                                 entityName:@"EntityHealthKitCategorySleep"];
         _fetchIntervalSecond = 60 * 30;
+        _preperiodDays = 0;
         screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
         [screen.storage setStore:NO];
         // self.storage = _awareHKHeartRate.storage;
@@ -84,6 +86,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
 - (void)setParameters:(NSArray *)parameters{
     _fetchIntervalSecond = [self getSensorSetting:parameters
                                withKey:[NSString stringWithFormat:@"frequency_%@", SENSOR_HEALTH_KIT]];
+    
+    double preDays = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS];
+    if (preDays > 0) {
+        _preperiodDays = (int)preDays;
+    }
 }
 
 
@@ -168,7 +175,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     return lastRecordTime;
 }
 
-- (void) setLastRecordTime:(NSDate * _Nonnull)date withHKDataType:(NSString * _Nonnull)type{
+- (void) setLastRecordTime:(NSDate * _Nullable)date withHKDataType:(NSString * _Nonnull)type{
     // NSLog(@"[SET] %@ %@", type, date);
     NSString * key = [NSString stringWithFormat:@"plugin_healthkit_timestamp_%@",type];
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
@@ -176,7 +183,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [defaults synchronize];
 }
 
-- (void)setLastFetchTimeForAll:(NSDate * _Nonnull)date{
+- (void)setLastFetchTimeForAll:(NSDate * _Nullable)date{
     NSSet* quantities = [self dataTypesToRead];
     for (HKQuantityType * set in quantities) {
         if(set.identifier == nil){
@@ -198,105 +205,135 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
         NSDate * endDate   = [NSDate new];
         
         if (startDate == nil){
-            startDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24*3];
-        }
-        
-        NSDateFormatter * format = [[NSDateFormatter alloc] init];
-        [format setTimeZone:NSTimeZone.systemTimeZone];
-        [format setDateFormat:@"yyyy/MM/dd HH:mm"];
-        NSString * message = [NSString stringWithFormat:@"Last Fetch: %@ - %@",
-                              [format stringFromDate:startDate],
-                              [format stringFromDate:endDate]];
-        [self setLatestValue:message];
-        if (self.isDebug) NSLog(@"[%@] %@ \t %@", [self getSensorName], message, set.identifier);
-        
-        
-        // Create a predicate to set start/end date bounds of the query
-        NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate
-                                                                   endDate:endDate
-                                                                   options:HKQueryOptionStrictStartDate];
-
-        // Create a sort descriptor for sorting by start date
-        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:YES];
-
-        HKSampleQuery *sampleQuery = [[HKSampleQuery alloc] initWithSampleType:set //sampleType
-                                                                     predicate:predicate
-                                                                         limit:HKObjectQueryNoLimit
-                                                               sortDescriptors:@[sortDescriptor]
-                                                                resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
-            NSString * objectId = query.objectType.identifier;
-            if (objectId == nil) return;
-            @try {
-                if(!error && results){
-                    /// Quantity
-                    NSSet * quantityTypes = [self getDataQuantityTypes];
-                    if([quantityTypes containsObject:query.objectType]){
-                        // HKQuantityTypeIdentifierHeartRate
-                        if ([objectId isEqualToString:HKQuantityTypeIdentifierHeartRate]){
-                            [self->_awareHKHeartRate saveQuantityData:results];
-                        }else{
-                            [self->_awareHKQuantity saveQuantityData:results];
-                        }
-                        
-                        if (results != nil && results.count > 0) {
-                            HKQuantitySample * lastSample = (HKQuantitySample *)results.lastObject;
-                            [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
-                        }
-                    }
-
-                    /// Catogory
-                    NSSet * dataCatogoryTypes = [self getDataCategoryTypes];
-                    if([dataCatogoryTypes containsObject:query.objectType]){
-                        if ([objectId isEqualToString:HKCategoryTypeIdentifierSleepAnalysis]){
-                            [self->_awareHKSleep saveCategoryData:results];
-                        }else{
-                            [self->_awareHKCategory saveCategoryData:results];
-                        }
-                        if (results != nil && results.count > 0) {
-                            HKCategorySample * lastSample = (HKCategorySample *)results.lastObject;
-                            [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
-                        }
-                    }
-
-                    /// Workout
-                    NSSet * dataWorkoutTypes = [self getDataWorkoutTypes];
-                    if([dataWorkoutTypes containsObject:query.objectType]){
-                        if (results != nil) {
-                            [self->_awareHKWorkout saveWorkoutData:results];
-                        }
-                        if (results != nil && results.count > 0) {
-                            HKWorkout * lastSample = (HKWorkout *)results.lastObject;
-                            [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
-                        }
-                    }
-
-                    //////////////////////// Correlation //////////////////////////////
-                    // NSSet * dataCorrelationTypes = [self getDataCorrelationTypes];
-                    // if([dataCorrelationTypes containsObject:query.sampleType]){
-                    //    // https://developer.apple.com/reference/healthkit/hkcorrelation
-                    //    for(HKCorrelation *sample in results)
-                    //    {
-                    //        // ?
-                    //        NSLog(@"%@", sample.objects);
-                    //    }
-                    // }
-                    // https://developer.apple.com/reference/healthkit
-                    
-                }else{
-                    NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
-                }
-            } @catch (NSException *exception) {
-                NSString * message = [NSString stringWithFormat:@"[%@] %@", [self getSensorName], exception.debugDescription];
-                NSLog(@"%@", message);
-            } @finally {
-
+            NSCalendar * calendar   = [NSCalendar currentCalendar];
+            NSInteger    components = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
+            if (_preperiodDays > 0) {
+                NSDate * preDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24*_preperiodDays];
+                NSDateComponents* comp  = [calendar components:components fromDate:preDate];
+                startDate = [calendar dateFromComponents:comp];
+            }else{
+                NSDate * preDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24];
+                NSDateComponents* comp  = [calendar components:components fromDate:preDate];
+                startDate = [calendar dateFromComponents:comp];
             }
-
-        }];
-        if(healthStore != nil){
-            [healthStore executeQuery:sampleQuery];
         }
+        
+        HKQuery * query = [self getQueryWithSampleType:set start:startDate end:endDate];
+        // NSLog(@"%@ (%@ - %@)", set.identifier, startDate, endDate);
+        if(self->healthStore != nil){
+            [self->healthStore executeQuery:query];
+        }
+        
+//        double gapDays = (endDate.timeIntervalSince1970 - startDate.timeIntervalSince1970) / (60*60*24);
+//        if (gapDays > 0) {
+//            for(int i=0; i<gapDays-1; i++){
+//                NSDate * adjustedEndDate   = [startDate  dateByAddingTimeInterval:60*60*24*(i+1)];
+//                NSDate * adjustedStartDate = [startDate  dateByAddingTimeInterval:60*60*24*i];
+//                // NSLog(@"[%d] %@ (%@ - %@)",i, set.identifier, adjustedStartDate, adjustedEndDate);
+//
+//                HKQuery * query = [self getQueryWithSampleType:set start:adjustedStartDate end:adjustedEndDate];
+//                if(self->healthStore != nil){
+//                    [self->healthStore executeQuery:query];
+//                }
+//            }
+//        } else{
+//            HKQuery * query = [self getQueryWithSampleType:set start:startDate end:endDate];
+//            // NSLog(@"%@ (%@ - %@)", set.identifier, startDate, endDate);
+//            if(self->healthStore != nil){
+//                [self->healthStore executeQuery:query];
+//            }
+//        }
     }
+}
+
+- (HKQuery * _Nonnull) getQueryWithSampleType:(HKSampleType *)set
+                                        start:(NSDate *)start
+                                          end:(NSDate *)end{
+    // Create a predicate to set start/end date bounds of the query
+    NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:start
+                                                               endDate:end
+                                                               options:HKQueryOptionStrictStartDate];
+
+    // Create a sort descriptor for sorting by start date
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:YES];
+    
+    HKSampleQuery *sampleQuery = [[HKSampleQuery alloc] initWithSampleType:set //sampleType
+                                                                 predicate:predicate
+                                                                     limit:HKObjectQueryNoLimit
+                                                           sortDescriptors:@[sortDescriptor]
+                                                            resultsHandler:^(HKSampleQuery *query,
+                                                                             NSArray *results,
+                                                                             NSError *error) {
+        NSString * objectId = query.objectType.identifier;
+        if (objectId == nil) return;
+        @try {
+            if(!error && results){
+                /// Quantity
+                NSSet * quantityTypes = [self getDataQuantityTypes];
+                if([quantityTypes containsObject:query.objectType]){
+                    // HKQuantityTypeIdentifierHeartRate
+                    if ([objectId isEqualToString:HKQuantityTypeIdentifierHeartRate]){
+                        [self->_awareHKHeartRate saveQuantityData:results];
+                    }else{
+                        [self->_awareHKQuantity saveQuantityData:results];
+                    }
+                    
+                    if (results != nil && results.count > 0) {
+                        HKQuantitySample * lastSample = (HKQuantitySample *)results.lastObject;
+                        [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
+                    }
+                }
+
+                /// Catogory
+                NSSet * dataCatogoryTypes = [self getDataCategoryTypes];
+                if([dataCatogoryTypes containsObject:query.objectType]){
+                    if ([objectId isEqualToString:HKCategoryTypeIdentifierSleepAnalysis]){
+                        [self->_awareHKSleep saveCategoryData:results];
+                    }else{
+                        [self->_awareHKCategory saveCategoryData:results];
+                    }
+                    if (results != nil && results.count > 0) {
+                        HKCategorySample * lastSample = (HKCategorySample *)results.lastObject;
+                        [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
+                    }
+                }
+
+                /// Workout
+                NSSet * dataWorkoutTypes = [self getDataWorkoutTypes];
+                if([dataWorkoutTypes containsObject:query.objectType]){
+                    if (results != nil) {
+                        [self->_awareHKWorkout saveWorkoutData:results];
+                    }
+                    if (results != nil && results.count > 0) {
+                        HKWorkout * lastSample = (HKWorkout *)results.lastObject;
+                        [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
+                    }
+                }
+
+                //////////////////////// Correlation //////////////////////////////
+                // NSSet * dataCorrelationTypes = [self getDataCorrelationTypes];
+                // if([dataCorrelationTypes containsObject:query.sampleType]){
+                //    // https://developer.apple.com/reference/healthkit/hkcorrelation
+                //    for(HKCorrelation *sample in results)
+                //    {
+                //        // ?
+                //        NSLog(@"%@", sample.objects);
+                //    }
+                // }
+                // https://developer.apple.com/reference/healthkit
+                
+            }else{
+                NSLog(@"[%@] Error: %@", [self getSensorName], error.debugDescription);
+            }
+        } @catch (NSException *exception) {
+            NSString * message = [NSString stringWithFormat:@"[%@] %@", [self getSensorName], exception.debugDescription];
+            NSLog(@"%@", message);
+        } @finally {
+
+        }
+    }];
+    
+    return sampleQuery;
 }
 
 
@@ -358,16 +395,6 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     [dataTypesSet addObject:quantityType];
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
     [dataTypesSet addObject:quantityType];
-    if (@available(iOS 11.0, *)) {
-        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
-        [dataTypesSet addObject:quantityType];
-        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
-        [dataTypesSet addObject:quantityType];
-        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierWalkingHeartRateAverage];
-        [dataTypesSet addObject:quantityType];
-    } else {
-        // Fallback on earlier versions
-    }
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyTemperature];
     [dataTypesSet addObject:quantityType];
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalBodyTemperature];
@@ -479,6 +506,22 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     [dataTypesSet addObject:quantityType];
     
+    if (@available(iOS 11.0, *)) {
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
+        [dataTypesSet addObject:quantityType];
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
+        [dataTypesSet addObject:quantityType];
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierWalkingHeartRateAverage];
+        [dataTypesSet addObject:quantityType];
+    }
+    
+    if (@available(iOS 13.0, *)) {
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeadphoneAudioExposure];
+        [dataTypesSet addObject:quantityType];
+        quantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierEnvironmentalAudioExposure];
+        [dataTypesSet addObject:quantityType];
+    }
+    
     return dataTypesSet;
 }
 
@@ -557,6 +600,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_heal
     }
     
     return dataTypesSet;
+}
+
+- (void)resetSensor{
+    [super resetSensor];
+    [self setLastFetchTimeForAll:nil];
 }
 
 @end

@@ -33,6 +33,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     CMMotionActivity * latestActivity;
     
     int disposableCount;
+    int preperiodDays;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -82,6 +83,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_sensor_ios_activity_recognition_last_update_timestamp";
         _sensingInterval = 60*3; // 3 min
         disposableCount = 0;
+        preperiodDays = 0;
         _sensingMode = IOSActivityRecognitionModeLive;
         _confidenceFilter = CMMotionActivityConfidenceLow;
     }
@@ -120,6 +122,11 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     }
     
     int liveMode = [self getSensorSetting:parameters withKey:@"status_plugin_ios_activity_recognition_live"];
+    
+    double pre = [self getSensorSetting:parameters withKey:AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION];
+    if (pre > 0) {
+        preperiodDays = (int)pre;
+    }
     
     if(liveMode == 1){
         _sensingMode = IOSActivityRecognitionModeLive;
@@ -225,6 +232,11 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     return YES;
 }
 
+- (void)resetSensor{
+    [super resetSensor];
+    [self setLastUpdateWithDate:nil];
+}
+
 - (void)changedBatteryState{
     [self getMotionActivity:nil];
 }
@@ -235,14 +247,25 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
 
 - (void) getMotionActivity:(id)sender{
     
-//     NSOperationQueue *operationQueueUpdate = [NSOperationQueue new]; // [NSOperationQueue mainQueue];
     NSOperationQueue *operationQueueUpdate = [NSOperationQueue mainQueue];
 
     if([CMMotionActivityManager isActivityAvailable]){
         // from data
         NSDate * fromDate = [self getLastUpdate];
-        // NSDate * fromDate = [AWAREUtils getTargetNSDate:[NSDate new] hour:-7*24 nextDay:NO];
-        // to date
+        if (fromDate == nil) {
+            NSCalendar * calendar   = [NSCalendar currentCalendar];
+            NSInteger    components = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
+            if (preperiodDays > 0) {
+                NSDate * preDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24*preperiodDays];
+                NSDateComponents* comp  = [calendar components:components fromDate:preDate];
+                fromDate = [calendar dateFromComponents:comp];
+            }else{
+                NSDate * preDate = [NSDate dateWithTimeIntervalSinceNow:-1*60*60*24];
+                NSDateComponents* comp  = [calendar components:components fromDate:preDate];
+                fromDate = [calendar dateFromComponents:comp];
+            }
+        }
+        
         NSDate * toDate = [NSDate new];
         motionActivityManager = [CMMotionActivityManager new];
         [motionActivityManager queryActivityStartingFromDate:fromDate toDate:toDate
@@ -251,7 +274,25 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
             if (activities!=nil && error==nil) {
                 NSMutableArray * array = [[NSMutableArray alloc] init];
                 for (CMMotionActivity * activity in activities) {
+                    
+                    if (self->latestActivity != nil) {
+                        double gap = activity.startDate.timeIntervalSince1970 - self->latestActivity.startDate.timeIntervalSince1970;
+                        if ( gap > self->_sensingInterval) {
+                            for (int i=0; i<gap/self->_sensingInterval; i++) {
+                                NSDate * targetDate = [self->latestActivity.startDate dateByAddingTimeInterval:(i+1)*self->_sensingInterval];
+                                // NSLog(@"[%d] %@ %@",i, self->latestActivity.startDate, targetDate);
+                                NSMutableDictionary * dummy = [self toDictionary:self->latestActivity].mutableCopy;
+                                [dummy setObject:[AWAREUtils getUnixTimestamp:targetDate] forKey:@"timestamp"];
+                                [dummy setObject:@"supplement" forKey:@"label"];
+                                if (dummy!=nil) {
+                                    [array addObject:dummy];
+                                }
+                            }
+                        }
+                    }
+                    // NSLog(@"%@", activity);
                     NSDictionary * dict = [self toDictionary:activity];
+                    
                     if (dict!=nil) {
                         [array addObject:dict];
                     }
@@ -294,8 +335,6 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
 
 
 - (NSDictionary *) toDictionary: (CMMotionActivity *) motionActivity{
-    
-    // NSLog(@"%ld", motionActivity.confidence);
     
     switch (_confidenceFilter) {
         case CMMotionActivityConfidenceHigh:
@@ -368,14 +407,12 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     }
     
     if ([self isDebug]) {
-        NSLog(@"[%@] %@ %zd", motionActivity.startDate, activitiesStr, motionActivity.confidence);
+        NSLog(@"[%@] %zd, %@", motionActivity.startDate, motionActivity.confidence, activitiesStr);
     }
     
     NSNumber * unixtime = [AWAREUtils getUnixTimestamp:motionActivity.startDate];
     
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:unixtime                     forKey:@"timestamp"];
-    [dict setObject:[self getDeviceId]           forKey:@"device_id"];
+    NSMutableDictionary *dict = [self getDataStructureWithTimestamp:unixtime];
     [dict setObject:activitiesStr                forKey:ACTIVITIES];
     [dict setObject:motionConfidence             forKey:CONFIDENCE];
     [dict setObject:@(motionActivity.stationary) forKey:ACTIVITY_NAME_STATIONARY];   // 0 or 1
@@ -384,7 +421,6 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     [dict setObject:@(motionActivity.automotive) forKey:ACTIVITY_NAME_AUTOMOTIVE];   // 0 or 1
     [dict setObject:@(motionActivity.cycling)    forKey:ACTIVITY_NAME_CYCLING];   // 0 or 1
     [dict setObject:@(motionActivity.unknown)    forKey:ACTIVITY_NAME_UNKNOWN];   // 0 or 1
-    [dict setObject:@""                          forKey:LABEL];
     
     SensorEventHandler handler = [self getSensorEventHandler];
     if (handler!=nil) {
@@ -394,6 +430,21 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     return dict;
 }
 
+- (NSMutableDictionary * _Nonnull) getDataStructureWithTimestamp:(NSNumber * _Nonnull)timestamp{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:timestamp                 forKey:@"timestamp"];
+    [dict setObject:[self getDeviceId]        forKey:@"device_id"];
+    [dict setObject:@"" forKey:ACTIVITIES];
+    [dict setObject:@0 forKey:CONFIDENCE];
+    [dict setObject:@0 forKey:ACTIVITY_NAME_STATIONARY];   // 0 or 1
+    [dict setObject:@0 forKey:ACTIVITY_NAME_WALKING];   // 0 or 1
+    [dict setObject:@0 forKey:ACTIVITY_NAME_RUNNING];   // 0 or 1
+    [dict setObject:@0 forKey:ACTIVITY_NAME_AUTOMOTIVE];   // 0 or 1
+    [dict setObject:@0 forKey:ACTIVITY_NAME_CYCLING];   // 0 or 1
+    [dict setObject:@0 forKey:ACTIVITY_NAME_UNKNOWN];   // 0 or 1
+    [dict setObject:@""  forKey:LABEL];
+    return dict;
+}
 
 -(NSString*)timestamp2date:(NSDate*)date{
     //[timeStampString stringByAppendingString:@"000"];   //convert to ms
@@ -409,19 +460,16 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     return dic;
 }
 
-- (void) setLastUpdateWithDate:(NSDate *)date{
+- (void) setLastUpdateWithDate:(NSDate * _Nullable) date{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:date forKey:KEY_TIMESTAMP_OF_LAST_UPDATE];
+    [defaults synchronize];
 }
 
-- (NSDate *) getLastUpdate {
+- (NSDate * _Nullable) getLastUpdate {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate * date = [defaults objectForKey:KEY_TIMESTAMP_OF_LAST_UPDATE];
-    if (date != nil) {
-        return date;
-    }else{
-        return [NSDate new];
-    }
+    return date;
 }
 
 

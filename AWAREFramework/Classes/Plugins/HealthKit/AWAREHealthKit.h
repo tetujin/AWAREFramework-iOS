@@ -14,12 +14,14 @@
 
 extern NSString * _Nonnull const AWARE_PREFERENCES_STATUS_HEALTHKIT;
 extern NSString * _Nonnull const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY;
+extern NSString * _Nonnull const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS;
 
 @interface AWAREHealthKit : AWARESensor <AWARESensorDelegate>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @property int fetchIntervalSecond; // default = 1800 second (= 30 min)
+@property int preperiodDays;       // default = 0 (= from current time)
 
 @property (readonly) AWAREHealthKitWorkout  * awareHKWorkout;
 @property (readonly) AWAREHealthKitCategory * awareHKCategory;
@@ -39,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 // - (void) setLastRecordTime:(NSDate * _Nonnull)date withHKDataType:(NSString * _Nonnull)type;
 
-- (void) setLastFetchTimeForAll:(NSDate * _Nonnull) date;
+- (void) setLastFetchTimeForAll:(NSDate * _Nullable) date;
 
 NS_ASSUME_NONNULL_END
 
