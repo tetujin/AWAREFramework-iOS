@@ -108,7 +108,7 @@ NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT_DATA = @"DATA";
         _instructionLabel.text = _esmEntity.esm_instructions;
         _instructionLabel.adjustsFontSizeToFitWidth = YES;
         _instructionLabel.font = [_titleLabel.font fontWithSize:18];
-        [_instructionLabel setTextColor:[UIColor darkTextColor]];
+        [_instructionLabel setTextColor:[UIColor systemGrayColor]];
         _instructionLabel.numberOfLines = 5;
         [self addSubview:_instructionLabel];
         [self extendHeightOfBaseView:HEIGHT_INSTRUCTION];
