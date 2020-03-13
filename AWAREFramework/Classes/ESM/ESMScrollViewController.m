@@ -88,8 +88,7 @@
 - (void)loadView
 {
     [super loadView];
-    UIColor *customColor = [UIColor colorWithRed:0.99 green:0.99 blue:0.99 alpha:1.0];
-    self.view.backgroundColor = customColor;
+
 }
 
 - (void)viewDidLoad {
