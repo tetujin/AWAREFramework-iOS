@@ -272,13 +272,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
                 NSSet * quantityTypes = [self getDataQuantityTypes];
                 if([quantityTypes containsObject:query.objectType]){
                     // HKQuantityTypeIdentifierHeartRate
-                    if ([objectId isEqualToString:HKQuantityTypeIdentifierHeartRate]){
-                        [self->_awareHKHeartRate saveQuantityData:results];
-                    }else{
-                        [self->_awareHKQuantity saveQuantityData:results];
-                    }
-                    
                     if (results != nil && results.count > 0) {
+                        
+                        if ([objectId isEqualToString:HKQuantityTypeIdentifierHeartRate]){
+                            [self->_awareHKHeartRate saveQuantityData:results];
+                        }else{
+                            [self->_awareHKQuantity saveQuantityData:results];
+                        }
+                    
                         HKQuantitySample * lastSample = (HKQuantitySample *)results.lastObject;
                         [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
                     }
@@ -287,12 +288,14 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
                 /// Catogory
                 NSSet * dataCatogoryTypes = [self getDataCategoryTypes];
                 if([dataCatogoryTypes containsObject:query.objectType]){
-                    if ([objectId isEqualToString:HKCategoryTypeIdentifierSleepAnalysis]){
-                        [self->_awareHKSleep saveCategoryData:results];
-                    }else{
-                        [self->_awareHKCategory saveCategoryData:results];
-                    }
                     if (results != nil && results.count > 0) {
+                        
+                        if ([objectId isEqualToString:HKCategoryTypeIdentifierSleepAnalysis]){
+                            [self->_awareHKSleep saveCategoryData:results];
+                        }else{
+                            [self->_awareHKCategory saveCategoryData:results];
+                        }
+                        
                         HKCategorySample * lastSample = (HKCategorySample *)results.lastObject;
                         [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
                     }
@@ -301,10 +304,11 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
                 /// Workout
                 NSSet * dataWorkoutTypes = [self getDataWorkoutTypes];
                 if([dataWorkoutTypes containsObject:query.objectType]){
-                    if (results != nil) {
-                        [self->_awareHKWorkout saveWorkoutData:results];
-                    }
+                    
                     if (results != nil && results.count > 0) {
+                        
+                        [self->_awareHKWorkout saveWorkoutData:results];
+                        
                         HKWorkout * lastSample = (HKWorkout *)results.lastObject;
                         [self setLastRecordTime:lastSample.endDate withHKDataType:query.objectType.identifier];
                     }

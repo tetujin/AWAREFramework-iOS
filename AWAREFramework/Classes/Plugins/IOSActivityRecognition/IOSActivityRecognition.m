@@ -81,9 +81,9 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     if (self) {
         motionActivityManager = [[CMMotionActivityManager alloc] init];
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_sensor_ios_activity_recognition_last_update_timestamp";
-        _sensingInterval = 60*3; // 3 min
-        disposableCount = 0;
-        preperiodDays = 0;
+        _sensingInterval = 60; // 1min
+        disposableCount  = 0;
+        preperiodDays    = 0;
         _sensingMode = IOSActivityRecognitionModeLive;
         _confidenceFilter = CMMotionActivityConfidenceLow;
     }

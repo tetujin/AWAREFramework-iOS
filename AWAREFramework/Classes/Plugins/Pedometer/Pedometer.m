@@ -101,7 +101,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_PEDOMETER = @"preperiod_days_i
 
     if (self) {
         semaphore = dispatch_semaphore_create(0);
-        frequencySec = 60*10;
+        frequencySec = 60; // 1min
     }
     return self;
 }
