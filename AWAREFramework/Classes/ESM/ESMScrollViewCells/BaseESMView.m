@@ -97,21 +97,40 @@ NSString * const AWARE_ESM_SELECTION_UPDATE_EVENT_DATA = @"DATA";
         [self addSubview:_titleLabel];
         [self extendHeightOfBaseView:HEIGHT_TITLE];
     }
+    if (_titleLabel != nil) {
+        if (@available(iOS 13.0, *)) {
+            [_titleLabel setTextColor:UIColor.labelColor];
+        } else {
+            [_titleLabel setTextColor:UIColor.blackColor];
+        }
+    }
     
     // set-up instraction
     if([_esmEntity.esm_instructions isEqualToString:@""] || _esmEntity.esm_instructions == nil ){
-        _instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, [self getBaseViewHeight], WIDTH_BASE_VIEW, 10)];
+        _instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+                                                                      [self getBaseViewHeight],
+                                                                      WIDTH_BASE_VIEW,
+                                                                      10)];
         [self addSubview:_instructionLabel];
         [self extendHeightOfBaseView:10];
     }else{
-        _instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_SPACE, [self getBaseViewHeight], WIDTH_BASE_VIEW-(SIDE_SPACE*2), HEIGHT_INSTRUCTION)];
+        _instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_SPACE,
+                                                                      [self getBaseViewHeight],
+                                                                      WIDTH_BASE_VIEW-(SIDE_SPACE*2),
+                                                                      HEIGHT_INSTRUCTION)];
         _instructionLabel.text = _esmEntity.esm_instructions;
         _instructionLabel.adjustsFontSizeToFitWidth = YES;
         _instructionLabel.font = [_titleLabel.font fontWithSize:18];
-        [_instructionLabel setTextColor:[UIColor systemGrayColor]];
         _instructionLabel.numberOfLines = 5;
         [self addSubview:_instructionLabel];
         [self extendHeightOfBaseView:HEIGHT_INSTRUCTION];
+    }
+    if (_esmEntity != nil) {
+        if (@available(iOS 13.0, *)) {
+            [_instructionLabel setTextColor:UIColor.secondaryLabelColor];
+        } else {
+            [_instructionLabel setTextColor:UIColor.darkGrayColor];
+        }
     }
     
     // set-up main-content
