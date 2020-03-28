@@ -350,6 +350,21 @@ Transfer parameters in ESMSchdule to EntityESMSchedule instance.
     }
 }
 
+- (NSArray <EntityESMSchedule *> *)getESMSchedules{
+    NSManagedObjectContext * context = [CoreDataHandler sharedHandler].managedObjectContext;
+    context.persistentStoreCoordinator = [CoreDataHandler sharedHandler].persistentStoreCoordinator;
+    NSFetchRequest * request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([EntityESMSchedule class])];
+    NSDate * currentDate = [NSDate new];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"start_date <= %@ AND end_date >= %@"
+                                             argumentArray:@[currentDate,currentDate]]];
+    NSError * error   = nil;
+    NSArray * results = [context executeFetchRequest:request error:&error];
+    if (error!=nil) {
+        NSLog(@"[Error][ESMScheduleManager] %@", error.debugDescription);
+        return nil;
+    }
+    return results;
+}
 
 /**
  Delete all of ESMSchdule in the DB

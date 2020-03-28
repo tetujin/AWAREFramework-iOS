@@ -23,6 +23,7 @@ typedef void (^NotificationRemoveCompleteHandler)(void);
 - (BOOL) deleteScheduleWithId:(NSString * _Nonnull)scheduleId;
 - (BOOL) deleteAllSchedules;
 - (BOOL) deleteAllSchedulesWithNotification:(BOOL)notification;
+- (NSArray<EntityESMSchedule *> * _Nullable) getESMSchedules;
 - (NSArray * _Nonnull) getValidSchedules;
 - (NSArray * _Nonnull) getValidSchedulesWithDatetime:(NSDate * _Nonnull)datetime;
 

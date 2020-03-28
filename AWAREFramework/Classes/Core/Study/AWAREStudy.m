@@ -59,7 +59,7 @@ static AWAREStudy * sharedStudy;
     if (self) {
         receivedData = [[NSMutableData alloc] init];
         _getSettingIdentifier = @"set_setting_identifier";
-        _addDeviceTableIdentifier = @"add_device_table_identifier";
+        _addDeviceTableIdentifier  = @"add_device_table_identifier";
         _makeDeviceTableIdentifier = @"make_device_table_identifier";
         
         if(reachabilityState){
@@ -118,6 +118,26 @@ static AWAREStudy * sharedStudy;
 
 - (void) setStudyURL:(NSString *)url{
     [self setWebserviceServer:url];
+
+    // set device_name
+    if (url != nil) {
+        NSURL * studyURL = [[NSURL alloc] initWithString:url];
+        if (studyURL.query != nil){
+            NSArray * parameters = [studyURL.query componentsSeparatedByString:@"&"];
+            for (NSString * parameter in parameters) {
+                if (parameter.length > 0) {
+                    NSArray * elements = [parameter componentsSeparatedByString:@"="];
+                    if (elements.count == 2) {
+                        NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
+                        NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
+                        if ([key isEqualToString:@"participant"]) {
+                            [[AWAREStudy sharedStudy] setDeviceName:val];
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void) setWebserviceServer:(NSString *)url{
@@ -130,7 +150,7 @@ static AWAREStudy * sharedStudy;
 
 
 - (NSString *)getStudyURL{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
     NSString * studyURL = [userDefaults objectForKey:KEY_WEBSERVICE_SERVER];
     if(studyURL != nil){
         return studyURL;
@@ -185,7 +205,7 @@ static AWAREStudy * sharedStudy;
 /**
  * This method downloads and sets a study configuration by using study URL. (NOTE: This URL can get from a study QRCode.)
  *
- * @param url An study URL (e.g., https://r2d2.hcii.cs.cmu.edu/aware/dashboard/index.php/webservice/index/study_number/PASSWORD)
+ * @param url An study URL (e.g., https://api.hoge.com/dashboard/index.php/webservice/index/STUDY_ID/PASSWORD?participant=ID )
  * @param completionHandler A handler for the joining process
  */
 - (void)joinStudyWithURL:(NSString *)url completion:(JoinStudyCompletionHandler)completionHandler{
