@@ -16,7 +16,6 @@ NSString * const AWARE_PREFERENCES_LIVE_MODE_IOS_ACTIVITY_RECOGNITION = @"status
 NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"preperiod_days_plugin_ios_activity_recognition";
 
 @implementation IOSActivityRecognition {
-    CMMotionActivityManager *motionActivityManager;
     NSString * KEY_TIMESTAMP_OF_LAST_UPDATE;
     NSTimer * timer;
     
@@ -35,6 +34,9 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     int disposableCount;
     int preperiodDays;
 }
+
+
+@synthesize motionActivityManager = motionActivityManager;
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     ACTIVITIES = @"activities";
@@ -81,7 +83,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     if (self) {
         motionActivityManager = [[CMMotionActivityManager alloc] init];
         KEY_TIMESTAMP_OF_LAST_UPDATE = @"key_sensor_ios_activity_recognition_last_update_timestamp";
-        _sensingInterval = 60; // 1min
+        _sensingInterval = 180; // 3min
         disposableCount  = 0;
         preperiodDays    = 0;
         _sensingMode = IOSActivityRecognitionModeLive;

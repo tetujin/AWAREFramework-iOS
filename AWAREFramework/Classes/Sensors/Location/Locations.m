@@ -17,10 +17,11 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
 
 @implementation Locations{
     NSTimer * locationTimer;
-    IBOutlet CLLocationManager *locationManager;
     double interval;
     double accuracy;
 }
+
+@synthesize locationManager = locationManager;
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     _saveAll = NO;
