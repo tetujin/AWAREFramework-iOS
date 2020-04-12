@@ -84,6 +84,12 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     }
 }
 
+- (void) setSensorEventHandler:(SensorEventHandler)handler{
+    if (sensorWifi != nil) {
+        [sensorWifi setSensorEventHandler:handler];
+    }
+}
+
 - (void)setSensingIntervalWithMinute:(double)minute{
     sensingInterval = minute * 60.0f;
 }
@@ -120,6 +126,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     /// Set and start a data upload interval
     if([self isDebug]){
         NSLog(@"[%@] Start Wifi Sensor", [self getSensorName]);
+    }
+    if (sensingTimer != nil) {
+        [sensingTimer invalidate];
+        sensingTimer = nil;
     }
     sensingTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                     target:self

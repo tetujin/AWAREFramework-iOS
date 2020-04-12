@@ -29,7 +29,6 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
     NSString * CONFIDENCE;
     NSString * ACTIVITIES;
     NSString * LABEL;
-    CMMotionActivity * latestActivity;
     
     int disposableCount;
     int preperiodDays;
@@ -37,6 +36,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
 
 
 @synthesize motionActivityManager = motionActivityManager;
+@synthesize latestActivity = latestActivity;
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     ACTIVITIES = @"activities";

@@ -28,6 +28,8 @@ extern NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITIO
 @property IOSActivityRecognitionMode sensingMode;
 @property CMMotionActivityConfidence confidenceFilter;
 
+@property (readonly, nullable) CMMotionActivity * latestActivity;
+
 - (BOOL) startSensorAsLiveModeWithFilterLevel:(CMMotionActivityConfidence) filterLevel;
 - (BOOL) startSensorAsHistoryModeWithFilterLevel:(CMMotionActivityConfidence)filterLevel interval:(double) interval;
 - (BOOL) startSensorWithConfidenceFilter:(CMMotionActivityConfidence) filterLevel
