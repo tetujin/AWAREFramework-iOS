@@ -71,6 +71,12 @@
 		4F3915D1225403CC00CEE77E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D0225403CC00CEE77E /* Assets.xcassets */; };
 		4F3915D4225403CC00CEE77E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F3915D2225403CC00CEE77E /* LaunchScreen.storyboard */; };
 		4F3915DA2254C4E400CEE77E /* CustomSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3915D92254C4E300CEE77E /* CustomSensor.swift */; };
+		4F549DE4244F1850008C45E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F549DE3244F1850008C45E6 /* AppDelegate.swift */; };
+		4F549DE8244F1850008C45E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F549DE7244F1850008C45E6 /* ViewController.swift */; };
+		4F549DEB244F1850008C45E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F549DE9244F1850008C45E6 /* Main.storyboard */; };
+		4F549DEE244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F549DEC244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodeld */; };
+		4F549DF0244F1855008C45E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F549DEF244F1855008C45E6 /* Assets.xcassets */; };
+		4F549DF3244F1855008C45E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F549DF1244F1855008C45E6 /* LaunchScreen.storyboard */; };
 		4F5C401C22B12C1E00B981DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C401B22B12C1E00B981DC /* AppDelegate.swift */; };
 		4F5C401E22B12C1E00B981DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C401D22B12C1E00B981DC /* ViewController.swift */; };
 		4F5C402122B12C1E00B981DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F5C401F22B12C1E00B981DC /* Main.storyboard */; };
@@ -146,6 +152,7 @@
 		64E44616C230998F8C4CB0DC /* Pods_AWARE_Barometer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F6C2A3166CEEA6548CB69D1 /* Pods_AWARE_Barometer.framework */; };
 		66AAAECBA40B98DECEC64AEA /* Pods_AWARE_GoogleLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 609C722EAAC4BB40FC15C876 /* Pods_AWARE_GoogleLogin.framework */; };
 		6B02B596B8A4B71D88BE53F1 /* Pods_AWARE_UnitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F654143C5F585CB00433F041 /* Pods_AWARE_UnitTest.framework */; };
+		6D5D1B06F960DA3C8D334AE8 /* Pods_AWARE_SignificantMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20296EB990E5EA85F2DB8A7 /* Pods_AWARE_SignificantMotion.framework */; };
 		7FF61403E03C315F1642BFF7 /* Pods_AWARE_Conversation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9677B85CE73B3D629CF5A3 /* Pods_AWARE_Conversation.framework */; };
 		830C8FE5B9D30B9635AD25B7 /* Pods_AWARE_SensingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 460ED68D6B3005A05BF1935D /* Pods_AWARE_SensingApp.framework */; };
 		94274971C9982EC954913CEA /* Pods_AWARE_Fitbit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF44C94D00F60AF7E17DF2C3 /* Pods_AWARE_Fitbit.framework */; };
@@ -208,6 +215,7 @@
 		19049982CDDBB4A91EB37AB6 /* Pods-AWARE-SimpleClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.debug.xcconfig"; sourceTree = "<group>"; };
 		1E7B43FB5716F982C350395E /* Pods-AWARE-DynamicESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-DynamicESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM.release.xcconfig"; sourceTree = "<group>"; };
 		200826E57773F80A4FAC7A28 /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
+		241628511E524F11BB381207 /* Pods-AWARE-SignificantMotion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SignificantMotion.release.xcconfig"; path = "Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion.release.xcconfig"; sourceTree = "<group>"; };
 		2662CE9ADA0414FC2567E899 /* Pods_AWARE_Visualizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Visualizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		367CF78F00D703E39420F128 /* Pods-AWARE-InteractiveESM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.debug.xcconfig"; sourceTree = "<group>"; };
 		3739ECECCD49488D7F0D37E3 /* Pods_AWARE_CustomESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -308,6 +316,14 @@
 		4F3915D5225403CC00CEE77E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F3915D92254C4E300CEE77E /* CustomSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSensor.swift; sourceTree = "<group>"; };
 		4F3B188220718E4800364E9B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		4F549DE1244F1850008C45E6 /* AWARE-SignificantMotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-SignificantMotion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F549DE3244F1850008C45E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F549DE7244F1850008C45E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F549DEA244F1850008C45E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F549DED244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_SignificantMotion.xcdatamodel; sourceTree = "<group>"; };
+		4F549DEF244F1855008C45E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F549DF2244F1855008C45E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F549DF4244F1855008C45E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F5C401922B12C1E00B981DC /* AWARE-AmbientNoise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-AmbientNoise.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F5C401B22B12C1E00B981DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F5C401D22B12C1E00B981DC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -420,6 +436,7 @@
 		896707236EECE7FC6BBE4ECA /* Pods_AWARE_HealthKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_HealthKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BBEF4912FF45EC441F46733 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		92507EABA07AC15F661514DD /* Pods-AWARE-JSONStorage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-JSONStorage.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage.debug.xcconfig"; sourceTree = "<group>"; };
+		99C7C83E4BF586CFBDD7865D /* Pods-AWARE-SignificantMotion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SignificantMotion.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion.debug.xcconfig"; sourceTree = "<group>"; };
 		9A6AB4D7D4A1FCDA306140D0 /* Pods-AWARE-Barometer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Barometer.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer.debug.xcconfig"; sourceTree = "<group>"; };
 		A294C2930D82E1BA1F1F0C20 /* Pods-AWARE-ForTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ForTest.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest.debug.xcconfig"; sourceTree = "<group>"; };
 		A928484CFBA8A0C63A698370 /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -435,6 +452,7 @@
 		CF44C94D00F60AF7E17DF2C3 /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9F234573F138D0ACF01262 /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0BFE08BD78C4986F9AF4F12 /* Pods-AWARE-Fitbit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.release.xcconfig"; path = "Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.release.xcconfig"; sourceTree = "<group>"; };
+		E20296EB990E5EA85F2DB8A7 /* Pods_AWARE_SignificantMotion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SignificantMotion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E77221A1DBB5C402B1ACDBB4 /* Pods-AWARE-UnitTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-UnitTest.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest.debug.xcconfig"; sourceTree = "<group>"; };
 		E79D9C862FAD592F23D3BC26 /* Pods-AWARE-Conversation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Conversation.release.xcconfig"; path = "Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation.release.xcconfig"; sourceTree = "<group>"; };
 		E910E8AFCB0E4C0D10997554 /* Pods-AWARE-InteractiveESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-InteractiveESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM.release.xcconfig"; sourceTree = "<group>"; };
@@ -523,6 +541,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A22D2F57D92C904D275A78A2 /* Pods_AWARE_CustomSensor.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F549DDE244F1850008C45E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D5D1B06F960DA3C8D334AE8 /* Pods_AWARE_SignificantMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,6 +785,20 @@
 			path = "AWARE-CustomSensor";
 			sourceTree = "<group>";
 		};
+		4F549DE2244F1850008C45E6 /* AWARE-SignificantMotion */ = {
+			isa = PBXGroup;
+			children = (
+				4F549DE3244F1850008C45E6 /* AppDelegate.swift */,
+				4F549DE7244F1850008C45E6 /* ViewController.swift */,
+				4F549DE9244F1850008C45E6 /* Main.storyboard */,
+				4F549DEF244F1855008C45E6 /* Assets.xcassets */,
+				4F549DF1244F1855008C45E6 /* LaunchScreen.storyboard */,
+				4F549DF4244F1855008C45E6 /* Info.plist */,
+				4F549DEC244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodeld */,
+			);
+			path = "AWARE-SignificantMotion";
+			sourceTree = "<group>";
+		};
 		4F5C401A22B12C1E00B981DC /* AWARE-AmbientNoise */ = {
 			isa = PBXGroup;
 			children = (
@@ -968,6 +1008,7 @@
 				4FDB55FA233CA5290095E7D7 /* AWARE-Conversation */,
 				4FDB5612233CDFF10095E7D7 /* AWARE-ForTest */,
 				4F8C41442377DD7E008A3B1D /* AWARE-Location */,
+				4F549DE2244F1850008C45E6 /* AWARE-SignificantMotion */,
 				4FC7EF5422560B8400136D05 /* Tests */,
 				4F2AEC22239F45D90015719F /* AWARE-SimpleClient-ObjC */,
 				6003F58C195388D20070C39A /* Frameworks */,
@@ -1001,6 +1042,7 @@
 				4F8C41432377DD7E008A3B1D /* AWARE-Location.app */,
 				4F2AEC04239F459C0015719F /* AWARE_ObjC_client.app */,
 				4F2AEC21239F45D90015719F /* AWARE-SimpleClient-ObjC.app */,
+				4F549DE1244F1850008C45E6 /* AWARE-SignificantMotion.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1032,6 +1074,7 @@
 				F654143C5F585CB00433F041 /* Pods_AWARE_UnitTest.framework */,
 				2662CE9ADA0414FC2567E899 /* Pods_AWARE_Visualizer.framework */,
 				AD718C1EBD75906143EB6703 /* Pods_Tests.framework */,
+				E20296EB990E5EA85F2DB8A7 /* Pods_AWARE_SignificantMotion.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1087,6 +1130,8 @@
 				C7FA060E69F6357774C80F98 /* Pods-AWARE-Visualizer.release.xcconfig */,
 				AEA24CD0FBA0DF6BB012BC7B /* Pods-Tests.debug.xcconfig */,
 				40F4B9A4C02F4631D4E9EF5D /* Pods-Tests.release.xcconfig */,
+				99C7C83E4BF586CFBDD7865D /* Pods-AWARE-SignificantMotion.debug.xcconfig */,
+				241628511E524F11BB381207 /* Pods-AWARE-SignificantMotion.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1286,6 +1331,26 @@
 			name = "AWARE-CustomSensor";
 			productName = "AWARE-CustomSensor";
 			productReference = 4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4F549DE0244F1850008C45E6 /* AWARE-SignificantMotion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F549DF7244F1855008C45E6 /* Build configuration list for PBXNativeTarget "AWARE-SignificantMotion" */;
+			buildPhases = (
+				5021494952C64FE6C87E1892 /* [CP] Check Pods Manifest.lock */,
+				4F549DDD244F1850008C45E6 /* Sources */,
+				4F549DDE244F1850008C45E6 /* Frameworks */,
+				4F549DDF244F1850008C45E6 /* Resources */,
+				A382F5F85FE04EF018CB4869 /* [CP] Embed Pods Frameworks */,
+				3C8CA177F68E7DA3DB6E910F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AWARE-SignificantMotion";
+			productName = "AWARE-SignificantMotion";
+			productReference = 4F549DE1244F1850008C45E6 /* AWARE-SignificantMotion.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4F5C401822B12C1E00B981DC /* AWARE-AmbientNoise */ = {
@@ -1539,7 +1604,7 @@
 			attributes = {
 				CLASSPREFIX = AWAREFramework;
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = tetujin;
 				TargetAttributes = {
@@ -1637,6 +1702,11 @@
 								enabled = 1;
 							};
 						};
+					};
+					4F549DE0244F1850008C45E6 = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = FH352PYMNC;
+						ProvisioningStyle = Automatic;
 					};
 					4F5C401822B12C1E00B981DC = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -1772,6 +1842,7 @@
 				4FDB55F8233CA5290095E7D7 /* AWARE-Conversation */,
 				4FDB5610233CDFF10095E7D7 /* AWARE-ForTest */,
 				4F8C41422377DD7E008A3B1D /* AWARE-Location */,
+				4F549DE0244F1850008C45E6 /* AWARE-SignificantMotion */,
 				4FC7EF5222560B8400136D05 /* Tests */,
 				4F2AEC03239F459C0015719F /* AWARE_ObjC_client */,
 				4F2AEC20239F45D90015719F /* AWARE-SimpleClient-ObjC */,
@@ -1874,6 +1945,16 @@
 				4F3915D4225403CC00CEE77E /* LaunchScreen.storyboard in Resources */,
 				4F3915D1225403CC00CEE77E /* Assets.xcassets in Resources */,
 				4F3915CC225403CB00CEE77E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F549DDF244F1850008C45E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F549DF3244F1855008C45E6 /* LaunchScreen.storyboard in Resources */,
+				4F549DF0244F1855008C45E6 /* Assets.xcassets in Resources */,
+				4F549DEB244F1850008C45E6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2598,6 +2679,42 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3C8CA177F68E7DA3DB6E910F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Assets/AWARE.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Accelerometer/ObjectModels/AWARE_Accelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Barometer/ObjectModels/AWARE_Barometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gravity/ObjectModels/AWARE_Gravity.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Gyroscope/ObjectModels/AWARE_Gyroscope.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/LinearAccelerometer/ObjectModels/AWARE_LinearAccelerometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Magnetometer/ObjectModels/AWARE_Magnetometer.xcdatamodeld",
+				"${PODS_ROOT}/../../AWAREFramework/Classes/Sensors/Rotation/ObjectModels/AWARE_Rotation.xcdatamodeld",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3D700779179A08B45337114E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2708,6 +2825,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-AWARE-GoogleLogin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5021494952C64FE6C87E1892 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-SignificantMotion-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3078,6 +3217,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A382F5F85FE04EF018CB4869 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/SCNetworkReachability/SCNetworkReachability.framework",
+				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
+				"${BUILT_PRODUCTS_DIR}/ios-ntp/ios_ntp.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCNetworkReachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_ntp.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A796CF3B6299F7893F22CCCA /* [CP] Embed Pods Frameworks */ = {
@@ -3782,6 +3951,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F549DDD244F1850008C45E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F549DEE244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodeld in Sources */,
+				4F549DE8244F1850008C45E6 /* ViewController.swift in Sources */,
+				4F549DE4244F1850008C45E6 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F5C401522B12C1E00B981DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4080,6 +4259,22 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		4F549DE9244F1850008C45E6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F549DEA244F1850008C45E6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F549DF1244F1855008C45E6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F549DF2244F1855008C45E6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		4F5C401F22B12C1E00B981DC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -4317,7 +4512,7 @@
 				DEVELOPMENT_TEAM = FH352PYMNC;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "AWARE-SimpleClient-ObjC/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -4343,7 +4538,7 @@
 				DEVELOPMENT_TEAM = FH352PYMNC;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "AWARE-SimpleClient-ObjC/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -5012,6 +5207,64 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-CustomSensor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4F549DF5244F1855008C45E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99C7C83E4BF586CFBDD7865D /* Pods-AWARE-SignificantMotion.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SignificantMotion/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.selfguard.AWARE-SignificantMotion";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F549DF6244F1855008C45E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 241628511E524F11BB381207 /* Pods-AWARE-SignificantMotion.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FH352PYMNC;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AWARE-SignificantMotion/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.selfguard.AWARE-SignificantMotion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -5866,7 +6119,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5913,7 +6166,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -6009,6 +6262,15 @@
 			buildConfigurations = (
 				4F3915D7225403CC00CEE77E /* Debug */,
 				4F3915D8225403CC00CEE77E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F549DF7244F1855008C45E6 /* Build configuration list for PBXNativeTarget "AWARE-SignificantMotion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F549DF5244F1855008C45E6 /* Debug */,
+				4F549DF6244F1855008C45E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6200,6 +6462,16 @@
 			);
 			currentVersion = 4F3915CE225403CB00CEE77E /* AWARE_CustomSensor.xcdatamodel */;
 			path = AWARE_CustomSensor.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4F549DEC244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F549DED244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodel */,
+			);
+			currentVersion = 4F549DED244F1850008C45E6 /* AWARE_SignificantMotion.xcdatamodel */;
+			path = AWARE_SignificantMotion.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
