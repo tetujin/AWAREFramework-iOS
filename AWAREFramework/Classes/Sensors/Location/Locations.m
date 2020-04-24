@@ -162,7 +162,7 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     // locationManager.activityType = CLActivityTypeFitness;
     
     /// start Monitoring
-    // [locationManager startMonitoringSignificantLocationChanges];
+    [locationManager startMonitoringSignificantLocationChanges];
     
     [locationManager startUpdatingLocation];
     
