@@ -246,7 +246,7 @@ static AWARECore * sharedCore;
             _sharedLocationManager.allowsBackgroundLocationUpdates = YES;
         }
         [_sharedLocationManager startUpdatingLocation];
-        // [_sharedLocationManager startMonitoringSignificantLocationChanges];
+        [_sharedLocationManager startMonitoringSignificantLocationChanges];
         [AWAREEventLogger.shared logEvent:@{@"class":@"AWARECore",
                                             @"event":@"base-location-sensor is started"}];
     }else{
