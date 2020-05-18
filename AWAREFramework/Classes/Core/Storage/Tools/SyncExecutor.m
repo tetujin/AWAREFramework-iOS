@@ -6,6 +6,7 @@
 //
 
 #import "SyncExecutor.h"
+#import "AWAREURLSessionManager.h"
 
 @implementation SyncExecutor{
     AWAREStudy * awareStudy;
@@ -41,7 +42,11 @@
         sessionConfig.timeoutIntervalForResource    = _timeoutIntervalForResource;
         sessionConfig.allowsCellularAccess          = YES;
         
+//        session = [AWAREURLSessionManager.shared getURLSession:baseSyncDataQueryIdentifier];
+//        if (session == nil) {
         session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+//            [AWAREURLSessionManager.shared addURLSession:session];
+//        }
     }
     return self;
 }

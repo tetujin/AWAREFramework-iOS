@@ -32,6 +32,7 @@
 
 //////// ESM sensor //////////
 #import "ESM.h"
+#import "../Core/Sensor/AWARESensorManager.h"
 
 @interface ESMScrollViewController () {
     AWAREStudy * study;
@@ -121,7 +122,16 @@
     sliderViews   = [[NSMutableArray alloc] init];
     numberViews   = [[NSMutableArray alloc] init];
     
-    esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+    AWARESensorManager * manager = AWARESensorManager.sharedSensorManager;
+    for (AWARESensor * sensor in manager.getAllSensors ) {
+        NSLog(@"%@", sensor.getSensorName);
+    }
+    if ([manager getSensor:SENSOR_ESMS] == nil ) {
+        esmSensor = [[ESM alloc] initWithAwareStudy:study dbType:AwareDBTypeSQLite];
+        [manager addSensor:esmSensor];
+    }else{
+        esmSensor = (ESM *)[manager getSensor:SENSOR_ESMS];
+    }
     esmSensor.storage.syncMode = AwareSyncModeQuick;
     [esmSensor createTable];
     
