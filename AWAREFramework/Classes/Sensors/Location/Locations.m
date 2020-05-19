@@ -209,19 +209,6 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     }
 }
 
-- (void) locationManager:(CLLocationManager *)manager
-      didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    if (locations != nil) {
-        for (CLLocation* location in locations) {
-            _lastLocation = location;
-            /// If the interval value is less than or equal to 0, all of the location data will be saved.
-            if (self->interval <= 0 || _saveAll) {
-                [self saveLocation:location];
-            }
-        }
-    }
-}
-
 - (void) saveLocation:(CLLocation * _Nonnull)location{
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -256,9 +243,18 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     }
 }
 
+- (void) saveAuthorizationStatus:(CLAuthorizationStatus ) status {
+    [AWAREEventLogger.shared logEvent:@{@"class":@"Locations",
+                                        @"event":@"saveAuthorizationStatus",@"status":@(status)}];
+}
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
+
+#pragma mark - Location
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
+        [_locationManagerDelegate locationManager:manager didChangeAuthorizationStatus:status];
+    }
     [self saveAuthorizationStatus:status];
     if (status == kCLAuthorizationStatusAuthorizedAlways) {
         if (locationManager != nil) {
@@ -269,9 +265,67 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     }
 }
 
-- (void) saveAuthorizationStatus:(CLAuthorizationStatus ) status {
-    [AWAREEventLogger.shared logEvent:@{@"class":@"Locations",
-                                        @"event":@"saveAuthorizationStatus",@"status":@(status)}];
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    if([_locationManagerDelegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]){
+        [_locationManagerDelegate locationManager:manager didUpdateLocations:locations];
+    }
+    if (locations != nil) {
+        for (CLLocation* location in locations) {
+            _lastLocation = location;
+            /// If the interval value is less than or equal to 0, all of the location data will be saved.
+            if (self->interval <= 0 || _saveAll) {
+                [self saveLocation:location];
+            }
+        }
+    }
+}
+
+- (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManagerDidPauseLocationUpdates:)]) {
+        [_locationManagerDelegate locationManagerDidPauseLocationUpdates:manager];
+    }
+}
+
+- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager{
+    
+}
+
+#pragma mark - Region
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didStartMonitoringForRegion:)]) {
+        [_locationManagerDelegate locationManager:manager didStartMonitoringForRegion:region];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didEnterRegion:)]) {
+        [_locationManagerDelegate locationManager:manager didEnterRegion:region];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didExitRegion:)]) {
+        [_locationManagerDelegate locationManager:manager didExitRegion:region];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:monitoringDidFailForRegion:withError:)]) {
+        [_locationManagerDelegate locationManager:manager monitoringDidFailForRegion:region withError:error];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:rangingBeaconsDidFailForRegion:withError:)]) {
+        [_locationManagerDelegate locationManager:manager rangingBeaconsDidFailForRegion:region withError:error];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray<CLBeacon *> *)beacons inRegion:(CLBeaconRegion *)region{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didRangeBeacons:inRegion:)]) {
+        [_locationManagerDelegate locationManager:manager didRangeBeacons:beacons inRegion:region];
+    }
 }
 
 @end
