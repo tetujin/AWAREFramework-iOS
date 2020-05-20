@@ -97,7 +97,7 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
     if ( self != nil ) {
-        motionManager = [[CMMotionManager alloc] init];
+        manager = [[CMMotionManager alloc] init];
     }
     manager.magnetometerUpdateInterval = sensingInterval;
     
