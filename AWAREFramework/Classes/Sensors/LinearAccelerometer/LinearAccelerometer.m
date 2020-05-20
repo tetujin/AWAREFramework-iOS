@@ -126,6 +126,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
     // [self setBufferSize:savingInterval/sensingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
+    if ( self != nil ) {
+        motionManager = [[CMMotionManager alloc] init];
+    }
+    
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]

@@ -97,6 +97,10 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotati
 
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
+    if ( self != nil ) {
+        motionManager = [[CMMotionManager alloc] init];
+    }
+    
     // Set and start motion sensor
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;

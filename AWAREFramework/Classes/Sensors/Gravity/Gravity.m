@@ -103,6 +103,10 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
     // [self setBufferSize:sensingInterval/savingInterval];
     [self.storage setBufferSize:savingInterval/sensingInterval];
     
+    if ( self != nil ) {
+        motionManager = [[CMMotionManager alloc] init];
+    }
+    
     if( motionManager.deviceMotionAvailable ){
         motionManager.deviceMotionUpdateInterval = sensingInterval;
         [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
