@@ -328,4 +328,10 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     }
 }
 
+- (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
+    if ([_locationManagerDelegate respondsToSelector:@selector(locationManager:didDetermineState:forRegion:)]) {
+        [_locationManagerDelegate locationManager:manager didDetermineState:state forRegion:region];
+    }
+}
+
 @end
