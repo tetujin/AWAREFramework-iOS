@@ -528,10 +528,11 @@ static AWARECore * sharedCore;
                                             @"total":@(total), @"free":@(free),
                                             @"used":@(total-free), @"percentage":@(percentage)}];
         
-        if(percentage < 5 && detail){ // %
+//        if(percentage < 5 && detail){ // %
+        if(free < 0.2 && detail){ // %
             state = NO;
-            NSString * title = @"[WARNING] No free space to save data";
-            NSString * message = @"Please make a free space to save data.";
+            NSString * title = @"[WARNING] Amount of free storage space is less than 200 MB";
+            NSString * message = @"Please make some free storage space.";
             if([AWAREUtils isForeground]){
                 UIAlertController * alertContoller = [UIAlertController alertControllerWithTitle:title
                                                                                          message:message preferredStyle:UIAlertControllerStyleAlert];

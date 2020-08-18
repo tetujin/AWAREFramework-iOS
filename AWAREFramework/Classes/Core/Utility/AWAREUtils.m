@@ -368,12 +368,13 @@ Provides a system UUID.
                               @"iPhone10,3":@"iPhone X (CDMA)",
                               @"iPhone10,6":@"iPhone X (GSM)",
                               @"iPhone11,2":@"iPhone XS",
-                              @"iPhone11,4":@"iPhone XS Max",
-                              @"iPhone11,6":@"iPhone XS Max China",
+                              @"iPhone11,4":@"iPhone XS Max China",
+                              @"iPhone11,6":@"iPhone XS Max",
                               @"iPhone11,8":@"iPhone XR",
                               @"iPhone12,1":@"iPhone 11",
                               @"iPhone12,3":@"iPhone 11 Pro",
                               @"iPhone12,5":@"iPhone 11 Pro Max",
+                              @"iPhone12,8":@"iPhone SE 2nd Gen",
                               @"iPad4,1"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Wifi
                               @"iPad4,2"   :@"iPad Air",        // 5th Generation iPad (iPad Air) - Cellular
                               @"iPad4,4"   :@"iPad Mini",       // (2nd Generation iPad Mini - Wifi)
