@@ -225,7 +225,7 @@ We are providing several example applications. You can refer, or modify these ap
 Yuuki Nishiyama <yuukin@iis.u-tokyo.ac.jp>
 
 ## Citation
-Please cite the following [paper](https://doi.org/10.1007/978-3-030-50344-4_17) in your publications if it helps your research. 
+Please cite the following paper(s) in your publications if this library helps your research. 
 
 ```
 @InProceedings{aware_ios,
@@ -237,7 +237,19 @@ Please cite the following [paper](https://doi.org/10.1007/978-3-030-50344-4_17) 
     isbn={978-3-030-50344-4},
     doi={10.1007/978-3-030-50344-4_17},
 }
+
+@inproceedings{aware_ios_in_the_wild,
+    author = {Nishiyama, Yuuki and Ferreira, Denzil and Sasaki, Wataru and Okoshi, Tadashi and Nakazawa, Jin and Dey, Anind K. and Sezaki, Kaoru},
+    title = {Using IOS for Inconspicuous Data Collection: A Real-World Assessment},
+    year = {2020},
+    doi = {10.1145/3410530.3414369},
+    booktitle = {Adjunct Proceedings of the 2020 ACM International Joint Conference on Pervasive and Ubiquitous Computing and Proceedings of the 2020 ACM International Symposium on Wearable Computers},
+    pages = {261–266},
+    numpages = {6},
+    series = {UbiComp-ISWC '20}
+}
 ```
+
 
 ## License
 
