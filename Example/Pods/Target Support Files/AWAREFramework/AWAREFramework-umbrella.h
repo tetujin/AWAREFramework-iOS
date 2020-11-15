@@ -10,7 +10,11 @@
 #endif
 #endif
 
+#import "AWAREBatchDataOM+CoreDataClass.h"
+#import "AWAREBatchDataOM+CoreDataProperties.h"
 #import "AWARECore.h"
+#import "AWAREHeadphoneMotionOM+CoreDataClass.h"
+#import "AWAREHeadphoneMotionOM+CoreDataProperties.h"
 #import "AWAREMotionSensor.h"
 #import "AWARESensor.h"
 #import "AWARESensorManager.h"
@@ -23,6 +27,7 @@
 #import "SQLiteSeparatedStorage.h"
 #import "SQLiteStorage.h"
 #import "AWAREFetchSizeAdjuster.h"
+#import "AWAREURLSessionManager.h"
 #import "BaseCoreDataHandler.h"
 #import "CoreDataHandler.h"
 #import "ExternalCoreDataHandler.h"
@@ -88,6 +93,9 @@
 #import "AWAREGyroscopeOM+CoreDataProperties.h"
 #import "EntityGyroscope+CoreDataProperties.h"
 #import "EntityGyroscope.h"
+#import "HeadphoneMotion.h"
+#import "AWAREHeadphoneMotionOM+CoreDataClass.h"
+#import "AWAREHeadphoneMotionOM+CoreDataProperties.h"
 #import "IOSESM.h"
 #import "LinearAccelerometer.h"
 #import "AWARELinearAccelerometerOM+CoreDataClass.h"

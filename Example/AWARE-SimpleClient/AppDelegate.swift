@@ -25,8 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let study = AWAREStudy.shared()
             study.setDebug(true)
             /// Connect AWARE Dashboard
-//            let studyURL = "https://aware.jn.sfc.keio.ac.jp/index.php/webservice/index/5/XSY8IH3GnqwK"
-             let studyURL = "https://api.awareframework.com/index.php/webservice/index/2128/IwAsWMfrtwmg"
+             let studyURL = "https://aware.yuukinishiyama.com/index.php/webservice/index/13/S8WDhkbBswp2"
 //            let studyURL = "http://127.0.0.1:8080/index.php/1/studyKey"
             study.join(withURL: studyURL) { (settings, status, error) in
                 
@@ -50,13 +49,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 manager.addSensors(with: study)
 
                 /// [Option] Add additional sensors if you want
-                let location = Locations(awareStudy: study)
-                location.startSensor(withInterval: 1)
-                manager.add(location)
+//                let location = Locations(awareStudy: study)
+//                location.startSensor(withInterval: 1)
+//                manager.add(location)
+//
+//                let acc = Accelerometer(awareStudy: study)
+//                acc.start(withSensingInterval: 100)
+//                manager.add(acc)
                 
-                let acc = Accelerometer(awareStudy: study)
-                acc.start(withSensingInterval: 100)
-                manager.add(acc)
+                let headphone = HeadphoneMotion(awareStudy:  study)
+                headphone.startSensor()
+                headphone.storage?.setDebug(true)
+                headphone.storage?.saveInterval = 10
+//                headphone.setSensorEventHandler { (sensor, data) in
+//                    if let data = data {
+//                        if let x = data["user_acc_x"] as? Double,
+//                           let y = data["user_acc_y"] as? Double,
+//                           let z = data["user_acc_z"] as? Double {
+//                           // print("Headphone Motion", x,y,z)
+//                        }
+//                    }
+//                }
+                headphone.storage?.syncProcessCallback = { name, state, progress, error in
+                    print(name, state, progress, error)
+                }
+                
+                manager.add(headphone)
+                
                 
                 /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
                 manager.startAutoSyncTimer(withIntervalSecond: 60)
@@ -65,8 +84,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 study.setAutoDBSyncOnlyWifi(false)
                 study.setCleanOldDataType(cleanOldDataTypeAlways)
                 
-//                manager.createDBTablesOnAwareServer()
-//
+                manager.createDBTablesOnAwareServer()
+
 //                Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (timer) in
 //                    manager.stopAllSensors()
 //                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {

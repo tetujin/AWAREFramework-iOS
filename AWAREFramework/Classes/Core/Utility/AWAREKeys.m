@@ -146,6 +146,7 @@ NSString* const SENSOR_PLUGIN_CONTACTS        = @"plugin_contacts";
 NSString* const SENSOR_BASIC_SETTINGS         = @"plugin_basic_settings";
 NSString* const SENSOR_PLUGIN_CALENDAR        = @"plugin_calendar";
 NSString* const SENSOR_PLUGIN_STUDENTLIFE_AUDIO  = @"plugin_studentlife_audio";
+NSString* const SENSOR_PLUGIN_HEADPHONE_MOTION       = @"plugin_headphone_motion";
 
 NSString* const SENSOR_PLUGIN_BLE_HR          = @"plugin_ble_heartrate";
 NSString* const SENSOR_PLUGIN_FITBIT          = @"plugin_fitbit";
@@ -193,6 +194,7 @@ NSString* const STATUS_SENSOR_PLUGIN_CONTACTS        = @"status_plugin_contacts"
 NSString* const STATUS_SENSOR_BASIC_SETTINGS         = @"status_plugin_basic_settings";
 NSString* const STATUS_SENSOR_PLUGIN_CALENDAR        = @"status_plugin_calendar";
 NSString* const STATUS_SENSOR_PLUGIN_STUDENTLIFE_AUDIO = @"status_plugin_studentlife_audio";
+NSString* const STATUS_SENSOR_PLUGIN_HEADPHONE_MOTION = @"status_plugin_headphone_motion";
 
 
 //_PLUGIN_MSBAND_SENSORS_ACC = @"plugin_msband_sensors_accelerometer";
@@ -320,6 +322,7 @@ NSString * const ACTION_AWARE_WIFI_REQUEST_SCAN = @"ACTION_AWARE_WIFI_REQUEST_SC
 NSString * const ACTION_AWARE_GOOGLE_ACTIVITY_RECOGNITION = @"ACTION_AWARE_GOOGLE_ACTIVITY_RECOGNITION";
 NSString * const ACTION_AWARE_IOS_ACTIVITY_RECOGNITION = @"ACTION_AWARE_IOS_ACTIVITY_RECOGNITION";
 
+NSString* const ACTION_AWARE_HEADPHONE_MOTION = @"ACTION_AWARE_HEADPHONE_MOTION";
 
 // upload progress
 NSString * const KEY_UPLOAD_PROGRESS_STR = @"KEY_UPLOAD_PROGRESS_STR";

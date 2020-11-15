@@ -30,6 +30,7 @@
 * Memory
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
+* Headphone Motion (iOS 14 or later)
 
 ### Extensions
 The following sensors can be used under extension(s)because these sensors need additional permission(s) into Info.plist and take a review by apple.
@@ -50,7 +51,7 @@ AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org).
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', '~> 1.11'
+pod 'AWAREFramework', '~> 1.12'
 ```
 And run `pod install` in your Xcode project.
 
