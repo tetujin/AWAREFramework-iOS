@@ -1,0 +1,6 @@
+framework module StudentLifeAudio {
+  umbrella header "StudentLifeAudio.h"
+
+  export *
+  module * { export * }
+}

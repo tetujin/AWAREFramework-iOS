@@ -11,7 +11,7 @@
 
 @interface AudioPipeline : NSObject
 
-- (id _Nonnull) init;
+- (id _Nullable ) init;
 - (void) uninit;
 
 - (void) startPipeline;

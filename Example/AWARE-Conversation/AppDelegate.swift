@@ -20,7 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         core.requestPermissionForBackgroundSensing { (status) in
             core.startBaseLocationSensor()
             let conversation = Conversation(awareStudy: AWAREStudy.shared())
-            
+            conversation.startSensor()
+            conversation.setSensorEventHandler { (sensor, data) in
+                print(data)
+            }
+            conversation.setDebug(true)
             let manager = AWARESensorManager.shared()
             manager.add(conversation)
             manager.startAllSensors()
