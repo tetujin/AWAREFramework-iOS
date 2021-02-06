@@ -51,7 +51,6 @@
 		02FD4BD15DDE63BF85A19EDD4DC397D9 /* EntityDeviceUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 59AB4FCA1A3FE872867F84F0C7D1941E /* EntityDeviceUsage.m */; };
 		032BC913CB185FDA118AD02BDF9873B9 /* EntityRotation+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 82378417466DB0D6BB48928516015965 /* EntityRotation+CoreDataProperties.m */; };
 		03511AFB6B8AB87759E47EE99B54C579 /* 5_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58D70E9D2E2361BD6F68A1B04FCF831A /* 5_3.jpg */; };
-		035C7228A4F5FA027DC8D2D0F61DC873 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E9D20A66D1340954751157037147B6D8 /* GCDAsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		0381FFAFFEFDEEF13CBEE5977846C380 /* EntitySignificantMotion+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB17B38B1365C30D1637B85B30D4AC4 /* EntitySignificantMotion+CoreDataProperties.m */; };
 		03BF7A94BF90111951FE3F89CB594085 /* 10_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B9D4468ACFC95F78E68654B92EF7D29 /* 10_2.jpg */; };
 		03F23AE1747091F642EEBB8A093CF1C6 /* Accelerometer.m in Sources */ = {isa = PBXBuildFile; fileRef = D027B4546B8D84B1AAE693B4D9EBA795 /* Accelerometer.m */; };
@@ -629,6 +628,7 @@
 		52D5948E9C84C5E3B16B2ED9FC7FAA79 /* EntityDeviceUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A9AE535F6737A2CB709DCDD214EB0C2 /* EntityDeviceUsage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52FEDF7CD197253AC4A1AC77F944D483 /* EntityPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = F163A8AC01E90638048DA0E2FDEECC76 /* EntityPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5311A603018191091F02DE04F35B7758 /* Gyroscope.h in Headers */ = {isa = PBXBuildFile; fileRef = 586CDBD1DE1CD60DC6CF2E66593BC978 /* Gyroscope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5326F2F517F441F7EDF0C616E47C3342 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2FBAB82B2DDF0C77CE3750FEE444 /* GCDAsyncSocket.m */; };
 		53C63473362F3BDD015F489D89221099 /* EntityNTPTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 81B73E6676C41193F944E063CA8D03B5 /* EntityNTPTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53F304229FD636200620BBAF94D98D6F /* EntityProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = E3F7793AE006644D8C2E07434C0AE777 /* EntityProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		540CC4DFF7010B2E836F39EB0EF5B18F /* OIDIDToken.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB0F9DA12EFCF7D4637F8D2E1A2A410 /* OIDIDToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -874,7 +874,6 @@
 		76492FD495F61085BD338E42050CD932 /* AWAREFetchSizeAdjuster.h in Headers */ = {isa = PBXBuildFile; fileRef = A393319DB6B60A714B4B6C33B40A3446 /* AWAREFetchSizeAdjuster.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76C541B715C29AD720DFDCE37A5426EF /* EntityProximity+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C78E82BCD57D97E46E965273B928E00 /* EntityProximity+CoreDataProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76DC6893F3883D02672EDF7F32E0922B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD2236E192DE0CEDC05135246701C535 /* Foundation.framework */; };
-		76F3E9A21D064FA2A914AA24A9E414FB /* CocoaAsyncSocket-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E276A2E0384C64E9EA9004E64708569E /* CocoaAsyncSocket-dummy.m */; };
 		76FE24CBE6C17EFC8899117F710B69CA /* ESMNumberView.h in Headers */ = {isa = PBXBuildFile; fileRef = F517460705752CE549C05CA182B4E67E /* ESMNumberView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		77481B9C222A7B740B09B8CFEC009B7C /* CoreDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B40F3790F03CC18876AFCA1C73F5C2FF /* CoreDataHandler.m */; };
 		77511C6EFA8D664B218973B9C22952C5 /* EntityProcessor+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C1451E017DFA6C2B288A692248B13A /* EntityProcessor+CoreDataProperties.m */; };
@@ -982,6 +981,7 @@
 		83B07A751B4B1DE4BC7FC46A47648BB5 /* Fitbit.h in Headers */ = {isa = PBXBuildFile; fileRef = 12A15270C9E5C74CA64CF71AF1BD0BDA /* Fitbit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83CDCE6AA58899CD31113288F5BB5E05 /* EZPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D7B3B8825E7FC2291B96F63060E5E /* EZPlot.m */; };
 		83EEF0091DC8485B83D59680E81B18BB /* IOSESM.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2DB797F68507518BD042E8B6FC930E /* IOSESM.m */; };
+		842686F49DF5124709E276999062BC45 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = E9D20A66D1340954751157037147B6D8 /* GCDAsyncUdpSocket.m */; };
 		842E6EA53F42F9BA9D271F146DD6802A /* Screen.h in Headers */ = {isa = PBXBuildFile; fileRef = 596A229265EFE9CC8CE10358237CED2C /* Screen.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		846BC76E943F2DBE514FB5FA38282E2F /* SensorWifi.h in Headers */ = {isa = PBXBuildFile; fileRef = F65240F2DC5B12F0FBA2E1473487BCDE /* SensorWifi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		846ECD2BC109F51FC9E1099A2E016A52 /* Calls.m in Sources */ = {isa = PBXBuildFile; fileRef = 907255D87533DE9996D193A886E9C3F9 /* Calls.m */; };
@@ -1747,6 +1747,7 @@
 		F6B7CAEFE1C3219DBE276B5C6324DD1F /* SQLiteStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CF7C1BCF0ED1711204DB1C1FA07D8E7 /* SQLiteStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F6D62041EEE4C9D4C27CF348A94EF4D1 /* EZRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = E0F995C983827F9A32EC4956278DA81E /* EZRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F6F0ED5DFEFC2AD35F7E9B1D4F2108DA /* ESMLikertScaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5719B8974A101B7E64EFADD4F467D8B7 /* ESMLikertScaleView.m */; };
+		F7164ED85023B1CD47798885A88B96AD /* CocoaAsyncSocket-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E276A2E0384C64E9EA9004E64708569E /* CocoaAsyncSocket-dummy.m */; };
 		F72FE217FAA742BB379603B12E1AE93A /* EntityAccelerometer+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = B626C0770B9EDD0AAD34E3B8337BCC72 /* EntityAccelerometer+CoreDataProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F763142B752CDBAC759B66EFBDCC52C3 /* JSONStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 30CD2C04496168EDED50B71BC686BBD3 /* JSONStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F7676FB3D1FF47E73E56D5CE1074566E /* GTMAppAuthFetcherAuthorization+Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = F27AE85BEA3A98B87A51D02527094475 /* GTMAppAuthFetcherAuthorization+Keychain.m */; };
@@ -1772,7 +1773,6 @@
 		FA2DDDEFD46C79DCFF944CFD47E69E2F /* 2_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7C35D69C99F1AC13F66A522DDC2A2048 /* 2_3.jpg */; };
 		FA35729C64A4A7086B4ADA93FA648062 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AE671F0AE92805E8F1AD330EF1BD0F /* IBarLineScatterCandleBubbleChartDataSet.swift */; };
 		FA7CF0ED42C434D90542E6C4B036244B /* FusedLocations.h in Headers */ = {isa = PBXBuildFile; fileRef = AF65FA79E448322E80DFF9058CE6F56D /* FusedLocations.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAB4E926955CD6370BB9F48D1CED9D14 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4E2FBAB82B2DDF0C77CE3750FEE444 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		FAE0BEA4FD04E99107FCFD73BBAA280A /* 9_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7F9D6A71937C76DBB8F04267322A8751 /* 9_1.jpg */; };
 		FB68633B66C76FE1B949C375C36D1329 /* 14_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3782D87360A93CB34BE5A8AA31374E7 /* 14_2.jpg */; };
 		FB7EAD5340E31C6746F7B5039DCDFE53 /* EntityTimezone+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E7FBCA4DB6EBCC658D95F9CB4FEE61 /* EntityTimezone+CoreDataProperties.m */; };
@@ -8854,7 +8854,7 @@
 			buildConfigurationList = A3C182BCCA79BDF05B1181EACE06EDF6 /* Build configuration list for PBXNativeTarget "CocoaAsyncSocket" */;
 			buildPhases = (
 				2D6C6AD9DCBF4D8EA7C5CCE007D42F4B /* Headers */,
-				F535168DCFD6BA74446C2DFDCAB32572 /* Sources */,
+				2B262005B9935D38DA7B944F924546BC /* Sources */,
 				04C9E13218AEB40CDE196CC8648BD2A5 /* Frameworks */,
 				CE5F8A71147D5D45482DE502AB9F18AC /* Resources */,
 			);
@@ -9952,6 +9952,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2B262005B9935D38DA7B944F924546BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7164ED85023B1CD47798885A88B96AD /* CocoaAsyncSocket-dummy.m in Sources */,
+				5326F2F517F441F7EDF0C616E47C3342 /* GCDAsyncSocket.m in Sources */,
+				842686F49DF5124709E276999062BC45 /* GCDAsyncUdpSocket.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BEDD78034930B7E92C0C4269D24AFAE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -11017,16 +11027,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A7338EE76F68F371032DA8450901CB9 /* Pods-AWARE-Fitbit-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F535168DCFD6BA74446C2DFDCAB32572 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76F3E9A21D064FA2A914AA24A9E414FB /* CocoaAsyncSocket-dummy.m in Sources */,
-				FAB4E926955CD6370BB9F48D1CED9D14 /* GCDAsyncSocket.m in Sources */,
-				035C7228A4F5FA027DC8D2D0F61DC873 /* GCDAsyncUdpSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13723,6 +13723,38 @@
 			};
 			name = Release;
 		};
+		966B45F52435F5B1A550A1174263C96D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1CB1EB3382EC1CA3A17055B4F26CF301 /* CocoaAsyncSocket.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.modulemap";
+				PRODUCT_MODULE_NAME = CocoaAsyncSocket;
+				PRODUCT_NAME = CocoaAsyncSocket;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		9C8A8AB3B156620AD671FBCB89F50093 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97017886E6EA9832A3FBED856A5F8EAE /* AWAREFramework-532c8a0f.release.xcconfig */;
@@ -14025,38 +14057,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		BB3BC43815E07542F2E127E15248F88D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CB1EB3382EC1CA3A17055B4F26CF301 /* CocoaAsyncSocket.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.modulemap";
-				PRODUCT_MODULE_NAME = CocoaAsyncSocket;
-				PRODUCT_NAME = CocoaAsyncSocket;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -14378,6 +14378,37 @@
 			};
 			name = Release;
 		};
+		D923175251DB3982D952D537A0FF69B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2926271304EEB9D8513BBF97FCCD6433 /* CocoaAsyncSocket.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.modulemap";
+				PRODUCT_MODULE_NAME = CocoaAsyncSocket;
+				PRODUCT_NAME = CocoaAsyncSocket;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		E2DFE913E4B9E76285E3749BD9DEB668 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 05AF0331DD9FC60265A1AA06AD46B15C /* Pods-AWARE-HealthKit.release.xcconfig */;
@@ -14667,37 +14698,6 @@
 			};
 			name = Debug;
 		};
-		F8028ADBF1ED6B0322EA125672FAE7D0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2926271304EEB9D8513BBF97FCCD6433 /* CocoaAsyncSocket.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CocoaAsyncSocket/CocoaAsyncSocket.modulemap";
-				PRODUCT_MODULE_NAME = CocoaAsyncSocket;
-				PRODUCT_NAME = CocoaAsyncSocket;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		FBEAF7D2962DCA894141FD74A6F08CBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9D16EECCE9D9BD4A1BA8045A72257DF7 /* Pods-AWARE-SensingApp.release.xcconfig */;
@@ -14937,8 +14937,8 @@
 		A3C182BCCA79BDF05B1181EACE06EDF6 /* Build configuration list for PBXNativeTarget "CocoaAsyncSocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8028ADBF1ED6B0322EA125672FAE7D0 /* Debug */,
-				BB3BC43815E07542F2E127E15248F88D /* Release */,
+				D923175251DB3982D952D537A0FF69B1 /* Debug */,
+				966B45F52435F5B1A550A1174263C96D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -4,29 +4,29 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - AWAREFramework (1.11.0):
-    - AWAREFramework/Core (= 1.11.0)
-  - AWAREFramework/Bluetooth (1.11.0):
+  - AWAREFramework (1.12.1):
+    - AWAREFramework/Core (= 1.12.1)
+  - AWAREFramework/Bluetooth (1.12.1):
     - AWAREFramework/Core
-  - AWAREFramework/Calendar (1.11.0):
+  - AWAREFramework/Calendar (1.12.1):
     - AWAREFramework/Core
-  - AWAREFramework/Contact (1.11.0):
+  - AWAREFramework/Contact (1.12.1):
     - AWAREFramework/Core
-  - AWAREFramework/Core (1.11.0):
+  - AWAREFramework/Core (1.12.1):
     - GoogleSignIn (~> 5.0)
     - ios-ntp (~> 1.1)
     - SCNetworkReachability (~> 2.0)
     - TPCircularBuffer (~> 1.6)
-  - AWAREFramework/HealthKit (1.11.0):
+  - AWAREFramework/HealthKit (1.12.1):
     - AWAREFramework/Core
-  - AWAREFramework/Microphone (1.11.0):
+  - AWAREFramework/Microphone (1.12.1):
     - AWAREFramework/Core
-  - AWAREFramework/MotionActivity (1.11.0):
+  - AWAREFramework/MotionActivity (1.12.1):
     - AWAREFramework/Core
   - Charts (3.2.0):
     - Charts/Core (= 3.2.0)
   - Charts/Core (3.2.0)
-  - CocoaAsyncSocket (7.6.4)
+  - CocoaAsyncSocket (7.6.5)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
@@ -79,9 +79,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  AWAREFramework: 0c93d64cf877e29ebb824fd99385cd1b8434f7a0
+  AWAREFramework: 7e84ac2e002432710756bc6a969bbbecfd3a4dcd
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
-  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
