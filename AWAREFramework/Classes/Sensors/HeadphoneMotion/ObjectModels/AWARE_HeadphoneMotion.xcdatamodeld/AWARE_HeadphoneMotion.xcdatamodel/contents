@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="AWAREBatchDataOM" representedClassName="AWAREBatchDataOM" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="AWAREBatchDataOM" representedClassName="AWAREBatchDataOM" syncable="YES">
         <attribute name="batch_data" optional="YES" attributeType="Transformable"/>
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="AWAREHeadphoneMotionOM" representedClassName="AWAREHeadphoneMotionOM" syncable="YES" codeGenerationType="class">
+    <entity name="AWAREHeadphoneMotionOM" representedClassName="AWAREHeadphoneMotionOM" syncable="YES">
         <attribute name="att_pitch" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="att_q_w" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="att_q_x" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -42,7 +42,7 @@
         <attribute name="user_acc_z" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="AWAREHeadphoneMotionOM" positionX="-63" positionY="-18" width="128" height="553"/>
-        <element name="AWAREBatchDataOM" positionX="-54" positionY="-9" width="128" height="28"/>
+        <element name="AWAREHeadphoneMotionOM" positionX="-45" positionY="-261" width="128" height="553"/>
+        <element name="AWAREBatchDataOM" positionX="-18" positionY="-63" width="128" height="88"/>
     </elements>
 </model>
