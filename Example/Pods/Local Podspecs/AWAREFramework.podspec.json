@@ -19,7 +19,11 @@
     "ios": "10"
   },
   "pod_target_xcconfig": {
-    "SWIFT_VERSION": "4.2"
+    "SWIFT_VERSION": "4.2",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  },
+  "user_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
   },
   "default_subspecs": "Core",
   "static_framework": true,
