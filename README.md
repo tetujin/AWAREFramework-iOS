@@ -1,5 +1,6 @@
 # AWAREFramework
 
+![CI](https://github.com/tetujin/AWAREFramework-iOS/workflows/CI/badge.svg)
 [![CI Status](https://travis-ci.com/tetujin/AWAREFramework-iOS.svg?branch=master)](https://travis-ci.com/tetujin/AWAREFramework-iOS)
 [![Version](https://img.shields.io/cocoapods/v/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
 [![License](https://img.shields.io/cocoapods/l/AWAREFramework.svg?style=flat)](http://cocoapods.org/pods/AWAREFramework)
