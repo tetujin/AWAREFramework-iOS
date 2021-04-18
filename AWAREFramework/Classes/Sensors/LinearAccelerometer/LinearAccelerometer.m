@@ -152,7 +152,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_LINEAR_ACCELEROMETER = @"frequenc
                                                [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.y]  forKey:@"double_values_1"]; //double
                                                [dict setObject:[NSNumber numberWithDouble:motion.userAcceleration.z]  forKey:@"double_values_2"]; //double
                                                [dict setObject:@3 forKey:@"accuracy"];//int
-                                               [dict setObject:@"" forKey:@"label"]; //text
+                                                if (self.label != nil) {
+                                                    [dict setObject:self.label forKey:@"label"];
+                                                }else{
+                                                    [dict setObject:@"" forKey:@"label"];
+                                                }
                                                [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.userAcceleration.x, motion.userAcceleration.y,motion.userAcceleration.z]];
                                                [self setLatestData:dict];
                                            

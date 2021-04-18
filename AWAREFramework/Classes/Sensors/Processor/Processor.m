@@ -130,6 +130,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_PROCESSOR = @"frequency_processor";
     [dict setObject:@0 forKey:@"double_user_load"];//double
     [dict setObject:@0 forKey:@"double_system_load"]; //double
     [dict setObject:@0 forKey:@"double_idle_load"]; //double
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     [self setLatestValue:[NSString stringWithFormat:@"%@ %%",appCpuUsage]];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];

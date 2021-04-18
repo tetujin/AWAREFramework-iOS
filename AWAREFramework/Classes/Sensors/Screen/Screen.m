@@ -190,6 +190,11 @@ NSString * const AWARE_PREFERENCES_STATUS_SCREEN  = @"status_screen";
     [dict setObject:unixtime forKey:@"timestamp"];
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
     [dict setObject:[NSNumber numberWithInt:state] forKey:@"screen_status"]; // int
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];
     

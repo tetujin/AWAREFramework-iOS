@@ -221,7 +221,11 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
     [dict setObject:@(location.altitude) forKey:@"double_altitude"];
     [dict setObject:@"gps" forKey:@"provider"];
     [dict setObject:@(location.horizontalAccuracy) forKey:@"accuracy"];
-    [dict setObject:@"" forKey:@"label"];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     
     [self setLatestData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];

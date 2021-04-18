@@ -128,7 +128,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GYROSCOPE = @"frequency_hz_gyrosc
                                          [dict setObject:@(gyroData.rotationRate.y) forKey:@"double_values_1"];
                                          [dict setObject:@(gyroData.rotationRate.z) forKey:@"double_values_2"];
                                          [dict setObject:@3 forKey:@"accuracy"];
-                                         [dict setObject:@"" forKey:@"label"];
+                                         if (self.label != nil) {
+                                             [dict setObject:self.label forKey:@"label"];
+                                         }else{
+                                             [dict setObject:@"" forKey:@"label"];
+                                         }
                                          [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",gyroData.rotationRate.x,gyroData.rotationRate.y,gyroData.rotationRate.z]];
                                          
                                          [self setLatestData:dict];

@@ -103,6 +103,11 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
     [dict setObject:[NSNumber numberWithDouble:offset] forKey:@"drift"]; // real
     [dict setObject:ntpUnixtime forKey:@"ntp_time"]; // real
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
 
     [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
     

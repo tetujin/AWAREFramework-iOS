@@ -241,6 +241,11 @@ NSString* const AWARE_PREFERENCES_STATUS_BATTERY = @"status_battery";
     [dict setObject:@0 forKey:@"battery_adaptor"];
     [dict setObject:@0 forKey:@"battery_health"];
     [dict setObject:@"" forKey:@"battery_technology"];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     [self setLatestValue:[NSString stringWithFormat:@"%d", batLeft]];
     [self setLatestData:dict];
     

@@ -118,7 +118,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_BAROMETER = @"frequency_barometer";
                                                  [dict setObject:[self getDeviceId] forKey:@"device_id"];
                                                  [dict setObject:@(pressureDouble*10.0f) forKey:@"double_values_0"];
                                                  [dict setObject:@3 forKey:@"accuracy"];
-                                                 [dict setObject:@"" forKey:@"label"];
+                                                  if (self.label != nil) {
+                                                      [dict setObject:self.label forKey:@"label"];
+                                                  }else{
+                                                      [dict setObject:@"" forKey:@"label"];
+                                                  }
                                                  [self setLatestValue:[NSString stringWithFormat:@"%f", pressureDouble*10.0f]];
                                                   
                                                   [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];

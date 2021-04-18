@@ -148,7 +148,11 @@ NSString * const AWARE_PREFERENCES_THRESHOLD_ACCELEROMETER = @"threshold_acceler
                                           [dict setObject:@(accelerometerData.acceleration.y) forKey:@"double_values_1"];
                                           [dict setObject:@(accelerometerData.acceleration.z) forKey:@"double_values_2"];
                                           [dict setObject:@3 forKey:@"accuracy"];
-                                          [dict setObject:@"" forKey:@"label"];
+                                          if (self.label != nil) {
+                                              [dict setObject:self.label forKey:@"label"];
+                                          }else{
+                                              [dict setObject:@"" forKey:@"label"];
+                                          }
                                           [self setLatestValue:[NSString stringWithFormat:
                                                                 @"%f, %f, %f",
                                                                 accelerometerData.acceleration.x,

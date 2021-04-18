@@ -96,7 +96,11 @@
         [dict setObject:@"" forKey:@"security"]; //text
         [dict setObject:@0 forKey:@"frequency"];//int
         [dict setObject:@0 forKey:@"rssi"]; //int
-        [dict setObject:@"" forKey:@"label"]; //text
+        if (self.label != nil) {
+            [dict setObject:self.label forKey:@"label"];
+        }else{
+            [dict setObject:@"" forKey:@"label"];
+        }
         
         [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
         

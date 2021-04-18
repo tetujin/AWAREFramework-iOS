@@ -38,6 +38,8 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 @implementation AWARESensor
 
 @synthesize isSensing = _isSensing;
+@synthesize label = _label;
+
 
 - (instancetype) init{
     return [self initWithAwareStudy:nil dbType:AwareDBTypeSQLite];
@@ -295,7 +297,7 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
 }
 
 - (void)setLabel:(NSString * _Nullable)label {
-    self.label = label;
+    _label = label;
 }
 
 - (void)setNotificationNames:(NSArray<NSNotification *> *)names{
@@ -311,7 +313,5 @@ int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND = 30;
         [_storage resetMark];
     }
 }
-
-@synthesize label;
 
 @end

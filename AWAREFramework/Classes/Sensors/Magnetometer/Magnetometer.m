@@ -124,7 +124,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_MAGNETOMETER = @"frequency_hz_mag
                                          [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.y] forKey:@"double_values_1"];
                                          [dict setObject:[NSNumber numberWithDouble:magnetometerData.magneticField.z] forKey:@"double_values_2"];
                                          [dict setObject:@3 forKey:@"accuracy"];
-                                         [dict setObject:@"" forKey:@"label"];
+                                         if (self.label != nil) {
+                                             [dict setObject:self.label forKey:@"label"];
+                                         }else{
+                                             [dict setObject:@"" forKey:@"label"];
+                                         }
                                          [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",magnetometerData.magneticField.x, magnetometerData.magneticField.y, magnetometerData.magneticField.z]];
                                          [self setLatestData:dict];
                                      

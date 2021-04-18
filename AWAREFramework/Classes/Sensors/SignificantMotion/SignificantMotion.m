@@ -123,6 +123,11 @@ NSString * const AWARE_PREFERENCES_STATUS_SIGNIFICANT_MOTION = @"status_signific
                             [data setObject:now forKey:@"timestamp"];
                             [data setObject:[self getDeviceId] forKey:@"device_id"];
                             [data setObject:@(self->_CURRENT_SIGMOTION_STATE) forKey:@"is_moving"];
+                            if (self.label != nil) {
+                                [data setObject:self.label forKey:@"label"];
+                            }else{
+                                [data setObject:@"" forKey:@"label"];
+                            }
                             if (self.storage!=nil) {
                                 [self.storage saveDataWithDictionary:data buffer:NO saveInMainThread:YES];
                             }

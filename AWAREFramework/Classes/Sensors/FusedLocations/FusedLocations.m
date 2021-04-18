@@ -180,7 +180,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
     [dict setObject:@(location.altitude) forKey:@"double_altitude"];
     [dict setObject:@"fused" forKey:@"provider"];
     [dict setObject:@(location.horizontalAccuracy) forKey:@"accuracy"];
-    [dict setObject:@"" forKey:@"label"];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     [_locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [_locationSensor setLatestData:dict];
     

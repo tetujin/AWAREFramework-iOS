@@ -28,7 +28,6 @@ extern int    const MOTION_SENSOR_DEFAULT_DB_WRITE_INTERVAL_SECOND;
 @protocol AWARESensorDelegate <NSObject>
 
 @property (readonly) BOOL isSensing;
-@property (nullable) NSString * label;
 
 - (void) setSensingState:(BOOL)state;
 
@@ -50,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AWARESensor : NSObject <AWARESensorDelegate, UIAlertViewDelegate>
 
 @property AWAREStorage * _Nullable storage;
+@property (nonatomic) NSString * _Nullable label;
 
 typedef void (^SensorEventHandler)(AWARESensor * _Nonnull sensor, NSDictionary<NSString *, id> * _Nullable data);
 
@@ -73,6 +73,7 @@ typedef void (^SensorEventHandler)(AWARESensor * _Nonnull sensor, NSDictionary<N
 - (double) getSensorSetting:(NSArray * _Nonnull)settings withKey:(NSString * _Nonnull)key;
 - (NSString *)getSettingAsStringFromSttings:(NSArray * _Nonnull)settings withKey:(NSString * _Nonnull)key;
 
+- (void) setLabel:(NSString * _Nullable)label;
 - (void) setStore:(BOOL)state;
 - (BOOL) isStore;
 

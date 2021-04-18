@@ -181,8 +181,11 @@ NSString * const AWARE_PREFERENCES_STATUS_IOS_LOCATION_VISIT = @"status_ios_loca
                       [dict setObject:name forKey:@"name"]; //forKey:(nonnull id<NSCopying>]visitData.name = name;
                       [dict setObject:arrival forKey:@"double_arrival"];//visitData.double_arrival = arrival;
                       [dict setObject:depature forKey:@"double_departure"]; // visitData.double_departure = depature;
-                      [dict setObject:@"" forKey:@"label"]; //visitData.label = @"";
-                      
+                      if (self.label != nil) {
+                          [dict setObject:self.label forKey:@"label"];
+                      }else{
+                          [dict setObject:@"" forKey:@"label"];
+                      }
                       // [self saveData:dict];
                       [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
                       [self setLatestData:dict];

@@ -126,7 +126,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ROTATION = @"frequency_hz_rotati
                                               [dict setObject:@(motion.attitude.yaw)  forKey:@"double_values_2"]; //double
                                               [dict setObject:@0 forKey:@"double_values_3"]; //double
                                               [dict setObject:@3 forKey:@"accuracy"];//int
-                                              [dict setObject:@"" forKey:@"label"]; //text
+                                              if (self.label != nil) {
+                                                  [dict setObject:self.label forKey:@"label"];
+                                              }else{
+                                                  [dict setObject:@"" forKey:@"label"];
+                                              }
                                                
                                                [self.storage saveDataWithDictionary:dict buffer:YES saveInMainThread:NO];
                                                

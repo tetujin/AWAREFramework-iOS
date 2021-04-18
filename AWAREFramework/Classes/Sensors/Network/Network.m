@@ -152,6 +152,11 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
     [dict setObject:networkType forKey:@"network_type"];
     [dict setObject:networkSubtype forKey:@"network_subtype"];
     [dict setObject:@(networkState) forKey:@"network_state"];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [self setLatestData:dict];

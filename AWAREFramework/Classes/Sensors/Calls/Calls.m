@@ -156,6 +156,11 @@ NSString* const KEY_CALLS_TRACE = @"trace";
     [dict setObject:callType forKey:KEY_CALLS_CALL_TYPE];
     [dict setObject:durationValue forKey:KEY_CALLS_CALL_DURATION];
     [dict setObject:callId forKey:KEY_CALLS_TRACE];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
 
     // [super saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];

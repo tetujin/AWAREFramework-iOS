@@ -143,7 +143,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_HZ_ORIENTATION = @"frequency_hz_ori
     [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:KEY_ORIENTATION_TIMESTAMP];
     [dict setObject:[self getDeviceId] forKey:KEY_ORIENTATION_DEVICE_ID];
     [dict setObject:deviceOrientation forKey:KEY_ORIENTATION_STATUS];
-    [dict setObject:label forKey:KEY_ORIENTATION_LABEL];
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
     [self setLatestValue:label];
     // [self saveData:dict];
     [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];

@@ -129,7 +129,11 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_HZ_GRAVITY = @"frequency_hz_gravity"
                                               [dict setObject:[NSNumber numberWithDouble:motion.gravity.y]  forKey:@"double_values_1"]; //double
                                               [dict setObject:[NSNumber numberWithDouble:motion.gravity.z]  forKey:@"double_values_2"]; //double
                                               [dict setObject:@3 forKey:@"accuracy"];//int
-                                              [dict setObject:@"" forKey:@"label"]; //text
+                                              if (self.label != nil) {
+                                                  [dict setObject:self.label forKey:@"label"];
+                                              }else{
+                                                  [dict setObject:@"" forKey:@"label"];
+                                              }
                                               [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",motion.attitude.pitch, motion.attitude.roll,motion.attitude.yaw]];
                                               
                                               [self setLatestData:dict];
