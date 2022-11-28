@@ -90,7 +90,8 @@ Pod::Spec.new do |s|
       cs.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'UserNotifications', 'Accelerate', 'AudioToolbox','AVFoundation','GLKit'
       cs.dependency 'SCNetworkReachability', '~> 2.0'
       cs.dependency 'GoogleSignIn', '~> 5.0'
-      cs.dependency 'ios-ntp', '~> 1.1'
+      # cs.dependency 'ios-ntp', '~> 1.1'
+      cs.dependency 'TrueTime', '~> 5.0.3'
       cs.dependency 'TPCircularBuffer', '~> 1.6'
   end
 
