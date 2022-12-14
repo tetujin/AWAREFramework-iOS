@@ -41,7 +41,6 @@
 #import "IOSESM.h"
 #import "Fitbit.h"
 #import "BasicSettings.h"
-#import "GoogleLogin.h"
 #import "SignificantMotion.h"
 #import "PushNotification.h"
 

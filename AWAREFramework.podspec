@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.12.3'
+  s.version          = '1.14.1'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -28,13 +28,13 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/tetujin/AWAREFramework-iOS.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '10'
+  s.ios.deployment_target = '10.1'
   
-  s.pod_target_xcconfig = {
-      'SWIFT_VERSION' => '4.2',
-      'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-  }
-  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#  s.pod_target_xcconfig = {
+#      'SWIFT_VERSION' => '5.0',
+#      'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
+#  }
+#  s.swift_version = '5.0'
   
   # s.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) COCOAPODS=1'}
   
@@ -88,11 +88,9 @@ Pod::Spec.new do |s|
        'AWAREFramework' => ['AWAREFramework/Assets/**/*.png','AWAREFramework/Assets/*.xib','AWAREFramework/Assets/**/*.jpg','AWAREFramework/Assets/**/*.mp3', 'AWAREFramework/Assets/**/*.xcdatamodeld','AWAREFramework/Assets/**/*.xcassets','AWAREFramework/Classes/**/*.xcdatamodeld']
       }
       cs.frameworks = 'UIKit', 'MapKit', 'CoreData', 'CoreTelephony', 'CoreLocation', 'CoreMotion', 'UserNotifications', 'Accelerate', 'AudioToolbox','AVFoundation','GLKit'
-      cs.dependency 'SCNetworkReachability', '~> 2.0'
-      cs.dependency 'GoogleSignIn', '~> 5.0'
-      # cs.dependency 'ios-ntp', '~> 1.1'
       cs.dependency 'TrueTime', '~> 5.0.3'
       cs.dependency 'TPCircularBuffer', '~> 1.6'
+      cs.dependency 'macros_blocks', '~> 0.0.4'
   end
 
   s.default_subspec = 'Core'

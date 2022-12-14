@@ -27,7 +27,7 @@
 * Wifi
 * Screen Events
 * [Fitbit](https://dev.fitbit.com/)
-* [Google Login](https://developers.google.com/identity/sign-in/ios/)
+* ~~[Google Login](https://developers.google.com/identity/sign-in/ios/) ~~
 * Memory
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
@@ -47,12 +47,15 @@ You can get detail information from [here](https://awareframework.com/minimize-s
 
 ## Installation
 
+### 0. (Option) Open Xcode with **Rosetta** to enable running the developed app on a **simulator**
+If you can develop the application with a physical device, you can skip this step.
+
 ### 1. Install AWAREFramework-iOS
 AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org). 
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', '~> 1.12'
+pod 'AWAREFramework', '~> 1.14.1'
 ```
 And run `pod install` in your Xcode project.
 
@@ -69,7 +72,6 @@ __[NOTE] The following settings are a minimum condition, so then you might need 
 #### 2-2. Capabilities/Background Modes
 * Location updates
 ![Image](./Screenshots/background_modes.png)
-
 
 ### 3. Request permissions and activate AWAREFramework
 To use AWAREFramework in the project, you need to (1) import `AWAREFramework` into your class and (2) request permission for accessing the iOS location sensor always. 

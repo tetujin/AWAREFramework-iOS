@@ -10,6 +10,8 @@
 #import "SCNetworkReachability.h"
 #import "EntityNetwork.h"
 
+#import "SCNetworkReachability.h"
+
 NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
 
 @implementation Network{
@@ -86,11 +88,11 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                 self->networkType = @1;
                 self->networkSubtype = @"WIFI";
                 [self getNetworkInfo];
-                
+
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_ON object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
-                
+
                 break;
             case SCNetworkStatusReachableViaCellular:
                 NSLog(@"Reachable via Cellular");
@@ -98,11 +100,11 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                 self->networkType = @4;
                 self->networkSubtype = @"MOBILE";
                 [self getNetworkInfo];
-                
+
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_AVAILABLE object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_ON object:nil];
-                
+
                 break;
             case SCNetworkStatusNotReachable:
                 NSLog(@"Not Reachable");
@@ -110,11 +112,11 @@ NSString * const AWARE_PREFERENCES_STATUS_NETWORK_EVENTS = @"status_network";
                 self->networkState= NO;
                 self->networkSubtype = @"";
                 [self getNetworkInfo];
-                
+
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_INTERNET_UNAVAILABLE object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_WIFI_OFF object:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:ACTION_AWARE_MOBILE_OFF object:nil];
-                
+
                 break;
         }
     }];

@@ -9,7 +9,7 @@
 #import "NTPTime.h"
 //#import "ios-ntp.h"
 #import "EntityNTPTime.h"
-@import TrueTime;
+//@import TrueTime;
 
 NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
@@ -95,44 +95,36 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 
 - (void) saveNTPTime {
     
-    // At an opportune time (e.g. app start):
-    TrueTimeClient *client = [TrueTimeClient sharedInstance];
-    [client startWithPool:@[@"time.apple.com"] port:123];
-
-    // You can now use this instead of [NSDate date]:
-    NSDate *now = [[client referenceTime] now];
-
-    // To block waiting for fetch, use the following:
-    [client fetchIfNeededWithSuccess:^(NTPReferenceTime *referenceTime) {
-        // This process is working in the main thread
-//        NSLog(@"True time: %@", [referenceTime now]);
-        NSDate * nt = [referenceTime now];
-        NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-        NSNumber * ntpUnixtime = [AWAREUtils getUnixTimestamp:nt];
-        double offset = [referenceTime uptimeInterval] * 1000.0; // msec
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setObject:unixtime forKey:@"timestamp"];
-        [dict setObject:[self getDeviceId] forKey:@"device_id"];
-        [dict setObject:[NSNumber numberWithDouble:offset] forKey:@"drift"]; // real
-        [dict setObject:ntpUnixtime forKey:@"ntp_time"]; // real
-        if (self.label != nil) {
-            [dict setObject:self.label forKey:@"label"];
-        }else{
-            [dict setObject:@"" forKey:@"label"];
-        }
-    
-        [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
-    
-        [self setLatestData:dict];
-        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-    
-        SensorEventHandler handler = [self getSensorEventHandler];
-        if (handler!=nil) {
-            handler(self, dict);
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"Error! %@", error);
-    }];
+//    TrueTimeClient *client = [TrueTimeClient sharedInstance];
+//    [client startWithPool:@[@"time.apple.com"] port:123];
+//    [client fetchIfNeededWithSuccess:^(NTPReferenceTime *referenceTime) {
+//        NSDate * nt = [referenceTime now];
+//        NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+//        NSNumber * ntpUnixtime = [AWAREUtils getUnixTimestamp:nt];
+//        double offset = [referenceTime uptimeInterval] * 1000.0; // msec
+//        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//        [dict setObject:unixtime forKey:@"timestamp"];
+//        [dict setObject:[self getDeviceId] forKey:@"device_id"];
+//        [dict setObject:[NSNumber numberWithDouble:offset] forKey:@"drift"]; // real
+//        [dict setObject:ntpUnixtime forKey:@"ntp_time"]; // real
+//        if (self.label != nil) {
+//            [dict setObject:self.label forKey:@"label"];
+//        }else{
+//            [dict setObject:@"" forKey:@"label"];
+//        }
+//    
+//        [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
+//    
+//        [self setLatestData:dict];
+//        [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+//    
+//        SensorEventHandler handler = [self getSensorEventHandler];
+//        if (handler!=nil) {
+//            handler(self, dict);
+//        }
+//    } failure:^(NSError *error) {
+//        NSLog(@"Error! %@", error);
+//    }];
     
 //    /** old code */
 //    NetworkClock * nc = [NetworkClock sharedNetworkClock];
