@@ -27,7 +27,7 @@
 * Wifi
 * Screen Events
 * [Fitbit](https://dev.fitbit.com/)
-* ~~[Google Login](https://developers.google.com/identity/sign-in/ios/) ~~
+* [~~Google Login~~](https://developers.google.com/identity/sign-in/ios/) 
 * Memory
 * [NTPTime](https://github.com/jbenet/ios-ntp)
 * [OpenWeatherMap](https://openweathermap.org/api)
