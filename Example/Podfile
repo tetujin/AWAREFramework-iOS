@@ -32,9 +32,6 @@ target 'AWARE-SimpleClient' do
   pod 'AWAREFramework', :path => '../'
 end
 
-target 'AWARE-GoogleLogin' do
-  pod 'AWAREFramework', :path => '../'
-end
 
 target 'AWARE-Fitbit' do
   pod 'AWAREFramework', :path => '../'
