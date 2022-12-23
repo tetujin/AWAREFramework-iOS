@@ -13,6 +13,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Show Xcode version
       run: xcodebuild -version
+    - name: Use Rosetta
+      run: arch -x86_64 uname -m
     - name: Install gem
       run: gem install cocoapods
     - name: Update pod
