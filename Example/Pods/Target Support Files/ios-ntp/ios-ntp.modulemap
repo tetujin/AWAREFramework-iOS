@@ -1,6 +1,0 @@
-framework module ios_ntp {
-  umbrella header "ios-ntp-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,54 +1,30 @@
 PODS:
-  - AppAuth (1.4.0):
-    - AppAuth/Core (= 1.4.0)
-    - AppAuth/ExternalUserAgent (= 1.4.0)
-  - AppAuth/Core (1.4.0)
-  - AppAuth/ExternalUserAgent (1.4.0)
-  - AWAREFramework (1.12.1):
-    - AWAREFramework/Core (= 1.12.1)
-  - AWAREFramework/Bluetooth (1.12.1):
+  - AWAREFramework (1.14.1):
+    - AWAREFramework/Core (= 1.14.1)
+  - AWAREFramework/Bluetooth (1.14.1):
     - AWAREFramework/Core
-  - AWAREFramework/Calendar (1.12.1):
+  - AWAREFramework/Calendar (1.14.1):
     - AWAREFramework/Core
-  - AWAREFramework/Contact (1.12.1):
+  - AWAREFramework/Contact (1.14.1):
     - AWAREFramework/Core
-  - AWAREFramework/Core (1.12.1):
-    - GoogleSignIn (~> 5.0)
-    - ios-ntp (~> 1.1)
-    - SCNetworkReachability (~> 2.0)
+  - AWAREFramework/Core (1.14.1):
+    - macros_blocks (~> 0.0.4)
     - TPCircularBuffer (~> 1.6)
-  - AWAREFramework/HealthKit (1.12.1):
+    - TrueTime (~> 5.0.3)
+  - AWAREFramework/HealthKit (1.14.1):
     - AWAREFramework/Core
-  - AWAREFramework/Microphone (1.12.1):
+  - AWAREFramework/Microphone (1.14.1):
     - AWAREFramework/Core
-  - AWAREFramework/MotionActivity (1.12.1):
+  - AWAREFramework/MotionActivity (1.14.1):
     - AWAREFramework/Core
   - Charts (3.2.0):
     - Charts/Core (= 3.2.0)
   - Charts/Core (3.2.0)
-  - CocoaAsyncSocket (7.6.5)
-  - GoogleSignIn (5.0.2):
-    - AppAuth (~> 1.2)
-    - GTMAppAuth (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.1.0):
-    - AppAuth/Core (~> 1.4)
-    - GTMSessionFetcher (~> 1.4)
-  - GTMSessionFetcher (1.5.0):
-    - GTMSessionFetcher/Full (= 1.5.0)
-  - GTMSessionFetcher/Core (1.5.0)
-  - GTMSessionFetcher/Full (1.5.0):
-    - GTMSessionFetcher/Core (= 1.5.0)
-  - ios-ntp (1.1.9):
-    - CocoaAsyncSocket
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
   - macros_blocks/core (0.0.4)
-  - SCNetworkReachability (2.0.6):
-    - SCNetworkReachability/Core (= 2.0.6)
-  - SCNetworkReachability/Core (2.0.6):
-    - macros_blocks (~> 0.0.1)
   - TPCircularBuffer (1.6.1)
+  - TrueTime (5.0.3)
 
 DEPENDENCIES:
   - AWAREFramework (from `../`)
@@ -62,34 +38,22 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AppAuth
     - Charts
-    - CocoaAsyncSocket
-    - GoogleSignIn
-    - GTMAppAuth
-    - GTMSessionFetcher
-    - ios-ntp
     - macros_blocks
-    - SCNetworkReachability
     - TPCircularBuffer
+    - TrueTime
 
 EXTERNAL SOURCES:
   AWAREFramework:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  AWAREFramework: b63ed53444063788b12108c122b058e2d5635d9b
+  AWAREFramework: b9eb8af75e25c82c7aeadd316b9b1c7528fff0e3
   Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  ios-ntp: 49a4ef0866aee5343627710c1c7de71d7c064417
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
-  SCNetworkReachability: dbb0150b1a7a4579e148420132da19e718b955ce
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
+  TrueTime: b49551ffafb28a9dee04e51b226f42a416010842
 
-PODFILE CHECKSUM: 288dcc5bf72e1fdd402519fcb599643b3b1b2563
+PODFILE CHECKSUM: 346f22feab2b528803f390a2dbaa80c2a64344a5
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.11.3

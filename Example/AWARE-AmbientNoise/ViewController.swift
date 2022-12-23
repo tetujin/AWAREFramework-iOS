@@ -12,80 +12,41 @@ import Speech
 
 class ViewController: UIViewController {
 
-//    let noise = AmbientNoise()
+    let noiseSensor = AmbientNoise()
+    let manager = AWARESensorManager.shared()
+    let core = AWARECore.shared()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-//        SFSpeechRecognizer.requestAuthorization { authStatus in
-//
-//            // The authorization status results in changes to the
-//            // app’s interface, so process the results on the app’s
-//            // main queue.
-//            OperationQueue.main.addOperation {
-//                switch authStatus {
-//                case .authorized: break
-//                case .denied: break
-//                case .restricted: break
-//                case .notDetermined: break
-//                @unknown default:
-//                    // fatalError()
-//                    break
+        // please add following lines to receive update events
+        noiseSensor.setSensorEventHandler { sensor, data in
+            if let d = data {
+                print(d)
+//                if let rms = d["double_rms"] {
+//                    print(rms)
 //                }
-//            }
-//        }
-//
-//        noise.frequencyMin   = 10
-//        noise.sampleDuration = 1
-//        noise.sampleSize     = 10
-//        noise.setDebug(true)
-//        noise.startSensor()
-//        noise.setAudioFileGenerationHandler { (url) in
-//            if let url = url {
-//                self.recognizeFile(url: url)
-//            }
-//        }
-//        noise.fftDelegate = self
-        
-    }
-
-    func recognizeFile(url:URL) {
-        guard let myRecognizer = SFSpeechRecognizer() else {
-            // A recognizer is not supported for the current locale
-            return
-        }
-        
-        if !myRecognizer.isAvailable {
-            // The recognizer is not available right now
-            return
-        }
-        
-        let request = SFSpeechURLRecognitionRequest(url: url as URL)
-        myRecognizer.recognitionTask(with: request) { (result, error) in
-            guard let result = result else {
-                // Recognition failed, so check error for details and handle it
-                return
-            }
-            
-            // Print the speech that has been recognized so far
-            if result.isFinal {
-                print("  \(result.bestTranscription.formattedString)")
             }
         }
-    }
+        
+        // please add following lines to use raw audio file
+        // noiseSensor.saveRawData(true)
+        noiseSensor.setAudioFileGenerationHandler { url in
+            if let url = url {
+                print(url)
+            }
+        }
 
+        // start sensors
+        manager.add(noiseSensor)
+        manager.startAllSensors()
+
+        // for background sensing
+        core.requestPermissionForBackgroundSensing{ state in
+            print(state)
+            self.core.activate()
+        }
+        
+        
+    }
 }
-
-//extension ViewController: AWAREAmbientNoiseFFTDelegate {
-//    func fft(_ fft: EZAudioFFT!, updatedWithFFTData fftData: UnsafeMutablePointer<Float>!, bufferSize: vDSP_Length) {
-//        if let data = fftData {
-//            for i in 0..<Int(bufferSize){
-//                if data[i] > 0.01 {
-//                    // print(i,data[i])
-//                }
-//            }
-//        }
-//    }
-//}
-
