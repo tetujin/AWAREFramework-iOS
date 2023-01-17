@@ -34,9 +34,9 @@ Pod::Spec.new do |s|
 #      'SWIFT_VERSION' => '5.0',
 #      'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64',
 #  }
+#  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 #  s.swift_version = '5.0'
-  
-  # s.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) COCOAPODS=1'}
+#  s.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) COCOAPODS=1'}
   
   plugin_path = 'AWAREFramework/Classes/Plugins/'
   

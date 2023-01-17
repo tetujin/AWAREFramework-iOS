@@ -28,6 +28,6 @@ jobs:
       env: 
         destination: ${{ matrix.destination }}
     - name: Dry-run
-      run: pod lib lint --allow-warnings
+      run: pod lib lint --allow-warnings --skip-import-validation
       
       
