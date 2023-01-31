@@ -45,11 +45,11 @@ target 'AWARE-CustomSensor' do
   pod 'AWAREFramework', :path => '../'
 end
 
-target 'AWARE-Visualizer' do
-  pod 'AWAREFramework', :path => '../'
-  pod 'Charts','3.2'
-  pod 'AWAREFramework/Microphone', :path => '../'
-end
+#target 'AWARE-Visualizer' do
+#  pod 'AWAREFramework', :path => '../'
+#  pod 'Charts','3.2'
+#  pod 'AWAREFramework/Microphone', :path => '../'
+#end
 
 target 'AWARE-ScheduleESM' do
   pod 'AWAREFramework', :path => '../'

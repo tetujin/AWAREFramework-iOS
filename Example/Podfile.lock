@@ -1,25 +1,22 @@
 PODS:
-  - AWAREFramework (1.14.1):
-    - AWAREFramework/Core (= 1.14.1)
-  - AWAREFramework/Bluetooth (1.14.1):
+  - AWAREFramework (1.14.2):
+    - AWAREFramework/Core (= 1.14.2)
+  - AWAREFramework/Bluetooth (1.14.2):
     - AWAREFramework/Core
-  - AWAREFramework/Calendar (1.14.1):
+  - AWAREFramework/Calendar (1.14.2):
     - AWAREFramework/Core
-  - AWAREFramework/Contact (1.14.1):
+  - AWAREFramework/Contact (1.14.2):
     - AWAREFramework/Core
-  - AWAREFramework/Core (1.14.1):
+  - AWAREFramework/Core (1.14.2):
     - macros_blocks (~> 0.0.4)
     - TPCircularBuffer (~> 1.6)
     - TrueTime (~> 5.0.3)
-  - AWAREFramework/HealthKit (1.14.1):
+  - AWAREFramework/HealthKit (1.14.2):
     - AWAREFramework/Core
-  - AWAREFramework/Microphone (1.14.1):
+  - AWAREFramework/Microphone (1.14.2):
     - AWAREFramework/Core
-  - AWAREFramework/MotionActivity (1.14.1):
+  - AWAREFramework/MotionActivity (1.14.2):
     - AWAREFramework/Core
-  - Charts (3.2.0):
-    - Charts/Core (= 3.2.0)
-  - Charts/Core (3.2.0)
   - macros_blocks (0.0.4):
     - macros_blocks/core (= 0.0.4)
   - macros_blocks/core (0.0.4)
@@ -34,11 +31,9 @@ DEPENDENCIES:
   - AWAREFramework/HealthKit (from `../`)
   - AWAREFramework/Microphone (from `../`)
   - AWAREFramework/MotionActivity (from `../`)
-  - Charts (= 3.2)
 
 SPEC REPOS:
   trunk:
-    - Charts
     - macros_blocks
     - TPCircularBuffer
     - TrueTime
@@ -48,12 +43,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: b9eb8af75e25c82c7aeadd316b9b1c7528fff0e3
-  Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
+  AWAREFramework: 09e7f27d36446f63138e7e1b87293fe3081b7758
   macros_blocks: cf3ff5810b798f462def9f1e3999817dc45cf2df
   TPCircularBuffer: c13243556527551c4d320709c7b14a6d20cdc30a
   TrueTime: b49551ffafb28a9dee04e51b226f42a416010842
 
-PODFILE CHECKSUM: f41b434f875b18fbccce623e76cae66edb259a43
+PODFILE CHECKSUM: d3180ed8f35b699a78c0c8305e283dd4272ee792
 
 COCOAPODS: 1.11.3
