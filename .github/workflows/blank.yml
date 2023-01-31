@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     strategy:
         matrix:
-          destination: ['platform=iOS Simulator,OS=16.,name=iPhone 14 Pro']
+          destination: ['platform=iOS Simulator,OS=16.2,name=iPhone 14 Pro']
     steps:
     - uses: actions/checkout@v1
     - name: Show Xcode version
