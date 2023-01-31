@@ -70,6 +70,7 @@ end
 
 target 'AWARE-HealthKit' do
   pod 'AWAREFramework', :path => '../'
+  pod 'AWAREFramework/HealthKit', :path => '../'
 end
 
 #target 'AWARE-SignificantMotion' do

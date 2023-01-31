@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) AWAREHealthKitCategory * awareHKSleep;
 
 - (void) requestAuthorizationToAccessHealthKit;
+- (void) requestAuthorizationWithDataTypes:(NSSet *) dataTypes completion:(void (^)(BOOL success, NSError * _Nullable error))completion;
+- (void) requestAuthorizationWithAllDataTypes:(void (^)(BOOL success, NSError * _Nullable error))completion;
 
 /**
  * Get the last fetch data using a data type

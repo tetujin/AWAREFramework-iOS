@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.14.1'
+  s.version          = '1.14.2'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -37,6 +37,8 @@ Pod::Spec.new do |s|
 #  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 #  s.swift_version = '5.0'
 #  s.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) COCOAPODS=1'}
+  
+#  VALID_ARCHS
   
   plugin_path = 'AWAREFramework/Classes/Plugins/'
   

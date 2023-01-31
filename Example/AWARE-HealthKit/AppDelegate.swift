@@ -19,26 +19,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let manager = AWARESensorManager.shared()
         let study = AWAREStudy.shared()
-        study.join(withURL: "https://api.awareframework.com/index.php/webservice/index/2560/mvmt1hQgGqb2", completion: { (settings, status, error) in
+//        study.join(withURL: "https://api.awareframework.com/index.php/webservice/index/2560/mvmt1hQgGqb2", completion: { (settings, status, error) in
+//
+//            let healthKit = AWAREHealthKit(awareStudy: study)
+//            healthKit.fetchIntervalSecond = 180;
+//
+//            let tenDaysAge = Date().addingTimeInterval(-1*60*60*24*10)
+//            healthKit.setLastFetchTimeForAll(tenDaysAge)
+//
+//            manager.add(healthKit)
+//            manager.createDBTablesOnAwareServer()
+//            manager.startAllSensors()
+//            healthKit.setDebug(true)
+//        })
+        
+        let healthKit = AWAREHealthKit(awareStudy: study)
+        healthKit.requestAuthorization { result, error in
             
-            let healthKit = AWAREHealthKit(awareStudy: study)
             healthKit.fetchIntervalSecond = 180;
-            
+            healthKit.setDebug(true)
             let tenDaysAge = Date().addingTimeInterval(-1*60*60*24*10)
             healthKit.setLastFetchTimeForAll(tenDaysAge)
+            
             
             manager.add(healthKit)
             manager.createDBTablesOnAwareServer()
             manager.startAllSensors()
-            healthKit.setDebug(true)
-        })
+        }
         
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (timer) in
-            let manager = AWARESensorManager.shared()
-            manager.setSyncProcessCallbackToAllSensorStorages({ (sensorName, progress, error) in
-                NSLog(sensorName, progress);
-            })
-            manager.syncAllSensorsForcefully()
+            
+            DispatchQueue.main.async {
+                let manager = AWARESensorManager.shared()
+                manager.setSyncProcessCallbackToAllSensorStorages({ (sensorName, state, progress, error)  in
+                    NSLog(sensorName, progress);
+                })
+                manager.syncAllSensorsForcefully()
+            }
         }
 
         return true
