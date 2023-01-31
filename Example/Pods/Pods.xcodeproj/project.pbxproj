@@ -3224,7 +3224,7 @@
 		6C878D2DAEFE5212F44661052D1C607E /* Pods-AWARE-SignificantMotion-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AWARE-SignificantMotion-acknowledgements.plist"; sourceTree = "<group>"; };
 		6CC81F038853DA50FB6409CC2F75725C /* Battery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Battery.m; sourceTree = "<group>"; };
 		6E3929BF09ED8705052B0DACAB1732EA /* Pods-AWARE-Visualizer-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AWARE-Visualizer-frameworks.sh"; sourceTree = "<group>"; };
-		6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.default-Microphone-AWAREFramework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "AWAREFramework.default-Microphone-AWAREFramework"; path = AWAREFramework.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWAREFramework.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E6821477AC7D0C8E06A260B4874A52C /* macros_blocks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = macros_blocks.release.xcconfig; sourceTree = "<group>"; };
 		6EA249882EBA58F365FFFDA9321D26D8 /* Pods-AWARE-Conversation-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AWARE-Conversation-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6ED5BC656A561623169AD7AB62508312 /* AWARESensor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AWARESensor.m; sourceTree = "<group>"; };
@@ -3689,7 +3689,7 @@
 		E55E715E92A83848B42FF5EFD5A2588C /* ESMSchedule.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ESMSchedule.m; sourceTree = "<group>"; };
 		E5FE3BC44DB63A02025F3188FE789EF3 /* PieRadarHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieRadarHighlighter.swift; path = Source/Charts/Highlight/PieRadarHighlighter.swift; sourceTree = "<group>"; };
 		E63D691193B142348E1FB8A8A0DD3E06 /* EntityBluetooth.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EntityBluetooth.m; sourceTree = "<group>"; };
-		E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework-AWAREFramework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "AWAREFramework-AWAREFramework"; path = AWAREFramework.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AWAREFramework.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6A51C4BD9793A1BB896922D5354F62B /* 12_2.jpg */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.jpeg; path = 12_2.jpg; sourceTree = "<group>"; };
 		E754125FBE89ACFDDE01790889B334DC /* EntityESMAnswer+CoreDataProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EntityESMAnswer+CoreDataProperties.m"; sourceTree = "<group>"; };
 		E773D15526F9A30080E4A71C47A9E988 /* EntityBatteryDischarge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EntityBatteryDischarge.h; sourceTree = "<group>"; };
@@ -6033,10 +6033,10 @@
 				3C0E1C14643705344D768EC8EAC6B9FA /* AWAREFramework.default-HealthKit */,
 				30F535A4357322FC9D90F2DF5D45D950 /* AWAREFramework.bundle */,
 				0647B8E75CD7470B93F673430D389483 /* AWAREFramework.default-Microphone */,
-				6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.default-Microphone-AWAREFramework */,
+				6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.bundle */,
 				2BC98632FAC9ED9C57022671C22B9BFF /* AWAREFramework-532c8a0f */,
 				E86206994248A494B8934EE1928AB019 /* AWAREFramework.bundle */,
-				E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework-AWAREFramework */,
+				E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework.bundle */,
 				A1C1B977ED8804E8AEEC884E7359EE58 /* Charts */,
 				D4C2556EC2668AD40D3B577AF99BC6F9 /* Pods-AWARE-AmbientNoise */,
 				764A0C384994E8C51C6EB7227C27C40C /* Pods-AWARE-Barometer */,
@@ -7708,7 +7708,7 @@
 			);
 			name = "AWAREFramework-AWAREFramework";
 			productName = AWAREFramework;
-			productReference = E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework-AWAREFramework */;
+			productReference = E66014278B9F72836CC31EB3110BD8EE /* AWAREFramework.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		7147576931718CCB7D5A470FA67E214D /* Pods-AWARE-ForTest */ = {
@@ -7879,7 +7879,7 @@
 			);
 			name = "AWAREFramework.default-Microphone-AWAREFramework";
 			productName = AWAREFramework;
-			productReference = 6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.default-Microphone-AWAREFramework */;
+			productReference = 6E550CF1FF98121EAFAC6D7CB0E3ED02 /* AWAREFramework.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		915C7F950669C6835E477A12C6A054F8 /* Pods-AWARE-CustomSensor */ = {
@@ -8160,6 +8160,12 @@
 				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					6FE69B9F9AA27445A890A6A95EDF4097 = {
+						DevelopmentTeam = FH352PYMNC;
+					};
+					8FF3B4F923B4C6C5F15EB5EA2A365179 = {
+						DevelopmentTeam = FH352PYMNC;
+					};
 					C689F39B20567226137F72A7F0B5DDE2 = {
 						DevelopmentTeam = FH352PYMNC;
 					};
@@ -10921,6 +10927,7 @@
 			baseConfigurationReference = 4EA0DDAEF430543628323FB1A9EEB116 /* AWAREFramework.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWAREFramework";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				IBSC_MODULE = AWAREFramework;
 				INFOPLIST_FILE = "Target Support Files/AWAREFramework/ResourceBundle-AWAREFramework-AWAREFramework-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
@@ -11392,6 +11399,7 @@
 			baseConfigurationReference = 8421FF7724A2793E4FA3EDD616F95F6E /* AWAREFramework.default-Microphone.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWAREFramework.default-Microphone";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				IBSC_MODULE = AWAREFramework;
 				INFOPLIST_FILE = "Target Support Files/AWAREFramework.default-Microphone/ResourceBundle-AWAREFramework-AWAREFramework.default-Microphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
@@ -11493,6 +11501,7 @@
 			baseConfigurationReference = 480E3E40FCC062BBCCBB7427395FD7DC /* AWAREFramework.default-Microphone.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWAREFramework.default-Microphone";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				IBSC_MODULE = AWAREFramework;
 				INFOPLIST_FILE = "Target Support Files/AWAREFramework.default-Microphone/ResourceBundle-AWAREFramework-AWAREFramework.default-Microphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
@@ -12044,6 +12053,7 @@
 			baseConfigurationReference = 898EB4195845ECF4F31B97519CCB4BB5 /* AWAREFramework.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/AWAREFramework";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				IBSC_MODULE = AWAREFramework;
 				INFOPLIST_FILE = "Target Support Files/AWAREFramework/ResourceBundle-AWAREFramework-AWAREFramework-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;

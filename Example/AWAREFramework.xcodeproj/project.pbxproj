@@ -101,15 +101,6 @@
 		4FBC0FD42268F9A90047EC48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD22268F9A90047EC48 /* Main.storyboard */; };
 		4FBC0FD62268F9AB0047EC48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD52268F9AB0047EC48 /* Assets.xcassets */; };
 		4FBC0FD92268F9AB0047EC48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FBC0FD72268F9AB0047EC48 /* LaunchScreen.storyboard */; };
-		4FC7EF1C22550E9800136D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1B22550E9800136D05 /* AppDelegate.swift */; };
-		4FC7EF1E22550E9800136D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1D22550E9800136D05 /* ViewController.swift */; };
-		4FC7EF2122550E9800136D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF1F22550E9800136D05 /* Main.storyboard */; };
-		4FC7EF2422550E9800136D05 /* AWARE_Visualizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF2222550E9800136D05 /* AWARE_Visualizer.xcdatamodeld */; };
-		4FC7EF2622550E9900136D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF2522550E9900136D05 /* Assets.xcassets */; };
-		4FC7EF2922550E9900136D05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF2722550E9900136D05 /* LaunchScreen.storyboard */; };
-		4FC7EF3222550FC600136D05 /* ContextCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF2F22550FC600136D05 /* ContextCard.swift */; };
-		4FC7EF3322550FC600136D05 /* ContextCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF3022550FC600136D05 /* ContextCard.xib */; };
-		4FC7EF3422550FC600136D05 /* ScatterChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF3122550FC600136D05 /* ScatterChartCard.swift */; };
 		4FC7EF3C225522A500136D05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF3B225522A500136D05 /* AppDelegate.swift */; };
 		4FC7EF3E225522A500136D05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC7EF3D225522A500136D05 /* ViewController.swift */; };
 		4FC7EF41225522A600136D05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7EF3F225522A600136D05 /* Main.storyboard */; };
@@ -143,7 +134,6 @@
 		4FDB5620233CDFF20095E7D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB561E233CDFF20095E7D7 /* LaunchScreen.storyboard */; };
 		58B00A614D7B5E4169E939C0 /* Pods_AWARE_CustomESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E44F42CE6084211CC06783B9 /* Pods_AWARE_CustomESM.framework */; };
 		7F9442941715634CBA52BDC9 /* Pods_AWARE_Conversation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88DF63ABD3CA086A66F545CA /* Pods_AWARE_Conversation.framework */; };
-		8756A32AA90AC6488CD44B35 /* Pods_AWARE_Visualizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFCC0812DFECF2500316A77 /* Pods_AWARE_Visualizer.framework */; };
 		91A45D1C6DA9A967CAB080DB /* Pods_AWARE_ScheduleESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A07A398794330975DE310D5 /* Pods_AWARE_ScheduleESM.framework */; };
 		93AD70EDC3E8A24E54DCB066 /* Pods_AWARE_Barometer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 128E0607DF167A4277929082 /* Pods_AWARE_Barometer.framework */; };
 		A835BBAA534CA5185AA3B660 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7ED9AA7FF743C694B5FA0C3 /* Pods_Tests.framework */; };
@@ -175,13 +165,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4FC7EF6F225B6DD100136D05;
 			remoteInfo = "AWARE-ConfigURLESM";
-		};
-		4F76BE9622CC33110022F060 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6003F582195388D10070C39A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FC7EF1822550E9800136D05;
-			remoteInfo = "AWARE-Visualizer";
 		};
 		4F76BEAE22CC34EE0022F060 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -341,17 +324,6 @@
 		4FBC0FD52268F9AB0047EC48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FBC0FD82268F9AB0047EC48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FBC0FDA2268F9AB0047EC48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4FC7EF1922550E9800136D05 /* AWARE-Visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FC7EF1B22550E9800136D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4FC7EF1D22550E9800136D05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4FC7EF2022550E9800136D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		4FC7EF2322550E9800136D05 /* AWARE_Visualizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AWARE_Visualizer.xcdatamodel; sourceTree = "<group>"; };
-		4FC7EF2522550E9900136D05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4FC7EF2822550E9900136D05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4FC7EF2A22550E9900136D05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4FC7EF2F22550FC600136D05 /* ContextCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextCard.swift; sourceTree = "<group>"; };
-		4FC7EF3022550FC600136D05 /* ContextCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContextCard.xib; sourceTree = "<group>"; };
-		4FC7EF3122550FC600136D05 /* ScatterChartCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartCard.swift; sourceTree = "<group>"; };
 		4FC7EF39225522A500136D05 /* AWARE-ScheduleESM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-ScheduleESM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FC7EF3B225522A500136D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FC7EF3D225522A500136D05 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -563,14 +535,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE60736AAEA5CBB16249118F /* Pods_AWARE_InteractiveESM.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4FC7EF1622550E9800136D05 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8756A32AA90AC6488CD44B35 /* Pods_AWARE_Visualizer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,31 +794,6 @@
 			path = "AWARE-InteractiveESM";
 			sourceTree = "<group>";
 		};
-		4FC7EF1A22550E9800136D05 /* AWARE-Visualizer */ = {
-			isa = PBXGroup;
-			children = (
-				4FC7EF1B22550E9800136D05 /* AppDelegate.swift */,
-				4FC7EF1D22550E9800136D05 /* ViewController.swift */,
-				4FC7EF2E22550F9F00136D05 /* ContextCard */,
-				4FC7EF1F22550E9800136D05 /* Main.storyboard */,
-				4FC7EF2522550E9900136D05 /* Assets.xcassets */,
-				4FC7EF2722550E9900136D05 /* LaunchScreen.storyboard */,
-				4FC7EF2A22550E9900136D05 /* Info.plist */,
-				4FC7EF2222550E9800136D05 /* AWARE_Visualizer.xcdatamodeld */,
-			);
-			path = "AWARE-Visualizer";
-			sourceTree = "<group>";
-		};
-		4FC7EF2E22550F9F00136D05 /* ContextCard */ = {
-			isa = PBXGroup;
-			children = (
-				4FC7EF2F22550FC600136D05 /* ContextCard.swift */,
-				4FC7EF3022550FC600136D05 /* ContextCard.xib */,
-				4FC7EF3122550FC600136D05 /* ScatterChartCard.swift */,
-			);
-			path = ContextCard;
-			sourceTree = "<group>";
-		};
 		4FC7EF3A225522A500136D05 /* AWARE-ScheduleESM */ = {
 			isa = PBXGroup;
 			children = (
@@ -955,7 +894,6 @@
 				4F3915782253B28D00CEE77E /* AWARE-Fitbit */,
 				4F3915AA2253E57C00CEE77E /* AWARE-CustomESM */,
 				4F3915C5225403CB00CEE77E /* AWARE-CustomSensor */,
-				4FC7EF1A22550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF3A225522A500136D05 /* AWARE-ScheduleESM */,
 				4FC7EF71225B6DD100136D05 /* AWARE-ConfigURLESM */,
 				4FBC0FCD2268F9A90047EC48 /* AWARE-InteractiveESM */,
@@ -985,7 +923,6 @@
 				4F3915772253B28D00CEE77E /* AWARE-Fitbit.app */,
 				4F3915A92253E57C00CEE77E /* AWARE-CustomESM.app */,
 				4F3915C4225403CA00CEE77E /* AWARE-CustomSensor.app */,
-				4FC7EF1922550E9800136D05 /* AWARE-Visualizer.app */,
 				4FC7EF39225522A500136D05 /* AWARE-ScheduleESM.app */,
 				4FC7EF5322560B8400136D05 /* Tests.xctest */,
 				4FC7EF70225B6DD100136D05 /* AWARE-ConfigURLESM.app */,
@@ -1385,26 +1322,6 @@
 			productReference = 4FBC0FCC2268F9A80047EC48 /* AWARE-InteractiveESM.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4FC7EF1822550E9800136D05 /* AWARE-Visualizer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4FC7EF2B22550E9900136D05 /* Build configuration list for PBXNativeTarget "AWARE-Visualizer" */;
-			buildPhases = (
-				ECC4F6F99852C97F5E5ED094 /* [CP] Check Pods Manifest.lock */,
-				4FC7EF1522550E9800136D05 /* Sources */,
-				4FC7EF1622550E9800136D05 /* Frameworks */,
-				4FC7EF1722550E9800136D05 /* Resources */,
-				A4BED8E555314C8D9FDC79E7 /* [CP] Embed Pods Frameworks */,
-				F976B7270DF91FC76419FE93 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "AWARE-Visualizer";
-			productName = "AWARE-Visualizer";
-			productReference = 4FC7EF1922550E9800136D05 /* AWARE-Visualizer.app */;
-			productType = "com.apple.product-type.application";
-		};
 		4FC7EF38225522A500136D05 /* AWARE-ScheduleESM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FC7EF4D225522A800136D05 /* Build configuration list for PBXNativeTarget "AWARE-ScheduleESM" */;
@@ -1442,7 +1359,6 @@
 				4F76BE8D22C7F4490022F060 /* PBXTargetDependency */,
 				4F76BE8F22C7F4550022F060 /* PBXTargetDependency */,
 				4F76BE9522CC330D0022F060 /* PBXTargetDependency */,
-				4F76BE9722CC33110022F060 /* PBXTargetDependency */,
 				4F76BEAF22CC34EE0022F060 /* PBXTargetDependency */,
 				4FDB5626233CDFF90095E7D7 /* PBXTargetDependency */,
 			);
@@ -1688,17 +1604,6 @@
 							};
 						};
 					};
-					4FC7EF1822550E9800136D05 = {
-						CreatedOnToolsVersion = 10.2;
-						DevelopmentTeam = FH352PYMNC;
-						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-						};
-					};
 					4FC7EF38225522A500136D05 = {
 						CreatedOnToolsVersion = 10.2;
 						DevelopmentTeam = FH352PYMNC;
@@ -1758,7 +1663,6 @@
 				4F3915762253B28D00CEE77E /* AWARE-Fitbit */,
 				4F3915C3225403CA00CEE77E /* AWARE-CustomSensor */,
 				4F3915A82253E57C00CEE77E /* AWARE-CustomESM */,
-				4FC7EF1822550E9800136D05 /* AWARE-Visualizer */,
 				4FC7EF38225522A500136D05 /* AWARE-ScheduleESM */,
 				4FC7EF6F225B6DD100136D05 /* AWARE-ConfigURLESM */,
 				4FBC0FCB2268F9A80047EC48 /* AWARE-InteractiveESM */,
@@ -1923,17 +1827,6 @@
 				4FBC0FD92268F9AB0047EC48 /* LaunchScreen.storyboard in Resources */,
 				4FBC0FD62268F9AB0047EC48 /* Assets.xcassets in Resources */,
 				4FBC0FD42268F9A90047EC48 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4FC7EF1722550E9800136D05 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FC7EF2922550E9900136D05 /* LaunchScreen.storyboard in Resources */,
-				4FC7EF2622550E9900136D05 /* Assets.xcassets in Resources */,
-				4FC7EF2122550E9800136D05 /* Main.storyboard in Resources */,
-				4FC7EF3322550FC600136D05 /* ContextCard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2847,30 +2740,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A4BED8E555314C8D9FDC79E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer-frameworks.sh",
-				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A7DFF2C5490B06C965679F1A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3373,28 +3242,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ECC4F6F99852C97F5E5ED094 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AWARE-Visualizer-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F0AD600855A88DE3F74F656A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3451,42 +3298,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F976B7270DF91FC76419FE93 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer-resources.sh",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Accelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Barometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gravity.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Magnetometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Rotation.momd",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Visualizer/Pods-AWARE-Visualizer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3639,18 +3450,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4FC7EF1522550E9800136D05 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FC7EF1E22550E9800136D05 /* ViewController.swift in Sources */,
-				4FC7EF1C22550E9800136D05 /* AppDelegate.swift in Sources */,
-				4FC7EF2422550E9800136D05 /* AWARE_Visualizer.xcdatamodeld in Sources */,
-				4FC7EF3222550FC600136D05 /* ContextCard.swift in Sources */,
-				4FC7EF3422550FC600136D05 /* ScatterChartCard.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4FC7EF35225522A500136D05 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3726,11 +3525,6 @@
 			isa = PBXTargetDependency;
 			target = 4FC7EF6F225B6DD100136D05 /* AWARE-ConfigURLESM */;
 			targetProxy = 4F76BE9422CC330D0022F060 /* PBXContainerItemProxy */;
-		};
-		4F76BE9722CC33110022F060 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4FC7EF1822550E9800136D05 /* AWARE-Visualizer */;
-			targetProxy = 4F76BE9622CC33110022F060 /* PBXContainerItemProxy */;
 		};
 		4F76BEAF22CC34EE0022F060 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3965,22 +3759,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4FBC0FD82268F9AB0047EC48 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		4FC7EF1F22550E9800136D05 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4FC7EF2022550E9800136D05 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4FC7EF2722550E9900136D05 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4FC7EF2822550E9900136D05 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -5132,94 +4910,6 @@
 			};
 			name = Release;
 		};
-		4FC7EF2C22550E9900136D05 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9236B927C04F485D2AFEE161 /* Pods-AWARE-Visualizer.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXCLUDED_ARCHS = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AWARE-Visualizer/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-Visualizer";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4FC7EF2D22550E9900136D05 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2366E5E94BF0B00AA2E4774A /* Pods-AWARE-Visualizer.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = FH352PYMNC;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXCLUDED_ARCHS = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "AWARE-Visualizer/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yuukinishiyama.app.sample.AWARE-Visualizer";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		4FC7EF4B225522A800136D05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 684BE437AAF26274577BB724 /* Pods-AWARE-ScheduleESM.debug.xcconfig */;
@@ -5885,15 +5575,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4FC7EF2B22550E9900136D05 /* Build configuration list for PBXNativeTarget "AWARE-Visualizer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4FC7EF2C22550E9900136D05 /* Debug */,
-				4FC7EF2D22550E9900136D05 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4FC7EF4D225522A800136D05 /* Build configuration list for PBXNativeTarget "AWARE-ScheduleESM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -6047,16 +5728,6 @@
 			);
 			currentVersion = 4F8C414F2377DD7E008A3B1D /* AWARE_Location.xcdatamodel */;
 			path = AWARE_Location.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		4FC7EF2222550E9800136D05 /* AWARE_Visualizer.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4FC7EF2322550E9800136D05 /* AWARE_Visualizer.xcdatamodel */,
-			);
-			currentVersion = 4FC7EF2322550E9800136D05 /* AWARE_Visualizer.xcdatamodel */;
-			path = AWARE_Visualizer.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
