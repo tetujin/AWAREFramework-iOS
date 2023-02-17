@@ -58,6 +58,12 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
 }
 
 
+- (void) requestAuthorizationToAccessHealthKit {
+    [self requestAuthorizationWithAllDataTypes:^(BOOL success, NSError * _Nullable error) {
+        NSLog(@"requestAuthorizationWithAllDataTypes -> %d: %@", success, error);
+    }];
+}
+
 -(void)requestAuthorizationWithDataTypes:(NSSet *)dataTypes completion:(void (^)(BOOL, NSError * _Nullable))completion {
     if(NSClassFromString(@"HKHealthStore") && [HKHealthStore isHealthDataAvailable])
     {
