@@ -6,13 +6,13 @@
 //  Copyright © 2016 Yuuki NISHIYAMA. All rights reserved.
 //
 
-#import "Memory.h"
+#import "AWAREMemory.h"
 #import "EntityMemory.h"
 
 #import <mach/mach.h>
 #import <mach/mach_host.h>
 
-@implementation Memory {
+@implementation AWAREMemory {
     NSTimer * sensingTimer;
     NSString * KEY_MEMORY_TIMESTAMP;
     NSString * KEY_MEMORY_DEVICE_ID;

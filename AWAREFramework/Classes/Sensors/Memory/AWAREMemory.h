@@ -8,7 +8,7 @@
 
 #import "AWARESensor.h"
 
-@interface Memory : AWARESensor <AWARESensorDelegate>
+@interface AWAREMemory : AWARESensor <AWARESensorDelegate>
 
 @property double intervalSec;
 

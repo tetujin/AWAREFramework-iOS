@@ -34,7 +34,7 @@
 #import "AWAREDevice.h"
 #import "DeviceUsage.h"
 #import "FusedLocations.h"
-#import "Memory.h"
+#import "AWAREMemory.h"
 #import "NTPTime.h"
 #import "OpenWeather.h"
 #import "PushNotification.h"
