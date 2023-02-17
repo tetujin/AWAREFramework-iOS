@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19B88" minimumToolsVersion="Xcode 9.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D68" minimumToolsVersion="Xcode 9.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="EntityAccelerometer" representedClassName="EntityAccelerometer" syncable="YES">
         <attribute name="accuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -639,6 +639,7 @@
     <entity name="EntitySignificantMotion" representedClassName="EntitySignificantMotion" syncable="YES">
         <attribute name="device_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="is_moving" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="EntityTimezone" representedClassName="EntityTimezone" syncable="YES">
@@ -656,74 +657,4 @@
         <attribute name="ssid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
-    <elements>
-        <element name="EntityAccelerometer" positionX="457" positionY="84" width="128" height="150"/>
-        <element name="EntityActivityRecognition" positionX="180" positionY="117" width="128" height="135"/>
-        <element name="EntityAmbientNoise" positionX="234" positionY="0" width="128" height="165"/>
-        <element name="EntityAWAREStatus" positionX="315" positionY="162" width="128" height="133"/>
-        <element name="EntityBarometer" positionX="180" positionY="117" width="128" height="120"/>
-        <element name="EntityBattery" positionX="189" positionY="126" width="128" height="195"/>
-        <element name="EntityBatteryCharge" positionX="207" positionY="162" width="128" height="30"/>
-        <element name="EntityBatteryDischarge" positionX="198" positionY="153" width="128" height="30"/>
-        <element name="EntityBCCalendar" positionX="234" positionY="198" width="128" height="375"/>
-        <element name="EntityBLEHeartRate" positionX="216" positionY="180" width="128" height="163"/>
-        <element name="EntityBluetooth" positionX="216" positionY="180" width="128" height="30"/>
-        <element name="EntityCalendar" positionX="297" positionY="144" width="128" height="270"/>
-        <element name="EntityCall" positionX="225" positionY="189" width="128" height="30"/>
-        <element name="EntityContact" positionX="297" positionY="144" width="128" height="150"/>
-        <element name="EntityConversation" positionX="297" positionY="144" width="128" height="165"/>
-        <element name="EntityDebug" positionX="234" positionY="198" width="128" height="30"/>
-        <element name="EntityDeviceUsage" positionX="234" positionY="198" width="128" height="30"/>
-        <element name="EntityESM" positionX="549" positionY="396" width="128" height="570"/>
-        <element name="EntityESMAnswer" positionX="448" positionY="297" width="128" height="165"/>
-        <element name="EntityESMAnswerBC" positionX="306" positionY="153" width="128" height="405"/>
-        <element name="EntityESMAnswerHistory" positionX="306" positionY="153" width="128" height="90"/>
-        <element name="EntityESMHistory" positionX="297" positionY="144" width="128" height="150"/>
-        <element name="EntityESMSchedule" positionX="97" positionY="582" width="146" height="300"/>
-        <element name="EntityEstimoteAirpressure" positionX="297" positionY="144" width="128" height="105"/>
-        <element name="EntityEstimoteAmbientLight" positionX="315" positionY="162" width="128" height="105"/>
-        <element name="EntityEstimoteMotion" positionX="342" positionY="189" width="128" height="180"/>
-        <element name="EntityEstimoteTemperature" positionX="297" positionY="144" width="128" height="105"/>
-        <element name="EntityEventLog" positionX="297" positionY="144" width="128" height="88"/>
-        <element name="EntityFitbitData" positionX="297" positionY="144" width="128" height="120"/>
-        <element name="EntityFitbitDevice" positionX="306" positionY="153" width="128" height="150"/>
-        <element name="EntityGravity" positionX="180" positionY="144" width="128" height="30"/>
-        <element name="EntityGyroscope" positionX="189" positionY="153" width="128" height="150"/>
-        <element name="EntityHealthKitCategory" positionX="315" positionY="162" width="128" height="195"/>
-        <element name="EntityHealthKitCategorySleep" positionX="333" positionY="180" width="128" height="195"/>
-        <element name="EntityHealthKitQuantity" positionX="324" positionY="171" width="128" height="210"/>
-        <element name="EntityHealthKitQuantityHR" positionX="324" positionY="171" width="128" height="210"/>
-        <element name="EntityHealthKitWorkout" positionX="297" positionY="144" width="128" height="240"/>
-        <element name="EntityIBeacon" positionX="315" positionY="162" width="128" height="195"/>
-        <element name="EntityIOSActivityRecognition" positionX="297" positionY="153" width="128" height="210"/>
-        <element name="EntityIOSPedometer" positionX="297" positionY="144" width="128" height="195"/>
-        <element name="EntityLabel" positionX="225" positionY="189" width="128" height="30"/>
-        <element name="EntityLinearAccelerometer" positionX="198" positionY="162" width="128" height="30"/>
-        <element name="EntityLocation" positionX="117" positionY="81" width="128" height="30"/>
-        <element name="EntityLocationVisit" positionX="225" positionY="189" width="128" height="30"/>
-        <element name="EntityMagnetometer" positionX="207" positionY="171" width="128" height="30"/>
-        <element name="EntityMemory" positionX="207" positionY="171" width="128" height="30"/>
-        <element name="EntityMSBandBatteryGauge" positionX="180" positionY="135" width="128" height="90"/>
-        <element name="EntityMSBandCalorie" positionX="189" positionY="144" width="128" height="90"/>
-        <element name="EntityMSBandDeviceContact" positionX="198" positionY="153" width="128" height="90"/>
-        <element name="EntityMSBandDistance" positionX="207" positionY="162" width="128" height="105"/>
-        <element name="EntityMSBandGSR" positionX="216" positionY="171" width="128" height="90"/>
-        <element name="EntityMSBandHR" positionX="225" positionY="180" width="128" height="105"/>
-        <element name="EntityMSBandPedometer" positionX="234" positionY="189" width="128" height="90"/>
-        <element name="EntityMSBandRRInterval" positionX="180" positionY="135" width="128" height="90"/>
-        <element name="EntityMSBandSkinTemp" positionX="180" positionY="135" width="128" height="90"/>
-        <element name="EntityMSBandUV" positionX="189" positionY="144" width="128" height="90"/>
-        <element name="EntityNetwork" positionX="216" positionY="180" width="128" height="30"/>
-        <element name="EntityNTPTime" positionX="216" positionY="180" width="128" height="30"/>
-        <element name="EntityOpenWeather" positionX="189" positionY="153" width="128" height="30"/>
-        <element name="EntityProcessor" positionX="180" positionY="144" width="128" height="165"/>
-        <element name="EntityProximity" positionX="306" positionY="153" width="128" height="120"/>
-        <element name="EntityPushNotification" positionX="198" positionY="162" width="128" height="30"/>
-        <element name="EntityRotation" positionX="180" positionY="144" width="128" height="30"/>
-        <element name="EntityScreen" positionX="189" positionY="153" width="128" height="30"/>
-        <element name="EntitySensorWifi" positionX="333" positionY="180" width="128" height="120"/>
-        <element name="EntitySignificantMotion" positionX="297" positionY="144" width="128" height="90"/>
-        <element name="EntityTimezone" positionX="198" positionY="162" width="128" height="30"/>
-        <element name="EntityWifi" positionX="207" positionY="171" width="128" height="30"/>
-    </elements>
 </model>
