@@ -54,6 +54,7 @@
 #ifdef IMPORT_MOTION_ACTIVITY
 #import "Pedometer.h"
 #import "IOSActivityRecognition.h"
+#import "HeadphoneMotion.h"
 #endif
 
 #ifdef IMPORT_BLUETOOTH

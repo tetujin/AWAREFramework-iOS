@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AWAREFramework'
-  s.version          = '1.14.2'
+  s.version          = '1.14.3'
   s.summary          = 'AWARE: An Open-source Context Instrumentation Framework'
 
 # This description is used to generate tags and improve search results.
@@ -77,7 +77,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'MotionActivity' do |sp|
-    sp.source_files = [plugin_path+'IOSActivityRecognition/**/*.m',plugin_path+'IOSActivityRecognition/**/*.h',plugin_path+'Pedometer/**/*.h',plugin_path+'Pedometer/**/*.m']
+    sp.source_files = [plugin_path+'IOSActivityRecognition/**/*.m',plugin_path+'IOSActivityRecognition/**/*.h',plugin_path+'Pedometer/**/*.h',plugin_path+'Pedometer/**/*.m',plugin_path+'HeadphoneMotion/**/*.h',plugin_path+'HeadphoneMotion/**/*.m']
     #sp.pod_target_xcconfig  = { 'OTHER_LDFLAGS' => 'IMPORT_MOTION_ACTIVITY=1' }
     sp.pod_target_xcconfig  = {'GCC_PREPROCESSOR_DEFINITIONS' => 'IMPORT_MOTION_ACTIVITY=1'}
     sp.dependency 'AWAREFramework/Core'

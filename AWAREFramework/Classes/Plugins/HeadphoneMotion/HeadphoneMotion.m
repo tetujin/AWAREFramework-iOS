@@ -9,6 +9,8 @@
 #import "ObjectModels/AWAREHeadphoneMotionOM+CoreDataClass.h"
 @import CoreMotion;
 
+NSString* const AWARE_PREFERENCES_STATUS_PLUGIN_HEADPHONE_MOTION = @"status_plugin_headphone_motion";
+
 @implementation HeadphoneMotion
 
 API_AVAILABLE(ios(14.0))
