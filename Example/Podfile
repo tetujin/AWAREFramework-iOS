@@ -30,6 +30,7 @@ end
 
 target 'AWARE-SimpleClient' do
   pod 'AWAREFramework', :path => '../'
+  pod 'AWAREFramework/MotionActivity', :path => '../'
 end
 
 

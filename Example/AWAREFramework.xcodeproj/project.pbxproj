@@ -1073,7 +1073,6 @@
 				4F36A5B12320C48D00399D7F /* Sources */,
 				4F36A5B22320C48D00399D7F /* Frameworks */,
 				4F36A5B32320C48D00399D7F /* Resources */,
-				2A076E1390926E611D65A7AE /* [CP] Embed Pods Frameworks */,
 				2E72E27D52B997ED0D2B79C7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1093,7 +1092,6 @@
 				4F3914D4224CE6B300CEE77E /* Sources */,
 				4F3914D5224CE6B300CEE77E /* Frameworks */,
 				4F3914D6224CE6B300CEE77E /* Resources */,
-				CD9ABED83485FD445C76E5E4 /* [CP] Embed Pods Frameworks */,
 				3915597A2C020FB76BBD9AEC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1133,7 +1131,6 @@
 				4F391540224FE45D00CEE77E /* Sources */,
 				4F391541224FE45D00CEE77E /* Frameworks */,
 				4F391542224FE45D00CEE77E /* Resources */,
-				EBD4B29FBB33B2DE238A887A /* [CP] Embed Pods Frameworks */,
 				7ED1712E95DB4E6072E94E3A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1153,7 +1150,6 @@
 				4F3915732253B28D00CEE77E /* Sources */,
 				4F3915742253B28D00CEE77E /* Frameworks */,
 				4F3915752253B28D00CEE77E /* Resources */,
-				B07C9ECB31823E873329F6D5 /* [CP] Embed Pods Frameworks */,
 				B92559DA3B3422F62DD21ED8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1173,7 +1169,6 @@
 				4F3915A52253E57C00CEE77E /* Sources */,
 				4F3915A62253E57C00CEE77E /* Frameworks */,
 				4F3915A72253E57C00CEE77E /* Resources */,
-				BAF878F85387E8A1D61FA41F /* [CP] Embed Pods Frameworks */,
 				A83413942F1348E417AD353D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1193,7 +1188,6 @@
 				4F3915C0225403CA00CEE77E /* Sources */,
 				4F3915C1225403CA00CEE77E /* Frameworks */,
 				4F3915C2225403CA00CEE77E /* Resources */,
-				D9D41DDC57FDCAD43DC8BE78 /* [CP] Embed Pods Frameworks */,
 				03C95D1CE5B49CCFE694F398 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1213,7 +1207,6 @@
 				4F549DDD244F1850008C45E6 /* Sources */,
 				4F549DDE244F1850008C45E6 /* Frameworks */,
 				4F549DDF244F1850008C45E6 /* Resources */,
-				532B0097C0D25BD6E832B3BA /* [CP] Embed Pods Frameworks */,
 				D8EC0FFDC3A1D1A027830F03 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1253,7 +1246,6 @@
 				4F6C4B3322E7060D00DC7C9B /* Sources */,
 				4F6C4B3422E7060D00DC7C9B /* Frameworks */,
 				4F6C4B3522E7060D00DC7C9B /* Resources */,
-				61D9BB4253CB4A8E8E26B36E /* [CP] Embed Pods Frameworks */,
 				980E9EC7D77A7FBFC3855D3C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1273,7 +1265,6 @@
 				4F76BE9822CC34E60022F060 /* Sources */,
 				4F76BE9922CC34E60022F060 /* Frameworks */,
 				4F76BE9A22CC34E60022F060 /* Resources */,
-				D3EFB40BC763603C0C735A12 /* [CP] Embed Pods Frameworks */,
 				F0AD600855A88DE3F74F656A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1310,7 +1301,6 @@
 				4FBC0FC82268F9A80047EC48 /* Sources */,
 				4FBC0FC92268F9A80047EC48 /* Frameworks */,
 				4FBC0FCA2268F9A80047EC48 /* Resources */,
-				80AE54471B344EA52C20AA0C /* [CP] Embed Pods Frameworks */,
 				36211308EECEB8AF62C7BEA7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1330,7 +1320,6 @@
 				4FC7EF35225522A500136D05 /* Sources */,
 				4FC7EF36225522A500136D05 /* Frameworks */,
 				4FC7EF37225522A500136D05 /* Resources */,
-				ACBB4280B0F98726DFD711DD /* [CP] Embed Pods Frameworks */,
 				D3D0B6EAA7DD36F756DC6AC7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1350,7 +1339,6 @@
 				4FC7EF4F22560B8400136D05 /* Sources */,
 				4FC7EF5022560B8400136D05 /* Frameworks */,
 				4FC7EF5122560B8400136D05 /* Resources */,
-				78D51CA112E4F6B2AEC4F2CA /* [CP] Embed Pods Frameworks */,
 				A7DFF2C5490B06C965679F1A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1375,7 +1363,6 @@
 				4FC7EF6C225B6DD100136D05 /* Sources */,
 				4FC7EF6D225B6DD100136D05 /* Frameworks */,
 				4FC7EF6E225B6DD100136D05 /* Resources */,
-				69A46F0E172D543C8F3117E9 /* [CP] Embed Pods Frameworks */,
 				A835C8131F7765E8BF477DFE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1395,7 +1382,6 @@
 				4FDB55DB233A06730095E7D7 /* Sources */,
 				4FDB55DC233A06730095E7D7 /* Frameworks */,
 				4FDB55DD233A06730095E7D7 /* Resources */,
-				2AD9405AF88012192B5FB3C0 /* [CP] Embed Pods Frameworks */,
 				4649483D657AE53079DEB836 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1435,7 +1421,6 @@
 				4FDB560D233CDFF10095E7D7 /* Sources */,
 				4FDB560E233CDFF10095E7D7 /* Frameworks */,
 				4FDB560F233CDFF10095E7D7 /* Resources */,
-				17CA6065017BAB3F1366C9B5 /* [CP] Embed Pods Frameworks */,
 				3F165772FF3AC1B01558BED0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1505,6 +1490,7 @@
 					};
 					4F391543224FE45D00CEE77E = {
 						CreatedOnToolsVersion = 10.2;
+						DevelopmentTeam = FH352PYMNC;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1898,11 +1884,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -1911,11 +1897,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -1970,26 +1956,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		17CA6065017BAB3F1366C9B5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1BD550E8AA4391C4BDB6CB59 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2010,46 +1976,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2A076E1390926E611D65A7AE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2AD9405AF88012192B5FB3C0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2AE0E67D3E66354098731A64 /* [CP] Check Pods Manifest.lock */ = {
@@ -2082,11 +2008,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-AmbientNoise/Pods-AWARE-AmbientNoise-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2095,11 +2021,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2118,11 +2044,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Barometer/Pods-AWARE-Barometer-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2131,11 +2057,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2154,11 +2080,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2167,11 +2093,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2190,11 +2116,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2203,11 +2129,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2248,14 +2174,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-AmbientNoise/Pods-AWARE-AmbientNoise-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2270,11 +2192,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ForTest/Pods-AWARE-ForTest-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2283,11 +2205,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2306,11 +2228,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2319,11 +2241,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2332,26 +2254,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		532B0097C0D25BD6E832B3BA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		53FA6B3B5B5A3A2F24040D32 /* [CP] Check Pods Manifest.lock */ = {
@@ -2406,14 +2308,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2440,26 +2338,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		61D9BB4253CB4A8E8E26B36E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6290E20D819543EC109F1AD9 /* [CP] Check Pods Manifest.lock */ = {
@@ -2492,11 +2370,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2505,11 +2383,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2518,26 +2396,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		69A46F0E172D543C8F3117E9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6CF2111D22038638B27F7269 /* [CP] Check Pods Manifest.lock */ = {
@@ -2584,26 +2442,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		78D51CA112E4F6B2AEC4F2CA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7ED1712E95DB4E6072E94E3A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2611,25 +2449,25 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Accelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Barometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Gravity.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Gyroscope.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Magnetometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.framework/AWARE_Rotation.momd",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-MotionActivity/AWAREFramework.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2638,26 +2476,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		80AE54471B344EA52C20AA0C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-InteractiveESM/Pods-AWARE-InteractiveESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		913429284EDB826FBBC3C282 /* [CP] Check Pods Manifest.lock */ = {
@@ -2690,14 +2508,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-frameworks.sh",
 				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2712,11 +2526,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-HealthKit/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2725,11 +2539,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2748,11 +2562,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2761,11 +2575,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2784,11 +2598,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2797,11 +2611,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2820,11 +2634,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ConfigURLESM/Pods-AWARE-ConfigURLESM-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2833,11 +2647,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2856,11 +2670,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework-532c8a0f/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2869,11 +2683,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -2882,26 +2696,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ACBB4280B0F98726DFD711DD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AF7D1541E55C08D912769DD7 /* [CP] Check Pods Manifest.lock */ = {
@@ -2924,26 +2718,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B07C9ECB31823E873329F6D5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B7B644609240A589DEC234DA /* [CP] Check Pods Manifest.lock */ = {
@@ -2976,11 +2750,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -2989,11 +2763,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -3002,26 +2776,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAF878F85387E8A1D61FA41F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomESM/Pods-AWARE-CustomESM-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C35DEBE833907A961C5A3D6A /* [CP] Check Pods Manifest.lock */ = {
@@ -3046,26 +2800,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD9ABED83485FD445C76E5E4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-DynamicESM/Pods-AWARE-DynamicESM-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D3D0B6EAA7DD36F756DC6AC7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3074,11 +2808,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -3087,11 +2821,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -3102,26 +2836,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D3EFB40BC763603C0C735A12 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D8EC0FFDC3A1D1A027830F03 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3130,11 +2844,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -3143,11 +2857,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -3156,26 +2870,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SignificantMotion/Pods-AWARE-SignificantMotion-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D9D41DDC57FDCAD43DC8BE78 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E65EFA81A5881B28583641D3 /* [CP] Check Pods Manifest.lock */ = {
@@ -3222,26 +2916,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EBD4B29FBB33B2DE238A887A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/TPCircularBuffer/TPCircularBuffer.framework",
-				"${BUILT_PRODUCTS_DIR}/TrueTime/TrueTime.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPCircularBuffer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrueTime.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F0AD600855A88DE3F74F656A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3250,11 +2924,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-UnitTest/Pods-AWARE-UnitTest-resources.sh",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
 				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
@@ -3263,11 +2937,11 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
@@ -4212,7 +3886,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -4258,7 +3932,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = FH352PYMNC;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -77,6 +77,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 manager.add(headphone)
                 
                 
+                let ntp = NTPTime(awareStudy: study)
+                ntp.startSensor()
+                ntp.storage?.setDebug(true)
+                manager.add(ntp)
+                
                 /// Start an auto-sync timer (every 30 min, try to sync with the aware server)
                 manager.startAutoSyncTimer(withIntervalSecond: 60)
                 
