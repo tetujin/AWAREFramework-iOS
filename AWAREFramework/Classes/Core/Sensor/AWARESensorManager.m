@@ -220,6 +220,8 @@ static AWARESensorManager * sharedSensorManager;
                 awareSensor = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_IOS_ACTIVITY_RECOGNITION ]] ) {
                 awareSensor = [[IOSActivityRecognition alloc] initWithAwareStudy:awareStudy dbType:dbType];
+            }else if([setting isEqualToString:[NSString stringWithFormat:@"status_%@",SENSOR_PLUGIN_HEADPHONE_MOTION ]] ) {
+                awareSensor = [[HeadphoneMotion alloc] initWithAwareStudy:awareStudy dbType:dbType];
             }
             #endif
             #ifdef IMPORT_CONTACT
