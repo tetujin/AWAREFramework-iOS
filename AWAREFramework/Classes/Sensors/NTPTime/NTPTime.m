@@ -7,7 +7,7 @@
 //
 
 #import "NTPTime.h"
-//#import "ios-ntp.h"
+#import "ios-ntp.h"
 #import "EntityNTPTime.h"
 //@import TrueTime;
 
@@ -127,31 +127,31 @@ NSString * const AWARE_PREFERENCES_STATUS_NTPTIME = @"status_plugin_ntptime";
 //    }];
     
 //    /** old code */
-//    NetworkClock * nc = [NetworkClock sharedNetworkClock];
-//    NSDate * nt = nc.networkTime;
-//    double offset = nc.networkOffset * 1000;
-//    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
-//    NSNumber * ntpUnixtime = [AWAREUtils getUnixTimestamp:nt];
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    [dict setObject:unixtime forKey:@"timestamp"];
-//    [dict setObject:[self getDeviceId] forKey:@"device_id"];
-//    [dict setObject:[NSNumber numberWithDouble:offset] forKey:@"drift"]; // real
-//    [dict setObject:ntpUnixtime forKey:@"ntp_time"]; // real
-//    if (self.label != nil) {
-//        [dict setObject:self.label forKey:@"label"];
-//    }else{
-//        [dict setObject:@"" forKey:@"label"];
-//    }
-//
-//    [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
-//
-//    [self setLatestData:dict];
-//    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
-//
-//    SensorEventHandler handler = [self getSensorEventHandler];
-//    if (handler!=nil) {
-//        handler(self, dict);
-//    }
+    NetworkClock * nc = [NetworkClock sharedNetworkClock];
+    NSDate * nt = nc.networkTime;
+    double offset = nc.networkOffset * 1000;
+    NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
+    NSNumber * ntpUnixtime = [AWAREUtils getUnixTimestamp:nt];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:unixtime forKey:@"timestamp"];
+    [dict setObject:[self getDeviceId] forKey:@"device_id"];
+    [dict setObject:[NSNumber numberWithDouble:offset] forKey:@"drift"]; // real
+    [dict setObject:ntpUnixtime forKey:@"ntp_time"]; // real
+    if (self.label != nil) {
+        [dict setObject:self.label forKey:@"label"];
+    }else{
+        [dict setObject:@"" forKey:@"label"];
+    }
+
+    [self setLatestValue:[NSString stringWithFormat:@"[%f] %@",offset, nt ]];
+
+    [self setLatestData:dict];
+    [self.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:YES];
+
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, dict);
+    }
 }
 
 
