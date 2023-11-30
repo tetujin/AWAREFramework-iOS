@@ -207,6 +207,10 @@ NSString * const AWARE_PREFERENCES_STATUS_CONVERSATION = @"status_plugin_student
         NSLog(@"conversation result: %@", result);
     }
     [self setLatestValue:result];
+    SensorEventHandler handler = [self getSensorEventHandler];
+    if (handler!=nil) {
+        handler(self, audioData);
+    }
     [self.storage saveDataWithDictionary:audioData buffer:NO saveInMainThread:YES];
 }
 
