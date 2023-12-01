@@ -1,18 +1,18 @@
 PODS:
-  - AWAREFramework (1.14.6):
-    - AWAREFramework/Core (= 1.14.6)
-  - AWAREFramework/Bluetooth (1.14.6):
+  - AWAREFramework (1.14.7):
+    - AWAREFramework/Core (= 1.14.7)
+  - AWAREFramework/Bluetooth (1.14.7):
     - AWAREFramework/Core
-  - AWAREFramework/Calendar (1.14.6):
+  - AWAREFramework/Calendar (1.14.7):
     - AWAREFramework/Core
-  - AWAREFramework/Contact (1.14.6):
+  - AWAREFramework/Contact (1.14.7):
     - AWAREFramework/Core
-  - AWAREFramework/Core (1.14.6)
-  - AWAREFramework/HealthKit (1.14.6):
+  - AWAREFramework/Core (1.14.7)
+  - AWAREFramework/HealthKit (1.14.7):
     - AWAREFramework/Core
-  - AWAREFramework/Microphone (1.14.6):
+  - AWAREFramework/Microphone (1.14.7):
     - AWAREFramework/Core
-  - AWAREFramework/MotionActivity (1.14.6):
+  - AWAREFramework/MotionActivity (1.14.7):
     - AWAREFramework/Core
 
 DEPENDENCIES:
@@ -29,7 +29,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: b0674cce96cc77f46b8b3f3928ac5d97a45120cb
+  AWAREFramework: ad9faea354abebb77471a277bf386739f3d572a0
 
 PODFILE CHECKSUM: 8a454b54db74166846c5785b138d805caeb42579
 

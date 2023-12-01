@@ -151,15 +151,15 @@ static __inline__ __attribute__((always_inline)) void* TPCircularBufferTail(TPCi
  * @param buffer Circular buffer
  * @param amount Number of bytes to consume
  */
-//static __inline__ __attribute__((always_inline)) void TPCircularBufferConsume(TPCircularBuffer *buffer, uint32_t amount) {
-//    buffer->tail = (buffer->tail + amount) % buffer->length;
-//    if ( buffer->atomic ) {
-//        atomicFetchAdd(&buffer->fillCount, -(int)amount);
-//    } else {
-//        buffer->fillCount -= amount;
-//    }
-//    assert(buffer->fillCount >= 0);
-//}
+static __inline__ __attribute__((always_inline)) void TPCircularBufferConsume(TPCircularBuffer *buffer, uint32_t amount) {
+    buffer->tail = (buffer->tail + amount) % buffer->length;
+    if ( buffer->atomic ) {
+        atomicFetchAdd(&buffer->fillCount, -(int)amount);
+    } else {
+        buffer->fillCount -= amount;
+    }
+    assert(buffer->fillCount >= 0);
+}
 
 /*!
  * Access front of buffer
@@ -187,15 +187,15 @@ static __inline__ __attribute__((always_inline)) void* TPCircularBufferHead(TPCi
  * @param buffer Circular buffer
  * @param amount Number of bytes to produce
  */
-//static __inline__ __attribute__((always_inline)) void TPCircularBufferProduce(TPCircularBuffer *buffer, uint32_t amount) {
-//    buffer->head = (buffer->head + amount) % buffer->length;
-//    if ( buffer->atomic ) {
-//        atomicFetchAdd(&buffer->fillCount, (int)amount);
-//    } else {
-//        buffer->fillCount += amount;
-//    }
-//    assert(buffer->fillCount <= buffer->length);
-//}
+static __inline__ __attribute__((always_inline)) void TPCircularBufferProduce(TPCircularBuffer *buffer, uint32_t amount) {
+    buffer->head = (buffer->head + amount) % buffer->length;
+    if ( buffer->atomic ) {
+        atomicFetchAdd(&buffer->fillCount, (int)amount);
+    } else {
+        buffer->fillCount += amount;
+    }
+    assert(buffer->fillCount <= buffer->length);
+}
 
 /*!
  * Helper routine to copy bytes to buffer
@@ -207,34 +207,34 @@ static __inline__ __attribute__((always_inline)) void* TPCircularBufferHead(TPCi
  * @param len Number of bytes in source buffer
  * @return true if bytes copied, false if there was insufficient space
  */
-//static __inline__ __attribute__((always_inline)) bool TPCircularBufferProduceBytes(TPCircularBuffer *buffer, const void* src, uint32_t len) {
-//    uint32_t space;
-//    void *ptr = TPCircularBufferHead(buffer, &space);
-//    if ( space < len ) return false;
-//    memcpy(ptr, src, len);
-//    TPCircularBufferProduce(buffer, len);
-//    return true;
-//}
+static __inline__ __attribute__((always_inline)) bool TPCircularBufferProduceBytes(TPCircularBuffer *buffer, const void* src, uint32_t len) {
+    uint32_t space;
+    void *ptr = TPCircularBufferHead(buffer, &space);
+    if ( space < len ) return false;
+    memcpy(ptr, src, len);
+    TPCircularBufferProduce(buffer, len);
+    return true;
+}
 
-///*!
-// * Deprecated method
-// */
-//static __inline__ __attribute__((always_inline)) __deprecated_msg("use TPCircularBufferSetAtomic(false) and TPCircularBufferConsume instead")
-//void TPCircularBufferConsumeNoBarrier(TPCircularBuffer *buffer, uint32_t amount) {
-//    buffer->tail = (buffer->tail + amount) % buffer->length;
-//    buffer->fillCount -= amount;
-//    assert(buffer->fillCount >= 0);
-//}
-//
-///*!
-// * Deprecated method
-// */
-//static __inline__ __attribute__((always_inline)) __deprecated_msg("use TPCircularBufferSetAtomic(false) and TPCircularBufferProduce instead")
-//void TPCircularBufferProduceNoBarrier(TPCircularBuffer *buffer, uint32_t amount) {
-//    buffer->head = (buffer->head + amount) % buffer->length;
-//    buffer->fillCount += amount;
-//    assert(buffer->fillCount <= buffer->length);
-//}
+/*!
+ * Deprecated method
+ */
+static __inline__ __attribute__((always_inline)) __deprecated_msg("use TPCircularBufferSetAtomic(false) and TPCircularBufferConsume instead")
+void TPCircularBufferConsumeNoBarrier(TPCircularBuffer *buffer, uint32_t amount) {
+    buffer->tail = (buffer->tail + amount) % buffer->length;
+    buffer->fillCount -= amount;
+    assert(buffer->fillCount >= 0);
+}
+
+/*!
+ * Deprecated method
+ */
+static __inline__ __attribute__((always_inline)) __deprecated_msg("use TPCircularBufferSetAtomic(false) and TPCircularBufferProduce instead")
+void TPCircularBufferProduceNoBarrier(TPCircularBuffer *buffer, uint32_t amount) {
+    buffer->head = (buffer->head + amount) % buffer->length;
+    buffer->fillCount += amount;
+    assert(buffer->fillCount <= buffer->length);
+}
 
 #ifdef __cplusplus
 }

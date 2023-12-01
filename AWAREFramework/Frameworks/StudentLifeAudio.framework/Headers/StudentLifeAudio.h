@@ -27,7 +27,7 @@ FOUNDATION_EXPORT const unsigned char StudentLifeAudioVersionString[];
 #import <StudentLifeAudio/SLEZAudioDevice.h>
 #import <StudentLifeAudio/AudioRecorder.h>
 #import <StudentLifeAudio/SLEZAudio.h>
-#import <StudentLifeAudio/SLEZAudioPlotGL.h>
+//#import <StudentLifeAudio/SLEZAudioPlotGL.h>
 #import <StudentLifeAudio/SLEZOutput.h>
 #import <StudentLifeAudio/Buffer.h>
 #import <StudentLifeAudio/DataTypeConverter.h>

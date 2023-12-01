@@ -49,7 +49,7 @@ FOUNDATION_EXPORT const unsigned char SLSLEZAudioVersionString[];
 #import "SLEZPlot.h"
 #import "SLEZAudioDisplayLink.h"
 #import "SLEZAudioPlot.h"
-#import "SLEZAudioPlotGL.h"
+//#import "SLEZAudioPlotGL.h"
 
 //------------------------------------------------------------------------------
 #pragma mark - Utility Components
