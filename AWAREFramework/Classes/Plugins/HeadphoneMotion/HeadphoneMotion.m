@@ -136,7 +136,7 @@ NSArray * csvTypes;
                     [data setObject:@(motion.attitude.rotationMatrix.m33) forKey:@"att_rm_m33"];
                     [data setObject:@(motion.gravity.x) forKey:@"gravity_x"];
                     [data setObject:@(motion.gravity.y) forKey:@"gravity_y"];
-                    [data setObject:@(motion.gravity.y) forKey:@"gravity_z"];
+                    [data setObject:@(motion.gravity.z) forKey:@"gravity_z"];
                     [data setObject:@(motion.heading) forKey:@"heading"];
                     [data setObject:@(motion.magneticField.field.x) forKey:@"mag_x"];
                     [data setObject:@(motion.magneticField.field.y) forKey:@"mag_y"];

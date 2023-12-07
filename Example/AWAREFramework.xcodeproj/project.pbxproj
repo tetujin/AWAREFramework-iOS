@@ -1401,7 +1401,6 @@
 				4FDB55F5233CA5290095E7D7 /* Sources */,
 				4FDB55F6233CA5290095E7D7 /* Frameworks */,
 				4FDB55F7233CA5290095E7D7 /* Resources */,
-				60D75F6CB5583E6E84C2341D /* [CP] Embed Pods Frameworks */,
 				6815AD3F7817CD182FF68440 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -2300,24 +2299,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		60D75F6CB5583E6E84C2341D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-frameworks.sh",
-				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		61940E9B46EC482390C6F306 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2369,16 +2350,16 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Accelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Barometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gravity.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Magnetometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Rotation.momd",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
