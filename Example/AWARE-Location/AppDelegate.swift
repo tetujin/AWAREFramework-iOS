@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    }
                 }
                 fusedLocation.saveAll = true
+                fusedLocation.enableRelativeLocation();
                 fusedLocation.startSensor()
                 
                 let wifi = Wifi(awareStudy: study)
