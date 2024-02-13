@@ -42,9 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fusedLocation.startSensor()
                 
                 let wifi = Wifi(awareStudy: study)
-                wifi.setAnonymizationState(false)
+                wifi.enableAnonymization();
                 wifi.startSensor(withInterval: 10)
                 manager.add(wifi)
+                wifi.setSensorEventHandler { sensor, data in
+                    print(data);
+                }
                 
             }
         }

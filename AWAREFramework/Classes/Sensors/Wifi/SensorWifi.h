@@ -12,13 +12,18 @@
 
 extern NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION;
 extern NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION_CONV_TABLE;
+extern NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_HASH;
 
 @interface SensorWifi : AWARESensor <AWARESensorDelegate>
 
 - (void) saveConnectedWifiInfo;
 
-- (void) setAnonymizationState:(bool)state;
-- (bool) getAnonymizationState;
+- (void) enableAnonymization;
+- (void) disableAnonymization;
+- (bool) isAnonymizationEnabled;
 
+//- (void) enableHashFunction;
+//- (void) disableHashFunction;
+//- (bool) isHashFunctionEnabled;
 
 @end

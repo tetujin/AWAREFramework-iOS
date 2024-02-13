@@ -62,18 +62,37 @@ NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     return self;
 }
 
-- (void)setAnonymizationState:(bool)state {
+- (void) enableAnonymization {
     if (sensorWifi != nil) {
-        [sensorWifi setAnonymizationState:state];
+        [sensorWifi enableAnonymization];
     }
 }
 
-- (bool) getAnonymizationState {
+- (void) disableAnonymization {
     if (sensorWifi != nil) {
-        return [sensorWifi getAnonymizationState];
+        [sensorWifi disableAnonymization];
+    }
+}
+
+- (bool) isAnonymizationEnabled {
+    if (sensorWifi != nil) {
+        return [sensorWifi isAnonymizationEnabled];
     }
     return false;
 }
+
+//- (void)setAnonymizationState:(bool)state {
+//    if (sensorWifi != nil) {
+//        [sensorWifi setAnonymizationState:state];
+//    }
+//}
+//
+//- (bool) getAnonymizationState {
+//    if (sensorWifi != nil) {
+//        return [sensorWifi getAnonymizationState];
+//    }
+//    return false;
+//}
 
 
 - (void) createTable {

@@ -24,8 +24,10 @@ extern NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_WIFI;
 - (BOOL)startSensor;
 - (BOOL)startSensorWithInterval:(double) interval;
 
-- (void) setAnonymizationState:(bool)state;
-- (bool) getAnonymizationState;
+
+- (void) enableAnonymization;
+- (void) disableAnonymization;
+- (bool) isAnonymizationEnabled;
 
 
 @end

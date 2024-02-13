@@ -10,9 +10,12 @@
 #import <CommonCrypto/CommonDigest.h>
 
 NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info_anonymization";
+NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION_CONV_TABLE = @"wifi_info_anonymization_conv_table";
+NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_HASH = @"wifi_info_hash";
 
 @implementation SensorWifi {
-    bool bssidAnonymizationState;
+    bool anonymizationState;
+    //    bool hashFunctionState;
 }
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -27,8 +30,8 @@ NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info
         storage = [[SQLiteStorage alloc] initWithStudy:study sensorName:@"sensor_wifi" entityName:NSStringFromClass([EntitySensorWifi class]) insertCallBack:^(NSDictionary *dataDict, NSManagedObjectContext *childContext, NSString *entity) {
             
             EntitySensorWifi* entityWifi = (EntitySensorWifi *)[NSEntityDescription
-                                                    insertNewObjectForEntityForName:entity
-                                                    inManagedObjectContext:childContext];
+                                                                insertNewObjectForEntityForName:entity
+                                                                inManagedObjectContext:childContext];
             entityWifi.device_id = [dataDict objectForKey:@"device_id"];
             entityWifi.timestamp = [dataDict objectForKey:@"timestamp"];
             entityWifi.mac_address = [dataDict objectForKey:@"mac_address"];
@@ -42,22 +45,44 @@ NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info
         
     }
     
-    bssidAnonymizationState = [self getAnonymizationState];
+    anonymizationState = [self isAnonymizationEnabled];
     
     return self;
 }
 
+
+- (void) enableAnonymization {
+    [self setAnonymizationState:true];
+}
+
+- (void) disableAnonymization {
+    [self setAnonymizationState:false];
+}
+
 - (void) setAnonymizationState:(bool)state {
-    bssidAnonymizationState = state;
+    anonymizationState = state;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:state forKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION];
     [defaults synchronize];
 }
 
-- (bool) getAnonymizationState {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION];
+- (bool) isAnonymizationEnabled {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION];
 }
+
+
+//- (NSString *) getAnonymizedWifiInfo: (NSString *) wifiInfo {
+//
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSArray<NSDictionary<NSString *, id> *> * wifiTable = [defaults arrayForKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION_CONV_TABLE];
+//    for (NSDictionary<NSString *, id> * wt  in wifiTable) {
+//        if ([[wt objectForKey:@"b"] isEqualToString:wifiInfo]) {
+//            return [wt objectForKey:@"a"];
+//        }
+//    }
+//
+//    return wifiInfo;
+//}
 
 // データのハッシュを生成するメソッド
 - (NSString *)generateSHA256Hash:(NSString *)input {
@@ -122,7 +147,7 @@ NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info
         
         NSString * anonymizedBSSID = @"";
         NSString * anonymizedSSID = @"";
-        if (bssidAnonymizationState){
+        if (anonymizationState){
             if ([finalBSSID isEqualToString:@""]) { // NO WIFI CONNECTION
                 anonymizedBSSID = @"";
                 anonymizedSSID = @"";
@@ -137,7 +162,7 @@ NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         [dict setObject:unixtime forKey:@"timestamp"];
         [dict setObject:[self getDeviceId] forKey:@"device_id"];
-        if (bssidAnonymizationState) {
+        if (anonymizationState) {
             [dict setObject:anonymizedBSSID forKey:@"bssid"]; //text
             [dict setObject:anonymizedSSID forKey:@"ssid"]; //text
         }else{
@@ -166,5 +191,24 @@ NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info
     }
 }
 
-    
+
+//- (void) enableHashFunction {
+//    [self setHashFunctionState:true];
+//}
+//
+//- (void) disableHashFunction {
+//    [self setHashFunctionState:false];
+//}
+//
+//- (void) setHashFunctionState:(bool)state{
+//    hashFunctionState = state;
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults setBool:state forKey:AWARE_PREFERENCES_WIFI_INFO_HASH];
+//    [defaults synchronize];
+//}
+//
+//- (bool) isHashFunctionEnabled {
+//    return [[NSUserDefaults standardUserDefaults] boolForKey:AWARE_PREFERENCES_WIFI_INFO_HASH];
+//}
+
 @end
