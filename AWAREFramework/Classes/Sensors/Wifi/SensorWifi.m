@@ -7,8 +7,13 @@
 
 #import "SensorWifi.h"
 #import "EntitySensorWifi+CoreDataClass.h"
+#import <CommonCrypto/CommonDigest.h>
 
-@implementation SensorWifi
+NSString* _Nonnull const AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION = @"wifi_info_anonymization";
+
+@implementation SensorWifi {
+    bool bssidAnonymizationState;
+}
 
 - (instancetype) initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
     AWAREStorage * storage = nil;
@@ -36,10 +41,39 @@
     if(self != nil){
         
     }
-
+    
+    bssidAnonymizationState = [self getAnonymizationState];
+    
     return self;
 }
-    
+
+- (void) setAnonymizationState:(bool)state {
+    bssidAnonymizationState = state;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:state forKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION];
+    [defaults synchronize];
+}
+
+- (bool) getAnonymizationState {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:AWARE_PREFERENCES_WIFI_INFO_ANONYMIZATION];
+}
+
+// データのハッシュを生成するメソッド
+- (NSString *)generateSHA256Hash:(NSString *)input {
+    const char *data = [input cStringUsingEncoding:NSUTF8StringEncoding];
+    uint8_t digest[CC_SHA256_DIGEST_LENGTH];
+
+    CC_SHA256(data, (CC_LONG)strlen(data), digest);
+
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x", digest[i]];
+    }
+
+    return output;
+}
+
     
 - (void)createTable{
     TCQMaker * maker = [[TCQMaker alloc] init];
@@ -86,13 +120,30 @@
         
         [self setLatestValue:[NSString stringWithFormat:@"%@ (%@)",ssid, finalBSSID]];
         
+        NSString * anonymizedBSSID = @"";
+        NSString * anonymizedSSID = @"";
+        if (bssidAnonymizationState){
+            if ([finalBSSID isEqualToString:@""]) { // NO WIFI CONNECTION
+                anonymizedBSSID = @"";
+                anonymizedSSID = @"";
+            }else{
+                anonymizedBSSID =  [self generateSHA256Hash:finalBSSID];
+                anonymizedSSID =  [self generateSHA256Hash:ssid];
+            }
+        }
+        
         // Save sensor data to the local database.
         NSNumber * unixtime = [AWAREUtils getUnixTimestamp:[NSDate new]];
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         [dict setObject:unixtime forKey:@"timestamp"];
         [dict setObject:[self getDeviceId] forKey:@"device_id"];
-        [dict setObject:finalBSSID forKey:@"bssid"]; //text
-        [dict setObject:ssid forKey:@"ssid"]; //text
+        if (bssidAnonymizationState) {
+            [dict setObject:anonymizedBSSID forKey:@"bssid"]; //text
+            [dict setObject:anonymizedSSID forKey:@"ssid"]; //text
+        }else{
+            [dict setObject:finalBSSID forKey:@"bssid"]; //text
+            [dict setObject:ssid forKey:@"ssid"]; //text
+        }
         [dict setObject:@"" forKey:@"security"]; //text
         [dict setObject:@0 forKey:@"frequency"];//int
         [dict setObject:@0 forKey:@"rssi"]; //int
@@ -114,6 +165,6 @@
         }
     }
 }
-    
+
     
 @end

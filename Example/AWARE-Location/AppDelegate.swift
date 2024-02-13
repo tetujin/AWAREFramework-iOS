@@ -33,12 +33,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let fusedLocation = FusedLocations(awareStudy: study)
                 manager.add(fusedLocation)
                 fusedLocation.setSensorEventHandler { (sensor, data) in
-                    if let data = data {
-                        print(data)
-                    }
+//                    if let data = data {
+//                        print(data)
+//                    }
                 }
                 fusedLocation.saveAll = true
                 fusedLocation.startSensor()
+                
+                let wifi = Wifi(awareStudy: study)
+                wifi.setAnonymizationState(false)
+                wifi.startSensor(withInterval: 10)
+                manager.add(wifi)
+                
             }
         }
         

@@ -16,8 +16,8 @@
 #import "AWAREKeys.h"
 #import "SensorWifi.h"
 
-NSString* const AWARE_PREFERENCES_STATUS_WIFI = @"status_wifi";
-NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
+NSString* _Nonnull const AWARE_PREFERENCES_STATUS_WIFI = @"status_wifi";
+NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
 
 @implementation Wifi{
     NSTimer * sensingTimer;
@@ -60,6 +60,19 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
         sensorWifi = [[SensorWifi alloc] initWithAwareStudy:study dbType:dbType];
     }
     return self;
+}
+
+- (void)setAnonymizationState:(bool)state {
+    if (sensorWifi != nil) {
+        [sensorWifi setAnonymizationState:state];
+    }
+}
+
+- (bool) getAnonymizationState {
+    if (sensorWifi != nil) {
+        return [sensorWifi getAnonymizationState];
+    }
+    return false;
 }
 
 
@@ -141,7 +154,6 @@ NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI = @"frequency_wifi";
     
     return YES;
 }
-
 
 - (BOOL)stopSensor{
     /// Stop a sensing timer
