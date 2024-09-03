@@ -1,18 +1,18 @@
 PODS:
-  - AWAREFramework (1.14.8):
-    - AWAREFramework/Core (= 1.14.8)
-  - AWAREFramework/Bluetooth (1.14.8):
+  - AWAREFramework (1.14.9):
+    - AWAREFramework/Core (= 1.14.9)
+  - AWAREFramework/Bluetooth (1.14.9):
     - AWAREFramework/Core
-  - AWAREFramework/Calendar (1.14.8):
+  - AWAREFramework/Calendar (1.14.9):
     - AWAREFramework/Core
-  - AWAREFramework/Contact (1.14.8):
+  - AWAREFramework/Contact (1.14.9):
     - AWAREFramework/Core
-  - AWAREFramework/Core (1.14.8)
-  - AWAREFramework/HealthKit (1.14.8):
+  - AWAREFramework/Core (1.14.9)
+  - AWAREFramework/HealthKit (1.14.9):
     - AWAREFramework/Core
-  - AWAREFramework/Microphone (1.14.8):
+  - AWAREFramework/Microphone (1.14.9):
     - AWAREFramework/Core
-  - AWAREFramework/MotionActivity (1.14.8):
+  - AWAREFramework/MotionActivity (1.14.9):
     - AWAREFramework/Core
 
 DEPENDENCIES:
@@ -29,8 +29,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AWAREFramework: e0f0faca74b3c74544e8f1d7ceff5f8e18e3f733
+  AWAREFramework: 782dc3162417afc67f313a8b3bf298b46654acf1
 
-PODFILE CHECKSUM: 8a454b54db74166846c5785b138d805caeb42579
+PODFILE CHECKSUM: b61851acdb08152e0f516a94053544d7f18c88bf
 
 COCOAPODS: 1.12.1

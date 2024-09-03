@@ -13,10 +13,16 @@ NSString * const AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION    = @"status_go
 NSString * const AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION  = @"accuracy_google_fused_location";
 NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency_google_fused_location";
 
+NSString * const AWARE_PREFERENCES_RELATIVE_LOCATION_GOOGLE_FUSED_LOCATION = @"relative_location_google_fused_location";
+
+NSString * const AWARE_PREFERENCES_RELATIVE_LOCATION_LATLON_GOOGLE_FUSED_LOCATION = @"relative_location_latlon_google_fused_location";
+
 @implementation FusedLocations {
     NSTimer           * locationTimer;
     CLLocationManager * locationManager;
     CLLocation        * previousLocation;
+    bool needRelativeLocation;
+    CLLocation        * referenceLocation;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -30,6 +36,9 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
         _distanceFilter      = kCLDistanceFilterNone;
         _accuracy            = kCLLocationAccuracyHundredMeters;
     }
+    
+    needRelativeLocation = [self needRelativeLocation];
+    
     return self;
 }
 
@@ -91,6 +100,11 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
     
     if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
         [locationManager requestAlwaysAuthorization];
+    }
+    
+    needRelativeLocation = [self needRelativeLocation];
+    if (needRelativeLocation) {
+        referenceLocation = [self getReferencePointForRelativeLocation];
     }
     
     /// Set a movement threshold for new events.
@@ -170,6 +184,7 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
 }
 
 - (void) saveLocation:(CLLocation *)location{
+    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[AWAREUtils getUnixTimestamp:[NSDate new]] forKey:@"timestamp"];
     [dict setObject:[self getDeviceId] forKey:@"device_id"];
@@ -185,17 +200,43 @@ NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION = @"frequency
     }else{
         [dict setObject:@"" forKey:@"label"];
     }
+    
+    NSString * latestData = [NSString stringWithFormat:@"%f, %f, %f",
+                             location.coordinate.latitude,
+                             location.coordinate.longitude,
+                             location.speed];
+    
+    if (needRelativeLocation){
+        if (referenceLocation == nil) {
+            if (location.coordinate.latitude != 0 && location.coordinate.longitude != 0) {
+                [self setReferencePointForRelativeLocation:location];
+                referenceLocation = [self getReferencePointForRelativeLocation];
+            }else{
+                return;
+            }
+        }
+        
+        double relativeLat = referenceLocation.coordinate.latitude  - location.coordinate.latitude;
+        double relativeLon = referenceLocation.coordinate.longitude - location.coordinate.longitude;
+        double relativeAlt = referenceLocation.altitude - location.altitude;
+        // NSLog(@"%f, %f, %f", relativeLat, relativeLon, relativeAlt);
+        
+        [dict setObject:@(relativeLat) forKey:@"double_latitude"];
+        [dict setObject:@(relativeLon) forKey:@"double_longitude"];
+        [dict setObject:@(relativeAlt) forKey:@"double_altitude"];
+        
+        latestData = [NSString stringWithFormat:@"%f, %f, %f",
+                                 relativeLat,
+                                 relativeLon,
+                                 location.speed];
+    }
+    
     [_locationSensor.storage saveDataWithDictionary:dict buffer:NO saveInMainThread:NO];
     [_locationSensor setLatestData:dict];
     
-    [self setLatestValue:[NSString stringWithFormat:@"%f, %f, %f",
-                          location.coordinate.latitude,
-                          location.coordinate.longitude,
-                          location.speed]];
+    [self setLatestValue:latestData];
+    if ([self isDebug]) NSLog(@"[locations] %@", latestData);
     
-    if ([self isDebug]) {
-        NSLog(@"[locations] %f, %f, %f",location.coordinate.latitude,location.coordinate.longitude,location.speed);
-    }
     
     SensorEventHandler handler = [self getSensorEventHandler];
     if (handler!=nil) {
@@ -218,6 +259,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 }
 
 
+
 //- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
 //    if (newHeading.headingAccuracy < 0)
 //        return;
@@ -227,5 +269,58 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 //    //    [sdManager addHeading: theHeading];
 //}
 
+
+- (void)disableRelativeLocation {
+    needRelativeLocation = false;
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:false forKey:AWARE_PREFERENCES_RELATIVE_LOCATION_GOOGLE_FUSED_LOCATION];
+    [defaults synchronize];
+}
+
+- (void)enableRelativeLocation {
+    needRelativeLocation = true;
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:true forKey:AWARE_PREFERENCES_RELATIVE_LOCATION_GOOGLE_FUSED_LOCATION];
+    [defaults synchronize];
+}
+
+- (bool)needRelativeLocation {
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey: AWARE_PREFERENCES_RELATIVE_LOCATION_GOOGLE_FUSED_LOCATION];
+}
+
+- (void)setReferencePointForRelativeLocation:(CLLocation *) location {
+    if (location != nil) {
+        double lat = location.coordinate.latitude;
+        double lon = location.coordinate.longitude;
+        double alt = location.altitude;
+        NSDictionary * refLocationAsDict = [[NSDictionary alloc] initWithObjects:@[@(lat),@(lon), @(alt), @(1)]
+                                                                         forKeys:@[@"lat", @"lon", @"alt", @"version"]];
+        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:refLocationAsDict
+                     forKey:AWARE_PREFERENCES_RELATIVE_LOCATION_LATLON_GOOGLE_FUSED_LOCATION];
+        [defaults synchronize];
+    }
+}
+
+- (CLLocation *) getReferencePointForRelativeLocation{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary<NSString *,id> * refLocationAsDict = [defaults dictionaryForKey:AWARE_PREFERENCES_RELATIVE_LOCATION_LATLON_GOOGLE_FUSED_LOCATION];
+    if (refLocationAsDict != nil) {
+        NSNumber * lat = [refLocationAsDict objectForKey:@"lat"];
+        NSNumber * lon = [refLocationAsDict objectForKey:@"lon"];
+        NSNumber * alt = [refLocationAsDict objectForKey:@"alt"];
+        if (lat != nil && lon != nil && alt != nil) {
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat.doubleValue, lon.doubleValue);
+            CLLocation * location = [[CLLocation alloc] initWithCoordinate:coordinate
+                                                                  altitude:alt.doubleValue
+                                                        horizontalAccuracy:0
+                                                          verticalAccuracy:0
+                                                                 timestamp:[NSDate date]];
+            return location;
+        }
+    }
+    return nil;
+}
 
 @end

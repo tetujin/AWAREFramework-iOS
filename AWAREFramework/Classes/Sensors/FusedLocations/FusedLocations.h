@@ -16,6 +16,9 @@ extern NSString * const AWARE_PREFERENCES_STATUS_GOOGLE_FUSED_LOCATION;
 extern NSString * const AWARE_PREFERENCES_ACCURACY_GOOGLE_FUSED_LOCATION;
 extern NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION;
 
+extern NSString * const AWARE_PREFERENCES_RELATIVE_LOCATION_GOOGLE_FUSED_LOCATION;
+extern NSString * const AWARE_PREFERENCES_RELATIVE_LOCATION_LATLON_GOOGLE_FUSED_LOCATION;
+
 @interface FusedLocations : AWARESensor <AWARESensorDelegate, CLLocationManagerDelegate>
 
 @property Locations * locationSensor;
@@ -32,5 +35,13 @@ extern NSString * const AWARE_PREFERENCES_FREQUENCY_GOOGLE_FUSED_LOCATION;
 - (BOOL) startSensorWithInterval:(double)intervalSecond;
 - (BOOL) startSensorWithInterval:(double)intervalSecond accuracy:(CLLocationAccuracy)accuracy;
 - (BOOL) startSensorWithInterval:(double)intervalSecond accuracy:(CLLocationAccuracy)accuracy distanceFilter:(int)fiterMeter;
+
+
+- (void) enableRelativeLocation;
+- (void) disableRelativeLocation;
+- (bool) needRelativeLocation;
+- (void) setReferencePointForRelativeLocation:(CLLocation *) location;
+- (CLLocation *) getReferencePointForRelativeLocation;
+
 
 @end

@@ -133,6 +133,7 @@
 		4FDB561D233CDFF20095E7D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB561C233CDFF20095E7D7 /* Assets.xcassets */; };
 		4FDB5620233CDFF20095E7D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDB561E233CDFF20095E7D7 /* LaunchScreen.storyboard */; };
 		58B00A614D7B5E4169E939C0 /* Pods_AWARE_CustomESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E44F42CE6084211CC06783B9 /* Pods_AWARE_CustomESM.framework */; };
+		66818B5249B396EF36F6E057 /* Pods_AWARE_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB77D3CD19B3E9A1147E6CF6 /* Pods_AWARE_Location.framework */; };
 		7F9442941715634CBA52BDC9 /* Pods_AWARE_Conversation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88DF63ABD3CA086A66F545CA /* Pods_AWARE_Conversation.framework */; };
 		91A45D1C6DA9A967CAB080DB /* Pods_AWARE_ScheduleESM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A07A398794330975DE310D5 /* Pods_AWARE_ScheduleESM.framework */; };
 		93AD70EDC3E8A24E54DCB066 /* Pods_AWARE_Barometer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 128E0607DF167A4277929082 /* Pods_AWARE_Barometer.framework */; };
@@ -187,6 +188,7 @@
 		02BE447F0567E2FAD0AFC2C5 /* Pods_AWARE_ConfigURLESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_ConfigURLESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DC4B5D438F1D18D54215B4 /* Pods-AWARE-SensingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SensingApp.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-SensingApp/Pods-AWARE-SensingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		0A842BF8658E5463C7E953BB /* Pods-AWARE-HealthKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-HealthKit.release.xcconfig"; path = "Target Support Files/Pods-AWARE-HealthKit/Pods-AWARE-HealthKit.release.xcconfig"; sourceTree = "<group>"; };
+		0DCA94351AD1A28CC1267CB7 /* Pods-AWARE-Location.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Location.release.xcconfig"; path = "Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location.release.xcconfig"; sourceTree = "<group>"; };
 		128E0607DF167A4277929082 /* Pods_AWARE_Barometer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Barometer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1587CF715046C9C3B69F497A /* Pods_AWARE_CustomSensor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_CustomSensor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		178752BE5C2A0BE069D29B76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		4F2AEC32239F45DA0015719F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F2AEC34239F45DA0015719F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F2AEC35239F45DB0015719F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F2C0C2F2B7B11BF00355516 /* AWARE-Location.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-Location.entitlements"; sourceTree = "<group>"; };
 		4F36A5B52320C48D00399D7F /* AWARE-Barometer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AWARE-Barometer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F36A5B72320C48E00399D7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F36A5B92320C48E00399D7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -371,6 +374,7 @@
 		4FDB5627233CE25A0095E7D7 /* AWARE-ForTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AWARE-ForTest.entitlements"; sourceTree = "<group>"; };
 		4FFCBE24E6027D384F4E42BC /* Pods-AWARE-SimpleClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-SimpleClient.release.xcconfig"; path = "Target Support Files/Pods-AWARE-SimpleClient/Pods-AWARE-SimpleClient.release.xcconfig"; sourceTree = "<group>"; };
 		53FBBBE7389B35B2CE0FD1DC /* Pods_AWARE_SensingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_SensingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		56BBE6C129616F38D36B54EC /* Pods-AWARE-Location.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Location.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location.debug.xcconfig"; sourceTree = "<group>"; };
 		56E6093EAF35C386D0E35E70 /* Pods-AWARE-ScheduleESM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-ScheduleESM.release.xcconfig"; path = "Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM.release.xcconfig"; sourceTree = "<group>"; };
 		57824DE7F3555E3376C44692 /* Pods-AWARE-JSONStorage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-JSONStorage.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage.debug.xcconfig"; sourceTree = "<group>"; };
 		5BEBDE572B2A54D3B6166E2B /* Pods_AWARE_InteractiveESM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_InteractiveESM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -415,6 +419,7 @@
 		F0A8D87DDDFF7446B8EB04FF /* Pods_AWARE_UnitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_UnitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3296D402EF08C7C6B2B8496 /* Pods_AWARE_Fitbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Fitbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7136A6E6472BCA2A962EC89 /* Pods-AWARE-Fitbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-Fitbit.debug.xcconfig"; path = "Target Support Files/Pods-AWARE-Fitbit/Pods-AWARE-Fitbit.debug.xcconfig"; sourceTree = "<group>"; };
+		FB77D3CD19B3E9A1147E6CF6 /* Pods_AWARE_Location.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AWARE_Location.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC6D8B0F9FFE58099ACC84AB /* Pods-AWARE-CustomSensor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWARE-CustomSensor.release.xcconfig"; path = "Target Support Files/Pods-AWARE-CustomSensor/Pods-AWARE-CustomSensor.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -527,6 +532,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66818B5249B396EF36F6E057 /* Pods_AWARE_Location.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,6 +774,7 @@
 		4F8C41442377DD7E008A3B1D /* AWARE-Location */ = {
 			isa = PBXGroup;
 			children = (
+				4F2C0C2F2B7B11BF00355516 /* AWARE-Location.entitlements */,
 				4F8C41452377DD7E008A3B1D /* AppDelegate.swift */,
 				4F8C41472377DD7E008A3B1D /* SceneDelegate.swift */,
 				4F8C41492377DD7E008A3B1D /* ViewController.swift */,
@@ -969,6 +976,7 @@
 				F0A8D87DDDFF7446B8EB04FF /* Pods_AWARE_UnitTest.framework */,
 				CCFCC0812DFECF2500316A77 /* Pods_AWARE_Visualizer.framework */,
 				E7ED9AA7FF743C694B5FA0C3 /* Pods_Tests.framework */,
+				FB77D3CD19B3E9A1147E6CF6 /* Pods_AWARE_Location.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1024,6 +1032,8 @@
 				2366E5E94BF0B00AA2E4774A /* Pods-AWARE-Visualizer.release.xcconfig */,
 				CB50030874DD12E77C06BBE6 /* Pods-Tests.debug.xcconfig */,
 				1E5C0BDD7630125993FD573A /* Pods-Tests.release.xcconfig */,
+				56BBE6C129616F38D36B54EC /* Pods-AWARE-Location.debug.xcconfig */,
+				0DCA94351AD1A28CC1267CB7 /* Pods-AWARE-Location.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1280,9 +1290,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F8C41592377DD82008A3B1D /* Build configuration list for PBXNativeTarget "AWARE-Location" */;
 			buildPhases = (
+				D853172F141C1B07CE256F1E /* [CP] Check Pods Manifest.lock */,
 				4F8C413F2377DD7E008A3B1D /* Sources */,
 				4F8C41402377DD7E008A3B1D /* Frameworks */,
 				4F8C41412377DD7E008A3B1D /* Resources */,
+				9388071ADF0A917106379FC6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1402,6 +1414,7 @@
 				4FDB55F6233CA5290095E7D7 /* Frameworks */,
 				4FDB55F7233CA5290095E7D7 /* Resources */,
 				6815AD3F7817CD182FF68440 /* [CP] Copy Pods Resources */,
+				47EBD56903B9CC3E172BB10E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2255,6 +2268,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-JSONStorage/Pods-AWARE-JSONStorage-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		47EBD56903B9CC3E172BB10E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-frameworks.sh",
+				"${PODS_ROOT}/../../AWAREFramework/Frameworks/StudentLifeAudio.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StudentLifeAudio.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		53FA6B3B5B5A3A2F24040D32 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2350,16 +2381,16 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Conversation/Pods-AWARE-Conversation-resources.sh",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
-				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
-				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Accelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Barometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gravity.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Gyroscope.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Magnetometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework.default-Microphone/AWAREFramework.framework/AWARE_Rotation.momd",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework.default-Microphone/AWAREFramework.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2479,6 +2510,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9388071ADF0A917106379FC6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location-resources.sh",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_HeadphoneMotion.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Accelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Barometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gravity.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Gyroscope.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_LinearAccelerometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Magnetometer.momd",
+				"${BUILT_PRODUCTS_DIR}/AWAREFramework/AWAREFramework.framework/AWARE_Rotation.momd",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AWAREFramework/AWAREFramework.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_HeadphoneMotion.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Accelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Barometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gravity.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Gyroscope.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_LinearAccelerometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Magnetometer.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWARE_Rotation.momd",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AWAREFramework.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-Location/Pods-AWARE-Location-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		93992A1DC11E85132A97338B /* [CP] Embed Pods Frameworks */ = {
@@ -2815,6 +2882,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AWARE-ScheduleESM/Pods-AWARE-ScheduleESM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D853172F141C1B07CE256F1E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AWARE-Location-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D8EC0FFDC3A1D1A027830F03 /* [CP] Copy Pods Resources */ = {
@@ -4447,6 +4536,7 @@
 		};
 		4F8C41572377DD82008A3B1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 56BBE6C129616F38D36B54EC /* Pods-AWARE-Location.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -4455,6 +4545,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-Location/AWARE-Location.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = FH352PYMNC;
@@ -4476,6 +4567,7 @@
 		};
 		4F8C41582377DD82008A3B1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DCA94351AD1A28CC1267CB7 /* Pods-AWARE-Location.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -4484,6 +4576,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "AWARE-Location/AWARE-Location.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

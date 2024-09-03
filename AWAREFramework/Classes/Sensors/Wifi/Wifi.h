@@ -10,8 +10,8 @@
 #import "AWAREKeys.h"
 // #import <MMLanScan/MMLANScanner.h>
 
-extern NSString* const AWARE_PREFERENCES_STATUS_WIFI;
-extern NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI;
+extern NSString* _Nonnull const AWARE_PREFERENCES_STATUS_WIFI;
+extern NSString* _Nonnull const AWARE_PREFERENCES_FREQUENCY_WIFI;
 
 //@interface Wifi : AWARESensor <AWARESensorDelegate,MMLANScannerDelegate>
 @interface Wifi : AWARESensor <AWARESensorDelegate>
@@ -23,5 +23,11 @@ extern NSString* const AWARE_PREFERENCES_FREQUENCY_WIFI;
     
 - (BOOL)startSensor;
 - (BOOL)startSensorWithInterval:(double) interval;
+
+
+- (void) enableAnonymization;
+- (void) disableAnonymization;
+- (bool) isAnonymizationEnabled;
+
 
 @end

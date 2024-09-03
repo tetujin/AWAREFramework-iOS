@@ -55,7 +55,7 @@ AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org).
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', '~> 1.14.6'
+pod 'AWAREFramework', '~> 1.14.10'
 ```
 And run `pod install` in your Xcode project.
 
