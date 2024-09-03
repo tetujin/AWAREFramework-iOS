@@ -36,11 +36,6 @@ class ViewController: UIViewController {
                 print(url)
             }
         }
-
-        // start sensors
-        manager.add(noiseSensor)
-        manager.startAllSensors()
-
         // for background sensing
         core.requestPermissionForBackgroundSensing{ state in
             print(state)
@@ -48,5 +43,18 @@ class ViewController: UIViewController {
         }
         
         
+//        noiseSensor.sampleSize = 30
+        // start sensors
+        manager.add(noiseSensor)
+
     }
+    
+    @IBAction func didPushStartButton(_ sender: UIButton) {
+        manager.startAllSensors()
+    }
+    
+    @IBAction func didPushStopButton(_ sender: UIButton) {
+        manager.stopAllSensors()
+    }
+    
 }

@@ -179,6 +179,7 @@ NSString * const _Nonnull AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHO
 
 
 -(BOOL) stopSensor {
+    [self stopDutyCycleCompletely];
     if(mainTimer != nil){
         [mainTimer invalidate];
         mainTimer = nil;
@@ -334,23 +335,25 @@ NSString * const _Nonnull AWARE_PREFERENCES_PLUGIN_AMBIENT_NOISE_SILENCE_THRESHO
                 number++;
                 [self startRecording:[NSDictionary dictionaryWithObject:@(number) forKey:self->KEY_AUDIO_CLIP_NUMBER]];
             }else{
-                // stop fetching audio
-                [self.microphone stopFetchingAudio];
-                self.microphone.delegate = nil;
-                self.microphone = nil;
-                // stop recording audio
-                // [self.recorder closeAudioFile];
-                self.recorder.delegate = nil;
-                // stop fft
-                self.fft.delegate = nil;
-                self.fft = nil;
-                // init
-                number = 0;
-                self->_isRecording = NO;
-                if ([self isDebug]) NSLog(@"Stop Recording");
+                [self stopDutyCycleCompletely];
             }
         }
     });
+}
+
+- (void) stopDutyCycleCompletely{
+    [self.microphone stopFetchingAudio];
+    self.microphone.delegate = nil;
+    self.microphone = nil;
+    // stop recording audio
+    // [self.recorder closeAudioFile];
+    self.recorder.delegate = nil;
+    // stop fft
+    self.fft.delegate = nil;
+    self.fft = nil;
+    // init
+    self->_isRecording = NO;
+    if ([self isDebug]) NSLog(@"Stop Recording");
 }
 
 

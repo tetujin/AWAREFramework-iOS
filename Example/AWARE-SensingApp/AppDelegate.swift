@@ -40,6 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            let bluetooth     = Bluetooth()
 //            let cal           = Calendar()
 //            let healthKit     = AWAREHealthKit()
+            let weather = OpenWeather()
+            self.sensorManager.add(weather)
+            weather.setSensorEventHandler { sensor, data in
+                if let d = data {
+                    print(d)
+                }
+            }
             
             // add the sensors into AWARESensorManager
             self.sensorManager.add(accelerometer)
