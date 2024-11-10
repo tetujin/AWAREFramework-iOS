@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AWAREStudy.shared().setCleanOldDataType(cleanOldDataTypeDaily)
             AWAREStudy.shared().setDebug(true)
             
-            AWAREStudy.shared().setStudyURL("https://yahoo-earable.an.r.appspot.com/index.php/webservice/index/1/hlkrKP13AB")
+            AWAREStudy.shared().setStudyURL("https://YOUR_STUDY_URL")
             
             print(AWAREStudy.shared().getCleanOldDataType())
             
