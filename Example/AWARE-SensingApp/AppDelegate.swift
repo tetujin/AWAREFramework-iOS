@@ -23,42 +23,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after applicatio
         // setup AWARECore
+        
         let core = AWARECore.shared()
         core.requestPermissionForBackgroundSensing { (status) in
             core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
+            print(cleanOldDataTypeDaily)
+            AWAREStudy.shared().setCleanOldDataType(cleanOldDataTypeDaily)
+            AWAREStudy.shared().setDebug(true)
+            
+            AWAREStudy.shared().setStudyURL("https://yahoo-earable.an.r.appspot.com/index.php/webservice/index/1/hlkrKP13AB")
+            
+            print(AWAREStudy.shared().getCleanOldDataType())
+            
+            let study = AWAREStudy.shared()
             // init sensors
-            let accelerometer = Accelerometer()
-//            let gyroscope     = Gyroscope()
-//            let battery       = Battery()
-//            let screen        = Screen()
-//            let call          = Calls()
-//            let ambientNoise  = AmbientNoise()
-//            let activity      = IOSActivityRecognition()
-//            let step          = Pedometer()
-//            let bluetooth     = Bluetooth()
-//            let cal           = Calendar()
-//            let healthKit     = AWAREHealthKit()
-            let weather = OpenWeather()
-            self.sensorManager.add(weather)
-            weather.setSensorEventHandler { sensor, data in
-                if let d = data {
-                    print(d)
-                }
-            }
+            let accelerometer = Accelerometer(awareStudy: study)
+            accelerometer.setSensingIntervalWithHz(100)
+            accelerometer.setSavingIntervalWithSecond(5)
+            (accelerometer.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(2);
+            accelerometer.storage?.setDebug(true)
+            
+            let gyroscope     = Gyroscope(awareStudy: study)
+            gyroscope.setSensingIntervalWithHz(100)
+            gyroscope.setSavingIntervalWithSecond(5)
+            (gyroscope.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+             
+
+            let rotation     = Rotation(awareStudy: study)
+            rotation.setSensingIntervalWithHz(100)
+            rotation.setSavingIntervalWithSecond(5)
+            (rotation.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+            
+            let lAccelerometer     = LinearAccelerometer(awareStudy: study)
+            lAccelerometer.setSensingIntervalWithHz(100)
+            lAccelerometer.setSavingIntervalWithSecond(5)
+            (lAccelerometer.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+            
+            let mag = Magnetometer(awareStudy: study)
+            mag.setSensingIntervalWithHz(100)
+            mag.setSavingIntervalWithSecond(5)
+            (mag.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+            
+            let headphone = HeadphoneMotion(awareStudy: study)
+            headphone.setSensingIntervalWithHz(100)
+            headphone.setSavingIntervalWithSecond(5)
+            (headphone.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+            
+            //            let battery       = Battery()
+            //            let screen        = Screen()
+            //            let call          = Calls()
+            //            let ambientNoise  = AmbientNoise()
+            //            let activity      = IOSActivityRecognition()
+            //            let step          = Pedometer()
+            //            let bluetooth     = Bluetooth()
+            //            let cal           = Calendar()
+            //            let healthKit     = AWAREHealthKit()
             
             // add the sensors into AWARESensorManager
-            self.sensorManager.add(accelerometer)
-//            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
+            self.sensorManager.add([accelerometer,gyroscope,rotation,lAccelerometer,mag,headphone])
+//            self.sensorManager.add(accelerometer)
+            //            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
             self.sensorManager.startAllSensors()
-
+            
             // setup ESMs
             // generate ESMItem
             let pam = ESMItem(asPAMESMWithTrigger: "pam")
             pam.setTitle("How do you feeling now?")
             pam.setInstructions("Please select an image.")
-
+            
             // generate ESMSchedule
             let esm = ESMSchedule()
             esm.scheduleId = "schedule_1"
@@ -68,11 +102,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             esm.expirationThreshold = 60
             esm.addESM(pam)
             esm.notificationTitle = "Tap to answer the question."
-
+            
             // add the ESMSchedules into ESMScheduleManager
             let esmManager = ESMScheduleManager.shared()
             esmManager.deleteAllSchedules(withNotification: true)
             esmManager.add(esm, withNotification: true)
+            
         }
         
         // monitoring battery consumption

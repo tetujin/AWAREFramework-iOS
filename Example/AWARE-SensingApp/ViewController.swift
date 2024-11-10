@@ -29,6 +29,8 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         
+        AWARESensorManager.shared().syncAllSensorsForcefully()
+        
         checkESMSchedules()
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer) in

@@ -29,8 +29,9 @@
     BaseCoreDataHandler * coreDataHandler;
     // SyncExecutor * executor;
     id<AWARESyncExecutorDelegate> executorDelegate;
-    AWAREFetchSizeAdjuster * fetchSizeAdjuster;
 }
+
+@synthesize fetchSizeAdjuster;
 
 - (instancetype)initWithStudy:(AWAREStudy *)study sensorName:(NSString *)name{
     NSLog(@"[NOTE] Please use -initWithStudy:sensorName:objectModelName:indexModelName:dbHandler:");
@@ -286,6 +287,7 @@
             NSDate  * s = [NSDate new];
             NSArray * indexes = [private executeFetchRequest:fetchRequest error:&error];
             if (self.isDebug) NSLog(@"[%@][%@] FETCH SPEED: (%ld) New SQLite ---> %f", self.sensorName, self, indexes.count, [[NSDate new] timeIntervalSinceDate:s] );
+            if (self.isDebug) NSLog(@"[%@] FetchSize: %ld", self.sensorName, self->fetchSizeAdjuster.fetchSize );
 
             NSMutableArray * results = [@[] mutableCopy];
             if (indexes!=nil && indexes.count>0) {

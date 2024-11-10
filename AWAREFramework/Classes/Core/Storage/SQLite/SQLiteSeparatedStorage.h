@@ -7,6 +7,7 @@
 
 #import "AWAREStorage.h"
 #import "BaseCoreDataHandler.h"
+#import "AWAREFetchSizeAdjuster.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 //typedef void (^InsertCallBack)(NSDictionary <NSString *, id> * _Nonnull dataDict,
 //                                     NSManagedObjectContext * _Nonnull childContext,
 //                                     NSString * _Nonnull entity );
+@property AWAREFetchSizeAdjuster * fetchSizeAdjuster;
 
 - (instancetype _Nonnull )initWithStudy:(AWAREStudy * _Nullable) study
                              sensorName:(NSString * _Nonnull) name

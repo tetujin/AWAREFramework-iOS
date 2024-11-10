@@ -10,6 +10,7 @@
 @implementation AWAREFetchSizeAdjuster{
     NSString * sensor;
     NSString * key;
+    NSNumber * _maxFetchSize;
 }
 
 @synthesize totalSuccess;
@@ -33,6 +34,8 @@
     return self;
 }
 
+
+
 - (void)success{
     totalSuccess = totalSuccess + 1;
     if(self.debug) NSLog(@"[AWAREFetchSizeAdjuster] SUCCESS : %ld", totalSuccess);
@@ -41,6 +44,16 @@
     
     if(self.debug) NSLog(@"[AWAREFetchSizeAdjuster] THRESHOLD TO INCREASE FETCH SIZE : %f", threshold);
     if (totalSuccess >= threshold) {
+        
+        if (_maxFetchSize != NULL) {
+            if(self.debug) NSLog(@"[AWAREFetchSizeAdjuster] MAX_FETCH_SIZE: %@, FETCH_SIZE: %ld", _maxFetchSize, (long)fetchSize);
+            if (_maxFetchSize.integerValue <= fetchSize) {
+                fetchSize = _maxFetchSize.integerValue;
+                [self updateFetchSize:fetchSize];
+                return;
+            }
+        }
+        
         totalSuccess = 0;
         fetchSize = fetchSize + 1;
         if(self.debug) NSLog(@"[AWAREFetchSizeAdjuster] Fetch Size INCREASE : %ld", (long)fetchSize);
@@ -70,5 +83,15 @@
     [defaults setInteger:fetchSize forKey:key];
     [defaults synchronize];
 }
+
+
+- (void) setMaxFetchSize:(NSInteger) maxFetchSize {
+    if (maxFetchSize <= fetchSize) {
+        fetchSize = maxFetchSize;
+        [self updateFetchSize:fetchSize];
+        _maxFetchSize = [[NSNumber alloc] initWithInteger:maxFetchSize];
+    }
+}
+
 
 @end
