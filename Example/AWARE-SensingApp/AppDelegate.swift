@@ -29,47 +29,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             core.requestPermissionForPushNotification(completion: nil)
             core.activate()
             
-            print(cleanOldDataTypeDaily)
-            AWAREStudy.shared().setCleanOldDataType(cleanOldDataTypeDaily)
-            AWAREStudy.shared().setDebug(true)
-            
-            AWAREStudy.shared().setStudyURL("https://YOUR_STUDY_URL")
-            
-            print(AWAREStudy.shared().getCleanOldDataType())
-            
             let study = AWAREStudy.shared()
+            
+            study.setCleanOldDataType(cleanOldDataTypeDaily)
+            study.setDebug(true)
+//            study.setStudyURL("")
+            
+            
+            print(study.getCleanOldDataType())
+            
+            
             // init sensors
             let accelerometer = Accelerometer(awareStudy: study)
             accelerometer.setSensingIntervalWithHz(100)
-            accelerometer.setSavingIntervalWithSecond(5)
-            (accelerometer.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(2);
+            accelerometer.setSavingIntervalWithSecond(3)
+            (accelerometer.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
             accelerometer.storage?.setDebug(true)
             
             let gyroscope     = Gyroscope(awareStudy: study)
             gyroscope.setSensingIntervalWithHz(100)
-            gyroscope.setSavingIntervalWithSecond(5)
+            gyroscope.setSavingIntervalWithSecond(3)
             (gyroscope.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
              
 
             let rotation     = Rotation(awareStudy: study)
             rotation.setSensingIntervalWithHz(100)
-            rotation.setSavingIntervalWithSecond(5)
+            rotation.setSavingIntervalWithSecond(3)
             (rotation.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
             
             let lAccelerometer     = LinearAccelerometer(awareStudy: study)
             lAccelerometer.setSensingIntervalWithHz(100)
-            lAccelerometer.setSavingIntervalWithSecond(5)
+            lAccelerometer.setSavingIntervalWithSecond(3)
             (lAccelerometer.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
             
             let mag = Magnetometer(awareStudy: study)
             mag.setSensingIntervalWithHz(100)
-            mag.setSavingIntervalWithSecond(5)
+            mag.setSavingIntervalWithSecond(3)
             (mag.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
             
             let headphone = HeadphoneMotion(awareStudy: study)
             headphone.setSensingIntervalWithHz(100)
-            headphone.setSavingIntervalWithSecond(5)
-            (headphone.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
+            headphone.setSavingIntervalWithSecond(1)
+            (headphone.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(2);
+            headphone.storage?.setDebug(true)
             
             //            let battery       = Battery()
             //            let screen        = Screen()
@@ -85,28 +87,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.sensorManager.add([accelerometer,gyroscope,rotation,lAccelerometer,mag,headphone])
 //            self.sensorManager.add(accelerometer)
             //            self.sensorManager.add([accelerometer, gyroscope, battery, screen, call, ambientNoise, activity, step, bluetooth, cal, healthKit])
-            self.sensorManager.startAllSensors()
+//            self.sensorManager.startAllSensors()
             
             // setup ESMs
             // generate ESMItem
-            let pam = ESMItem(asPAMESMWithTrigger: "pam")
-            pam.setTitle("How do you feeling now?")
-            pam.setInstructions("Please select an image.")
-            
-            // generate ESMSchedule
-            let esm = ESMSchedule()
-            esm.scheduleId = "schedule_1"
-            esm.startDate  = Date()
-            esm.endDate    = Date().addingTimeInterval(60*60*24*31)
-            esm.fireHours  = [8,12,21]
-            esm.expirationThreshold = 60
-            esm.addESM(pam)
-            esm.notificationTitle = "Tap to answer the question."
-            
-            // add the ESMSchedules into ESMScheduleManager
-            let esmManager = ESMScheduleManager.shared()
-            esmManager.deleteAllSchedules(withNotification: true)
-            esmManager.add(esm, withNotification: true)
+//            let pam = ESMItem(asPAMESMWithTrigger: "pam")
+//            pam.setTitle("How do you feeling now?")
+//            pam.setInstructions("Please select an image.")
+//            
+//            // generate ESMSchedule
+//            let esm = ESMSchedule()
+//            esm.scheduleId = "schedule_1"
+//            esm.startDate  = Date()
+//            esm.endDate    = Date().addingTimeInterval(60*60*24*31)
+//            esm.fireHours  = [8,12,21]
+//            esm.expirationThreshold = 60
+//            esm.addESM(pam)
+//            esm.notificationTitle = "Tap to answer the question."
+//            
+//            // add the ESMSchedules into ESMScheduleManager
+//            let esmManager = ESMScheduleManager.shared()
+//            esmManager.deleteAllSchedules(withNotification: true)
+//            esmManager.add(esm, withNotification: true)
             
         }
         

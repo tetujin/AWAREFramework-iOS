@@ -62,12 +62,53 @@ class ViewController: UIViewController {
                         if let status = data["screen_status"] as? Int {
                             self.screenLabel.text = "\(status)"
                         }
+                    } else if SENSOR_PLUGIN_HEADPHONE_MOTION == sensorName {
+//                        print(data);
+//                        if  let x = data["double_values_0"] as? Double,
+//                            let y = data["double_values_1"] as? Double,
+//                            let z = data["double_values_2"] as? Double {
+//                            print("\(String(format: "%.2f", x)),\(String(format: "%.2f", y)),\(String(format: "%.2f", z))")
+//                        }
                     }
                 }
             }
 
         }
     }
+    
+    @IBAction func didChangeSwitch(_ sender: UISwitch) {
+        if (sender.isOn){
+            AWARESensorManager.shared().startAllSensors()
+        }else{
+            AWARESensorManager.shared().stopAllSensors()
+            AWARESensorManager.shared().setDebugToAllSensors(true)
+            AWARESensorManager.shared().setSyncProcessCallbackToAllSensorStorages { sensorName, progress, a, error in
+                switch (progress) {
+                case .cancel:
+                    print("cancel")
+                case .complete:
+                    print("complete")
+                case .continue:
+                    print("continue")
+                case .error:
+                    print("error")
+                case .locked:
+                    print("locked")
+                case .unknown:
+                    print("unknown")
+                case .uploading:
+                    print("uploading")
+                @unknown default:
+                    print("unknown---")
+                }
+                
+                print(sensorName, progress.rawValue, a, error ?? "")
+            }
+            AWARESensorManager.shared().syncAllSensorsForcefully()
+            
+        }
+    }
+    
     
     @objc func willEnterForegroundNotification(notification: NSNotification) {
         UIApplication.shared.applicationIconBadgeNumber = 0

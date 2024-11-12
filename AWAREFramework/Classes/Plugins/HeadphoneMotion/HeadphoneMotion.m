@@ -69,6 +69,12 @@ NSArray * csvTypes;
     self = [super initWithAwareStudy:study
                           sensorName:SENSOR_PLUGIN_HEADPHONE_MOTION
                              storage:storage];
+    
+    
+    if (@available(iOS 14.0, *)) {
+        sensorManager = [[CMHeadphoneMotionManager alloc] init];
+    }
+    
     return self;
 }
 
@@ -107,10 +113,12 @@ NSArray * csvTypes;
     
     if (@available(iOS 14.0, *)) {
         
-        NSLog(@"%d", [NSThread isMainThread]);
+        if ([NSThread isMainThread]) {
+            if (self.isDebug) NSLog(@"[headphone_motion] the sensor is started in main-thread");
+        } else {
+            if (self.isDebug) NSLog(@"[headphone_motion] the sensor is started in NOT main-thread");
+        }
         
-        sensorManager = [[CMHeadphoneMotionManager alloc] init];
-    
         if (sensorManager.isDeviceMotionAvailable){
             [sensorManager startDeviceMotionUpdatesToQueue:NSOperationQueue.currentQueue
                                                withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
