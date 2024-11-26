@@ -85,7 +85,7 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody:mutablePostData];
     
-    // NSLog(@"%@", [[NSString alloc] initWithData:mutablePostData encoding:NSUTF8StringEncoding]);
+//    NSLog(@"%@", [[NSString alloc] initWithData:mutablePostData encoding:NSUTF8StringEncoding]);
 
     session.configuration.timeoutIntervalForRequest     = _timeoutIntervalForRequest;
     session.configuration.HTTPMaximumConnectionsPerHost = _maximumConnectionsPerHost;

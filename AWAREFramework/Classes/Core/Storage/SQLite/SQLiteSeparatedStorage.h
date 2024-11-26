@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 //                                     NSManagedObjectContext * _Nonnull childContext,
 //                                     NSString * _Nonnull entity );
 @property AWAREFetchSizeAdjuster * fetchSizeAdjuster;
+@property bool useCompactDataSyncFormat;
 
 - (instancetype _Nonnull )initWithStudy:(AWAREStudy * _Nullable) study
                              sensorName:(NSString * _Nonnull) name

@@ -63,12 +63,12 @@ class ViewController: UIViewController {
                             self.screenLabel.text = "\(status)"
                         }
                     } else if SENSOR_PLUGIN_HEADPHONE_MOTION == sensorName {
-//                        print(data);
-//                        if  let x = data["double_values_0"] as? Double,
-//                            let y = data["double_values_1"] as? Double,
-//                            let z = data["double_values_2"] as? Double {
-//                            print("\(String(format: "%.2f", x)),\(String(format: "%.2f", y)),\(String(format: "%.2f", z))")
-//                        }
+                        print(data);
+                        if  let x = data["double_values_0"] as? Double,
+                            let y = data["double_values_1"] as? Double,
+                            let z = data["double_values_2"] as? Double {
+                            print("\(String(format: "%.2f", x)),\(String(format: "%.2f", y)),\(String(format: "%.2f", z))")
+                        }
                     }
                 }
             }
