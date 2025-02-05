@@ -303,6 +303,10 @@
     
 }
 
+- (void) resetCancelState {
+    
+}
+
 - (bool)isSyncing {
     return NO;
 }

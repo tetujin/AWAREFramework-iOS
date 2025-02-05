@@ -252,6 +252,22 @@ NSString * const AWARE_PREFERENCES_MIN_GPS_ACCURACY    = @"min_gps_accuracy";
                                         @"event":@"saveAuthorizationStatus",@"status":@(status)}];
 }
 
+- (BOOL)setSensingAccuracy:(double)accuracyMeter {
+    self->accuracy = accuracyMeter;
+    return YES;
+}
+
+- (BOOL)setSensingInterval:(double)interval {
+    self->interval = interval;
+    return YES;
+}
+
+- (BOOL)setSensingInterval:(double)interval accuracy:(double)accuracyMeter {
+    self->interval = interval;
+    self->accuracy = accuracyMeter;
+    return YES;
+}
+
 
 #pragma mark - Location
 

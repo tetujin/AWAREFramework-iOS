@@ -28,6 +28,10 @@ extern NSString * _Nonnull const AWARE_PREFERENCES_MIN_GPS_ACCURACY;
 - (BOOL) startSensorWithAccuracy:(double)accuracyMeter;
 - (BOOL) startSensorWithInterval:(double)interval accuracy:(double)accuracyMeter;
 
+- (BOOL) setSensingInterval:(double)interval;
+- (BOOL) setSensingAccuracy:(double)accuracyMeter;
+- (BOOL) setSensingInterval:(double)interval accuracy:(double)accuracyMeter;
+
 // - (void) saveLocation:(CLLocation *)location;
 // - (void) saveAuthorizationStatus:(CLAuthorizationStatus)status;
 

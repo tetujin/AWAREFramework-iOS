@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             study.setCleanOldDataType(cleanOldDataTypeDaily)
             study.setDebug(true)
-            study.setStudyURL("https://xxx")
+            study.setStudyURL("https://")
             
             
             print(study.getCleanOldDataType())
@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let headphone = HeadphoneMotion(awareStudy: study)
             headphone.setSensingIntervalWithHz(100)
             headphone.setSavingIntervalWithSecond(1)
-            (headphone.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(2);
+//            (headphone.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(30);
             headphone.storage?.setDebug(true)
             (headphone.storage as! SQLiteSeparatedStorage).useCompactDataSyncFormat = true
             

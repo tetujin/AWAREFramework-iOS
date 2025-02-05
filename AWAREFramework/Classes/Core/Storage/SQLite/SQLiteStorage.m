@@ -770,6 +770,10 @@
     return [context countForFetchRequest:request error:&error];
 }
 
+-(void)resetCancelState {
+    isCanceled = NO;
+}
+
 @end
 
 

@@ -676,5 +676,8 @@
     return count;
 }
 
+-(void)resetCancelState {
+    isCanceled = NO;
+}
 
 @end

@@ -61,6 +61,7 @@ typedef void (^LimitedDataFetchHandler)(NSString * _Nonnull name, NSArray * _Nul
 - (void) unlock;
 
 - (void) resetMark;
+- (void) resetCancelState;
 
 - (BOOL) isStore;
 - (void) setStore:(BOOL) state;

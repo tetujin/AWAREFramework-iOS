@@ -86,7 +86,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
         _sensingInterval = 180; // 3min
         disposableCount  = 0;
         preperiodDays    = 0;
-        _sensingMode = IOSActivityRecognitionModeLive;
+        _sensingMode = IOSActivityRecognitionModeHistory;
         _confidenceFilter = CMMotionActivityConfidenceLow;
     }
     return self;
@@ -138,7 +138,7 @@ NSString * const AWARE_PREFERENCES_PREPERIOD_DAYS_IOS_ACTIVITY_RECOGNITION = @"p
 }
 
 - (BOOL)startSensor{
-    return [self startSensorWithConfidenceFilter:_confidenceFilter mode:IOSActivityRecognitionModeHistory interval:_sensingInterval disposableLimit:0];
+    return [self startSensorWithConfidenceFilter:_confidenceFilter mode:_sensingMode interval:_sensingInterval disposableLimit:0];
 }
 
 - (BOOL) startSensorAsLiveModeWithFilterLevel:(CMMotionActivityConfidence) filterLevel {
