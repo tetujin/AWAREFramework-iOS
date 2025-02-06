@@ -67,7 +67,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            mag.setSensingIntervalWithHz(100)
 //            mag.setSavingIntervalWithSecond(3)
 //            (mag.storage as! SQLiteSeparatedStorage).fetchSizeAdjuster.setMaxFetchSize(3);
-//            
+//
+            
+            let location = Locations(awareStudy: study)
+            location.setSensingAccuracyWithMeter(0)
+            location.setSensingIntervalWithSecond(1)
+            location.setDebug(true)
+            self.sensorManager.add(location)
+            
             let headphone = HeadphoneMotion(awareStudy: study)
             headphone.setSensingIntervalWithHz(100)
             headphone.setSavingIntervalWithSecond(1)
