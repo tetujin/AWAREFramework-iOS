@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSInteger fetchSize;
 @property BOOL debug;
 
+- (void) updateFetchSize:(NSInteger) fetchSize;
 - (void) setMaxFetchSize:(NSInteger) maxFetchSize;
 
 - (instancetype) initWithSensorName:(NSString *)sensorName;
