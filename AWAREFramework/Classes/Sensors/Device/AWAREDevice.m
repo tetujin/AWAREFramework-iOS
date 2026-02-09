@@ -89,8 +89,9 @@
     [data setValue:systemVersion   forKey:@"sdk"];
     [data setValue:deviceName      forKey:@"label"];
     
-    if (self.label != nil && ![self.label  isEqual: @""]) {
-        [data setValue:deviceName forKey:self.label];
+    if (self.label != nil && ![self.label isEqual:@""]) {
+        // Override the default label with the custom sensor label
+        [data setValue:self.label forKey:@"label"];
     }
     
     if (self.storage != nil && !isOperationLocked) {
