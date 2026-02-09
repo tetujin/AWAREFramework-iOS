@@ -24,11 +24,13 @@ NSString * const AWARE_PREFERENCES_STATUS_HEALTHKIT = @"status_health_kit";
 NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_FREQUENCY = @"frequency_health_kit";
 NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod_days_health_kit";
 
+
 @implementation AWAREHealthKit{
     NSTimer       * timer;
     HKHealthStore * healthStore;
     Screen * screen;
     bool isAuthorized;
+    NSDate * fetchEndDate;
 }
 
 - (instancetype)initWithAwareStudy:(AWAREStudy *)study dbType:(AwareDBType)dbType{
@@ -52,6 +54,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
         isAuthorized = NO;
         screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
         [screen.storage setStore:NO];
+        fetchEndDate = NULL;
         // self.storage = _awareHKHeartRate.storage;
     }
     return self;
@@ -129,7 +132,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
                 NSNumber * state = [data objectForKey:@"screen_status"];
                 if (state!=nil && weakSelf!=nil) {
                     if (state.intValue == 3){
-                        [weakSelf readAllDate];
+                        [weakSelf readAllData];
                     }
                 }
             }
@@ -211,16 +214,27 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
     }
 }
 
-- (void) readAllDate {
-    NSSet* quantities = [self dataTypesToRead];
-    for (HKQuantityType * set in quantities) {
+- (void) setEndFetchDate:(NSDate * _Nullable) date {
+    fetchEndDate = date;
+}
+
+- (void) readAllData {
+    NSSet* types = [self dataTypesToRead];
+    [self readDataWithDataTypes:types];
+}
+
+- (void) readDataWithDataTypes: (NSSet *) types {
+    for (HKQuantityType * set in types) {
         if(set.identifier == nil){
             continue;
         }
     
         // Set your start and end date for your query of interest
         NSDate * startDate = [self getLastRecordTimeWithHKDataType:set.identifier];
-        NSDate * endDate   = [NSDate new];
+        if (fetchEndDate == NULL) {
+            fetchEndDate = [NSDate new];
+        }
+        NSDate * endDate = fetchEndDate;
         
         if (startDate == nil){
             NSCalendar * calendar   = [NSCalendar currentCalendar];
@@ -263,6 +277,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
 //        }
     }
 }
+
 
 - (HKQuery * _Nonnull) getQueryWithSampleType:(HKSampleType *)set
                                         start:(NSDate *)start

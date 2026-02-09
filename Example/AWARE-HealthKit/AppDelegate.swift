@@ -41,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tenDaysAge = Date().addingTimeInterval(-1*60*60*24*10)
             healthKit.setLastFetchTimeForAll(tenDaysAge)
             
-            
             manager.add(healthKit)
             manager.createDBTablesOnAwareServer()
             manager.startAllSensors()

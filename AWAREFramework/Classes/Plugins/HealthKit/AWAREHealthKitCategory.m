@@ -163,6 +163,11 @@
             
             [buffer addObject:dict];
             
+            if ([self getSensorEventHandler] != nil) {
+                SensorEventHandler handler = [self getSensorEventHandler];
+                handler(self, dict);
+            }
+            
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
