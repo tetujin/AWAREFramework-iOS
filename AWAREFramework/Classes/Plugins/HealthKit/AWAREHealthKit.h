@@ -45,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) setLastFetchTimeForAll:(NSDate * _Nullable) date;
 
+- (void) readAllData;
+- (void) readDataWithDataTypes: (NSSet *) types;
+
+- (void) setEndFetchDate:(NSDate * _Nullable) date;
+
 NS_ASSUME_NONNULL_END
 
 @end
