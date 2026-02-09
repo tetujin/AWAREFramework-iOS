@@ -54,7 +54,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
         isAuthorized = NO;
         screen = [[Screen alloc] initWithAwareStudy:study dbType:dbType];
         [screen.storage setStore:NO];
-        fetchEndDate = NULL;
+        fetchEndDate = nil;
         // self.storage = _awareHKHeartRate.storage;
     }
     return self;
@@ -224,7 +224,7 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
 }
 
 - (void) readDataWithDataTypes: (NSSet *) types {
-    for (HKQuantityType * set in types) {
+    for (HKSampleType * set in types) {
         if(set.identifier == nil){
             continue;
         }
