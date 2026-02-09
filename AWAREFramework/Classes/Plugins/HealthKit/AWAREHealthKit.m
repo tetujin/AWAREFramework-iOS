@@ -231,10 +231,10 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
     
         // Set your start and end date for your query of interest
         NSDate * startDate = [self getLastRecordTimeWithHKDataType:set.identifier];
-        if (fetchEndDate == NULL) {
-            fetchEndDate = [NSDate new];
-        }
         NSDate * endDate = fetchEndDate;
+        if (endDate == nil) {
+            endDate = [NSDate date];
+        }
         
         if (startDate == nil){
             NSCalendar * calendar   = [NSCalendar currentCalendar];
