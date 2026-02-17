@@ -196,6 +196,17 @@ NSString * const AWARE_PREFERENCES_PLUGIN_HEALTHKIT_PREPERIOD_DAYS = @"preperiod
     return lastRecordTime;
 }
 
+
+- (void) setLastFetchTime:(NSDate * _Nullable)date withHKDataTypes:(NSSet *) types {
+    for (HKQuantityType * set in types) {
+        if(set.identifier == nil){
+            continue;
+        }
+        [self setLastRecordTime:date withHKDataType:set.identifier];
+    }
+}
+
+
 - (void) setLastRecordTime:(NSDate * _Nullable)date withHKDataType:(NSString * _Nonnull)type{
     // NSLog(@"[SET] %@ %@", type, date);
     NSString * key = [NSString stringWithFormat:@"plugin_healthkit_timestamp_%@",type];

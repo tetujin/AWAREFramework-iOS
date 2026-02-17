@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 // - (void) setLastRecordTime:(NSDate * _Nonnull)date withHKDataType:(NSString * _Nonnull)type;
 
+- (void) setLastFetchTime:(NSDate * _Nullable)date withHKDataTypes:(NSSet *) types;
 - (void) setLastFetchTimeForAll:(NSDate * _Nullable) date;
 
 - (void) readAllData;

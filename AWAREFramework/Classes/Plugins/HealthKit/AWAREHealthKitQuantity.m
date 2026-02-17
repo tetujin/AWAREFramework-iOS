@@ -121,7 +121,13 @@
             }else{
                 [dict setObject:sample.device.description forKey:KEY_DEVICE];
             }
-            [dict setObject:@"" forKey:KEY_LABLE];
+            
+            if ([self label] != nil) {
+                [dict setObject:[self label] forKey:KEY_LABLE];
+            }else{
+                [dict setObject:@"" forKey:KEY_LABLE];
+            }
+            
             [buffer addObject:dict];
             
             if ([self getSensorEventHandler] != nil) {
