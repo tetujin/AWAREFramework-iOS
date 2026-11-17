@@ -75,22 +75,30 @@
                                                               NSError * _Nullable error) {
         if (self->executorCallback != nil) {
             // NSLog(@"%d",NSThread.isMainThread);
-            NSString * response = @"";
+            // Treat any non-2xx status code as a failure (NSURLSession does not report it as an error).
+            NSInteger statusCode = 0;
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            }
+            BOOL isHTTPSuccess = (statusCode >= 200 && statusCode < 300);
+            NSString * responseBody = @"";
             if (data != nil) {
-                response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (error != nil) {
+                if (error != nil || !isHTTPSuccess) {
+                    NSString * errorDescription = (error != nil) ? error.debugDescription
+                                                                 : [NSString stringWithFormat:@"HTTP status code %ld", (long)statusCode];
                     self->executorCallback(@{@"result":@(NO),
                                               @"name":self->sensorName,
-                                              @"error":error.debugDescription,
-                                              @"response":response});
+                                              @"error":errorDescription,
+                                              @"response":responseBody});
                 }else{
 
                     self->executorCallback(@{@"result":@(YES),
                                               @"name":self->sensorName,
-                                              @"response":response});
+                                              @"response":responseBody});
                 }
                 self->executorCallback = nil;
             });

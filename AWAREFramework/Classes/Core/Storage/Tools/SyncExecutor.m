@@ -187,6 +187,15 @@ didCompleteWithError:(nullable NSError *)error {
         }
     }
     
+    // NSURLSession reports HTTP error responses (e.g., 500) as a completed task without an error.
+    // Treat any non-2xx status code as a failure; otherwise the storage advances its upload marker
+    // and the rows in this request are never uploaded again.
+    NSInteger statusCode = 0;
+    if ([task.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        statusCode = ((NSHTTPURLResponse *)task.response).statusCode;
+    }
+    BOOL isHTTPSuccess = (statusCode >= 200 && statusCode < 300);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self->isSyncing = NO;
         NSString * response = @"";
@@ -194,10 +203,13 @@ didCompleteWithError:(nullable NSError *)error {
             response = [[NSString alloc] initWithData:self->receivedData encoding:NSUTF8StringEncoding];
         }
         
-        if (error!=nil) {
+        if (error!=nil || !isHTTPSuccess) {
+            NSString * errorDescription = (error != nil) ? error.debugDescription
+                                                         : [NSString stringWithFormat:@"HTTP status code %ld", (long)statusCode];
+            if (self->debug) NSLog(@"[%@] sync failed: %@", self->sensorName, errorDescription);
             [self broadcastDBSyncEventWithProgress:@(-1) isFinish:NO isSuccess:NO sensorName:self->sensorName];
             if (self->executorCallback!=nil) {
-                self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":error.debugDescription,@"response":response});
+                self->executorCallback(@{@"result":@(NO),@"name":self->sensorName,@"error":errorDescription,@"response":response});
             }
         }else{
             [self broadcastDBSyncEventWithProgress:@100 isFinish:YES isSuccess:YES sensorName:self->sensorName];
