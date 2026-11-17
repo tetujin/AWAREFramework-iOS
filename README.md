@@ -55,7 +55,7 @@ AWAREFramework-iOS is available through [CocoaPods](http://cocoapods.org).
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AWAREFramework', '~> 1.14.10'
+pod 'AWAREFramework', '~> 1.14.19'
 ```
 And run `pod install` in your Xcode project.
 
@@ -130,6 +130,8 @@ manager.add(accelerometer)
 ### Example 2: Sync local-database and AWARE Server
 
 AWAREFramework-iOS allows us to synchronize your application and AWARE server by adding a server URL to AWAREStudy. About AWARE server, please check our [website](http://www.awareframework.com/).
+
+If an upload fails (a network error or a non-2xx HTTP response from the server), the data is kept in the local database and uploaded again in the next sync. Before 1.14.19, data in a request that received an HTTP error response was lost; please update to 1.14.19 or later.
 
 ```swift
 /// Example2 (Swift): Accelerometer + AWARE Server ///
@@ -223,6 +225,19 @@ We are providing several example applications. You can refer, or modify these ap
 * [CustomESM](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-CustomESM)
 * [CustomSensor](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-CustomSensor)
 * [Visualizer](https://github.com/tetujin/AWAREFramework-iOS/tree/master/Example/AWARE-Visualizer)
+
+## Release Notes
+
+### 1.14.19
+- **Sync: fixed data loss on server errors** ([#18](https://github.com/tetujin/AWAREFramework-iOS/pull/18)).
+  `SyncExecutor` and `QuickSyncExecutor` now treat any non-2xx HTTP response (e.g., 500) as a failure, so the data is kept and uploaded again.
+  Previously, the data in a request that received an HTTP error response was marked as uploaded and never sent again.
+  We recommend that all users update.
+- HealthKit: added functions to read data for a fixed period
+  (`setLastFetchTime:withHKDataTypes:`, `setEndFetchDate:`, `readDataWithDataTypes:`, `readAllData`)
+  ([#15](https://github.com/tetujin/AWAREFramework-iOS/pull/15), [#17](https://github.com/tetujin/AWAREFramework-iOS/pull/17)).
+- Device: a custom sensor label is now saved in the `label` column.
+- `AWAREFetchSizeAdjuster`: added `updateFetchSize:`.
 
 ## Author
 
